@@ -398,7 +398,9 @@ src/
 
 ### Complete CSS Implementation
 
-**File: `src/styles/components.css`**
+**IMPORTANT: Create the following file manually in your project:**
+
+**File: `src/styles/components.css`** *(Copy this entire content to the file)*
 
 ```css
 /* =============================================================================
@@ -789,7 +791,33 @@ src/
 }
 ```
 
-**File: `src/styles/globals.css` (Updated)**
+### Quick Setup Instructions
+
+**Step 1: Create the CSS file**
+1. Copy the entire CSS content above
+2. Create/edit `src/styles/components.css` in your project
+3. Paste the CSS content into the file
+
+**Step 2: Update globals.css**
+1. Open `src/styles/globals.css`
+2. Add the import line: `@import "./components.css";`
+3. Your globals.css should look like:
+   ```css
+   @import "tailwindcss";
+   @import "./components.css";
+   
+   @theme {
+     --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+   }
+   ```
+
+**Step 3: Test the implementation**
+1. Run `npm run dev` to start your development server
+2. The button classes will now be available throughout your application
+3. Test with a simple button: `<button className="btn btn-primary btn-lg">Test</button>`
+
+**File: `src/styles/globals.css` (Update this file)**
 
 ```css
 @import "tailwindcss";
