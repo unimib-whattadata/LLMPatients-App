@@ -23,7 +23,7 @@ export default function LoginPage() {
         router.push("/");
       }
     };
-    checkAuth();
+    void checkAuth();
   }, [router]);
 
   // Email validation
@@ -90,92 +90,112 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-header">
-        <div className="text-center">
-          <h1 className="text-heading-1 text-green-600 mb-2">ePatient</h1>
-          <p className="text-body-sm text-gray-600">Healthcare Management Platform</p>
+    <div className="min-h-screen bg-gray-900 flex">
+      {/* Left Side - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gray-800 flex-col justify-center px-12">
+        <div className="max-w-lg">
+          <h1 className="text-4xl font-bold text-white mb-8">Nome Brand</h1>
+          <p className="text-xl text-gray-300 leading-relaxed">
+            Un ambiente sicuro per allenarti con pazienti virtuali. Inizia da qui.
+          </p>
         </div>
-        <h2 className="login-title">Sign in to your account</h2>
-        <p className="text-body-sm text-center text-gray-600">
-          Or{" "}
-          <Link href="/register" className="link-primary transition-colors duration-200">
-            create a new account
-          </Link>
-        </p>
       </div>
 
-      <div className="login-card">
-        <div className="login-form">
-          {/* Email/Password Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Global Error Message */}
-            {error && (
-              <div className="text-body-sm text-red-600 text-center bg-red-50 border border-red-200 rounded-md p-3">
-                {error}
+      {/* Right Side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8">
+        <div className="w-full max-w-md">
+          <div className="bg-gray-700 rounded-lg shadow-xl p-8">
+            <h2 className="text-2xl font-bold text-white mb-8 text-center">Login</h2>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Global Error Message */}
+              {error && (
+                <div className="text-sm text-red-400 text-center bg-red-900/20 border border-red-700 rounded-md p-3">
+                  {error}
+                </div>
+              )}
+
+              {/* Email Field */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  E-mail
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) validateEmail(e.target.value);
+                  }}
+                  onBlur={() => validateEmail(email)}
+                  className={`w-full px-4 py-3 bg-white rounded-md border ${
+                    emailError ? 'border-red-500' : 'border-gray-300'
+                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  placeholder="La tua e-mail"
+                  aria-describedby={emailError ? "email-error" : undefined}
+                  aria-invalid={!!emailError}
+                />
+                {emailError && (
+                  <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+                    {emailError}
+                  </p>
+                )}
               </div>
-            )}
 
-            {/* Email Field */}
-            <div className="form-group">
-              <label htmlFor="email" className="label label-required">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (emailError) validateEmail(e.target.value);
-                }}
-                onBlur={() => validateEmail(email)}
-                className={emailError ? "input-field-error" : "input-field"}
-                placeholder="Enter your email"
-                aria-describedby={emailError ? "email-error" : undefined}
-                aria-invalid={!!emailError}
-              />
-              {emailError && (
-                <p id="email-error" className="error-message" role="alert">
-                  {emailError}
-                </p>
-              )}
-            </div>
+              {/* Password Field */}
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+                  Password
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      if (passwordError) validatePassword(e.target.value);
+                    }}
+                    onBlur={() => validatePassword(password)}
+                    className={`w-full px-4 py-3 bg-white rounded-md border ${
+                      passwordError ? 'border-red-500' : 'border-gray-300'
+                    } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent pr-12`}
+                    placeholder="La tua password"
+                    aria-describedby={passwordError ? "password-error" : undefined}
+                    aria-invalid={!!passwordError}
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => {
+                      const input = document.getElementById('password') as HTMLInputElement;
+                      if (input.type === 'password') {
+                        input.type = 'text';
+                      } else {
+                        input.type = 'password';
+                      }
+                    }}
+                  >
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+                {passwordError && (
+                  <p id="password-error" className="mt-1 text-sm text-red-400" role="alert">
+                    {passwordError}
+                  </p>
+                )}
+              </div>
 
-            {/* Password Field */}
-            <div className="form-group">
-              <label htmlFor="password" className="label label-required">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (passwordError) validatePassword(e.target.value);
-                }}
-                onBlur={() => validatePassword(password)}
-                className={passwordError ? "input-field-error" : "input-field"}
-                placeholder="Enter your password"
-                aria-describedby={passwordError ? "password-error" : undefined}
-                aria-invalid={!!passwordError}
-              />
-              {passwordError && (
-                <p id="password-error" className="error-message" role="alert">
-                  {passwordError}
-                </p>
-              )}
-            </div>
-
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
+              {/* Remember Me */}
               <div className="flex items-center">
                 <input
                   id="remember-me"
@@ -183,56 +203,54 @@ export default function LoginPage() {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="checkbox-field"
+                  className="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded bg-white"
                 />
-                <label htmlFor="remember-me" className="ml-2 text-body-sm text-gray-700">
-                  Remember me
+                <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300">
+                  Ricordami al prossimo accesso
                 </label>
               </div>
 
-              <Link href="/forgot-password" className="link-primary transition-colors duration-200 text-body-sm">
-                Forgot your password?
-              </Link>
-            </div>
-
-            {/* Submit Button */}
-            <div>
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`form-submit-btn ${
-                  isLoading ? "cursor-wait relative" : ""
+                className={`w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 ${
+                  isLoading ? "cursor-wait opacity-50" : ""
                 }`}
-                aria-label="Sign in to your account"
+                aria-label="Accedi al tuo account"
               >
                 {isLoading ? (
-                  <>
-                    <div className="loading-spinner" />
-                    <span className="sr-only">Signing in...</span>
-                  </>
+                  <div className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Accesso in corso...
+                  </div>
                 ) : (
-                  "Sign in"
+                  "Accedi"
                 )}
               </button>
-            </div>
-          </form>
-        </div>
 
-        {/* Footer */}
-        <div className="text-center mt-6 text-body-sm text-gray-600">
-          <p>
-            By signing in, you agree to our{" "}
-            <Link href="/terms" className="link-primary transition-colors duration-200">
-              Terms of Service
-            </Link>{" "}
-            and{" "}
-            <Link href="/privacy" className="link-primary transition-colors duration-200">
-              Privacy Policy
-            </Link>
-          </p>
-          <p className="mt-2">
-            &copy; 2024 ePatient. All rights reserved.
-          </p>
+              {/* Register Link */}
+              <div className="text-center mt-4">
+                <span className="text-gray-400 text-sm">o </span>
+                <Link href="/register" className="text-green-500 hover:text-green-400 text-sm font-medium transition-colors duration-200">
+                  registrati
+                </Link>
+                <span className="text-gray-400 text-sm"> subito</span>
+              </div>
+
+              <div className="border-t border-gray-600 my-6"></div>
+
+              {/* Forgot Password */}
+              <div className="text-center">
+                <Link href="/forgot-password" className="text-gray-400 hover:text-gray-300 text-sm transition-colors duration-200">
+                  Hai dimenticato la password?
+                </Link>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
