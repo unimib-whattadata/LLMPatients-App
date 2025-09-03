@@ -16,18 +16,18 @@ export default async function Home() {
                 <div className="flex-shrink-0">
                   <div className="w-8 h-8 bg-gray-800 rounded"></div>
                 </div>
-                <span className="ml-2 text-lg font-medium text-gray-900">Nexus brand</span>
+                <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
               </div>
               <nav className="hidden md:flex space-x-8">
-                <Link href="#" className="text-gray-500 hover:text-gray-700">Home</Link>
-                <Link href="#" className="text-gray-500 hover:text-gray-700">Chi siamo</Link>
-                <Link href="#" className="text-gray-500 hover:text-gray-700">Esplora platform</Link>
-                <Link href="#" className="text-gray-500 hover:text-gray-700">News</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700">Home</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
               </nav>
               <div>
                 <Link
-                  href={session ? "/api/auth/signout" : "/api/auth/signin"}
-                  className="bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-green-700"
+                  href={session ? "/api/auth/signout" : "/login"}
+                  className="btn btn-primary btn-md"
                 >
                   {session ? "Esci" : "Accedi"}
                 </Link>
@@ -43,14 +43,14 @@ export default async function Home() {
           <div className="absolute inset-0 bg-black bg-opacity-40"></div>
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
             <div className="text-white">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Simula. Valuta. Impara.</h1>
-              <p className="text-lg md:text-xl mb-6 max-w-2xl">
+              <h1 className="text-heading-1 mb-4 text-white">Simula. Valuta. Impara.</h1>
+              <p className="text-body-lg mb-6 max-w-2xl text-white">
                 Esplora scenari medici realistici dove puoi praticare diagnosi e sviluppare
                 competenze cliniche in un ambiente sicuro e controllato.
               </p>
               <Link
                 href="#"
-                className="inline-flex items-center bg-green-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-green-700"
+                className="btn btn-primary btn-lg inline-flex items-center"
               >
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
@@ -64,14 +64,14 @@ export default async function Home() {
         {/* Features Section */}
         <section className="py-16 bg-gray-800 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center mb-12">Il tuo percorso formativo, passo dopo passo</h2>
+            <h2 className="text-heading-2 text-center mb-12 text-white">Il tuo percorso formativo, passo dopo passo</h2>
             
             <div className="space-y-16">
               {/* Feature 1 */}
               <div className="flex flex-col md:flex-row items-center">
                 <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-xl font-semibold mb-4">Simulazione realistica</h3>
-                  <p className="text-gray-300">
+                  <h3 className="text-heading-3 mb-4 text-white">Simulazione realistica</h3>
+                  <p className="text-body text-gray-300">
                     Entra in un ambiente virtuale dove puoi interagire
                     con pazienti e situazioni cliniche realistiche.
                     Sviluppa le tue competenze diagnostiche e
@@ -89,8 +89,8 @@ export default async function Home() {
               {/* Feature 2 */}
               <div className="flex flex-col md:flex-row-reverse items-center">
                 <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-xl font-semibold mb-4">Valutazione automatica e strutturata</h3>
-                  <p className="text-gray-300">
+                  <h3 className="text-heading-3 mb-4 text-white">Valutazione automatica e strutturata</h3>
+                  <p className="text-body text-gray-300">
                     Il sistema di valutazione registra ogni
                     azione e decisione, fornendo un feedback
                     immediato e dettagliato.
@@ -106,9 +106,9 @@ export default async function Home() {
               {/* Feature 3 */}
               <div className="flex flex-col md:flex-row items-center">
                 <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-xl font-semibold mb-4">Report e riflessione guidata</h3>
-                  <p className="text-gray-300">
-                    Trova le affittuali metriche originali e
+                  <h3 className="text-heading-3 mb-4 text-white">Report e riflessione guidata</h3>
+                  <p className="text-body text-gray-300">
+                    Trova le attuali metriche originali e
                     approfondisci i tuoi raggiungimenti.
                   </p>
                 </div>
@@ -123,7 +123,7 @@ export default async function Home() {
             <div className="text-center mt-12">
               <Link
                 href="#"
-                className="bg-green-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-green-700"
+                className="btn btn-primary btn-lg"
               >
                 Inizia subito
               </Link>
@@ -135,8 +135,8 @@ export default async function Home() {
         <section className="py-16 bg-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center mb-12">
-              <h2 className="text-3xl font-bold text-white">News</h2>
-              <Link href="#" className="text-green-400 hover:text-green-300">
+              <h2 className="text-heading-2 text-white">News</h2>
+              <Link href="#" className="link-primary hover:text-green-300">
                 → Tutte le news
               </Link>
             </div>
@@ -147,14 +147,14 @@ export default async function Home() {
                 <div key={item} className="bg-gray-700 rounded-lg overflow-hidden">
                   <div className="h-48 bg-orange-400"></div>
                   <div className="p-6">
-                    <h3 className="text-white font-semibold mb-2">Lorem ipsum dolor sit amet</h3>
-                    <p className="text-gray-300 text-sm mb-4">
+                    <h3 className="text-body-lg font-semibold mb-2 text-white">Lorem ipsum dolor sit amet</h3>
+                    <p className="text-body-sm mb-4 text-gray-300">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                       Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     </p>
                     <Link
                       href="#"
-                      className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700"
+                      className="btn btn-primary btn-sm"
                     >
                       Scopri di più
                     </Link>
@@ -168,7 +168,7 @@ export default async function Home() {
         {/* Team Section */}
         <section className="py-16 bg-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-white text-center mb-12">Il nostro team</h2>
+            <h2 className="text-heading-2 text-white text-center mb-12">Il nostro team</h2>
             
             <div className="flex justify-center items-center space-x-8">
               <button className="text-white hover:text-gray-300">
@@ -197,7 +197,7 @@ export default async function Home() {
             <div className="text-center mt-12">
               <Link
                 href="#"
-                className="bg-green-600 text-white px-6 py-3 rounded-md text-sm font-medium hover:bg-green-700"
+                className="btn btn-primary btn-lg"
               >
                 Scopri di più
               </Link>
@@ -211,7 +211,7 @@ export default async function Home() {
           <div className="bg-gray-700 py-8">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
-                <p className="text-sm">
+                <p className="text-body-sm text-white">
                   Vuoi ricevere aggiornamenti sui progetti e ricerche gratuite?
                   <br />
                   Iscriviti alla nostra newsletter.
@@ -221,9 +221,9 @@ export default async function Home() {
                 <input
                   type="email"
                   placeholder="Il tuo indirizzo email"
-                  className="px-4 py-2 text-gray-900 rounded-l-md focus:outline-none"
+                  className="input-field rounded-r-none"
                 />
-                <button className="bg-green-600 px-4 py-2 rounded-r-md hover:bg-green-700">
+                <button className="btn btn-primary rounded-l-none">
                   Iscriviti
                 </button>
               </div>
@@ -239,14 +239,14 @@ export default async function Home() {
                   <div className="flex items-center mb-4">
                     <div className="w-12 h-12 bg-white rounded"></div>
                     <div className="ml-4">
-                      <p className="text-sm">
+                      <p className="text-body-sm text-white">
                         Progetto sviluppato in collaborazione con l&apos;Università degli Studi di
                         Milano-Bicocca
                       </p>
-                      <p className="text-sm">
+                      <p className="text-body-sm text-white">
                         Dipartimento di Informatica, Sistemistica e Comunicazione
                       </p>
-                      <p className="text-sm">
+                      <p className="text-body-sm text-white">
                         Dipartimento di Medicina e Chirurgia
                       </p>
                     </div>
@@ -255,21 +255,21 @@ export default async function Home() {
 
                 {/* Collegamenti rapidi */}
                 <div>
-                  <h3 className="text-sm font-semibold mb-4">Collegamenti rapidi</h3>
-                  <ul className="space-y-2 text-sm">
-                    <li><Link href="#" className="hover:text-gray-300">Chi siamo</Link></li>
-                    <li><Link href="#" className="hover:text-gray-300">News</Link></li>
-                    <li><Link href="#" className="hover:text-gray-300">Esplora platform</Link></li>
-                    <li><Link href="#" className="hover:text-gray-300">Contatti</Link></li>
+                  <h3 className="text-body font-semibold mb-4 text-white">Collegamenti rapidi</h3>
+                  <ul className="space-y-2 text-body-sm">
+                    <li><Link href="#" className="link-secondary hover:text-gray-300">Chi siamo</Link></li>
+                    <li><Link href="#" className="link-secondary hover:text-gray-300">News</Link></li>
+                    <li><Link href="#" className="link-secondary hover:text-gray-300">Esplora platform</Link></li>
+                    <li><Link href="#" className="link-secondary hover:text-gray-300">Contatti</Link></li>
                   </ul>
                 </div>
 
                 {/* Contatti */}
                 <div>
-                  <h3 className="text-sm font-semibold mb-4">Contatti</h3>
-                  <div className="space-y-2 text-sm">
-                    <p>Nexus brand</p>
-                    <p>nexusbrand@email.com</p>
+                  <h3 className="text-body font-semibold mb-4 text-white">Contatti</h3>
+                  <div className="space-y-2 text-body-sm text-white">
+                    <p>ePatient</p>
+                    <p>epatient@email.com</p>
                     <div className="flex space-x-4 mt-4">
                       {/* Social Media Icons */}
                       <Link href="#" className="hover:text-gray-300">
@@ -300,13 +300,13 @@ export default async function Home() {
               {/* Bottom section */}
               <div className="mt-8 pt-8 border-t border-gray-600">
                 <div className="flex flex-col md:flex-row justify-between items-center">
-                  <p className="text-sm text-gray-400">
-                    © 2024 Nexus brand. Tutti i diritti riservati.
+                  <p className="text-body-sm text-gray-400">
+                    © 2024 ePatient. Tutti i diritti riservati.
                   </p>
-                  <div className="flex space-x-6 text-sm text-gray-400 mt-4 md:mt-0">
-                    <Link href="#" className="hover:text-gray-300">Privacy Policy</Link>
-                    <Link href="#" className="hover:text-gray-300">Termini e condizioni</Link>
-                    <Link href="#" className="hover:text-gray-300">Informazioni cookie</Link>
+                  <div className="flex space-x-6 text-body-sm text-gray-400 mt-4 md:mt-0">
+                    <Link href="#" className="link-secondary hover:text-gray-300">Privacy Policy</Link>
+                    <Link href="#" className="link-secondary hover:text-gray-300">Termini e condizioni</Link>
+                    <Link href="#" className="link-secondary hover:text-gray-300">Informazioni cookie</Link>
                   </div>
                 </div>
               </div>
