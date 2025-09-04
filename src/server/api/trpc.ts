@@ -131,3 +131,19 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Admin-only procedure
+ *
+ * Extends protectedProcedure with admin role verification.
+ * Only users with role "admin" can access these procedures.
+ */
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.session.user.role !== "admin") {
+    throw new TRPCError({ 
+      code: "FORBIDDEN", 
+      message: "Admin access required to perform this action" 
+    });
+  }
+  return next({ ctx });
+});

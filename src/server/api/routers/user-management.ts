@@ -10,7 +10,7 @@
  */
 
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "~/server/api/trpc";
 import { users, accounts } from "~/server/db/schema";
 import { eq, desc, and, or, like } from "drizzle-orm";
 import bcrypt from "bcryptjs";
@@ -20,7 +20,7 @@ export const userManagementRouter = createTRPCRouter({
    * Get all users with optional filtering and pagination
    * Admin only endpoint
    */
-  getAllUsers: protectedProcedure
+  getAllUsers: adminProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(50),
@@ -30,11 +30,6 @@ export const userManagementRouter = createTRPCRouter({
       })
     )
     .query(async ({ ctx, input }) => {
-      // Check if user is admin
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { limit, offset, search, role } = input;
 
       // Build where conditions
@@ -87,7 +82,7 @@ export const userManagementRouter = createTRPCRouter({
    * Create a new user
    * Admin only endpoint
    */
-  createUser: protectedProcedure
+  createUser: adminProcedure
     .input(
       z.object({
         name: z.string().min(1, "Name is required"),
@@ -97,11 +92,6 @@ export const userManagementRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { name, email, password, role } = input;
 
       // Check if user with email already exists
@@ -151,7 +141,7 @@ export const userManagementRouter = createTRPCRouter({
    * Update user role
    * Admin only endpoint
    */
-  updateUserRole: protectedProcedure
+  updateUserRole: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -159,11 +149,6 @@ export const userManagementRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { userId, role } = input;
 
       // Prevent users from changing their own role

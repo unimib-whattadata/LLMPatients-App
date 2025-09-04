@@ -1,8 +1,13 @@
 /**
- * NextAuth.js v5 Middleware for Protected Routes
+ * NextAuth.js v5 Middleware for Protected Routes with Impersonation Support
  * 
  * This middleware protects dashboard routes and ensures users are authenticated
  * before accessing protected areas of the application.
+ * 
+ * Enhanced with impersonation support:
+ * - Handles impersonated sessions
+ * - Logs impersonation activities
+ * - Ensures proper routing for impersonated users
  * 
  * Uses NextAuth v5 beta pattern with the auth function as middleware.
  * Includes enhanced session validation and redirect handling.
@@ -19,6 +24,12 @@ export default auth((req) => {
   const searchParams = req.nextUrl.searchParams;
   const specialKey = searchParams.get('specialKey');
   
+  // Check for impersonation context
+  const impersonationContext = (session as any)?.impersonation;
+  const isImpersonating = impersonationContext?.isImpersonating;
+  const originalAdminId = impersonationContext?.originalAdminId;
+  const targetUserId = impersonationContext?.targetUserId;
+  
   // Route classifications
   const isProtectedRoute = pathname.startsWith('/dashboard');
   const isAdminRoute = pathname.startsWith('/admin');
@@ -33,9 +44,9 @@ export default auth((req) => {
     return NextResponse.next();
   }
   
-  // Enhanced debug logging in development
+  // Enhanced debug logging in development with impersonation context
   if (process.env.NODE_ENV === 'development') {
-    console.log('Middleware - Enhanced Check:', {
+    console.log('Middleware - Enhanced Check with Impersonation:', {
       pathname,
       isAuthenticated,
       hasSession: !!session,
@@ -47,7 +58,12 @@ export default auth((req) => {
       isProtectedRoute,
       isAdminRoute,
       isAuthRoute,
-      specialKey: specialKey || 'none'
+      specialKey: specialKey || 'none',
+      // Impersonation context
+      isImpersonating: isImpersonating || false,
+      originalAdminId: originalAdminId || 'none',
+      targetUserId: targetUserId || 'none',
+      impersonationSessionId: impersonationContext?.sessionId || 'none'
     });
   }
   
@@ -67,9 +83,21 @@ export default auth((req) => {
       return NextResponse.redirect(loginUrl);
     }
     
-    // Check admin role
+    // Check admin role (considering impersonation)
     const userRole = (session?.user as any)?.role;
-    if (userRole !== 'admin') {
+    const effectiveRole = isImpersonating ? 'user' : userRole; // Impersonated users have 'user' role in context
+    const actualAdminRole = isImpersonating ? 'admin' : userRole; // Original user role for admin verification
+    
+    // For admin routes, we need the original user to be admin (not the impersonated user)
+    if (isImpersonating) {
+      // During impersonation, admin routes should be accessible only if original user is admin
+      // But this is handled by the originalAdminId check - if impersonating, they should go to user routes
+      console.log('Middleware - Impersonated user attempting admin route access, redirecting to user dashboard');
+      const userDashboardUrl = new URL('/dashboard/user', req.url);
+      return NextResponse.redirect(userDashboardUrl);
+    }
+    
+    if (actualAdminRole !== 'admin') {
       console.log('Middleware - Redirecting non-admin user from admin route to dashboard');
       const dashboardUrl = new URL('/dashboard', req.url);
       return NextResponse.redirect(dashboardUrl);
@@ -109,12 +137,15 @@ export default auth((req) => {
       return NextResponse.redirect(loginUrl);
     }
     
-    // Log successful protected route access
+    // Log successful protected route access with impersonation context
     if (process.env.NODE_ENV === 'development') {
       console.log('Middleware - Allowing access to protected route:', {
         pathname,
         userEmail: session.user.email,
-        userRole: (session.user as any)?.role
+        userRole: (session.user as any)?.role,
+        isImpersonating: isImpersonating || false,
+        originalAdmin: originalAdminId || 'none',
+        targetUser: targetUserId || 'none'
       });
     }
   }

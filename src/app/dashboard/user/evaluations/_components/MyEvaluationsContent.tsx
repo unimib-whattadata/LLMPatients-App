@@ -105,7 +105,7 @@ export function MyEvaluationsContent() {
   };
 
   const averageScore = evaluations.length > 0 
-    ? Math.round(evaluations.reduce((acc, eval) => acc + eval.score, 0) / evaluations.length)
+    ? Math.round(evaluations.reduce((acc, evaluation) => acc + evaluation.score, 0) / evaluations.length)
     : 0;
 
   return (

@@ -25,12 +25,18 @@ export default function AuthButton() {
     return !!(session?.user?.id && session?.user?.email && status === "authenticated");
   }, [session, status]);
 
-  // Logout handler
+  // Logout handler with proper callback URL
   const handleLogout = useCallback(async () => {
     try {
-      await signOut({ callbackUrl: '/' });
+      // Use window.location.origin to ensure proper redirect to homepage
+      const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
+      await signOut({ callbackUrl });
     } catch (error) {
       console.error('AuthButton - Logout failed:', error);
+      // Fallback: redirect manually if signOut fails
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
     }
   }, []);
 

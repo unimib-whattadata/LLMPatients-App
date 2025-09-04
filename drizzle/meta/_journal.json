@@ -8,6 +8,13 @@
       "when": 1756978600635,
       "tag": "0000_smooth_grandmaster",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1756996585302,
+      "tag": "0001_watery_stingray",
+      "breakpoints": true
     }
   ]
 }

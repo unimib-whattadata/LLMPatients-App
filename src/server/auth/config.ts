@@ -34,11 +34,47 @@ declare module "next-auth" {
       role: "admin" | "user"; // Add role to session type
       // ...other properties
     } & DefaultSession["user"];
+    // Add impersonation context to session
+    impersonation?: {
+      isImpersonating: boolean;
+      originalAdminId: string;
+      targetUserId: string;
+      targetUserEmail: string;
+      targetUserName: string | null;
+      startedAt: Date;
+      sessionId: string;
+    };
   }
 
   interface User {
     role: "admin" | "user"; // Add role to user type
     // ...other properties
+  }
+}
+
+// Extend JWT token to include impersonation context
+declare module "next-auth/jwt" {
+  interface JWT {
+    // Existing fields
+    id?: string;
+    role?: string;
+    email?: string;
+    name?: string;
+    image?: string;
+    lastValidated?: number;
+    accessToken?: string;
+    provider?: string;
+    
+    // Impersonation fields
+    impersonation?: {
+      originalAdminId: string;
+      targetUserId: string;
+      targetUserEmail: string;
+      targetUserName: string | null;
+      isActive: boolean;
+      sessionId: string;
+      startedAt: number;
+    };
   }
 }
 
@@ -331,12 +367,14 @@ export const authConfig = {
       return token;
     },
     
-    // Enhanced session callback with database cross-validation
+    // Enhanced session callback with database cross-validation and impersonation support
     session: async ({ session, token }) => {
-      console.log('Session callback - Enhanced DB validation - Creating session for token:', {
+      console.log('Session callback - Enhanced DB validation with impersonation - Creating session for token:', {
         tokenId: token?.id,
         tokenEmail: token?.email,
         tokenRole: token?.role,
+        isImpersonating: !!token?.impersonation?.isActive,
+        impersonationTarget: token?.impersonation?.targetUserEmail,
         lastValidated: token?.lastValidated ? new Date(token.lastValidated as number).toISOString() : 'never'
       });
       
@@ -391,27 +429,59 @@ export const authConfig = {
               role: session.user.role
             });
             
-            return session;
+            // Continue to impersonation logic below
           }
         } catch (error) {
           console.error('Session callback - Error during fresh database validation:', error);
           // Fall through to use token data
         }
+      } else {
+        // Use token data for session (validation was recent)
+        session.user.id = token.id as string;
+        session.user.role = (token.role as "admin" | "user") || "user";
+        session.user.email = token.email!;
+        session.user.name = token.name!;
+        session.user.image = token.image as string;
       }
       
-      // Use token data for session (either validation was recent or database error occurred)
-      session.user.id = token.id as string;
-      session.user.role = (token.role as "admin" | "user") || "user";
-      session.user.email = token.email!;
-      session.user.name = token.name!;
-      session.user.image = token.image as string;
-      
-      console.log('Session callback - Session created with token data:', {
-        userId: session.user.id,
-        email: session.user.email,
-        role: session.user.role,
-        tokenAge: validationAge > 0 ? `${Math.round(validationAge / 1000)}s` : 'fresh'
-      });
+      // Handle impersonation context
+      if (token.impersonation?.isActive) {
+        console.log('Session callback - Active impersonation detected, setting up impersonated session');
+        
+        // Override user details with impersonated user
+        session.user.id = token.impersonation.targetUserId;
+        session.user.email = token.impersonation.targetUserEmail;
+        session.user.name = token.impersonation.targetUserName;
+        session.user.role = "user"; // Impersonated sessions always have user role
+        
+        // Add impersonation context to session
+        session.impersonation = {
+          isImpersonating: true,
+          originalAdminId: token.impersonation.originalAdminId,
+          targetUserId: token.impersonation.targetUserId,
+          targetUserEmail: token.impersonation.targetUserEmail,
+          targetUserName: token.impersonation.targetUserName,
+          startedAt: new Date(token.impersonation.startedAt),
+          sessionId: token.impersonation.sessionId,
+        };
+        
+        console.log('Session callback - Impersonated session created:', {
+          originalAdminId: session.impersonation.originalAdminId,
+          impersonatedUserId: session.user.id,
+          impersonatedUserEmail: session.user.email,
+          sessionId: session.impersonation.sessionId
+        });
+      } else {
+        // No impersonation active
+        session.impersonation = undefined;
+        
+        console.log('Session callback - Normal session created:', {
+          userId: session.user.id,
+          email: session.user.email,
+          role: session.user.role,
+          tokenAge: validationAge > 0 ? `${Math.round(validationAge / 1000)}s` : 'fresh'
+        });
+      }
       
       return session;
     },

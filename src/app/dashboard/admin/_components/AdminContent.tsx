@@ -3,7 +3,7 @@
  * 
  * Contains the main admin dashboard interface with:
  * - System statistics overview
- * - User management section  
+ * - User management section with impersonation
  * - Recent activity feed
  * - Administrative actions
  */
@@ -12,13 +12,133 @@
 
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+
+// Modal component interfaces
+interface ImpersonationModalProps {
+  user: {
+    id: string;
+    name: string | null;
+    email: string;
+    role: string;
+  };
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: (reason?: string) => void;
+  isLoading: boolean;
+}
+
+/**
+ * Impersonation Confirmation Modal
+ * Shows user details and allows admin to confirm impersonation
+ */
+function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: ImpersonationModalProps) {
+  const [reason, setReason] = useState("");
+
+  if (!isOpen) return null;
+
+  const handleConfirm = () => {
+    onConfirm(reason.trim() || undefined);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg max-w-md w-full p-6">
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Conferma Impersonificazione
+          </h3>
+          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <span className="text-yellow-400">⚠️</span>
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-yellow-800">
+                  Attenzione - Azione Amministrativa
+                </h3>
+                <div className="mt-2 text-sm text-yellow-700">
+                  <p>
+                    Stai per impersonificare l'utente. Tutte le azioni saranno registrate.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <h4 className="font-medium text-gray-900 mb-2">Dettagli Utente:</h4>
+          <div className="bg-gray-50 rounded-md p-3 space-y-2">
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Nome:</span>
+              <span className="text-sm font-medium">{user.name || "N/A"}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Email:</span>
+              <span className="text-sm font-medium">{user.email}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-sm text-gray-600">Ruolo:</span>
+              <span className={`text-sm px-2 py-1 rounded ${
+                user.role === "admin" 
+                  ? "bg-red-100 text-red-800" 
+                  : "bg-blue-100 text-blue-800"
+              }`}>
+                {user.role === "admin" ? "Admin" : "Utente"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-2">
+            Motivo (opzionale):
+          </label>
+          <textarea
+            id="reason"
+            rows={3}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Inserisci il motivo dell'impersonificazione (es. supporto utente, test funzionalità...)"
+            value={reason}
+            onChange={(e) => setReason(e.target.value)}
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className="flex space-x-3">
+          <button
+            onClick={onClose}
+            disabled={isLoading}
+            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            Annulla
+          </button>
+          <button
+            onClick={handleConfirm}
+            disabled={isLoading}
+            className="flex-1 px-4 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          >
+            {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /**
  * AdminContent Component
- * Main content area for admin dashboard with statistics and management tools
+ * Main content area for admin dashboard with statistics, user management, and impersonation tools
  */
 export function AdminContent() {
   const [selectedSection, setSelectedSection] = useState<"overview" | "users" | "activities">("overview");
+  const [impersonationModal, setImpersonationModal] = useState<{
+    isOpen: boolean;
+    user: { id: string; name: string | null; email: string; role: string } | null;
+  }>({ isOpen: false, user: null });
+  
+  const router = useRouter();
 
   // Fetch system statistics
   const { data: stats, isLoading: statsLoading } = api.dashboard.getSystemStats.useQuery();
@@ -33,6 +153,21 @@ export function AdminContent() {
     },
   });
 
+  // Impersonation mutation
+  const startImpersonation = api.impersonation.startImpersonation.useMutation({
+    onSuccess: (data) => {
+      console.log("Impersonation started successfully:", data);
+      setImpersonationModal({ isOpen: false, user: null });
+      // Redirect to user dashboard to see the impersonated view
+      router.push("/dashboard/user");
+      router.refresh(); // Force refresh to update session
+    },
+    onError: (error) => {
+      console.error("Failed to start impersonation:", error);
+      alert(`Errore nell'avviare l'impersonificazione: ${error.message}`);
+    },
+  });
+
   /**
    * Handle role change for user
    */
@@ -42,6 +177,41 @@ export function AdminContent() {
     } catch (error) {
       console.error("Failed to update user role:", error);
     }
+  };
+
+  /**
+   * Handle impersonation request
+   */
+  const handleImpersonateUser = (user: { id: string; name: string | null; email: string; role: string }) => {
+    // Prevent impersonating admins
+    if (user.role === "admin") {
+      alert("Non è possibile impersonificare un altro amministratore.");
+      return;
+    }
+    
+    setImpersonationModal({ isOpen: true, user });
+  };
+
+  /**
+   * Confirm impersonation
+   */
+  const handleConfirmImpersonation = (reason?: string) => {
+    if (!impersonationModal.user) return;
+    
+    startImpersonation.mutate({
+      targetUserId: impersonationModal.user.id,
+      reason,
+      ipAddress: undefined, // Could be populated from client if needed
+      userAgent: navigator.userAgent,
+    });
+  };
+
+  /**
+   * Close impersonation modal
+   */
+  const handleCloseImpersonationModal = () => {
+    if (startImpersonation.isPending) return; // Prevent closing during loading
+    setImpersonationModal({ isOpen: false, user: null });
   };
 
   /**
@@ -196,6 +366,7 @@ export function AdminContent() {
                       <th>Nome</th>
                       <th>Email</th>
                       <th>Ruolo</th>
+                      <th>Gestione Ruolo</th>
                       <th>Azioni</th>
                     </tr>
                   </thead>
@@ -221,6 +392,22 @@ export function AdminContent() {
                             <option value="user">Utente</option>
                             <option value="admin">Admin</option>
                           </select>
+                        </td>
+                        <td>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => handleImpersonateUser(user)}
+                              disabled={user.role === "admin" || startImpersonation.isPending}
+                              className={`px-3 py-1 text-xs font-medium rounded transition-colors duration-200 ${
+                                user.role === "admin"
+                                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                  : "bg-orange-100 text-orange-700 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                              }`}
+                              title={user.role === "admin" ? "Non è possibile impersonificare un admin" : "Impersonifica questo utente"}
+                            >
+                              {startImpersonation.isPending ? "..." : "👤 Impersonifica"}
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -293,6 +480,15 @@ export function AdminContent() {
           </div>
         </div>
       )}
+
+      {/* Impersonation Modal */}
+      <ImpersonationModal
+        user={impersonationModal.user!}
+        isOpen={impersonationModal.isOpen}
+        onClose={handleCloseImpersonationModal}
+        onConfirm={handleConfirmImpersonation}
+        isLoading={startImpersonation.isPending}
+      />
     </div>
   );
 }

@@ -27,7 +27,7 @@ interface User {
   email: string;
   role: "admin" | "user";
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt?: Date | null;
 }
 
 interface CreateUserForm {
@@ -167,7 +167,7 @@ export default function AdminUserManagementPage() {
           ...createForm,
         });
       } else {
-        await createUserMutation.mutateAsync(createForm);
+        await (createUserMutation as any).mutateAsync(createForm);
       }
     } catch (error) {
       console.error("Failed to create user:", error);
@@ -390,7 +390,7 @@ export default function AdminUserManagementPage() {
                       <td>
                         <div className="flex space-x-2">
                           <button
-                            onClick={() => setEditingUser(user)}
+                            onClick={() => setEditingUser(user as User)}
                             className="btn btn-outline btn-xs"
                           >
                             Edit

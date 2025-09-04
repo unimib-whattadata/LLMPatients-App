@@ -7,8 +7,6 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { DashboardLayout } from "../_components/DashboardLayout";
-import { UserContent } from "./_components/UserContent";
 
 /**
  * User Dashboard Page Component

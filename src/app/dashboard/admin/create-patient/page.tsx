@@ -7,7 +7,7 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { DashboardLayout } from "../../_components/DashboardLayout";
+import { SharedLayout } from "~/components/layout/SharedLayout";
 import { CreatePatientContent } from "./_components/CreatePatientContent";
 
 /**
@@ -29,7 +29,7 @@ export default async function CreatePatientPage() {
   }
 
   return (
-    <DashboardLayout 
+    <SharedLayout 
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -37,9 +37,11 @@ export default async function CreatePatientPage() {
         role: session.user.role,
         image: session.user.image,
       }}
+      impersonation={(session as any).impersonation ?? undefined}
+      layoutType="dashboard"
       currentPage="/dashboard/admin/create-patient"
     >
       <CreatePatientContent />
-    </DashboardLayout>
+    </SharedLayout>
   );
 }

@@ -20,22 +20,9 @@ import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
   protectedProcedure,
+  adminProcedure,
 } from "~/server/api/trpc";
 import { users, userActivities } from "~/server/db/schema";
-
-/**
- * Admin-only procedure middleware
- * Ensures only users with 'admin' role can access admin procedures
- */
-const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
-  if (ctx.session.user.role !== "admin") {
-    throw new TRPCError({ 
-      code: "FORBIDDEN", 
-      message: "Admin access required to perform this action" 
-    });
-  }
-  return next({ ctx });
-});
 
 /**
  * Dashboard router with role-based procedures

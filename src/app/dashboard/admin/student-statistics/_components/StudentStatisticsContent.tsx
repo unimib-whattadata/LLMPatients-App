@@ -164,7 +164,7 @@ export function StudentStatisticsContent() {
               </div>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">< 60</span>
+              <span className="text-sm text-gray-600">60</span>
               <div className="flex items-center gap-2">
                 <div className="w-32 bg-gray-200 rounded-full h-2">
                   <div className="bg-red-500 h-2 rounded-full" style={{width: '5%'}}></div>

@@ -7,7 +7,7 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { DashboardLayout } from "../../_components/DashboardLayout";
+import { SharedLayout } from "~/components/layout/SharedLayout";
 import { StudentStatisticsContent } from "./_components/StudentStatisticsContent";
 
 /**
@@ -29,7 +29,7 @@ export default async function StudentStatisticsPage() {
   }
 
   return (
-    <DashboardLayout 
+    <SharedLayout 
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -37,9 +37,11 @@ export default async function StudentStatisticsPage() {
         role: session.user.role,
         image: session.user.image,
       }}
+      impersonation={(session as any).impersonation ?? undefined}
+      layoutType="dashboard"
       currentPage="/dashboard/admin/student-statistics"
     >
       <StudentStatisticsContent />
-    </DashboardLayout>
+    </SharedLayout>
   );
 }
