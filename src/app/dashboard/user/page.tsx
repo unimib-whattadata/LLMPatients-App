@@ -27,7 +27,7 @@ export default async function UserDashboardPage() {
     <DashboardLayout 
       user={{
         id: session.user.id,
-        name: session.user.name,
+        name: session.user.name ?? null,
         email: session.user.email!,
         role: session.user.role || "user",
         image: session.user.image,

@@ -144,7 +144,7 @@ export const dashboardRouter = createTRPCRouter({
           .where(
             and(
               eq(userActivities.activityType, "login"),
-              gte(userActivities.createdAt, Math.floor(thirtyDaysAgo.getTime() / 1000))
+              gte(userActivities.createdAt, thirtyDaysAgo)
             )
           );
 

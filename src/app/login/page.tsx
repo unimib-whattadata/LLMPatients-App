@@ -2,8 +2,9 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useToast } from "~/components/ui/ToastProvider";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,15 +14,71 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  
+  // New success handling state
+  const [isRedirecting, setIsRedirecting] = useState(false);
+  const [redirectCountdown, setRedirectCountdown] = useState(3);
+  
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { data: session, status } = useSession();
+  const { showSuccess, showError } = useToast();
+  
+  const callbackUrl = searchParams.get('callbackUrl') || '/';
+  
+  // Check for URL parameters that indicate success or error
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error) {
+      let errorMessage = "An authentication error occurred. Please try again.";
+      
+      switch (error) {
+        case 'CredentialsSignin':
+          errorMessage = "Invalid email or password. Please check your credentials.";
+          break;
+        case 'OAuthAccountNotLinked':
+          errorMessage = "This email is already associated with another account.";
+          break;
+        case 'EmailNotVerified':
+          errorMessage = "Please verify your email address before signing in.";
+          break;
+        default:
+          errorMessage = "An unexpected error occurred during sign in.";
+      }
+      
+      showError("Login Failed", errorMessage);
+    }
+  }, [searchParams, showError]);
 
   // Check if user is already authenticated
   useEffect(() => {
     if (status !== "loading" && session) {
-      router.push("/");
+      router.push(callbackUrl);
     }
-  }, [session, status, router]);
+  }, [session, status, router, callbackUrl]);
+  
+  // Countdown effect for redirect
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (isRedirecting && redirectCountdown > 0) {
+      interval = setInterval(() => {
+        setRedirectCountdown((prev) => {
+          if (prev <= 1) {
+            router.push(callbackUrl);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [isRedirecting, redirectCountdown, router, callbackUrl]);
 
   // Email validation
   const validateEmail = (email: string): boolean => {
@@ -72,15 +129,30 @@ export default function LoginPage() {
         email,
         password,
         redirect: false,
+        callbackUrl,
       });
 
       if (result?.error) {
         setError("Invalid email or password. Please try again.");
+        showError("Login Failed", "Please check your credentials and try again.");
       } else if (result?.ok) {
-        router.push("/");
+        // Show success message and start countdown
+        showSuccess(
+          "Login Successful!", 
+          `Welcome back! Redirecting you to your dashboard in ${redirectCountdown} seconds...`,
+          { duration: 3000 }
+        );
+        
+        setIsRedirecting(true);
+        
+        // Also trigger immediate redirect as backup
+        setTimeout(() => {
+          router.push(callbackUrl);
+        }, 3000);
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
+      showError("Network Error", "Unable to connect to the server. Please check your internet connection.");
     } finally {
       setIsLoading(false);
     }
@@ -101,9 +173,42 @@ export default function LoginPage() {
       {/* Right Side - Login Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8">
         <div className="w-full max-w-md">
-          <div className="bg-gray-700 rounded-lg shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-8 text-center">Login</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Success State - Show redirect countdown */}
+          {isRedirecting ? (
+            <div className="bg-gray-700 rounded-lg shadow-xl p-8 text-center">
+              <div className="mb-6">
+                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h2 className="text-2xl font-bold text-white mb-2">Login Successful!</h2>
+                <p className="text-gray-300 mb-6">
+                  Welcome back! You're being redirected to your dashboard.
+                </p>
+                
+                <div className="bg-gray-600 rounded-lg p-4 mb-6">
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-500"></div>
+                    <span className="text-white">
+                      Redirecting in {redirectCountdown} second{redirectCountdown !== 1 ? 's' : ''}...
+                    </span>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => router.push(callbackUrl)}
+                  className="btn btn-primary btn-sm"
+                >
+                  Go Now
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* Normal Login Form */
+            <div className="bg-gray-700 rounded-lg shadow-xl p-8">
+              <h2 className="text-2xl font-bold text-white mb-8 text-center">Login</h2>
+              <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
               {error && (
                 <div className="text-sm text-red-400 text-center bg-red-900/20 border border-red-700 rounded-md p-3">
@@ -210,9 +315,9 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading}
+                disabled={isLoading || isRedirecting}
                 className={`w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 ${
-                  isLoading ? "cursor-wait opacity-50" : ""
+                  isLoading || isRedirecting ? "cursor-wait opacity-50" : ""
                 }`}
                 aria-label="Accedi al tuo account"
               >
@@ -223,6 +328,14 @@ export default function LoginPage() {
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     Accesso in corso...
+                  </div>
+                ) : isRedirecting ? (
+                  <div className="flex items-center justify-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Reindirizzamento...
                   </div>
                 ) : (
                   "Accedi"
@@ -248,6 +361,7 @@ export default function LoginPage() {
               </div>
             </form>
           </div>
+          )}
         </div>
       </div>
     </div>

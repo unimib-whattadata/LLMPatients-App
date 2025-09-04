@@ -5,6 +5,8 @@ import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { ToastProvider } from "~/components/ui/ToastProvider";
+import SessionDebug from "~/components/debug/SessionDebug";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -24,7 +26,12 @@ export default function RootLayout({
     <html lang="en" className={`${geist.variable}`}>
       <body>
         <SessionProvider>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          <TRPCReactProvider>
+            <ToastProvider>
+              {children}
+              <SessionDebug enabled={process.env.NODE_ENV === 'development'} />
+            </ToastProvider>
+          </TRPCReactProvider>
         </SessionProvider>
       </body>
     </html>

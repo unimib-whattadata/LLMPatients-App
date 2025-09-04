@@ -32,7 +32,7 @@ export default async function AdminDashboardPage() {
     <DashboardLayout 
       user={{
         id: session.user.id,
-        name: session.user.name,
+        name: session.user.name ?? null,
         email: session.user.email!,
         role: session.user.role,
         image: session.user.image,

@@ -29,7 +29,6 @@ declare module "next-auth" {
   }
 
   interface User {
-    id: string;
     role: "admin" | "user"; // Add role to user type
     // ...other properties
   }
@@ -111,7 +110,35 @@ export const authConfig = {
     accountsTable: accounts,
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
-  }),
+  }) as any, // Type assertion to handle NextAuth v5 beta compatibility
+  
+  // Enhanced session configuration
+  session: {
+    strategy: "database" as const,
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60,   // 24 hours - update session every 24 hours
+  },
+  
+  // Enhanced cookie configuration for better session persistence
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        domain: process.env.NODE_ENV === 'production' ? process.env.AUTH_COOKIE_DOMAIN : undefined,
+      }
+    }
+  },
+  
+  // Enhanced pages configuration
+  pages: {
+    signIn: '/login',
+    error: '/login', // Redirect errors to login page
+  },
+  
   callbacks: {
     // Include user role in session for role-based access control
     session: ({ session, user }) => ({
@@ -129,5 +156,26 @@ export const authConfig = {
       }
       return token;
     },
+    // Enhanced redirect callback for better UX
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
   },
+  
+  // Enhanced events for debugging
+  events: {
+    async signIn(message) {
+      console.log('User signed in:', message.user.email);
+    },
+    async session(message) {
+      console.log('Session accessed:', message.session?.user?.email);
+    },
+  },
+  
+  // Enable debug in development
+  debug: process.env.NODE_ENV === 'development',
 } satisfies NextAuthConfig;
