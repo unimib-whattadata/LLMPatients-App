@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, getSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -14,17 +14,14 @@ export default function LoginPage() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   // Check if user is already authenticated
   useEffect(() => {
-    const checkAuth = async () => {
-      const session = await getSession();
-      if (session) {
-        router.push("/");
-      }
-    };
-    void checkAuth();
-  }, [router]);
+    if (status !== "loading" && session) {
+      router.push("/");
+    }
+  }, [session, status, router]);
 
   // Email validation
   const validateEmail = (email: string): boolean => {

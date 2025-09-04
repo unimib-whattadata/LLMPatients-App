@@ -1,10 +1,8 @@
 import Link from "next/link";
-import { auth } from "~/server/auth";
 import { HydrateClient } from "~/trpc/server";
+import AuthButton from "./_components/AuthButton";
 
 export default async function Home() {
-  const session = await auth();
-
   return (
     <HydrateClient>
       <div className="min-h-screen bg-gray-50">
@@ -23,21 +21,8 @@ export default async function Home() {
                 <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
-                {/* Show Area Personale link only for authenticated users */}
-                {session && (
-                  <Link href="/dashboard" className="link-secondary hover:text-gray-700">
-                    Area Personale
-                  </Link>
-                )}
               </nav>
-              <div>
-                <Link
-                  href={session ? "/api/auth/signout" : "/login"}
-                  className="btn btn-primary btn-md"
-                >
-                  {session ? "Esci" : "Accedi"}
-                </Link>
-              </div>
+              <AuthButton />
             </div>
           </div>
         </header>
