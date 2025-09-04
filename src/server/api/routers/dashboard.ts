@@ -7,8 +7,14 @@
  * - Role-based access control for different dashboard features
  */
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { z } from "zod";
-import { eq, desc, count, and, gte } from "drizzle-orm";
+import { eq, desc, count, and, gte, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 import {
@@ -45,12 +51,17 @@ export const dashboardRouter = createTRPCRouter({
   getAllUsers: adminProcedure
     .query(async ({ ctx }) => {
       try {
-        const allUsers = await ctx.db.query.users.findMany({
-          columns: { 
-            password: false, // Exclude password from results for security
-          },
-          orderBy: [desc(users.name)],
-        });
+        const allUsers = await ctx.db
+          .select({
+            id: users.id,
+            name: users.name,
+            email: users.email,
+            role: users.role,
+            emailVerified: users.emailVerified,
+            image: users.image,
+          })
+          .from(users)
+          .orderBy(desc(users.name));
         
         return allUsers;
       } catch (error) {
@@ -111,7 +122,7 @@ export const dashboardRouter = createTRPCRouter({
           }),
         });
 
-        return updatedUser[0];
+        return updatedUser[0]!;
       } catch (error) {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
@@ -137,16 +148,17 @@ export const dashboardRouter = createTRPCRouter({
           .select({ count: count() })
           .from(users);
         
-        // Get active users (users with activity in last 30 days)
-        const activeUsersResult = await ctx.db
-          .select({ count: count() })
+        // Get active users (users with login activity in last 30 days)
+        const activeUsersQuery = await ctx.db
+          .select({ userId: userActivities.userId })
           .from(userActivities)
           .where(
             and(
               eq(userActivities.activityType, "login"),
               gte(userActivities.createdAt, thirtyDaysAgo)
             )
-          );
+          )
+          .groupBy(userActivities.userId);
 
         // Get admin users count
         const adminUsersResult = await ctx.db
@@ -155,30 +167,29 @@ export const dashboardRouter = createTRPCRouter({
           .where(eq(users.role, "admin"));
 
         // Get recent activities (last 10)
-        const recentActivities = await ctx.db.query.userActivities.findMany({
-          limit: 10,
-          orderBy: [desc(userActivities.createdAt)],
-          with: {
-            user: {
-              columns: {
-                name: true,
-                email: true,
-                password: false, // Exclude password
-              },
-            },
-          },
-        });
+        const recentActivities = await ctx.db
+          .select({
+            id: userActivities.id,
+            activityType: userActivities.activityType,
+            metadata: userActivities.metadata,
+            createdAt: userActivities.createdAt,
+            userName: users.name,
+          })
+          .from(userActivities)
+          .leftJoin(users, eq(userActivities.userId, users.id))
+          .orderBy(desc(userActivities.createdAt))
+          .limit(10);
 
         return {
           totalUsers: totalUsersResult[0]?.count ?? 0,
-          activeUsers: activeUsersResult[0]?.count ?? 0,
+          activeUsers: activeUsersQuery.length,
           adminUsers: adminUsersResult[0]?.count ?? 0,
           recentActivities: recentActivities.map(activity => ({
             id: activity.id,
             type: activity.activityType,
             createdAt: activity.createdAt,
-            userName: activity.user?.name ?? "Unknown User",
-            metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+            userName: activity.userName ?? "Unknown User",
+            metadata: activity.metadata ? JSON.parse(activity.metadata) as Record<string, unknown> : null,
           })),
         };
       } catch (error) {
@@ -198,21 +209,27 @@ export const dashboardRouter = createTRPCRouter({
   getUserProfile: protectedProcedure
     .query(async ({ ctx }) => {
       try {
-        const userProfile = await ctx.db.query.users.findFirst({
-          where: eq(users.id, ctx.session.user.id),
-          columns: { 
-            password: false, // Exclude password for security
-          },
-        });
+        const userProfile = await ctx.db
+          .select({
+            id: users.id,
+            name: users.name,
+            email: users.email,
+            role: users.role,
+            emailVerified: users.emailVerified,
+            image: users.image,
+          })
+          .from(users)
+          .where(eq(users.id, ctx.session.user.id))
+          .limit(1);
 
-        if (!userProfile) {
+        if (userProfile.length === 0) {
           throw new TRPCError({
             code: "NOT_FOUND",
             message: "User profile not found",
           });
         }
 
-        return userProfile;
+        return userProfile[0]!;
       } catch (error) {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
@@ -234,17 +251,19 @@ export const dashboardRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       try {
         // Check if email is already taken by another user
-        const existingUser = await ctx.db.query.users.findFirst({
-          where: and(
-            eq(users.email, input.email),
-            // Exclude current user from check
-            // Note: Using string comparison instead of eq for different user check
-          ),
-          columns: { id: true },
-        });
+        const existingUser = await ctx.db
+          .select({ id: users.id })
+          .from(users)
+          .where(
+            and(
+              eq(users.email, input.email),
+              ne(users.id, ctx.session.user.id)
+            )
+          )
+          .limit(1);
 
         // If email exists and belongs to different user, reject
-        if (existingUser && existingUser.id !== ctx.session.user.id) {
+        if (existingUser.length > 0) {
           throw new TRPCError({
             code: "CONFLICT",
             message: "Email address is already in use by another account",
@@ -283,7 +302,7 @@ export const dashboardRouter = createTRPCRouter({
           }),
         });
 
-        return updatedUser[0];
+        return updatedUser[0]!;
       } catch (error) {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({
@@ -303,17 +322,23 @@ export const dashboardRouter = createTRPCRouter({
     }))
     .query(async ({ ctx, input }) => {
       try {
-        const activities = await ctx.db.query.userActivities.findMany({
-          where: eq(userActivities.userId, ctx.session.user.id),
-          orderBy: [desc(userActivities.createdAt)],
-          limit: input.limit,
-        });
+        const activities = await ctx.db
+          .select({
+            id: userActivities.id,
+            activityType: userActivities.activityType,
+            metadata: userActivities.metadata,
+            createdAt: userActivities.createdAt,
+          })
+          .from(userActivities)
+          .where(eq(userActivities.userId, ctx.session.user.id))
+          .orderBy(desc(userActivities.createdAt))
+          .limit(input.limit);
 
         return activities.map(activity => ({
           id: activity.id,
           type: activity.activityType,
           createdAt: activity.createdAt,
-          metadata: activity.metadata ? JSON.parse(activity.metadata) : null,
+          metadata: activity.metadata ? JSON.parse(activity.metadata) as Record<string, unknown> : null,
         }));
       } catch (error) {
         throw new TRPCError({
@@ -349,7 +374,7 @@ export const dashboardRouter = createTRPCRouter({
             createdAt: userActivities.createdAt,
           });
 
-        return activity[0];
+        return activity[0]!;
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",

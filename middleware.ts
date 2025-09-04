@@ -5,6 +5,7 @@
  * before accessing protected areas of the application.
  * 
  * Uses NextAuth v5 beta pattern with the auth function as middleware.
+ * Includes enhanced session validation and redirect handling.
  */
 
 import { auth } from "~/server/auth"
@@ -12,29 +13,77 @@ import { NextResponse } from "next/server"
 
 // Use the auth function as middleware directly (NextAuth v5 pattern)
 export default auth((req) => {
-  const isAuthenticated = !!req.auth;
-  const isProtectedRoute = req.nextUrl.pathname.startsWith('/dashboard');
-  const isAuthRoute = req.nextUrl.pathname.startsWith('/login') || req.nextUrl.pathname.startsWith('/register');
+  const session = req.auth;
+  const isAuthenticated = !!(session?.user?.id && session?.user?.email);
+  const pathname = req.nextUrl.pathname;
   
-  // Debug logging in development
+  // Route classifications
+  const isProtectedRoute = pathname.startsWith('/dashboard');
+  const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register');
+  const isApiAuthRoute = pathname.startsWith('/api/auth');
+  const isStaticRoute = pathname.startsWith('/_next') || 
+                       pathname.startsWith('/favicon') || 
+                       pathname.includes('.');
+  
+  // Skip middleware for API auth routes and static assets
+  if (isApiAuthRoute || isStaticRoute) {
+    return NextResponse.next();
+  }
+  
+  // Enhanced debug logging in development
   if (process.env.NODE_ENV === 'development') {
-    console.log('Middleware - Route:', req.nextUrl.pathname);
-    console.log('Middleware - Is Authenticated:', isAuthenticated);
-    console.log('Middleware - User:', req.auth?.user?.email || 'none');
+    console.log('Middleware - Enhanced Check:', {
+      pathname,
+      isAuthenticated,
+      hasSession: !!session,
+      hasUser: !!session?.user,
+      hasUserId: !!session?.user?.id,
+      hasUserEmail: !!session?.user?.email,
+      userEmail: session?.user?.email || 'none',
+      userRole: (session?.user as any)?.role || 'none',
+      isProtectedRoute,
+      isAuthRoute
+    });
   }
   
   // If user is authenticated and trying to access auth routes, redirect to dashboard
   if (isAuthenticated && isAuthRoute) {
     console.log('Middleware - Redirecting authenticated user from auth route to dashboard');
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+    const dashboardUrl = new URL('/dashboard', req.url);
+    return NextResponse.redirect(dashboardUrl);
   }
   
   // If user is not authenticated and trying to access protected route, redirect to login
   if (!isAuthenticated && isProtectedRoute) {
     console.log('Middleware - Redirecting unauthenticated user to login');
     const loginUrl = new URL('/login', req.url);
-    loginUrl.searchParams.set('callbackUrl', req.nextUrl.pathname);
+    
+    // Preserve the intended destination for post-login redirect
+    if (pathname !== '/dashboard') {
+      loginUrl.searchParams.set('callbackUrl', pathname);
+    }
+    
     return NextResponse.redirect(loginUrl);
+  }
+  
+  // Enhanced session validation for protected routes
+  if (isAuthenticated && isProtectedRoute) {
+    // Additional validation to ensure session integrity
+    if (!session?.user?.id || !session?.user?.email) {
+      console.warn('Middleware - Invalid session detected, redirecting to login');
+      const loginUrl = new URL('/login', req.url);
+      loginUrl.searchParams.set('error', 'session-invalid');
+      return NextResponse.redirect(loginUrl);
+    }
+    
+    // Log successful protected route access
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Middleware - Allowing access to protected route:', {
+        pathname,
+        userEmail: session.user.email,
+        userRole: (session.user as any)?.role
+      });
+    }
   }
   
   // Allow the request to proceed
@@ -43,8 +92,14 @@ export default auth((req) => {
 
 export const config = {
   matcher: [
-    '/dashboard/:path*',
-    '/login',
-    '/register'
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api/auth (NextAuth.js API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     * - public folder files
+     */
+    '/((?!api/auth|_next/static|_next/image|favicon.ico|public).*)',
   ]
 }

@@ -5,6 +5,11 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  // Set the workspace root to silence turbopack warnings
+  turbopack: {
+    root: process.cwd(),
+  },
+};
 
 export default config;

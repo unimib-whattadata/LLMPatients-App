@@ -105,12 +105,13 @@ export const authConfig = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
-  }) as any, // Type assertion to handle NextAuth v5 beta compatibility
+  }) as any, // Type assertion for NextAuth v5 beta compatibility
   
   // Enhanced session configuration
   session: {
@@ -128,7 +129,25 @@ export const authConfig = {
         sameSite: 'lax' as const,
         path: '/',
         secure: process.env.NODE_ENV === 'production',
-        domain: process.env.NODE_ENV === 'production' ? process.env.AUTH_COOKIE_DOMAIN : undefined,
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+      }
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.callback-url' : 'next-auth.callback-url',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      }
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Host-next-auth.csrf-token' : 'next-auth.csrf-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax' as const,
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
       }
     }
   },
@@ -141,23 +160,24 @@ export const authConfig = {
   
   callbacks: {
     // Include user role in session for role-based access control
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-        role: (user as any).role || "user", // Include role in session
-      },
-    }),
-    // Ensure role is available when user is retrieved
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as any).role || "user";
-      }
-      return token;
+    session: ({ session, user }) => {
+      // Ensure user object exists
+      if (!session?.user) return session;
+      
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: user.id,
+          role: (user as any).role || "user", // Include role in session
+        },
+      };
     },
     // Enhanced redirect callback for better UX
     async redirect({ url, baseUrl }) {
+      // Debug logging
+      console.log('NextAuth redirect callback:', { url, baseUrl });
+      
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
@@ -169,10 +189,21 @@ export const authConfig = {
   // Enhanced events for debugging
   events: {
     async signIn(message) {
-      console.log('User signed in:', message.user.email);
+      console.log('NextAuth signIn event:', {
+        user: message.user.email,
+        account: message.account?.provider,
+        profile: message.profile?.email
+      });
     },
     async session(message) {
-      console.log('Session accessed:', message.session?.user?.email);
+      console.log('NextAuth session event:', {
+        user: message.session?.user?.email,
+        userId: message.session?.user?.id,
+        role: (message.session?.user as any)?.role
+      });
+    },
+    async signOut() {
+      console.log('NextAuth signOut event: User signed out');
     },
   },
   
