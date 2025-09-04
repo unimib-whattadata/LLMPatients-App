@@ -23,6 +23,12 @@ export default async function Home() {
                 <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
+                {/* Show Area Personale link only for authenticated users */}
+                {session && (
+                  <Link href="/dashboard" className="link-secondary hover:text-gray-700">
+                    Area Personale
+                  </Link>
+                )}
               </nav>
               <div>
                 <Link

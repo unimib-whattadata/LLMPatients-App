@@ -40,12 +40,23 @@ export const users = createTable("user", (d) => ({
   name: d.text({ length: 255 }),
   email: d.text({ length: 255 }).notNull(),
   password: d.text({ length: 255 }),
+  // Role field for user access control - 'admin' or 'user'
+  role: d.text({ length: 20 }).default('user').notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
 }));
 
+export const postsRelations = relations(posts, ({ one }) => ({
+  createdBy: one(users, {
+    fields: [posts.createdById],
+    references: [users.id],
+  }),
+}));
+
 export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
+  posts: many(posts),
+  activities: many(userActivities),
 }));
 
 export const accounts = createTable(
@@ -104,3 +115,31 @@ export const verificationTokens = createTable(
   }),
   (t) => [primaryKey({ columns: [t.identifier, t.token] })],
 );
+
+// User activities table for tracking dashboard actions
+export const userActivities = createTable(
+  "user_activity",
+  (d) => ({
+    id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+    userId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id),
+    // Activity type: 'login', 'profile_update', 'simulation', 'dashboard_view'
+    activityType: d.text({ length: 50 }).notNull(),
+    // JSON string for additional activity metadata
+    metadata: d.text(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+  }),
+  (t) => [
+    index("user_activity_user_id_idx").on(t.userId),
+    index("user_activity_type_idx").on(t.activityType),
+  ],
+);
+
+export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
+  user: one(users, { fields: [userActivities.userId], references: [users.id] }),
+}));
