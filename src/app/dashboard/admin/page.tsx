@@ -28,18 +28,6 @@ export default async function AdminDashboardPage() {
     redirect("/dashboard/user");
   }
 
-  return (
-    <DashboardLayout 
-      user={{
-        id: session.user.id,
-        name: session.user.name ?? null,
-        email: session.user.email!,
-        role: session.user.role,
-        image: session.user.image,
-      }}
-      currentPage="/dashboard/admin"
-    >
-      <AdminContent />
-    </DashboardLayout>
-  );
+  // Redirect to the main admin function - create patient
+  redirect("/dashboard/admin/create-patient");
 }

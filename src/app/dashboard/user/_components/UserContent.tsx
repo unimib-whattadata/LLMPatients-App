@@ -106,11 +106,11 @@ export function UserContent() {
 
   return (
     <div className="dashboard-container">
-      {/* Dashboard Header */}
-      <div className="mb-8">
-        <h1 className="text-heading-1 mb-2">Area Personale</h1>
-        <p className="text-body text-gray-600">
-          Benvenuto/a {profile?.name || "Utente"}! Gestisci il tuo profilo e visualizza la tua attività.
+      {/* Welcome Section */}
+      <div className="dashboard-welcome-section">
+        <h1 className="dashboard-welcome-title">Benvenuto nella tua Area Personale</h1>
+        <p className="dashboard-welcome-subtitle">
+          Ciao {profile?.name || "Utente"}! Gestisci il tuo profilo e monitora la tua attività
         </p>
       </div>
 

@@ -43,17 +43,15 @@ export function DashboardLayout({ children, user, currentPage }: DashboardLayout
   const getNavItems = (): NavItem[] => {
     if (user.role === "admin") {
       return [
-        { label: "Dashboard", href: "/dashboard/admin", icon: "🏠" },
-        { label: "Gestione Utenti", href: "/dashboard/admin/users", icon: "👥" },
-        { label: "Statistiche", href: "/dashboard/admin/stats", icon: "📊" },
-        { label: "Impostazioni", href: "/dashboard/admin/settings", icon: "⚙️" },
+        { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: "🩺" },
+        { label: "Valutazioni studenti", href: "/dashboard/admin/student-evaluations", icon: "📝" },
+        { label: "Statistiche studenti", href: "/dashboard/admin/student-statistics", icon: "📊" },
       ];
     } else {
       return [
-        { label: "Dashboard", href: "/dashboard/user", icon: "🏠" },
-        { label: "Il Mio Profilo", href: "/dashboard/user/profile", icon: "👤" },
-        { label: "Progresso", href: "/dashboard/user/progress", icon: "📈" },
-        { label: "Simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
+        { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
+        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
+        { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
       ];
     }
   };
@@ -61,39 +59,39 @@ export function DashboardLayout({ children, user, currentPage }: DashboardLayout
   const navItems = getNavItems();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="dashboard-container">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="dashboard-header">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <button
                 onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 md:hidden"
+                className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 md:hidden transition-colors duration-200"
               >
                 <span className="sr-only">Toggle sidebar</span>
                 ☰
               </button>
               <Link href="/" className="flex items-center ml-4 md:ml-0">
-                <div className="w-8 h-8 bg-gray-800 rounded"></div>
-                <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
+                <div className="w-8 h-8 bg-white/20 rounded-lg backdrop-blur-sm"></div>
+                <span className="ml-2 text-lg font-bold text-white">ePatient</span>
               </Link>
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-700">
+              <span className="text-sm text-white/90 font-medium">
                 {user.name || user.email}
               </span>
-              <span className={`px-2 py-1 text-xs rounded-full ${
+              <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
                 user.role === "admin" 
-                  ? "bg-red-100 text-red-800" 
-                  : "bg-blue-100 text-blue-800"
+                  ? "bg-red-500/20 text-red-100 border border-red-400/30" 
+                  : "bg-blue-500/20 text-blue-100 border border-blue-400/30"
               }`}>
                 {user.role === "admin" ? "Admin" : "Utente"}
               </span>
               <Link
                 href="/api/auth/signout"
-                className="text-sm text-gray-500 hover:text-gray-700"
+                className="text-sm text-white/80 hover:text-white transition-colors duration-200 px-3 py-1 rounded-md hover:bg-white/10"
               >
                 Esci
               </Link>
@@ -117,12 +115,14 @@ export function DashboardLayout({ children, user, currentPage }: DashboardLayout
                     <li key={item.href}>
                       <Link
                         href={item.href}
-                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                        className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
                           isActive
                             ? user.role === "admin"
-                              ? "bg-red-100 text-red-700"
-                              : "bg-blue-100 text-blue-700"
-                            : "text-gray-700 hover:bg-gray-100"
+                              ? "admin-nav-item active"
+                              : "user-nav-item active"
+                            : user.role === "admin"
+                            ? "admin-nav-item"
+                            : "user-nav-item"
                         }`}
                       >
                         <span className="mr-3">{item.icon}</span>

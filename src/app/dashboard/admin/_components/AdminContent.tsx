@@ -60,11 +60,11 @@ export function AdminContent() {
 
   return (
     <div className="dashboard-container">
-      {/* Dashboard Header */}
-      <div className="mb-8">
-        <h1 className="text-heading-1 mb-2">Dashboard Amministratore</h1>
-        <p className="text-body text-gray-600">
-          Panoramica del sistema e gestione utenti
+      {/* Welcome Section */}
+      <div className="dashboard-welcome-section">
+        <h1 className="dashboard-welcome-title">Benvenuto, Amministratore</h1>
+        <p className="dashboard-welcome-subtitle">
+          Gestisci il sistema e monitora le attività degli utenti dalla tua dashboard
         </p>
       </div>
 

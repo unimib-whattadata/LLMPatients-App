@@ -16,9 +16,12 @@ export default auth((req) => {
   const session = req.auth;
   const isAuthenticated = !!(session?.user?.id && session?.user?.email);
   const pathname = req.nextUrl.pathname;
+  const searchParams = req.nextUrl.searchParams;
+  const specialKey = searchParams.get('specialKey');
   
   // Route classifications
   const isProtectedRoute = pathname.startsWith('/dashboard');
+  const isAdminRoute = pathname.startsWith('/admin');
   const isAuthRoute = pathname.startsWith('/login') || pathname.startsWith('/register');
   const isApiAuthRoute = pathname.startsWith('/api/auth');
   const isStaticRoute = pathname.startsWith('/_next') || 
@@ -42,8 +45,38 @@ export default auth((req) => {
       userEmail: session?.user?.email || 'none',
       userRole: (session?.user as any)?.role || 'none',
       isProtectedRoute,
-      isAuthRoute
+      isAdminRoute,
+      isAuthRoute,
+      specialKey: specialKey || 'none'
     });
+  }
+  
+  // Special admin route access control
+  if (isAdminRoute) {
+    // Development bypass with special key
+    if (process.env.NODE_ENV === 'development' && specialKey === 'DavideIsTesting') {
+      console.log('Middleware - Allowing admin route access via development bypass');
+      return NextResponse.next();
+    }
+    
+    // Production admin access control
+    if (!isAuthenticated) {
+      console.log('Middleware - Redirecting unauthenticated user from admin route to login');
+      const loginUrl = new URL('/login', req.url);
+      loginUrl.searchParams.set('callbackUrl', pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+    
+    // Check admin role
+    const userRole = (session?.user as any)?.role;
+    if (userRole !== 'admin') {
+      console.log('Middleware - Redirecting non-admin user from admin route to dashboard');
+      const dashboardUrl = new URL('/dashboard', req.url);
+      return NextResponse.redirect(dashboardUrl);
+    }
+    
+    console.log('Middleware - Allowing admin route access for admin user');
+    return NextResponse.next();
   }
   
   // If user is authenticated and trying to access auth routes, redirect to dashboard

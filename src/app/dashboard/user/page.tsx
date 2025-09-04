@@ -23,18 +23,6 @@ export default async function UserDashboardPage() {
     redirect("/login");
   }
 
-  return (
-    <DashboardLayout 
-      user={{
-        id: session.user.id,
-        name: session.user.name ?? null,
-        email: session.user.email!,
-        role: session.user.role || "user",
-        image: session.user.image,
-      }}
-      currentPage="/dashboard/user"
-    >
-      <UserContent />
-    </DashboardLayout>
-  );
+  // Redirect to the main user function - simulations
+  redirect("/dashboard/user/simulations");
 }
