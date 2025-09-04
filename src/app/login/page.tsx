@@ -1,24 +1,37 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useToast } from "~/components/ui/ToastProvider";
 
+// Define the consolidated login state interface
+interface LoginState {
+  phase: 'loading' | 'login' | 'authenticating' | 'success' | 'redirecting';
+  email: string;
+  password: string;
+  rememberMe: boolean;
+  error: string;
+  emailError: string;
+  passwordError: string;
+  redirectCountdown: number;
+  isNavigating: boolean;
+}
+
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  
-  // New success handling state
-  const [isRedirecting, setIsRedirecting] = useState(false);
-  const [redirectCountdown, setRedirectCountdown] = useState(3);
-  
+  // Consolidated state management
+  const [loginState, setLoginState] = useState<LoginState>({
+    phase: 'loading',
+    email: '',
+    password: '',
+    rememberMe: false,
+    error: '',
+    emailError: '',
+    passwordError: '',
+    redirectCountdown: 3,
+    isNavigating: false
+  });
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -26,135 +39,170 @@ export default function LoginPage() {
   
   const callbackUrl = searchParams.get('callbackUrl') || '/';
   
-  // Check for URL parameters that indicate success or error
+  // Deferred navigation function to prevent router updates during render
+  const navigate = useCallback((url: string, delay: number = 100) => {
+    if (loginState.isNavigating) return; // Prevent multiple navigation calls
+    
+    setLoginState(prev => ({ ...prev, isNavigating: true }));
+    
+    setTimeout(() => {
+      router.push(url);
+    }, delay);
+  }, [router, loginState.isNavigating]);
+  
+  // Consolidated navigation and state management controller
   useEffect(() => {
-    const error = searchParams.get('error');
-    if (error) {
-      let errorMessage = "An authentication error occurred. Please try again.";
-      
-      switch (error) {
-        case 'CredentialsSignin':
-          errorMessage = "Invalid email or password. Please check your credentials.";
-          break;
-        case 'OAuthAccountNotLinked':
-          errorMessage = "This email is already associated with another account.";
-          break;
-        case 'EmailNotVerified':
-          errorMessage = "Please verify your email address before signing in.";
-          break;
-        default:
-          errorMessage = "An unexpected error occurred during sign in.";
+    let timeoutId: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout;
+    
+    const handleNavigation = () => {
+      // Handle URL error parameters
+      const urlError = searchParams.get('error');
+      if (urlError && loginState.phase === 'loading') {
+        let errorMessage = "An authentication error occurred. Please try again.";
+        
+        switch (urlError) {
+          case 'CredentialsSignin':
+            errorMessage = "Invalid email or password. Please check your credentials.";
+            break;
+          case 'OAuthAccountNotLinked':
+            errorMessage = "This email is already associated with another account.";
+            break;
+          case 'EmailNotVerified':
+            errorMessage = "Please verify your email address before signing in.";
+            break;
+          default:
+            errorMessage = "An unexpected error occurred during sign in.";
+        }
+        
+        showError("Login Failed", errorMessage);
+        setLoginState(prev => ({ ...prev, phase: 'login', error: errorMessage }));
+        return;
       }
       
-      showError("Login Failed", errorMessage);
-    }
-  }, [searchParams, showError]);
-
-  // Check if user is already authenticated
-  useEffect(() => {
-    if (status !== "loading" && session) {
-      router.push(callbackUrl);
-    }
-  }, [session, status, router, callbackUrl]);
-  
-  // Countdown effect for redirect
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    
-    if (isRedirecting && redirectCountdown > 0) {
-      interval = setInterval(() => {
-        setRedirectCountdown((prev) => {
-          if (prev <= 1) {
-            router.push(callbackUrl);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    
-    return () => {
-      if (interval) {
-        clearInterval(interval);
+      // Handle session-based navigation
+      if (status === "loading") {
+        // Keep in loading state
+        return;
+      }
+      
+      if (status === "authenticated" && session && loginState.phase !== 'redirecting') {
+        // User is already authenticated, navigate to callback
+        setLoginState(prev => ({ ...prev, phase: 'redirecting' }));
+        navigate(callbackUrl, 0);
+        return;
+      }
+      
+      if (status === "unauthenticated" && loginState.phase === 'loading') {
+        // No session, show login form
+        setLoginState(prev => ({ ...prev, phase: 'login' }));
+        return;
+      }
+      
+      // Handle success redirect countdown
+      if (loginState.phase === 'success' && loginState.redirectCountdown > 0) {
+        countdownInterval = setInterval(() => {
+          setLoginState(prev => {
+            if (prev.redirectCountdown <= 1) {
+              clearInterval(countdownInterval);
+              navigate(callbackUrl);
+              return { ...prev, phase: 'redirecting', redirectCountdown: 0 };
+            }
+            return { ...prev, redirectCountdown: prev.redirectCountdown - 1 };
+          });
+        }, 1000);
       }
     };
-  }, [isRedirecting, redirectCountdown, router, callbackUrl]);
+    
+    // Defer navigation logic to next tick to avoid render conflicts
+    timeoutId = setTimeout(handleNavigation, 0);
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      if (countdownInterval) clearInterval(countdownInterval);
+    };
+  }, [session, status, searchParams, showError, navigate, callbackUrl, loginState.phase, loginState.redirectCountdown]);
 
-  // Email validation
+  // Email validation with state update
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
-      setEmailError("Email is required");
+      setLoginState(prev => ({ ...prev, emailError: "Email is required" }));
       return false;
     }
     if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address");
+      setLoginState(prev => ({ ...prev, emailError: "Please enter a valid email address" }));
       return false;
     }
-    setEmailError("");
+    setLoginState(prev => ({ ...prev, emailError: "" }));
     return true;
   };
 
-  // Password validation
+  // Password validation with state update
   const validatePassword = (password: string): boolean => {
     if (!password) {
-      setPasswordError("Password is required");
+      setLoginState(prev => ({ ...prev, passwordError: "Password is required" }));
       return false;
     }
     if (password.length < 6) {
-      setPasswordError("Password must be at least 6 characters");
+      setLoginState(prev => ({ ...prev, passwordError: "Password must be at least 6 characters" }));
       return false;
     }
-    setPasswordError("");
+    setLoginState(prev => ({ ...prev, passwordError: "" }));
     return true;
   };
 
-  // Handle form submission
+  // Handle form submission with navigation guards
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    
+    // Prevent submission if already navigating
+    if (loginState.isNavigating || loginState.phase === 'redirecting') {
+      return;
+    }
+    
+    setLoginState(prev => ({ ...prev, error: "" }));
     
     // Validate inputs
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
+    const isEmailValid = validateEmail(loginState.email);
+    const isPasswordValid = validatePassword(loginState.password);
     
     if (!isEmailValid || !isPasswordValid) {
       return;
     }
 
-    setIsLoading(true);
+    setLoginState(prev => ({ ...prev, phase: 'authenticating' }));
     
     try {
       const result = await signIn("credentials", {
-        email,
-        password,
+        email: loginState.email,
+        password: loginState.password,
         redirect: false,
         callbackUrl,
       });
 
       if (result?.error) {
-        setError("Invalid email or password. Please try again.");
+        const errorMsg = "Invalid email or password. Please try again.";
+        setLoginState(prev => ({ ...prev, phase: 'login', error: errorMsg }));
         showError("Login Failed", "Please check your credentials and try again.");
       } else if (result?.ok) {
         // Show success message and start countdown
         showSuccess(
           "Login Successful!", 
-          `Welcome back! Redirecting you to your dashboard in ${redirectCountdown} seconds...`,
+          `Welcome back! Redirecting you to your dashboard in ${loginState.redirectCountdown} seconds...`,
           { duration: 3000 }
         );
         
-        setIsRedirecting(true);
-        
-        // Also trigger immediate redirect as backup
-        setTimeout(() => {
-          router.push(callbackUrl);
-        }, 3000);
+        setLoginState(prev => ({ 
+          ...prev, 
+          phase: 'success',
+          redirectCountdown: 3
+        }));
       }
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
+      const errorMsg = "An unexpected error occurred. Please try again.";
+      setLoginState(prev => ({ ...prev, phase: 'login', error: errorMsg }));
       showError("Network Error", "Unable to connect to the server. Please check your internet connection.");
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -174,7 +222,7 @@ export default function LoginPage() {
       <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8">
         <div className="w-full max-w-md">
           {/* Success State - Show redirect countdown */}
-          {isRedirecting ? (
+          {(loginState.phase === 'success' || loginState.phase === 'redirecting') ? (
             <div className="bg-gray-700 rounded-lg shadow-xl p-8 text-center">
               <div className="mb-6">
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -191,16 +239,17 @@ export default function LoginPage() {
                   <div className="flex items-center justify-center space-x-2">
                     <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-500"></div>
                     <span className="text-white">
-                      Redirecting in {redirectCountdown} second{redirectCountdown !== 1 ? 's' : ''}...
+                      Redirecting in {loginState.redirectCountdown} second{loginState.redirectCountdown !== 1 ? 's' : ''}...
                     </span>
                   </div>
                 </div>
                 
                 <button
-                  onClick={() => router.push(callbackUrl)}
+                  onClick={() => !loginState.isNavigating && navigate(callbackUrl)}
+                  disabled={loginState.isNavigating}
                   className="btn btn-primary btn-sm"
                 >
-                  Go Now
+                  {loginState.isNavigating ? 'Redirecting...' : 'Go Now'}
                 </button>
               </div>
             </div>
@@ -210,9 +259,9 @@ export default function LoginPage() {
               <h2 className="text-2xl font-bold text-white mb-8 text-center">Login</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
-              {error && (
+              {loginState.error && (
                 <div className="text-sm text-red-400 text-center bg-red-900/20 border border-red-700 rounded-md p-3">
-                  {error}
+                  {loginState.error}
                 </div>
               )}
 
@@ -227,22 +276,22 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  value={email}
+                  value={loginState.email}
                   onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (emailError) validateEmail(e.target.value);
+                    setLoginState(prev => ({ ...prev, email: e.target.value }));
+                    if (loginState.emailError) validateEmail(e.target.value);
                   }}
-                  onBlur={() => validateEmail(email)}
+                  onBlur={() => validateEmail(loginState.email)}
                   className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    emailError ? 'border-red-500' : 'border-gray-300'
+                    loginState.emailError ? 'border-red-500' : 'border-gray-300'
                   } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
                   placeholder="La tua e-mail"
-                  aria-describedby={emailError ? "email-error" : undefined}
-                  aria-invalid={!!emailError}
+                  aria-describedby={loginState.emailError ? "email-error" : undefined}
+                  aria-invalid={!!loginState.emailError}
                 />
-                {emailError && (
+                {loginState.emailError && (
                   <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
-                    {emailError}
+                    {loginState.emailError}
                   </p>
                 )}
               </div>
@@ -259,18 +308,18 @@ export default function LoginPage() {
                     type="password"
                     autoComplete="current-password"
                     required
-                    value={password}
+                    value={loginState.password}
                     onChange={(e) => {
-                      setPassword(e.target.value);
-                      if (passwordError) validatePassword(e.target.value);
+                      setLoginState(prev => ({ ...prev, password: e.target.value }));
+                      if (loginState.passwordError) validatePassword(e.target.value);
                     }}
-                    onBlur={() => validatePassword(password)}
+                    onBlur={() => validatePassword(loginState.password)}
                     className={`w-full px-4 py-3 bg-white rounded-md border ${
-                      passwordError ? 'border-red-500' : 'border-gray-300'
+                      loginState.passwordError ? 'border-red-500' : 'border-gray-300'
                     } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent pr-12`}
                     placeholder="La tua password"
-                    aria-describedby={passwordError ? "password-error" : undefined}
-                    aria-invalid={!!passwordError}
+                    aria-describedby={loginState.passwordError ? "password-error" : undefined}
+                    aria-invalid={!!loginState.passwordError}
                   />
                   <button
                     type="button"
@@ -290,9 +339,9 @@ export default function LoginPage() {
                     </svg>
                   </button>
                 </div>
-                {passwordError && (
+                {loginState.passwordError && (
                   <p id="password-error" className="mt-1 text-sm text-red-400" role="alert">
-                    {passwordError}
+                    {loginState.passwordError}
                   </p>
                 )}
               </div>
@@ -303,8 +352,8 @@ export default function LoginPage() {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
+                  checked={loginState.rememberMe}
+                  onChange={(e) => setLoginState(prev => ({ ...prev, rememberMe: e.target.checked }))}
                   className="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded bg-white"
                 />
                 <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300">
@@ -315,13 +364,13 @@ export default function LoginPage() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isLoading || isRedirecting}
+                disabled={['authenticating', 'redirecting'].includes(loginState.phase) || loginState.isNavigating}
                 className={`w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 ${
-                  isLoading || isRedirecting ? "cursor-wait opacity-50" : ""
+                  (['authenticating', 'redirecting'].includes(loginState.phase) || loginState.isNavigating) ? "cursor-wait opacity-50" : ""
                 }`}
                 aria-label="Accedi al tuo account"
               >
-                {isLoading ? (
+                {loginState.phase === 'authenticating' ? (
                   <div className="flex items-center justify-center">
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -329,7 +378,7 @@ export default function LoginPage() {
                     </svg>
                     Accesso in corso...
                   </div>
-                ) : isRedirecting ? (
+                ) : (loginState.isNavigating || ['redirecting'].includes(loginState.phase)) ? (
                   <div className="flex items-center justify-center">
                     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
