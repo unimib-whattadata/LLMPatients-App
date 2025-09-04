@@ -9,8 +9,10 @@ export const env = createEnv({
   server: {
     AUTH_SECRET:
       process.env.NODE_ENV === "production"
-        ? z.string()
-        : z.string().optional(),
+        ? z.string().min(32)
+        : z.string().min(32).optional(),
+    NEXTAUTH_SECRET: z.string().min(32).optional(), // Fallback for NextAuth
+    JWT_SECRET: z.string().min(32).optional(), // JWT-specific secret
     AUTH_DISCORD_ID: z.string(),
     AUTH_DISCORD_SECRET: z.string(),
     DATABASE_URL: z.string().url(),
@@ -34,6 +36,8 @@ export const env = createEnv({
    */
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    JWT_SECRET: process.env.JWT_SECRET,
     AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,

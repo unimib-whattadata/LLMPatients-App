@@ -28,24 +28,39 @@ function DashboardLoading() {
 }
 
 /**
- * Dashboard routing logic with enhanced session handling
+ * Dashboard routing logic with enhanced JWT session handling
  */
 async function DashboardRouter() {
   try {
-    // Get current session with enhanced error handling
-    const session = await auth();
-
-    // Comprehensive authentication check
-    if (!session?.user?.id) {
-      console.log("Dashboard access denied: No valid session found");
-      redirect("/login?from=dashboard");
+    // Enhanced session retrieval with retry mechanism for JWT tokens
+    let session = await auth();
+    
+    // Retry mechanism for session retrieval (important for JWT token validation)
+    if (!session && typeof window !== 'undefined') {
+      console.log('Dashboard: Initial session null, retrying...');
+      await new Promise(resolve => setTimeout(resolve, 100));
+      session = await auth();
     }
 
-    // Validate session user data
-    if (!session.user.email) {
-      console.warn("Dashboard access: User session missing email");
-      redirect("/login?error=session-invalid");
+    // Comprehensive authentication check with detailed logging
+    if (!session?.user?.id || !session?.user?.email) {
+      console.log("Dashboard: Invalid session detected", {
+        hasSession: !!session,
+        hasUserId: !!session?.user?.id,
+        hasUserEmail: !!session?.user?.email,
+        sessionUser: session?.user
+      });
+      redirect("/login?error=session-invalid&from=dashboard");
     }
+
+    // Additional JWT token validation logging
+    console.log("Dashboard: Valid session found", {
+      userId: session.user.id,
+      email: session.user.email,
+      role: session.user.role,
+      sessionType: 'JWT',
+      timestamp: new Date().toISOString()
+    });
 
     // Get user role with proper type safety and fallback
     const userRole = session.user.role ?? "user";
@@ -53,32 +68,37 @@ async function DashboardRouter() {
     // Enhanced logging for debugging
     console.log(`Dashboard access: User ${session.user.email} (ID: ${session.user.id}) with role: ${userRole}`);
 
-    // Validate role value
+    // Validate role value with comprehensive checking
     if (!userRole || (userRole !== "admin" && userRole !== "user")) {
       console.warn(`Dashboard access: Invalid user role '${String(userRole)}', defaulting to 'user'`);
-      redirect("/dashboard/user");
+      redirect("/dashboard/user?role=default");
     }
 
-    // Role-based routing with logging
+    // Role-based routing with enhanced logging
     if (userRole === "admin") {
       console.log("Redirecting admin user to admin dashboard");
-      redirect("/dashboard/admin");
+      redirect("/dashboard/admin?auth=jwt");
     } else {
       console.log("Redirecting user to user dashboard");
-      redirect("/dashboard/user");
+      redirect("/dashboard/user?auth=jwt");
     }
   } catch (error) {
-    // Only catch non-redirect errors
+    // Handle redirect errors (normal flow) vs actual errors
     if (error instanceof Error && error.message === "NEXT_REDIRECT") {
       // This is a normal redirect - re-throw it to let Next.js handle it
       throw error;
     }
     
-    // Log actual errors (not redirects)
-    console.error("Actual error in dashboard routing:", error);
+    // Log actual errors (not redirects) with more detail
+    console.error("Dashboard routing error:", {
+      error: error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString()
+    });
     
     // For genuine errors, redirect to login with error parameter
-    redirect("/login?error=dashboard-error");
+    redirect("/login?error=session-error&from=dashboard");
   }
 
   // Fallback return (should never be reached)

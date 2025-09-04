@@ -1,6 +1,6 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
+import { signIn, useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -17,10 +17,11 @@ interface LoginState {
   passwordError: string;
   redirectCountdown: number;
   isNavigating: boolean;
+  sessionRetries: number;
 }
 
 export default function LoginPage() {
-  // Consolidated state management
+  // Consolidated state management with JWT session tracking
   const [loginState, setLoginState] = useState<LoginState>({
     phase: 'loading',
     email: '',
@@ -30,7 +31,8 @@ export default function LoginPage() {
     emailError: '',
     passwordError: '',
     redirectCountdown: 3,
-    isNavigating: false
+    isNavigating: false,
+    sessionRetries: 0
   });
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -152,7 +154,7 @@ export default function LoginPage() {
     return true;
   };
 
-  // Handle form submission with navigation guards
+  // Handle form submission with enhanced JWT session verification
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -161,7 +163,7 @@ export default function LoginPage() {
       return;
     }
     
-    setLoginState(prev => ({ ...prev, error: "" }));
+    setLoginState(prev => ({ ...prev, error: "", sessionRetries: 0 }));
     
     // Validate inputs
     const isEmailValid = validateEmail(loginState.email);
@@ -174,6 +176,8 @@ export default function LoginPage() {
     setLoginState(prev => ({ ...prev, phase: 'authenticating' }));
     
     try {
+      console.log('Login: Attempting authentication with credentials...');
+      
       const result = await signIn("credentials", {
         email: loginState.email,
         password: loginState.password,
@@ -182,24 +186,71 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
+        console.error('Login: Authentication failed:', result.error);
         const errorMsg = "Invalid email or password. Please try again.";
         setLoginState(prev => ({ ...prev, phase: 'login', error: errorMsg }));
         showError("Login Failed", "Please check your credentials and try again.");
       } else if (result?.ok) {
-        // Show success message and start countdown
-        showSuccess(
-          "Login Successful!", 
-          `Welcome back! Redirecting you to your dashboard in ${loginState.redirectCountdown} seconds...`,
-          { duration: 3000 }
-        );
+        console.log('Login: Authentication successful, verifying JWT session...');
         
-        setLoginState(prev => ({ 
-          ...prev, 
-          phase: 'success',
-          redirectCountdown: 3
-        }));
+        // Wait for JWT session to be established
+        let sessionEstablished = false;
+        let retryCount = 0;
+        const maxRetries = 5;
+        
+        while (!sessionEstablished && retryCount < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, 200 * (retryCount + 1))); // Progressive delay
+          
+          try {
+            const freshSession = await getSession();
+            console.log(`Login: Session check attempt ${retryCount + 1}:`, {
+              hasSession: !!freshSession,
+              userId: freshSession?.user?.id,
+              email: freshSession?.user?.email,
+              role: (freshSession?.user as any)?.role
+            });
+            
+            if (freshSession?.user?.id && freshSession?.user?.email) {
+              sessionEstablished = true;
+              console.log('Login: JWT session successfully established');
+              
+              // Show success message and start countdown
+              showSuccess(
+                "Login Successful!", 
+                `Welcome back! Redirecting you to your dashboard in ${loginState.redirectCountdown} seconds...`,
+                { duration: 3000 }
+              );
+              
+              setLoginState(prev => ({ 
+                ...prev, 
+                phase: 'success',
+                redirectCountdown: 3,
+                sessionRetries: retryCount + 1
+              }));
+            } else {
+              retryCount++;
+              console.warn(`Login: Session not yet available (attempt ${retryCount}/${maxRetries})`);
+            }
+          } catch (error) {
+            retryCount++;
+            console.error(`Login: Session verification error (attempt ${retryCount}/${maxRetries}):`, error);
+          }
+        }
+        
+        if (!sessionEstablished) {
+          console.error('Login: Failed to establish JWT session after authentication');
+          const errorMsg = "Authentication succeeded but session creation failed. Please try logging in again.";
+          setLoginState(prev => ({ 
+            ...prev, 
+            phase: 'login', 
+            error: errorMsg,
+            sessionRetries: maxRetries
+          }));
+          showError("Session Error", "Please try logging in again. If the problem persists, contact support.");
+        }
       }
     } catch (error) {
+      console.error('Login: Unexpected error during authentication:', error);
       const errorMsg = "An unexpected error occurred. Please try again.";
       setLoginState(prev => ({ ...prev, phase: 'login', error: errorMsg }));
       showError("Network Error", "Unable to connect to the server. Please check your internet connection.");
