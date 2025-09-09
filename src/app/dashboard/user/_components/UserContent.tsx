@@ -110,7 +110,7 @@ export function UserContent() {
       <div className="dashboard-welcome-section">
         <h1 className="dashboard-welcome-title">Benvenuto nella tua Area Personale</h1>
         <p className="dashboard-welcome-subtitle">
-          Ciao {profile?.name || "Utente"}! Gestisci il tuo profilo e monitora la tua attività
+          Ciao {profile?.name ?? "Utente"}! Gestisci il tuo profilo e monitora la tua attività
         </p>
       </div>
 

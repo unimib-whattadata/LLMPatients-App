@@ -358,7 +358,7 @@ export default function AdminUserManagementPage() {
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
-                    <th>Created</th>
+                    {/* <th>Created</th> */}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -386,7 +386,7 @@ export default function AdminUserManagementPage() {
                           </span>
                         )}
                       </td>
-                      <td>{formatDate(user.createdAt)}</td>
+                      {/* <td>{formatDate(user.createdAt)}</td> */}
                       <td>
                         <div className="flex space-x-2">
                           <button

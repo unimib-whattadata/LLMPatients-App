@@ -144,7 +144,7 @@ export default async function Home() {
               <nav className="hidden md:flex space-x-8">
                 <Link href="#" className="link-secondary hover:text-gray-700">Home</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
+                <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700">Esplora pazienti</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
               </nav>
               <div className="flex items-center space-x-4">

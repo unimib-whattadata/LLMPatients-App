@@ -303,7 +303,7 @@ export function MyProgressContent() {
             <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
               <span className="text-white text-xs">3</span>
             </div>
-            <span className="text-gray-700">Sbloccare achievement "Esperto Clinico"</span>
+            <span className="text-gray-700">Sbloccare achievement Esperto Clinico</span>
           </div>
         </div>
       </div>

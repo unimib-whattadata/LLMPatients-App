@@ -1,5 +1,6 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import { type JWT } from "next-auth/jwt";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -259,8 +260,8 @@ export const authConfig = {
         token.id = validation.user.id;
         token.role = validation.user.role;
         token.email = validation.user.email;
-        token.name = validation.user.name;
-        token.image = validation.user.image;
+        token.name = validation.user.name ?? undefined;
+        token.image = validation.user.image ?? undefined;
         token.lastValidated = Date.now(); // Track when we last validated against DB
         
         console.log('JWT callback - Initial sign in with DB validation successful:', {
@@ -283,8 +284,8 @@ export const authConfig = {
           if (validation.isValid && validation.user) {
             token.role = validation.user.role;
             token.email = validation.user.email;
-            token.name = validation.user.name;
-            token.image = validation.user.image;
+            token.name = validation.user.name ?? undefined;
+            token.image = validation.user.image ?? undefined;
             token.lastValidated = Date.now();
             console.log('JWT callback - User data refreshed after account linking');
           }
@@ -335,8 +336,8 @@ export const authConfig = {
             const wasRoleChanged = validation.roleChanged;
             token.role = validation.user.role;
             token.email = validation.user.email;
-            token.name = validation.user.name;
-            token.image = validation.user.image;
+            token.name = validation.user.name ?? undefined;
+            token.image = validation.user.image ?? undefined;
             token.lastValidated = currentTime;
             
             if (wasRoleChanged) {
@@ -373,8 +374,8 @@ export const authConfig = {
         tokenId: token?.id,
         tokenEmail: token?.email,
         tokenRole: token?.role,
-        isImpersonating: !!token?.impersonation?.isActive,
-        impersonationTarget: token?.impersonation?.targetUserEmail,
+        isImpersonating: !!(token as JWT)?.impersonation?.isActive,
+        impersonationTarget: (token as JWT)?.impersonation?.targetUserEmail,
         lastValidated: token?.lastValidated ? new Date(token.lastValidated as number).toISOString() : 'never'
       });
       
@@ -420,7 +421,7 @@ export const authConfig = {
             session.user.id = validation.user.id;
             session.user.role = (validation.user.role as "admin" | "user") || "user";
             session.user.email = validation.user.email;
-            session.user.name = validation.user.name;
+            session.user.name = validation.user.name ?? undefined;
             session.user.image = validation.user.image;
             
             console.log('Session callback - Session created with fresh DB data:', {
@@ -445,24 +446,25 @@ export const authConfig = {
       }
       
       // Handle impersonation context
-      if (token.impersonation?.isActive) {
+      if ((token as JWT).impersonation?.isActive) {
         console.log('Session callback - Active impersonation detected, setting up impersonated session');
         
         // Override user details with impersonated user
-        session.user.id = token.impersonation.targetUserId;
-        session.user.email = token.impersonation.targetUserEmail;
-        session.user.name = token.impersonation.targetUserName;
+        const impersonation = (token as JWT).impersonation;
+        session.user.id = impersonation!.targetUserId;
+        session.user.email = impersonation!.targetUserEmail;
+        session.user.name = impersonation!.targetUserName;
         session.user.role = "user"; // Impersonated sessions always have user role
         
         // Add impersonation context to session
         session.impersonation = {
           isImpersonating: true,
-          originalAdminId: token.impersonation.originalAdminId,
-          targetUserId: token.impersonation.targetUserId,
-          targetUserEmail: token.impersonation.targetUserEmail,
-          targetUserName: token.impersonation.targetUserName,
-          startedAt: new Date(token.impersonation.startedAt),
-          sessionId: token.impersonation.sessionId,
+          originalAdminId: impersonation!.originalAdminId,
+          targetUserId: impersonation!.targetUserId,
+          targetUserEmail: impersonation!.targetUserEmail,
+          targetUserName: impersonation!.targetUserName,
+          startedAt: new Date(impersonation!.startedAt),
+          sessionId: impersonation!.sessionId,
         };
         
         console.log('Session callback - Impersonated session created:', {

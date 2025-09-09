@@ -12,7 +12,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { api } from "~/trpc/react";
@@ -75,14 +75,19 @@ interface AdminRoleSwitchProps {
 
 function AdminRoleSwitch({ currentMode, onModeChange }: AdminRoleSwitchProps) {
   return (
-    <div className="flex items-center space-x-2">
-      <span className="text-xs text-white/70">Vista:</span>
+    <div className="flex items-center space-x-1 sm:space-x-2">
+      <span className="text-xs text-white/70 hidden sm:inline">Vista:</span>
       <button
         onClick={() => onModeChange(currentMode === "admin" ? "user" : "admin")}
-        className="text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-md transition-colors duration-200 border border-white/20"
+        className="text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-md transition-colors duration-200 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
         title={`Passa alla vista ${currentMode === "admin" ? "utente" : "admin"}`}
       >
-        {currentMode === "admin" ? "👤 Utente" : "🔧 Admin"}
+        <span className="hidden sm:inline">
+          {currentMode === "admin" ? "👤 Utente" : "🔧 Admin"}
+        </span>
+        <span className="sm:hidden">
+          {currentMode === "admin" ? "👤" : "🔧"}
+        </span>
       </button>
     </div>
   );
@@ -114,7 +119,7 @@ function ImpersonationBanner({
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-white">
-              Stai impersonando: <strong>{impersonation.targetUserName || impersonation.targetUserEmail}</strong>
+              Stai impersonando: <strong>{impersonation.targetUserName ?? impersonation.targetUserEmail}</strong>
             </p>
             <p className="text-xs text-orange-100">
               Sessione attiva da {duration} minuti • ID Sessione: {impersonation.sessionId.slice(0, 8)}...
@@ -147,9 +152,30 @@ export function SharedLayout({
   currentPage = "" 
 }: SharedLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [adminViewMode, setAdminViewMode] = useState<AdminViewMode>("admin");
   const router = useRouter();
   const pathname = usePathname();
+
+  // Handle responsive sidebar behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobile = window.innerWidth < 1024;
+      if (isMobile) {
+        setSidebarCollapsed(true);
+        setMobileMenuOpen(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   // Configure layout based on type
   const layoutConfig: LayoutConfig = {
@@ -237,35 +263,69 @@ export function SharedLayout({
     if (layoutConfig.headerStyle === "dashboard") {
       return (
         <header className="dashboard-header">
-          <div className="px-4 sm:px-6 lg:px-8">
+          <div className="layout-container px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
+              {/* Left section: Menu toggle + Logo */}
+              <div className="flex items-center space-x-4">
+                {/* Mobile menu toggle */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 lg:hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20"
+                  aria-label="Toggle mobile menu"
+                >
+                  <span className="sr-only">Open main menu</span>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {mobileMenuOpen ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    )}
+                  </svg>
+                </button>
+                
+                {/* Desktop sidebar toggle */}
                 <button
                   onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                  className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 md:hidden transition-colors duration-200"
+                  className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 hidden lg:block transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20"
+                  aria-label="Toggle sidebar"
                 >
-                  <span className="sr-only">Toggle sidebar</span>
-                  ☰
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8M4 18h16" />
+                  </svg>
                 </button>
-                <Link href="/" className="flex items-center ml-4 md:ml-0">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg backdrop-blur-sm"></div>
-                  <span className="ml-2 text-lg font-bold text-white">ePatient</span>
+                
+                {/* Logo */}
+                <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/20 rounded-md">
+                  <div className="w-8 h-8 bg-white/20 rounded-lg backdrop-blur-sm flex items-center justify-content-center">
+                    <span className="text-white font-bold text-sm">eP</span>
+                  </div>
+                  <span className="ml-2 text-lg font-bold text-white hidden sm:inline">ePatient</span>
                 </Link>
               </div>
               
-              <div className="flex items-center space-x-4">
-                <span className="text-sm text-white/90 font-medium">
-                  {displayUser.name || displayUser.email}
+              {/* Right section: User info + Controls */}
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                {/* User name - hidden on mobile */}
+                <span className="text-sm text-white/90 font-medium hidden md:inline truncate max-w-32">
+                  {displayUser.name ?? displayUser.email}
                 </span>
-                <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                
+                {/* Role badge */}
+                <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full transition-colors duration-200 ${
                   displayUser.role === "admin" 
                     ? "bg-red-500/20 text-red-100 border border-red-400/30" 
                     : "bg-blue-500/20 text-blue-100 border border-blue-400/30"
                 }`}>
-                  {displayUser.role === "admin" ? "Admin" : "Utente"}
-                  {impersonation?.isImpersonating && " (Impersonificato)"}
-                  {user.role === "admin" && !impersonation?.isImpersonating && adminViewMode === "user" && " (Vista Utente)"}
+                  <span className="hidden sm:inline">
+                    {displayUser.role === "admin" ? "Admin" : "Utente"}
+                    {impersonation?.isImpersonating && " (Impersonificato)"}
+                    {user.role === "admin" && !impersonation?.isImpersonating && adminViewMode === "user" && " (Vista Utente)"}
+                  </span>
+                  <span className="sm:hidden">
+                    {displayUser.role === "admin" ? "A" : "U"}
+                  </span>
                 </span>
+                
                 {/* Admin Role Switch Button - only show for admins not being impersonated */}
                 {user.role === "admin" && !impersonation?.isImpersonating && (
                   <AdminRoleSwitch 
@@ -273,68 +333,159 @@ export function SharedLayout({
                     onModeChange={setAdminViewMode} 
                   />
                 )}
+                
+                {/* Logout button */}
                 <button
                   onClick={() => {
-                    // Handle logout with proper callback URL
                     const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
                     window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
                   }}
-                  className="text-sm text-white/80 hover:text-white transition-colors duration-200 px-3 py-1 rounded-md hover:bg-white/10"
+                  className="text-sm text-white/80 hover:text-white transition-colors duration-200 px-2 sm:px-3 py-1 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
+                  title="Logout"
                 >
-                  Esci
+                  <span className="hidden sm:inline">Esci</span>
+                  <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
                 </button>
               </div>
             </div>
           </div>
+          
+          {/* Mobile Menu Overlay */}
+          {mobileMenuOpen && (
+            <div className="lg:hidden" role="dialog" aria-modal="true" aria-label="Mobile navigation menu">
+              <div 
+                className="fixed inset-0 z-50 bg-black/50" 
+                onClick={() => setMobileMenuOpen(false)}
+                aria-hidden="true"
+              />
+              <div className="fixed top-16 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 shadow-lg max-h-96 overflow-y-auto">
+                <nav className="px-4 py-6" role="navigation" aria-label="Mobile navigation">
+                  <div className="space-y-1" role="list">
+                    {navItems.map((item, index) => {
+                      const isActive = currentPage === item.href || pathname === item.href;
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className={`flex items-center px-3 py-3 text-base font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
+                            isActive
+                              ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
+                                ? "bg-red-600 text-white"
+                                : "bg-blue-600 text-white"
+                              : "text-gray-300 hover:bg-gray-700 hover:text-white"
+                          }`}
+                          onClick={() => setMobileMenuOpen(false)}
+                          role="listitem"
+                          aria-current={isActive ? "page" : undefined}
+                        >
+                          <span className="mr-3 text-lg" aria-hidden="true">{item.icon}</span>
+                          {item.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                  
+                  {/* Mobile user info */}
+                  <div className="mt-6 pt-6 border-t border-gray-700" role="contentinfo" aria-label="User information">
+                    <div className="flex items-center px-3">
+                      <div className="flex-shrink-0">
+                        <div 
+                          className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center"
+                          role="img"
+                          aria-label={`${displayUser.name || 'User'} avatar`}
+                        >
+                          <span className="text-white text-sm font-medium" aria-hidden="true">
+                            {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="ml-3">
+                        <div className="text-base font-medium text-white">
+                          {displayUser.name ?? 'User'}
+                        </div>
+                        <div className="text-sm text-gray-400">{displayUser.email}</div>
+                      </div>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          )}
         </header>
       );
     } else {
-      // Home page header
+      // Home page header with improved responsive navigation
       return (
-        <header className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <header className="bg-white shadow-sm border-b border-gray-200">
+          <div className="layout-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
+              {/* Logo */}
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-gray-800 rounded"></div>
-                </div>
-                <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
+                <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md">
+                  <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">eP</span>
+                  </div>
+                  <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
+                </Link>
               </div>
+              
+              {/* Desktop Navigation */}
               <nav className="hidden md:flex space-x-8">
-                <Link href="#" className="link-secondary hover:text-gray-700">Home</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
+                <Link href="/" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Home</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Chi siamo</Link>
+                <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Esplora pazienti</Link>
+                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">News</Link>
               </nav>
-              <div className="flex items-center space-x-4">
+              
+              {/* User controls */}
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 {user && (
                   <>
-                    <span className="text-sm text-gray-700 font-medium">
+                    <span className="text-sm text-gray-700 font-medium hidden sm:inline truncate max-w-32">
                       {displayUser.name || displayUser.email}
                     </span>
-                    <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                    <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${
                       displayUser.role === "admin" 
                         ? "bg-red-100 text-red-800 border border-red-200" 
                         : "bg-blue-100 text-blue-800 border border-blue-200"
                     }`}>
-                      {displayUser.role === "admin" ? "Admin" : "Utente"}
-                      {impersonation?.isImpersonating && " (Impersonificato)"}
+                      <span className="hidden sm:inline">
+                        {displayUser.role === "admin" ? "Admin" : "Utente"}
+                        {impersonation?.isImpersonating && " (Impersonificato)"}
+                      </span>
+                      <span className="sm:hidden">
+                        {displayUser.role === "admin" ? "A" : "U"}
+                      </span>
                     </span>
                     <Link
                       href="/dashboard"
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-primary btn-sm hidden sm:inline-flex"
                     >
                       Area Personale
                     </Link>
+                    <Link
+                      href="/dashboard"
+                      className="btn btn-primary btn-sm sm:hidden p-2"
+                      title="Area Personale"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                      </svg>
+                    </Link>
                     <button
                       onClick={() => {
-                        // Handle logout with proper callback URL
                         const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
                         window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
                       }}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                      title="Logout"
                     >
-                      Esci
+                      <span className="hidden sm:inline">Esci</span>
+                      <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
                     </button>
                   </>
                 )}
@@ -351,43 +502,159 @@ export function SharedLayout({
     if (!layoutConfig.showSidebar) return null;
 
     return (
-      <aside className={`dashboard-sidebar ${sidebarCollapsed ? "collapsed" : ""}`}>
-        <nav className="mt-8">
-          <div className="px-4">
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+      <aside 
+        className={`dashboard-sidebar ${sidebarCollapsed ? "collapsed" : ""} ${mobileMenuOpen ? "mobile-open" : ""}`}
+        role="complementary"
+        aria-label="Dashboard navigation"
+      >
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            {!sidebarCollapsed && (
+              <h2 className="text-lg font-semibold text-gray-800" id="sidebar-heading">
+                {impersonation?.isImpersonating 
+                  ? "Area Personale" 
+                  : user.role === "admin" && adminViewMode === "admin"
+                    ? "Amministrazione" 
+                    : "Area Personale"
+                }
+              </h2>
+            )}
+            <button
+              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+              className="p-1.5 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block"
+              aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              aria-expanded={!sidebarCollapsed}
+              aria-controls="sidebar-navigation"
+            >
+              <svg className={`w-4 h-4 transition-transform duration-200 ${sidebarCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        {/* Navigation */}
+        <nav 
+          className="flex-1 px-4 py-6 space-y-2" 
+          id="sidebar-navigation"
+          aria-labelledby="sidebar-heading"
+          role="navigation"
+        >
+          {/* Navigation Section Label */}
+          {!sidebarCollapsed && (
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4" role="heading" aria-level={3}>
               {impersonation?.isImpersonating 
-                ? "Area Personale (Impersonificata)" 
+                ? "Sessione Impersonificata" 
                 : user.role === "admin" && adminViewMode === "admin"
-                  ? "Amministrazione" 
-                  : "Area Personale"
+                  ? "Funzioni Amministratore" 
+                  : "Le Tue Attività"
               }
             </p>
-            <ul className="space-y-2">
-              {navItems.map((item) => {
-                const isActive = currentPage === item.href || pathname === item.href;
-                return (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
-                        isActive
-                          ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                            ? "admin-nav-item active"
-                            : "user-nav-item active"
-                          : (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                          ? "admin-nav-item"
-                          : "user-nav-item"
-                      }`}
+          )}
+          
+          {/* Navigation Items */}
+          <ul className="space-y-1" role="list">
+            {navItems.map((item, index) => {
+              const isActive = currentPage === item.href || pathname === item.href;
+              return (
+                <li key={item.href} role="listitem">
+                  <Link
+                    href={item.href}
+                    className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
+                      isActive
+                        ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
+                          ? "admin-nav-item active"
+                          : "user-nav-item active"
+                        : (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
+                        ? "admin-nav-item"
+                        : "user-nav-item"
+                    }`}
+                    title={sidebarCollapsed ? item.label : undefined}
+                    aria-current={isActive ? "page" : undefined}
+                    aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}
+                  >
+                    <span className="mr-3 text-lg flex-shrink-0" aria-hidden="true">{item.icon}</span>
+                    {!sidebarCollapsed && (
+                      <span className="truncate">{item.label}</span>
+                    )}
+                    {/* Active indicator */}
+                    {isActive && (
+                      <span 
+                        className="ml-auto w-2 h-2 rounded-full bg-current opacity-75 flex-shrink-0" 
+                        aria-hidden="true"
+                      />
+                    )}
+                  </Link>
+                  
+                  {/* Tooltip for collapsed state */}
+                  {sidebarCollapsed && (
+                    <div 
+                      id={`tooltip-${index}`}
+                      className="absolute left-16 top-0 z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                      role="tooltip"
+                      aria-hidden="true"
                     >
-                      <span className="mr-3">{item.icon}</span>
-                      {!sidebarCollapsed && item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                      {item.label}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+          
+          {/* Quick Actions Section */}
+          {!sidebarCollapsed && (
+            <div className="mt-8 pt-6 border-t border-gray-200">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3" role="heading" aria-level={3}>
+                Azioni Rapide
+              </p>
+              <div className="space-y-2" role="list">
+                <Link
+                  href="/esplora-pazienti"
+                  className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  role="listitem"
+                >
+                  <span className="mr-3" aria-hidden="true">🔍</span>
+                  Esplora Pazienti
+                </Link>
+                <Link
+                  href="/"
+                  className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  role="listitem"
+                >
+                  <span className="mr-3" aria-hidden="true">🏠</span>
+                  Torna alla Home
+                </Link>
+              </div>
+            </div>
+          )}
         </nav>
+        
+        {/* User Info Footer */}
+        {!sidebarCollapsed && (
+          <div className="p-4 border-t border-gray-200 bg-gray-50" role="contentinfo" aria-label="User information">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div 
+                  className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center"
+                  role="img"
+                  aria-label={`${displayUser.name || 'User'} avatar`}
+                >
+                  <span className="text-gray-700 text-sm font-medium" aria-hidden="true">
+                    {(displayUser.name || displayUser.email).charAt(0).toUpperCase()}
+                  </span>
+                </div>
+              </div>
+              <div className="ml-3 flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900 truncate">
+                  {displayUser.name || 'User'}
+                </p>
+                <p className="text-xs text-gray-500 truncate">{displayUser.email}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </aside>
     );
   };
@@ -450,7 +717,7 @@ export function SharedLayout({
                 <ul className="space-y-2 text-body-sm">
                   <li><Link href="#" className="link-secondary hover:text-gray-300">Chi siamo</Link></li>
                   <li><Link href="#" className="link-secondary hover:text-gray-300">News</Link></li>
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">Esplora platform</Link></li>
+                  <li><Link href="/esplora-pazienti" className="link-secondary hover:text-gray-300">Esplora pazienti</Link></li>
                   <li><Link href="#" className="link-secondary hover:text-gray-300">Contatti</Link></li>
                 </ul>
               </div>
@@ -508,31 +775,68 @@ export function SharedLayout({
   };
 
   return (
-    <div className={layoutConfig.containerClass}>
+    <div className={`layout-container ${layoutConfig.containerClass}`}>
+      {/* Skip Navigation Link */}
+      <a 
+        href="#main-content" 
+        className="skip-link"
+        onFocus={(e) => e.currentTarget.style.top = '6px'}
+        onBlur={(e) => e.currentTarget.style.top = '-40px'}
+      >
+        Skip to main content
+      </a>
+      
       {/* Impersonation Banner */}
       {impersonation?.isImpersonating && (
-        <ImpersonationBanner
-          impersonation={impersonation}
-          onExitImpersonation={handleExitImpersonation}
-          isExiting={exitImpersonationMutation.isPending}
-        />
+        <div role="banner" aria-label="Impersonation notification">
+          <ImpersonationBanner
+            impersonation={impersonation}
+            onExitImpersonation={handleExitImpersonation}
+            isExiting={exitImpersonationMutation.isPending}
+          />
+        </div>
       )}
 
       {/* Header */}
-      {renderHeader()}
+      <div className="header-container">
+        <div role="banner">
+          {renderHeader()}
+        </div>
+      </div>
 
-      <div className={layoutConfig.showSidebar ? "flex" : ""}>
+      {/* Main Layout */}
+      <div className={`main-container ${layoutConfig.showSidebar ? "dashboard-layout" : "home-layout"}`}>
         {/* Sidebar */}
-        {renderSidebar()}
+        {layoutConfig.showSidebar && (
+          <div className="sidebar-container">
+            <nav role="navigation" aria-label="Main navigation">
+              {renderSidebar()}
+            </nav>
+          </div>
+        )}
 
         {/* Main Content */}
-        <main className={layoutConfig.showSidebar ? "dashboard-main" : ""}>
-          {children}
+        <main 
+          id="main-content"
+          className={`content-container ${layoutConfig.showSidebar ? "with-sidebar" : "full-width"}`}
+          role="main"
+          aria-label="Main content"
+          tabIndex={-1}
+        >
+          <div className="content-wrapper">
+            {children}
+          </div>
         </main>
       </div>
 
       {/* Footer */}
-      {renderFooter()}
+      {layoutConfig.showFooter && (
+        <div className="footer-container">
+          <footer role="contentinfo" aria-label="Site footer">
+            {renderFooter()}
+          </footer>
+        </div>
+      )}
     </div>
   );
 }
