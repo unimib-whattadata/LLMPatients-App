@@ -161,33 +161,33 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="auth-container">
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gray-800 flex-col justify-center px-12">
-        <div className="max-w-lg">
-          <h1 className="text-4xl font-bold text-white mb-8">Nome Brand</h1>
-          <p className="text-xl text-gray-300 leading-relaxed">
+      <div className="auth-brand-section">
+        <div className="auth-brand-content">
+          <h1 className="auth-brand-title">Nome Brand</h1>
+          <p className="auth-brand-subtitle">
             Unisciti alla nostra piattaforma di allenamento con pazienti virtuali. Inizia la tua esperienza qui.
           </p>
         </div>
       </div>
 
       {/* Right Side - Registration Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8">
-        <div className="w-full max-w-md">
-          <div className="bg-gray-700 rounded-lg shadow-xl p-8">
-            <h2 className="text-2xl font-bold text-white mb-8 text-center">Registrazione</h2>
+      <div className="auth-form-section">
+        <div className="auth-form-container">
+          <div className="auth-form-card">
+            <h2 className="auth-form-title">Registrazione</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
               {error && (
-                <div className="text-sm text-red-400 text-center bg-red-900/20 border border-red-700 rounded-md p-3">
+                <div className="auth-global-error">
                   {error}
                 </div>
               )}
 
               {/* Name Field */}
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="name" className="auth-label">
                   Nome completo
                 </label>
                 <input
@@ -202,23 +202,21 @@ export default function RegisterPage() {
                     if (nameError) validateName(e.target.value);
                   }}
                   onBlur={() => validateName(name)}
-                  className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    nameError ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  className={`auth-input ${nameError ? 'auth-input-error' : ''}`}
                   placeholder="Il tuo nome completo"
                   aria-describedby={nameError ? "name-error" : undefined}
                   aria-invalid={!!nameError}
                 />
                 {nameError && (
-                  <p id="name-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="name-error" className="auth-error-message" role="alert">
                     {nameError}
                   </p>
                 )}
               </div>
 
               {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="email" className="auth-label">
                   E-mail
                 </label>
                 <input
@@ -233,23 +231,21 @@ export default function RegisterPage() {
                     if (emailError) validateEmail(e.target.value);
                   }}
                   onBlur={() => validateEmail(email)}
-                  className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    emailError ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  className={`auth-input ${emailError ? 'auth-input-error' : ''}`}
                   placeholder="La tua e-mail"
                   aria-describedby={emailError ? "email-error" : undefined}
                   aria-invalid={!!emailError}
                 />
                 {emailError && (
-                  <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="email-error" className="auth-error-message" role="alert">
                     {emailError}
                   </p>
                 )}
               </div>
 
               {/* Password Field */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="password" className="auth-label">
                   Password
                 </label>
                 <input
@@ -267,23 +263,21 @@ export default function RegisterPage() {
                     }
                   }}
                   onBlur={() => validatePassword(password)}
-                  className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    passwordError ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  className={`auth-input ${passwordError ? 'auth-input-error' : ''}`}
                   placeholder="La tua password"
                   aria-describedby={passwordError ? "password-error" : undefined}
                   aria-invalid={!!passwordError}
                 />
                 {passwordError && (
-                  <p id="password-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="password-error" className="auth-error-message" role="alert">
                     {passwordError}
                   </p>
                 )}
               </div>
 
               {/* Confirm Password Field */}
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="confirmPassword" className="auth-label">
                   Conferma password
                 </label>
                 <input
@@ -298,22 +292,20 @@ export default function RegisterPage() {
                     if (confirmPasswordError) validateConfirmPassword(e.target.value);
                   }}
                   onBlur={() => validateConfirmPassword(confirmPassword)}
-                  className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    confirmPasswordError ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  className={`auth-input ${confirmPasswordError ? 'auth-input-error' : ''}`}
                   placeholder="Conferma la tua password"
                   aria-describedby={confirmPasswordError ? "confirm-password-error" : undefined}
                   aria-invalid={!!confirmPasswordError}
                 />
                 {confirmPasswordError && (
-                  <p id="confirm-password-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="confirm-password-error" className="auth-error-message" role="alert">
                     {confirmPasswordError}
                   </p>
                 )}
               </div>
 
               {/* Terms and Conditions */}
-              <div>
+              <div className="auth-input-group">
                 <div className="flex items-start">
                   <input
                     id="accept-terms"
@@ -324,21 +316,21 @@ export default function RegisterPage() {
                       setAcceptTerms(e.target.checked);
                       if (termsError) validateTerms(e.target.checked);
                     }}
-                    className="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded bg-white mt-1"
+                    className="auth-checkbox mt-1"
                   />
                   <label htmlFor="accept-terms" className="ml-2 text-sm text-gray-300">
                     Accetto i{" "}
-                    <Link href="/terms" className="text-green-500 hover:text-green-400 transition-colors duration-200">
+                    <Link href="/terms" className="auth-link">
                       termini e condizioni
                     </Link>{" "}
                     e la{" "}
-                    <Link href="/privacy" className="text-green-500 hover:text-green-400 transition-colors duration-200">
+                    <Link href="/privacy" className="auth-link">
                       privacy policy
                     </Link>
                   </label>
                 </div>
                 {termsError && (
-                  <p className="mt-1 text-sm text-red-400" role="alert">
+                  <p className="auth-error-message" role="alert">
                     {termsError}
                   </p>
                 )}
@@ -348,19 +340,14 @@ export default function RegisterPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 ${
-                  isLoading ? "cursor-wait opacity-50" : ""
-                }`}
+                className="auth-submit-btn"
                 aria-label="Registra il tuo account"
               >
                 {isLoading ? (
-                  <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                  <>
+                    <div className="auth-spinner"></div>
                     Registrazione in corso...
-                  </div>
+                  </>
                 ) : (
                   "Registrati"
                 )}
@@ -368,8 +355,8 @@ export default function RegisterPage() {
 
               {/* Login Link */}
               <div className="text-center mt-4">
-                <span className="text-gray-400 text-sm">Hai già un account? </span>
-                <Link href="/login" className="text-green-500 hover:text-green-400 text-sm font-medium transition-colors duration-200">
+                <span className="auth-text-muted text-sm">Hai già un account? </span>
+                <Link href="/login" className="auth-link text-sm">
                   Accedi qui
                 </Link>
               </div>
