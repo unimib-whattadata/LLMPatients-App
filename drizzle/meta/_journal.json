@@ -15,6 +15,13 @@
       "when": 1756996585302,
       "tag": "0001_watery_stingray",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1757412775455,
+      "tag": "0002_fluffy_hannibal_king",
+      "breakpoints": true
     }
   ]
 }

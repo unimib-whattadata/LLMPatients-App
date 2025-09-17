@@ -1,0 +1,141 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { VirtualPatient } from "~/server/api/routers/patients";
+import { PatientAvatar } from "./PatientAvatar";
+import { PatientTags } from "./PatientTags";
+
+interface PatientCardProps {
+  patient: VirtualPatient;
+}
+
+/**
+ * PatientCard Component
+ * Enhanced patient information card with improved styling and accessibility
+ */
+export function PatientCard({ patient }: PatientCardProps) {
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "text-green-400";
+      case "Medio":
+        return "text-yellow-400";
+      case "Difficile":
+        return "text-red-400";
+      default:
+        return "text-gray-400";
+    }
+  };
+
+  const getDifficultyIcon = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "●";
+      case "Medio":
+        return "●●";
+      case "Difficile":
+        return "●●●";
+      default:
+        return "●";
+    }
+  };
+
+  const getDifficultyAccessibleText = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "Livello facile";
+      case "Medio":
+        return "Livello medio";
+      case "Difficile":
+        return "Livello difficile";
+      default:
+        return "Livello non specificato";
+    }
+  };
+
+  return (
+    <article className="patient-card" aria-labelledby={`patient-${patient.id}-title`}>
+      {/* Patient Avatar */}
+      <PatientAvatar
+        name={patient.name}
+        avatarUrl={patient.avatarUrl}
+        avatarType={patient.avatarType}
+      />
+
+      {/* Card Content */}
+      <div className="patient-card-content">
+        {/* Patient Info */}
+        <div className="mb-4">
+          {/* Name and Age */}
+          <header className="patient-card-header">
+            <h3 id={`patient-${patient.id}-title`} className="patient-card-title">
+              {patient.name}
+            </h3>
+            <span className="patient-card-age" aria-label={`${patient.age} anni di età`}>
+              {patient.age} anni
+            </span>
+          </header>
+
+          {/* Condition */}
+          <p className="patient-card-condition">
+            {patient.condition}
+          </p>
+
+          {/* Background Description */}
+          <p className="patient-card-description">
+            {patient.background}
+          </p>
+
+          {/* Objectives */}
+          <div className="patient-card-objectives">
+            <p className="patient-card-objectives-title">
+              Obiettivi:
+            </p>
+            <ul className="patient-card-objective-list" role="list">
+              {patient.objectives.slice(0, 2).map((objective, index) => (
+                <li key={index} className="patient-card-objective-item" role="listitem">
+                  <span className="patient-card-objective-bullet" aria-hidden="true">•</span>
+                  <span className="patient-card-objective-text">{objective}</span>
+                </li>
+              ))}
+              {patient.objectives.length > 2 && (
+                <li className="text-gray-400 text-xs mt-1" role="listitem">
+                  +{patient.objectives.length - 2} altri obiettivi
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Metadata */}
+          <div className="patient-card-metadata">
+            <div className="patient-card-difficulty">
+              <span 
+                className={`patient-card-difficulty-icon ${getDifficultyColor(patient.difficulty)}`}
+                aria-label={getDifficultyAccessibleText(patient.difficulty)}
+                role="img"
+              >
+                {getDifficultyIcon(patient.difficulty)}
+              </span>
+              <span>{patient.difficulty}</span>
+            </div>
+            <div className="patient-card-duration">
+              <span className="patient-card-duration-icon" aria-hidden="true">⏱️</span>
+              <span>{patient.estimatedDuration} min</span>
+            </div>
+          </div>
+
+          {/* Tags */}
+          <PatientTags tags={patient.tags} />
+        </div>
+
+        {/* Action Button */}
+        <Link
+          href={`/esplora-pazienti/${patient.id}`}
+          className="patient-card-button"
+          aria-label={`Inizia simulazione con ${patient.name}`}
+        >
+          Continua con {patient.name}
+        </Link>
+      </div>
+    </article>
+  );
+}

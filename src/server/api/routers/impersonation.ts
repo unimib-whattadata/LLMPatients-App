@@ -107,7 +107,7 @@ export const impersonationRouter = createTRPCRouter({
           id: sessionId,
           adminUserId,
           targetUserId,
-          startedAt: Math.floor(startedAt.getTime() / 1000),
+          startedAt: startedAt,
           isActive: true,
           sessionToken,
           ipAddress,
@@ -127,7 +127,7 @@ export const impersonationRouter = createTRPCRouter({
             targetUserName: target.name,
             reason,
           }),
-          performedAt: Math.floor(Date.now() / 1000),
+          performedAt: startedAt,
           ipAddress,
           userAgent,
         });
@@ -232,7 +232,7 @@ export const impersonationRouter = createTRPCRouter({
         const session = activeSession[0]!;
 
         // End the impersonation session
-        const endedAt = Math.floor(Date.now() / 1000);
+        const endedAt = new Date();
         
         await db
           .update(impersonationSessions)
@@ -250,7 +250,7 @@ export const impersonationRouter = createTRPCRouter({
           actionDetails: JSON.stringify({
             adminUserId: session.adminUserId,
             targetUserId: session.targetUserId,
-            duration: endedAt - session.startedAt,
+            duration: Math.floor((endedAt.getTime() - session.startedAt.getTime()) / 1000),
             endedBy: isImpersonated ? "impersonated_user" : "original_admin",
           }),
           performedAt: endedAt,
@@ -262,13 +262,13 @@ export const impersonationRouter = createTRPCRouter({
           sessionId: session.id,
           adminUserId: session.adminUserId,
           targetUserId: session.targetUserId,
-          duration: endedAt - session.startedAt
+          duration: Math.floor((endedAt.getTime() - session.startedAt.getTime()) / 1000)
         });
 
         return {
           success: true,
           sessionId: session.id,
-          duration: endedAt - session.startedAt,
+          duration: Math.floor((endedAt.getTime() - session.startedAt.getTime()) / 1000),
         };
       } catch (error) {
         console.error('Error ending impersonation:', error);
@@ -400,9 +400,9 @@ export const impersonationRouter = createTRPCRouter({
             return {
               ...item.session,
               adminUser: item.adminUser,
-              targetUser: targetUser[0] || null,
-              duration: item.session.endedAt 
-                ? item.session.endedAt - item.session.startedAt
+              targetUser: targetUser[0] ?? null,
+              duration: item.session.endedAt && item.session.startedAt
+                ? Math.floor((item.session.endedAt.getTime() - item.session.startedAt.getTime()) / 1000)
                 : null,
             };
           })

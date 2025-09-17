@@ -258,23 +258,23 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex">
+    <div className="auth-container">
       {/* Left Side - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gray-800 flex-col justify-center px-12">
-        <div className="max-w-lg">
-          <h1 className="text-4xl font-bold text-white mb-8">Nome Brand</h1>
-          <p className="text-xl text-gray-300 leading-relaxed">
+      <div className="auth-brand-section">
+        <div className="auth-brand-content">
+          <h1 className="auth-brand-title">Nome Brand</h1>
+          <p className="auth-brand-subtitle">
             Un ambiente sicuro per allenarti con pazienti virtuali. Inizia da qui.
           </p>
         </div>
       </div>
 
       {/* Right Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 lg:px-8">
-        <div className="w-full max-w-md">
+      <div className="auth-form-section">
+        <div className="auth-form-container">
           {/* Success State - Show redirect countdown */}
           {(loginState.phase === 'success' || loginState.phase === 'redirecting') ? (
-            <div className="bg-gray-700 rounded-lg shadow-xl p-8 text-center">
+            <div className="auth-form-card text-center">
               <div className="mb-6">
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
                   <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,19 +306,19 @@ export default function LoginPage() {
             </div>
           ) : (
             /* Normal Login Form */
-            <div className="bg-gray-700 rounded-lg shadow-xl p-8">
-              <h2 className="text-2xl font-bold text-white mb-8 text-center">Login</h2>
+            <div className="auth-form-card">
+              <h2 className="auth-form-title">Login</h2>
               <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
               {loginState.error && (
-                <div className="text-sm text-red-400 text-center bg-red-900/20 border border-red-700 rounded-md p-3">
+                <div className="auth-global-error">
                   {loginState.error}
                 </div>
               )}
 
               {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="email" className="auth-label">
                   E-mail
                 </label>
                 <input
@@ -333,23 +333,23 @@ export default function LoginPage() {
                     if (loginState.emailError) validateEmail(e.target.value);
                   }}
                   onBlur={() => validateEmail(loginState.email)}
-                  className={`w-full px-4 py-3 bg-white rounded-md border ${
-                    loginState.emailError ? 'border-red-500' : 'border-gray-300'
-                  } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent`}
+                  className={`auth-input ${
+                    loginState.emailError ? 'auth-input-error' : ''
+                  }`}
                   placeholder="La tua e-mail"
                   aria-describedby={loginState.emailError ? "email-error" : undefined}
                   aria-invalid={!!loginState.emailError}
                 />
                 {loginState.emailError && (
-                  <p id="email-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="email-error" className="auth-error-message" role="alert">
                     {loginState.emailError}
                   </p>
                 )}
               </div>
 
               {/* Password Field */}
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <div className="auth-input-group">
+                <label htmlFor="password" className="auth-label">
                   Password
                 </label>
                 <div className="relative">
@@ -365,9 +365,9 @@ export default function LoginPage() {
                       if (loginState.passwordError) validatePassword(e.target.value);
                     }}
                     onBlur={() => validatePassword(loginState.password)}
-                    className={`w-full px-4 py-3 bg-white rounded-md border ${
-                      loginState.passwordError ? 'border-red-500' : 'border-gray-300'
-                    } text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-700 focus:border-transparent pr-12`}
+                    className={`auth-input ${
+                      loginState.passwordError ? 'auth-input-error' : ''
+                    } pr-12`}
                     placeholder="La tua password"
                     aria-describedby={loginState.passwordError ? "password-error" : undefined}
                     aria-invalid={!!loginState.passwordError}
@@ -391,7 +391,7 @@ export default function LoginPage() {
                   </button>
                 </div>
                 {loginState.passwordError && (
-                  <p id="password-error" className="mt-1 text-sm text-red-400" role="alert">
+                  <p id="password-error" className="auth-error-message" role="alert">
                     {loginState.passwordError}
                   </p>
                 )}
@@ -405,7 +405,7 @@ export default function LoginPage() {
                   type="checkbox"
                   checked={loginState.rememberMe}
                   onChange={(e) => setLoginState(prev => ({ ...prev, rememberMe: e.target.checked }))}
-                  className="h-4 w-4 text-green-700 focus:ring-green-700 border-gray-300 rounded bg-white"
+                  className="auth-checkbox"
                 />
                 <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300">
                   Ricordami al prossimo accesso
@@ -416,27 +416,19 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={['authenticating', 'redirecting'].includes(loginState.phase) || loginState.isNavigating}
-                className={`w-full bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 ${
-                  (['authenticating', 'redirecting'].includes(loginState.phase) || loginState.isNavigating) ? "cursor-wait opacity-50" : ""
-                }`}
+                className="auth-submit-btn"
                 aria-label="Accedi al tuo account"
               >
                 {loginState.phase === 'authenticating' ? (
-                  <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                  <>
+                    <div className="auth-spinner"></div>
                     Accesso in corso...
-                  </div>
+                  </>
                 ) : (loginState.isNavigating || ['redirecting'].includes(loginState.phase)) ? (
-                  <div className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
+                  <>
+                    <div className="auth-spinner"></div>
                     Reindirizzamento...
-                  </div>
+                  </>
                 ) : (
                   "Accedi"
                 )}
@@ -444,18 +436,18 @@ export default function LoginPage() {
 
               {/* Register Link */}
               <div className="text-center mt-4">
-                <span className="text-gray-400 text-sm">o </span>
-                <Link href="/register" className="text-green-500 hover:text-green-400 text-sm font-medium transition-colors duration-200">
+                <span className="auth-text-muted text-sm">o </span>
+                <Link href="/register" className="auth-link text-sm">
                   registrati
                 </Link>
-                <span className="text-gray-400 text-sm"> subito</span>
+                <span className="auth-text-muted text-sm"> subito</span>
               </div>
 
-              <div className="border-t border-gray-600 my-6"></div>
+              <div className="auth-divider"></div>
 
               {/* Forgot Password */}
               <div className="text-center">
-                <Link href="/forgot-password" className="text-gray-400 hover:text-gray-300 text-sm transition-colors duration-200">
+                <Link href="/forgot-password" className="auth-text-muted hover:text-gray-300 text-sm">
                   Hai dimenticato la password?
                 </Link>
               </div>

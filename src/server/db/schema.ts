@@ -252,3 +252,99 @@ export const extendedUsersRelations = relations(users, ({ many }) => ({
     relationName: "targetImpersonationSessions",
   }),
 }));
+
+// Virtual Patients table for patient exploration page
+export const virtualPatients = createTable(
+  "virtual_patient",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    name: d.text({ length: 255 }).notNull(),
+    age: d.integer({ mode: "number" }).notNull(),
+    gender: d.text({ length: 20 }).notNull(), // 'male', 'female', 'other'
+    condition: d.text({ length: 500 }).notNull(),
+    background: d.text({ length: 2000 }).notNull(),
+    objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
+    avatarUrl: d.text({ length: 500 }),
+    avatarType: d.text({ length: 20 }).default('illustration').notNull(), // 'photo', 'illustration', 'avatar'
+    difficulty: d.text({ length: 20 }).notNull(), // 'Facile', 'Medio', 'Difficile'
+    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
+    isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("virtual_patient_difficulty_idx").on(t.difficulty),
+    index("virtual_patient_active_idx").on(t.isActive),
+    index("virtual_patient_created_at_idx").on(t.createdAt),
+  ],
+);
+
+// Patient Tags table
+export const patientTags = createTable(
+  "patient_tag",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    label: d.text({ length: 100 }).notNull(),
+    category: d.text({ length: 50 }).notNull(), // 'psychological', 'physical', 'behavioral'
+    color: d.text({ length: 20 }).default('#gray').notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+  }),
+  (t) => [
+    index("patient_tag_category_idx").on(t.category),
+    index("patient_tag_label_idx").on(t.label),
+  ],
+);
+
+// Patient-Tag Relations (many-to-many)
+export const patientTagRelations = createTable(
+  "patient_tag_relation",
+  (d) => ({
+    patientId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => virtualPatients.id, { onDelete: "cascade" }),
+    tagId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => patientTags.id, { onDelete: "cascade" }),
+  }),
+  (t) => [
+    primaryKey({ columns: [t.patientId, t.tagId] }),
+    index("patient_tag_patient_idx").on(t.patientId),
+    index("patient_tag_tag_idx").on(t.tagId),
+  ],
+);
+
+// Relations for virtual patients
+export const virtualPatientsRelations = relations(virtualPatients, ({ many }) => ({
+  tagRelations: many(patientTagRelations),
+}));
+
+export const patientTagsRelations = relations(patientTags, ({ many }) => ({
+  patientRelations: many(patientTagRelations),
+}));
+
+export const patientTagRelationsRelations = relations(patientTagRelations, ({ one }) => ({
+  patient: one(virtualPatients, {
+    fields: [patientTagRelations.patientId],
+    references: [virtualPatients.id],
+  }),
+  tag: one(patientTags, {
+    fields: [patientTagRelations.tagId],
+    references: [patientTags.id],
+  }),
+}));

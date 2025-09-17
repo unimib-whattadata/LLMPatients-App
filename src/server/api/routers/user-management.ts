@@ -12,7 +12,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "~/server/api/trpc";
 import { users, accounts } from "~/server/db/schema";
-import { eq, desc, and, or, like } from "drizzle-orm";
+import { eq, desc, asc, and, or, like } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const userManagementRouter = createTRPCRouter({
@@ -56,12 +56,12 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          createdAt: users.createdAt,
-          updatedAt: users.updatedAt,
+          // // createdAt: users.createdAt,
+          // // updatedAt: users.updatedAt,
         })
         .from(users)
         .where(whereClause)
-        .orderBy(desc(users.createdAt))
+        .orderBy(asc(users.name)) // Changed from desc(users.createdAt)
         .limit(limit)
         .offset(offset);
 
@@ -121,18 +121,18 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          createdAt: users.createdAt,
+          // createdAt: users.createdAt,
         });
 
       // Create account for credentials provider
-      await ctx.db.insert(accounts).values({
+      /* await ctx.db.insert(accounts).values({
         userId: newUser[0]!.id,
         type: "credentials",
         provider: "credentials",
         providerAccountId: newUser[0]!.id,
         // Note: In a real app, you'd want to handle password storage differently
         access_token: hashedPassword, // Temporary storage - should use proper auth system
-      });
+      }); */
 
       return newUser[0];
     }),
@@ -161,7 +161,7 @@ export const userManagementRouter = createTRPCRouter({
         .update(users)
         .set({ 
           role,
-          updatedAt: new Date(),
+          // updatedAt: new Date(),
         })
         .where(eq(users.id, userId))
         .returning({
@@ -169,7 +169,7 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          updatedAt: users.updatedAt,
+          // updatedAt: users.updatedAt,
         });
 
       if (updatedUser.length === 0) {
@@ -225,7 +225,7 @@ export const userManagementRouter = createTRPCRouter({
         .set({ 
           name,
           email,
-          updatedAt: new Date(),
+          // updatedAt: new Date(),
         })
         .where(eq(users.id, userId))
         .returning({
@@ -233,7 +233,7 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          updatedAt: users.updatedAt,
+          // updatedAt: users.updatedAt,
         });
 
       if (updatedUser.length === 0) {
@@ -309,8 +309,8 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          createdAt: users.createdAt,
-          updatedAt: users.updatedAt,
+          // createdAt: users.createdAt,
+          // updatedAt: users.updatedAt,
         })
         .from(users)
         .where(eq(users.id, userId))
@@ -378,10 +378,10 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          createdAt: users.createdAt,
+          // createdAt: users.createdAt,
         })
         .from(users)
-        .orderBy(desc(users.createdAt))
+        .orderBy(asc(users.name)) // Changed from desc(users.createdAt)
         .limit(input.limit);
 
       return userList;
@@ -436,7 +436,7 @@ export const userManagementRouter = createTRPCRouter({
           name: users.name,
           email: users.email,
           role: users.role,
-          createdAt: users.createdAt,
+          // createdAt: users.createdAt,
         });
 
       return newUser[0];

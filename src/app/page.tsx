@@ -8,102 +8,222 @@ export default async function Home() {
   
   // Main home page content
   const homeContent = (
-    <>
+    <div className="home-page">
       {/* Hero Section */}
-      <section className="relative h-96 bg-cover bg-center" style={{
-        backgroundImage: "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgaGVpZ2h0PSI0MDAiIHZpZXdCb3g9IjAgMCAxMjAwIDQwMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjEyMDAiIGhlaWdodD0iNDAwIiBmaWxsPSIjNEE1NTY4Ii8+Cjx0ZXh0IHg9IjYwMCIgeT0iMjAwIiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIyNCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+SGVhbHRoY2FyZSBJbWFnZTwvdGV4dD4KPC9zdmc+')"
-      }}>
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center">
-          <div className="text-white">
-            <h1 className="text-heading-1 mb-4 text-white">Simula. Valuta. Impara.</h1>
-            <p className="text-body-lg mb-6 max-w-2xl text-white">
-              Esplora scenari medici realistici dove puoi praticare diagnosi e sviluppare
-              competenze cliniche in un ambiente sicuro e controllato.
-            </p>
-            <Link
-              href="#"
-              className="btn btn-primary btn-lg inline-flex items-center"
-            >
-              <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-              </svg>
-              Scopri il progetto
+      <section className="home-hero">
+        <div className="home-hero-content">
+          <h1 className="text-heading-1 text-white">Simula. Valuta. Impara.</h1>
+          <p className="text-body-lg text-gray-300 max-w-2xl mx-auto">
+            Esplora scenari medici realistici dove puoi praticare diagnosi e sviluppare
+            competenze cliniche in un ambiente sicuro e controllato.
+          </p>
+          <Link href="#" className="btn btn-primary btn-lg mt-8">
+            Scopri il percorso
+          </Link>
+        </div>
+      </section>
+
+      {/* The Process Section */}
+      <section className="home-process">
+        <div className="home-process-content">
+          <h2 className="text-heading-2 text-center mb-16">Il tuo percorso formativo, passo dopo passo</h2>
+          <div className="home-process-timeline">
+            {/* Step 1 */}
+            <div className="home-process-step">
+              <div className="home-process-step-indicator left">
+                <div className="home-process-step-circle bg-green-500">1</div>
+              </div>
+              <div className="home-process-step-content right">
+                <h3 className="text-heading-3 mb-4">Innovazione didattica</h3>
+                <p className="text-body text-gray-400">
+                  Entra in un ambiente virtuale dove puoi interagire con pazienti e situazioni cliniche realistiche.
+                </p>
+              </div>
+            </div>
+            {/* Step 2 */}
+            <div className="home-process-step">
+              <div className="home-process-step-content left">
+                <h3 className="text-heading-3 mb-4">Valutazione automatica</h3>
+                <p className="text-body text-gray-400">
+                  Il sistema di valutazione registra ogni azione e decisione, fornendo un feedback immediato e dettagliato.
+                </p>
+              </div>
+              <div className="home-process-step-indicator right">
+                <div className="home-process-step-circle bg-yellow-500">2</div>
+              </div>
+            </div>
+            {/* Step 3 */}
+            <div className="home-process-step">
+              <div className="home-process-step-indicator left">
+                <div className="home-process-step-circle bg-purple-500">3</div>
+              </div>
+              <div className="home-process-step-content right">
+                <h3 className="text-heading-3 mb-4">Report e riflessione</h3>
+                <p className="text-body text-gray-400">
+                  Trova le attuali metriche originali e approfondisci i tuoi raggiungimenti.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="text-center mt-16">
+            <Link href="#" className="btn btn-primary btn-lg">
+              Scopri di più
             </Link>
           </div>
         </div>
       </section>
 
-        {/* Features Section */}
-        <section className="py-16 bg-gray-800 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-heading-2 text-center mb-12 text-white">Il tuo percorso formativo, passo dopo passo</h2>
-            
-            <div className="space-y-16">
-              {/* Feature 1 */}
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-heading-3 mb-4 text-white">Simulazione realistica</h3>
-                  <p className="text-body text-gray-300">
-                    Entra in un ambiente virtuale dove puoi interagire
-                    con pazienti e situazioni cliniche realistiche.
-                    Sviluppa le tue competenze diagnostiche e
-                    terapeutiche attraverso simulazioni avanzate che
-                    rispecchiano fedelmente la realtà medica.
-                  </p>
-                </div>
-                <div className="md:w-1/2 flex justify-center">
-                  <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-2xl font-bold">
-                    1
-                  </div>
-                </div>
+      {/* Courses Section */}
+      <section className="home-courses">
+        <div className="home-courses-content">
+          <h2 className="text-heading-2 text-center mb-12">Corsi</h2>
+          <div className="home-courses-grid">
+            {/* Course Card 1 */}
+            <div className="course-card">
+              <div className="course-card-image">
+                <img src="/placeholder.jpg" alt="Corso di Prova" />
               </div>
-
-              {/* Feature 2 */}
-              <div className="flex flex-col md:flex-row-reverse items-center">
-                <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-heading-3 mb-4 text-white">Valutazione automatica e strutturata</h3>
-                  <p className="text-body text-gray-300">
-                    Il sistema di valutazione registra ogni
-                    azione e decisione, fornendo un feedback
-                    immediato e dettagliato.
-                  </p>
+              <div className="course-card-content">
+                <h3 className="text-heading-4 mb-2">Corso di Prova</h3>
+                <div className="course-card-meta">
+                  <span>10 Moduli</span>
+                  <span>5 Ore</span>
                 </div>
-                <div className="md:w-1/2 flex justify-center">
-                  <div className="w-16 h-16 bg-yellow-600 rounded-full flex items-center justify-center text-2xl font-bold">
-                    2
-                  </div>
-                </div>
-              </div>
-
-              {/* Feature 3 */}
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/2 mb-8 md:mb-0">
-                  <h3 className="text-heading-3 mb-4 text-white">Report e riflessione guidata</h3>
-                  <p className="text-body text-gray-300">
-                    Trova le attuali metriche originali e
-                    approfondisci i tuoi raggiungimenti.
-                  </p>
-                </div>
-                <div className="md:w-1/2 flex justify-center">
-                  <div className="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-2xl font-bold">
-                    3
-                  </div>
-                </div>
+                <p className="text-body-sm text-gray-400 my-4">
+                  Una breve descrizione del corso.
+                </p>
+                <Link href="#" className="btn btn-outline btn-sm">
+                  Scopri il corso
+                </Link>
               </div>
             </div>
-
-            <div className="text-center mt-12">
-              <Link
-                href="#"
-                className="btn btn-primary btn-lg"
-              >
-                Inizia subito
-              </Link>
+            {/* Course Card 2 */}
+            <div className="course-card">
+              <div className="course-card-image">
+                <img src="/placeholder.jpg" alt="Corso di Prova" />
+              </div>
+              <div className="course-card-content">
+                <h3 className="text-heading-4 mb-2">Corso di Prova</h3>
+                <div className="course-card-meta">
+                  <span>10 Moduli</span>
+                  <span>5 Ore</span>
+                </div>
+                <p className="text-body-sm text-gray-400 my-4">
+                  Una breve descrizione del corso.
+                </p>
+                <Link href="#" className="btn btn-outline btn-sm">
+                  Scopri il corso
+                </Link>
+              </div>
             </div>
           </div>
-        </section>
-    </>
+          <div className="text-center mt-12">
+            <Link href="#" className="btn btn-primary btn-lg">
+              Vedi tutti i corsi
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="home-testimonials">
+        <div className="home-testimonials-content">
+          <h2 className="text-heading-2 text-center mb-12">Dicono di noi</h2>
+          <div className="home-testimonials-grid">
+            {/* Testimonial 1 */}
+            <div className="testimonial-card">
+              <div className="testimonial-card-author">
+                <img src="/placeholder.jpg" alt="Author" className="testimonial-card-avatar" />
+                <div>
+                  <p className="font-bold">Nome Cognome</p>
+                  <p className="text-sm text-gray-400">Azienda</p>
+                </div>
+              </div>
+              <p className="text-body mt-4">"Una testimonianza sul corso."</p>
+            </div>
+            {/* Testimonial 2 */}
+            <div className="testimonial-card">
+              <div className="testimonial-card-author">
+                <img src="/placeholder.jpg" alt="Author" className="testimonial-card-avatar" />
+                <div>
+                  <p className="font-bold">Nome Cognome</p>
+                  <p className="text-sm text-gray-400">Azienda</p>
+                </div>
+              </div>
+              <p className="text-body mt-4">"Una testimonianza sul corso."</p>
+            </div>
+          </div>
+          <div className="text-center mt-12">
+            <Link href="#" className="btn btn-primary btn-lg">
+              Vedi tutti
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* QR Code Section */}
+      <section className="home-qr">
+        <div className="home-qr-content">
+          <div className="home-qr-code">
+            <img src="/placeholder.jpg" alt="QR Code" />
+            <p className="mt-4 text-center">Scarica l'app</p>
+          </div>
+          <div className="home-qr-text">
+            <h2 className="text-heading-2 mb-4">Inizia una simulazione</h2>
+            <p className="text-body text-gray-400">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <footer className="home-footer">
+        <div className="home-footer-content">
+          <div className="home-footer-column">
+            <h3 className="text-lg font-semibold mb-4">Rimani aggiornato</h3>
+            <p className="text-sm text-gray-400 mb-4">
+              Iscriviti alla nostra newsletter.
+            </p>
+            <div className="flex">
+              <input type="email" placeholder="La tua email" className="input-field rounded-r-none bg-gray-800 border-gray-700" />
+              <button className="btn btn-primary rounded-l-none">Iscriviti</button>
+            </div>
+          </div>
+          <div className="home-footer-column">
+            <h3 className="text-lg font-semibold mb-4">Azienda</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#" className="link-secondary">Chi siamo</Link></li>
+              <li><Link href="#" className="link-secondary">News</Link></li>
+              <li><Link href="#" className="link-secondary">Contatti</Link></li>
+            </ul>
+          </div>
+          <div className="home-footer-column">
+            <h3 className="text-lg font-semibold mb-4">Risorse</h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="#" className="link-secondary">FAQ</Link></li>
+              <li><Link href="#" className="link-secondary">Privacy Policy</Link></li>
+              <li><Link href="#" className="link-secondary">Termini e condizioni</Link></li>
+            </ul>
+          </div>
+          <div className="home-footer-column">
+            <h3 className="text-lg font-semibold mb-4">Contatti</h3>
+            <div className="text-sm text-gray-400 space-y-2">
+              <p>ePatient</p>
+              <p>epatient@email.com</p>
+            </div>
+            <div className="flex space-x-4 mt-4">
+              <Link href="#" className="link-secondary"><span className="sr-only">Facebook</span></Link>
+              <Link href="#" className="link-secondary"><span className="sr-only">Instagram</span></Link>
+              <Link href="#" className="link-secondary"><span className="sr-only">LinkedIn</span></Link>
+            </div>
+          </div>
+        </div>
+        <div className="home-sub-footer">
+          <p className="text-sm text-gray-500">&copy; 2024 ePatient. Tutti i diritti riservati.</p>
+        </div>
+      </footer>
+    </div>
   );
 
   // If user is authenticated, use SharedLayout
@@ -144,7 +264,7 @@ export default async function Home() {
               <nav className="hidden md:flex space-x-8">
                 <Link href="#" className="link-secondary hover:text-gray-700">Home</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">Chi siamo</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700">Esplora platform</Link>
+                <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700">Esplora pazienti</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700">News</Link>
               </nav>
               <div className="flex items-center space-x-4">
