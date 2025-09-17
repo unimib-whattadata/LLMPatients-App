@@ -8,13 +8,13 @@ export default async function Home() {
   
   // Main home page content
   const homeContent = (
-    <>
+    <div className="bg-gray-900 text-white">
       {/* Hero Section */}
       <section className="home-hero">
         <div className="home-hero-content">
           <h1 className="text-heading-1 text-white">Simula. Valuta. Impara.</h1>
-          <p className="text-body-lg text-white max-w-2xl mx-auto">
-            Esplora scenari medici realistici dove puoi praticare diagnosi e sviluppare
+          <p className="text-body-lg text-gray-300 max-w-2xl mx-auto">
+            Esplora scenari medici realistici where puoi praticare diagnosi e sviluppare
             competenze cliniche in un ambiente sicuro e controllato.
           </p>
           <Link href="#" className="btn btn-primary btn-lg mt-8">
@@ -35,7 +35,7 @@ export default async function Home() {
               </div>
               <div className="home-process-step-content right">
                 <h3 className="text-heading-3 mb-4">Innovazione didattica</h3>
-                <p className="text-body">
+                <p className="text-body text-gray-400">
                   Entra in un ambiente virtuale dove puoi interagire con pazienti e situazioni cliniche realistiche.
                 </p>
               </div>
@@ -44,7 +44,7 @@ export default async function Home() {
             <div className="home-process-step">
               <div className="home-process-step-content left">
                 <h3 className="text-heading-3 mb-4">Valutazione automatica</h3>
-                <p className="text-body">
+                <p className="text-body text-gray-400">
                   Il sistema di valutazione registra ogni azione e decisione, fornendo un feedback immediato e dettagliato.
                 </p>
               </div>
@@ -59,7 +59,7 @@ export default async function Home() {
               </div>
               <div className="home-process-step-content right">
                 <h3 className="text-heading-3 mb-4">Report e riflessione</h3>
-                <p className="text-body">
+                <p className="text-body text-gray-400">
                   Trova le attuali metriche originali e approfondisci i tuoi raggiungimenti.
                 </p>
               </div>
@@ -89,7 +89,7 @@ export default async function Home() {
                   <span>10 Moduli</span>
                   <span>5 Ore</span>
                 </div>
-                <p className="text-body-sm text-gray-600 my-4">
+                <p className="text-body-sm text-gray-400 my-4">
                   Una breve descrizione del corso.
                 </p>
                 <Link href="#" className="btn btn-outline btn-sm">
@@ -108,7 +108,7 @@ export default async function Home() {
                   <span>10 Moduli</span>
                   <span>5 Ore</span>
                 </div>
-                <p className="text-body-sm text-gray-600 my-4">
+                <p className="text-body-sm text-gray-400 my-4">
                   Una breve descrizione del corso.
                 </p>
                 <Link href="#" className="btn btn-outline btn-sm">
@@ -136,7 +136,7 @@ export default async function Home() {
                 <img src="/placeholder.jpg" alt="Author" className="testimonial-card-avatar" />
                 <div>
                   <p className="font-bold">Nome Cognome</p>
-                  <p className="text-sm text-gray-500">Azienda</p>
+                  <p className="text-sm text-gray-400">Azienda</p>
                 </div>
               </div>
               <p className="text-body mt-4">"Una testimonianza sul corso."</p>
@@ -147,7 +147,7 @@ export default async function Home() {
                 <img src="/placeholder.jpg" alt="Author" className="testimonial-card-avatar" />
                 <div>
                   <p className="font-bold">Nome Cognome</p>
-                  <p className="text-sm text-gray-500">Azienda</p>
+                  <p className="text-sm text-gray-400">Azienda</p>
                 </div>
               </div>
               <p className="text-body mt-4">"Una testimonianza sul corso."</p>
@@ -170,7 +170,7 @@ export default async function Home() {
           </div>
           <div className="home-qr-text">
             <h2 className="text-heading-2 mb-4">Inizia una simulazione</h2>
-            <p className="text-body">
+            <p className="text-body text-gray-400">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit.
             </p>
           </div>
@@ -186,7 +186,7 @@ export default async function Home() {
               Iscriviti alla nostra newsletter.
             </p>
             <div className="flex">
-              <input type="email" placeholder="La tua email" className="input-field rounded-r-none" />
+              <input type="email" placeholder="La tua email" className="input-field rounded-r-none bg-gray-800 border-gray-700" />
               <button className="btn btn-primary rounded-l-none">Iscriviti</button>
             </div>
           </div>
@@ -223,7 +223,7 @@ export default async function Home() {
           <p className="text-sm text-gray-500">&copy; 2024 ePatient. Tutti i diritti riservati.</p>
         </div>
       </footer>
-    </>
+    </div>
   );
 
   // If user is authenticated, use SharedLayout

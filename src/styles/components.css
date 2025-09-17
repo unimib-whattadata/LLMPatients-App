@@ -969,7 +969,6 @@
   /* ===== ENHANCED DASHBOARD COMPONENTS ===== */
   /* Layout Container Classes */
   .layout-container {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -980,7 +979,6 @@
     position: sticky;
     top: 0;
     z-index: 40;
-    background-color: white; /* Added to prevent content from showing through */
   }
 
   .main-container {
@@ -1011,7 +1009,7 @@
   }
 
   .content-container.with-sidebar {
-    padding-top: 4rem; /* Added to offset sticky header */
+    /* Additional styles for content with sidebar */
   }
 
   .content-container.full-width {
@@ -1783,198 +1781,51 @@
       max-width: none;
     }
   }
-  /* ===== HOME PAGE STYLES ===== */
+  /* ===== HOME PAGE STYLES (DARK) ===== */
   .home-hero {
     position: relative;
     height: 60vh;
     min-height: 500px;
-    background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/placeholder.jpg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/placeholder.jpg') no-repeat center center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: white;
   }
 
-  .home-hero-content {
-    max-width: 800px;
-    padding: 2rem;
-  }
   .home-process {
     padding: 4rem 1rem;
+    background-color: var(--color-gray-800);
   }
 
-  .home-process-content {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .home-process-timeline {
-    position: relative;
-    padding: 2rem 0;
-  }
-
-  .home-process-timeline::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    background-color: var(--color-gray-200);
-    transform: translateX(-50%);
-  }
-
-  .home-process-step {
-    display: flex;
-    margin-bottom: 4rem;
-  }
-
-  .home-process-step-indicator {
-    width: 50%;
-    position: relative;
-  }
-
-  .home-process-step-circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.5rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-
-  .home-process-step-indicator.left .home-process-step-circle {
-    right: -30px;
-  }
-
-  .home-process-step-indicator.right .home-process-step-circle {
-    left: -30px;
-  }
-
-  .home-process-step-content {
-    width: 50%;
-    padding: 0 2rem;
-  }
   .home-courses {
     padding: 4rem 1rem;
-    background-color: var(--color-gray-100);
-  }
-
-  .home-courses-content {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .home-courses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    background-color: var(--color-gray-900);
   }
 
   .course-card {
-    background-color: white;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
+    background-color: var(--color-gray-800);
+    border: 1px solid var(--color-gray-700);
   }
 
-  .course-card-image img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-
-  .course-card-content {
-    padding: 1.5rem;
-  }
-
-  .course-card-meta {
-    display: flex;
-    gap: 1rem;
-    font-size: 0.875rem;
-    color: var(--color-gray-500);
-  }
   .home-testimonials {
     padding: 4rem 1rem;
-  }
-
-  .home-testimonials-content {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .home-testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-    gap: 2rem;
+    background-color: var(--color-gray-800);
   }
 
   .testimonial-card {
-    background-color: var(--color-gray-50);
-    padding: 2rem;
-    border-radius: 0.5rem;
+    background-color: var(--color-gray-900);
+    border: 1px solid var(--color-gray-700);
   }
 
-  .testimonial-card-author {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .testimonial-card-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
   .home-qr {
-    background-color: var(--color-gray-100);
+    background-color: var(--color-gray-800);
     padding: 4rem 1rem;
   }
 
-  .home-qr-content {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 4rem;
-  }
-
-  .home-qr-code {
-    flex-shrink: 0;
-  }
-
-  .home-qr-code img {
-    width: 200px;
-    height: 200px;
-  }
   .home-footer {
-    background-color: var(--color-gray-900);
+    background-color: var(--color-gray-950);
     color: white;
     padding: 4rem 1rem 0;
-  }
-
-  .home-footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-  }
-
-  .home-sub-footer {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem 0;
-    margin-top: 2rem;
-    border-top: 1px solid var(--color-gray-700);
-    text-align: center;
   }
 }
