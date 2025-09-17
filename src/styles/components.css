@@ -977,6 +977,8 @@
 
   .header-container {
     flex-shrink: 0;
+    position: sticky;
+    top: 0;
     z-index: 40;
   }
 
@@ -984,6 +986,7 @@
     flex: 1;
     display: flex;
     min-height: 0;
+    padding-top: 4rem; /* Added to offset sticky header */
   }
 
   .main-container.dashboard-layout {
