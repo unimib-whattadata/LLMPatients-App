@@ -8,13 +8,13 @@ export default async function Home() {
   
   // Main home page content
   const homeContent = (
-    <div className="bg-gray-900 text-white">
+    <div className="home-page">
       {/* Hero Section */}
       <section className="home-hero">
         <div className="home-hero-content">
           <h1 className="text-heading-1 text-white">Simula. Valuta. Impara.</h1>
           <p className="text-body-lg text-gray-300 max-w-2xl mx-auto">
-            Esplora scenari medici realistici where puoi praticare diagnosi e sviluppare
+            Esplora scenari medici realistici dove puoi praticare diagnosi e sviluppare
             competenze cliniche in un ambiente sicuro e controllato.
           </p>
           <Link href="#" className="btn btn-primary btn-lg mt-8">

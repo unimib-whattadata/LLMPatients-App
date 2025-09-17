@@ -1781,6 +1781,11 @@
       max-width: none;
     }
   }
+  .home-page {
+    background-color: var(--color-gray-900);
+    color: white;
+  }
+
   /* ===== HOME PAGE STYLES (DARK) ===== */
   .home-hero {
     position: relative;
@@ -1793,9 +1798,88 @@
     text-align: center;
   }
 
+  .home-hero-content {
+    max-width: 800px;
+    padding: 2rem;
+  }
+
   .home-process {
     padding: 4rem 1rem;
     background-color: var(--color-gray-800);
+  }
+
+  .home-process-content {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .home-process-timeline {
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .home-process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    background-color: var(--color-gray-700);
+    transform: translateX(-50%);
+  }
+
+  .home-process-step {
+    display: flex;
+    margin-bottom: 4rem;
+    position: relative;
+  }
+
+  .home-process-step:nth-child(odd) .home-process-step-content {
+    text-align: left;
+    padding-left: 2rem;
+  }
+
+  .home-process-step:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  .home-process-step:nth-child(even) .home-process-step-content {
+    text-align: right;
+    padding-right: 2rem;
+  }
+
+  .home-process-step-indicator {
+    width: 50%;
+    position: relative;
+  }
+
+  .home-process-step-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 4px solid var(--color-gray-800);
+  }
+
+  .home-process-step:nth-child(odd) .home-process-step-indicator.left .home-process-step-circle {
+    right: -30px;
+  }
+
+  .home-process-step:nth-child(even) .home-process-step-indicator.right .home-process-step-circle {
+    left: -30px;
+  }
+
+  .home-process-step-content {
+    width: 50%;
   }
 
   .home-courses {
@@ -1803,9 +1887,39 @@
     background-color: var(--color-gray-900);
   }
 
+  .home-courses-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .home-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
   .course-card {
     background-color: var(--color-gray-800);
     border: 1px solid var(--color-gray-700);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .course-card-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .course-card-content {
+    padding: 1.5rem;
+  }
+
+  .course-card-meta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-gray-400);
   }
 
   .home-testimonials {
@@ -1813,9 +1927,35 @@
     background-color: var(--color-gray-800);
   }
 
+  .home-testimonials-content {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .home-testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+  }
+
   .testimonial-card {
     background-color: var(--color-gray-900);
     border: 1px solid var(--color-gray-700);
+    padding: 2rem;
+    border-radius: 0.5rem;
+  }
+
+  .testimonial-card-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .testimonial-card-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .home-qr {
@@ -1823,9 +1963,43 @@
     padding: 4rem 1rem;
   }
 
+  .home-qr-content {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  .home-qr-code {
+    flex-shrink: 0;
+  }
+
+  .home-qr-code img {
+    width: 200px;
+    height: 200px;
+  }
+
   .home-footer {
     background-color: var(--color-gray-950);
     color: white;
     padding: 4rem 1rem 0;
+  }
+
+  .home-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+
+  .home-sub-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--color-gray-700);
+    text-align: center;
   }
 }
