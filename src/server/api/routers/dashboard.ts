@@ -369,4 +369,124 @@ export const dashboardRouter = createTRPCRouter({
         });
       }
     }),
+
+  /**
+   * Get student statistics (admin only)
+   * Returns statistics for students (users with role 'user')
+   */
+  getStudentStats: adminProcedure
+    .query(async ({ ctx }) => {
+      try {
+        // Calculate date 30 days ago for active students metric
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+        // Get total students count (users with role 'user')
+        const totalStudentsResult = await ctx.db
+          .select({ count: count() })
+          .from(users)
+          .where(eq(users.role, "user"));
+        
+        // Get active students (students with login activity in last 30 days)
+        const activeStudentsQuery = await ctx.db
+          .select({ userId: userActivities.userId })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq(userActivities.activityType, "login"),
+              eq(users.role, "user"),
+              gte(userActivities.createdAt, thirtyDaysAgo)
+            )
+          )
+          .groupBy(userActivities.userId);
+
+        // Get students with simulation activity (mock data for now)
+        // In a real implementation, this would query a simulations table
+        const simulationActivities = await ctx.db
+          .select({ userId: userActivities.userId })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq(userActivities.activityType, "simulation"),
+              eq(users.role, "user")
+            )
+          )
+          .groupBy(userActivities.userId);
+
+        // Calculate completion rate (mock calculation)
+        // In real implementation, this would be based on completed vs started simulations
+        const totalStudentsCount = totalStudentsResult[0]?.count ?? 0;
+        const completionRate = totalStudentsCount > 0 
+          ? Math.round((simulationActivities.length / totalStudentsCount) * 100)
+          : 0;
+
+        // Calculate average score (mock calculation)
+        // In real implementation, this would be based on actual simulation scores
+        const averageScore = simulationActivities.length > 0 
+          ? Math.round(70 + Math.random() * 20) // Mock: random between 70-90
+          : 0;
+
+        return {
+          totalStudents: totalStudentsResult[0]?.count ?? 0,
+          activeStudents: activeStudentsQuery.length,
+          completionRate: Math.min(completionRate, 100), // Cap at 100%
+          averageScore: averageScore,
+          totalSimulations: simulationActivities.length * 2, // Mock: 2 simulations per active student
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to fetch student statistics",
+        });
+      }
+    }),
+
+  /**
+   * Get student evaluation statistics (admin only)
+   * Returns evaluation statistics for students
+   */
+  getStudentEvaluationStats: adminProcedure
+    .query(async ({ ctx }) => {
+      try {
+        // Get total students count
+        const totalStudentsResult = await ctx.db
+          .select({ count: count() })
+          .from(users)
+          .where(eq(users.role, "user"));
+
+        // Get students with simulation activity (as proxy for evaluations)
+        const studentsWithSimulations = await ctx.db
+          .select({ userId: userActivities.userId })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq(userActivities.activityType, "simulation"),
+              eq(users.role, "user")
+            )
+          )
+          .groupBy(userActivities.userId);
+
+        // Mock data for evaluation statistics
+        // In real implementation, this would query an evaluations table
+        const totalEvaluations = studentsWithSimulations.length * 3; // Mock: 3 evaluations per student
+        const completedEvaluations = Math.round(totalEvaluations * 0.75); // Mock: 75% completion
+        const inProgressEvaluations = Math.round(totalEvaluations * 0.15); // Mock: 15% in progress
+        const successRate = Math.round(completedEvaluations * 0.85); // Mock: 85% success rate
+
+        return {
+          totalEvaluations,
+          completedEvaluations,
+          inProgressEvaluations,
+          successRate: Math.round((successRate / completedEvaluations) * 100) || 0,
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Failed to fetch student evaluation statistics",
+        });
+      }
+    }),
 });

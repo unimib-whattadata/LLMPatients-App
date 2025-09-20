@@ -12,7 +12,7 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "~/server/api/trpc";
 import { users, accounts } from "~/server/db/schema";
-import { eq, desc, asc, and, or, like } from "drizzle-orm";
+import { eq, desc, asc, and, or, like, count } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const userManagementRouter = createTRPCRouter({
@@ -333,25 +333,27 @@ export const userManagementRouter = createTRPCRouter({
       throw new Error("Unauthorized: Admin access required");
     }
 
-    // Get total users
-    const totalUsers = await ctx.db.select({ count: users.id }).from(users);
+    // Get total users count
+    const totalUsersResult = await ctx.db
+      .select({ count: count() })
+      .from(users);
     
-    // Get admin users
-    const adminUsers = await ctx.db
-      .select({ count: users.id })
+    // Get admin users count
+    const adminUsersResult = await ctx.db
+      .select({ count: count() })
       .from(users)
       .where(eq(users.role, "admin"));
     
-    // Get regular users
-    const regularUsers = await ctx.db
-      .select({ count: users.id })
+    // Get regular users count
+    const regularUsersResult = await ctx.db
+      .select({ count: count() })
       .from(users)
       .where(eq(users.role, "user"));
 
     return {
-      totalUsers: totalUsers.length,
-      adminUsers: adminUsers.length,
-      regularUsers: regularUsers.length,
+      totalUsers: totalUsersResult[0]?.count ?? 0,
+      adminUsers: adminUsersResult[0]?.count ?? 0,
+      regularUsers: regularUsersResult[0]?.count ?? 0,
     };
   }),
 

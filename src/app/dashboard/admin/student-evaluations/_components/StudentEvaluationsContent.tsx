@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { api } from "~/trpc/react";
 
 interface Evaluation {
   id: string;
@@ -19,6 +20,12 @@ interface Evaluation {
 export function StudentEvaluationsContent() {
   const [filter, setFilter] = useState<string>("all");
   const [selectedEvaluation, setSelectedEvaluation] = useState<string | null>(null);
+
+  // Fetch evaluation statistics from API
+  const { data: evaluationStats, isLoading: statsLoading } = api.dashboard.getStudentEvaluationStats.useQuery(undefined, {
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    retry: 3,
+  });
   
   // Mock data - in real app this would come from API
   const evaluations: Evaluation[] = [
@@ -155,24 +162,37 @@ export function StudentEvaluationsContent() {
             </div>
           </div>
 
-          <div className="dashboard-metric-grid">
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">24</span>
-              <span className="dashboard-metric-card__label">Valutazioni Totali</span>
+          {statsLoading ? (
+            <div className="dashboard-metric-grid" aria-hidden="true">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="dashboard-metric-card">
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-background-tertiary rounded mb-2"></div>
+                    <div className="h-4 bg-background-tertiary rounded w-3/4"></div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">18</span>
-              <span className="dashboard-metric-card__label">Completate</span>
+          ) : (
+            <div className="dashboard-metric-grid">
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{evaluationStats?.totalEvaluations ?? 0}</span>
+                <span className="dashboard-metric-card__label">Valutazioni Totali</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{evaluationStats?.completedEvaluations ?? 0}</span>
+                <span className="dashboard-metric-card__label">Completate</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{evaluationStats?.inProgressEvaluations ?? 0}</span>
+                <span className="dashboard-metric-card__label">In Corso</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{evaluationStats?.successRate ?? 0}%</span>
+                <span className="dashboard-metric-card__label">Tasso Successo</span>
+              </div>
             </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">4</span>
-              <span className="dashboard-metric-card__label">In Corso</span>
-            </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">82%</span>
-              <span className="dashboard-metric-card__label">Tasso Successo</span>
-            </div>
-          </div>
+          )}
         </section>
 
         <section className="dashboard-section" aria-labelledby="evaluation-filters">

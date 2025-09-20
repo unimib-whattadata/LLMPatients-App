@@ -2,9 +2,16 @@
 
 import { useState } from "react";
 import { UsersIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import { api } from "~/trpc/react";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
+
+  // Fetch student statistics from API
+  const { data: studentStats, isLoading: statsLoading } = api.dashboard.getStudentStats.useQuery(undefined, {
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    retry: 3,
+  });
 
   return (
     <div className="dashboard-panel-stack">
@@ -48,24 +55,37 @@ export function StudentStatisticsContent() {
             </div>
           </div>
 
-          <div className="dashboard-metric-grid">
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">156</span>
-              <span className="dashboard-metric-card__label">Studenti Attivi</span>
+          {statsLoading ? (
+            <div className="dashboard-metric-grid" aria-hidden="true">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="dashboard-metric-card">
+                  <div className="animate-pulse">
+                    <div className="h-8 bg-background-tertiary rounded mb-2"></div>
+                    <div className="h-4 bg-background-tertiary rounded w-3/4"></div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">89%</span>
-              <span className="dashboard-metric-card__label">Tasso Completamento</span>
+          ) : (
+            <div className="dashboard-metric-grid">
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{studentStats?.activeStudents ?? 0}</span>
+                <span className="dashboard-metric-card__label">Studenti Attivi</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{studentStats?.completionRate ?? 0}%</span>
+                <span className="dashboard-metric-card__label">Tasso Completamento</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{studentStats?.averageScore ?? 0}</span>
+                <span className="dashboard-metric-card__label">Score Medio</span>
+              </div>
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{studentStats?.totalSimulations ?? 0}</span>
+                <span className="dashboard-metric-card__label">Simulazioni Totali</span>
+              </div>
             </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">76</span>
-              <span className="dashboard-metric-card__label">Score Medio</span>
-            </div>
-            <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">234</span>
-              <span className="dashboard-metric-card__label">Simulazioni Totali</span>
-            </div>
-          </div>
+          )}
         </section>
 
         <section className="dashboard-section" aria-labelledby="charts-analytics">
