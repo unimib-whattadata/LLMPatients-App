@@ -68,7 +68,7 @@ export function PatientCard({ patient }: PatientCardProps) {
       {/* Card Content */}
       <div className="patient-card-content">
         {/* Patient Info */}
-        <div className="mb-4">
+        <div className="patient-card-main-content">
           {/* Name and Age */}
           <header className="patient-card-header">
             <h3 id={`patient-${patient.id}-title`} className="patient-card-title">

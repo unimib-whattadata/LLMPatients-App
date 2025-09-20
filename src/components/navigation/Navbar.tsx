@@ -9,7 +9,12 @@ import {
   XMarkIcon, 
   Bars3BottomLeftIcon, 
   ArrowRightOnRectangleIcon,
-  ChevronLeftIcon
+  ChevronLeftIcon,
+  UserPlusIcon,
+  PlayIcon,
+  ClipboardDocumentListIcon,
+  MagnifyingGlassIcon,
+  HomeIcon
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 
@@ -35,7 +40,7 @@ interface ImpersonationContext {
 interface NavItem {
   label: string;
   href: string;
-  icon: string;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 type AdminViewMode = "admin" | "user";
@@ -215,7 +220,7 @@ export function Navbar({
                       role="listitem"
                       aria-current={isActive ? "page" : undefined}
                     >
-                      <span className="mr-3 text-lg" aria-hidden="true">{item.icon}</span>
+                      <item.icon className="w-5 h-5 mr-3" aria-hidden="true" />
                       {item.label}
                     </Link>
                   );

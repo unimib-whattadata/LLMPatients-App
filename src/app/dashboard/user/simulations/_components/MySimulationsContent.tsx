@@ -153,7 +153,9 @@ export function MySimulationsContent() {
       <div className="dashboard-action-grid">
         {filteredSimulations.map((simulation) => (
           <div key={simulation.id} className="dashboard-action-card">
-            <div className="flex justify-between items-start mb-4">
+            <div className="dashboard-action-card-content">
+              <div className="dashboard-action-card-main">
+                <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="dashboard-action-card__title mb-1">
                   {simulation.title}
@@ -228,6 +230,8 @@ export function MySimulationsContent() {
                   </button>
                 </div>
               )}
+            </div>
+              </div>
             </div>
           </div>
         ))}

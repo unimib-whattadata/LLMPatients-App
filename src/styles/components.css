@@ -163,7 +163,7 @@
   /* ===== BUTTON VARIANTS ===== */
   .btn-primary {
     background: var(--home-primary);
-    color: #0d1206;
+    color: var(--color-gray-900);
     border-radius: 0.75rem;
     padding: 0.85rem 1rem;
     font-weight: 600;
@@ -187,7 +187,7 @@
 
   .btn-secondary {
     background: var(--color-secondary-500);
-    color: #0d1206;
+    color: var(--color-gray-900);
     border-radius: 0.75rem;
     padding: 0.85rem 1rem;
     font-weight: 600;
@@ -1013,7 +1013,7 @@
   .main-container {
     flex: 1;
     display: flex;
-    min-height: 0;
+    min-height: 100vh;
   }
 
   .main-container.dashboard-layout {
@@ -1077,14 +1077,12 @@
 
   .dashboard-header {
     background: var(--surface-primary);
-    border-bottom: 1px solid var(--border-primary);
   }
 
   .dashboard-sidebar {
     width: 16rem;
     background: var(--surface-tertiary);
-    border-right: 1px solid var(--border-primary);
-    min-height: calc(100vh - 4rem);
+    height: 100vh;
     transition: all 0.3s ease;
     position: relative;
     display: flex;
@@ -1120,7 +1118,7 @@
   .dashboard-main {
     flex: 1;
     padding: var(--space-xl);
-    min-height: calc(100vh - 4rem);
+    min-height: 100vh;
     background: var(--surface-secondary);
     transition: margin-left 0.3s ease;
   }
@@ -1499,6 +1497,18 @@
     height: 100%;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
+  }
+
+  .dashboard-action-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dashboard-action-card-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .dashboard-action-card:hover {
@@ -1955,7 +1965,6 @@
 
   .nav-item.active {
     background: var(--color-gray-700);
-    border-color: var(--color-gray-600);
     color: var(--color-gray-100);
   }
 
@@ -2249,6 +2258,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+
+  .patient-card-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 
   .patient-card-header {

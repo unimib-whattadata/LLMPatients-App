@@ -24,26 +24,34 @@ export default async function EsploraPazientiPage() {
       <SharedLayout
         user={user}
         impersonation={undefined}
-        layoutType="home"
+        layoutType="dashboard"
         currentPage="/explore-patients"
       >
-        <div className="patients-page">
-          <main className="patients-main">
-            <section className="patients-hero">
-              <div className="section-container">
-                <h1>ePatients</h1>
-                <p>
-                  Un catalogo di pazienti virtuali progettato per allenare empatia clinica, gestione emotiva e decisioni terapeutiche in ambienti sicuri.
-                </p>
-              </div>
-            </section>
+        <div className="dashboard-page">
+          <section className="dashboard-page__hero">
+            <div className="dashboard-page__hero-content">
+              <span className="dashboard-page__hero-eyebrow">Esplora Pazienti</span>
+              <h1 className="dashboard-page__hero-title">ePatients</h1>
+              <p className="dashboard-page__hero-subtitle">
+                Un catalogo di pazienti virtuali progettato per allenare empatia clinica, gestione emotiva e decisioni terapeutiche in ambienti sicuri.
+              </p>
+            </div>
+          </section>
 
-            <section className="patients-grid-section">
-              <div className="section-container">
-                <PatientGridWrapper />
+          <div className="dashboard-stack">
+            <section className="dashboard-section">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 className="dashboard-section__title">Catalogo Pazienti Virtuali</h2>
+                  <p className="dashboard-section__description">
+                    Scegli un paziente per iniziare una simulazione clinica e sviluppare le tue competenze pratiche
+                  </p>
+                </div>
               </div>
+
+              <PatientGridWrapper />
             </section>
-          </main>
+          </div>
         </div>
       </SharedLayout>
     </HydrateClient>

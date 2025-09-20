@@ -102,161 +102,216 @@ export function MyEvaluationsContent() {
     : 0;
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">
-          Le Mie Valutazioni
-        </h1>
-        <p className="text-text-secondary">
-          Visualizza i risultati delle tue simulazioni e i feedback ricevuti
-        </p>
-      </div>
+    <div className="dashboard-page">
+      <section className="dashboard-page__hero">
+        <div className="dashboard-page__hero-content">
+          <span className="dashboard-page__hero-eyebrow">Valutazioni</span>
+          <h1 className="dashboard-page__hero-title">Le Mie Valutazioni</h1>
+          <p className="dashboard-page__hero-subtitle">
+            Visualizza i risultati delle tue simulazioni e i feedback ricevuti per migliorare le tue competenze cliniche.
+          </p>
+          <div className="dashboard-page__hero-meta">
+            <span className="dashboard-chip" aria-label="Valutazioni totali">
+              <ClipboardDocumentIcon className="w-4 h-4" aria-hidden="true" />
+              <span>{evaluations.length} valutazioni completate</span>
+            </span>
+            <span className="dashboard-chip" aria-label="Score medio">
+              <span aria-hidden="true">📊</span>
+              <span>Score medio: {averageScore}/100</span>
+            </span>
+          </div>
+        </div>
+      </section>
 
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-accent-600 mb-1">
-            {evaluations.length}
-          </div>
-          <div className="text-sm text-text-secondary">Valutazioni Totali</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-success-600 mb-1">
-            {averageScore}
-          </div>
-          <div className="text-sm text-text-secondary">Score Medio</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-purple-600 mb-1">
-            {Math.max(...evaluations.map(e => e.score), 0)}
-          </div>
-          <div className="text-sm text-text-secondary">Miglior Score</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-orange-600 mb-1">
-            {evaluations.filter(e => e.score >= 80).length}
-          </div>
-          <div className="text-sm text-text-secondary">Eccellenti (80+)</div>
-        </div>
-      </div>
-
-      {/* Evaluations List */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-text-primary">
-            Cronologia Valutazioni
-          </h3>
-          {evaluations.map((evaluation) => (
-            <div 
-              key={evaluation.id}
-              className={`bg-background-secondary rounded-lg border border-border-primary p-4 cursor-pointer transition-all duration-200 ${
-                selectedEvaluation === evaluation.id ? 'ring-2 ring-blue-500' : ''
-              }`}
-              onClick={() => setSelectedEvaluation(evaluation.id)}
-            >
-              <div className="flex justify-between items-start mb-3">
-                <div>
-                  <h4 className="font-semibold text-text-primary">
-                    {evaluation.simulationTitle}
-                  </h4>
-                  <p className="text-sm text-text-secondary">
-                    Paziente: {evaluation.patientName}
-                  </p>
-                  <p className="text-xs text-text-tertiary">
-                    {evaluation.completedAt}
-                  </p>
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                  <div className={`px-3 py-1 rounded-full font-bold ${getScoreColor(evaluation.score, evaluation.maxScore)}`}>
-                    {evaluation.score}/{evaluation.maxScore}
-                  </div>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(evaluation.difficulty)}`}>
-                    {evaluation.difficulty}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="w-full bg-background-tertiary rounded-full h-2">
-                <div 
-                  className="bg-accent-600 h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${(evaluation.score / evaluation.maxScore) * 100}%` }}
-                ></div>
-              </div>
+      <div className="dashboard-stack">
+        {/* Summary Stats */}
+        <section className="dashboard-section">
+          <div className="dashboard-section__header">
+            <div>
+              <h2 className="dashboard-section__title">Statistiche Generali</h2>
+              <p className="dashboard-section__description">
+                Panoramica delle tue performance nelle simulazioni completate
+              </p>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Detailed View */}
-        <div className="lg:sticky lg:top-6">
-          {selectedEvaluation ? (
-            (() => {
-              const evaluation = evaluations.find(e => e.id === selectedEvaluation);
-              if (!evaluation) return null;
-              
-              return (
-                <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
-                  <div className="mb-6">
-                    <h3 className="text-xl font-semibold text-text-primary mb-2">
-                      {evaluation.simulationTitle}
-                    </h3>
-                    <div className="flex items-center gap-4 text-sm text-text-secondary">
-                      <span>Paziente: {evaluation.patientName}</span>
-                      <span>•</span>
-                      <span>{evaluation.completedAt}</span>
+          <div className="dashboard-metric-grid">
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">{evaluations.length}</span>
+              <span className="dashboard-metric-card__label">Valutazioni Totali</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">{averageScore}</span>
+              <span className="dashboard-metric-card__label">Score Medio</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">{Math.max(...evaluations.map(e => e.score), 0)}</span>
+              <span className="dashboard-metric-card__label">Miglior Score</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">{evaluations.filter(e => e.score >= 80).length}</span>
+              <span className="dashboard-metric-card__label">Eccellenti (80+)</span>
+            </div>
+          </div>
+        </section>
+
+        {/* Evaluations Grid */}
+        <section className="dashboard-section">
+          <div className="dashboard-section__header">
+            <div>
+              <h2 className="dashboard-section__title">Cronologia Valutazioni</h2>
+              <p className="dashboard-section__description">
+                Dettagli completi di ogni simulazione con feedback personalizzato
+              </p>
+            </div>
+          </div>
+
+          <div className="dashboard-action-grid">
+            {evaluations.map((evaluation) => (
+              <div key={evaluation.id} className="dashboard-action-card">
+                <div className="dashboard-action-card-content">
+                  <div className="dashboard-action-card-main">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="dashboard-action-card__title mb-1">
+                          {evaluation.simulationTitle}
+                        </h3>
+                        <p className="dashboard-action-card__description">
+                          Paziente: {evaluation.patientName}
+                        </p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className={`px-3 py-1 rounded-full font-bold text-sm ${getScoreColor(evaluation.score, evaluation.maxScore)}`}>
+                          {evaluation.score}/{evaluation.maxScore}
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(evaluation.difficulty)}`}>
+                          {evaluation.difficulty}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-text-secondary">Completata:</span>
+                        <span className="text-sm font-medium">{evaluation.completedAt}</span>
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <span className="text-sm text-text-secondary">Punteggio:</span>
+                          <span className="text-sm font-medium">{evaluation.score}%</span>
+                        </div>
+                        <div className="w-full bg-background-tertiary rounded-full h-2">
+                          <div 
+                            className="bg-accent-600 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${(evaluation.score / evaluation.maxScore) * 100}%` }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-text-secondary">Punti di forza:</span>
+                        <span className="text-sm font-medium text-success-600">{evaluation.strengths.length}</span>
+                      </div>
+
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-text-secondary">Aree di miglioramento:</span>
+                        <span className="text-sm font-medium text-warning-600">{evaluation.improvements.length}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-text-primary mb-2">Feedback Generale</h4>
-                    <p className="text-text-secondary leading-relaxed">
-                      {evaluation.feedback}
-                    </p>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-text-primary mb-3">Punti di Forza</h4>
-                    <ul className="space-y-2">
-                      {evaluation.strengths.map((strength, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-success-500 mt-1">✓</span>
-                          <span className="text-text-secondary">{strength}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-text-primary mb-3">Aree di Miglioramento</h4>
-                    <ul className="space-y-2">
-                      {evaluation.improvements.map((improvement, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-orange-500 mt-1">!</span>
-                          <span className="text-text-secondary">{improvement}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="pt-4 border-t border-border-primary">
-                    <button className="w-full px-4 py-2 bg-accent-600 text-text-primary rounded-md hover:bg-accent-700 transition-colors duration-200">
-                      Ripeti Simulazione
+                  <div className="mt-6">
+                    <button 
+                      className="btn btn-primary w-full"
+                      onClick={() => setSelectedEvaluation(evaluation.id)}
+                    >
+                      Visualizza Dettagli
                     </button>
                   </div>
                 </div>
-              );
-            })()
-          ) : (
-            <div className="bg-background-secondary rounded-lg p-8 text-center">
-              <ClipboardDocumentIcon className="w-16 h-16 text-text-tertiary mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-text-primary mb-2">
-                Seleziona una valutazione
-              </h3>
-              <p className="text-text-secondary">
-                Clicca su una valutazione per vedere i dettagli e il feedback
-              </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Detailed View Modal */}
+        {selectedEvaluation && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-background-secondary rounded-lg border border-border-primary p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+              {(() => {
+                const evaluation = evaluations.find(e => e.id === selectedEvaluation);
+                if (!evaluation) return null;
+                
+                return (
+                  <>
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="text-xl font-semibold text-text-primary mb-2">
+                          {evaluation.simulationTitle}
+                        </h3>
+                        <div className="flex items-center gap-4 text-sm text-text-secondary">
+                          <span>Paziente: {evaluation.patientName}</span>
+                          <span>•</span>
+                          <span>{evaluation.completedAt}</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSelectedEvaluation(null)}
+                        className="text-text-tertiary hover:text-text-primary"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-2">Feedback Generale</h4>
+                      <p className="text-text-secondary leading-relaxed">
+                        {evaluation.feedback}
+                      </p>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-3">Punti di Forza</h4>
+                      <ul className="space-y-2">
+                        {evaluation.strengths.map((strength, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-success-500 mt-1">✓</span>
+                            <span className="text-text-secondary">{strength}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-3">Aree di Miglioramento</h4>
+                      <ul className="space-y-2">
+                        {evaluation.improvements.map((improvement, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-warning-500 mt-1">!</span>
+                            <span className="text-text-secondary">{improvement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex gap-2 pt-4 border-t border-border-primary">
+                      <button className="btn btn-outline flex-1">
+                        Ripeti Simulazione
+                      </button>
+                      <button 
+                        className="btn btn-primary flex-1"
+                        onClick={() => setSelectedEvaluation(null)}
+                      >
+                        Chiudi
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
