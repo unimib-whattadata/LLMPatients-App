@@ -17,17 +17,17 @@ type TimelineStep = {
 };
 
 const timelineSteps: TimelineStep[] = [
-  { id: 1, top: 150, left: 700, color: "#B9C87C" },
-  { id: 2, top: 340, left: 500, color: "#B9C87C" },
-  { id: 3, top: 460, left: 700, color: "#E3B23C" },
-  { id: 4, top: 560, left: 880, color: "#E3B23C" },
-  { id: 5, top: 680, left: 700, color: "#E3B23C" },
-  { id: 6, top: 780, left: 540, color: "#E3B23C" },
-  { id: 7, top: 900, left: 700, color: "#E3B23C" },
-  { id: 8, top: 1000, left: 880, color: "#E3B23C" },
-  { id: 9, top: 1120, left: 700, color: "#E3B23C" },
-  { id: 10, top: 1210, left: 520, color: "#E3B23C" },
-  { id: 11, top: 1400, left: 700, color: "#B4A7E6" },
+  { id: 1, top: 150, left: 533, color: "#B9C87C" },
+  { id: 2, top: 340, left: 333, color: "#B9C87C" },
+  { id: 3, top: 460, left: 533, color: "#E3B23C" },
+  { id: 4, top: 560, left: 713, color: "#E3B23C" },
+  { id: 5, top: 680, left: 533, color: "#E3B23C" },
+  { id: 6, top: 780, left: 373, color: "#E3B23C" },
+  { id: 7, top: 900, left: 533, color: "#E3B23C" },
+  { id: 8, top: 1000, left: 713, color: "#E3B23C" },
+  { id: 9, top: 1120, left: 533, color: "#E3B23C" },
+  { id: 10, top: 1210, left: 353, color: "#E3B23C" },
+  { id: 11, top: 1400, left: 533, color: "#B4A7E6" },
 ];
 
 const timelinePathPoints: PathPoint[] = [
