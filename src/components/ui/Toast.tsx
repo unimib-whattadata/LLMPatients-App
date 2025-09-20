@@ -54,19 +54,19 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   };
 
   const getToastStyles = () => {
-    const baseStyles = "flex items-start p-4 rounded-lg border-l-4 max-w-md w-full";
+    const baseStyles = "message message-large max-w-md w-full";
     
     switch (toast.type) {
       case 'success':
-        return `${baseStyles} bg-success-50 border-success-500 text-success-700`;
+        return `${baseStyles} message-success`;
       case 'error':
-        return `${baseStyles} bg-error-50 border-error-500 text-error-700`;
+        return `${baseStyles} message-error`;
       case 'warning':
-        return `${baseStyles} bg-warning-50 border-warning-500 text-warning-700`;
+        return `${baseStyles} message-warning`;
       case 'info':
-        return `${baseStyles} bg-info-50 border-info-500 text-info-700`;
+        return `${baseStyles} message-info`;
       default:
-        return `${baseStyles} bg-background-secondary border-border-primary text-text-primary`;
+        return `${baseStyles} message-info`;
     }
   };
 
@@ -74,19 +74,19 @@ const Toast = ({ toast, onClose }: ToastProps) => {
     switch (toast.type) {
       case 'success':
         return (
-          <CheckIcon className="w-5 h-5 text-success-500" />
+          <CheckIcon className="w-5 h-5" />
         );
       case 'error':
         return (
-          <XMarkIcon className="w-5 h-5 text-error-500" />
+          <XMarkIcon className="w-5 h-5" />
         );
       case 'warning':
         return (
-          <ExclamationTriangleIcon className="w-5 h-5 text-warning-500" />
+          <ExclamationTriangleIcon className="w-5 h-5" />
         );
       case 'info':
         return (
-          <InformationCircleIcon className="w-5 h-5 text-info-500" />
+          <InformationCircleIcon className="w-5 h-5" />
         );
       default:
         return null;
@@ -100,30 +100,28 @@ const Toast = ({ toast, onClose }: ToastProps) => {
       aria-live="assertive"
     >
       <div className={getToastStyles()}>
-        <div className="flex-shrink-0 mr-3">
+        <div className="message-icon">
           {getIcon()}
         </div>
         
-        <div className="flex-1 min-w-0">
-          <h4 className="font-medium text-sm">
+        <div className="message-content">
+          <div className="message-title">
             {toast.title}
-          </h4>
+          </div>
           {toast.message && (
-            <p className="text-sm opacity-90 mt-1">
+            <div className="message-text">
               {toast.message}
-            </p>
+            </div>
           )}
         </div>
         
-        <div className="flex-shrink-0 ml-3">
-          <button
-            onClick={handleClose}
-            className="inline-flex text-text-tertiary hover:text-text-secondary focus:outline-none focus:ring-2 focus:ring-border-hover rounded"
-            aria-label="Close notification"
-          >
-            <XMarkIcon className="w-4 h-4" />
-          </button>
-        </div>
+        <button
+          onClick={handleClose}
+          className="message-dismiss"
+          aria-label="Close notification"
+        >
+          <XMarkIcon className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );

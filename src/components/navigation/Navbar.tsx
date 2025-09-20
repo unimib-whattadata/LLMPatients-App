@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { api } from "~/trpc/react";
 import { 
   Bars3Icon, 
@@ -106,9 +107,17 @@ export function Navbar({
   } : user;
 
   // Handle logout
-  const handleLogout = () => {
-    const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
-    window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+  const handleLogout = async () => {
+    try {
+      const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
+      await signOut({ callbackUrl });
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Fallback: redirect manually if signOut fails
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
+    }
   };
 
   // Render dashboard header

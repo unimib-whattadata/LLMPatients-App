@@ -4,7 +4,7 @@ import { signIn, useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CheckIcon, EyeIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useToast } from "~/components/ui/ToastProvider";
 
 // Define the consolidated login state interface
@@ -277,7 +277,7 @@ export default function LoginPage() {
           {(loginState.phase === 'success' || loginState.phase === 'redirecting') ? (
             <div className="auth-form-card text-center">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-success-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-accent-success rounded-full flex items-center justify-center mx-auto mb-4">
                   <CheckIcon className="w-8 h-8 text-text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold text-text-primary mb-2">Login Successful!</h2>
@@ -285,12 +285,14 @@ export default function LoginPage() {
                   Welcome back! You're being redirected to your dashboard.
                 </p>
                 
-                <div className="bg-background-tertiary rounded-lg p-4 mb-6">
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-success-500"></div>
-                    <span className="text-text-primary">
+                <div className="message message-success message-large mb-6">
+                  <div className="message-icon">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-accent-success"></div>
+                  </div>
+                  <div className="message-content">
+                    <div className="message-text">
                       Redirecting in {loginState.redirectCountdown} second{loginState.redirectCountdown !== 1 ? 's' : ''}...
-                    </span>
+                    </div>
                   </div>
                 </div>
                 
@@ -310,8 +312,15 @@ export default function LoginPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
               {loginState.error && (
-                <div className="auth-global-error">
-                  {loginState.error}
+                <div className="message message-error message-large">
+                  <div className="message-icon">
+                    <XMarkIcon className="w-5 h-5" />
+                  </div>
+                  <div className="message-content">
+                    <div className="message-text">
+                      {loginState.error}
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -340,9 +349,16 @@ export default function LoginPage() {
                   aria-invalid={!!loginState.emailError}
                 />
                 {loginState.emailError && (
-                  <p id="email-error" className="auth-error-message" role="alert">
-                    {loginState.emailError}
-                  </p>
+                  <div id="email-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {loginState.emailError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -387,9 +403,16 @@ export default function LoginPage() {
                   </button>
                 </div>
                 {loginState.passwordError && (
-                  <p id="password-error" className="auth-error-message" role="alert">
-                    {loginState.passwordError}
-                  </p>
+                  <div id="password-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {loginState.passwordError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 

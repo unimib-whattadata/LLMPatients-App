@@ -172,32 +172,30 @@ export function MyEvaluationsContent() {
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
                     <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="dashboard-action-card__title mb-1">
+                      <div className="flex-1">
+                        <span className="dashboard-action-card__badge">
+                          {evaluation.difficulty}
+                        </span>
+                        <h3 className="dashboard-action-card__title mb-2">
                           {evaluation.simulationTitle}
                         </h3>
                         <p className="dashboard-action-card__description">
                           Paziente: {evaluation.patientName}
                         </p>
                       </div>
-                      <div className="flex flex-col items-end gap-2">
+                      <div className="flex flex-col items-end gap-2 ml-4">
                         <div className={`px-3 py-1 rounded-full font-bold text-sm ${getScoreColor(evaluation.score, evaluation.maxScore)}`}>
                           {evaluation.score}/{evaluation.maxScore}
                         </div>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getDifficultyColor(evaluation.difficulty)}`}>
-                          {evaluation.difficulty}
+                        <span className="text-xs text-text-tertiary">
+                          {evaluation.completedAt}
                         </span>
                       </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-text-secondary">Completata:</span>
-                        <span className="text-sm font-medium">{evaluation.completedAt}</span>
-                      </div>
-
+                    <div className="space-y-4 mb-6">
                       <div>
-                        <div className="flex justify-between items-center mb-1">
+                        <div className="flex justify-between items-center mb-2">
                           <span className="text-sm text-text-secondary">Punteggio:</span>
                           <span className="text-sm font-medium">{evaluation.score}%</span>
                         </div>
@@ -209,19 +207,20 @@ export function MyEvaluationsContent() {
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-text-secondary">Punti di forza:</span>
-                        <span className="text-sm font-medium text-success-600">{evaluation.strengths.length}</span>
-                      </div>
-
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-text-secondary">Aree di miglioramento:</span>
-                        <span className="text-sm font-medium text-warning-600">{evaluation.improvements.length}</span>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="text-center p-3 bg-background-secondary rounded-lg">
+                          <div className="text-lg font-semibold text-success-600">{evaluation.strengths.length}</div>
+                          <div className="text-xs text-text-secondary">Punti di forza</div>
+                        </div>
+                        <div className="text-center p-3 bg-background-secondary rounded-lg">
+                          <div className="text-lg font-semibold text-warning-600">{evaluation.improvements.length}</div>
+                          <div className="text-xs text-text-secondary">Aree di miglioramento</div>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-6">
+                  <div className="mt-auto">
                     <button 
                       className="btn btn-primary w-full"
                       onClick={() => setSelectedEvaluation(evaluation.id)}
