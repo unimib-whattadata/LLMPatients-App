@@ -9,45 +9,34 @@ interface PatientTagsProps {
   tags: PatientTag[];
 }
 
-/**
- * PatientTags Component
- * Displays patient tags as styled badges
- */
+const CATEGORY_CLASS: Record<string, string> = {
+  psychological: "patient-tag patient-tag--psychological",
+  physical: "patient-tag patient-tag--physical",
+  behavioral: "patient-tag patient-tag--behavioral",
+};
+
 export function PatientTags({ tags }: PatientTagsProps) {
   if (!tags || tags.length === 0) {
     return null;
   }
 
-  const getCategoryClass = (category: string) => {
-    switch (category) {
-      case "psychological":
-        return "patient-tag patient-tag--psychological";
-      case "physical":
-        return "patient-tag patient-tag--physical";
-      case "behavioral":
-        return "patient-tag patient-tag--behavioral";
-      default:
-        return "patient-tag";
-    }
-  };
+  const visibleTags = tags.slice(0, 3);
+  const surplus = tags.length - visibleTags.length;
 
   return (
     <div className="patient-tag-group">
-      {tags.slice(0, 3).map((tag) => (
+      {visibleTags.map((tag) => (
         <span
           key={tag.id}
-          className={getCategoryClass(tag.category)}
+          className={CATEGORY_CLASS[tag.category] ?? "patient-tag"}
           title={`Categoria: ${tag.category}`}
         >
           {tag.label}
         </span>
       ))}
-      {tags.length > 3 && (
-        <span
-          className="patient-tag patient-tag--more"
-          title={`Altri ${tags.length - 3} tag`}
-        >
-          +{tags.length - 3}
+      {surplus > 0 && (
+        <span className="patient-tag patient-tag--more" title={`Altri ${surplus} tag`}>
+          +{surplus}
         </span>
       )}
     </div>
