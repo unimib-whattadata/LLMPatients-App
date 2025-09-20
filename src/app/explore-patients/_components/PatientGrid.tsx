@@ -42,7 +42,7 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
     return (
       <div className="min-h-[400px] flex items-center justify-center">
         <div className="patients-feedback" role="status">
-          <div className="patients-feedback-icon" aria-hidden="true">🔍</div>
+          <div className="patients-feedback-icon" aria-hidden="true">[SEARCH]</div>
           <h3 className="patients-feedback-title">Nessun paziente trovato</h3>
           <p className="patients-feedback-text">
             Non ci sono pazienti virtuali disponibili al momento.

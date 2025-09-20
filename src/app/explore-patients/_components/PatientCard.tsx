@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { VirtualPatient } from "~/server/api/routers/patients";
 import { PatientAvatar } from "./PatientAvatar";
 import { PatientTags } from "./PatientTags";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 interface PatientCardProps {
   patient: VirtualPatient;
@@ -28,13 +29,13 @@ export function PatientCard({ patient }: PatientCardProps) {
   const getDifficultyIcon = (difficulty: string) => {
     switch (difficulty) {
       case "Facile":
-        return "●";
+        return "*";
       case "Medio":
-        return "●●";
+        return "**";
       case "Difficile":
-        return "●●●";
+        return "***";
       default:
-        return "●";
+        return "*";
     }
   };
 
@@ -73,7 +74,7 @@ export function PatientCard({ patient }: PatientCardProps) {
             <h3 id={`patient-${patient.id}-title`} className="patient-card-title">
               {patient.name}
             </h3>
-            <span className="patient-card-age" aria-label={`${patient.age} anni di età`}>
+            <span className="patient-card-age" aria-label={`${patient.age} anni di eta`}>
               {patient.age} anni
             </span>
           </header>
@@ -96,7 +97,7 @@ export function PatientCard({ patient }: PatientCardProps) {
             <ul className="patient-card-objective-list" role="list">
               {patient.objectives.slice(0, 2).map((objective, index) => (
                 <li key={index} className="patient-card-objective-item" role="listitem">
-                  <span className="patient-card-objective-bullet" aria-hidden="true">•</span>
+                  <span className="patient-card-objective-bullet" aria-hidden="true">-</span>
                   <span className="patient-card-objective-text">{objective}</span>
                 </li>
               ))}
@@ -121,7 +122,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               <span>{patient.difficulty}</span>
             </div>
             <div className="patient-card-duration">
-              <span className="patient-card-duration-icon" aria-hidden="true">⏱</span>
+              <ClockIcon className="patient-card-duration-icon" aria-hidden="true" />
               <span>{patient.estimatedDuration} min</span>
             </div>
           </div>
@@ -132,7 +133,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
         {/* Action Button */}
         <Link
-          href={`/esplora-pazienti/${patient.id}`}
+          href={`/explore-patients/${patient.id}`}
           className="patient-card-button"
           aria-label={`Inizia simulazione con ${patient.name}`}
         >

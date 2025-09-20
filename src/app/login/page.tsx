@@ -4,6 +4,7 @@ import { signIn, useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { CheckIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useToast } from "~/components/ui/ToastProvider";
 
 // Define the consolidated login state interface
@@ -276,20 +277,18 @@ export default function LoginPage() {
           {(loginState.phase === 'success' || loginState.phase === 'redirecting') ? (
             <div className="auth-form-card text-center">
               <div className="mb-6">
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
+                <div className="w-16 h-16 bg-success-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckIcon className="w-8 h-8 text-text-primary" />
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-2">Login Successful!</h2>
-                <p className="text-gray-300 mb-6">
+                <h2 className="text-2xl font-bold text-text-primary mb-2">Login Successful!</h2>
+                <p className="text-text-secondary mb-6">
                   Welcome back! You're being redirected to your dashboard.
                 </p>
                 
-                <div className="bg-gray-600 rounded-lg p-4 mb-6">
+                <div className="bg-background-tertiary rounded-lg p-4 mb-6">
                   <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-green-500"></div>
-                    <span className="text-white">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-success-500"></div>
+                    <span className="text-text-primary">
                       Redirecting in {loginState.redirectCountdown} second{loginState.redirectCountdown !== 1 ? 's' : ''}...
                     </span>
                   </div>
@@ -384,10 +383,7 @@ export default function LoginPage() {
                       }
                     }}
                   >
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
+                    <EyeIcon className="w-5 h-5 text-text-tertiary" />
                   </button>
                 </div>
                 {loginState.passwordError && (
@@ -407,7 +403,7 @@ export default function LoginPage() {
                   onChange={(e) => setLoginState(prev => ({ ...prev, rememberMe: e.target.checked }))}
                   className="auth-checkbox"
                 />
-                <label htmlFor="remember-me" className="ml-2 text-sm text-gray-300">
+                <label htmlFor="remember-me" className="ml-2 text-sm text-text-secondary">
                   Ricordami al prossimo accesso
                 </label>
               </div>
@@ -447,7 +443,7 @@ export default function LoginPage() {
 
               {/* Forgot Password */}
               <div className="text-center">
-                <Link href="/forgot-password" className="auth-text-muted hover:text-gray-300 text-sm">
+                <Link href="/forgot-password" className="auth-text-muted hover:text-text-secondary text-sm">
                   Hai dimenticato la password?
                 </Link>
               </div>

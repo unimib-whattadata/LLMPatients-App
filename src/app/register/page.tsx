@@ -318,7 +318,7 @@ export default function RegisterPage() {
                     }}
                     className="auth-checkbox mt-1"
                   />
-                  <label htmlFor="accept-terms" className="ml-2 text-sm text-gray-300">
+                  <label htmlFor="accept-terms" className="ml-2 text-sm text-text-secondary">
                     Accetto i{" "}
                     <Link href="/terms" className="auth-link">
                       termini e condizioni
@@ -355,7 +355,7 @@ export default function RegisterPage() {
 
               {/* Login Link */}
               <div className="text-center mt-4">
-                <span className="auth-text-muted text-sm">Hai già un account? </span>
+                <span className="auth-text-muted text-sm">Hai gia un account? </span>
                 <Link href="/login" className="auth-link text-sm">
                   Accedi qui
                 </Link>

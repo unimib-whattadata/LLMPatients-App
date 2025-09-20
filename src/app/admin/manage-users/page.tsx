@@ -225,10 +225,10 @@ export default function AdminUserManagementPage() {
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background-primary flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent-600 mx-auto mb-4"></div>
+          <p className="text-text-secondary">Loading...</p>
         </div>
       </div>
     );
@@ -237,10 +237,10 @@ export default function AdminUserManagementPage() {
   // Access denied
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background-primary flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Access Denied</h1>
-          <p className="text-gray-600 mb-4">You don't have permission to access this page.</p>
+          <h1 className="text-2xl font-bold text-text-primary mb-4">Access Denied</h1>
+          <p className="text-text-secondary mb-4">You don't have permission to access this page.</p>
           <Link href="/" className="btn btn-primary">
             Go Home
           </Link>
@@ -252,28 +252,28 @@ export default function AdminUserManagementPage() {
   const users = Array.isArray(usersData) ? usersData : usersData?.users || [];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background-primary">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      <header className="bg-background-secondary border-b border-border-primary">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link href="/" className="flex items-center">
-                <div className="w-8 h-8 bg-gray-800 rounded"></div>
-                <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
+                <div className="w-8 h-8 bg-background-tertiary rounded"></div>
+                <span className="ml-2 text-lg font-medium text-text-primary">ePatient</span>
               </Link>
-              <span className="ml-4 text-sm text-gray-500">/ Admin / User Management</span>
+              <span className="ml-4 text-sm text-text-tertiary">/ Admin / User Management</span>
             </div>
             
             <div className="flex items-center space-x-4">
               {isDevelopmentAccess && (
-                <span className="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded">
+                <span className="px-2 py-1 text-xs bg-warning-50 text-warning-700 rounded">
                   Development Access
                 </span>
               )}
               {session?.user && (
                 <>
-                  <span className="text-sm text-gray-700">{session.user.email}</span>
+                  <span className="text-sm text-text-secondary">{session.user.email}</span>
                   <Link href="/dashboard" className="btn btn-outline btn-sm">
                     Dashboard
                   </Link>
@@ -288,8 +288,8 @@ export default function AdminUserManagementPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Page Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">User Management</h1>
-            <p className="mt-2 text-gray-600">
+            <h1 className="text-3xl font-bold text-text-primary">User Management</h1>
+            <p className="mt-2 text-text-secondary">
               Manage user accounts, roles, and permissions
             </p>
           </div>
@@ -315,7 +315,7 @@ export default function AdminUserManagementPage() {
           {/* Controls */}
           <div className="dashboard-card">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4 sm:mb-0">
+              <h2 className="text-xl font-semibold text-text-primary mb-4 sm:mb-0">
                 All Users
               </h2>
               <button
@@ -372,7 +372,7 @@ export default function AdminUserManagementPage() {
                           <select
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
-                            className="text-sm border border-gray-300 rounded px-2 py-1"
+                            className="text-sm border border-border-primary rounded px-2 py-1 bg-background-secondary text-text-primary"
                             disabled={updateRoleMutation.isPending}
                           >
                             <option value="user">User</option>
@@ -427,9 +427,9 @@ export default function AdminUserManagementPage() {
 
       {/* Create User Modal */}
       {showCreateForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Create New User</h3>
+        <div className="fixed inset-0 bg-background-primary/80 flex items-center justify-center z-50">
+          <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold text-text-primary mb-4">Create New User</h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div>
                 <label className="label">Name</label>
@@ -495,9 +495,9 @@ export default function AdminUserManagementPage() {
 
       {/* Edit User Modal */}
       {editingUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Edit User</h3>
+        <div className="fixed inset-0 bg-background-primary/80 flex items-center justify-center z-50">
+          <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold text-text-primary mb-4">Edit User</h3>
             <form onSubmit={handleUpdateUser} className="space-y-4">
               <div>
                 <label className="label">Name</label>

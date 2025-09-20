@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 interface PatientAvatarProps {
   name: string;
@@ -107,19 +108,7 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
       {/* Error State with Retry Option */}
       {imageState === 'error' && retryCount >= maxRetries && avatarUrl && (
         <div className="patient-avatar-error">
-          <svg 
-            className="w-8 h-8 mb-2" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24"
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              strokeWidth={2} 
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" 
-            />
-          </svg>
+          <ExclamationTriangleIcon className="w-8 h-8 mb-2" />
           <span className="text-xs text-center">Immagine non disponibile</span>
         </div>
       )}
@@ -143,13 +132,14 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
       <div className="absolute inset-0 bg-black/20 pointer-events-none" />
       
       {/* Avatar Type Indicator */}
-      <div className="patient-avatar-badge-wrapper">
-        <div className={getBadgeClass(avatarType)}>
-          {avatarType === "photo" && "📷"}
-          {avatarType === "illustration" && "🎨"}
-          {avatarType === "avatar" && ""}
+      {avatarType !== "illustration" && (
+        <div className="patient-avatar-badge-wrapper">
+          <div className={getBadgeClass(avatarType)}>
+            {avatarType === "photo" && "[PHOTO]"}
+            {avatarType === "avatar" && ""}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

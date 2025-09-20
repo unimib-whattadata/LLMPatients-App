@@ -46,7 +46,7 @@ export default function AuthButton() {
   if (status === "loading") {
     return (
       <div className="btn btn-primary btn-md animate-pulse">
-        <div className="h-4 w-16 bg-gray-300 rounded"></div>
+        <div className="h-4 w-16 bg-text-primary/40 rounded"></div>
       </div>
     );
   }

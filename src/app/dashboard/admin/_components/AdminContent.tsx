@@ -43,18 +43,18 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
+      <div className="bg-background-secondary rounded-lg max-w-md w-full p-6">
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          <h3 className="text-lg font-semibold text-text-primary mb-2">
             Conferma Impersonificazione
           </h3>
           <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <span className="text-yellow-400"></span>
+                <span className="text-secondary-400"></span>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-yellow-800">
+                <h3 className="text-sm font-medium text-secondary-800">
                   Attenzione - Azione Amministrativa
                 </h3>
                 <div className="mt-2 text-sm text-yellow-700">
@@ -68,22 +68,22 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
         </div>
 
         <div className="mb-4">
-          <h4 className="font-medium text-gray-900 mb-2">Dettagli Utente:</h4>
-          <div className="bg-gray-50 rounded-md p-3 space-y-2">
+          <h4 className="font-medium text-text-primary mb-2">Dettagli Utente:</h4>
+          <div className="bg-background-secondary rounded-md p-3 space-y-2">
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Nome:</span>
+              <span className="text-sm text-text-secondary">Nome:</span>
               <span className="text-sm font-medium">{user.name || "N/A"}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Email:</span>
+              <span className="text-sm text-text-secondary">Email:</span>
               <span className="text-sm font-medium">{user.email}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm text-gray-600">Ruolo:</span>
+              <span className="text-sm text-text-secondary">Ruolo:</span>
               <span className={`text-sm px-2 py-1 rounded ${
                 user.role === "admin" 
                   ? "bg-red-100 text-red-800" 
-                  : "bg-blue-100 text-blue-800"
+                  : "bg-accent-100 text-blue-800"
               }`}>
                 {user.role === "admin" ? "Admin" : "Utente"}
               </span>
@@ -92,14 +92,14 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
         </div>
 
         <div className="mb-6">
-          <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-2">
+          <label htmlFor="reason" className="block text-sm font-medium text-text-secondary mb-2">
             Motivo (opzionale):
           </label>
           <textarea
             id="reason"
             rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            placeholder="Inserisci il motivo dell'impersonificazione (es. supporto utente, test funzionalità...)"
+            className="w-full px-3 py-2 border border-border-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Inserisci il motivo dell'impersonificazione (es. supporto utente, test funzionalita...)"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             disabled={isLoading}
@@ -110,14 +110,14 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary border border-border-secondary rounded-md hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-white bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
           </button>
@@ -185,7 +185,7 @@ export function AdminContent() {
   const handleImpersonateUser = (user: { id: string; name: string | null; email: string; role: string }) => {
     // Prevent impersonating admins
     if (user.role === "admin") {
-      alert("Non è possibile impersonificare un altro amministratore.");
+      alert("Non e possibile impersonificare un altro amministratore.");
       return;
     }
     
@@ -234,7 +234,7 @@ export function AdminContent() {
       <div className="dashboard-welcome-section">
         <h1 className="dashboard-welcome-title">Benvenuto, Amministratore</h1>
         <p className="dashboard-welcome-subtitle">
-          Gestisci il sistema e monitora le attività degli utenti dalla tua dashboard
+          Gestisci il sistema e monitora le attivita degli utenti dalla tua dashboard
         </p>
       </div>
 
@@ -245,7 +245,7 @@ export function AdminContent() {
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             selectedSection === "overview"
               ? "bg-red-100 text-red-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
           }`}
         >
           Panoramica
@@ -255,20 +255,20 @@ export function AdminContent() {
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             selectedSection === "users"
               ? "bg-red-100 text-red-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
           }`}
         >
-          👥 Gestione Utenti
+          [USERS] Gestione Utenti
         </button>
         <button
           onClick={() => setSelectedSection("activities")}
           className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             selectedSection === "activities"
               ? "bg-red-100 text-red-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
+              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
           }`}
         >
-          📋 Attività Recenti
+          [ACTIVITY] Attivita Recenti
         </button>
       </div>
 
@@ -281,8 +281,8 @@ export function AdminContent() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[1, 2, 3].map((i) => (
                 <div key={i} className="dashboard-stat-card animate-pulse">
-                  <div className="h-8 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                  <div className="h-8 bg-background-tertiary rounded mb-2"></div>
+                  <div className="h-4 bg-background-tertiary rounded w-3/4 mx-auto"></div>
                 </div>
               ))}
             </div>
@@ -305,7 +305,7 @@ export function AdminContent() {
 
           {/* Recent Activities */}
           <div className="dashboard-card mt-8">
-            <h3 className="dashboard-card-title">Attività Recenti</h3>
+            <h3 className="dashboard-card-title">Attivita Recenti</h3>
             {stats?.recentActivities && stats.recentActivities.length > 0 ? (
               <div className="space-y-4">
                 {stats.recentActivities.map((activity) => (
@@ -313,7 +313,7 @@ export function AdminContent() {
                     <div className="dashboard-activity-icon">
                       {activity.type === "login" && ""}
                       {activity.type === "profile_update" && ""}
-                      {activity.type === "role_update" && "⚡"}
+                      {activity.type === "role_update" && "[UPDATE]"}
                       {activity.type === "dashboard_view" && ""}
                     </div>
                     <div className="dashboard-activity-content">
@@ -332,10 +332,10 @@ export function AdminContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">📋</div>
-                <div className="dashboard-empty-state-title">Nessuna Attività</div>
+                <div className="dashboard-empty-state-icon">[ACTIVITY]</div>
+                <div className="dashboard-empty-state-title">Nessuna Attivita</div>
                 <div className="dashboard-empty-state-description">
-                  Le attività recenti verranno visualizzate qui
+                  Le attivita recenti verranno visualizzate qui
                 </div>
               </div>
             )}
@@ -353,9 +353,9 @@ export function AdminContent() {
             
             {usersLoading ? (
               <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded mb-4 w-full"></div>
+                <div className="h-4 bg-background-tertiary rounded mb-4 w-full"></div>
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-16 bg-gray-200 rounded mb-2"></div>
+                  <div key={i} className="h-16 bg-background-tertiary rounded mb-2"></div>
                 ))}
               </div>
             ) : users && users.length > 0 ? (
@@ -387,7 +387,7 @@ export function AdminContent() {
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
                             disabled={updateUserRole.isPending}
-                            className="text-sm border border-gray-300 rounded px-2 py-1"
+                            className="text-sm border border-border-secondary rounded px-2 py-1"
                           >
                             <option value="user">Utente</option>
                             <option value="admin">Admin</option>
@@ -400,10 +400,10 @@ export function AdminContent() {
                               disabled={user.role === "admin" || startImpersonation.isPending}
                               className={`px-3 py-1 text-xs font-medium rounded transition-colors duration-200 ${
                                 user.role === "admin"
-                                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                  ? "bg-background-tertiary text-text-tertiary cursor-not-allowed"
                                   : "bg-orange-100 text-orange-700 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
                               }`}
-                              title={user.role === "admin" ? "Non è possibile impersonificare un admin" : "Impersonifica questo utente"}
+                              title={user.role === "admin" ? "Non e possibile impersonificare un admin" : "Impersonifica questo utente"}
                             >
                               {startImpersonation.isPending ? "..." : " Impersonifica"}
                             </button>
@@ -416,7 +416,7 @@ export function AdminContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">👥</div>
+                <div className="dashboard-empty-state-icon">[USERS]</div>
                 <div className="dashboard-empty-state-title">Nessun Utente</div>
                 <div className="dashboard-empty-state-description">
                   Non ci sono utenti registrati nel sistema
@@ -430,38 +430,38 @@ export function AdminContent() {
       {/* Activities Section */}
       {selectedSection === "activities" && (
         <div>
-          <h2 className="text-heading-2 mb-6">Registro Attività</h2>
+          <h2 className="text-heading-2 mb-6">Registro Attivita</h2>
           
           <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Tutte le Attività</h3>
+            <h3 className="dashboard-card-title">Tutte le Attivita</h3>
             
             {stats?.recentActivities && stats.recentActivities.length > 0 ? (
               <div className="space-y-3">
                 {stats.recentActivities.map((activity) => (
-                  <div key={activity.id} className="border border-gray-200 rounded-lg p-4">
+                  <div key={activity.id} className="border border-border-primary rounded-lg p-4">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="dashboard-activity-icon">
                           {activity.type === "login" && ""}
                           {activity.type === "profile_update" && ""}
-                          {activity.type === "role_update" && "⚡"}
+                          {activity.type === "role_update" && "[UPDATE]"}
                           {activity.type === "dashboard_view" && ""}
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900">
+                          <div className="font-medium text-text-primary">
                             {activity.userName}
                           </div>
-                          <div className="text-sm text-gray-600">
+                          <div className="text-sm text-text-secondary">
                             Tipo: {activity.type}
                           </div>
                         </div>
                       </div>
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-text-tertiary">
                         {formatDate(activity.createdAt)}
                       </div>
                     </div>
                     {activity.metadata && (
-                      <div className="mt-2 text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                      <div className="mt-2 text-xs text-text-tertiary bg-background-secondary p-2 rounded">
                         <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
                       </div>
                     )}
@@ -470,10 +470,10 @@ export function AdminContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">📋</div>
-                <div className="dashboard-empty-state-title">Nessuna Attività</div>
+                <div className="dashboard-empty-state-icon">[ACTIVITY]</div>
+                <div className="dashboard-empty-state-title">Nessuna Attivita</div>
                 <div className="dashboard-empty-state-description">
-                  Il registro delle attività è vuoto
+                  Il registro delle attivita e vuoto
                 </div>
               </div>
             )}

@@ -104,140 +104,171 @@ export function UserContent() {
     }
   };
 
+  const lastActivity = activities?.[0];
+  const simulationsCompleted = activities?.filter((activity) => activity.type === "simulation").length ?? 0;
+
+  const navItems: Array<{ key: typeof selectedSection; label: string }> = [
+    { key: "overview", label: "[HOME] Panoramica" },
+    { key: "profile", label: "Il Mio Profilo" },
+    { key: "activities", label: "[ACTIVITY] La Mia Attivita" },
+  ];
+
   return (
-    <div className="dashboard-container">
-      {/* Welcome Section */}
-      <div className="dashboard-welcome-section">
-        <h1 className="dashboard-welcome-title">Benvenuto nella tua Area Personale</h1>
-        <p className="dashboard-welcome-subtitle">
-          Ciao {profile?.name ?? "Utente"}! Gestisci il tuo profilo e monitora la tua attività
-        </p>
-      </div>
+    <div className="dashboard-page">
+      <section className="dashboard-page__hero">
+        <div className="dashboard-page__hero-content">
+          <span className="dashboard-page__hero-eyebrow">Area personale</span>
+          <h1 className="dashboard-page__hero-title">
+            Ciao {profile?.name ?? "Utente"}, bentornato/a su ePatient
+          </h1>
+          <p className="dashboard-page__hero-subtitle">
+            Gestisci il tuo profilo, tieni traccia delle simulazioni completate e monitora le
+            attivita registrate durante il tuo percorso formativo.
+          </p>
 
-      {/* Section Navigation */}
-      <div className="flex space-x-4 mb-6">
-        <button
-          onClick={() => setSelectedSection("overview")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "overview"
-              ? "bg-blue-100 text-blue-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-          }`}
-        >
-          🏠 Panoramica
-        </button>
-        <button
-          onClick={() => setSelectedSection("profile")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "profile"
-              ? "bg-blue-100 text-blue-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-          }`}
-        >
-          Il Mio Profilo
-        </button>
-        <button
-          onClick={() => setSelectedSection("activities")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "activities"
-              ? "bg-blue-100 text-blue-700"
-              : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
-          }`}
-        >
-          📋 La Mia Attività
-        </button>
-      </div>
-
-      {/* Overview Section */}
-      {selectedSection === "overview" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">Panoramica</h2>
-          
-          {/* Welcome Card */}
-          <div className="dashboard-card mb-6">
-            <h3 className="dashboard-card-title">Benvenuto/a nella tua Area Personale</h3>
-            <p className="text-body text-gray-600 mb-4">
-              Da qui puoi gestire il tuo profilo, visualizzare la tua attività recente e accedere 
-              alle funzionalità della piattaforma ePatient.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <div className="text-2xl mb-2"></div>
-                <h4 className="font-semibold text-gray-900 mb-1">Profilo</h4>
-                <p className="text-sm text-gray-600">Aggiorna le tue informazioni personali</p>
-              </div>
-              <div className="bg-green-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-1">Simulazioni</h4>
-                <p className="text-sm text-gray-600">Accedi alle simulazioni mediche</p>
-              </div>
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <h4 className="font-semibold text-gray-900 mb-1">Progresso</h4>
-                <p className="text-sm text-gray-600">Monitora i tuoi risultati</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="dashboard-stat-card">
-              <div className="dashboard-stat-number">{activities?.length ?? 0}</div>
-              <div className="dashboard-stat-label">Attività Registrate</div>
-            </div>
-            <div className="dashboard-stat-card">
-              <div className="dashboard-stat-number">
-                {profile?.role === "admin" ? "Admin" : "Utente"}
-              </div>
-              <div className="dashboard-stat-label">Ruolo Account</div>
-            </div>
-          </div>
-
-          {/* Recent Activities Summary */}
-          <div className="dashboard-card mt-6">
-            <h3 className="dashboard-card-title">Attività Recenti</h3>
-            {activities && activities.length > 0 ? (
-              <div className="space-y-3">
-                {activities.slice(0, 5).map((activity) => (
-                  <div key={activity.id} className="dashboard-activity-item">
-                    <div className="dashboard-activity-icon">
-                      {activity.type === "login" && ""}
-                      {activity.type === "profile_update" && ""}
-                      {activity.type === "dashboard_view" && ""}
-                      {activity.type === "simulation" && ""}
-                    </div>
-                    <div className="dashboard-activity-content">
-                      <div className="dashboard-activity-title">
-                        {getActivityDisplayName(activity.type)}
-                      </div>
-                      <div className="dashboard-activity-time">
-                        {formatDate(activity.createdAt)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">📋</div>
-                <div className="dashboard-empty-state-title">Nessuna Attività</div>
-                <div className="dashboard-empty-state-description">
-                  Le tue attività verranno visualizzate qui
-                </div>
-              </div>
-            )}
+          <div className="dashboard-page__hero-meta">
+            <span className="dashboard-chip" aria-label="Tipo di account">
+              <span aria-hidden="true">👤</span>
+              <span>{profile?.role === "admin" ? "Account amministratore" : "Account utente"}</span>
+            </span>
+            <span className="dashboard-chip" aria-label="Ultima attivita registrata">
+              <span aria-hidden="true">🕒</span>
+              <span>
+                {lastActivity
+                  ? `Ultima attivita ${formatDate(lastActivity.createdAt)}`
+                  : "In attesa della prima attivita"}
+              </span>
+            </span>
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Profile Section */}
-      {selectedSection === "profile" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">Il Mio Profilo</h2>
-          
-          <div className="dashboard-card">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="dashboard-card-title">Informazioni Personali</h3>
+      <div className="dashboard-stack">
+        <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard">
+          {navItems.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              role="tab"
+              aria-selected={selectedSection === item.key}
+              className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
+              onClick={() => setSelectedSection(item.key)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {selectedSection === "overview" && (
+          <div className="dashboard-panel-stack">
+            <section className="dashboard-section">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 className="dashboard-section__title">Panoramica</h2>
+                  <p className="dashboard-section__description">
+                    Qui trovi un riepilogo rapido del tuo profilo, delle attivita e delle simulazioni
+                    disponibili per continuare il tuo percorso formativo.
+                  </p>
+                </div>
+              </div>
+
+              <div className="dashboard-action-grid">
+                <div className="dashboard-action-card">
+                  <span className="dashboard-action-card__badge">Profilo</span>
+                  <p className="dashboard-action-card__title">Mantieni aggiornate le tue informazioni</p>
+                  <p className="dashboard-action-card__description">
+                    Modifica nome, email e preferenze per ricevere suggerimenti piu pertinenti.
+                  </p>
+                </div>
+                <div className="dashboard-action-card">
+                  <span className="dashboard-action-card__badge">Simulazioni</span>
+                  <p className="dashboard-action-card__title">Accedi alle sessioni attive</p>
+                  <p className="dashboard-action-card__description">
+                    Prosegui con le simulazioni in corso o esplora nuovi scenari clinici.
+                  </p>
+                </div>
+                <div className="dashboard-action-card">
+                  <span className="dashboard-action-card__badge">Progressi</span>
+                  <p className="dashboard-action-card__title">Analizza la tua evoluzione</p>
+                  <p className="dashboard-action-card__description">
+                    Consulta le valutazioni ricevute e monitora la crescita delle tue competenze.
+                  </p>
+                </div>
+              </div>
+
+              <div className="dashboard-metric-grid" aria-label="Indicatori rapidi">
+                <div className="dashboard-metric-card">
+                  <span className="dashboard-metric-card__label">Attivita registrate</span>
+                  <span className="dashboard-metric-card__value">{activities?.length ?? 0}</span>
+                </div>
+                <div className="dashboard-metric-card">
+                  <span className="dashboard-metric-card__label">Simulazioni completate</span>
+                  <span className="dashboard-metric-card__value">{simulationsCompleted}</span>
+                </div>
+                <div className="dashboard-metric-card">
+                  <span className="dashboard-metric-card__label">Ruolo account</span>
+                  <span className="dashboard-metric-card__value">
+                    {profile?.role === "admin" ? "Admin" : "Utente"}
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <section className="dashboard-section" aria-labelledby="dashboard-recent-activity">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 id="dashboard-recent-activity" className="dashboard-section__title">
+                    Attivita recenti
+                  </h2>
+                  <p className="dashboard-section__description">
+                    Una selezione delle ultime azioni registrate mentre utilizzi la piattaforma.
+                  </p>
+                </div>
+              </div>
+
+              {activities && activities.length > 0 ? (
+                <div className="dashboard-list" role="list">
+                  {activities.slice(0, 5).map((activity) => (
+                    <div key={activity.id} className="dashboard-list__item" role="listitem">
+                      <div>
+                        <div className="dashboard-activity-title">
+                          {getActivityDisplayName(activity.type)}
+                        </div>
+                        <div className="dashboard-activity-meta">
+                          {formatDate(activity.createdAt)}
+                        </div>
+                      </div>
+                      <span className="dashboard-chip" aria-hidden="true">
+                        {activity.type}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="dashboard-empty-state">
+                  <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                  <p>Le tue attivita appariranno qui appena inizierai ad utilizzare la piattaforma.</p>
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+
+        {selectedSection === "profile" && (
+          <section className="dashboard-section" aria-labelledby="dashboard-profile">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="dashboard-profile" className="dashboard-section__title">
+                  Il mio profilo
+                </h2>
+                <p className="dashboard-section__description">
+                  Gestisci le informazioni principali del tuo account per mantenere aggiornati i dati di
+                  contatto e le preferenze.
+                </p>
+              </div>
               {!isEditingProfile && (
                 <button
+                  type="button"
                   onClick={() => setIsEditingProfile(true)}
                   className="btn btn-outline btn-sm"
                 >
@@ -247,74 +278,76 @@ export function UserContent() {
             </div>
 
             {profileLoading ? (
-              <div className="animate-pulse space-y-4">
-                <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                <div className="h-10 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-                <div className="h-10 bg-gray-200 rounded"></div>
+              <div className="animate-pulse space-y-4" aria-hidden="true">
+                <div className="h-4 bg-background-tertiary rounded w-1/4"></div>
+                <div className="h-10 bg-background-tertiary rounded"></div>
+                <div className="h-4 bg-background-tertiary rounded w-1/4"></div>
+                <div className="h-10 bg-background-tertiary rounded"></div>
               </div>
             ) : isEditingProfile ? (
-              <form onSubmit={handleProfileSubmit} className="space-y-4">
+              <form onSubmit={handleProfileSubmit} className="dashboard-panel" aria-live="polite">
                 <div className="form-group">
-                  <label className="label">Nome</label>
+                  <label className="label" htmlFor="profile-name">Nome</label>
                   <input
+                    id="profile-name"
                     type="text"
                     value={profileForm.name}
-                    onChange={(e) => setProfileForm(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) => setProfileForm((prev) => ({ ...prev, name: e.target.value }))}
                     className="input-field"
                     placeholder="Il tuo nome"
                     required
                   />
                 </div>
-                
+
                 <div className="form-group">
-                  <label className="label">Email</label>
+                  <label className="label" htmlFor="profile-email">Email</label>
                   <input
+                    id="profile-email"
                     type="email"
                     value={profileForm.email}
-                    onChange={(e) => setProfileForm(prev => ({ ...prev, email: e.target.value }))}
+                    onChange={(e) => setProfileForm((prev) => ({ ...prev, email: e.target.value }))}
                     className="input-field"
                     placeholder="La tua email"
                     required
                   />
                 </div>
 
-                <div className="flex space-x-4">
+                <div className="flex flex-wrap gap-3">
                   <button
                     type="submit"
                     disabled={updateProfile.isPending}
                     className="btn btn-primary btn-sm"
                   >
-                    {updateProfile.isPending ? "Salvando..." : "💾 Salva"}
+                    {updateProfile.isPending ? "Salvando..." : "[SAVE] Salva"}
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsEditingProfile(false)}
                     className="btn btn-ghost btn-sm"
                   >
-                    ❌ Annulla
+                    [CANCEL] Annulla
                   </button>
                 </div>
               </form>
             ) : (
-              <div className="space-y-4">
+              <div className="dashboard-panel">
                 <div>
                   <label className="label">Nome</label>
-                  <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
+                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
                     {profile?.name || "Nome non disponibile"}
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="label">Email</label>
-                  <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
+                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
                     {profile?.email || "Email non disponibile"}
                   </div>
                 </div>
 
                 <div>
                   <label className="label">Ruolo</label>
-                  <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">
+                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
                     <span className={`dashboard-badge ${
                       profile?.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
                     }`}>
@@ -324,51 +357,44 @@ export function UserContent() {
                 </div>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </section>
+        )}
 
-      {/* Activities Section */}
-      {selectedSection === "activities" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">La Mia Attività</h2>
-          
-          <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Cronologia Attività</h3>
-            
+        {selectedSection === "activities" && (
+          <section className="dashboard-section" aria-labelledby="dashboard-activity-log">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="dashboard-activity-log" className="dashboard-section__title">
+                  Cronologia attivita
+                </h2>
+                <p className="dashboard-section__description">
+                  Tutte le azioni registrate recentemente sul tuo account, incluse simulazioni e modifiche
+                  al profilo.
+                </p>
+              </div>
+            </div>
+
             {activitiesLoading ? (
-              <div className="animate-pulse space-y-4">
+              <div className="animate-pulse space-y-4" aria-hidden="true">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-16 bg-gray-200 rounded"></div>
+                  <div key={i} className="h-16 bg-background-tertiary rounded"></div>
                 ))}
               </div>
             ) : activities && activities.length > 0 ? (
-              <div className="space-y-3">
+              <div className="dashboard-panel-stack">
                 {activities.map((activity) => (
-                  <div key={activity.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="dashboard-activity-icon">
-                          {activity.type === "login" && ""}
-                          {activity.type === "profile_update" && ""}
-                          {activity.type === "dashboard_view" && ""}
-                          {activity.type === "simulation" && ""}
+                  <div key={activity.id} className="dashboard-panel">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="dashboard-activity-title">
+                          {getActivityDisplayName(activity.type)}
                         </div>
-                        <div>
-                          <div className="font-medium text-gray-900">
-                            {getActivityDisplayName(activity.type)}
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            Tipo: {activity.type}
-                          </div>
-                        </div>
+                        <div className="dashboard-activity-meta">Tipo: {activity.type}</div>
                       </div>
-                      <div className="text-sm text-gray-500">
-                        {formatDate(activity.createdAt)}
-                      </div>
+                      <div className="dashboard-activity-meta">{formatDate(activity.createdAt)}</div>
                     </div>
                     {activity.metadata && (
-                      <div className="mt-2 text-xs text-gray-500 bg-gray-50 p-2 rounded">
+                      <div className="dashboard-activity-meta bg-background-secondary p-3 rounded-md">
                         <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
                       </div>
                     )}
@@ -377,16 +403,13 @@ export function UserContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">📋</div>
-                <div className="dashboard-empty-state-title">Nessuna Attività</div>
-                <div className="dashboard-empty-state-description">
-                  Le tue attività verranno registrate automaticamente
-                </div>
+                <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                <p>Le tue attivita verranno registrate automaticamente mentre utilizzi ePatient.</p>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </section>
+        )}
+      </div>
     </div>
   );
 }

@@ -34,7 +34,7 @@ export function MyProgressContent() {
       id: "1",
       title: "Primo Soccorso",
       description: "Completata prima simulazione di emergenza",
-      icon: "🚑",
+      icon: "[EMERGENCY]",
       unlockedAt: "2024-09-03",
       category: "emergency"
     },
@@ -42,6 +42,7 @@ export function MyProgressContent() {
       id: "2",
       title: "Diagnostico Eccellente",
       description: "Score superiore a 90 in una diagnosi",
+      icon: "[DIAGNOSIS]",
       unlockedAt: "2024-09-01",
       category: "clinical"
     },
@@ -49,7 +50,7 @@ export function MyProgressContent() {
       id: "3",
       title: "Comunicatore Empatico",
       description: "Eccellenza nella comunicazione paziente",
-      icon: "💬",
+      icon: "[COMMUNICATION]",
       unlockedAt: "2024-08-28",
       category: "communication"
     },
@@ -57,7 +58,7 @@ export function MyProgressContent() {
       id: "4",
       title: "Studente Dedicato",
       description: "10 simulazioni completate",
-      icon: "📚",
+      icon: "[STUDY]",
       unlockedAt: "2024-08-25",
       category: "academic"
     }
@@ -81,11 +82,11 @@ export function MyProgressContent() {
 
   const getCategoryIcon = (category: string) => {
     const icons = {
-      communication: "💬", 
-      emergency: "🚑",
-      academic: "📚"
+    communication: "[COMMUNICATION]", 
+    emergency: "[EMERGENCY]",
+    academic: "[STUDY]"
     };
-    return icons[category as keyof typeof icons] || "🏆";
+    return icons[category as keyof typeof icons] || "[TROPHY]";
   };
 
   const filteredAchievements = selectedCategory === "all" 
@@ -100,71 +101,71 @@ export function MyProgressContent() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-text-primary mb-2">
           I Miei Progressi
         </h1>
-        <p className="text-gray-600">
+        <p className="text-text-secondary">
           Monitora il tuo percorso di apprendimento e i tuoi risultati
         </p>
       </div>
 
       {/* Progress Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-blue-600 mb-1">
+              <div className="text-2xl font-bold text-accent-600 mb-1">
                 {completedSimulations}/{totalSimulations}
               </div>
-              <div className="text-sm text-gray-600">Simulazioni Completate</div>
+              <div className="text-sm text-text-secondary">Simulazioni Completate</div>
             </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
             </div>
           </div>
           <div className="mt-4">
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-background-tertiary rounded-full h-2">
               <div 
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                className="bg-accent-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(completedSimulations / totalSimulations) * 100}%` }}
               ></div>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-green-600 mb-1">{averageScore}</div>
-              <div className="text-sm text-gray-600">Score Medio</div>
+              <div className="text-2xl font-bold text-success-600 mb-1">{averageScore}</div>
+              <div className="text-sm text-text-secondary">Score Medio</div>
             </div>
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-success-50 rounded-lg flex items-center justify-center">
             </div>
           </div>
-          <div className="mt-4 text-xs text-green-600">
+          <div className="mt-4 text-xs text-success-600">
             +5% rispetto al mese scorso
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-purple-600 mb-1">{achievements.length}</div>
-              <div className="text-sm text-gray-600">Achievement Sbloccati</div>
+              <div className="text-sm text-text-secondary">Achievement Sbloccati</div>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              🏆
+              [TROPHY]
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-orange-600 mb-1">{totalHours}h</div>
-              <div className="text-sm text-gray-600">Ore di Studio</div>
+              <div className="text-sm text-text-secondary">Ore di Studio</div>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              ⏰
+              [CLOCK]
             </div>
           </div>
         </div>
@@ -172,8 +173,8 @@ export function MyProgressContent() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Skills Progress */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">
+        <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
+          <h3 className="text-lg font-semibold text-text-primary mb-6">
             Progressi per Competenza
           </h3>
           <div className="space-y-6">
@@ -181,14 +182,14 @@ export function MyProgressContent() {
               <div key={index}>
                 <div className="flex justify-between items-center mb-2">
                   <div>
-                    <h4 className="font-medium text-gray-900">{skill.skill}</h4>
-                    <p className="text-xs text-gray-500">{skill.category}</p>
+                    <h4 className="font-medium text-text-primary">{skill.skill}</h4>
+                    <p className="text-xs text-text-tertiary">{skill.category}</p>
                   </div>
-                  <span className="text-sm font-bold text-gray-900">
+                  <span className="text-sm font-bold text-text-primary">
                     {skill.current}/{skill.target}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-background-tertiary rounded-full h-3">
                   <div 
                     className="bg-blue-500 h-3 rounded-full transition-all duration-500"
                     style={{ width: `${(skill.current / skill.target) * 100}%` }}
@@ -200,15 +201,15 @@ export function MyProgressContent() {
         </div>
 
         {/* Achievements */}
-        <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold text-text-primary">
               Achievement
             </h3>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-1 border border-border-secondary rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tutti</option>
               <option value="clinical">Clinici</option>
@@ -220,24 +221,24 @@ export function MyProgressContent() {
           
           <div className="space-y-4">
             {filteredAchievements.map((achievement) => (
-              <div key={achievement.id} className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
-                <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center text-2xl">
+              <div key={achievement.id} className="flex items-start gap-4 p-4 bg-background-secondary rounded-lg">
+                <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center text-2xl">
                   {achievement.icon}
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-medium text-gray-900 mb-1">
+                  <h4 className="font-medium text-text-primary mb-1">
                     {achievement.title}
                   </h4>
-                  <p className="text-sm text-gray-600 mb-2">
+                  <p className="text-sm text-text-secondary mb-2">
                     {achievement.description}
                   </p>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-text-tertiary">
                       Sbloccato il {achievement.unlockedAt}
                     </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${{
-                      clinical: "bg-blue-100 text-blue-800",
-                      communication: "bg-green-100 text-green-800",
+                      clinical: "bg-accent-100 text-blue-800",
+                      communication: "bg-success-50 text-success-700",
                       emergency: "bg-red-100 text-red-800",
                       academic: "bg-purple-100 text-purple-800"
                     }[achievement.category]}`}>
@@ -252,25 +253,25 @@ export function MyProgressContent() {
       </div>
 
       {/* Weekly Progress Chart */}
-      <div className="mt-8 bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-6">
+      <div className="mt-8 bg-background-secondary rounded-lg border border-border-primary p-6">
+        <h3 className="text-lg font-semibold text-text-primary mb-6">
           Progresso Settimanale
         </h3>
         <div className="grid grid-cols-4 gap-4">
           {weeklyProgress.map((week, index) => (
             <div key={index} className="text-center">
               <div className="mb-4">
-                <div className="w-full bg-gray-200 rounded-lg h-32 flex flex-col justify-end p-2">
+                <div className="w-full bg-background-tertiary rounded-lg h-32 flex flex-col justify-end p-2">
                   <div 
-                    className="bg-blue-600 rounded-md transition-all duration-500"
+                    className="bg-accent-600 rounded-md transition-all duration-500"
                     style={{ height: `${(week.avgScore / 100) * 100}%` }}
                   ></div>
                 </div>
               </div>
               <div className="text-sm">
-                <div className="font-medium text-gray-900">{week.week}</div>
-                <div className="text-gray-600">{week.simulations} sim</div>
-                <div className="text-blue-600 font-semibold">{week.avgScore}%</div>
+                <div className="font-medium text-text-primary">{week.week}</div>
+                <div className="text-text-secondary">{week.simulations} sim</div>
+                <div className="text-accent-600 font-semibold">{week.avgScore}%</div>
               </div>
             </div>
           ))}
@@ -279,27 +280,27 @@ export function MyProgressContent() {
 
       {/* Next Goals */}
       <div className="mt-8 bg-blue-50 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="text-lg font-semibold text-text-primary mb-4">
           Prossimi Obiettivi
         </h3>
         <div className="space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-xs">1</span>
+            <div className="w-6 h-6 bg-accent-600 rounded-full flex items-center justify-center">
+              <span className="text-text-primary text-xs">1</span>
             </div>
-            <span className="text-gray-700">Completare 5 simulazioni di emergenza</span>
+            <span className="text-text-secondary">Completare 5 simulazioni di emergenza</span>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-xs">2</span>
+            <div className="w-6 h-6 bg-success-600 rounded-full flex items-center justify-center">
+              <span className="text-text-primary text-xs">2</span>
             </div>
-            <span className="text-gray-700">Raggiungere score medio di 85+</span>
+            <span className="text-text-secondary">Raggiungere score medio di 85+</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
-              <span className="text-white text-xs">3</span>
+              <span className="text-text-primary text-xs">3</span>
             </div>
-            <span className="text-gray-700">Sbloccare achievement Esperto Clinico</span>
+            <span className="text-text-secondary">Sbloccare achievement Esperto Clinico</span>
           </div>
         </div>
       </div>

@@ -89,19 +89,19 @@ export function MyEvaluationsContent() {
 
   const getScoreColor = (score: number, maxScore: number) => {
     const percentage = (score / maxScore) * 100;
-    if (percentage >= 90) return "text-green-600 bg-green-100";
-    if (percentage >= 80) return "text-blue-600 bg-blue-100";
-    if (percentage >= 70) return "text-yellow-600 bg-yellow-100";
-    return "text-red-600 bg-red-100";
+    if (percentage >= 90) return "text-success-600 bg-success-50";
+    if (percentage >= 80) return "text-accent-600 bg-accent-100";
+    if (percentage >= 70) return "text-secondary-600 bg-secondary-100";
+    return "text-error-600 bg-red-100";
   };
 
   const getDifficultyColor = (difficulty: string) => {
     const colors = {
-      "Facile": "bg-green-100 text-green-800",
-      "Medio": "bg-yellow-100 text-yellow-800",
+      "Facile": "bg-success-50 text-success-700",
+      "Medio": "bg-secondary-100 text-secondary-800",
       "Difficile": "bg-red-100 text-red-800"
     };
-    return colors[difficulty as keyof typeof colors] || "bg-gray-100 text-gray-800";
+    return colors[difficulty as keyof typeof colors] || "bg-background-tertiary text-text-primary";
   };
 
   const averageScore = evaluations.length > 0 
@@ -111,65 +111,65 @@ export function MyEvaluationsContent() {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-3xl font-bold text-text-primary mb-2">
           Le Mie Valutazioni
         </h1>
-        <p className="text-gray-600">
+        <p className="text-text-secondary">
           Visualizza i risultati delle tue simulazioni e i feedback ricevuti
         </p>
       </div>
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-blue-600 mb-1">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+          <div className="text-2xl font-bold text-accent-600 mb-1">
             {evaluations.length}
           </div>
-          <div className="text-sm text-gray-600">Valutazioni Totali</div>
+          <div className="text-sm text-text-secondary">Valutazioni Totali</div>
         </div>
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-green-600 mb-1">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+          <div className="text-2xl font-bold text-success-600 mb-1">
             {averageScore}
           </div>
-          <div className="text-sm text-gray-600">Score Medio</div>
+          <div className="text-sm text-text-secondary">Score Medio</div>
         </div>
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="text-2xl font-bold text-purple-600 mb-1">
             {Math.max(...evaluations.map(e => e.score), 0)}
           </div>
-          <div className="text-sm text-gray-600">Miglior Score</div>
+          <div className="text-sm text-text-secondary">Miglior Score</div>
         </div>
-        <div className="bg-white p-6 rounded-lg border border-gray-200">
+        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
           <div className="text-2xl font-bold text-orange-600 mb-1">
             {evaluations.filter(e => e.score >= 80).length}
           </div>
-          <div className="text-sm text-gray-600">Eccellenti (80+)</div>
+          <div className="text-sm text-text-secondary">Eccellenti (80+)</div>
         </div>
       </div>
 
       {/* Evaluations List */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-900">
+          <h3 className="text-lg font-semibold text-text-primary">
             Cronologia Valutazioni
           </h3>
           {evaluations.map((evaluation) => (
             <div 
               key={evaluation.id}
-              className={`bg-white rounded-lg border border-gray-200 p-4 cursor-pointer transition-all duration-200 ${
+              className={`bg-background-secondary rounded-lg border border-border-primary p-4 cursor-pointer transition-all duration-200 ${
                 selectedEvaluation === evaluation.id ? 'ring-2 ring-blue-500' : ''
               }`}
               onClick={() => setSelectedEvaluation(evaluation.id)}
             >
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <h4 className="font-semibold text-gray-900">
+                  <h4 className="font-semibold text-text-primary">
                     {evaluation.simulationTitle}
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-text-secondary">
                     Paziente: {evaluation.patientName}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-text-tertiary">
                     {evaluation.completedAt}
                   </p>
                 </div>
@@ -183,9 +183,9 @@ export function MyEvaluationsContent() {
                 </div>
               </div>
               
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-background-tertiary rounded-full h-2">
                 <div 
-                  className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                  className="bg-accent-600 h-2 rounded-full transition-all duration-300"
                   style={{ width: `${(evaluation.score / evaluation.maxScore) * 100}%` }}
                 ></div>
               </div>
@@ -201,12 +201,12 @@ export function MyEvaluationsContent() {
               if (!evaluation) return null;
               
               return (
-                <div className="bg-white rounded-lg border border-gray-200 p-6">
+                <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
                   <div className="mb-6">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    <h3 className="text-xl font-semibold text-text-primary mb-2">
                       {evaluation.simulationTitle}
                     </h3>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
+                    <div className="flex items-center gap-4 text-sm text-text-secondary">
                       <span>Paziente: {evaluation.patientName}</span>
                       <span>•</span>
                       <span>{evaluation.completedAt}</span>
@@ -214,38 +214,38 @@ export function MyEvaluationsContent() {
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-2">Feedback Generale</h4>
-                    <p className="text-gray-700 leading-relaxed">
+                    <h4 className="font-semibold text-text-primary mb-2">Feedback Generale</h4>
+                    <p className="text-text-secondary leading-relaxed">
                       {evaluation.feedback}
                     </p>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3">Punti di Forza</h4>
+                    <h4 className="font-semibold text-text-primary mb-3">Punti di Forza</h4>
                     <ul className="space-y-2">
                       {evaluation.strengths.map((strength, index) => (
                         <li key={index} className="flex items-start gap-2">
-                          <span className="text-green-500 mt-1">✓</span>
-                          <span className="text-gray-700">{strength}</span>
+                          <span className="text-success-500 mt-1">✓</span>
+                          <span className="text-text-secondary">{strength}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-gray-900 mb-3">Aree di Miglioramento</h4>
+                    <h4 className="font-semibold text-text-primary mb-3">Aree di Miglioramento</h4>
                     <ul className="space-y-2">
                       {evaluation.improvements.map((improvement, index) => (
                         <li key={index} className="flex items-start gap-2">
                           <span className="text-orange-500 mt-1">!</span>
-                          <span className="text-gray-700">{improvement}</span>
+                          <span className="text-text-secondary">{improvement}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="pt-4 border-t border-gray-200">
-                    <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-200">
+                  <div className="pt-4 border-t border-border-primary">
+                    <button className="w-full px-4 py-2 bg-accent-600 text-text-primary rounded-md hover:bg-accent-700 transition-colors duration-200">
                       Ripeti Simulazione
                     </button>
                   </div>
@@ -253,12 +253,12 @@ export function MyEvaluationsContent() {
               );
             })()
           ) : (
-            <div className="bg-gray-50 rounded-lg p-8 text-center">
-              <div className="text-gray-400 text-4xl mb-4">📋</div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <div className="bg-background-secondary rounded-lg p-8 text-center">
+              <div className="text-text-tertiary text-4xl mb-4">📋</div>
+              <h3 className="text-lg font-medium text-text-primary mb-2">
                 Seleziona una valutazione
               </h3>
-              <p className="text-gray-600">
+              <p className="text-text-secondary">
                 Clicca su una valutazione per vedere i dettagli e il feedback
               </p>
             </div>
