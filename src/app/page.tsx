@@ -36,7 +36,7 @@ export default async function Home() {
 
 
   const marketingFooter = (
-    <footer className="home-footer">
+    <footer className="home-footer" itemScope itemType="https://schema.org/Organization">
       <div className="home-footer-main">
         <div className="section-container">
           <div className="home-footer-grid">
@@ -45,10 +45,11 @@ export default async function Home() {
                 src="/images/logo.png" 
                 alt="LLMPatient Logo" 
                 className="home-footer-brand-logo"
+                itemProp="logo"
               />
               <div>
-                <p className="home-footer-brand-name">LLMPatient</p>
-                <p className="home-footer-brand-caption">
+                <p className="home-footer-brand-name" itemProp="name">LLMPatient</p>
+                <p className="home-footer-brand-caption" itemProp="description">
                   Un progetto dedicato alla formazione e alla valutazione delle competenze cliniche.
                 </p>
               </div>
@@ -65,8 +66,11 @@ export default async function Home() {
 
             <div className="home-footer-column">
               <h3>Contatti</h3>
-                <ul>
-                  <li>marco.cremaschi@unimib.it</li>
+                <ul itemScope itemType="https://schema.org/Person">
+                  <li itemProp="email">marco.cremaschi@unimib.it</li>
+                  <meta itemProp="name" content="Marco Cremaschi" />
+                  <meta itemProp="jobTitle" content="Ricercatore" />
+                  <meta itemProp="affiliation" content="Università degli Studi di Milano-Bicocca" />
                 </ul>
             </div>
           </div>
@@ -85,42 +89,49 @@ export default async function Home() {
   );
 
   const homeContent = (
-    <main className="home-page">
-      <section className="home-hero">
+    <main className="home-page" itemScope itemType="https://schema.org/WebApplication">
+      <section className="home-hero" itemScope itemType="https://schema.org/SoftwareApplication">
         <div className="home-hero-inner">
-          <h1 className="home-hero-title">Simula. Valuta. Impara.</h1>
-          <p className="home-hero-subtitle">
+          <h1 className="home-hero-title" itemProp="name">Simula. Valuta. Impara.</h1>
+          <p className="home-hero-subtitle" itemProp="description">
             Uno strumento per l'addestramento alla psicoterapia, progettato per studenti universitari e tutor clinici.
           </p>
           <div className="home-hero-actions">
-            <Link href="#" className="btn btn-primary">
+            <Link href="#" className="btn btn-primary" itemProp="url">
               Scopri il progetto
             </Link>
           </div>
+          <meta itemProp="applicationCategory" content="EducationalApplication" />
+          <meta itemProp="operatingSystem" content="Web Browser" />
+          <meta itemProp="offers" itemScope itemType="https://schema.org/Offer" content="Free" />
         </div>
       </section>
 
-      <section className="home-process section-spacing">
+      <section className="home-process section-spacing" itemScope itemType="https://schema.org/HowTo">
         <div className="section-container">
-          <h2 className="section-heading">Il tuo percorso formativo, passo dopo passo</h2>
-          <ol className="home-process-list" role="list">
+          <h2 className="section-heading" itemProp="name">Il tuo percorso formativo, passo dopo passo</h2>
+          <meta itemProp="description" content="Processo formativo per l'addestramento alla psicoterapia con pazienti virtuali" />
+          <ol className="home-process-list" role="list" itemProp="step">
             {processSteps.map((step, index) => (
               <li
                 key={step.title}
                 className={`home-process-item home-process-item--${step.align}`}
                 role="listitem"
+                itemScope
+                itemType="https://schema.org/HowToStep"
+                itemProp="itemListElement"
               >
                 {step.align === "left" ? (
                   <div className="home-process-text">
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
+                    <h3 itemProp="name">{step.title}</h3>
+                    <p itemProp="text">{step.description}</p>
                   </div>
                 ) : (
                   <div className="home-process-text home-process-text--empty" aria-hidden="true" />
                 )}
 
                 <div className="home-process-timeline" aria-hidden="true">
-                  <div className={`home-process-number home-process-number--${index + 1}`}>
+                  <div className={`home-process-number home-process-number--${index + 1}`} itemProp="position">
                     {index + 1}
                   </div>
                   {index < processSteps.length - 1 && <span className="home-process-line" />}
@@ -128,8 +139,8 @@ export default async function Home() {
 
                 {step.align === "right" ? (
                   <div className="home-process-text">
-                    <h3>{step.title}</h3>
-                    <p>{step.description}</p>
+                    <h3 itemProp="name">{step.title}</h3>
+                    <p itemProp="text">{step.description}</p>
                   </div>
                 ) : (
                   <div className="home-process-text home-process-text--empty" aria-hidden="true" />

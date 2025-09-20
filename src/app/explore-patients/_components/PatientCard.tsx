@@ -57,6 +57,8 @@ export function PatientCard({ patient }: PatientCardProps) {
       className="patient-card"
       aria-labelledby={`patient-${patient.id}-title`}
       role="listitem"
+      itemScope
+      itemType="https://schema.org/Person"
     >
       {/* Patient Avatar */}
       <PatientAvatar
@@ -71,21 +73,21 @@ export function PatientCard({ patient }: PatientCardProps) {
         <div className="patient-card-main-content">
           {/* Name and Age */}
           <header className="patient-card-header">
-            <h3 id={`patient-${patient.id}-title`} className="patient-card-title">
+            <h3 id={`patient-${patient.id}-title`} className="patient-card-title" itemProp="name">
               {patient.name}
             </h3>
-            <span className="patient-card-age" aria-label={`${patient.age} anni di eta`}>
+            <span className="patient-card-age" aria-label={`${patient.age} anni di eta`} itemProp="age">
               {patient.age} anni
             </span>
           </header>
 
           {/* Condition */}
-          <p className="patient-card-condition">
+          <p className="patient-card-condition" itemProp="description">
             {patient.condition}
           </p>
 
           {/* Background Description */}
-          <p className="patient-card-description">
+          <p className="patient-card-description" itemProp="additionalProperty">
             {patient.background}
           </p>
 

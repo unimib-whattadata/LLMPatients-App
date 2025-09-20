@@ -10,20 +10,27 @@ interface PatientAvatarProps {
   avatarType: "photo" | "illustration" | "avatar";
 }
 
-const COLOR_SWATCHES: ReadonlyArray<[string, string]> = [
-  ["#1f2937", "#3b82f6"],
-  ["#374151", "#10b981"],
-  ["#4b5563", "#f59e0b"],
-  ["#6b7280", "#ef4444"],
-  ["#374151", "#8b5cf6"],
-  ["#1f2937", "#06b6d4"],
+const COLOR_SWATCHES: ReadonlyArray<string> = [
+  "#E91E63", // Pink
+  "#9C27B0", // Purple
+  "#673AB7", // Deep Purple
+  "#3F51B5", // Indigo
+  "#2196F3", // Blue
+  "#03A9F4", // Light Blue
+  "#00BCD4", // Cyan
+  "#009688", // Teal
+  "#4CAF50", // Green
+  "#8BC34A", // Light Green
+  "#CDDC39", // Lime
+  "#FFEB3B", // Yellow
+  "#FFC107", // Amber
+  "#FF9800", // Orange
+  "#FF5722", // Deep Orange
+  "#795548", // Brown
+  "#607D8B", // Blue Grey
+  "#9E9E9E", // Grey
 ];
 
-const BADGE_VARIANTS: Record<PatientAvatarProps["avatarType"], string> = {
-  photo: "patient-avatar-badge patient-avatar-badge--photo",
-  illustration: "patient-avatar-badge patient-avatar-badge--illustration",
-  avatar: "patient-avatar-badge patient-avatar-badge--avatar",
-};
 
 function initialsFromName(name: string) {
   return name
@@ -35,25 +42,26 @@ function initialsFromName(name: string) {
 }
 
 function colorIndexFor(name: string) {
-  const hash = name.split("").reduce((acc, char) => {
-    const next = (acc << 5) - acc + char.charCodeAt(0);
-    return next & next;
-  }, 0);
-
+  // Use a better hash function for better distribution
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    const char = name.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  // Use absolute value and ensure we get a good distribution
   return Math.abs(hash) % COLOR_SWATCHES.length;
 }
 
 function buildPlaceholder(name: string) {
   const initials = initialsFromName(name) || "?";
-  const [background, accent] = COLOR_SWATCHES[colorIndexFor(name)] ?? COLOR_SWATCHES[0]!;
+  const background = COLOR_SWATCHES[colorIndexFor(name)] ?? COLOR_SWATCHES[0]!;
 
   const svg = `
     <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
       <rect width="192" height="192" fill="${background}" />
-      <circle cx="96" cy="96" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2" />
-      <text x="96" y="110" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="52" font-weight="600" text-anchor="middle" fill="#ffffff">${initials}</text>
-      <circle cx="96" cy="96" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
-      <circle cx="156" cy="40" r="18" fill="${accent}" opacity="0.45" />
+      <text x="96" y="96" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" dominant-baseline="central" fill="white">${initials}</text>
     </svg>
   `.trim();
 
@@ -64,14 +72,14 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
   const [hasError, setHasError] = useState(false);
   const placeholder = useMemo(() => buildPlaceholder(name), [name]);
   const showPlaceholder = !avatarUrl || hasError;
-  const badgeClass = BADGE_VARIANTS[avatarType] ?? "patient-avatar-badge";
 
   return (
     <div className="patient-avatar-container">
       <Image
         src={showPlaceholder ? placeholder : avatarUrl}
         alt={`Avatar di ${name}`}
-        fill
+        width={192}
+        height={192}
         className="patient-avatar-image"
         onLoad={() => setHasError(false)}
         onError={() => setHasError(true)}
@@ -88,11 +96,6 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
         </div>
       )}
 
-      {avatarType !== "illustration" && (
-        <div className="patient-avatar-badge-wrapper">
-          <div className={badgeClass}>{avatarType === "photo" ? "[PHOTO]" : ""}</div>
-        </div>
-      )}
     </div>
   );
 }

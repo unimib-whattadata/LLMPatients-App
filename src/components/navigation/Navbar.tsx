@@ -347,7 +347,7 @@ export function Navbar({
             </Link>
           </div>
 
-          <nav className="site-menu__nav" aria-label="Navigazione principale">
+          <nav className="site-menu__nav" id="site-navigation" aria-label="Navigazione principale">
             <ul className="site-menu__nav-list" role="list">
               {menuLinks.map((link, index) => (
                 <li key={`${link.href}-${index}`} role="listitem">
