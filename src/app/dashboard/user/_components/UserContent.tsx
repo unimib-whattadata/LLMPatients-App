@@ -127,8 +127,7 @@ export const UserContent = React.memo(function UserContent() {
   }, []);
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard">
           {navItems.map((item) => (
             <button
@@ -389,7 +388,6 @@ export const UserContent = React.memo(function UserContent() {
             )}
           </section>
         )}
-      </div>
     </div>
   );
 });

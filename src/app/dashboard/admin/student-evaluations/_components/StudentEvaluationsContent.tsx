@@ -59,8 +59,7 @@ export function StudentEvaluationsContent() {
   };
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <section className="dashboard-section" aria-labelledby="evaluation-stats">
           <div className="dashboard-section__header">
             <div>
@@ -182,7 +181,6 @@ export function StudentEvaluationsContent() {
             </div>
           </div>
         </section>
-      </div>
     </div>
   );
 }

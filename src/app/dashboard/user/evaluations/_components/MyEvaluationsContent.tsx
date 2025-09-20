@@ -102,8 +102,7 @@ export function MyEvaluationsContent() {
     : 0;
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         {/* Summary Stats */}
         <section className="dashboard-section">
           <div className="dashboard-section__header">
@@ -291,7 +290,6 @@ export function MyEvaluationsContent() {
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 }

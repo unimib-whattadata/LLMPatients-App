@@ -238,8 +238,7 @@ export function AdminContent() {
   }, []);
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard amministratore">
           {navItems.map((item) => (
             <button
@@ -439,7 +438,6 @@ export function AdminContent() {
             )}
           </section>
         )}
-      </div>
 
       <ImpersonationModal
         user={impersonationModal.user!}

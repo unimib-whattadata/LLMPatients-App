@@ -19,8 +19,7 @@ export function CreatePatientContent() {
   });
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <section className="dashboard-section" aria-labelledby="create-patient-form">
           <div className="dashboard-section__header">
             <div>
@@ -154,7 +153,6 @@ export function CreatePatientContent() {
             </div>
           </div>
         </section>
-      </div>
     </div>
   );
 }

@@ -7,8 +7,7 @@ export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <section className="dashboard-section" aria-labelledby="time-range-filter">
           <div className="dashboard-section__header">
             <div>
@@ -214,7 +213,6 @@ export function StudentStatisticsContent() {
             </div>
           </div>
         </section>
-      </div>
     </div>
   );
 }

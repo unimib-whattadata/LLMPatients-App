@@ -47,8 +47,7 @@ export const DashboardLayout = React.memo(function DashboardLayout({
   }, [onSectionChange]);
 
   return (
-    <div className="dashboard-page">
-      <div className="dashboard-stack">
+    <div className="dashboard-panel-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Dashboard sections">
           {memoizedNavItems.map((item) => (
             <button
@@ -65,7 +64,6 @@ export const DashboardLayout = React.memo(function DashboardLayout({
         </div>
 
         {children}
-      </div>
     </div>
   );
 });
