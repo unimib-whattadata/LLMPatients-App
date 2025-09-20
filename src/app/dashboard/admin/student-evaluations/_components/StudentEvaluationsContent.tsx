@@ -59,133 +59,129 @@ export function StudentEvaluationsContent() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">
-          Valutazioni Studenti
-        </h1>
-        <p className="text-text-secondary">
-          Monitora e gestisci le valutazioni delle simulazioni cliniche
-        </p>
-      </div>
-
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-accent-600 mb-1">24</div>
-          <div className="text-sm text-text-secondary">Valutazioni Totali</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-success-600 mb-1">18</div>
-          <div className="text-sm text-text-secondary">Completate</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-secondary-600 mb-1">4</div>
-          <div className="text-sm text-text-secondary">In Corso</div>
-        </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-text-primary mb-1">82%</div>
-          <div className="text-sm text-text-secondary">Tasso Successo</div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="bg-background-secondary rounded-lg border border-border-primary p-6 mb-6">
-        <div className="flex flex-wrap gap-4 items-center">
-          <div>
-            <label className="block text-sm font-medium text-text-secondary mb-1">
-              Filtra per stato
-            </label>
-            <select
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
-              className="px-3 py-2 border border-border-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="all">Tutti</option>
-              <option value="completed">Completate</option>
-              <option value="in-progress">In corso</option>
-              <option value="failed">Fallite</option>
-            </select>
+    <div className="dashboard-page">
+      <div className="dashboard-stack">
+        <section className="dashboard-section" aria-labelledby="evaluation-stats">
+          <div className="dashboard-section__header">
+            <div>
+              <h2 id="evaluation-stats" className="dashboard-section__title">Statistiche Valutazioni</h2>
+              <p className="dashboard-section__description">
+                Panoramica delle performance degli studenti nelle simulazioni
+              </p>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-text-secondary mb-1">
-              Cerca studente
-            </label>
-            <input
-              type="text"
-              placeholder="Nome studente..."
-              className="px-3 py-2 border border-border-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Evaluations Table */}
-      <div className="bg-background-secondary rounded-lg border border-border-primary overflow-hidden">
-        <div className="px-6 py-4 border-b border-border-primary">
-          <h3 className="text-lg font-semibold text-text-primary">
-            Elenco Valutazioni
-          </h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-background-secondary">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Studente
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Caso Clinico
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Punteggio
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Stato
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Data
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-text-tertiary uppercase tracking-wider">
-                  Azioni
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-background-secondary divide-y divide-gray-200">
-              {evaluations.map((evaluation) => (
-                <tr key={evaluation.id} className="hover:bg-background-secondary">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-text-primary">
-                      {evaluation.studentName}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-text-primary">{evaluation.patientCase}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-semibold text-text-primary">
-                      {evaluation.score}/100
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(evaluation.status, evaluation.score)}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-text-tertiary">
-                    {evaluation.completedAt}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button className="text-accent-600 hover:text-blue-800 mr-3">
-                      Visualizza
-                    </button>
-                    <button className="text-text-secondary hover:text-text-primary">
-                      Report
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+          <div className="dashboard-metric-grid">
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">24</span>
+              <span className="dashboard-metric-card__label">Valutazioni Totali</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">18</span>
+              <span className="dashboard-metric-card__label">Completate</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">4</span>
+              <span className="dashboard-metric-card__label">In Corso</span>
+            </div>
+            <div className="dashboard-metric-card">
+              <span className="dashboard-metric-card__value">82%</span>
+              <span className="dashboard-metric-card__label">Tasso Successo</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="dashboard-section" aria-labelledby="evaluation-filters">
+          <div className="dashboard-section__header">
+            <div>
+              <h2 id="evaluation-filters" className="dashboard-section__title">Filtri e Ricerca</h2>
+              <p className="dashboard-section__description">
+                Filtra le valutazioni per stato e cerca studenti specifici
+              </p>
+            </div>
+          </div>
+
+          <div className="dashboard-panel">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="form-group">
+                <label className="label" htmlFor="status-filter">
+                  Filtra per stato
+                </label>
+                <select
+                  id="status-filter"
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="input-field"
+                >
+                  <option value="all">Tutti</option>
+                  <option value="completed">Completate</option>
+                  <option value="in-progress">In corso</option>
+                  <option value="failed">Fallite</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label className="label" htmlFor="student-search">
+                  Cerca studente
+                </label>
+                <input
+                  id="student-search"
+                  type="text"
+                  placeholder="Nome studente..."
+                  className="input-field"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="dashboard-section" aria-labelledby="evaluations-list">
+          <div className="dashboard-section__header">
+            <div>
+              <h2 id="evaluations-list" className="dashboard-section__title">Elenco Valutazioni</h2>
+              <p className="dashboard-section__description">
+                Dettaglio delle valutazioni degli studenti
+              </p>
+            </div>
+          </div>
+
+          <div className="overflow-hidden border border-border-primary rounded-xl">
+            <div className="overflow-x-auto">
+              <table className="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Studente</th>
+                    <th>Caso Clinico</th>
+                    <th>Punteggio</th>
+                    <th>Stato</th>
+                    <th>Data</th>
+                    <th>Azioni</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {evaluations.map((evaluation) => (
+                    <tr key={evaluation.id}>
+                      <td className="font-medium">{evaluation.studentName}</td>
+                      <td>{evaluation.patientCase}</td>
+                      <td className="font-semibold">{evaluation.score}/100</td>
+                      <td>{getStatusBadge(evaluation.status, evaluation.score)}</td>
+                      <td className="text-text-tertiary">{evaluation.completedAt}</td>
+                      <td>
+                        <div className="flex gap-2">
+                          <button className="btn btn-sm btn-outline">
+                            Visualizza
+                          </button>
+                          <button className="btn btn-sm btn-ghost">
+                            Report
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

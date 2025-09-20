@@ -7,6 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
+import { SharedLayout } from "~/components/layout/SharedLayout";
+import { AdminContent } from "./_components/AdminContent";
 
 /**
  * Admin Dashboard Page Component
@@ -26,6 +28,20 @@ export default async function AdminDashboardPage() {
     redirect("/dashboard/user");
   }
 
-  // Redirect to the main admin function - create patient
-  redirect("/dashboard/admin/create-patient");
+  return (
+    <SharedLayout 
+      user={{
+        id: session.user.id,
+        name: session.user.name ?? null,
+        email: session.user.email!,
+        role: session.user.role,
+        image: session.user.image,
+      }}
+      impersonation={(session as any).impersonation ?? undefined}
+      layoutType="dashboard"
+      currentPage="/dashboard/admin"
+    >
+      <AdminContent />
+    </SharedLayout>
+  );
 }

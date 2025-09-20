@@ -1519,57 +1519,6 @@
     }
   }
 
-  .dashboard-page__hero {
-    position: relative;
-    padding: clamp(1.75rem, 3vw, 2.75rem);
-    border-radius: 1.5rem;
-    border: 1px solid var(--border-primary);
-    background: var(--surface-primary);
-    overflow: hidden;
-    color: var(--text-primary);
-  }
-
-  .dashboard-page__hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: transparent;
-    pointer-events: none;
-  }
-
-  .dashboard-page__hero-content {
-    position: relative;
-    display: grid;
-    gap: clamp(0.75rem, 2vw, 1.25rem);
-  }
-
-  .dashboard-page__hero-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: rgba(236, 236, 236, 0.78);
-    font-weight: 600;
-  }
-
-  .dashboard-page__hero-title {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
-  .dashboard-page__hero-subtitle {
-    max-width: 42rem;
-    color: rgba(236, 236, 236, 0.78);
-    font-size: clamp(1rem, 2vw, 1.1rem);
-    line-height: 1.6;
-  }
-
-  .dashboard-page__hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
 
   .dashboard-chip {
     display: inline-flex;

@@ -48,18 +48,6 @@ export const DashboardLayout = React.memo(function DashboardLayout({
 
   return (
     <div className="dashboard-page">
-      <section className="dashboard-page__hero">
-        <div className="dashboard-page__hero-content">
-          <h1 className="dashboard-page__hero-title">{title}</h1>
-          <p className="dashboard-page__hero-subtitle">{subtitle}</p>
-          {meta && (
-            <div className="dashboard-page__hero-meta">
-              {meta}
-            </div>
-          )}
-        </div>
-      </section>
-
       <div className="dashboard-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Dashboard sections">
           {memoizedNavItems.map((item) => (

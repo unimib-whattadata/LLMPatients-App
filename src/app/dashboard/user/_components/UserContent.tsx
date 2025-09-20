@@ -128,34 +128,6 @@ export const UserContent = React.memo(function UserContent() {
 
   return (
     <div className="dashboard-page">
-      <section className="dashboard-page__hero">
-        <div className="dashboard-page__hero-content">
-          <span className="dashboard-page__hero-eyebrow">Area personale</span>
-          <h1 className="dashboard-page__hero-title">
-            Ciao {profile?.name ?? "Utente"}, bentornato/a su ePatient
-          </h1>
-          <p className="dashboard-page__hero-subtitle">
-            Gestisci il tuo profilo, tieni traccia delle simulazioni completate e monitora le
-            attivita registrate durante il tuo percorso formativo.
-          </p>
-
-          <div className="dashboard-page__hero-meta">
-            <span className="dashboard-chip" aria-label="Tipo di account">
-              <span aria-hidden="true">👤</span>
-              <span>{profile?.role === "admin" ? "Account amministratore" : "Account utente"}</span>
-            </span>
-            <span className="dashboard-chip" aria-label="Ultima attivita registrata">
-              <span aria-hidden="true">🕒</span>
-              <span>
-                {lastActivity
-                  ? `Ultima attivita ${formatDate(lastActivity.createdAt)}`
-                  : "In attesa della prima attivita"}
-              </span>
-            </span>
-          </div>
-        </div>
-      </section>
-
       <div className="dashboard-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard">
           {navItems.map((item) => (

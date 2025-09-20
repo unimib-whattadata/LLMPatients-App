@@ -239,27 +239,6 @@ export function AdminContent() {
 
   return (
     <div className="dashboard-page">
-      <section className="dashboard-page__hero">
-        <div className="dashboard-page__hero-content">
-          <span className="dashboard-page__hero-eyebrow">Amministrazione</span>
-          <h1 className="dashboard-page__hero-title">Pannello di controllo amministratore</h1>
-          <p className="dashboard-page__hero-subtitle">
-            Supervisiona l'intera piattaforma, assegna i ruoli corretti e monitora in tempo reale le attivita principali
-            per garantire un'esperienza fluida a studenti e tutor.
-          </p>
-          <div className="dashboard-page__hero-meta">
-            <span className="dashboard-chip" aria-label="Utenti totali">
-              <UsersIcon className="w-4 h-4" aria-hidden="true" />
-              <span>{statsLoading ? "Caricamento statistiche..." : `${stats?.totalUsers ?? 0} utenti totali`}</span>
-            </span>
-            <span className="dashboard-chip" aria-label="Amministratori attivi">
-              <span aria-hidden="true">🛡️</span>
-              <span>{statsLoading ? "" : `${stats?.adminUsers ?? 0} amministratori attivi`}</span>
-            </span>
-          </div>
-        </div>
-      </section>
-
       <div className="dashboard-stack">
         <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard amministratore">
           {navItems.map((item) => (

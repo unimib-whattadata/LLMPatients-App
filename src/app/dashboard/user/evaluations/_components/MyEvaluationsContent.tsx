@@ -103,26 +103,6 @@ export function MyEvaluationsContent() {
 
   return (
     <div className="dashboard-page">
-      <section className="dashboard-page__hero">
-        <div className="dashboard-page__hero-content">
-          <span className="dashboard-page__hero-eyebrow">Valutazioni</span>
-          <h1 className="dashboard-page__hero-title">Le Mie Valutazioni</h1>
-          <p className="dashboard-page__hero-subtitle">
-            Visualizza i risultati delle tue simulazioni e i feedback ricevuti per migliorare le tue competenze cliniche.
-          </p>
-          <div className="dashboard-page__hero-meta">
-            <span className="dashboard-chip" aria-label="Valutazioni totali">
-              <ClipboardDocumentIcon className="w-4 h-4" aria-hidden="true" />
-              <span>{evaluations.length} valutazioni completate</span>
-            </span>
-            <span className="dashboard-chip" aria-label="Score medio">
-              <span aria-hidden="true">📊</span>
-              <span>Score medio: {averageScore}/100</span>
-            </span>
-          </div>
-        </div>
-      </section>
-
       <div className="dashboard-stack">
         {/* Summary Stats */}
         <section className="dashboard-section">
