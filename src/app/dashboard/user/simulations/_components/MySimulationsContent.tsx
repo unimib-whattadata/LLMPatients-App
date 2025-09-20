@@ -104,19 +104,19 @@ export function MySimulationsContent() {
 
       {/* Progress Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-blue-600 mb-1">
             {simulations.filter(s => s.status === "completed").length}
           </div>
           <div className="text-sm text-gray-600">Simulazioni Completate</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-yellow-600 mb-1">
             {simulations.filter(s => s.status === "in-progress").length}
           </div>
           <div className="text-sm text-gray-600">In Corso</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-green-600 mb-1">
             {simulations.filter(s => s.score).length > 0 
               ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
@@ -127,7 +127,7 @@ export function MySimulationsContent() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
         <div className="flex flex-wrap gap-2">
           {[
             { key: "all", label: "Tutte" },
@@ -153,7 +153,7 @@ export function MySimulationsContent() {
       {/* Simulations Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredSimulations.map((simulation) => (
-          <div key={simulation.id} className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow duration-200">
+          <div key={simulation.id} className="bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-200">
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
                 <div>

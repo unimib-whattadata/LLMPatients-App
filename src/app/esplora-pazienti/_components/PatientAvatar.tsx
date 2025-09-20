@@ -47,23 +47,14 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
     const colorPair = colors[colorIndex] ?? ['#1f2937', '#3b82f6'];
     const [color1, color2] = colorPair;
 
-    // Generate a sophisticated SVG avatar with gradient and better typography
+    // Generate a sophisticated SVG avatar with solid colors and better typography
     const svgData = `
       <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:${color1};stop-opacity:1" />
-            <stop offset="100%" style="stop-color:${color2};stop-opacity:0.8" />
-          </linearGradient>
-          <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.3"/>
-          </filter>
-        </defs>
-        <rect width="192" height="192" fill="url(#gradient)"/>
+        <rect width="192" height="192" fill="${color1}"/>
         <circle cx="96" cy="96" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
         <text x="96" y="110" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" 
               font-size="52" font-weight="600" text-anchor="middle" fill="#ffffff" 
-              filter="url(#shadow)">${initials}</text>
+              >${initials}</text>
         <circle cx="96" cy="96" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
       </svg>
     `;
@@ -149,7 +140,7 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
       />
       
       {/* Overlay for better contrast */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
       
       {/* Avatar Type Indicator */}
       <div className="patient-avatar-badge-wrapper">

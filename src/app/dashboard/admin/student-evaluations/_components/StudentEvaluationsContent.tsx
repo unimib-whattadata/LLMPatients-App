@@ -78,26 +78,26 @@ export function StudentEvaluationsContent() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-blue-600 mb-1">24</div>
           <div className="text-sm text-gray-600">Valutazioni Totali</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-green-600 mb-1">18</div>
           <div className="text-sm text-gray-600">Completate</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-yellow-600 mb-1">4</div>
           <div className="text-sm text-gray-600">In Corso</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-gray-900 mb-1">82%</div>
           <div className="text-sm text-gray-600">Tasso Successo</div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
         <div className="flex flex-wrap gap-4 items-center">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -128,7 +128,7 @@ export function StudentEvaluationsContent() {
       </div>
 
       {/* Evaluations Table */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
           <h3 className="text-lg font-semibold text-gray-900">
             Elenco Valutazioni

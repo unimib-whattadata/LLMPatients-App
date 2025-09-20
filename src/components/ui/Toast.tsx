@@ -48,7 +48,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   };
 
   const getToastStyles = () => {
-    const baseStyles = "flex items-start p-4 rounded-lg shadow-lg border-l-4 max-w-md w-full";
+    const baseStyles = "flex items-start p-4 rounded-lg border-l-4 max-w-md w-full";
     
     switch (toast.type) {
       case 'success':

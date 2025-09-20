@@ -24,7 +24,7 @@ export function StudentStatisticsContent() {
       </div>
 
       {/* Time Range Filter */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+      <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6">
         <div className="flex items-center gap-4">
           <label className="text-sm font-medium text-gray-700">
             Periodo di riferimento:
@@ -44,7 +44,7 @@ export function StudentStatisticsContent() {
 
       {/* Overview Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-blue-600 mb-1">156</div>
@@ -59,7 +59,7 @@ export function StudentStatisticsContent() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-green-600 mb-1">89%</div>
@@ -74,7 +74,7 @@ export function StudentStatisticsContent() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-yellow-600 mb-1">76</div>
@@ -89,7 +89,7 @@ export function StudentStatisticsContent() {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-purple-600 mb-1">234</div>
@@ -108,7 +108,7 @@ export function StudentStatisticsContent() {
       {/* Charts and Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         {/* Performance Trends */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Trend Performance
           </h3>
@@ -122,7 +122,7 @@ export function StudentStatisticsContent() {
         </div>
 
         {/* Score Distribution */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Distribuzione Punteggi
           </h3>
@@ -179,7 +179,7 @@ export function StudentStatisticsContent() {
       {/* Top Performers and Areas for Improvement */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Performers */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Migliori Performance
           </h3>
@@ -209,7 +209,7 @@ export function StudentStatisticsContent() {
         </div>
 
         {/* Areas Needing Attention */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">
             Aree di Miglioramento
           </h3>

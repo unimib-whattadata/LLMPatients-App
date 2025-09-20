@@ -27,44 +27,18 @@ export default async function Home() {
     },
   ];
 
-  const teamMembers = [
-    { name: "Dr.ssa Anna Rossi", role: "Psicoterapeuta clinica" },
-    { name: "Prof. Luca Bianchi", role: "Supervisore accademico" },
-    { name: "Dr.ssa Maria Verdi", role: "Ricercatrice" },
-    { name: "Dr. Paolo Neri", role: "Tutor clinico" },
-  ];
 
   const marketingFooter = (
     <footer className="home-footer">
-      <div className="home-footer-newsletter">
-        <div className="section-container">
-          <div className="home-footer-newsletter-inner">
-            <div className="home-footer-newsletter-copy">
-              <h2>Vuoi ricevere aggiornamenti sul progetto e risorse gratuite?</h2>
-              <p>Iscriviti alla nostra newsletter.</p>
-            </div>
-            <form className="home-footer-newsletter-form">
-              <label htmlFor="newsletter-email" className="sr-only">
-                Inserisci la tua email
-              </label>
-              <input
-                id="newsletter-email"
-                type="email"
-                name="email"
-                placeholder="La tua e-mail"
-                autoComplete="email"
-              />
-              <button type="submit">Iscriviti</button>
-            </form>
-          </div>
-        </div>
-      </div>
-
       <div className="home-footer-main">
         <div className="section-container">
           <div className="home-footer-grid">
             <div className="home-footer-brand">
-              <div className="home-brand-mark" aria-hidden="true" />
+              <img 
+                src="/images/logo.png" 
+                alt="LLMPatient Logo" 
+                className="home-footer-brand-logo"
+              />
               <div>
                 <p className="home-footer-brand-name">LLMPatient</p>
                 <p className="home-footer-brand-caption">
@@ -76,9 +50,6 @@ export default async function Home() {
             <div className="home-footer-column">
               <h3>Collegamenti rapidi</h3>
               <ul>
-                <li>
-                  <Link href="#">Chi siamo</Link>
-                </li>
                 <li>
                   <Link href="/esplora-pazienti">Esplora pazienti</Link>
                 </li>
@@ -198,35 +169,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="home-team section-spacing">
-        <div className="section-container">
-          <div className="home-team-header">
-            <h2 className="section-heading">Il nostro team</h2>
-            <div className="home-team-controls">
-              <button type="button" aria-label="Team precedente">
-                <span>&lt;</span>
-              </button>
-              <button type="button" aria-label="Team successivo">
-                <span>&gt;</span>
-              </button>
-            </div>
-          </div>
-          <div className="home-team-grid">
-            {teamMembers.map((member) => (
-              <div key={member.name} className="team-card">
-                <div className="team-avatar" aria-hidden="true" />
-                <h3>{member.name}</h3>
-                <p>{member.role}</p>
-              </div>
-            ))}
-          </div>
-          <div className="home-team-cta">
-            <Link href="#" className="btn btn-outline">
-              Scopri di più
-            </Link>
-          </div>
-        </div>
-      </section>
     </main>
   );
 
@@ -257,14 +199,17 @@ export default async function Home() {
           <div className="section-container">
             <div className="home-topbar-inner">
               <div className="home-brand">
-              <div className="home-brand-mark" aria-hidden="true" />
-              <span>LLMPatient</span>
+                <img 
+                  src="/images/logo.png" 
+                  alt="LLMPatient Logo" 
+                  className="home-brand-logo"
+                />
+                <span>LLMPatient</span>
               </div>
               <nav className="home-nav" aria-label="Navigazione principale">
                 <Link href="#" className="active">
                   Home
                 </Link>
-                <Link href="#">Chi siamo</Link>
                 <Link href="/esplora-pazienti">Esplora pazienti</Link>
                 <Link href="#">News</Link>
               </nav>

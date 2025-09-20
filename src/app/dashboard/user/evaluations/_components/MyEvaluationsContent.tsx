@@ -121,25 +121,25 @@ export function MyEvaluationsContent() {
 
       {/* Summary Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-blue-600 mb-1">
             {evaluations.length}
           </div>
           <div className="text-sm text-gray-600">Valutazioni Totali</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-green-600 mb-1">
             {averageScore}
           </div>
           <div className="text-sm text-gray-600">Score Medio</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-purple-600 mb-1">
             {Math.max(...evaluations.map(e => e.score), 0)}
           </div>
           <div className="text-sm text-gray-600">Miglior Score</div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+        <div className="bg-white p-6 rounded-lg border border-gray-200">
           <div className="text-2xl font-bold text-orange-600 mb-1">
             {evaluations.filter(e => e.score >= 80).length}
           </div>
@@ -156,7 +156,7 @@ export function MyEvaluationsContent() {
           {evaluations.map((evaluation) => (
             <div 
               key={evaluation.id}
-              className={`bg-white rounded-lg shadow-sm border border-gray-200 p-4 cursor-pointer transition-all duration-200 hover:shadow-md ${
+              className={`bg-white rounded-lg border border-gray-200 p-4 cursor-pointer transition-all duration-200 ${
                 selectedEvaluation === evaluation.id ? 'ring-2 ring-blue-500' : ''
               }`}
               onClick={() => setSelectedEvaluation(evaluation.id)}
@@ -201,7 +201,7 @@ export function MyEvaluationsContent() {
               if (!evaluation) return null;
               
               return (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-lg border border-gray-200 p-6">
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-2">
                       {evaluation.simulationTitle}

@@ -55,7 +55,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
       {/* Floating debug button */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="fixed bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
+        className="fixed bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors z-50"
         title="Toggle Session Debug Info"
       >
         🐛
@@ -63,7 +63,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
 
       {/* Debug panel */}
       {isVisible && (
-        <div className="fixed bottom-20 left-4 bg-black bg-opacity-90 text-green-400 p-4 rounded-lg shadow-xl max-w-lg max-h-96 overflow-auto font-mono text-xs z-50">
+        <div className="fixed bottom-20 left-4 bg-black bg-opacity-90 text-green-400 p-4 rounded-lg max-w-lg max-h-96 overflow-auto font-mono text-xs z-50">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-white font-bold">Session Debug Info</h3>
             <button

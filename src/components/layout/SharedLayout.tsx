@@ -111,7 +111,7 @@ function ImpersonationBanner({
   const duration = Math.floor((Date.now() - impersonation.startedAt.getTime()) / 1000 / 60);
   
   return (
-    <div className="bg-orange-600 border-l-4 border-orange-800 p-4 shadow-lg">
+    <div className="bg-orange-600 border-l-4 border-orange-800 p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex-shrink-0">
@@ -296,10 +296,12 @@ export function SharedLayout({
                 
                 {/* Logo */}
                 <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/20 rounded-md">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg backdrop-blur-sm flex items-center justify-content-center">
-                    <span className="text-white font-bold text-sm">eP</span>
-                  </div>
-                  <span className="ml-2 text-lg font-bold text-white hidden sm:inline">ePatient</span>
+                  <img 
+                    src="/images/logo.png" 
+                    alt="LLMPatient Logo" 
+                    className="w-8 h-8 rounded-lg"
+                  />
+                  <span className="ml-2 text-lg font-bold text-white hidden sm:inline">LLMPatient</span>
                 </Link>
               </div>
               
@@ -360,7 +362,7 @@ export function SharedLayout({
                 onClick={() => setMobileMenuOpen(false)}
                 aria-hidden="true"
               />
-              <div className="fixed top-16 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 shadow-lg max-h-96 overflow-y-auto">
+              <div className="fixed top-16 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 max-h-96 overflow-y-auto">
                 <nav className="px-4 py-6" role="navigation" aria-label="Mobile navigation">
                   <div className="space-y-1" role="list">
                     {navItems.map((item, index) => {
@@ -418,23 +420,24 @@ export function SharedLayout({
     } else {
       // Home page header with improved responsive navigation
       return (
-        <header className="bg-white shadow-sm border-b border-gray-200">
+        <header className="bg-white border-b border-gray-200">
           <div className="layout-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
               <div className="flex items-center">
                 <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md">
-                  <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">eP</span>
-                  </div>
-                  <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
+                  <img 
+                    src="/images/logo.png" 
+                    alt="LLMPatient Logo" 
+                    className="w-8 h-8"
+                  />
+                  <span className="ml-2 text-lg font-medium text-gray-900">LLMPatient</span>
                 </Link>
               </div>
               
               {/* Desktop Navigation */}
               <nav className="hidden md:flex space-x-8">
                 <Link href="/" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Home</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Chi siamo</Link>
                 <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Esplora pazienti</Link>
                 <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">News</Link>
               </nav>
@@ -705,9 +708,6 @@ export function SharedLayout({
               <div className="home-footer-column">
                 <h3>Collegamenti rapidi</h3>
                 <ul>
-                  <li>
-                    <Link href="#">Chi siamo</Link>
-                  </li>
                   <li>
                     <Link href="/esplora-pazienti">Esplora pazienti</Link>
                   </li>
