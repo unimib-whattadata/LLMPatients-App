@@ -17,19 +17,16 @@ export default async function Home() {
       title: "Simulazione realistica",
       description:
         "Entra in un ambiente virtuale dove puoi interagire con pazienti simulati. Ogni colloquio e costruito per ricreare fedelmente le dinamiche di una seduta clinica, con particolare attenzione agli aspetti relazionali, comunicativi ed emotivi.",
-      align: "left" as const,
     },
     {
       title: "Valutazione automatica e strutturata",
       description:
         "Al termine di ogni simulazione riceverai una valutazione automatizzata basata sui criteri clinici validati. Il sistema analizza la tua performance in termini di empatia, uso delle tecniche, aderenza al setting e qualita delle domande.",
-      align: "right" as const,
     },
     {
       title: "Report e riflessione guidata",
       description:
         "Tutte le attivita vengono registrate e trasformate in report chiari e accessibili, che permettono di osservare l'andamento delle tue competenze nel tempo e di identificare le aree di miglioramento.",
-      align: "left" as const,
     },
   ];
 
@@ -106,36 +103,20 @@ export default async function Home() {
             {processSteps.map((step, index) => (
               <li
                 key={step.title}
-                className={`home-process-item home-process-item--${step.align}`}
+                className="home-process-item"
                 role="listitem"
                 itemScope
                 itemType="https://schema.org/HowToStep"
                 itemProp="itemListElement"
               >
-                {step.align === "left" ? (
-                  <div className="home-process-text">
-                    <h3 itemProp="name">{step.title}</h3>
-                    <p itemProp="text">{step.description}</p>
-                  </div>
-                ) : (
-                  <div className="home-process-text home-process-text--empty" aria-hidden="true" />
-                )}
-
-                <div className="home-process-timeline" aria-hidden="true">
-                  <div className={`home-process-number home-process-number--${index + 1}`} itemProp="position">
-                    {index + 1}
-                  </div>
-                  {index < processSteps.length - 1 && <span className="home-process-line" />}
+                <div className="home-process-text">
+                  <h3 itemProp="name">{step.title}</h3>
+                  <p itemProp="text">{step.description}</p>
                 </div>
 
-                {step.align === "right" ? (
-                  <div className="home-process-text">
-                    <h3 itemProp="name">{step.title}</h3>
-                    <p itemProp="text">{step.description}</p>
-                  </div>
-                ) : (
-                  <div className="home-process-text home-process-text--empty" aria-hidden="true" />
-                )}
+                <div className={`home-process-number home-process-number--${index + 1}`} itemProp="position">
+                  {index + 1}
+                </div>
               </li>
             ))}
           </ol>
