@@ -176,8 +176,8 @@ export function Navbar({
             {displayUser && (
               <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full transition-colors duration-200 ${
                 displayUser.role === "admin" 
-                  ? "bg-secondary-500/20 text-secondary-100 border border-secondary-400/40" 
-                  : "bg-accent-500/20 text-accent-100 border border-accent-400/30"
+                  ? "bg-secondary-500/20 text-secondary-100" 
+                  : "bg-accent-500/20 text-accent-100"
               }`}>
                 <span className="hidden sm:inline">
                   {displayUser.role === "admin" ? "Admin" : "Utente"}
@@ -211,7 +211,7 @@ export function Navbar({
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed top-16 left-0 right-0 z-50 bg-background-secondary border-t border-border-secondary max-h-96 overflow-y-auto">
+          <div className="fixed top-16 left-0 right-0 z-50 bg-background-secondary max-h-96 overflow-y-auto">
             <nav className="px-4 py-6" role="navigation" aria-label="Mobile navigation">
               <div className="space-y-1" role="list">
                 {navItems.map((item, index) => {
@@ -238,7 +238,7 @@ export function Navbar({
               
               {/* Mobile user info */}
               {displayUser && (
-                <div className="mt-6 pt-6 border-t border-border-secondary" role="contentinfo" aria-label="User information">
+                <div className="mt-6 pt-6" role="contentinfo" aria-label="User information">
                   <div className="flex items-center px-3">
                     <div className="flex-shrink-0">
                       <div 

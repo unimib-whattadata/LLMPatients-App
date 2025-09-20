@@ -264,12 +264,10 @@ body {
   
   .admin-nav-item,
   .user-nav-item {
-    border: 2px solid currentColor;
   }
   
   .dashboard-card,
   .patient-card {
-    border: 2px solid var(--color-gray-600);
   }
 }
 
@@ -280,13 +278,11 @@ body {
     forced-color-adjust: none;
     background: Highlight;
     color: HighlightText;
-    border: 2px solid ButtonText;
   }
   
   .dashboard-header {
     forced-color-adjust: none;
     background: Canvas;
-    border-bottom: 1px solid ButtonText;
   }
 }
 
@@ -305,6 +301,5 @@ body {
   
   .dashboard-card {
     break-inside: avoid;
-    border: 1px solid #000;
   }
 }

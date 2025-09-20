@@ -85,7 +85,7 @@ export function SharedLayout({
         aria-label="Dashboard navigation"
       >
         {/* Sidebar Header */}
-        <div className="p-4">
+        <div className={`${sidebarCollapsed ? 'p-2' : 'p-4'}`}>
           <div className="flex items-center justify-between">
             {!sidebarCollapsed && (
               <h2 className="text-lg font-semibold text-text-primary" id="sidebar-heading">
@@ -99,7 +99,7 @@ export function SharedLayout({
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-1.5 rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block"
+              className={`${sidebarCollapsed ? 'p-2 bg-gray-800 border border-gray-600' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               aria-expanded={!sidebarCollapsed}
               aria-controls="sidebar-navigation"
@@ -111,7 +111,7 @@ export function SharedLayout({
         
         {/* Navigation */}
         <nav 
-          className="flex-1 px-4 py-6 space-y-2" 
+          className={`flex-1 ${sidebarCollapsed ? 'px-2 py-4' : 'px-4 py-6'} space-y-2`}
           id="sidebar-navigation"
           aria-labelledby="sidebar-heading"
           role="navigation"
@@ -134,30 +134,33 @@ export function SharedLayout({
               const isActive = currentPage === item.href || pathname === item.href;
               return (
                 <li key={item.href} role="listitem">
-                  <Link
-                    href={item.href}
-                    className={`nav-item ${isActive ? "active" : ""}`}
-                    title={sidebarCollapsed ? item.label : undefined}
-                    aria-current={isActive ? "page" : undefined}
-                    aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}
-                  >
-                    <item.icon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
-                    {!sidebarCollapsed && (
-                      <span className="truncate">{item.label}</span>
-                    )}
-                  </Link>
-                  
-                  {/* Tooltip for collapsed state */}
-                  {sidebarCollapsed && (
-                    <div 
-                      id={`tooltip-${index}`}
-                      className="absolute left-16 top-0 z-50 px-2 py-1 text-xs text-text-primary bg-background-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-                      role="tooltip"
-                      aria-hidden="true"
+                  <div className="relative group">
+                    <Link
+                      href={item.href}
+                      className={`nav-item ${isActive ? "active" : ""}`}
+                      title={sidebarCollapsed ? item.label : undefined}
+                      aria-current={isActive ? "page" : undefined}
+                      aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}
                     >
-                      {item.label}
-                    </div>
-                  )}
+                      <item.icon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
+                      {!sidebarCollapsed && (
+                        <span className="truncate">{item.label}</span>
+                      )}
+                    </Link>
+                    
+                    {/* Tooltip for collapsed state */}
+                    {sidebarCollapsed && (
+                      <div 
+                        id={`tooltip-${index}`}
+                        className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                        role="tooltip"
+                        aria-hidden="true"
+                      >
+                        {item.label}
+                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-900 rotate-45"></div>
+                      </div>
+                    )}
+                  </div>
                 </li>
               );
             })}

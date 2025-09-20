@@ -108,7 +108,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
               <span className="ml-2">{debugInfo.clientTimestamp}</span>
             </div>
             
-            <div className="pt-2 border-t border-border-secondary">
+            <div className="pt-2">
               <button
                 onClick={() => {
                   update();

@@ -77,13 +77,43 @@ export function MySimulationsContent() {
     );
   };
 
-  const getDifficultyColor = (difficulty: string) => {
-    const colors = {
-      "Facile": "text-success-500",
-      "Medio": "text-secondary-500", 
-      "Difficile": "text-accent-500"
-    };
-    return colors[difficulty as keyof typeof colors] || "text-text-secondary";
+  const getDifficultyClass = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
+      case "Medio":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
+      case "Difficile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
+      default:
+        return "patient-card-difficulty-icon";
+    }
+  };
+
+  const getDifficultyIcon = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "*";
+      case "Medio":
+        return "**";
+      case "Difficile":
+        return "***";
+      default:
+        return "*";
+    }
+  };
+
+  const getDifficultyAccessibleText = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "Livello facile";
+      case "Medio":
+        return "Livello medio";
+      case "Difficile":
+        return "Livello difficile";
+      default:
+        return "Livello non specificato";
+    }
   };
 
   const filteredSimulations = simulations.filter(sim => {
@@ -93,6 +123,7 @@ export function MySimulationsContent() {
 
   return (
     <div className="dashboard-panel-stack">
+      {/* Progress Overview Section */}
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
@@ -103,33 +134,43 @@ export function MySimulationsContent() {
           </div>
         </div>
 
-      {/* Progress Overview */}
-      <div className="dashboard-metric-grid mb-8">
-        <div className="dashboard-metric-card">
-          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-accent-500)' }}>
-            {simulations.filter(s => s.status === "completed").length}
+        <div className="dashboard-metric-grid">
+          <div className="dashboard-metric-card">
+            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-accent-500)' }}>
+              {simulations.filter(s => s.status === "completed").length}
+            </div>
+            <div className="dashboard-metric-card__label">Simulazioni Completate</div>
           </div>
-          <div className="dashboard-metric-card__label">Simulazioni Completate</div>
-        </div>
-        <div className="dashboard-metric-card">
-          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-secondary-500)' }}>
-            {simulations.filter(s => s.status === "in-progress").length}
+          <div className="dashboard-metric-card">
+            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-secondary-500)' }}>
+              {simulations.filter(s => s.status === "in-progress").length}
+            </div>
+            <div className="dashboard-metric-card__label">In Corso</div>
           </div>
-          <div className="dashboard-metric-card__label">In Corso</div>
-        </div>
-        <div className="dashboard-metric-card">
-          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-success-500)' }}>
-            {simulations.filter(s => s.score).length > 0 
-              ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
-              : 0}
+          <div className="dashboard-metric-card">
+            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-success-500)' }}>
+              {simulations.filter(s => s.score).length > 0 
+                ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
+                : 0}
+            </div>
+            <div className="dashboard-metric-card__label">Score Medio</div>
           </div>
-          <div className="dashboard-metric-card__label">Score Medio</div>
         </div>
-      </div>
+      </section>
 
-      {/* Filter Tabs */}
-      <div className="dashboard-card mb-6">
-        <div className="dashboard-pill-nav" role="tablist" aria-label="Filtri simulazioni">
+      {/* Simulations Grid Section */}
+      <section className="dashboard-section">
+        <div className="dashboard-section__header">
+          <div>
+            <h2 className="dashboard-section__title">Simulazioni</h2>
+            <p className="dashboard-section__description">
+              Le tue simulazioni cliniche disponibili
+            </p>
+          </div>
+        </div>
+
+        {/* Filter Tabs */}
+        <div className="dashboard-pill-nav mb-6" role="tablist" aria-label="Filtri simulazioni">
           {[
             { key: "all", label: "Tutte" },
             { key: "available", label: "Disponibili" },
@@ -147,10 +188,8 @@ export function MySimulationsContent() {
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Simulations Grid */}
-      <div className="dashboard-action-grid">
+        <div className="dashboard-action-grid">
         {filteredSimulations.map((simulation) => (
           <div key={simulation.id} className="dashboard-action-card">
             <div className="dashboard-action-card-content">
@@ -170,9 +209,16 @@ export function MySimulationsContent() {
             <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-sm text-text-secondary">Difficolta:</span>
-                <span className={`text-sm font-medium ${getDifficultyColor(simulation.difficulty)}`}>
-                  {simulation.difficulty}
-                </span>
+                <div className="patient-card-difficulty">
+                  <span 
+                    className={getDifficultyClass(simulation.difficulty)}
+                    aria-label={getDifficultyAccessibleText(simulation.difficulty)}
+                    role="img"
+                  >
+                    {getDifficultyIcon(simulation.difficulty)}
+                  </span>
+                  <span className="text-sm font-medium">{simulation.difficulty}</span>
+                </div>
               </div>
 
               {simulation.progress > 0 && (
@@ -235,18 +281,18 @@ export function MySimulationsContent() {
             </div>
           </div>
         ))}
-      </div>
-
-      {filteredSimulations.length === 0 && (
-        <div className="dashboard-empty-state">
-          <h3 className="text-lg font-medium text-text-primary mb-2">
-            Nessuna simulazione trovata
-          </h3>
-          <p className="text-text-secondary">
-            Modifica i filtri per vedere piu simulazioni
-          </p>
         </div>
-      )}
+
+        {filteredSimulations.length === 0 && (
+          <div className="dashboard-empty-state">
+            <h3 className="text-lg font-medium text-text-primary mb-2">
+              Nessuna simulazione trovata
+            </h3>
+            <p className="text-text-secondary">
+              Modifica i filtri per vedere piu simulazioni
+            </p>
+          </div>
+        )}
       </section>
     </div>
   );

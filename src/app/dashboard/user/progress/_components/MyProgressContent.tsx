@@ -111,7 +111,7 @@ export function MyProgressContent() {
 
       {/* Progress Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+        <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-accent-600 mb-1">
@@ -132,7 +132,7 @@ export function MyProgressContent() {
           </div>
         </div>
 
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+        <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-success-600 mb-1">{averageScore}</div>
@@ -146,7 +146,7 @@ export function MyProgressContent() {
           </div>
         </div>
 
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+        <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-purple-600 mb-1">{achievements.length}</div>
@@ -158,7 +158,7 @@ export function MyProgressContent() {
           </div>
         </div>
 
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
+        <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-2xl font-bold text-orange-600 mb-1">{totalHours}h</div>
@@ -173,7 +173,7 @@ export function MyProgressContent() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Skills Progress */}
-        <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
+        <div className="bg-background-secondary rounded-lg p-6">
           <h3 className="text-lg font-semibold text-text-primary mb-6">
             Progressi per Competenza
           </h3>
@@ -201,7 +201,7 @@ export function MyProgressContent() {
         </div>
 
         {/* Achievements */}
-        <div className="bg-background-secondary rounded-lg border border-border-primary p-6">
+        <div className="bg-background-secondary rounded-lg p-6">
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-lg font-semibold text-text-primary">
               Achievement
@@ -209,7 +209,7 @@ export function MyProgressContent() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 border border-border-secondary rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="all">Tutti</option>
               <option value="clinical">Clinici</option>
@@ -253,7 +253,7 @@ export function MyProgressContent() {
       </div>
 
       {/* Weekly Progress Chart */}
-      <div className="mt-8 bg-background-secondary rounded-lg border border-border-primary p-6">
+      <div className="mt-8 bg-background-secondary rounded-lg p-6">
         <h3 className="text-lg font-semibold text-text-primary mb-6">
           Progresso Settimanale
         </h3>

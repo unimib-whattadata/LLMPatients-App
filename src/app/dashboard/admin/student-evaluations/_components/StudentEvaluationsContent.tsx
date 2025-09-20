@@ -143,7 +143,7 @@ export function StudentEvaluationsContent() {
             </div>
           </div>
 
-          <div className="overflow-hidden border border-border-primary rounded-xl">
+          <div className="overflow-hidden rounded-xl">
             <div className="overflow-x-auto">
               <table className="dashboard-table">
                 <thead>

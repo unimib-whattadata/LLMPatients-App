@@ -7,20 +7,20 @@ import { PatientAvatar } from "../_components/PatientAvatar";
 import { PatientTags } from "../_components/PatientTags";
 import { api } from "~/trpc/react";
 
-const SECTION_BASE = "bg-background-secondary border border-border-secondary rounded-lg";
+const SECTION_BASE = "bg-background-secondary rounded-lg";
 const SECTION = `${SECTION_BASE} p-6`;
 const SECTION_WITH_OVERFLOW = `${SECTION_BASE} overflow-hidden`;
 const BREADCRUMB_NAV = "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
 const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
 const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md transition-colors duration-200 text-center";
 const DIFFICULTY_BADGES: Record<string, string> = {
-  Facile: "text-primary-200 bg-primary-800/20 border-primary-500",
-  Medio: "text-secondary-200 bg-secondary-800/20 border-secondary-500",
-  Difficile: "text-accent-200 bg-accent-800/20 border-accent-500",
+  Facile: "text-primary-200 bg-primary-800/20",
+  Medio: "text-secondary-200 bg-secondary-800/20",
+  Difficile: "text-accent-200 bg-accent-800/20",
 };
 
 function getDifficultyClass(value: string) {
-  return DIFFICULTY_BADGES[value] ?? "text-text-tertiary bg-background-primary/30 border-border-secondary";
+  return DIFFICULTY_BADGES[value] ?? "text-text-tertiary bg-background-primary/30";
 }
 
 function normalizeParam(value: unknown): string | null {
@@ -73,7 +73,7 @@ export default function PatientDetailPage() {
 
   return (
     <div className="min-h-screen bg-background-primary">
-      <header className="bg-background-secondary border-b border-border-secondary">
+      <header className="bg-background-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className={BREADCRUMB_NAV}>
             {breadcrumbs.map((crumb, index) => (
@@ -92,7 +92,7 @@ export default function PatientDetailPage() {
 
           <div className="flex flex-wrap items-center gap-4">
             <h1 className="text-3xl font-bold text-text-primary">{patient.name}</h1>
-            <span className={`border px-3 py-1 text-sm font-medium rounded-full ${getDifficultyClass(patient.difficulty)}`}>
+            <span className={`px-3 py-1 text-sm font-medium rounded-full ${getDifficultyClass(patient.difficulty)}`}>
               {patient.difficulty}
             </span>
           </div>
@@ -187,7 +187,7 @@ function NotFoundCard({ title, description }: { title: string; description: stri
 function PatientDetailSkeleton() {
   return (
     <div className="min-h-screen bg-background-primary">
-      <header className="bg-background-secondary border-b border-border-secondary">
+      <header className="bg-background-secondary">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-3">
           <div className="h-4 w-64 bg-background-tertiary rounded" />
           <div className="h-8 w-48 bg-background-tertiary rounded" />

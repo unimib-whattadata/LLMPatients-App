@@ -35,7 +35,7 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <h3 className="text-lg font-semibold text-text-primary mb-2">
             Conferma Impersonificazione
           </h3>
-          <div className="bg-warning-50 border border-warning-500/40 rounded-md p-3 mb-4">
+          <div className="bg-warning-50 rounded-md p-3 mb-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <span className="text-secondary-400"></span>
@@ -85,7 +85,7 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <textarea
             id="reason"
             rows={3}
-            className="w-full px-3 py-2 border border-border-secondary rounded-md bg-background-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent"
+            className="w-full px-3 py-2 rounded-md bg-background-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary-500"
             placeholder="Inserisci il motivo dell'impersonificazione (es. supporto utente, test funzionalita...)"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
@@ -97,14 +97,14 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary border border-border-secondary rounded-md hover:bg-background-secondary focus:outline-none focus:ring-2 focus:ring-border-hover focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary rounded-md hover:bg-background-secondary focus:outline-none focus:ring-2 focus:ring-border-hover focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-secondary-600 border border-transparent rounded-md hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-secondary-600 rounded-md hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
           </button>
@@ -339,7 +339,7 @@ export function AdminContent() {
             {usersLoading ? (
               <TableSkeleton rows={3} />
             ) : users && users.length > 0 ? (
-              <div className="overflow-hidden border border-border-primary rounded-xl">
+              <div className="overflow-hidden rounded-xl">
                 <table className="dashboard-table">
                   <thead>
                     <tr>
@@ -361,7 +361,7 @@ export function AdminContent() {
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
                             disabled={updateUserRole.isPending}
-                            className="text-sm border border-border-primary bg-background-secondary rounded px-2 py-1"
+                            className="text-sm bg-background-secondary rounded px-2 py-1"
                           >
                             <option value="user">Utente</option>
                             <option value="admin">Admin</option>

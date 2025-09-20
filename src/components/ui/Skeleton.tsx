@@ -90,7 +90,7 @@ export function ActionCardSkeleton() {
  */
 export function TableSkeleton({ rows = 3 }: { rows?: number }) {
   return (
-    <div className="overflow-hidden border border-border-primary rounded-xl">
+    <div className="overflow-hidden rounded-xl">
       <table className="dashboard-table">
         <thead>
           <tr>

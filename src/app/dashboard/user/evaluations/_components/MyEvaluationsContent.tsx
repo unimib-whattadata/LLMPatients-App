@@ -88,13 +88,43 @@ export function MyEvaluationsContent() {
     return "text-error-600 bg-red-100";
   };
 
-  const getDifficultyColor = (difficulty: string) => {
-    const colors = {
-      "Facile": "bg-success-50 text-success-700",
-      "Medio": "bg-secondary-100 text-secondary-800",
-      "Difficile": "bg-red-100 text-red-800"
-    };
-    return colors[difficulty as keyof typeof colors] || "bg-background-tertiary text-text-primary";
+  const getDifficultyClass = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
+      case "Medio":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
+      case "Difficile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
+      default:
+        return "patient-card-difficulty-icon";
+    }
+  };
+
+  const getDifficultyIcon = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "*";
+      case "Medio":
+        return "**";
+      case "Difficile":
+        return "***";
+      default:
+        return "*";
+    }
+  };
+
+  const getDifficultyAccessibleText = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "Livello facile";
+      case "Medio":
+        return "Livello medio";
+      case "Difficile":
+        return "Livello difficile";
+      default:
+        return "Livello non specificato";
+    }
   };
 
   const averageScore = evaluations.length > 0 
@@ -152,9 +182,16 @@ export function MyEvaluationsContent() {
                   <div className="dashboard-action-card-main">
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <span className="dashboard-action-card__badge">
-                          {evaluation.difficulty}
-                        </span>
+                        <div className="patient-card-difficulty mb-2">
+                          <span 
+                            className={getDifficultyClass(evaluation.difficulty)}
+                            aria-label={getDifficultyAccessibleText(evaluation.difficulty)}
+                            role="img"
+                          >
+                            {getDifficultyIcon(evaluation.difficulty)}
+                          </span>
+                          <span className="text-sm font-medium">{evaluation.difficulty}</span>
+                        </div>
                         <h3 className="dashboard-action-card__title mb-2">
                           {evaluation.simulationTitle}
                         </h3>
@@ -216,7 +253,7 @@ export function MyEvaluationsContent() {
         {/* Detailed View Modal */}
         {selectedEvaluation && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-background-secondary rounded-lg border border-border-primary p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="bg-background-secondary rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
               {(() => {
                 const evaluation = evaluations.find(e => e.id === selectedEvaluation);
                 if (!evaluation) return null;
@@ -273,7 +310,7 @@ export function MyEvaluationsContent() {
                       </ul>
                     </div>
 
-                    <div className="flex gap-2 pt-4 border-t border-border-primary">
+                    <div className="flex gap-2 pt-4">
                       <button className="btn btn-outline flex-1">
                         Ripeti Simulazione
                       </button>

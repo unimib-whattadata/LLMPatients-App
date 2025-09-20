@@ -312,21 +312,21 @@ export const UserContent = React.memo(function UserContent() {
               <div className="dashboard-panel">
                 <div>
                   <label className="label">Nome</label>
-                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
+                  <div className="p-3 bg-background-secondary rounded-md">
                     {profile?.name || "Nome non disponibile"}
                   </div>
                 </div>
 
                 <div>
                   <label className="label">Email</label>
-                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
+                  <div className="p-3 bg-background-secondary rounded-md">
                     {profile?.email || "Email non disponibile"}
                   </div>
                 </div>
 
                 <div>
                   <label className="label">Ruolo</label>
-                  <div className="p-3 bg-background-secondary border border-border-primary rounded-md">
+                  <div className="p-3 bg-background-secondary rounded-md">
                     <span className={`dashboard-badge ${
                       profile?.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
                     }`}>

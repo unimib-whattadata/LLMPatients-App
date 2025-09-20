@@ -255,7 +255,7 @@ export default function AdminUserManagementPage() {
   return (
     <div className="min-h-screen bg-background-primary">
       {/* Header */}
-      <header className="bg-background-secondary border-b border-border-primary">
+      <header className="bg-background-secondary">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
@@ -373,7 +373,7 @@ export default function AdminUserManagementPage() {
                           <select
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
-                            className="text-sm border border-border-primary rounded px-2 py-1 bg-background-secondary text-text-primary"
+                            className="text-sm rounded px-2 py-1 bg-background-secondary text-text-primary"
                             disabled={updateRoleMutation.isPending}
                           >
                             <option value="user">User</option>

@@ -51,7 +51,7 @@ export default function SignoutPage() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="max-w-md w-full">
-        <div className="bg-surface-secondary border border-border-primary rounded-lg p-8 text-center">
+        <div className="bg-surface-secondary rounded-lg p-8 text-center">
           {/* Logo/Brand */}
           <div className="mb-6">
             <div className="w-16 h-16 mx-auto mb-4 bg-primary-500/20 rounded-full flex items-center justify-center">
@@ -151,7 +151,7 @@ export default function SignoutPage() {
           </div>
 
           {/* Manual redirect button */}
-          <div className="mt-8 pt-6 border-t border-border-primary">
+          <div className="mt-8 pt-6">
             <button
               onClick={() => router.push('/')}
               className="btn btn-primary btn-md w-full"
