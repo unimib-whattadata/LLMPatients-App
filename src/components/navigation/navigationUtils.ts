@@ -10,7 +10,8 @@ import {
   AcademicCapIcon,
   ClipboardDocumentCheckIcon,
   UserCircleIcon,
-  ClockIcon
+  ClockIcon,
+  MapIcon
 } from "@heroicons/react/24/outline";
 
 /**
@@ -65,6 +66,7 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
+          { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
           { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: UserPlusIcon },
         ]
       }
@@ -91,6 +93,7 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
+          { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
         ]
       }
     ];
