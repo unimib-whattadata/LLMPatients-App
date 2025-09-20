@@ -1,5 +1,15 @@
 /* ===== BASE BUTTON FOUNDATION ===== */
 @layer components {
+  /* Global home color variables for navbar and other components */
+  :root {
+    --home-primary: #8f9d56;
+    --home-primary-soft: #aab973;
+    --home-primary-dark: #5f6d36;
+    --home-text-strong: #f6f7ef;
+    --home-text-soft: rgba(233, 236, 218, 0.82);
+    --home-text-muted: rgba(202, 207, 180, 0.6);
+    --home-border-strong: rgba(120, 133, 71, 0.45);
+  }
   /* ===== ENHANCED TYPOGRAPHY CLASSES ===== */
   .text-heading-1 {
     font-size: var(--font-size-4xl);
@@ -1608,7 +1618,7 @@
   }
 
   .site-menu__right {
-    display: none;
+    display: flex;
     align-items: center;
     gap: 1rem;
   }

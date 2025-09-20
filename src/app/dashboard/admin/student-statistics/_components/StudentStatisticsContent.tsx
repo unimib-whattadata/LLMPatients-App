@@ -1,13 +1,7 @@
-/**
- * Student Statistics Content Component
- * 
- * Interface for viewing aggregate student performance statistics
- * and analytics across all clinical simulations
- */
-
 "use client";
 
 import { useState } from "react";
+import { UsersIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
@@ -51,7 +45,7 @@ export function StudentStatisticsContent() {
               <div className="text-sm text-text-secondary">Studenti Attivi</div>
             </div>
             <div className="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
-              👥
+              <UsersIcon className="w-6 h-6 text-accent-600" />
             </div>
           </div>
           <div className="mt-4 text-xs text-success-600">
@@ -66,7 +60,7 @@ export function StudentStatisticsContent() {
               <div className="text-sm text-text-secondary">Tasso Completamento</div>
             </div>
             <div className="w-12 h-12 bg-success-50 rounded-lg flex items-center justify-center">
-              ✅
+              <CheckCircleIcon className="w-6 h-6 text-success-600" />
             </div>
           </div>
           <div className="mt-4 text-xs text-success-600">

@@ -1,15 +1,3 @@
-/**
- * Shared Layout Component
- * 
- * Provides a unified layout structure for both dashboard and home page
- * Features:
- * - Responsive header with navigation
- * - Impersonation status banner
- * - Role-based navigation menus
- * - Sidebar for dashboard pages
- * - Footer for home page
- */
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -21,7 +9,6 @@ import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
 import type { User, ImpersonationContext, AdminViewMode } from "~/components/navigation/Navbar";
 
-// Layout configuration types
 interface LayoutConfig {
   showSidebar: boolean;
   showFooter: boolean;
@@ -29,7 +16,6 @@ interface LayoutConfig {
   containerClass: string;
 }
 
-// Main props interface
 interface SharedLayoutProps {
   children: React.ReactNode;
   user?: User;
@@ -77,7 +63,7 @@ export function SharedLayout({
   };
 
   // Get navigation items for sidebar
-  const navItems = getNavItems(user, impersonation, adminViewMode);
+  const navItems = getNavItems(user, impersonation);
 
   // Determine display user (impersonated or actual)
   const displayUser = impersonation?.isImpersonating ? {
@@ -105,7 +91,7 @@ export function SharedLayout({
               <h2 className="text-lg font-semibold text-text-primary" id="sidebar-heading">
                 {impersonation?.isImpersonating 
                   ? "Area Personale" 
-                  : user.role === "admin" && adminViewMode === "admin"
+                  : user?.role === "admin"
                     ? "Amministrazione" 
                     : "Area Personale"
                 }
@@ -135,7 +121,7 @@ export function SharedLayout({
             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-4" role="heading" aria-level={3}>
               {impersonation?.isImpersonating 
                 ? "Sessione Impersonificata" 
-                : user.role === "admin" && adminViewMode === "admin"
+                : user?.role === "admin"
                   ? "Funzioni Amministratore" 
                   : "Le Tue Attivita"
               }
@@ -220,18 +206,18 @@ export function SharedLayout({
                 <div 
                   className="w-8 h-8 bg-background-tertiary rounded-full flex items-center justify-center"
                   role="img"
-                  aria-label={`${displayUser.name || 'User'} avatar`}
+                  aria-label={`${displayUser?.name || 'User'} avatar`}
                 >
                   <span className="text-text-primary text-sm font-medium" aria-hidden="true">
-                    {(displayUser.name || displayUser.email).charAt(0).toUpperCase()}
+                    {(displayUser?.name || displayUser?.email || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
               </div>
               <div className="ml-3 flex-1 min-w-0">
                 <p className="text-sm font-medium text-text-primary truncate">
-                  {displayUser.name || 'User'}
+                  {displayUser?.name || 'User'}
                 </p>
-                <p className="text-xs text-text-tertiary truncate">{displayUser.email}</p>
+                <p className="text-xs text-text-tertiary truncate">{displayUser?.email}</p>
               </div>
             </div>
           </div>

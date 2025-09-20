@@ -275,7 +275,7 @@ async function seedDatabase() {
     });
 
     createdUsers.push(user.email);
-    console.log(`✅ Creato utente ${user.email}`);
+    console.log(`[SUCCESS] Creato utente ${user.email}`);
   }
 
   if (createdUsers.length === 0) {
@@ -329,7 +329,7 @@ async function seedVirtualPatients() {
       continue;
     }
 
-    const [{ id: patientId }] = await db
+    const result = await db
       .insert(virtualPatients)
       .values({
         name: patient.name,
@@ -345,6 +345,12 @@ async function seedVirtualPatients() {
       })
       .returning({ id: virtualPatients.id });
 
+    const patientId = result[0]?.id;
+    if (!patientId) {
+      console.error("[ERROR] Failed to create patient:", patient.name);
+      continue;
+    }
+
     created += 1;
 
     for (const label of patient.tags ?? []) {
@@ -357,7 +363,7 @@ async function seedVirtualPatients() {
     }
   }
 
-  console.log(`👥  Pazienti virtuali pronti (${created} nuovi)`);
+  console.log(`[INFO] Pazienti virtuali pronti (${created} nuovi)`);
 }
 
 async function runSeeding() {
@@ -365,10 +371,10 @@ async function runSeeding() {
     await seedDatabase();
     await seedPatientTags();
     await seedVirtualPatients();
-    console.log("🎉 Seeding completato");
+    console.log("[SUCCESS] Seeding completato");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Seeding non riuscito", error);
+    console.error("[ERROR] Seeding non riuscito", error);
     process.exit(1);
   } finally {
     client.close();

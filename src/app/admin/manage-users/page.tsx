@@ -18,6 +18,7 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { UsersIcon } from "@heroicons/react/24/outline";
 import { api } from "~/trpc/react";
 import Link from "next/link";
 
@@ -413,7 +414,7 @@ export default function AdminUserManagementPage() {
 
               {users.length === 0 && (
                 <div className="dashboard-empty-state">
-                  <div className="dashboard-empty-state-icon">👥</div>
+                  <UsersIcon className="w-16 h-16 text-text-tertiary mx-auto" />
                   <div className="dashboard-empty-state-title">No Users Found</div>
                   <div className="dashboard-empty-state-description">
                     {searchTerm ? "No users match your search criteria" : "No users in the system"}

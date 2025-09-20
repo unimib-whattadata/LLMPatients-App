@@ -1,21 +1,11 @@
-/**
- * Admin Dashboard Content Component
- * 
- * Contains the main admin dashboard interface with:
- * - System statistics overview
- * - User management section with impersonation
- * - Recent activity feed
- * - Administrative actions
- */
-
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, TableSkeleton } from "~/components/ui/Skeleton";
+import { UsersIcon } from "@heroicons/react/24/outline";
 
-// Modal component interfaces
 interface ImpersonationModalProps {
   user: {
     id: string;
@@ -29,10 +19,6 @@ interface ImpersonationModalProps {
   isLoading: boolean;
 }
 
-/**
- * Impersonation Confirmation Modal
- * Shows user details and allows admin to confirm impersonation
- */
 function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: ImpersonationModalProps) {
   const [reason, setReason] = useState("");
 
@@ -143,16 +129,14 @@ export function AdminContent() {
 
   // Fetch system statistics with optimized caching
   const { data: stats, isLoading: statsLoading } = api.dashboard.getSystemStats.useQuery(undefined, {
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 2 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
   
   // Fetch all users for management with optimized caching
   const { data: users, isLoading: usersLoading, refetch: refetchUsers } = api.dashboard.getAllUsers.useQuery(undefined, {
-    staleTime: 1 * 60 * 1000, // 1 minute
-    cacheTime: 3 * 60 * 1000, // 3 minutes
+    staleTime: 1 * 60 * 1000,
     retry: 2,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
@@ -265,7 +249,7 @@ export function AdminContent() {
           </p>
           <div className="dashboard-page__hero-meta">
             <span className="dashboard-chip" aria-label="Utenti totali">
-              <span aria-hidden="true">👥</span>
+              <UsersIcon className="w-4 h-4" aria-hidden="true" />
               <span>{statsLoading ? "Caricamento statistiche..." : `${stats?.totalUsers ?? 0} utenti totali`}</span>
             </span>
             <span className="dashboard-chip" aria-label="Amministratori attivi">
@@ -345,9 +329,9 @@ export function AdminContent() {
                     <div key={activity.id} className="dashboard-list__item" role="listitem">
                       <div>
                         <div className="dashboard-activity-title">
-                          {activity.userName} · {getActivityDisplayName(activity.type)}
+                          {activity.userName} · {activity.type}
                         </div>
-                        <div className="dashboard-activity-meta">{formatDate(activity.createdAt)}</div>
+                        <div className="dashboard-activity-meta">{new Date(activity.createdAt).toLocaleDateString()}</div>
                       </div>
                       <span className="dashboard-chip" aria-hidden="true">{activity.type}</span>
                     </div>
@@ -454,11 +438,11 @@ export function AdminContent() {
                     <div className="flex items-center justify-between gap-3">
                       <div>
                         <div className="dashboard-activity-title">
-                          {activity.userName} · {getActivityDisplayName(activity.type)}
+                          {activity.userName} · {activity.type}
                         </div>
                         <div className="dashboard-activity-meta">Tipo: {activity.type}</div>
                       </div>
-                      <div className="dashboard-activity-meta">{formatDate(activity.createdAt)}</div>
+                      <div className="dashboard-activity-meta">{new Date(activity.createdAt).toLocaleDateString()}</div>
                     </div>
                     {activity.metadata && (
                       <div className="dashboard-activity-meta bg-background-secondary p-3 rounded-md">

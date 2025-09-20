@@ -1,39 +1,22 @@
-/**
- * User Dashboard Content Component
- * 
- * Contains the main user dashboard interface with:
- * - Personal profile information
- * - Activity history and progress tracking
- * - User-specific actions and settings
- */
-
 "use client";
 
 import React, { useState, useMemo, useCallback } from "react";
 import { api } from "~/trpc/react";
 import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, ActionCardSkeleton } from "~/components/ui/Skeleton";
 
-/**
- * UserContent Component
- * Main content area for user dashboard with profile and activity sections
- */
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<"overview" | "profile" | "activities">("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", email: "" });
 
-  // Fetch user profile data with optimized caching
   const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = api.dashboard.getUserProfile.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
+    staleTime: 5 * 60 * 1000,
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
   
-  // Fetch user activities with optimized caching
   const { data: activities, isLoading: activitiesLoading } = api.dashboard.getUserActivity.useQuery({ limit: 20 }, {
-    staleTime: 2 * 60 * 1000, // 2 minutes
-    cacheTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 2 * 60 * 1000,
     retry: 2,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });

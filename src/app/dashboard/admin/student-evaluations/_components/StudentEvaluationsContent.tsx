@@ -1,10 +1,3 @@
-/**
- * Student Evaluations Content Component
- * 
- * Interface for viewing and managing student evaluation results
- * across all clinical simulations
- */
-
 "use client";
 
 import { useState } from "react";

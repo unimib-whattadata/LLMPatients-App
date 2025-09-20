@@ -1,4 +1,4 @@
-# ePatient 🏥
+# ePatient
 
 **Clinical Simulation Platform for Medical Education**
 
@@ -9,13 +9,13 @@
 
 ePatient is a comprehensive clinical simulation and learning management system designed to enhance medical education through realistic, interactive patient scenarios. Built on the modern T3 Stack, it provides a type-safe, secure, and scalable platform for medical students and healthcare professionals to practice clinical decision-making in a safe, controlled environment.
 
-## 🎯 Mission
+## Mission
 
 To revolutionize medical education by providing immersive, realistic clinical simulations that bridge the gap between theoretical knowledge and practical application, enabling healthcare professionals to develop critical skills safely and effectively.
 
-## ✨ Key Features
+## Key Features
 
-### 🔬 Three-Phase Learning Model
+### Three-Phase Learning Model
 
 **1. Simulate (Simula)**
 - Interactive virtual patient scenarios
@@ -67,7 +67,7 @@ To revolutionize medical education by providing immersive, realistic clinical si
 - **[Google Cloud SQL](https://cloud.google.com/sql)** - Production database (PostgreSQL)
 - **[Google Cloud Run](https://cloud.google.com/run)** - Containerized deployment
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-**🎉 Your application will be running at [http://localhost:3000](http://localhost:3000)**
+**Your application will be running at [http://localhost:3000](http://localhost:3000)**
 
 > **Note**: You'll need to configure environment variables in `.env.local` before the app functions fully. See the [Local Development Setup](#-local-development-setup) section below.
 
@@ -149,7 +149,7 @@ npm run db:studio
 npm run dev
 ```
 
-**✅ Verification**: Visit [http://localhost:3000](http://localhost:3000) to see the application running.
+**Verification**: Visit [http://localhost:3000](http://localhost:3000) to see the application running.
 
 ### 5. Development Tools
 
@@ -298,7 +298,7 @@ For production deployment, ensure these environment variables are configured:
                     └─────────────────┘
 ```
 
-## 📚 Documentation
+## Documentation
 
 Centralized documentation is being reworked. In the meantime, refer to the sections in this README and the source code for guidance on architecture, API usage, and deployment.
 

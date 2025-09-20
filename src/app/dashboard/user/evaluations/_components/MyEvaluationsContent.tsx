@@ -1,13 +1,7 @@
-/**
- * My Evaluations Content Component
- * 
- * Interface for viewing personal evaluation results and feedback
- * from completed clinical simulations and assessments
- */
-
 "use client";
 
 import { useState } from "react";
+import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 interface Evaluation {
   id: string;
@@ -25,7 +19,6 @@ interface Evaluation {
 export function MyEvaluationsContent() {
   const [selectedEvaluation, setSelectedEvaluation] = useState<string | null>(null);
 
-  // Mock data - in real app this would come from API
   const evaluations: Evaluation[] = [
     {
       id: "1",
@@ -254,7 +247,7 @@ export function MyEvaluationsContent() {
             })()
           ) : (
             <div className="bg-background-secondary rounded-lg p-8 text-center">
-              <div className="text-text-tertiary text-4xl mb-4">📋</div>
+              <ClipboardDocumentIcon className="w-16 h-16 text-text-tertiary mx-auto mb-4" />
               <h3 className="text-lg font-medium text-text-primary mb-2">
                 Seleziona una valutazione
               </h3>
