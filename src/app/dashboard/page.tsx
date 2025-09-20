@@ -77,10 +77,10 @@ async function DashboardRouter() {
     // Role-based routing with enhanced logging
     if (userRole === "admin") {
       console.log("Redirecting admin user to admin dashboard");
-      redirect("/dashboard/admin/create-patient?auth=jwt");
+      redirect("/dashboard/admin?auth=jwt");
     } else {
       console.log("Redirecting user to user dashboard");
-      redirect("/dashboard/user/simulations?auth=jwt");
+      redirect("/dashboard/user?auth=jwt");
     }
   } catch (error) {
     // Handle redirect errors (normal flow) vs actual errors

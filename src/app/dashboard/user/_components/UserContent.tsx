@@ -1,13 +1,25 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, ActionCardSkeleton } from "~/components/ui/Skeleton";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<"overview" | "profile" | "activities">("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", email: "" });
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Handle URL parameter for section
+  useEffect(() => {
+    const section = searchParams.get('section');
+    if (section && (section === 'overview' || section === 'profile' || section === 'activities')) {
+      setSelectedSection(section);
+    }
+  }, [searchParams]);
 
   const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = api.dashboard.getUserProfile.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
@@ -115,7 +127,16 @@ export const UserContent = React.memo(function UserContent() {
   // Memoize section change handler
   const handleSectionChange = useCallback((section: typeof selectedSection) => {
     setSelectedSection(section);
-  }, []);
+    // Update URL with section parameter
+    const params = new URLSearchParams(searchParams.toString());
+    if (section === 'overview') {
+      params.delete('section');
+    } else {
+      params.set('section', section);
+    }
+    const newUrl = params.toString() ? `?${params.toString()}` : '';
+    router.replace(`/dashboard/user${newUrl}`, { scroll: false });
+  }, [searchParams, router]);
 
   // Memoize profile edit handlers
   const handleEditProfile = useCallback(() => {
@@ -128,21 +149,6 @@ export const UserContent = React.memo(function UserContent() {
 
   return (
     <div className="dashboard-panel-stack">
-        <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard">
-          {navItems.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              role="tab"
-              aria-selected={selectedSection === item.key}
-              className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
-              onClick={() => handleSectionChange(item.key)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
         {selectedSection === "overview" && (
           <div className="dashboard-panel-stack">
             <section className="dashboard-section">

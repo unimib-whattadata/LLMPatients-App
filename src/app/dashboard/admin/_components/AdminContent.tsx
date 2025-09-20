@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, TableSkeleton } from "~/components/ui/Skeleton";
 import { UsersIcon } from "@heroicons/react/24/outline";
 
@@ -126,6 +126,15 @@ export function AdminContent() {
   }>({ isOpen: false, user: null });
   
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Handle URL parameter for section
+  useEffect(() => {
+    const section = searchParams.get('section');
+    if (section && (section === 'overview' || section === 'users' || section === 'activities')) {
+      setSelectedSection(section);
+    }
+  }, [searchParams]);
 
   // Fetch system statistics with optimized caching
   const { data: stats, isLoading: statsLoading } = api.dashboard.getSystemStats.useQuery(undefined, {
@@ -235,25 +244,19 @@ export function AdminContent() {
   // Memoize section change handler
   const handleSectionChange = useCallback((section: typeof selectedSection) => {
     setSelectedSection(section);
-  }, []);
+    // Update URL with section parameter
+    const params = new URLSearchParams(searchParams.toString());
+    if (section === 'overview') {
+      params.delete('section');
+    } else {
+      params.set('section', section);
+    }
+    const newUrl = params.toString() ? `?${params.toString()}` : '';
+    router.replace(`/dashboard/admin${newUrl}`, { scroll: false });
+  }, [searchParams, router]);
 
   return (
     <div className="dashboard-panel-stack">
-        <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard amministratore">
-          {navItems.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              role="tab"
-              aria-selected={selectedSection === item.key}
-              className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
-              onClick={() => handleSectionChange(item.key)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
         {selectedSection === "overview" && (
           <div className="dashboard-panel-stack">
             <section className="dashboard-section" aria-labelledby="admin-overview-stats">

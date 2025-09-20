@@ -4,10 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Navbar } from "~/components/navigation/Navbar";
-import { getNavItems } from "~/components/navigation/navigationUtils";
-import { ChevronLeftIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { getNavSections } from "~/components/navigation/navigationUtils";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-import type { User, ImpersonationContext, AdminViewMode } from "~/components/navigation/Navbar";
+import type { User, ImpersonationContext, AdminViewMode, NavItem } from "~/components/navigation/Navbar";
 
 interface LayoutConfig {
   showSidebar: boolean;
@@ -85,8 +85,8 @@ export function SharedLayout({
     containerClass: layoutType === "dashboard" ? "dashboard-container" : "min-h-screen bg-background-primary",
   };
 
-  // Get navigation items for sidebar
-  const navItems = getNavItems(user, impersonation);
+  // Get navigation sections for sidebar
+  const navSections = getNavSections(user, impersonation);
 
   // Determine display user (impersonated or actual)
   const displayUser = impersonation?.isImpersonating ? {
@@ -151,63 +151,54 @@ export function SharedLayout({
             </p>
           )}
           
-          {/* Navigation Items */}
-            <ul className="nav-list" role="list">
-            {navItems.map((item, index) => {
-              const isActive = currentPage === item.href || pathname === item.href;
-              return (
-                <li key={item.href} role="listitem">
-                  <div className="relative group">
-                    <Link
-                      href={item.href}
-                      className={`nav-item ${isActive ? "active" : ""}`}
-                      title={sidebarCollapsed ? item.label : undefined}
-                      aria-current={isActive ? "page" : undefined}
-                      aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}
-                    >
-                      <item.icon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
-                      {!sidebarCollapsed && (
-                        <span className="truncate">{item.label}</span>
-                      )}
-                    </Link>
-                    
-                    {/* Tooltip for collapsed state */}
-                    {sidebarCollapsed && (
-                      <div 
-                        id={`tooltip-${index}`}
-                        className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
-                        role="tooltip"
-                        aria-hidden="true"
-                      >
-                        {item.label}
-                        <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-900 rotate-45"></div>
-                      </div>
-                    )}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          
-          {/* Quick Actions Section */}
-          {!sidebarCollapsed && (
-            <div className="mt-8 pt-6">
-              <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-3" role="heading" aria-level={3}>
-                Azioni Rapide
-              </p>
+          {/* Navigation Sections */}
+          {navSections.map((section, sectionIndex) => (
+            <div key={section.title} className={sectionIndex > 0 ? "mt-6" : ""}>
+              {!sidebarCollapsed && (
+                <h3 className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-3 px-3" role="heading" aria-level={3}>
+                  {section.title}
+                </h3>
+              )}
               <ul className="nav-list" role="list">
-                <li role="listitem">
-                  <Link
-                    href="/explore-patients"
-                    className="nav-item"
-                  >
-                    <MagnifyingGlassIcon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
-                    <span className="truncate">Esplora Pazienti</span>
-                  </Link>
-                </li>
+                {section.items.map((item: NavItem, itemIndex: number) => {
+                  const isActive = currentPage === item.href || pathname === item.href;
+                  const globalIndex = navSections.slice(0, sectionIndex).reduce((acc, s) => acc + s.items.length, 0) + itemIndex;
+                  return (
+                    <li key={item.href} role="listitem">
+                      <div className="relative group">
+                        <Link
+                          href={item.href}
+                          className={`nav-item ${isActive ? "active" : ""}`}
+                          title={sidebarCollapsed ? item.label : undefined}
+                          aria-current={isActive ? "page" : undefined}
+                          aria-describedby={sidebarCollapsed ? `tooltip-${globalIndex}` : undefined}
+                        >
+                          <item.icon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
+                          {!sidebarCollapsed && (
+                            <span className="truncate">{item.label}</span>
+                          )}
+                        </Link>
+                        
+                        {/* Tooltip for collapsed state */}
+                        {sidebarCollapsed && (
+                          <div 
+                            id={`tooltip-${globalIndex}`}
+                            className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
+                            role="tooltip"
+                            aria-hidden="true"
+                          >
+                            {item.label}
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-900 rotate-45"></div>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
-          )}
+          ))}
+          
         </nav>
         
         {/* User Info Footer */}

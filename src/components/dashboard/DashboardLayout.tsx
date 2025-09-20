@@ -48,21 +48,6 @@ export const DashboardLayout = React.memo(function DashboardLayout({
 
   return (
     <div className="dashboard-panel-stack">
-        <div className="dashboard-pill-nav" role="tablist" aria-label="Dashboard sections">
-          {memoizedNavItems.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              role="tab"
-              aria-selected={selectedSection === item.key}
-              className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
-              onClick={() => handleSectionChange(item.key)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
         {children}
     </div>
   );

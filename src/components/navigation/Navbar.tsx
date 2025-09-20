@@ -44,6 +44,11 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>;
 }
 
+interface NavSection {
+  title: string;
+  items: NavItem[];
+}
+
 type AdminViewMode = "admin" | "user";
 type LayoutType = "dashboard" | "home";
 
