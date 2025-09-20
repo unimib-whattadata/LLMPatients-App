@@ -17,17 +17,13 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
   if (error) {
     return (
       <div className="min-h-[400px] flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-red-400 text-6xl mb-4">⚠️</div>
-          <h3 className="text-xl font-semibold text-gray-200 mb-2">
-            Errore nel caricamento
-          </h3>
-          <p className="text-gray-400 mb-4">
-            {error}
-          </p>
+        <div className="patients-feedback" role="alert">
+          <div className="patients-feedback-icon" aria-hidden="true">⚠️</div>
+          <h3 className="patients-feedback-title">Errore nel caricamento</h3>
+          <p className="patients-feedback-text">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="patient-card-button max-w-xs"
+            className="patient-card-button patients-feedback-button"
           >
             Riprova
           </button>
@@ -45,12 +41,10 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
   if (patients.length === 0) {
     return (
       <div className="min-h-[400px] flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-gray-400 text-6xl mb-4">🔍</div>
-          <h3 className="text-xl font-semibold text-gray-200 mb-2">
-            Nessun paziente trovato
-          </h3>
-          <p className="text-gray-400">
+        <div className="patients-feedback" role="status">
+          <div className="patients-feedback-icon" aria-hidden="true">🔍</div>
+          <h3 className="patients-feedback-title">Nessun paziente trovato</h3>
+          <p className="patients-feedback-text">
             Non ci sono pazienti virtuali disponibili al momento.
           </p>
         </div>
@@ -59,17 +53,17 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
   }
 
   return (
-    <section 
+    <div 
       className="patient-grid"
       aria-label={`Griglia di ${patients.length} pazienti virtuali`}
-      role="region"
+      role="list"
     >
-      {patients.map((patient, index) => (
+      {patients.map((patient) => (
         <PatientCard 
           key={patient.id} 
           patient={patient}
         />
       ))}
-    </section>
+    </div>
   );
 }

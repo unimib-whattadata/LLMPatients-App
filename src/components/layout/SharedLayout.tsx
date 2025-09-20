@@ -664,108 +664,101 @@ export function SharedLayout({
     if (!layoutConfig.showFooter) return null;
 
     return (
-      <footer className="bg-gray-900 text-white">
-        {/* Newsletter Section */}
-        <div className="bg-gray-700 py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <p className="text-body-sm text-white">
-                Vuoi ricevere aggiornamenti sui progetti e ricerche gratuite?
-                <br />
-                Iscriviti alla nostra newsletter.
-              </p>
-            </div>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Il tuo indirizzo email"
-                className="input-field rounded-r-none"
-              />
-              <button className="btn btn-primary rounded-l-none">
-                Iscriviti
-              </button>
+      <footer className="home-footer">
+        <div className="home-footer-newsletter">
+          <div className="section-container">
+            <div className="home-footer-newsletter-inner">
+              <div className="home-footer-newsletter-copy">
+                <h2>Vuoi ricevere aggiornamenti sul progetto e risorse gratuite?</h2>
+                <p>Iscriviti alla nostra newsletter.</p>
+              </div>
+              <form className="home-footer-newsletter-form">
+                <label htmlFor="newsletter-email-footer" className="sr-only">
+                  Inserisci la tua email
+                </label>
+                <input
+                  id="newsletter-email-footer"
+                  type="email"
+                  name="email"
+                  placeholder="La tua e-mail"
+                  autoComplete="email"
+                />
+                <button type="submit">Iscriviti</button>
+              </form>
             </div>
           </div>
         </div>
 
-        {/* Main Footer */}
-        <div className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {/* Logo and Info */}
-              <div className="col-span-2">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-white rounded"></div>
-                  <div className="ml-4">
-                    <p className="text-body-sm text-white">
-                      Progetto sviluppato in collaborazione con l&apos;Università degli Studi di
-                      Milano-Bicocca
-                    </p>
-                    <p className="text-body-sm text-white">
-                      Dipartimento di Informatica, Sistemistica e Comunicazione
-                    </p>
-                    <p className="text-body-sm text-white">
-                      Dipartimento di Medicina e Chirurgia
-                    </p>
-                  </div>
+        <div className="home-footer-main">
+          <div className="section-container">
+            <div className="home-footer-grid">
+              <div className="home-footer-brand">
+                <div className="home-brand-mark" aria-hidden="true" />
+                <div>
+                  <p className="home-footer-brand-name">LLMPatient</p>
+                  <p className="home-footer-brand-caption">
+                    Un progetto dedicato alla formazione e alla valutazione delle competenze cliniche.
+                  </p>
                 </div>
               </div>
 
-              {/* Collegamenti rapidi */}
-              <div>
-                <h3 className="text-body font-semibold mb-4 text-white">Collegamenti rapidi</h3>
-                <ul className="space-y-2 text-body-sm">
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">Chi siamo</Link></li>
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">News</Link></li>
-                  <li><Link href="/esplora-pazienti" className="link-secondary hover:text-gray-300">Esplora pazienti</Link></li>
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">Contatti</Link></li>
+              <div className="home-footer-column">
+                <h3>Collegamenti rapidi</h3>
+                <ul>
+                  <li>
+                    <Link href="#">Chi siamo</Link>
+                  </li>
+                  <li>
+                    <Link href="/esplora-pazienti">Esplora pazienti</Link>
+                  </li>
+                  <li>
+                    <Link href="#">News</Link>
+                  </li>
+                  <li>
+                    <Link href="#">FAQ</Link>
+                  </li>
                 </ul>
               </div>
 
-              {/* Contatti */}
-              <div>
-                <h3 className="text-body font-semibold mb-4 text-white">Contatti</h3>
-                <div className="space-y-2 text-body-sm text-white">
-                  <p>ePatient</p>
-                  <p>epatient@email.com</p>
-                  <div className="flex space-x-4 mt-4">
-                    {/* Social Media Icons */}
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.888-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.357-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
-                      </svg>
-                    </Link>
-                  </div>
+              <div className="home-footer-column">
+                <h3>Contatti</h3>
+                <ul>
+                  <li>LLMPatient</li>
+                  <li>email@example.com</li>
+                  <li>+39 02 0000000</li>
+                </ul>
+                <div className="home-footer-social">
+                  <Link href="#" aria-label="Visita la nostra pagina Facebook">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88V15.47H7.9v-3.1h2.54V9.79c0-2.5 1.5-3.88 3.8-3.88 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.76l-.44 3.1h-2.32v6.41C18.34 21.12 22 16.99 22 12z" />
+                    </svg>
+                  </Link>
+                  <Link href="#" aria-label="Visita il nostro profilo Instagram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3.5A5.5 5.5 0 0011.5 16.5 5.5 5.5 0 1012 7.5zm0 2A3.5 3.5 0 1112 15a3.5 3.5 0 010-7zm5.75-.88a1 1 0 11-2 0 1 1 0 012 0z" />
+                    </svg>
+                  </Link>
+                  <Link href="#" aria-label="Visita la nostra pagina LinkedIn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M20.45 20.45h-3.55v-5.58c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.91 1.64-1.86 3.37-1.86 3.6 0 4.26 2.37 4.26 5.45v6.3zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
+                    </svg>
+                  </Link>
                 </div>
               </div>
             </div>
-            
-            {/* Bottom section */}
-            <div className="mt-8 pt-8 border-t border-gray-600">
-              <div className="flex flex-col md:flex-row justify-between items-center">
-                <p className="text-body-sm text-gray-400">
-                  © 2024 ePatient. Tutti i diritti riservati.
-                </p>
-                <div className="flex space-x-6 text-body-sm text-gray-400 mt-4 md:mt-0">
-                  <Link href="#" className="link-secondary hover:text-gray-300">Privacy Policy</Link>
-                  <Link href="#" className="link-secondary hover:text-gray-300">Termini e condizioni</Link>
-                  <Link href="#" className="link-secondary hover:text-gray-300">Informazioni cookie</Link>
-                </div>
+
+            <div className="home-footer-bottom">
+              <p>© {new Date().getFullYear()} LLMPatient. Tutti i diritti riservati.</p>
+              <div className="home-footer-links">
+                <Link href="#">Privacy Policy</Link>
+                <Link href="#">Termini e condizioni</Link>
+                <Link href="#">Impostazioni cookie</Link>
+              </div>
+              <div className="home-footer-languages" role="group" aria-label="Seleziona la lingua">
+                <button type="button" className="active">
+                  IT
+                </button>
+                <button type="button">EN</button>
               </div>
             </div>
           </div>

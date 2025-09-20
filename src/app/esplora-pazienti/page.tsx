@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { api } from "~/trpc/react";
 import { PatientGrid } from "./_components/PatientGrid";
 
@@ -11,30 +12,45 @@ export default function EsploraPazientiPage() {
   const { data: patients, isLoading, error } = api.patients.getExplorationPatients.useQuery();
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      {/* Page Header */}
-      <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 border-b border-gray-600">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <header className="text-center">
-            <h1 className="text-5xl font-bold text-white mb-6 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
-              Esplora Pazienti
-            </h1>
-            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Scopri scenari clinici interattivi progettati per migliorare le tue competenze mediche. 
-              Ogni paziente virtuale presenta sfide uniche e obiettivi di apprendimento specifici.
-            </p>
-          </header>
+    <div className="patients-page">
+      <header className="patients-topbar">
+        <div className="section-container patients-topbar-inner">
+          <div className="patients-brand">
+            <div className="patients-brand-mark" aria-hidden="true" />
+            <span>LLMPatient</span>
+          </div>
+          <nav className="patients-nav" aria-label="Navigazione principale">
+            <Link href="/">Home</Link>
+            <Link href="#">Chi siamo</Link>
+            <Link href="/esplora-pazienti" className="active" aria-current="page">
+              Esplora pazienti
+            </Link>
+            <Link href="#">News</Link>
+            <Link href="/login">Area personale</Link>
+          </nav>
         </div>
-      </div>
+      </header>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto py-8">
-        <PatientGrid 
-          patients={patients || []} 
-          isLoading={isLoading} 
-          error={error?.message || null} 
-        />
-      </div>
+      <main className="patients-main">
+        <section className="patients-hero">
+          <div className="section-container">
+            <h1>ePatients</h1>
+            <p>
+              Un catalogo di pazienti virtuali progettato per allenare empatia clinica, gestione emotiva e decisioni terapeutiche in ambienti sicuri.
+            </p>
+          </div>
+        </section>
+
+        <section className="patients-grid-section">
+          <div className="section-container">
+            <PatientGrid
+              patients={patients || []}
+              isLoading={isLoading}
+              error={error?.message || null}
+            />
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { VirtualPatient } from "~/server/api/routers/patients";
 import { PatientAvatar } from "./PatientAvatar";
@@ -13,16 +12,16 @@ interface PatientCardProps {
  * Enhanced patient information card with improved styling and accessibility
  */
 export function PatientCard({ patient }: PatientCardProps) {
-  const getDifficultyColor = (difficulty: string) => {
+  const getDifficultyClass = (difficulty: string) => {
     switch (difficulty) {
       case "Facile":
-        return "text-green-400";
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
       case "Medio":
-        return "text-yellow-400";
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
       case "Difficile":
-        return "text-red-400";
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
       default:
-        return "text-gray-400";
+        return "patient-card-difficulty-icon";
     }
   };
 
@@ -53,7 +52,11 @@ export function PatientCard({ patient }: PatientCardProps) {
   };
 
   return (
-    <article className="patient-card" aria-labelledby={`patient-${patient.id}-title`}>
+    <article
+      className="patient-card"
+      aria-labelledby={`patient-${patient.id}-title`}
+      role="listitem"
+    >
       {/* Patient Avatar */}
       <PatientAvatar
         name={patient.name}
@@ -98,7 +101,7 @@ export function PatientCard({ patient }: PatientCardProps) {
                 </li>
               ))}
               {patient.objectives.length > 2 && (
-                <li className="text-gray-400 text-xs mt-1" role="listitem">
+                <li className="patient-card-objective-more" role="listitem">
                   +{patient.objectives.length - 2} altri obiettivi
                 </li>
               )}
@@ -109,7 +112,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           <div className="patient-card-metadata">
             <div className="patient-card-difficulty">
               <span 
-                className={`patient-card-difficulty-icon ${getDifficultyColor(patient.difficulty)}`}
+                className={getDifficultyClass(patient.difficulty)}
                 aria-label={getDifficultyAccessibleText(patient.difficulty)}
                 role="img"
               >

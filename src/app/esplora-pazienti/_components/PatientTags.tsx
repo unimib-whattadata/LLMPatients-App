@@ -18,27 +18,25 @@ export function PatientTags({ tags }: PatientTagsProps) {
     return null;
   }
 
-  const getCategoryColor = (category: string) => {
+  const getCategoryClass = (category: string) => {
     switch (category) {
       case "psychological":
-        return "bg-purple-900/50 text-purple-300 border-purple-700";
+        return "patient-tag patient-tag--psychological";
       case "physical":
-        return "bg-blue-900/50 text-blue-300 border-blue-700";
+        return "patient-tag patient-tag--physical";
       case "behavioral":
-        return "bg-orange-900/50 text-orange-300 border-orange-700";
+        return "patient-tag patient-tag--behavioral";
       default:
-        return "bg-gray-700 text-gray-300 border-gray-600";
+        return "patient-tag";
     }
   };
 
   return (
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="patient-tag-group">
       {tags.slice(0, 3).map((tag) => (
         <span
           key={tag.id}
-          className={`px-3 py-1 text-xs font-medium rounded-full border ${getCategoryColor(
-            tag.category
-          )}`}
+          className={getCategoryClass(tag.category)}
           title={`Categoria: ${tag.category}`}
         >
           {tag.label}
@@ -46,7 +44,7 @@ export function PatientTags({ tags }: PatientTagsProps) {
       ))}
       {tags.length > 3 && (
         <span
-          className="px-3 py-1 text-xs font-medium rounded-full bg-gray-700 text-gray-400 border border-gray-600"
+          className="patient-tag patient-tag--more"
           title={`Altri ${tags.length - 3} tag`}
         >
           +{tags.length - 3}

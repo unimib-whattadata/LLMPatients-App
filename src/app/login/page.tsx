@@ -262,7 +262,7 @@ export default function LoginPage() {
       {/* Left Side - Branding */}
       <div className="auth-brand-section">
         <div className="auth-brand-content">
-          <h1 className="auth-brand-title">Nome Brand</h1>
+          <h1 className="auth-brand-title">LLMPatient</h1>
           <p className="auth-brand-subtitle">
             Un ambiente sicuro per allenarti con pazienti virtuali. Inizia da qui.
           </p>

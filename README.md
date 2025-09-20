@@ -300,15 +300,11 @@ For production deployment, ensure these environment variables are configured:
 
 ## 📚 Documentation
 
-- **[Project Wiki](./wiki/README.md)** - Comprehensive project documentation
-- **[API Documentation](./wiki/api-documentation.md)** - tRPC API reference
-- **[Architecture Guide](./wiki/architecture-overview.md)** - System design and patterns
-- **[Development Guide](./wiki/development-guide.md)** - Development workflows and standards
-- **[Deployment Guide](./wiki/deployment-guide.md)** - Detailed deployment instructions
+Centralized documentation is being reworked. In the meantime, refer to the sections in this README and the source code for guidance on architecture, API usage, and deployment.
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](./wiki/contributing.md) for details on:
+We welcome contributions! Guidelines are being consolidated alongside the documentation refresh. Until then, follow the workflow below and open a PR if anything looks unclear so we can align.
 
 - Code standards and style guide
 - Development workflow

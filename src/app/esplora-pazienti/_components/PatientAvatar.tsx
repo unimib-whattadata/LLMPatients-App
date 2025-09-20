@@ -91,6 +91,19 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
   const shouldShowPlaceholder = !avatarUrl || imageState === 'error';
   const imageSrc = shouldShowPlaceholder ? getPlaceholderAvatar() : avatarUrl;
 
+  const getBadgeClass = (type: PatientAvatarProps["avatarType"]) => {
+    switch (type) {
+      case "photo":
+        return "patient-avatar-badge patient-avatar-badge--photo";
+      case "illustration":
+        return "patient-avatar-badge patient-avatar-badge--illustration";
+      case "avatar":
+        return "patient-avatar-badge patient-avatar-badge--avatar";
+      default:
+        return "patient-avatar-badge";
+    }
+  };
+
   return (
     <div className="patient-avatar-container">
       {/* Loading State */}
@@ -139,22 +152,12 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
       
       {/* Avatar Type Indicator */}
-      <div className="absolute top-2 right-2 opacity-75">
-        {avatarType === 'photo' && (
-          <div className="bg-blue-500/20 text-blue-200 px-2 py-1 rounded-full text-xs backdrop-blur-sm">
-            📷
-          </div>
-        )}
-        {avatarType === 'illustration' && (
-          <div className="bg-purple-500/20 text-purple-200 px-2 py-1 rounded-full text-xs backdrop-blur-sm">
-            🎨
-          </div>
-        )}
-        {avatarType === 'avatar' && (
-          <div className="bg-green-500/20 text-green-200 px-2 py-1 rounded-full text-xs backdrop-blur-sm">
-            👤
-          </div>
-        )}
+      <div className="patient-avatar-badge-wrapper">
+        <div className={getBadgeClass(avatarType)}>
+          {avatarType === "photo" && "📷"}
+          {avatarType === "illustration" && "🎨"}
+          {avatarType === "avatar" && "👤"}
+        </div>
       </div>
     </div>
   );
