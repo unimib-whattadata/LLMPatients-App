@@ -48,16 +48,16 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <h3 className="text-lg font-semibold text-text-primary mb-2">
             Conferma Impersonificazione
           </h3>
-          <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
+          <div className="bg-warning-50 border border-warning-500/40 rounded-md p-3 mb-4">
             <div className="flex">
               <div className="flex-shrink-0">
                 <span className="text-secondary-400"></span>
               </div>
               <div className="ml-3">
-                <h3 className="text-sm font-medium text-secondary-800">
+                <h3 className="text-sm font-medium text-warning-600">
                   Attenzione - Azione Amministrativa
                 </h3>
-                <div className="mt-2 text-sm text-yellow-700">
+                <div className="mt-2 text-sm text-warning-600">
                   <p>
                     Stai per impersonificare l'utente. Tutte le azioni saranno registrate.
                   </p>
@@ -82,8 +82,8 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
               <span className="text-sm text-text-secondary">Ruolo:</span>
               <span className={`text-sm px-2 py-1 rounded ${
                 user.role === "admin" 
-                  ? "bg-red-100 text-red-800" 
-                  : "bg-accent-100 text-blue-800"
+                  ? "bg-error-50 text-error-600" 
+                  : "bg-accent-100 text-accent-600"
               }`}>
                 {user.role === "admin" ? "Admin" : "Utente"}
               </span>
@@ -98,7 +98,7 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <textarea
             id="reason"
             rows={3}
-            className="w-full px-3 py-2 border border-border-secondary rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-border-secondary rounded-md bg-background-secondary text-text-primary focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:border-transparent"
             placeholder="Inserisci il motivo dell'impersonificazione (es. supporto utente, test funzionalita...)"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
@@ -110,14 +110,14 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary border border-border-secondary rounded-md hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary border border-border-secondary rounded-md hover:bg-background-secondary focus:outline-none focus:ring-2 focus:ring-border-hover focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-orange-600 border border-transparent rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-secondary-600 border border-transparent rounded-md hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
           </button>
@@ -228,184 +228,187 @@ export function AdminContent() {
     });
   };
 
+  const navItems: Array<{ key: typeof selectedSection; label: string }> = [
+    { key: "overview", label: "Panoramica" },
+    { key: "users", label: "[USERS] Gestione Utenti" },
+    { key: "activities", label: "[ACTIVITY] Registro Attivita" },
+  ];
+
+  const recentActivities = stats?.recentActivities ?? [];
+
   return (
-    <div className="dashboard-container">
-      {/* Welcome Section */}
-      <div className="dashboard-welcome-section">
-        <h1 className="dashboard-welcome-title">Benvenuto, Amministratore</h1>
-        <p className="dashboard-welcome-subtitle">
-          Gestisci il sistema e monitora le attivita degli utenti dalla tua dashboard
-        </p>
-      </div>
-
-      {/* Section Navigation */}
-      <div className="flex space-x-4 mb-6">
-        <button
-          onClick={() => setSelectedSection("overview")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "overview"
-              ? "bg-red-100 text-red-700"
-              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
-          }`}
-        >
-          Panoramica
-        </button>
-        <button
-          onClick={() => setSelectedSection("users")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "users"
-              ? "bg-red-100 text-red-700"
-              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
-          }`}
-        >
-          [USERS] Gestione Utenti
-        </button>
-        <button
-          onClick={() => setSelectedSection("activities")}
-          className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            selectedSection === "activities"
-              ? "bg-red-100 text-red-700"
-              : "text-text-tertiary hover:text-text-secondary hover:bg-background-tertiary"
-          }`}
-        >
-          [ACTIVITY] Attivita Recenti
-        </button>
-      </div>
-
-      {/* Overview Section */}
-      {selectedSection === "overview" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">Statistiche del Sistema</h2>
-          
-          {statsLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="dashboard-stat-card animate-pulse">
-                  <div className="h-8 bg-background-tertiary rounded mb-2"></div>
-                  <div className="h-4 bg-background-tertiary rounded w-3/4 mx-auto"></div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="dashboard-stat-card">
-                <div className="dashboard-stat-number">{stats?.totalUsers ?? 0}</div>
-                <div className="dashboard-stat-label">Utenti Totali</div>
-              </div>
-              <div className="dashboard-stat-card">
-                <div className="dashboard-stat-number">{stats?.activeUsers ?? 0}</div>
-                <div className="dashboard-stat-label">Utenti Attivi (30gg)</div>
-              </div>
-              <div className="dashboard-stat-card">
-                <div className="dashboard-stat-number">{stats?.adminUsers ?? 0}</div>
-                <div className="dashboard-stat-label">Amministratori</div>
-              </div>
-            </div>
-          )}
-
-          {/* Recent Activities */}
-          <div className="dashboard-card mt-8">
-            <h3 className="dashboard-card-title">Attivita Recenti</h3>
-            {stats?.recentActivities && stats.recentActivities.length > 0 ? (
-              <div className="space-y-4">
-                {stats.recentActivities.map((activity) => (
-                  <div key={activity.id} className="dashboard-activity-item">
-                    <div className="dashboard-activity-icon">
-                      {activity.type === "login" && ""}
-                      {activity.type === "profile_update" && ""}
-                      {activity.type === "role_update" && "[UPDATE]"}
-                      {activity.type === "dashboard_view" && ""}
-                    </div>
-                    <div className="dashboard-activity-content">
-                      <div className="dashboard-activity-title">
-                        {activity.userName} ha {activity.type === "login" && "effettuato l'accesso"}
-                        {activity.type === "profile_update" && "aggiornato il profilo"}
-                        {activity.type === "role_update" && "modificato un ruolo utente"}
-                        {activity.type === "dashboard_view" && "visualizzato la dashboard"}
-                      </div>
-                      <div className="dashboard-activity-time">
-                        {formatDate(activity.createdAt)}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">[ACTIVITY]</div>
-                <div className="dashboard-empty-state-title">Nessuna Attivita</div>
-                <div className="dashboard-empty-state-description">
-                  Le attivita recenti verranno visualizzate qui
-                </div>
-              </div>
-            )}
+    <div className="dashboard-page">
+      <section className="dashboard-page__hero">
+        <div className="dashboard-page__hero-content">
+          <span className="dashboard-page__hero-eyebrow">Amministrazione</span>
+          <h1 className="dashboard-page__hero-title">Pannello di controllo amministratore</h1>
+          <p className="dashboard-page__hero-subtitle">
+            Supervisiona l'intera piattaforma, assegna i ruoli corretti e monitora in tempo reale le attivita principali
+            per garantire un'esperienza fluida a studenti e tutor.
+          </p>
+          <div className="dashboard-page__hero-meta">
+            <span className="dashboard-chip" aria-label="Utenti totali">
+              <span aria-hidden="true">👥</span>
+              <span>{statsLoading ? "Caricamento statistiche..." : `${stats?.totalUsers ?? 0} utenti totali`}</span>
+            </span>
+            <span className="dashboard-chip" aria-label="Amministratori attivi">
+              <span aria-hidden="true">🛡️</span>
+              <span>{statsLoading ? "" : `${stats?.adminUsers ?? 0} amministratori attivi`}</span>
+            </span>
           </div>
         </div>
-      )}
+      </section>
 
-      {/* Users Management Section */}
-      {selectedSection === "users" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">Gestione Utenti</h2>
-          
-          <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Tutti gli Utenti</h3>
-            
+      <div className="dashboard-stack">
+        <div className="dashboard-pill-nav" role="tablist" aria-label="Sezioni dashboard amministratore">
+          {navItems.map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              role="tab"
+              aria-selected={selectedSection === item.key}
+              className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
+              onClick={() => setSelectedSection(item.key)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {selectedSection === "overview" && (
+          <div className="dashboard-panel-stack">
+            <section className="dashboard-section" aria-labelledby="admin-overview-stats">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 id="admin-overview-stats" className="dashboard-section__title">Stato della piattaforma</h2>
+                  <p className="dashboard-section__description">
+                    Un riepilogo sui volumi di utilizzo e sull'attivita recente per mantenere il sistema sotto controllo.
+                  </p>
+                </div>
+              </div>
+
+              {statsLoading ? (
+                <div className="dashboard-metric-grid" aria-hidden="true">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="dashboard-metric-card animate-pulse">
+                      <div className="h-6 bg-background-tertiary rounded mb-2"></div>
+                      <div className="h-4 bg-background-tertiary rounded w-3/5"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="dashboard-metric-grid">
+                  <div className="dashboard-metric-card">
+                    <span className="dashboard-metric-card__label">Utenti totali</span>
+                    <span className="dashboard-metric-card__value">{stats?.totalUsers ?? 0}</span>
+                  </div>
+                  <div className="dashboard-metric-card">
+                    <span className="dashboard-metric-card__label">Utenti attivi (30 giorni)</span>
+                    <span className="dashboard-metric-card__value">{stats?.activeUsers ?? 0}</span>
+                  </div>
+                  <div className="dashboard-metric-card">
+                    <span className="dashboard-metric-card__label">Amministratori</span>
+                    <span className="dashboard-metric-card__value">{stats?.adminUsers ?? 0}</span>
+                  </div>
+                </div>
+              )}
+            </section>
+
+            <section className="dashboard-section" aria-labelledby="admin-recent-activity">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 id="admin-recent-activity" className="dashboard-section__title">Attivita recenti</h2>
+                  <p className="dashboard-section__description">
+                    Ultime azioni effettuate dagli utenti. Utilizza queste informazioni per individuare rapidamente bisogni
+                    di supporto o anomalie.
+                  </p>
+                </div>
+              </div>
+
+              {recentActivities.length > 0 ? (
+                <div className="dashboard-list" role="list">
+                  {recentActivities.slice(0, 6).map((activity) => (
+                    <div key={activity.id} className="dashboard-list__item" role="listitem">
+                      <div>
+                        <div className="dashboard-activity-title">
+                          {activity.userName} · {getActivityDisplayName(activity.type)}
+                        </div>
+                        <div className="dashboard-activity-meta">{formatDate(activity.createdAt)}</div>
+                      </div>
+                      <span className="dashboard-chip" aria-hidden="true">{activity.type}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="dashboard-empty-state">
+                  <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                  <p>Nessuna attivita recente disponibile.</p>
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+
+        {selectedSection === "users" && (
+          <section className="dashboard-section" aria-labelledby="admin-user-management">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="admin-user-management" className="dashboard-section__title">Gestione utenti</h2>
+                <p className="dashboard-section__description">
+                  Aggiorna i ruoli oppure impersonifica un account per fornire assistenza mirata.
+                </p>
+              </div>
+            </div>
+
             {usersLoading ? (
-              <div className="animate-pulse">
-                <div className="h-4 bg-background-tertiary rounded mb-4 w-full"></div>
+              <div className="animate-pulse space-y-4" aria-hidden="true">
                 {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-16 bg-background-tertiary rounded mb-2"></div>
+                  <div key={i} className="h-20 bg-background-tertiary rounded"></div>
                 ))}
               </div>
             ) : users && users.length > 0 ? (
-              <div className="overflow-x-auto">
+              <div className="overflow-hidden border border-border-primary rounded-xl">
                 <table className="dashboard-table">
                   <thead>
                     <tr>
+                      <th>ID</th>
                       <th>Nome</th>
                       <th>Email</th>
                       <th>Ruolo</th>
-                      <th>Gestione Ruolo</th>
-                      <th>Azioni</th>
+                      <th>Azione</th>
                     </tr>
                   </thead>
                   <tbody>
                     {users.map((user) => (
                       <tr key={user.id}>
-                        <td>{user.name || "Nome non disponibile"}</td>
+                        <td className="text-xs text-text-tertiary">{user.id}</td>
+                        <td>{user.name || "Senza nome"}</td>
                         <td>{user.email}</td>
-                        <td>
-                          <span className={`dashboard-badge ${
-                            user.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
-                          }`}>
-                            {user.role === "admin" ? "Admin" : "Utente"}
-                          </span>
-                        </td>
                         <td>
                           <select
                             value={user.role}
                             onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
                             disabled={updateUserRole.isPending}
-                            className="text-sm border border-border-secondary rounded px-2 py-1"
+                            className="text-sm border border-border-primary bg-background-secondary rounded px-2 py-1"
                           >
                             <option value="user">Utente</option>
                             <option value="admin">Admin</option>
                           </select>
                         </td>
                         <td>
-                          <div className="flex space-x-2">
+                          <div className="flex gap-2">
                             <button
+                              type="button"
                               onClick={() => handleImpersonateUser(user)}
                               disabled={user.role === "admin" || startImpersonation.isPending}
-                              className={`px-3 py-1 text-xs font-medium rounded transition-colors duration-200 ${
+                              className={`btn btn-sm ${
                                 user.role === "admin"
-                                  ? "bg-background-tertiary text-text-tertiary cursor-not-allowed"
-                                  : "bg-orange-100 text-orange-700 hover:bg-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
+                                  ? "btn-ghost cursor-not-allowed opacity-60"
+                                  : "btn-secondary"
                               }`}
                               title={user.role === "admin" ? "Non e possibile impersonificare un admin" : "Impersonifica questo utente"}
                             >
-                              {startImpersonation.isPending ? "..." : " Impersonifica"}
+                              {startImpersonation.isPending ? "..." : "Impersonifica"}
                             </button>
                           </div>
                         </td>
@@ -416,52 +419,39 @@ export function AdminContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">[USERS]</div>
-                <div className="dashboard-empty-state-title">Nessun Utente</div>
-                <div className="dashboard-empty-state-description">
-                  Non ci sono utenti registrati nel sistema
-                </div>
+                <div className="dashboard-empty-state__icon">[USERS]</div>
+                <p>Non sono ancora stati registrati utenti sulla piattaforma.</p>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </section>
+        )}
 
-      {/* Activities Section */}
-      {selectedSection === "activities" && (
-        <div>
-          <h2 className="text-heading-2 mb-6">Registro Attivita</h2>
-          
-          <div className="dashboard-card">
-            <h3 className="dashboard-card-title">Tutte le Attivita</h3>
-            
-            {stats?.recentActivities && stats.recentActivities.length > 0 ? (
-              <div className="space-y-3">
-                {stats.recentActivities.map((activity) => (
-                  <div key={activity.id} className="border border-border-primary rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <div className="dashboard-activity-icon">
-                          {activity.type === "login" && ""}
-                          {activity.type === "profile_update" && ""}
-                          {activity.type === "role_update" && "[UPDATE]"}
-                          {activity.type === "dashboard_view" && ""}
+        {selectedSection === "activities" && (
+          <section className="dashboard-section" aria-labelledby="admin-activity-log">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="admin-activity-log" className="dashboard-section__title">Registro attivita</h2>
+                <p className="dashboard-section__description">
+                  Visione dettagliata di ogni evento registrato per audit e tracciamento.
+                </p>
+              </div>
+            </div>
+
+            {recentActivities.length > 0 ? (
+              <div className="dashboard-panel-stack">
+                {recentActivities.map((activity) => (
+                  <div key={activity.id} className="dashboard-panel">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="dashboard-activity-title">
+                          {activity.userName} · {getActivityDisplayName(activity.type)}
                         </div>
-                        <div>
-                          <div className="font-medium text-text-primary">
-                            {activity.userName}
-                          </div>
-                          <div className="text-sm text-text-secondary">
-                            Tipo: {activity.type}
-                          </div>
-                        </div>
+                        <div className="dashboard-activity-meta">Tipo: {activity.type}</div>
                       </div>
-                      <div className="text-sm text-text-tertiary">
-                        {formatDate(activity.createdAt)}
-                      </div>
+                      <div className="dashboard-activity-meta">{formatDate(activity.createdAt)}</div>
                     </div>
                     {activity.metadata && (
-                      <div className="mt-2 text-xs text-text-tertiary bg-background-secondary p-2 rounded">
+                      <div className="dashboard-activity-meta bg-background-secondary p-3 rounded-md">
                         <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
                       </div>
                     )}
@@ -470,18 +460,14 @@ export function AdminContent() {
               </div>
             ) : (
               <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state-icon">[ACTIVITY]</div>
-                <div className="dashboard-empty-state-title">Nessuna Attivita</div>
-                <div className="dashboard-empty-state-description">
-                  Il registro delle attivita e vuoto
-                </div>
+                <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                <p>Non e stata ancora registrata alcuna attivita recente.</p>
               </div>
             )}
-          </div>
-        </div>
-      )}
+          </section>
+        )}
+      </div>
 
-      {/* Impersonation Modal */}
       <ImpersonationModal
         user={impersonationModal.user!}
         isOpen={impersonationModal.isOpen}
