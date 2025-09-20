@@ -92,43 +92,44 @@ export function MySimulationsContent() {
   });
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-text-primary mb-2">
-          Le Mie Simulazioni
-        </h1>
-        <p className="text-text-secondary">
-          Accedi alle simulazioni cliniche e monitora i tuoi progressi
-        </p>
-      </div>
+    <div className="dashboard-panel-stack">
+      <section className="dashboard-section">
+        <div className="dashboard-section__header">
+          <div>
+            <h1 className="dashboard-section__title">Le Mie Simulazioni</h1>
+            <p className="dashboard-section__description">
+              Accedi alle simulazioni cliniche e monitora i tuoi progressi
+            </p>
+          </div>
+        </div>
 
       {/* Progress Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-accent-500 mb-1">
+      <div className="dashboard-metric-grid mb-8">
+        <div className="dashboard-metric-card">
+          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-accent-500)' }}>
             {simulations.filter(s => s.status === "completed").length}
           </div>
-          <div className="text-sm text-text-secondary">Simulazioni Completate</div>
+          <div className="dashboard-metric-card__label">Simulazioni Completate</div>
         </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-secondary-500 mb-1">
+        <div className="dashboard-metric-card">
+          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-secondary-500)' }}>
             {simulations.filter(s => s.status === "in-progress").length}
           </div>
-          <div className="text-sm text-text-secondary">In Corso</div>
+          <div className="dashboard-metric-card__label">In Corso</div>
         </div>
-        <div className="bg-background-secondary p-6 rounded-lg border border-border-primary">
-          <div className="text-2xl font-bold text-success-500 mb-1">
+        <div className="dashboard-metric-card">
+          <div className="dashboard-metric-card__value" style={{ color: 'var(--color-success-500)' }}>
             {simulations.filter(s => s.score).length > 0 
               ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
               : 0}
           </div>
-          <div className="text-sm text-text-secondary">Score Medio</div>
+          <div className="dashboard-metric-card__label">Score Medio</div>
         </div>
       </div>
 
       {/* Filter Tabs */}
-      <div className="bg-background-secondary rounded-lg border border-border-primary p-4 mb-6">
-        <div className="flex flex-wrap gap-2">
+      <div className="dashboard-card mb-6">
+        <div className="dashboard-pill-nav" role="tablist" aria-label="Filtri simulazioni">
           {[
             { key: "all", label: "Tutte" },
             { key: "available", label: "Disponibili" },
@@ -138,11 +139,9 @@ export function MySimulationsContent() {
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
-              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                filter === tab.key
-                  ? "bg-accent-600 text-text-primary"
-                  : "text-text-tertiary hover:text-text-primary hover:bg-background-tertiary"
-              }`}
+              role="tab"
+              aria-selected={filter === tab.key}
+              className={`dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
             >
               {tab.label}
             </button>
@@ -151,93 +150,91 @@ export function MySimulationsContent() {
       </div>
 
       {/* Simulations Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="dashboard-action-grid">
         {filteredSimulations.map((simulation) => (
-          <div key={simulation.id} className="bg-background-secondary rounded-lg border border-border-primary overflow-hidden transition-all duration-200">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-text-primary mb-1">
-                    {simulation.title}
-                  </h3>
-                  <p className="text-sm text-text-secondary">
-                    Paziente: {simulation.patientName}
-                  </p>
-                </div>
-                {getStatusBadge(simulation.status)}
+          <div key={simulation.id} className="dashboard-action-card">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="dashboard-action-card__title mb-1">
+                  {simulation.title}
+                </h3>
+                <p className="dashboard-action-card__description">
+                  Paziente: {simulation.patientName}
+                </p>
+              </div>
+              {getStatusBadge(simulation.status)}
+            </div>
+
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-text-secondary">Difficolta:</span>
+                <span className={`text-sm font-medium ${getDifficultyColor(simulation.difficulty)}`}>
+                  {simulation.difficulty}
+                </span>
               </div>
 
-              <div className="space-y-3">
+              {simulation.progress > 0 && (
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-sm text-text-secondary">Progresso:</span>
+                    <span className="text-sm font-medium">{simulation.progress}%</span>
+                  </div>
+                  <div className="w-full bg-background-tertiary rounded-full h-2">
+                    <div 
+                      className="bg-accent-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${simulation.progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
+              {simulation.score && (
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-text-secondary">Difficolta:</span>
-                  <span className={`text-sm font-medium ${getDifficultyColor(simulation.difficulty)}`}>
-                    {simulation.difficulty}
+                  <span className="text-sm text-text-secondary">Punteggio:</span>
+                  <span className="text-sm font-bold text-success-600">
+                    {simulation.score}/100
                   </span>
                 </div>
+              )}
 
-                {simulation.progress > 0 && (
-                  <div>
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="text-sm text-text-secondary">Progresso:</span>
-                      <span className="text-sm font-medium">{simulation.progress}%</span>
-                    </div>
-                    <div className="w-full bg-background-tertiary rounded-full h-2">
-                      <div 
-                        className="bg-accent-600 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${simulation.progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                )}
+              {simulation.lastAccessed && (
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-text-secondary">Ultimo accesso:</span>
+                  <span className="text-sm text-text-tertiary">
+                    {simulation.lastAccessed}
+                  </span>
+                </div>
+              )}
+            </div>
 
-                {simulation.score && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-text-secondary">Punteggio:</span>
-                    <span className="text-sm font-bold text-success-600">
-                      {simulation.score}/100
-                    </span>
-                  </div>
-                )}
-
-                {simulation.lastAccessed && (
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-text-secondary">Ultimo accesso:</span>
-                    <span className="text-sm text-text-tertiary">
-                      {simulation.lastAccessed}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              <div className="mt-6">
-                {simulation.status === "available" && (
-                  <button className="w-full px-4 py-2 bg-accent-600 text-text-primary rounded-md hover:bg-accent-700 transition-colors duration-200">
-                    Inizia Simulazione
+            <div className="mt-6">
+              {simulation.status === "available" && (
+                <button className="btn btn-primary w-full">
+                  Inizia Simulazione
+                </button>
+              )}
+              {simulation.status === "in-progress" && (
+                <button className="btn btn-secondary w-full">
+                  Continua
+                </button>
+              )}
+              {simulation.status === "completed" && (
+                <div className="flex gap-2">
+                  <button className="btn btn-outline flex-1">
+                    Rivedi
                   </button>
-                )}
-                {simulation.status === "in-progress" && (
-                  <button className="w-full px-4 py-2 bg-secondary-600 text-text-primary rounded-md hover:bg-secondary-700 transition-colors duration-200">
-                    Continua
+                  <button className="btn btn-success flex-1">
+                    Ripeti
                   </button>
-                )}
-                {simulation.status === "completed" && (
-                  <div className="flex gap-2">
-                    <button className="flex-1 px-4 py-2 border border-border-primary text-text-secondary rounded-md hover:bg-background-tertiary transition-colors duration-200">
-                      Rivedi
-                    </button>
-                    <button className="flex-1 px-4 py-2 bg-success-600 text-text-primary rounded-md hover:bg-success-700 transition-colors duration-200">
-                      Ripeti
-                    </button>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         ))}
       </div>
 
       {filteredSimulations.length === 0 && (
-        <div className="text-center py-12">
+        <div className="dashboard-empty-state">
           <h3 className="text-lg font-medium text-text-primary mb-2">
             Nessuna simulazione trovata
           </h3>
@@ -246,6 +243,7 @@ export function MySimulationsContent() {
           </p>
         </div>
       )}
+      </section>
     </div>
   );
 }
