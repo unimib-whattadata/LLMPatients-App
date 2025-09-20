@@ -136,19 +136,19 @@ export function MySimulationsContent() {
 
         <div className="dashboard-metric-grid">
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-accent-500)' }}>
+            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
               {simulations.filter(s => s.status === "completed").length}
             </div>
             <div className="dashboard-metric-card__label">Simulazioni Completate</div>
           </div>
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-secondary-500)' }}>
+            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
               {simulations.filter(s => s.status === "in-progress").length}
             </div>
             <div className="dashboard-metric-card__label">In Corso</div>
           </div>
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'var(--color-success-500)' }}>
+            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
               {simulations.filter(s => s.score).length > 0 
                 ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
                 : 0}
