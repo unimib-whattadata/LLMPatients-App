@@ -143,22 +143,14 @@ export function SharedLayout({
           )}
           
           {/* Navigation Items */}
-          <ul className="space-y-1" role="list">
+            <ul className="nav-list" role="list">
             {navItems.map((item, index) => {
               const isActive = currentPage === item.href || pathname === item.href;
               return (
                 <li key={item.href} role="listitem">
                   <Link
                     href={item.href}
-                    className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-                      isActive
-                        ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                          ? "admin-nav-item active"
-                          : "user-nav-item active"
-                        : (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                        ? "admin-nav-item"
-                        : "user-nav-item"
-                    }`}
+                    className={`nav-item ${isActive ? "active" : ""}`}
                     title={sidebarCollapsed ? item.label : undefined}
                     aria-current={isActive ? "page" : undefined}
                     aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}

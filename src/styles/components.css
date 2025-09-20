@@ -1016,6 +1016,7 @@
 
   .sidebar-container {
     flex-shrink: 0;
+    height: 100vh;
     transition: width 0.3s ease;
   }
 
@@ -1039,6 +1040,8 @@
     flex: 1;
     max-width: 100%;
     margin: 0;
+    border: none;
+    border-radius: 0;
   }
 
   .footer-container {
@@ -1076,6 +1079,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    padding: var(--space-md) 0;
   }
 
   .dashboard-sidebar.collapsed {
@@ -1126,7 +1130,7 @@
   }
 
   .dashboard-card {
-    background: rgba(33, 39, 29, 0.95);
+    background: var(--surface-tertiary);
     border-radius: 1.1rem;
     padding: var(--space-xl);
     margin-bottom: var(--space-xl);
@@ -1143,7 +1147,7 @@
   }
 
   .dashboard-stat-card {
-    background: rgba(33, 39, 29, 0.95);
+    background: var(--surface-tertiary);
     border-radius: 1.1rem;
     padding: 1.75rem;
     text-align: center;
@@ -1322,8 +1326,8 @@
 
   .dashboard-section {
     background: var(--surface-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: 1.25rem;
+    border: none;
+    border-radius: 0;
     padding: clamp(1.5rem, 2.5vw, 2.25rem);
     box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.45);
   }
@@ -1398,7 +1402,7 @@
   }
 
   .dashboard-metric-card {
-    background: rgba(33, 39, 29, 0.95);
+    background: var(--surface-tertiary);
     border-radius: 1.1rem;
     padding: 1.75rem;
     display: flex;
@@ -1434,7 +1438,7 @@
   }
 
   .dashboard-panel {
-    background: rgba(33, 39, 29, 0.95);
+    background: var(--surface-tertiary);
     border-radius: 1.1rem;
     padding: clamp(1.25rem, 2vw, 1.75rem);
     display: grid;
@@ -1479,7 +1483,7 @@
     position: relative;
     border-radius: 1.1rem;
     padding: 1.75rem;
-    background: rgba(33, 39, 29, 0.95);
+    background: var(--surface-tertiary);
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -1711,6 +1715,7 @@
     color: var(--text-secondary);
     cursor: pointer;
     transition: background 0.2s ease, color 0.2s ease;
+    font-weight: 500;
   }
 
   .site-menu__logout-btn--block {
@@ -1718,13 +1723,10 @@
     text-align: center;
   }
 
-  .site-menu--dark .site-menu__logout-btn:hover {
-    background: rgba(139, 151, 105, 0.2);
-  }
-
-  .site-menu--light .site-menu__logout-btn:hover {
-    background: var(--surface-tertiary);
+  .site-menu__logout-btn:hover {
+    background: rgba(143, 157, 86, 0.12);
     color: var(--text-primary);
+    transform: translateY(-1px);
   }
 
   .site-menu__auth-block {
@@ -1916,65 +1918,60 @@
     margin-top: auto;
     animation-delay: 0.3s;
   }
-  /* ===== ENHANCED NAVIGATION CLASSES ===== */
-  .admin-nav-item {
+  /* ===== UNIFIED NAVIGATION CLASSES ===== */
+  .nav-item {
     display: flex;
     align-items: center;
-    padding: calc(var(--space-sm) + var(--space-xs)) var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    margin: 0 var(--space-sm) var(--space-xs) var(--space-sm);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--color-admin-600);
+    color: var(--color-gray-300);
     border-radius: 0.5rem;
     transition: all 0.2s ease;
     background: transparent;
     text-decoration: none;
     position: relative;
+    min-height: 2.5rem;
+    border: 1px solid transparent;
   }
 
-  .admin-nav-item:hover {
-    background: var(--color-admin-100);
-    transform: translateX(4px);
-    color: var(--color-admin-700);
+  .nav-item:hover {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+    transform: translateX(2px);
+    color: var(--color-gray-100);
   }
 
-  .admin-nav-item.active {
-    background: var(--color-admin-600);
-    color: white;
+  .nav-item.active {
+    background: var(--color-gray-700);
+    border-color: var(--color-gray-600);
+    color: var(--color-gray-100);
   }
 
-  .admin-nav-item:focus {
-    outline: 2px solid var(--color-admin-500);
+  .nav-item:focus {
+    outline: 2px solid var(--color-gray-500);
     outline-offset: 2px;
   }
 
+  /* Navigation list styling */
+  .nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .nav-list li {
+    margin: 0;
+  }
+
+  /* Legacy support - these classes now inherit from .nav-item */
+  .admin-nav-item,
   .user-nav-item {
-    display: flex;
-    align-items: center;
-    padding: calc(var(--space-sm) + var(--space-xs)) var(--space-md);
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-user-600);
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    background: transparent;
-    text-decoration: none;
-    position: relative;
-  }
-
-  .user-nav-item:hover {
-    background: var(--color-user-100);
-    transform: translateX(4px);
-    color: var(--color-user-700);
-  }
-
-  .user-nav-item.active {
-    background: var(--color-user-600);
-    color: white;
-  }
-
-  .user-nav-item:focus {
-    outline: 2px solid var(--color-user-500);
-    outline-offset: 2px;
+    /* All styles inherited from .nav-item above */
   }
 
   /* ===== ENHANCED PATIENT COMPONENTS ===== */

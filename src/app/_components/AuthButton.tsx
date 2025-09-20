@@ -65,7 +65,7 @@ export default function AuthButton() {
         </Link>
         <button
           onClick={handleLogout}
-          className="btn btn-outline btn-md"
+          className="btn btn-ghost btn-md"
           title="Logout"
         >
           Esci

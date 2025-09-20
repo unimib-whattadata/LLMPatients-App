@@ -9,23 +9,34 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { api } from "~/trpc/react";
+import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, ActionCardSkeleton } from "~/components/ui/Skeleton";
 
 /**
  * UserContent Component
  * Main content area for user dashboard with profile and activity sections
  */
-export function UserContent() {
+export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<"overview" | "profile" | "activities">("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", email: "" });
 
-  // Fetch user profile data
-  const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = api.dashboard.getUserProfile.useQuery();
+  // Fetch user profile data with optimized caching
+  const { data: profile, isLoading: profileLoading, refetch: refetchProfile } = api.dashboard.getUserProfile.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
   
-  // Fetch user activities
-  const { data: activities, isLoading: activitiesLoading } = api.dashboard.getUserActivity.useQuery({ limit: 20 });
+  // Fetch user activities with optimized caching
+  const { data: activities, isLoading: activitiesLoading } = api.dashboard.getUserActivity.useQuery({ limit: 20 }, {
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    cacheTime: 5 * 60 * 1000, // 5 minutes
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 
   // Profile update mutation
   const updateProfile = api.dashboard.updateProfile.useMutation({
@@ -53,7 +64,7 @@ export function UserContent() {
   /**
    * Handle profile form submission
    */
-  const handleProfileSubmit = async (e: React.FormEvent) => {
+  const handleProfileSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profileForm.name.trim() || !profileForm.email.trim()) return;
 
@@ -65,7 +76,7 @@ export function UserContent() {
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
-  };
+  }, [profileForm.name, profileForm.email, updateProfile]);
 
   /**
    * Record dashboard view activity
@@ -104,14 +115,33 @@ export function UserContent() {
     }
   };
 
-  const lastActivity = activities?.[0];
-  const simulationsCompleted = activities?.filter((activity) => activity.type === "simulation").length ?? 0;
+  // Memoize expensive calculations
+  const lastActivity = useMemo(() => activities?.[0], [activities]);
+  const simulationsCompleted = useMemo(
+    () => activities?.filter((activity) => activity.type === "simulation").length ?? 0,
+    [activities]
+  );
 
-  const navItems: Array<{ key: typeof selectedSection; label: string }> = [
-    { key: "overview", label: "[HOME] Panoramica" },
-    { key: "profile", label: "Il Mio Profilo" },
-    { key: "activities", label: "[ACTIVITY] La Mia Attivita" },
-  ];
+  // Memoize navigation items
+  const navItems = useMemo(() => [
+    { key: "overview" as const, label: "[HOME] Panoramica" },
+    { key: "profile" as const, label: "Il Mio Profilo" },
+    { key: "activities" as const, label: "[ACTIVITY] La Mia Attivita" },
+  ], []);
+
+  // Memoize section change handler
+  const handleSectionChange = useCallback((section: typeof selectedSection) => {
+    setSelectedSection(section);
+  }, []);
+
+  // Memoize profile edit handlers
+  const handleEditProfile = useCallback(() => {
+    setIsEditingProfile(true);
+  }, []);
+
+  const handleCancelEdit = useCallback(() => {
+    setIsEditingProfile(false);
+  }, []);
 
   return (
     <div className="dashboard-page">
@@ -152,7 +182,7 @@ export function UserContent() {
               role="tab"
               aria-selected={selectedSection === item.key}
               className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
-              onClick={() => setSelectedSection(item.key)}
+              onClick={() => handleSectionChange(item.key)}
             >
               {item.label}
             </button>
@@ -269,7 +299,7 @@ export function UserContent() {
               {!isEditingProfile && (
                 <button
                   type="button"
-                  onClick={() => setIsEditingProfile(true)}
+                  onClick={handleEditProfile}
                   className="btn btn-outline btn-sm"
                 >
                   Modifica
@@ -278,12 +308,7 @@ export function UserContent() {
             </div>
 
             {profileLoading ? (
-              <div className="animate-pulse space-y-4" aria-hidden="true">
-                <div className="h-4 bg-background-tertiary rounded w-1/4"></div>
-                <div className="h-10 bg-background-tertiary rounded"></div>
-                <div className="h-4 bg-background-tertiary rounded w-1/4"></div>
-                <div className="h-10 bg-background-tertiary rounded"></div>
-              </div>
+              <SectionSkeleton />
             ) : isEditingProfile ? (
               <form onSubmit={handleProfileSubmit} className="dashboard-panel" aria-live="polite">
                 <div className="form-group">
@@ -322,7 +347,7 @@ export function UserContent() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => setIsEditingProfile(false)}
+                    onClick={handleCancelEdit}
                     className="btn btn-ghost btn-sm"
                   >
                     [CANCEL] Annulla
@@ -375,9 +400,9 @@ export function UserContent() {
             </div>
 
             {activitiesLoading ? (
-              <div className="animate-pulse space-y-4" aria-hidden="true">
+              <div className="space-y-4" aria-hidden="true">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="h-16 bg-background-tertiary rounded"></div>
+                  <ListItemSkeleton key={i} />
                 ))}
               </div>
             ) : activities && activities.length > 0 ? (
@@ -412,4 +437,4 @@ export function UserContent() {
       </div>
     </div>
   );
-}
+});

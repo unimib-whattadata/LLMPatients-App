@@ -10,9 +10,10 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
+import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, TableSkeleton } from "~/components/ui/Skeleton";
 
 // Modal component interfaces
 interface ImpersonationModalProps {
@@ -140,11 +141,21 @@ export function AdminContent() {
   
   const router = useRouter();
 
-  // Fetch system statistics
-  const { data: stats, isLoading: statsLoading } = api.dashboard.getSystemStats.useQuery();
+  // Fetch system statistics with optimized caching
+  const { data: stats, isLoading: statsLoading } = api.dashboard.getSystemStats.useQuery(undefined, {
+    staleTime: 2 * 60 * 1000, // 2 minutes
+    cacheTime: 5 * 60 * 1000, // 5 minutes
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
   
-  // Fetch all users for management
-  const { data: users, isLoading: usersLoading, refetch: refetchUsers } = api.dashboard.getAllUsers.useQuery();
+  // Fetch all users for management with optimized caching
+  const { data: users, isLoading: usersLoading, refetch: refetchUsers } = api.dashboard.getAllUsers.useQuery(undefined, {
+    staleTime: 1 * 60 * 1000, // 1 minute
+    cacheTime: 3 * 60 * 1000, // 3 minutes
+    retry: 2,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 
   // User role update mutation
   const updateUserRole = api.dashboard.updateUserRole.useMutation({
@@ -228,13 +239,19 @@ export function AdminContent() {
     });
   };
 
-  const navItems: Array<{ key: typeof selectedSection; label: string }> = [
-    { key: "overview", label: "Panoramica" },
-    { key: "users", label: "[USERS] Gestione Utenti" },
-    { key: "activities", label: "[ACTIVITY] Registro Attivita" },
-  ];
+  // Memoize expensive calculations
+  const recentActivities = useMemo(() => stats?.recentActivities ?? [], [stats?.recentActivities]);
 
-  const recentActivities = stats?.recentActivities ?? [];
+  const navItems = useMemo(() => [
+    { key: "overview" as const, label: "Panoramica" },
+    { key: "users" as const, label: "[USERS] Gestione Utenti" },
+    { key: "activities" as const, label: "[ACTIVITY] Registro Attivita" },
+  ], []);
+
+  // Memoize section change handler
+  const handleSectionChange = useCallback((section: typeof selectedSection) => {
+    setSelectedSection(section);
+  }, []);
 
   return (
     <div className="dashboard-page">
@@ -268,7 +285,7 @@ export function AdminContent() {
               role="tab"
               aria-selected={selectedSection === item.key}
               className={`dashboard-pill-nav__button ${selectedSection === item.key ? "is-active" : ""}`}
-              onClick={() => setSelectedSection(item.key)}
+              onClick={() => handleSectionChange(item.key)}
             >
               {item.label}
             </button>
@@ -290,10 +307,7 @@ export function AdminContent() {
               {statsLoading ? (
                 <div className="dashboard-metric-grid" aria-hidden="true">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="dashboard-metric-card animate-pulse">
-                      <div className="h-6 bg-background-tertiary rounded mb-2"></div>
-                      <div className="h-4 bg-background-tertiary rounded w-3/5"></div>
-                    </div>
+                    <MetricCardSkeleton key={i} />
                   ))}
                 </div>
               ) : (
@@ -361,11 +375,7 @@ export function AdminContent() {
             </div>
 
             {usersLoading ? (
-              <div className="animate-pulse space-y-4" aria-hidden="true">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="h-20 bg-background-tertiary rounded"></div>
-                ))}
-              </div>
+              <TableSkeleton rows={3} />
             ) : users && users.length > 0 ? (
               <div className="overflow-hidden border border-border-primary rounded-xl">
                 <table className="dashboard-table">

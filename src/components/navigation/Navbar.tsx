@@ -179,7 +179,7 @@ export function Navbar({
             {displayUser && (
               <button
                 onClick={handleLogout}
-                className="text-sm text-text-primary/80 hover:text-text-primary transition-colors duration-200 px-2 sm:px-3 py-1 rounded-md hover:bg-text-primary/10 focus:outline-none focus:ring-2 focus:ring-text-primary/20"
+                className="btn btn-ghost btn-sm"
                 title="Esci"
               >
                 <ArrowRightOnRectangleIcon className="w-4 h-4" />
