@@ -1,7 +1,7 @@
 "use client";
 
 import { SharedLayout } from "~/components/layout/SharedLayout";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 type PathPoint = {
   x: number;
@@ -50,6 +50,7 @@ const timelinePathPoints: PathPoint[] = [
 const TIMELINE_BASE_WIDTH = 960;
 const TIMELINE_BASE_HEIGHT = 1450;
 const TIMELINE_TOOLTIP_OFFSET_X = 100;
+const TIMELINE_NODE_OFFSET_X = -14;
 
 const knowledgeTips = [
   "Ascolta attivamente il paziente senza interrompere.",
@@ -203,6 +204,8 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 export default function TherapeuticJourneyPage() {
   const [session, setSession] = useState<any>(null);
   const [activeBox, setActiveBox] = useState<number | null>(null);
+  const [timelineScale, setTimelineScale] = useState(1);
+  const timelineContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Get session data
@@ -222,6 +225,35 @@ export default function TherapeuticJourneyPage() {
     };
     getSession();
   }, []);
+
+  useEffect(() => {
+    const element = timelineContainerRef.current;
+    if (!element) {
+      return;
+    }
+
+    const updateScale = () => {
+      const width = element.clientWidth;
+      if (width === 0) {
+        return;
+      }
+
+      setTimelineScale(width / TIMELINE_BASE_WIDTH);
+    };
+
+    updateScale();
+
+    if (typeof ResizeObserver === "undefined") {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => updateScale());
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [session?.user]);
 
   if (!session || !session.user) {
     return <div>Loading...</div>;
@@ -255,6 +287,26 @@ export default function TherapeuticJourneyPage() {
   const activeStep = activeBox ? timelineSteps.find((step) => step.id === activeBox) : null;
   const activeDetails = activeBox ? getStepDetails(activeBox) : null;
 
+  const scaledStepPositions = timelineSteps.map((step) => ({
+    ...step,
+    scaledTop: step.top * timelineScale,
+    scaledLeft: (step.left + TIMELINE_NODE_OFFSET_X) * timelineScale,
+  }));
+
+  const circleSize = Math.max(40, 62 * timelineScale);
+  const circleFontSize = Math.max(14, 18 * timelineScale);
+  const activePosition =
+    activeStep && activeDetails
+      ? {
+          top: activeStep.top * timelineScale,
+          left: (activeStep.left + TIMELINE_NODE_OFFSET_X) * timelineScale,
+        }
+      : null;
+  const tooltipLeft = activePosition
+    ? activePosition.left + TIMELINE_TOOLTIP_OFFSET_X * timelineScale
+    : 0;
+  const tooltipTop = activePosition ? activePosition.top : 0;
+
   return (
     <SharedLayout
       user={user}
@@ -277,6 +329,7 @@ export default function TherapeuticJourneyPage() {
 
           <div className="hidden md:block">
             <div
+              ref={timelineContainerRef}
               className="relative mx-auto w-full"
               style={{ maxWidth: `${TIMELINE_BASE_WIDTH}px` }}
             >
@@ -317,16 +370,19 @@ export default function TherapeuticJourneyPage() {
                   className="absolute inset-0 z-10"
                   onClick={handleContainerClick}
                 >
-                  {timelineSteps.map((step) => (
+                  {scaledStepPositions.map((step) => (
                     <div
                       key={step.id}
                       style={{
-                        top: `${(step.top / TIMELINE_BASE_HEIGHT) * 100}%`,
-                        left: `${(step.left / TIMELINE_BASE_WIDTH) * 100}%`,
+                        top: `${step.scaledTop}px`,
+                        left: `${step.scaledLeft}px`,
                         backgroundColor: step.color,
                         color: step.textColor ?? "#0b0d06",
+                        width: `${circleSize}px`,
+                        height: `${circleSize}px`,
+                        fontSize: `${circleFontSize}px`,
                       }}
-                      className="absolute flex h-[62px] w-[62px] -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full text-lg font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
+                      className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
                       onClick={() => handleStepClick(step.id)}
                     >
                       {step.id}
@@ -335,10 +391,10 @@ export default function TherapeuticJourneyPage() {
 
                   {activeStep && activeDetails && (
                     <div
-                      className="absolute z-20 w-80 rounded-[28px] p-8"
+                      className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
                       style={{
-                        top: `${(activeStep.top / TIMELINE_BASE_HEIGHT) * 100}%`,
-                        left: `${((activeStep.left + TIMELINE_TOOLTIP_OFFSET_X) / TIMELINE_BASE_WIDTH) * 100}%`,
+                        top: `${tooltipTop}px`,
+                        left: `${tooltipLeft}px`,
                         backgroundColor: activeDetails.backgroundColor,
                         color: activeDetails.textColor,
                       }}
