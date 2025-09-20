@@ -38,6 +38,7 @@ export function SharedLayout({
 }: SharedLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [adminViewMode, setAdminViewMode] = useState<AdminViewMode>("admin");
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   // Handle responsive sidebar behavior
@@ -46,6 +47,7 @@ export function SharedLayout({
       const isMobile = window.innerWidth < 1024;
       if (isMobile) {
         setSidebarCollapsed(true);
+        setMobileSidebarOpen(false);
       }
     };
 
@@ -53,6 +55,27 @@ export function SharedLayout({
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Close mobile sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const sidebar = document.querySelector('.sidebar-container');
+      const toggleButton = document.querySelector('[aria-label*="sidebar"]');
+      
+      if (mobileSidebarOpen && 
+          sidebar && 
+          !sidebar.contains(event.target as Node) && 
+          toggleButton && 
+          !toggleButton.contains(event.target as Node)) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    if (mobileSidebarOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [mobileSidebarOpen]);
 
   // Configure layout based on type
   const layoutConfig: LayoutConfig = {
@@ -241,7 +264,14 @@ export function SharedLayout({
         impersonation={impersonation}
         layoutType={layoutType}
         currentPage={currentPage}
-        onSidebarToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        onSidebarToggle={() => {
+          const isMobile = window.innerWidth < 1024;
+          if (isMobile) {
+            setMobileSidebarOpen(!mobileSidebarOpen);
+          } else {
+            setSidebarCollapsed(!sidebarCollapsed);
+          }
+        }}
         sidebarCollapsed={sidebarCollapsed}
         showSidebar={layoutConfig.showSidebar}
       />
@@ -250,7 +280,7 @@ export function SharedLayout({
       <div className={`main-container ${layoutConfig.showSidebar ? "dashboard-layout" : "home-layout"}`}>
         {/* Sidebar */}
         {layoutConfig.showSidebar && (
-          <div className="sidebar-container">
+          <div className={`sidebar-container ${mobileSidebarOpen ? "mobile-open" : ""}`}>
             <nav role="navigation" aria-label="Main navigation">
               {renderSidebar()}
             </nav>

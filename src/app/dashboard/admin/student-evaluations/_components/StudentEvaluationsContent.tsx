@@ -9,10 +9,16 @@ interface Evaluation {
   score: number;
   completedAt: string;
   status: "completed" | "in-progress" | "failed";
+  feedback: string;
+  strengths: string[];
+  improvements: string[];
+  difficulty: "Facile" | "Medio" | "Difficile";
+  duration: number; // in minutes
 }
 
 export function StudentEvaluationsContent() {
   const [filter, setFilter] = useState<string>("all");
+  const [selectedEvaluation, setSelectedEvaluation] = useState<string | null>(null);
   
   // Mock data - in real app this would come from API
   const evaluations: Evaluation[] = [
@@ -22,7 +28,20 @@ export function StudentEvaluationsContent() {
       patientCase: "Mario Rossi - Ipertensione",
       score: 85,
       completedAt: "2024-09-03",
-      status: "completed"
+      status: "completed",
+      feedback: "Buona gestione del caso clinico. Lo studente ha dimostrato competenze solide nella diagnosi e nel trattamento dell'ipertensione.",
+      strengths: [
+        "Anamnesi dettagliata e sistematica",
+        "Corretta interpretazione dei parametri vitali",
+        "Scelta terapeutica appropriata",
+        "Comunicazione efficace con il paziente"
+      ],
+      improvements: [
+        "Velocità nella gestione dell'emergenza",
+        "Documentazione clinica più dettagliata"
+      ],
+      difficulty: "Medio",
+      duration: 45
     },
     {
       id: "2", 
@@ -30,7 +49,20 @@ export function StudentEvaluationsContent() {
       patientCase: "Laura Bianchi - Diabete",
       score: 92,
       completedAt: "2024-09-02",
-      status: "completed"
+      status: "completed",
+      feedback: "Eccellente performance. La studentessa ha gestito il caso con sicurezza e competenza, dimostrando una comprensione approfondita del diabete.",
+      strengths: [
+        "Diagnosi rapida e precisa",
+        "Protocollo terapeutico seguito correttamente",
+        "Monitoraggio continuo del paziente",
+        "Comunicazione empatica e professionale",
+        "Gestione delle complicanze acute"
+      ],
+      improvements: [
+        "Documentazione clinica più dettagliata"
+      ],
+      difficulty: "Facile",
+      duration: 38
     },
     {
       id: "3",
@@ -38,7 +70,21 @@ export function StudentEvaluationsContent() {
       patientCase: "Giuseppe Verde - Asma",
       score: 78,
       completedAt: "2024-09-01",
-      status: "completed"
+      status: "completed",
+      feedback: "Performance soddisfacente con alcuni aspetti da migliorare nella gestione dell'asma acuto.",
+      strengths: [
+        "Riconoscimento dei sintomi respiratori",
+        "Uso corretto dei dispositivi di somministrazione",
+        "Monitoraggio della saturazione"
+      ],
+      improvements: [
+        "Gestione delle vie aeree",
+        "Protocolli di emergenza",
+        "Comunicazione con il paziente in crisi",
+        "Velocità di intervento"
+      ],
+      difficulty: "Difficile",
+      duration: 52
     }
   ];
 
@@ -56,6 +102,45 @@ export function StudentEvaluationsContent() {
         In corso
       </span>
     );
+  };
+
+  const getDifficultyClass = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
+      case "Medio":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
+      case "Difficile":
+        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
+      default:
+        return "patient-card-difficulty-icon";
+    }
+  };
+
+  const getDifficultyIcon = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "*";
+      case "Medio":
+        return "**";
+      case "Difficile":
+        return "***";
+      default:
+        return "*";
+    }
+  };
+
+  const getDifficultyAccessibleText = (difficulty: string) => {
+    switch (difficulty) {
+      case "Facile":
+        return "Livello facile";
+      case "Medio":
+        return "Livello medio";
+      case "Difficile":
+        return "Livello difficile";
+      default:
+        return "Livello non specificato";
+    }
   };
 
   return (
@@ -166,7 +251,10 @@ export function StudentEvaluationsContent() {
                       <td className="text-text-tertiary">{evaluation.completedAt}</td>
                       <td>
                         <div className="flex gap-2">
-                          <button className="btn btn-sm btn-outline">
+                          <button 
+                            className="btn btn-sm btn-outline"
+                            onClick={() => setSelectedEvaluation(evaluation.id)}
+                          >
                             Visualizza
                           </button>
                           <button className="btn btn-sm btn-ghost">
@@ -181,6 +269,112 @@ export function StudentEvaluationsContent() {
             </div>
           </div>
         </section>
+
+        {/* Detailed View Modal */}
+        {selectedEvaluation && (
+          <div 
+            className="fixed inset-0 flex items-center justify-center p-4 z-50"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
+            onClick={() => setSelectedEvaluation(null)}
+          >
+            <div 
+              className="bg-background-tertiary rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {(() => {
+                const evaluation = evaluations.find(e => e.id === selectedEvaluation);
+                if (!evaluation) return null;
+                
+                return (
+                  <>
+                    <div className="flex justify-between items-start mb-6">
+                      <div>
+                        <h3 className="text-xl font-semibold text-text-primary mb-2">
+                          {evaluation.patientCase}
+                        </h3>
+                        <div className="flex items-center gap-4 text-sm text-text-secondary">
+                          <span>Studente: {evaluation.studentName}</span>
+                          <span>•</span>
+                          <span>{evaluation.completedAt}</span>
+                          <span>•</span>
+                          <span>{evaluation.duration} min</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setSelectedEvaluation(null)}
+                        className="text-text-tertiary hover:text-text-primary"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    <div className="mb-6">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="patient-card-difficulty">
+                          <span 
+                            className={getDifficultyClass(evaluation.difficulty)}
+                            aria-label={getDifficultyAccessibleText(evaluation.difficulty)}
+                            role="img"
+                          >
+                            {getDifficultyIcon(evaluation.difficulty)}
+                          </span>
+                          <span className="text-sm font-medium">{evaluation.difficulty}</span>
+                        </div>
+                        <div className={`px-3 py-1 rounded-full font-bold text-sm ${evaluation.score >= 80 ? "text-success-600 bg-success-50" : evaluation.score >= 60 ? "text-secondary-600 bg-secondary-100" : "text-error-600 bg-red-100"}`}>
+                          {evaluation.score}/100
+                        </div>
+                        {getStatusBadge(evaluation.status, evaluation.score)}
+                      </div>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-2">Feedback Generale</h4>
+                      <p className="text-text-secondary leading-relaxed">
+                        {evaluation.feedback}
+                      </p>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-3">Punti di Forza</h4>
+                      <ul className="space-y-2">
+                        {evaluation.strengths.map((strength, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-success-500 mt-1">✓</span>
+                            <span className="text-text-secondary">{strength}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-text-primary mb-3">Aree di Miglioramento</h4>
+                      <ul className="space-y-2">
+                        {evaluation.improvements.map((improvement, index) => (
+                          <li key={index} className="flex items-start gap-2">
+                            <span className="text-warning-500 mt-1">!</span>
+                            <span className="text-text-secondary">{improvement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="flex gap-2 pt-4">
+                      <button className="btn btn-outline flex-1">
+                        Genera Report
+                      </button>
+                      <button 
+                        className="btn btn-primary flex-1"
+                        onClick={() => setSelectedEvaluation(null)}
+                      >
+                        Chiudi
+                      </button>
+                    </div>
+                  </>
+                );
+              })()}
+            </div>
+          </div>
+        )}
     </div>
   );
 }

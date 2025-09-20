@@ -252,8 +252,15 @@ export function MyEvaluationsContent() {
 
         {/* Detailed View Modal */}
         {selectedEvaluation && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-background-secondary rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <div 
+            className="fixed inset-0 flex items-center justify-center p-4 z-50"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
+            onClick={() => setSelectedEvaluation(null)}
+          >
+            <div 
+              className="bg-background-tertiary rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
               {(() => {
                 const evaluation = evaluations.find(e => e.id === selectedEvaluation);
                 if (!evaluation) return null;

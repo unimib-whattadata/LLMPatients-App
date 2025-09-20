@@ -1239,7 +1239,11 @@
 
   .sidebar-container {
     flex-shrink: 0;
-    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 30;
     transition: width 0.3s ease;
   }
 
@@ -1252,7 +1256,8 @@
   }
 
   .content-container.with-sidebar {
-    /* Additional styles for content with sidebar */
+    margin-left: var(--sidebar-width, 16rem);
+    transition: margin-left 0.3s ease;
   }
 
   .content-container.full-width {
@@ -1296,18 +1301,25 @@
     background: var(--surface-tertiary);
     height: 100vh;
     transition: all 0.3s ease;
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
     padding: var(--space-md) 0;
+    z-index: 30;
+    --sidebar-width: 16rem;
   }
 
   .dashboard-sidebar.collapsed {
     width: 4rem;
     padding: var(--space-md) 0;
+    --sidebar-width: 4rem;
   }
 
   .dashboard-sidebar.collapsed .nav-item {
+    display: flex;
+    align-items: center;
     justify-content: center;
     padding: var(--space-sm);
     margin: 0 var(--space-sm) var(--space-xs) var(--space-sm);
@@ -1315,13 +1327,10 @@
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .dashboard-sidebar.collapsed .nav-item .w-5 {
-    margin-right: 0;
+    margin-right: 0 !important;
     width: 1.25rem;
     height: 1.25rem;
   }
@@ -1390,7 +1399,7 @@
 
   /* Mobile sidebar behavior */
   @media (max-width: 1024px) {
-    .dashboard-sidebar {
+    .sidebar-container {
       position: fixed;
       top: 0;
       left: 0;
@@ -1400,12 +1409,32 @@
       transition: transform 0.3s ease;
     }
 
-    .dashboard-sidebar.mobile-open {
+    .sidebar-container.mobile-open {
       transform: translateX(0);
+    }
+
+    .sidebar-container.mobile-open::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    .dashboard-sidebar {
+      position: relative;
+      width: 16rem; /* Keep full width on mobile even when "collapsed" */
     }
 
     .dashboard-sidebar.collapsed {
       width: 16rem; /* Keep full width on mobile even when "collapsed" */
+    }
+
+    .content-container.with-sidebar {
+      margin-left: 0; /* Remove margin on mobile */
     }
   }
 
