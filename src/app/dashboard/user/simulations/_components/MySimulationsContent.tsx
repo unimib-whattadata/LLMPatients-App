@@ -93,13 +93,13 @@ export function MySimulationsContent() {
   const getDifficultyIcon = (difficulty: string) => {
     switch (difficulty) {
       case "Facile":
-        return "*";
+        return "•";
       case "Medio":
-        return "**";
+        return "••";
       case "Difficile":
-        return "***";
+        return "•••";
       default:
-        return "*";
+        return "•";
     }
   };
 
