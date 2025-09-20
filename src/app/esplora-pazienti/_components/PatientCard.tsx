@@ -121,7 +121,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               <span>{patient.difficulty}</span>
             </div>
             <div className="patient-card-duration">
-              <span className="patient-card-duration-icon" aria-hidden="true">⏱️</span>
+              <span className="patient-card-duration-icon" aria-hidden="true">⏱</span>
               <span>{patient.estimatedDuration} min</span>
             </div>
           </div>

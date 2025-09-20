@@ -18,7 +18,7 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
     return (
       <div className="min-h-[400px] flex items-center justify-center">
         <div className="patients-feedback" role="alert">
-          <div className="patients-feedback-icon" aria-hidden="true">⚠️</div>
+          <div className="patients-feedback-icon" aria-hidden="true"></div>
           <h3 className="patients-feedback-title">Errore nel caricamento</h3>
           <p className="patients-feedback-text">{error}</p>
           <button 

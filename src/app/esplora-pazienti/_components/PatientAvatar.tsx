@@ -147,7 +147,7 @@ export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProp
         <div className={getBadgeClass(avatarType)}>
           {avatarType === "photo" && "📷"}
           {avatarType === "illustration" && "🎨"}
-          {avatarType === "avatar" && "👤"}
+          {avatarType === "avatar" && ""}
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
-import Link from "next/link";
 import { HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
 import { SharedLayout } from "~/components/layout/SharedLayout";
+import Link from "next/link";
+import { SiteMenu } from "~/components/navigation/SiteMenu";
 
 export default async function Home() {
   const session = await auth();
@@ -26,6 +27,7 @@ export default async function Home() {
       align: "left" as const,
     },
   ];
+
 
 
   const marketingFooter = (
@@ -53,54 +55,23 @@ export default async function Home() {
                 <li>
                   <Link href="/esplora-pazienti">Esplora pazienti</Link>
                 </li>
-                <li>
-                  <Link href="#">News</Link>
-                </li>
-                <li>
-                  <Link href="#">FAQ</Link>
-                </li>
               </ul>
             </div>
 
             <div className="home-footer-column">
               <h3>Contatti</h3>
                 <ul>
-                  <li>LLMPatient</li>
-                <li>email@example.com</li>
-                <li>+39 02 0000000</li>
-              </ul>
-              <div className="home-footer-social">
-                <Link href="#" aria-label="Visita la nostra pagina Facebook">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.66 9.12 8.44 9.88V15.47H7.9v-3.1h2.54V9.79c0-2.5 1.5-3.88 3.8-3.88 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56v1.88h2.76l-.44 3.1h-2.32v6.41C18.34 21.12 22 16.99 22 12z" />
-                  </svg>
-                </Link>
-                <Link href="#" aria-label="Visita il nostro profilo Instagram">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3.5A5.5 5.5 0 0011.5 16.5 5.5 5.5 0 1012 7.5zm0 2A3.5 3.5 0 1112 15a3.5 3.5 0 010-7zm5.75-.88a1 1 0 11-2 0 1 1 0 012 0z" />
-                  </svg>
-                </Link>
-                <Link href="#" aria-label="Visita la nostra pagina LinkedIn">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M20.45 20.45h-3.55v-5.58c0-1.33-.03-3.03-1.85-3.03-1.85 0-2.13 1.45-2.13 2.94v5.67H9.37V9h3.41v1.56h.05c.48-.91 1.64-1.86 3.37-1.86 3.6 0 4.26 2.37 4.26 5.45v6.3zM5.34 7.43a2.06 2.06 0 110-4.12 2.06 2.06 0 010 4.12zM7.12 20.45H3.56V9h3.56v11.45z" />
-                  </svg>
-                </Link>
-              </div>
+                  <li>marco.cremaschi@unimib.it</li>
+                </ul>
             </div>
           </div>
 
           <div className="home-footer-bottom">
-            <p>© 2025 LLMPatient. Tutti i diritti riservati.</p>
+            <p>© 2025 Whattadata. Tutti i diritti riservati.</p>
             <div className="home-footer-links">
               <Link href="#">Privacy Policy</Link>
               <Link href="#">Termini e condizioni</Link>
               <Link href="#">Impostazioni cookie</Link>
-            </div>
-            <div className="home-footer-languages" role="group" aria-label="Seleziona la lingua">
-              <button type="button" className="active">
-                IT
-              </button>
-              <button type="button">EN</button>
             </div>
           </div>
         </div>
@@ -169,6 +140,7 @@ export default async function Home() {
         </div>
       </section>
 
+
     </main>
   );
 
@@ -195,32 +167,26 @@ export default async function Home() {
   return (
     <HydrateClient>
       <div className="home-landing">
-        <header className="home-topbar">
-          <div className="section-container">
-            <div className="home-topbar-inner">
-              <div className="home-brand">
-                <img 
-                  src="/images/logo.png" 
-                  alt="LLMPatient Logo" 
-                  className="home-brand-logo"
-                />
-                <span>LLMPatient</span>
-              </div>
-              <nav className="home-nav" aria-label="Navigazione principale">
-                <Link href="#" className="active">
-                  Home
-                </Link>
-                <Link href="/esplora-pazienti">Esplora pazienti</Link>
-                <Link href="#">News</Link>
-              </nav>
-              <div className="home-nav-actions">
-                <Link href="/login" className="btn btn-primary btn-sm">
-                  Accedi
-                </Link>
-              </div>
+        <SiteMenu
+          variant="dark"
+          brand={{ name: "LLMPatient", href: "/", logoSrc: "/images/logo.png", logoAlt: "LLMPatient" }}
+          links={[
+            { label: "Home", href: "/" },
+            { label: "Esplora pazienti", href: "/esplora-pazienti" },
+          ]}
+          rightSlot={
+            <Link href="/login" className="btn btn-primary btn-sm">
+              Accedi
+            </Link>
+          }
+          mobileSlot={
+            <div className="site-menu__mobile-buttons">
+              <Link href="/login" className="btn btn-primary btn-sm">
+                Accedi
+              </Link>
             </div>
-          </div>
-        </header>
+          }
+        />
 
         {homeContent}
 

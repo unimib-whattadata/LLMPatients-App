@@ -203,13 +203,13 @@ export function logAuthError(error: AuthError, context?: Record<string, unknown>
       console.error('❌ HIGH SEVERITY AUTH ERROR:', logData);
       break;
     case 'medium':
-      console.warn('⚠️ MEDIUM SEVERITY AUTH ERROR:', logData);
+      console.warn(' MEDIUM SEVERITY AUTH ERROR:', logData);
       break;
     case 'low':
-      console.info('ℹ️ LOW SEVERITY AUTH ERROR:', logData);
+      console.info(' LOW SEVERITY AUTH ERROR:', logData);
       break;
     default:
-      console.log('📝 AUTH ERROR:', logData);
+      console.log('AUTH ERROR:', logData);
   }
 }
 

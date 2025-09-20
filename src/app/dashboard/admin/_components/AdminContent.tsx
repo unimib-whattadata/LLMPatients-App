@@ -51,7 +51,7 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3 mb-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <span className="text-yellow-400">⚠️</span>
+                <span className="text-yellow-400"></span>
               </div>
               <div className="ml-3">
                 <h3 className="text-sm font-medium text-yellow-800">
@@ -248,7 +248,7 @@ export function AdminContent() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
           }`}
         >
-          📊 Panoramica
+          Panoramica
         </button>
         <button
           onClick={() => setSelectedSection("users")}
@@ -311,10 +311,10 @@ export function AdminContent() {
                 {stats.recentActivities.map((activity) => (
                   <div key={activity.id} className="dashboard-activity-item">
                     <div className="dashboard-activity-icon">
-                      {activity.type === "login" && "🔐"}
-                      {activity.type === "profile_update" && "👤"}
+                      {activity.type === "login" && ""}
+                      {activity.type === "profile_update" && ""}
                       {activity.type === "role_update" && "⚡"}
-                      {activity.type === "dashboard_view" && "👁️"}
+                      {activity.type === "dashboard_view" && ""}
                     </div>
                     <div className="dashboard-activity-content">
                       <div className="dashboard-activity-title">
@@ -405,7 +405,7 @@ export function AdminContent() {
                               }`}
                               title={user.role === "admin" ? "Non è possibile impersonificare un admin" : "Impersonifica questo utente"}
                             >
-                              {startImpersonation.isPending ? "..." : "👤 Impersonifica"}
+                              {startImpersonation.isPending ? "..." : " Impersonifica"}
                             </button>
                           </div>
                         </td>
@@ -442,10 +442,10 @@ export function AdminContent() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="dashboard-activity-icon">
-                          {activity.type === "login" && "🔐"}
-                          {activity.type === "profile_update" && "👤"}
+                          {activity.type === "login" && ""}
+                          {activity.type === "profile_update" && ""}
                           {activity.type === "role_update" && "⚡"}
-                          {activity.type === "dashboard_view" && "👁️"}
+                          {activity.type === "dashboard_view" && ""}
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">

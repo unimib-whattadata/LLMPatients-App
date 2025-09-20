@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { api } from "~/trpc/react";
+import { SiteMenu } from "~/components/navigation/SiteMenu";
 import { PatientGrid } from "./_components/PatientGrid";
 
 /**
@@ -13,23 +14,28 @@ export default function EsploraPazientiPage() {
 
   return (
     <div className="patients-page">
-      <header className="patients-topbar">
-        <div className="section-container patients-topbar-inner">
-          <div className="patients-brand">
-            <div className="patients-brand-mark" aria-hidden="true" />
-            <span>LLMPatient</span>
-          </div>
-          <nav className="patients-nav" aria-label="Navigazione principale">
-            <Link href="/">Home</Link>
-            <Link href="#">Chi siamo</Link>
-            <Link href="/esplora-pazienti" className="active" aria-current="page">
-              Esplora pazienti
+      <SiteMenu
+        variant="dark"
+        brand={{ name: "LLMPatient", href: "/", logoSrc: "/images/logo.png", logoAlt: "LLMPatient" }}
+        links={[
+          { label: "Home", href: "/" },
+          { label: "Chi siamo", href: "/chi-siamo" },
+          { label: "Esplora pazienti", href: "/esplora-pazienti" },
+          { label: "News", href: "/news" },
+        ]}
+        rightSlot={
+          <Link href="/login" className="btn btn-primary btn-sm">
+            Accedi
+          </Link>
+        }
+        mobileSlot={
+          <div className="site-menu__mobile-buttons">
+            <Link href="/login" className="btn btn-primary btn-sm">
+              Accedi
             </Link>
-            <Link href="#">News</Link>
-            <Link href="/login">Area personale</Link>
-          </nav>
-        </div>
-      </header>
+          </div>
+        }
+      />
 
       <main className="patients-main">
         <section className="patients-hero">

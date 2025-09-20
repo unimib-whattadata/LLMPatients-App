@@ -238,7 +238,6 @@ export function MySimulationsContent() {
 
       {filteredSimulations.length === 0 && (
         <div className="text-center py-12">
-          <div className="text-gray-400 text-6xl mb-4">🎯</div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">
             Nessuna simulazione trovata
           </h3>

@@ -15,6 +15,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import { SiteMenu } from "~/components/navigation/SiteMenu";
 import { api } from "~/trpc/react";
 
 // Admin view mode type
@@ -83,10 +84,10 @@ function AdminRoleSwitch({ currentMode, onModeChange }: AdminRoleSwitchProps) {
         title={`Passa alla vista ${currentMode === "admin" ? "utente" : "admin"}`}
       >
         <span className="hidden sm:inline">
-          {currentMode === "admin" ? "👤 Utente" : "🔧 Admin"}
+          {currentMode === "admin" ? "Utente" : "Admin"}
         </span>
         <span className="sm:hidden">
-          {currentMode === "admin" ? "👤" : "🔧"}
+          {currentMode === "admin" ? "U" : "A"}
         </span>
       </button>
     </div>
@@ -115,7 +116,7 @@ function ImpersonationBanner({
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex-shrink-0">
-            <span className="text-white text-lg">👤</span>
+            <span className="text-white text-lg">U</span>
           </div>
           <div className="ml-3">
             <p className="text-sm font-medium text-white">
@@ -215,9 +216,9 @@ export function SharedLayout({
     // If impersonating, always show user navigation
     if (impersonation?.isImpersonating) {
       return [
-        { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-        { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
+        { label: "Le mie simulazioni", href: "/dashboard/user/simulations" },
+        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations" },
+        { label: "I miei progressi", href: "/dashboard/user/progress" },
       ];
     }
 
@@ -226,24 +227,24 @@ export function SharedLayout({
       if (adminViewMode === "user") {
         // Admin viewing as user - show user navigation
         return [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-          { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
+          { label: "Le mie simulazioni", href: "/dashboard/user/simulations",  },
+          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations",  },
+          { label: "I miei progressi", href: "/dashboard/user/progress",  },
         ];
       } else {
         // Admin viewing as admin - show admin navigation
         return [
-          { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: "🩺" },
-          { label: "Valutazioni studenti", href: "/dashboard/admin/student-evaluations", icon: "📝" },
-          { label: "Statistiche studenti", href: "/dashboard/admin/student-statistics", icon: "📊" },
+          { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient" },
+          { label: "Valutazioni studenti", href: "/dashboard/admin/student-evaluations" },
+          { label: "Statistiche studenti", href: "/dashboard/admin/student-statistics" },
         ];
       }
     } else {
       // Regular user - show user navigation
       return [
-        { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-        { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
+        { label: "Le mie simulazioni", href: "/dashboard/user/simulations" },
+        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations" },
+        { label: "I miei progressi", href: "/dashboard/user/progress" },
       ];
     }
   };
@@ -418,84 +419,76 @@ export function SharedLayout({
         </header>
       );
     } else {
-      // Home page header with improved responsive navigation
-      return (
-        <header className="bg-white border-b border-gray-200">
-          <div className="layout-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <div className="flex items-center">
-                <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md">
-                  <img 
-                    src="/images/logo.png" 
-                    alt="LLMPatient Logo" 
-                    className="w-8 h-8"
-                  />
-                  <span className="ml-2 text-lg font-medium text-gray-900">LLMPatient</span>
-                </Link>
-              </div>
-              
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex space-x-8">
-                <Link href="/" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Home</Link>
-                <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Esplora pazienti</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">News</Link>
-              </nav>
-              
-              {/* User controls */}
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                {user && (
-                  <>
-                    <span className="text-sm text-gray-700 font-medium hidden sm:inline truncate max-w-32">
-                      {displayUser.name || displayUser.email}
-                    </span>
-                    <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${
-                      displayUser.role === "admin" 
-                        ? "bg-red-100 text-red-800 border border-red-200" 
-                        : "bg-blue-100 text-blue-800 border border-blue-200"
-                    }`}>
-                      <span className="hidden sm:inline">
-                        {displayUser.role === "admin" ? "Admin" : "Utente"}
-                        {impersonation?.isImpersonating && " (Impersonificato)"}
-                      </span>
-                      <span className="sm:hidden">
-                        {displayUser.role === "admin" ? "A" : "U"}
-                      </span>
-                    </span>
-                    <Link
-                      href="/dashboard"
-                      className="btn btn-primary btn-sm hidden sm:inline-flex"
-                    >
-                      Area Personale
-                    </Link>
-                    <Link
-                      href="/dashboard"
-                      className="btn btn-primary btn-sm sm:hidden p-2"
-                      title="Area Personale"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
-                        window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-                      }}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      title="Logout"
-                    >
-                      <span className="hidden sm:inline">Esci</span>
-                      <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                    </button>
-                  </>
-                )}
-              </div>
+      const menuLinks = [
+        { label: "Home", href: "/" },
+        { label: "Esplora pazienti", href: "/esplora-pazienti" },
+        { label: "News", href: "/news" },
+      ];
+
+      const roleLabel = displayUser.role === "admin" ? "Admin" : "Utente";
+      const roleSuffix = impersonation?.isImpersonating
+        ? " (Impersonificato)"
+        : user.role === "admin" && adminViewMode === "user" && !impersonation?.isImpersonating
+          ? " (Vista Utente)"
+          : "";
+      const badgeClass = displayUser.role === "admin"
+        ? "site-menu__role-badge site-menu__role-badge--admin"
+        : "site-menu__role-badge site-menu__role-badge--user";
+
+      const handleSignOut = () => {
+        const callbackUrl = typeof window !== "undefined" ? window.location.origin : "/";
+        window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
+      };
+
+      const desktopActions = (
+        <div className="site-menu__auth-block">
+          <span className="hidden md:inline text-sm text-slate-600 truncate max-w-[9rem]">
+            {displayUser.name ?? displayUser.email}
+          </span>
+          <span className={`${badgeClass} hidden md:inline-flex`}>
+            {`${roleLabel}${roleSuffix}`}
+          </span>
+          <Link href="/dashboard" className="btn btn-primary btn-sm hidden md:inline-flex">
+            Area personale
+          </Link>
+          <button onClick={handleSignOut} className="site-menu__logout-btn hidden md:inline-flex">
+            Esci
+          </button>
+        </div>
+      );
+
+      const mobileActions = (
+        <div className="site-menu__mobile-user">
+          <div className="site-menu__mobile-user-info">
+            <div className="site-menu__mobile-avatar" aria-hidden="true">
+              {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <p className="site-menu__mobile-name">{displayUser.name ?? "Utente"}</p>
+              <p className="site-menu__mobile-email">{displayUser.email}</p>
             </div>
           </div>
-        </header>
+          <span className={badgeClass}>{`${roleLabel}${roleSuffix}`}</span>
+          <div className="site-menu__mobile-buttons">
+            <Link href="/dashboard" className="btn btn-primary btn-sm">
+              Area personale
+            </Link>
+            <button onClick={handleSignOut} className="site-menu__logout-btn site-menu__logout-btn--block">
+              Esci
+            </button>
+          </div>
+        </div>
+      );
+
+      return (
+        <SiteMenu
+          variant="light"
+          brand={{ name: "LLMPatient", href: "/", logoSrc: "/images/logo.png", logoAlt: "LLMPatient" }}
+          links={menuLinks}
+          rightSlot={desktopActions}
+          mobileSlot={mobileActions}
+          containerClassName="layout-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+        />
       );
     }
   };
@@ -753,12 +746,6 @@ export function SharedLayout({
                 <Link href="#">Privacy Policy</Link>
                 <Link href="#">Termini e condizioni</Link>
                 <Link href="#">Impostazioni cookie</Link>
-              </div>
-              <div className="home-footer-languages" role="group" aria-label="Seleziona la lingua">
-                <button type="button" className="active">
-                  IT
-                </button>
-                <button type="button">EN</button>
               </div>
             </div>
           </div>

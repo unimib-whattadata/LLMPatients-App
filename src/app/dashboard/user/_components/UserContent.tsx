@@ -134,7 +134,7 @@ export function UserContent() {
               : "text-gray-500 hover:text-gray-700 hover:bg-gray-100"
           }`}
         >
-          👤 Il Mio Profilo
+          Il Mio Profilo
         </button>
         <button
           onClick={() => setSelectedSection("activities")}
@@ -162,17 +162,15 @@ export function UserContent() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="bg-blue-50 p-4 rounded-lg">
-                <div className="text-2xl mb-2">👤</div>
+                <div className="text-2xl mb-2"></div>
                 <h4 className="font-semibold text-gray-900 mb-1">Profilo</h4>
                 <p className="text-sm text-gray-600">Aggiorna le tue informazioni personali</p>
               </div>
               <div className="bg-green-50 p-4 rounded-lg">
-                <div className="text-2xl mb-2">🎯</div>
                 <h4 className="font-semibold text-gray-900 mb-1">Simulazioni</h4>
                 <p className="text-sm text-gray-600">Accedi alle simulazioni mediche</p>
               </div>
               <div className="bg-purple-50 p-4 rounded-lg">
-                <div className="text-2xl mb-2">📈</div>
                 <h4 className="font-semibold text-gray-900 mb-1">Progresso</h4>
                 <p className="text-sm text-gray-600">Monitora i tuoi risultati</p>
               </div>
@@ -201,10 +199,10 @@ export function UserContent() {
                 {activities.slice(0, 5).map((activity) => (
                   <div key={activity.id} className="dashboard-activity-item">
                     <div className="dashboard-activity-icon">
-                      {activity.type === "login" && "🔐"}
-                      {activity.type === "profile_update" && "👤"}
-                      {activity.type === "dashboard_view" && "👁️"}
-                      {activity.type === "simulation" && "🎯"}
+                      {activity.type === "login" && ""}
+                      {activity.type === "profile_update" && ""}
+                      {activity.type === "dashboard_view" && ""}
+                      {activity.type === "simulation" && ""}
                     </div>
                     <div className="dashboard-activity-content">
                       <div className="dashboard-activity-title">
@@ -243,7 +241,7 @@ export function UserContent() {
                   onClick={() => setIsEditingProfile(true)}
                   className="btn btn-outline btn-sm"
                 >
-                  ✏️ Modifica
+                  Modifica
                 </button>
               )}
             </div>
@@ -351,10 +349,10 @@ export function UserContent() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <div className="dashboard-activity-icon">
-                          {activity.type === "login" && "🔐"}
-                          {activity.type === "profile_update" && "👤"}
-                          {activity.type === "dashboard_view" && "👁️"}
-                          {activity.type === "simulation" && "🎯"}
+                          {activity.type === "login" && ""}
+                          {activity.type === "profile_update" && ""}
+                          {activity.type === "dashboard_view" && ""}
+                          {activity.type === "simulation" && ""}
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">

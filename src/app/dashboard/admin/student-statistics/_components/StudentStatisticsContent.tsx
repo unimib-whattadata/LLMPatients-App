@@ -81,7 +81,6 @@ export function StudentStatisticsContent() {
               <div className="text-sm text-gray-600">Score Medio</div>
             </div>
             <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              📊
             </div>
           </div>
           <div className="mt-4 text-xs text-green-600">
@@ -96,7 +95,6 @@ export function StudentStatisticsContent() {
               <div className="text-sm text-gray-600">Simulazioni Totali</div>
             </div>
             <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              🎯
             </div>
           </div>
           <div className="mt-4 text-xs text-green-600">
@@ -114,7 +112,6 @@ export function StudentStatisticsContent() {
           </h3>
           <div className="h-64 bg-gray-50 rounded-md flex items-center justify-center">
             <div className="text-center text-gray-500">
-              <div className="text-4xl mb-2">📈</div>
               <div>Grafico delle performance nel tempo</div>
               <div className="text-sm mt-1">(Da implementare con chart library)</div>
             </div>
@@ -226,9 +223,9 @@ export function StudentStatisticsContent() {
                   <div className="text-sm text-gray-600">Score medio: {area.avgScore}/100</div>
                 </div>
                 <div className="text-sm">
-                  {area.trend === "up" && <span className="text-green-600">↗️ +2%</span>}
-                  {area.trend === "down" && <span className="text-red-600">↘️ -3%</span>}
-                  {area.trend === "stable" && <span className="text-gray-600">➡️ 0%</span>}
+                  {area.trend === "up" && <span className="text-green-600">↗ +2%</span>}
+                  {area.trend === "down" && <span className="text-red-600">↘ -3%</span>}
+                  {area.trend === "stable" && <span className="text-gray-600">→ 0%</span>}
                 </div>
               </div>
             ))}

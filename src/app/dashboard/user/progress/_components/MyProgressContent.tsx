@@ -42,7 +42,6 @@ export function MyProgressContent() {
       id: "2",
       title: "Diagnostico Eccellente",
       description: "Score superiore a 90 in una diagnosi",
-      icon: "🎯",
       unlockedAt: "2024-09-01",
       category: "clinical"
     },
@@ -82,7 +81,6 @@ export function MyProgressContent() {
 
   const getCategoryIcon = (category: string) => {
     const icons = {
-      clinical: "🩺",
       communication: "💬", 
       emergency: "🚑",
       academic: "📚"
@@ -121,7 +119,6 @@ export function MyProgressContent() {
               <div className="text-sm text-gray-600">Simulazioni Completate</div>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              🎯
             </div>
           </div>
           <div className="mt-4">
@@ -141,7 +138,6 @@ export function MyProgressContent() {
               <div className="text-sm text-gray-600">Score Medio</div>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              📊
             </div>
           </div>
           <div className="mt-4 text-xs text-green-600">

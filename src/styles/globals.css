@@ -2,22 +2,49 @@
 @import "tailwindcss";
 @import "./components.css";
 
+/* Tailwind 4.1 Enhanced Features */
+@source "inline(components)";
+
 @theme {
   /* Font Family Configuration */
   --font-sans: 'Merriweather', var(--font-geist-sans), ui-sans-serif, system-ui, serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
-  /* Enhanced Color System */
-  --color-primary-50: #f6f7f0;
-  --color-primary-100: #e8ecda;
-  --color-primary-200: #d6ddbd;
-  --color-primary-300: #c0cb9b;
-  --color-primary-400: #a9b87a;
-  --color-primary-500: #8f9d56;
-  --color-primary-600: #788547;
-  --color-primary-700: #606b38;
-  --color-primary-800: #4a512a;
-  --color-primary-900: #33381c;
+  /* Enhanced Color System - Updated Palette */
+  --color-primary-50: #f4f5f2;
+  --color-primary-100: #e8ebdf;
+  --color-primary-200: #d6dcc4;
+  --color-primary-300: #c0c9a5;
+  --color-primary-400: #a9b583;
+  --color-primary-500: #8B9769;
+  --color-primary-600: #7a8559;
+  --color-primary-700: #6a7349;
+  --color-primary-800: #5a6139;
+  --color-primary-900: #4a4f29;
+
+  /* Secondary Colors */
+  --color-secondary-50: #faf8f3;
+  --color-secondary-100: #f2ede0;
+  --color-secondary-200: #e5d9c0;
+  --color-secondary-300: #d4c29a;
+  --color-secondary-400: #c3ab74;
+  --color-secondary-500: #C69A39;
+  --color-secondary-600: #b08832;
+  --color-secondary-700: #9a762b;
+  --color-secondary-800: #846424;
+  --color-secondary-900: #6e521d;
+
+  /* Accent Colors */
+  --color-accent-50: #f5f4f7;
+  --color-accent-100: #e8e5ed;
+  --color-accent-200: #d4cedb;
+  --color-accent-300: #bdb3c6;
+  --color-accent-400: #a698b1;
+  --color-accent-500: #A7A0CA;
+  --color-accent-600: #968fb6;
+  --color-accent-700: #857ea2;
+  --color-accent-800: #746d8e;
+  --color-accent-900: #635c7a;
 
   /* Role-based Color Tokens */
   --color-admin-50: #FEF2F2;
@@ -70,10 +97,10 @@
   --color-gray-900: #111827;
   --color-gray-950: #030712;
 
-  /* Background Colors */
-  --color-background: #FFFFFF;
-  --color-surface: #F9FAFB;
-  --color-overlay: rgba(17, 24, 39, 0.5);
+  /* Background Colors - Updated Palette */
+  --color-background: #1E1E1E;
+  --color-surface: #131313;
+  --color-overlay: rgba(19, 19, 19, 0.8);
 
   /* Enhanced Typography Scale */
   --font-size-xs: 0.75rem;
@@ -127,23 +154,23 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
   
-  /* Dark Theme Tokens */
-  --surface-primary: #10130f;
-  --surface-secondary: #0c0f0b;
-  --surface-tertiary: #1a1f16;
+  /* Dark Theme Tokens - Updated Palette */
+  --surface-primary: #1E1E1E;
+  --surface-secondary: #131313;
+  --surface-tertiary: #2a2a2a;
   
-  --text-primary: #f5f6ed;
-  --text-secondary: #dfe3cf;
-  --text-tertiary: #c1c7aa;
-  --text-muted: #a2a78d;
+  --text-primary: #ECECEC;
+  --text-secondary: #d4d4d4;
+  --text-tertiary: #b8b8b8;
+  --text-muted: #9c9c9c;
   
-  --accent-admin: #dc5c4d;
-  --accent-user: #4f6dbd;
-  --accent-success: #8f9d56;
+  --accent-admin: #C69A39;
+  --accent-user: #A7A0CA;
+  --accent-success: #8B9769;
   
-  --border-primary: #374151;
-  --border-secondary: #4b5563;
-  --border-hover: #6b7280;
+  --border-primary: #404040;
+  --border-secondary: #525252;
+  --border-hover: #737373;
 }
 
 /* Enhanced Global Styles */
@@ -168,6 +195,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background-color: var(--color-background);
+  color: var(--text-primary);
 }
 
 /* Enhanced Focus Styles */
