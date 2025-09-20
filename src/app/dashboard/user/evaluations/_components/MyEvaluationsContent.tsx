@@ -217,7 +217,7 @@ export function MyEvaluationsContent() {
                         </div>
                         <div className="w-full bg-background-tertiary rounded-full h-2">
                           <div 
-                            className="bg-accent-600 h-2 rounded-full transition-all duration-300"
+                            className="bg-accent-600 h-2 rounded-full"
                             style={{ width: `${(evaluation.score / evaluation.maxScore) * 100}%` }}
                           ></div>
                         </div>

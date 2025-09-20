@@ -45,7 +45,7 @@ export default function AuthButton() {
   // Show loading skeleton while session is being fetched
   if (status === "loading") {
     return (
-      <div className="btn btn-primary btn-md animate-pulse">
+      <div className="btn btn-primary btn-md">
         <div className="h-4 w-16 bg-text-primary/40 rounded"></div>
       </div>
     );

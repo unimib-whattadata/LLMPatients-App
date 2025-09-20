@@ -39,7 +39,7 @@ export function LatestPost() {
         />
         <button
           type="submit"
-          className="rounded-full bg-background-secondary/10 px-10 py-3 font-semibold transition hover:bg-background-secondary/20"
+          className="rounded-full bg-background-secondary/10 px-10 py-3 font-semibold hover:bg-background-secondary/20"
           disabled={createPost.isPending}
         >
           {createPost.isPending ? "Submitting..." : "Submit"}

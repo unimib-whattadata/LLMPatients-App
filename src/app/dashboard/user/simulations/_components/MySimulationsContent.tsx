@@ -229,7 +229,7 @@ export function MySimulationsContent() {
                   </div>
                   <div className="w-full bg-background-tertiary rounded-full h-2">
                     <div 
-                      className="bg-accent-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-accent-600 h-2 rounded-full"
                       style={{ width: `${simulation.progress}%` }}
                     ></div>
                   </div>

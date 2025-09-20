@@ -82,7 +82,7 @@ export default function SignoutPage() {
             {status === 'loading' && (
               <div className="space-y-4">
                 <div className="flex justify-center">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+                  <div className="rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
                 </div>
                 <p className="text-text-secondary">
                   Disconnessione in corso...

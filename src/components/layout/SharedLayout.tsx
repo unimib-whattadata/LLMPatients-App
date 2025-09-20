@@ -122,12 +122,12 @@ export function SharedLayout({
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`${sidebarCollapsed ? 'p-2 bg-gray-800 border border-gray-600' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
+              className={`${sidebarCollapsed ? 'p-2 bg-gray-800 border border-gray-600' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               aria-expanded={!sidebarCollapsed}
               aria-controls="sidebar-navigation"
             >
-              <ChevronLeftIcon className={`w-4 h-4 transition-transform duration-200 ${sidebarCollapsed ? 'rotate-180' : ''}`} aria-hidden="true" />
+              <ChevronLeftIcon className={`w-4 h-4 ${sidebarCollapsed ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -175,7 +175,7 @@ export function SharedLayout({
                     {sidebarCollapsed && (
                       <div 
                         id={`tooltip-${index}`}
-                        className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
+                        className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
                         role="tooltip"
                         aria-hidden="true"
                       >

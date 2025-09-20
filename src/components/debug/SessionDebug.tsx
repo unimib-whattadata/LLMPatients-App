@@ -55,7 +55,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
       {/* Floating debug button */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="fixed bottom-4 left-4 bg-accent-600 text-text-primary p-3 rounded-full hover:bg-accent-700 transition-colors z-50"
+        className="fixed bottom-4 left-4 bg-accent-600 text-text-primary p-3 rounded-full hover:bg-accent-700 z-50"
         title="Toggle Session Debug Info"
       >
         🐛

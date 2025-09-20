@@ -130,7 +130,7 @@ export function Navbar({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 lg:hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-text-primary/20"
+              className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 lg:hidden focus:outline-none focus:ring-2 focus:ring-text-primary/20"
               aria-label="Toggle mobile menu"
             >
               <span className="sr-only">Open main menu</span>
@@ -145,7 +145,7 @@ export function Navbar({
             {showSidebar && (
               <button
                 onClick={onSidebarToggle}
-                className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 hidden lg:block transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-text-primary/20"
+                className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 hidden lg:block focus:outline-none focus:ring-2 focus:ring-text-primary/20"
                 aria-label="Toggle sidebar"
               >
                 <Bars3BottomLeftIcon className="w-5 h-5" />
@@ -174,7 +174,7 @@ export function Navbar({
             
             {/* Role badge */}
             {displayUser && (
-              <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full transition-colors duration-200 ${
+              <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${
                 displayUser.role === "admin" 
                   ? "bg-secondary-500/20 text-secondary-100" 
                   : "bg-accent-500/20 text-accent-100"
@@ -220,7 +220,7 @@ export function Navbar({
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center px-3 py-3 text-base font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-text-primary/20 ${
+                      className={`flex items-center px-3 py-3 text-base font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-text-primary/20 ${
                         isActive
                           ? "bg-accent-600 text-text-primary"
                           : "text-text-secondary hover:bg-background-tertiary hover:text-text-primary"

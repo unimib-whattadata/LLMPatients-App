@@ -1,6 +1,6 @@
 /**
  * LoadingGrid Component
- * Enhanced loading skeleton for patient cards with improved animations
+ * Enhanced loading skeleton for patient cards
  */
 export function LoadingGrid() {
   return (
@@ -9,7 +9,6 @@ export function LoadingGrid() {
         <div
           key={index}
           className="loading-card"
-          style={{ animationDelay: `${index * 100}ms` }}
         >
           {/* Avatar skeleton */}
           <div className="loading-card-avatar"></div>

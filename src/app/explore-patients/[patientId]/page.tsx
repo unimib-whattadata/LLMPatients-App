@@ -12,7 +12,7 @@ const SECTION = `${SECTION_BASE} p-6`;
 const SECTION_WITH_OVERFLOW = `${SECTION_BASE} overflow-hidden`;
 const BREADCRUMB_NAV = "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
 const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
-const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md transition-colors duration-200 text-center";
+const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md text-center";
 const DIFFICULTY_BADGES: Record<string, string> = {
   Facile: "text-primary-200 bg-primary-800/20",
   Medio: "text-secondary-200 bg-secondary-800/20",
@@ -197,7 +197,7 @@ function PatientDetailSkeleton() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <aside className="lg:col-span-1">
-            <div className={`${SECTION_WITH_OVERFLOW} animate-pulse`}>
+            <div className={`${SECTION_WITH_OVERFLOW}`}>
               <div className="w-full h-48 bg-background-tertiary" />
               <div className="p-6 space-y-4">
                 <div className="h-4 w-20 bg-background-tertiary rounded" />
@@ -209,7 +209,7 @@ function PatientDetailSkeleton() {
           </aside>
 
           <section className="lg:col-span-2 space-y-6">
-            <div className={`${SECTION} animate-pulse`}>
+            <div className={`${SECTION}`}>
               <div className="h-6 w-48 bg-background-tertiary rounded mb-4" />
               <div className="space-y-2">
                 <div className="h-4 w-full bg-background-tertiary rounded" />
@@ -218,7 +218,7 @@ function PatientDetailSkeleton() {
               </div>
             </div>
 
-            <div className={`${SECTION} animate-pulse`}>
+            <div className={`${SECTION}`}>
               <div className="h-6 w-56 bg-background-tertiary rounded mb-4" />
               <div className="space-y-3">
                 <div className="h-4 w-full bg-background-tertiary rounded" />

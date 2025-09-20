@@ -287,7 +287,7 @@ export default function LoginPage() {
                 
                 <div className="message message-success message-large mb-6">
                   <div className="message-icon">
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-accent-success"></div>
+                    <div className="rounded-full h-5 w-5 border-b-2 border-accent-success"></div>
                   </div>
                   <div className="message-content">
                     <div className="message-text">

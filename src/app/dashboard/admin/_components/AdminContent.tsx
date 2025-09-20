@@ -97,14 +97,14 @@ function ImpersonationModal({ user, isOpen, onClose, onConfirm, isLoading }: Imp
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary rounded-md hover:bg-background-secondary focus:outline-none focus:ring-2 focus:ring-border-hover focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-secondary bg-background-tertiary rounded-md hover:bg-background-secondary focus:outline-none focus:ring-2 focus:ring-border-hover focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Annulla
           </button>
           <button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-secondary-600 rounded-md hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="flex-1 px-4 py-2 text-sm font-medium text-text-primary bg-secondary-600 rounded-md hover:bg-secondary-700 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
           </button>
