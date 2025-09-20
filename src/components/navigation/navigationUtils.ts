@@ -4,7 +4,11 @@ import {
   PlayIcon,
   ClipboardDocumentListIcon,
   MagnifyingGlassIcon,
-  HomeIcon
+  HomeIcon,
+  ChartBarIcon,
+  UsersIcon,
+  AcademicCapIcon,
+  ClipboardDocumentCheckIcon
 } from "@heroicons/react/24/outline";
 
 /**
@@ -30,6 +34,10 @@ export function getNavItems(
   // For admins, show admin navigation
   if (user.role === "admin") {
     return [
+      { label: "Dashboard", href: "/dashboard/admin", icon: HomeIcon },
+      { label: "Gestione Utenti", href: "/admin/manage-users", icon: UsersIcon },
+      { label: "Valutazioni Studenti", href: "/dashboard/admin/student-evaluations", icon: ClipboardDocumentCheckIcon },
+      { label: "Statistiche Studenti", href: "/dashboard/admin/student-statistics", icon: ChartBarIcon },
       { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: UserPlusIcon },
     ];
   } else {

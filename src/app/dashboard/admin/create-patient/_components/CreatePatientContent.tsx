@@ -33,8 +33,8 @@ export function CreatePatientContent() {
           <div className="dashboard-panel">
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="form-group">
-                  <label className="label" htmlFor="patient-name">
+                <div className="auth-input-group">
+                  <label className="auth-label" htmlFor="patient-name">
                     Nome Paziente
                   </label>
                   <input
@@ -42,13 +42,13 @@ export function CreatePatientContent() {
                     type="text"
                     value={patientData.name}
                     onChange={(e) => setPatientData({...patientData, name: e.target.value})}
-                    className="input-field"
+                    className="auth-input"
                     placeholder="Inserisci il nome del paziente"
                   />
                 </div>
 
-                <div className="form-group">
-                  <label className="label" htmlFor="patient-age">
+                <div className="auth-input-group">
+                  <label className="auth-label" htmlFor="patient-age">
                     Età
                   </label>
                   <input
@@ -56,14 +56,14 @@ export function CreatePatientContent() {
                     type="number"
                     value={patientData.age}
                     onChange={(e) => setPatientData({...patientData, age: e.target.value})}
-                    className="input-field"
+                    className="auth-input"
                     placeholder="Età del paziente"
                   />
                 </div>
               </div>
 
-              <div className="form-group">
-                <label className="label" htmlFor="patient-condition">
+              <div className="auth-input-group">
+                <label className="auth-label" htmlFor="patient-condition">
                   Condizione Medica
                 </label>
                 <input
@@ -71,13 +71,13 @@ export function CreatePatientContent() {
                   type="text"
                   value={patientData.condition}
                   onChange={(e) => setPatientData({...patientData, condition: e.target.value})}
-                  className="input-field"
+                  className="auth-input"
                   placeholder="Diagnosi o condizione principale"
                 />
               </div>
 
-              <div className="form-group">
-                <label className="label" htmlFor="patient-symptoms">
+              <div className="auth-input-group">
+                <label className="auth-label" htmlFor="patient-symptoms">
                   Sintomi Presentati
                 </label>
                 <textarea
@@ -85,13 +85,13 @@ export function CreatePatientContent() {
                   value={patientData.symptoms}
                   onChange={(e) => setPatientData({...patientData, symptoms: e.target.value})}
                   rows={4}
-                  className="input-field"
+                  className="auth-input"
                   placeholder="Descrivi i sintomi che il paziente presenta..."
                 />
               </div>
 
-              <div className="form-group">
-                <label className="label" htmlFor="patient-background">
+              <div className="auth-input-group">
+                <label className="auth-label" htmlFor="patient-background">
                   Storia Clinica
                 </label>
                 <textarea
@@ -99,7 +99,7 @@ export function CreatePatientContent() {
                   value={patientData.background}
                   onChange={(e) => setPatientData({...patientData, background: e.target.value})}
                   rows={4}
-                  className="input-field"
+                  className="auth-input"
                   placeholder="Background medico e storia del paziente..."
                 />
               </div>
@@ -107,7 +107,7 @@ export function CreatePatientContent() {
               <div className="flex gap-4 pt-4">
                 <button
                   type="submit"
-                  className="btn btn-primary"
+                  className="auth-submit-btn"
                 >
                   Salva Paziente
                 </button>

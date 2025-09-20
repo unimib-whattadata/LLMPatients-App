@@ -335,14 +335,14 @@ export default function AdminUserManagementPage() {
                   placeholder="Search users..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="input-field"
+                  className="auth-input"
                 />
               </div>
               <div>
                 <select
                   value={selectedRole}
                   onChange={(e) => setSelectedRole(e.target.value as "all" | "admin" | "user")}
-                  className="input-field"
+                  className="auth-input"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Administrators</option>
@@ -432,42 +432,42 @@ export default function AdminUserManagementPage() {
           <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-text-primary mb-4">Create New User</h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
-              <div>
-                <label className="label">Name</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Name</label>
                 <input
                   type="text"
                   value={createForm.name}
                   onChange={(e) => setCreateForm(prev => ({ ...prev, name: e.target.value }))}
-                  className="input-field"
+                  className="auth-input"
                   required
                 />
               </div>
-              <div>
-                <label className="label">Email</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Email</label>
                 <input
                   type="email"
                   value={createForm.email}
                   onChange={(e) => setCreateForm(prev => ({ ...prev, email: e.target.value }))}
-                  className="input-field"
+                  className="auth-input"
                   required
                 />
               </div>
-              <div>
-                <label className="label">Password</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Password</label>
                 <input
                   type="password"
                   value={createForm.password}
                   onChange={(e) => setCreateForm(prev => ({ ...prev, password: e.target.value }))}
-                  className="input-field"
+                  className="auth-input"
                   required
                 />
               </div>
-              <div>
-                <label className="label">Role</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Role</label>
                 <select
                   value={createForm.role}
                   onChange={(e) => setCreateForm(prev => ({ ...prev, role: e.target.value as "admin" | "user" }))}
-                  className="input-field"
+                  className="auth-input"
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -477,7 +477,7 @@ export default function AdminUserManagementPage() {
                 <button
                   type="submit"
                   disabled={createUserMutation.isPending}
-                  className="btn btn-primary flex-1"
+                  className="auth-submit-btn flex-1"
                 >
                   {createUserMutation.isPending ? "Creating..." : "Create User"}
                 </button>
@@ -500,23 +500,23 @@ export default function AdminUserManagementPage() {
           <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
             <h3 className="text-lg font-semibold text-text-primary mb-4">Edit User</h3>
             <form onSubmit={handleUpdateUser} className="space-y-4">
-              <div>
-                <label className="label">Name</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Name</label>
                 <input
                   type="text"
                   value={editForm.name}
                   onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
-                  className="input-field"
+                  className="auth-input"
                   required
                 />
               </div>
-              <div>
-                <label className="label">Email</label>
+              <div className="auth-input-group">
+                <label className="auth-label">Email</label>
                 <input
                   type="email"
                   value={editForm.email}
                   onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
-                  className="input-field"
+                  className="auth-input"
                   required
                 />
               </div>
@@ -524,7 +524,7 @@ export default function AdminUserManagementPage() {
                 <button
                   type="submit"
                   disabled={updateUserMutation.isPending}
-                  className="btn btn-primary flex-1"
+                  className="auth-submit-btn flex-1"
                 >
                   {updateUserMutation.isPending ? "Updating..." : "Update User"}
                 </button>

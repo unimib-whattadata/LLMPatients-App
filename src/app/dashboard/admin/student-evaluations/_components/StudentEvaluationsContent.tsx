@@ -187,15 +187,15 @@ export function StudentEvaluationsContent() {
 
           <div className="dashboard-panel">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="form-group">
-                <label className="label" htmlFor="status-filter">
+              <div className="auth-input-group">
+                <label className="auth-label" htmlFor="status-filter">
                   Filtra per stato
                 </label>
                 <select
                   id="status-filter"
                   value={filter}
                   onChange={(e) => setFilter(e.target.value)}
-                  className="input-field"
+                  className="auth-input"
                 >
                   <option value="all">Tutti</option>
                   <option value="completed">Completate</option>
@@ -203,15 +203,15 @@ export function StudentEvaluationsContent() {
                   <option value="failed">Fallite</option>
                 </select>
               </div>
-              <div className="form-group">
-                <label className="label" htmlFor="student-search">
+              <div className="auth-input-group">
+                <label className="auth-label" htmlFor="student-search">
                   Cerca studente
                 </label>
                 <input
                   id="student-search"
                   type="text"
                   placeholder="Nome studente..."
-                  className="input-field"
+                  className="auth-input"
                 />
               </div>
             </div>

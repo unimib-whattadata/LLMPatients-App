@@ -19,15 +19,15 @@ export function StudentStatisticsContent() {
           </div>
 
           <div className="dashboard-panel">
-            <div className="form-group">
-              <label className="label" htmlFor="time-range-select">
+            <div className="auth-input-group">
+              <label className="auth-label" htmlFor="time-range-select">
                 Periodo di riferimento
               </label>
               <select
                 id="time-range-select"
                 value={timeRange}
                 onChange={(e) => setTimeRange(e.target.value)}
-                className="input-field"
+                className="auth-input"
               >
                 <option value="week">Ultima settimana</option>
                 <option value="month">Ultimo mese</option>

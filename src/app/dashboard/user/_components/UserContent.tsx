@@ -265,27 +265,27 @@ export const UserContent = React.memo(function UserContent() {
               <SectionSkeleton />
             ) : isEditingProfile ? (
               <form onSubmit={handleProfileSubmit} className="dashboard-panel" aria-live="polite">
-                <div className="form-group">
-                  <label className="label" htmlFor="profile-name">Nome</label>
+                <div className="auth-input-group">
+                  <label className="auth-label" htmlFor="profile-name">Nome</label>
                   <input
                     id="profile-name"
                     type="text"
                     value={profileForm.name}
                     onChange={(e) => setProfileForm((prev) => ({ ...prev, name: e.target.value }))}
-                    className="input-field"
+                    className="auth-input"
                     placeholder="Il tuo nome"
                     required
                   />
                 </div>
 
-                <div className="form-group">
-                  <label className="label" htmlFor="profile-email">Email</label>
+                <div className="auth-input-group">
+                  <label className="auth-label" htmlFor="profile-email">Email</label>
                   <input
                     id="profile-email"
                     type="email"
                     value={profileForm.email}
                     onChange={(e) => setProfileForm((prev) => ({ ...prev, email: e.target.value }))}
-                    className="input-field"
+                    className="auth-input"
                     placeholder="La tua email"
                     required
                   />
@@ -295,7 +295,7 @@ export const UserContent = React.memo(function UserContent() {
                   <button
                     type="submit"
                     disabled={updateProfile.isPending}
-                    className="btn btn-primary btn-sm"
+                    className="auth-submit-btn"
                   >
                     {updateProfile.isPending ? "Salvando..." : "[SAVE] Salva"}
                   </button>
