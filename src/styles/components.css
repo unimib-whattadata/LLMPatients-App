@@ -1585,7 +1585,7 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-sm);
-    margin: 0 var(--space-sm) var(--space-xs) var(--space-sm);
+    margin: 0 var(--space-sm);
     min-height: 2.5rem;
     width: 2.5rem;
     height: 2.5rem;
@@ -1750,7 +1750,7 @@
   }
 
   .dashboard-stat-card:hover {
-    transform: translateY(-6px);
+    /* transform: translateY(-6px); */
   }
 
   .dashboard-stat-number {
@@ -1952,7 +1952,7 @@
   }
 
   .dashboard-metric-card:hover {
-    transform: translateY(-6px);
+    /* transform: translateY(-6px); */
   }
 
   .dashboard-metric-card__value {
@@ -1985,7 +1985,7 @@
   }
 
   .dashboard-panel:hover {
-    transform: translateY(-6px);
+    /* transform: translateY(-6px); */
   }
 
   .dashboard-list {
@@ -2011,9 +2011,15 @@
   .dashboard-action-grid {
     display: grid;
     gap: 1rem;
-    grid-template-columns: repeat(auto-fill, 280px);
+    grid-template-columns: repeat(2, 1fr);
     justify-content: start;
     margin-top: 1.25rem;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-action-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .dashboard-action-card {
@@ -2044,7 +2050,7 @@
   }
 
   .dashboard-action-card:hover {
-    transform: translateY(-6px);
+    /* transform: translateY(-6px); */
   }
 
   .dashboard-action-card__badge {
@@ -2463,7 +2469,7 @@
     display: flex;
     align-items: center;
     padding: var(--space-sm) var(--space-md);
-    margin: 0 var(--space-sm) var(--space-xs) var(--space-sm);
+    margin: 0 var(--space-sm);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     color: var(--color-gray-300);
@@ -2498,7 +2504,7 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
   }
 
   .nav-list li {
@@ -2768,7 +2774,7 @@
   }
 
   .patient-card:hover {
-    transform: translateY(-6px);
+    /* transform: translateY(-6px); */
   }
 
   .patient-card-content {
@@ -2966,6 +2972,49 @@
     flex-wrap: wrap;
     gap: 0.6rem;
     margin-bottom: 1.1rem;
+  }
+
+  /* ===== STATUS TAGS ===== */
+  .status-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 999px;
+    background: rgba(20, 24, 17, 0.65);
+    color: var(--home-text-soft);
+    letter-spacing: 0.02em;
+  }
+
+  .status-tag--completed {
+    background: rgba(143, 157, 86, 0.22);
+    color: var(--home-text-strong);
+  }
+
+  .status-tag--in-progress {
+    background: rgba(197, 150, 79, 0.22);
+    color: #efd7b4;
+  }
+
+  .status-tag--available {
+    background: rgba(125, 113, 166, 0.22);
+    color: #d3c8f0;
+  }
+
+  .status-tag--excellent {
+    background: rgba(143, 157, 86, 0.22);
+    color: var(--home-text-strong);
+  }
+
+  .status-tag--good {
+    background: rgba(197, 150, 79, 0.22);
+    color: #efd7b4;
+  }
+
+  .status-tag--needs-improvement {
+    background: rgba(210, 122, 92, 0.22);
+    color: #f2c4a8;
   }
 
   @media (max-width: 900px) {
@@ -3738,13 +3787,20 @@
   .home-footer-brand {
     display: flex;
     gap: 1.5rem;
+    align-items: flex-start;
+    min-height: 40px;
   }
 
   .home-footer-brand-logo {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     object-fit: contain;
+    flex-shrink: 0;
+    display: block;
+    overflow: visible;
+    max-width: none;
+    max-height: none;
   }
 
   .home-footer-brand-name {

@@ -82,10 +82,10 @@ export function MyEvaluationsContent() {
 
   const getScoreColor = (score: number, maxScore: number) => {
     const percentage = (score / maxScore) * 100;
-    if (percentage >= 90) return "text-success-600 bg-success-50";
-    if (percentage >= 80) return "text-accent-600 bg-accent-100";
-    if (percentage >= 70) return "text-secondary-600 bg-secondary-100";
-    return "text-error-600 bg-red-100";
+    if (percentage >= 90) return "status-tag status-tag--excellent";
+    if (percentage >= 80) return "status-tag status-tag--good";
+    if (percentage >= 70) return "status-tag status-tag--needs-improvement";
+    return "status-tag status-tag--needs-improvement";
   };
 
   const getDifficultyClass = (difficulty: string) => {
@@ -200,7 +200,7 @@ export function MyEvaluationsContent() {
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-2 ml-4">
-                        <div className={`px-3 py-1 rounded-full font-bold text-sm ${getScoreColor(evaluation.score, evaluation.maxScore)}`}>
+                        <div className={`status-tag font-bold text-sm ${getScoreColor(evaluation.score, evaluation.maxScore)}`}>
                           {evaluation.score}/{evaluation.maxScore}
                         </div>
                         <span className="text-xs text-text-tertiary">

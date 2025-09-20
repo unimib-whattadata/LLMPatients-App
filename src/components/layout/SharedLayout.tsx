@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Navbar } from "~/components/navigation/Navbar";
 import { getNavItems } from "~/components/navigation/navigationUtils";
-import { ChevronLeftIcon, MagnifyingGlassIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 import type { User, ImpersonationContext, AdminViewMode } from "~/components/navigation/Navbar";
 
@@ -195,24 +195,17 @@ export function SharedLayout({
               <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-3" role="heading" aria-level={3}>
                 Azioni Rapide
               </p>
-              <div className="space-y-2" role="list">
-                <Link
-                  href="/explore-patients"
-                  className="flex items-center px-3 py-2 text-sm text-text-tertiary hover:text-text-primary hover:bg-background-tertiary rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  role="listitem"
-                >
-                  <MagnifyingGlassIcon className="w-4 h-4 mr-3" aria-hidden="true" />
-                  Esplora Pazienti
-                </Link>
-                <Link
-                  href="/"
-                  className="flex items-center px-3 py-2 text-sm text-text-tertiary hover:text-text-primary hover:bg-background-tertiary rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  role="listitem"
-                >
-                  <HomeIcon className="w-4 h-4 mr-3" aria-hidden="true" />
-                  Torna alla Home
-                </Link>
-              </div>
+              <ul className="nav-list" role="list">
+                <li role="listitem">
+                  <Link
+                    href="/explore-patients"
+                    className="nav-item"
+                  >
+                    <MagnifyingGlassIcon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
+                    <span className="truncate">Esplora Pazienti</span>
+                  </Link>
+                </li>
+              </ul>
             </div>
           )}
         </nav>

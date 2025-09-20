@@ -90,15 +90,15 @@ export function StudentEvaluationsContent() {
 
   const getStatusBadge = (status: string, score: number) => {
     if (status === "completed") {
-      const bgColor = score >= 80 ? "bg-success-50 text-success-700" : score >= 60 ? "bg-secondary-100 text-secondary-800" : "bg-red-100 text-red-800";
+      const statusClass = score >= 80 ? "status-tag status-tag--excellent" : score >= 60 ? "status-tag status-tag--good" : "status-tag status-tag--needs-improvement";
       return (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${bgColor}`}>
+        <span className={statusClass}>
           {score >= 80 ? "Eccellente" : score >= 60 ? "Buono" : "Da migliorare"}
         </span>
       );
     }
     return (
-      <span className="px-2 py-1 rounded-full text-xs font-medium bg-accent-100 text-blue-800">
+      <span className="status-tag status-tag--in-progress">
         In corso
       </span>
     );
@@ -320,7 +320,7 @@ export function StudentEvaluationsContent() {
                           </span>
                           <span className="text-sm font-medium">{evaluation.difficulty}</span>
                         </div>
-                        <div className={`px-3 py-1 rounded-full font-bold text-sm ${evaluation.score >= 80 ? "text-success-600 bg-success-50" : evaluation.score >= 60 ? "text-secondary-600 bg-secondary-100" : "text-error-600 bg-red-100"}`}>
+                        <div className={`status-tag font-bold text-sm ${evaluation.score >= 80 ? "status-tag--excellent" : evaluation.score >= 60 ? "status-tag--good" : "status-tag--needs-improvement"}`}>
                           {evaluation.score}/100
                         </div>
                         {getStatusBadge(evaluation.status, evaluation.score)}

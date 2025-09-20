@@ -64,14 +64,14 @@ export function MySimulationsContent() {
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      available: { bg: "bg-accent-100 text-accent-800", text: "Disponibile" },
-      "in-progress": { bg: "bg-secondary-100 text-secondary-800", text: "In corso" },
-      completed: { bg: "bg-success-50 text-success-700", text: "Completata" }
+      available: { class: "status-tag status-tag--available", text: "Disponibile" },
+      "in-progress": { class: "status-tag status-tag--in-progress", text: "In corso" },
+      completed: { class: "status-tag status-tag--completed", text: "Completata" }
     };
     
     const config = statusConfig[status as keyof typeof statusConfig];
     return (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${config.bg}`}>
+      <span className={config.class}>
         {config.text}
       </span>
     );

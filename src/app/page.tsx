@@ -56,15 +56,6 @@ export default async function Home() {
             </div>
 
             <div className="home-footer-column">
-              <h3>Collegamenti rapidi</h3>
-              <ul>
-                <li>
-                  <Link href="/explore-patients">Esplora pazienti</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div className="home-footer-column">
               <h3>Contatti</h3>
                 <ul itemScope itemType="https://schema.org/Person">
                   <li itemProp="email">marco.cremaschi@unimib.it</li>
@@ -76,7 +67,7 @@ export default async function Home() {
           </div>
 
           <div className="home-footer-bottom">
-            <p>Copyright 2025 Whattadata. Tutti i diritti riservati.</p>
+            <p>Copyright 2025 Whattadata S.r.l. Tutti i diritti riservati.</p>
             <div className="home-footer-links">
               <Link href="#">Privacy Policy</Link>
               <Link href="#">Termini e condizioni</Link>
