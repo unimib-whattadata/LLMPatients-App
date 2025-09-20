@@ -128,7 +128,7 @@ export function Navbar({
   // Render dashboard header
   const renderDashboardHeader = () => (
     <header className="dashboard-header">
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left section: Menu toggle + Logo */}
           <div className="flex items-center space-x-4">
@@ -344,7 +344,7 @@ export function Navbar({
 
     return (
       <header className={`site-menu site-menu--light ${mobileMenuOpen ? "site-menu--open" : ""}`}>
-        <div className="site-menu__inner section-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="site-menu__inner w-full px-4 sm:px-6 lg:px-8">
           <div className="site-menu__brand">
             <Link href="/" className="site-menu__brand-link" onClick={() => setMobileMenuOpen(false)}>
               <img src="/images/logo.png" alt="LLMPatient" className="site-menu__brand-logo" />
@@ -433,4 +433,4 @@ export function Navbar({
 }
 
 // Export types and utilities
-export type { User, ImpersonationContext, NavItem, AdminViewMode, LayoutType };
+export type { User, ImpersonationContext, NavItem, NavSection, AdminViewMode, LayoutType };

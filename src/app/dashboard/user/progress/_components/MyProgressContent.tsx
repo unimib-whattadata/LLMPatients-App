@@ -149,10 +149,10 @@ export function MyProgressContent() {
         <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-purple-600 mb-1">{achievements.length}</div>
+              <div className="text-2xl font-bold text-accent-600 mb-1">{achievements.length}</div>
               <div className="text-sm text-text-secondary">Achievement Sbloccati</div>
             </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
               [TROPHY]
             </div>
           </div>
@@ -161,10 +161,10 @@ export function MyProgressContent() {
         <div className="bg-background-secondary p-6 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-2xl font-bold text-orange-600 mb-1">{totalHours}h</div>
+              <div className="text-2xl font-bold text-secondary-600 mb-1">{totalHours}h</div>
               <div className="text-sm text-text-secondary">Ore di Studio</div>
             </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+            <div className="w-12 h-12 bg-secondary-100 rounded-lg flex items-center justify-center">
               [CLOCK]
             </div>
           </div>
@@ -191,7 +191,7 @@ export function MyProgressContent() {
                 </div>
                 <div className="w-full bg-background-tertiary rounded-full h-3">
                   <div 
-                    className="bg-blue-500 h-3 rounded-full"
+                    className="bg-accent-500 h-3 rounded-full"
                     style={{ width: `${(skill.current / skill.target) * 100}%` }}
                   ></div>
                 </div>
@@ -209,7 +209,7 @@ export function MyProgressContent() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-3 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-3 py-1 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="all">Tutti</option>
               <option value="clinical">Clinici</option>
@@ -237,10 +237,10 @@ export function MyProgressContent() {
                       Sbloccato il {achievement.unlockedAt}
                     </span>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${{
-                      clinical: "bg-accent-100 text-blue-800",
+                      clinical: "bg-accent-100 text-accent-800",
                       communication: "bg-success-50 text-success-700",
-                      emergency: "bg-red-100 text-red-800",
-                      academic: "bg-purple-100 text-purple-800"
+                      emergency: "bg-error-100 text-error-800",
+                      academic: "bg-accent-100 text-accent-800"
                     }[achievement.category]}`}>
                       {achievement.category}
                     </span>
@@ -279,7 +279,7 @@ export function MyProgressContent() {
       </div>
 
       {/* Next Goals */}
-      <div className="mt-8 bg-blue-50 rounded-lg p-6">
+      <div className="mt-8 bg-accent-50 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-text-primary mb-4">
           Prossimi Obiettivi
         </h3>
@@ -297,7 +297,7 @@ export function MyProgressContent() {
             <span className="text-text-secondary">Raggiungere score medio di 85+</span>
           </div>
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center">
+            <div className="w-6 h-6 bg-accent-600 rounded-full flex items-center justify-center">
               <span className="text-text-primary text-xs">3</span>
             </div>
             <span className="text-text-secondary">Sbloccare achievement Esperto Clinico</span>

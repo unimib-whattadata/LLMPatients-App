@@ -122,7 +122,7 @@ export function SharedLayout({
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`${sidebarCollapsed ? 'p-2 bg-gray-800 border border-gray-600' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
+              className={`${sidebarCollapsed ? 'p-2 bg-background-tertiary border border-border-primary' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               aria-expanded={!sidebarCollapsed}
               aria-controls="sidebar-navigation"
@@ -140,14 +140,9 @@ export function SharedLayout({
           role="navigation"
         >
           {/* Navigation Section Label */}
-          {!sidebarCollapsed && (
+          {!sidebarCollapsed && impersonation?.isImpersonating && (
             <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-4" role="heading" aria-level={3}>
-              {impersonation?.isImpersonating 
-                ? "Sessione Impersonificata" 
-                : user?.role === "admin"
-                  ? "Funzioni Amministratore" 
-                  : "Le Tue Attivita"
-              }
+              Sessione Impersonificata
             </p>
           )}
           
@@ -183,12 +178,12 @@ export function SharedLayout({
                         {sidebarCollapsed && (
                           <div 
                             id={`tooltip-${globalIndex}`}
-                            className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
+                            className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-background-primary rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
                             role="tooltip"
                             aria-hidden="true"
                           >
                             {item.label}
-                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-gray-900 rotate-45"></div>
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-background-primary rotate-45"></div>
                           </div>
                         )}
                       </div>

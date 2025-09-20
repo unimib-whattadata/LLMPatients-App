@@ -18,7 +18,7 @@ interface SkeletonProps {
 export function Skeleton({ className = "", width, height }: SkeletonProps) {
   return (
     <div
-      className={`bg-gray-300 rounded ${className}`}
+      className={`bg-background-tertiary rounded ${className}`}
       style={{ width, height }}
     />
   );
