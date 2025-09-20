@@ -47,6 +47,10 @@ const timelinePathPoints: PathPoint[] = [
   { x: 520, y: 1460 },
 ];
 
+const TIMELINE_BASE_WIDTH = 960;
+const TIMELINE_BASE_HEIGHT = 1450;
+const TIMELINE_TOOLTIP_OFFSET_X = 100;
+
 const knowledgeTips = [
   "Ascolta attivamente il paziente senza interrompere.",
   "Mantieni un atteggiamento empatico e non giudicante.",
@@ -272,12 +276,20 @@ export default function TherapeuticJourneyPage() {
           </div>
 
           <div className="hidden md:block">
-            <div className="relative overflow-x-auto">
+            <div
+              className="relative mx-auto w-full"
+              style={{ maxWidth: `${TIMELINE_BASE_WIDTH}px` }}
+            >
               <div
-                className="relative min-h-[1500px] min-w-[960px]"
-                onClick={handleContainerClick}
+                className="relative w-full"
+                style={{ paddingTop: `${(TIMELINE_BASE_HEIGHT / TIMELINE_BASE_WIDTH) * 100}%` }}
               >
-                <svg className="absolute inset-0 h-full w-full" viewBox="0 0 960 1450" fill="none">
+                <svg
+                  className="absolute inset-0 h-full w-full"
+                  viewBox="0 0 960 1450"
+                  fill="none"
+                  preserveAspectRatio="xMidYMid meet"
+                >
                   <defs>
                     <linearGradient id="timelineGradient" x1="0" x2="0" y1="0" y2="1" gradientUnits="objectBoundingBox">
                       <stop offset="0%" stopColor="#2D3231" />
@@ -301,13 +313,16 @@ export default function TherapeuticJourneyPage() {
                   />
                 </svg>
 
-                <div className="relative z-10">
+                <div
+                  className="absolute inset-0 z-10"
+                  onClick={handleContainerClick}
+                >
                   {timelineSteps.map((step) => (
                     <div
                       key={step.id}
                       style={{
-                        top: `${step.top}px`,
-                        left: `${step.left}px`,
+                        top: `${(step.top / TIMELINE_BASE_HEIGHT) * 100}%`,
+                        left: `${(step.left / TIMELINE_BASE_WIDTH) * 100}%`,
                         backgroundColor: step.color,
                         color: step.textColor ?? "#0b0d06",
                       }}
@@ -322,8 +337,8 @@ export default function TherapeuticJourneyPage() {
                     <div
                       className="absolute z-20 w-80 rounded-[28px] p-8"
                       style={{
-                        top: `${activeStep.top}px`,
-                        left: `${activeStep.left + 100}px`,
+                        top: `${(activeStep.top / TIMELINE_BASE_HEIGHT) * 100}%`,
+                        left: `${((activeStep.left + TIMELINE_TOOLTIP_OFFSET_X) / TIMELINE_BASE_WIDTH) * 100}%`,
                         backgroundColor: activeDetails.backgroundColor,
                         color: activeDetails.textColor,
                       }}
