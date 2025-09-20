@@ -67,7 +67,7 @@ export const dashboardRouter = createTRPCRouter({
     .input(z.object({
       userId: z.string().min(1, "User ID is required"),
       role: z.enum(["admin", "user"], {
-        errorMap: () => ({ message: "Role must be either 'admin' or 'user'" }),
+        message: "Role must be either 'admin' or 'user'",
       }),
     }))
     .mutation(async ({ ctx, input }) => {
@@ -342,9 +342,9 @@ export const dashboardRouter = createTRPCRouter({
   recordActivity: protectedProcedure
     .input(z.object({
       activityType: z.enum(["login", "dashboard_view", "profile_update", "simulation"], {
-        errorMap: () => ({ message: "Invalid activity type" }),
+        message: "Invalid activity type",
       }),
-      metadata: z.record(z.unknown()).optional(),
+      metadata: z.record(z.string(), z.unknown()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       try {

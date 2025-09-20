@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const errorMessage = error.errors.map((err) => err.message).join(", ");
+        const errorMessage = error.issues.map((err) => err.message).join(", ");
         console.warn(`[${requestId}] Validation failed:`, errorMessage);
         return NextResponse.json(
           { error: errorMessage },
