@@ -204,53 +204,10 @@ html {
   }
 }
 
-/* Improved Responsive Breakpoints */
-@media (max-width: 320px) {
-  /* Extra small devices */
-  .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-}
-
-@media (min-width: 321px) and (max-width: 480px) {
-  /* Small mobile devices */
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  /* Large mobile devices */
-  .container {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  /* Tablets */
-  .container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1440px) {
-  /* Small desktops */
-  .container {
-    padding-left: 2rem;
-    padding-right: 2rem;
-  }
-}
-
-@media (min-width: 1441px) {
-  /* Large desktops */
-  .container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
+/* Responsive Container Padding */
+.container {
+  padding-left: clamp(0.75rem, 2vw, 2.5rem);
+  padding-right: clamp(0.75rem, 2vw, 2.5rem);
 }
 
 body {
@@ -374,131 +331,34 @@ body {
 
 /* ===== ENHANCED RESPONSIVE DESIGN ===== */
 
-/* Container Queries Support */
-@supports (container-type: inline-size) {
-  .container-query {
-    container-type: inline-size;
-  }
-  
-  @container (min-width: 300px) {
-    .patient-card {
-      grid-column: span 1;
-    }
-  }
-  
-  @container (min-width: 600px) {
-    .patient-card {
-      grid-column: span 1;
-    }
-  }
-  
-  @container (min-width: 900px) {
-    .patient-card {
-      grid-column: span 1;
-    }
-  }
-}
-
 /* Enhanced Responsive Grid System */
 .grid-responsive {
   display: grid;
-  gap: var(--space-lg);
+  gap: clamp(var(--space-md), 3vw, var(--space-2xl));
   grid-template-columns: 1fr;
 }
 
-/* Extra small devices: 1 column */
-@media (max-width: 320px) {
-  .grid-responsive {
-    gap: var(--space-md);
-  }
-  
+.patient-grid {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 2.5rem);
+  grid-template-columns: 1fr;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 641px) {
+  .grid-responsive,
   .patient-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  
-  .dashboard-card {
-    padding: var(--space-md);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Small mobile devices: 1 column */
-@media (min-width: 321px) and (max-width: 480px) {
+@media (min-width: 1024px) {
   .grid-responsive {
-    gap: var(--space-md);
-  }
-  
-  .patient-grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Large mobile devices: 1 column */
-@media (min-width: 481px) and (max-width: 640px) {
-  .grid-responsive {
-    gap: var(--space-lg);
-  }
-  
-  .patient-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-}
-
-/* Tablet: 2 columns */
-@media (min-width: 641px) and (max-width: 768px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
-  }
-  
-  .patient-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-/* Large tablet: 2-3 columns */
-@media (min-width: 769px) and (max-width: 1024px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xl);
-  }
-  
-  .patient-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-/* Small desktop: 2 columns */
-@media (min-width: 1025px) and (max-width: 1440px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-xl);
-  }
-  
-  .patient-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-/* Large desktop: 2 columns */
-@media (min-width: 1441px) {
-  .grid-responsive {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-2xl);
-  }
-  
-  .patient-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
-  }
-}
-
-/* Responsive Typography */
+/* Responsive Typography and Spacing */
 @media (max-width: 640px) {
   .text-heading-1 {
     font-size: 2rem;
@@ -514,10 +374,7 @@ body {
     font-size: 1.5rem;
     line-height: 1.4;
   }
-}
-
-/* Responsive Spacing */
-@media (max-width: 640px) {
+  
   .section-spacing {
     padding: 3rem 0;
   }
@@ -531,7 +388,7 @@ body {
   }
 }
 
-/* Responsive Navigation */
+/* Responsive Navigation and Layout */
 @media (max-width: 1024px) {
   .dashboard-sidebar {
     transform: translateX(-100%);
@@ -546,7 +403,7 @@ body {
   }
 }
 
-/* Responsive Forms */
+/* Responsive Forms, Buttons, and Components */
 @media (max-width: 640px) {
   .auth-container {
     flex-direction: column;
@@ -564,31 +421,48 @@ body {
   .auth-form-card {
     padding: 1.5rem;
   }
-}
-
-/* Responsive Buttons */
-@media (max-width: 640px) {
-  .btn {
+  
+  .btn, .btn-sm, .btn-xs {
     min-height: 44px;
     min-width: 44px;
   }
   
-  .btn-sm {
-    min-height: 44px;
+  .btn-sm, .btn-xs {
     padding: var(--space-sm) var(--space-md);
   }
   
-  .btn-xs {
-    min-height: 44px;
-    padding: var(--space-sm) var(--space-md);
+  .patient-card {
+    margin-bottom: 1rem;
+  }
+  
+  .dashboard-card {
+    margin-bottom: 1rem;
+    padding: 1rem;
+  }
+  
+  .modal {
+    margin: 1rem;
+    max-height: calc(100vh - 2rem);
+  }
+  
+  .overlay {
+    padding: 1rem;
+  }
+  
+  .hidden-mobile {
+    display: none !important;
+  }
+  
+  *:focus-visible {
+    outline-width: 3px;
+    outline-offset: 3px;
   }
 }
 
-/* Responsive Images */
-img {
-  max-width: 100%;
-  height: auto;
-  object-fit: cover;
+@media (min-width: 641px) {
+  .hidden-desktop {
+    display: none !important;
+  }
 }
 
 /* Responsive Tables */
@@ -603,47 +477,9 @@ img {
   }
 }
 
-/* Responsive Cards */
-@media (max-width: 640px) {
-  .patient-card {
-    margin-bottom: 1rem;
-  }
-  
-  .dashboard-card {
-    margin-bottom: 1rem;
-    padding: 1rem;
-  }
-}
-
-/* Responsive Modals and Overlays */
-@media (max-width: 640px) {
-  .modal {
-    margin: 1rem;
-    max-height: calc(100vh - 2rem);
-  }
-  
-  .overlay {
-    padding: 1rem;
-  }
-}
-
-/* Responsive Utilities */
-@media (max-width: 640px) {
-  .hidden-mobile {
-    display: none !important;
-  }
-}
-
-@media (min-width: 641px) {
-  .hidden-desktop {
-    display: none !important;
-  }
-}
-
-/* Responsive Focus States */
-@media (max-width: 640px) {
-  *:focus-visible {
-    outline-width: 3px;
-    outline-offset: 3px;
-  }
+/* Responsive Images */
+img {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
 }
