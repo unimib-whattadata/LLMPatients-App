@@ -130,16 +130,23 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 
   if (points.length === 1) {
     const [point] = points;
+    if (!point) return "";
     return `M ${point.x} ${point.y}`;
   }
 
-  const pathCommands: string[] = [`M ${points[0].x} ${points[0].y}`];
-  let currentX = points[0].x;
-  let currentY = points[0].y;
+  const firstPoint = points[0];
+  if (!firstPoint) return "";
+  
+  const pathCommands: string[] = [`M ${firstPoint.x} ${firstPoint.y}`];
+  let currentX = firstPoint.x;
+  let currentY = firstPoint.y;
 
   for (let index = 1; index < points.length; index += 1) {
     const previous = points[index - 1];
     const current = points[index];
+    
+    if (!current || !previous) continue;
+    
     const deltaX = current.x - previous.x;
     const deltaY = current.y - previous.y;
 
@@ -156,6 +163,8 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 
     if (index < points.length - 1) {
       const next = points[index + 1];
+      if (!next) continue;
+      
       const nextDeltaX = next.x - current.x;
       const nextDeltaY = next.y - current.y;
       const nextDirectionX = Math.sign(nextDeltaX);
@@ -179,6 +188,8 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 
     if (cornerRadius > 0 && index < points.length - 1) {
       const next = points[index + 1];
+      if (!next) continue;
+      
       const nextDeltaX = next.x - current.x;
       const nextDeltaY = next.y - current.y;
       const nextDirectionX = Math.sign(nextDeltaX);
@@ -403,12 +414,6 @@ export default function TherapeuticJourneyPage() {
                       <h2 className="text-heading-3 font-semibold text-white">
                         {activeDetails.phaseTitle}
                       </h2>
-                      <p
-                        className="mt-2 text-sm font-medium uppercase tracking-[0.18em]"
-                        style={{ color: activeDetails.accentColor }}
-                      >
-                        {activeDetails.sessionLabel}
-                      </p>
                       <h3 className="mt-6 text-base font-semibold text-white">
                         Consigli per essere un buon terapeuta
                       </h3>
@@ -420,7 +425,7 @@ export default function TherapeuticJourneyPage() {
                           <li
                             key={`tip-${index}`}
                             className="list-inside list-disc"
-                            style={{ markerColor: activeDetails.accentColor }}
+                            style={{ '--marker-color': activeDetails.accentColor } as React.CSSProperties}
                           >
                             {tip}
                           </li>
@@ -443,10 +448,10 @@ export default function TherapeuticJourneyPage() {
 
                   return (
                     <div key={`mobile-step-${step.id}`} className="relative">
-                      <span
-                        className="absolute -left-5 top-4 flex h-3 w-3 items-center justify-center"
-                        aria-hidden
-                      >
+                        <span
+                          className="absolute -left-6.5 top-4 flex h-3 w-3 items-center justify-center"
+                          aria-hidden
+                        >
                         <span
                           className="block h-3 w-3 rounded-full"
                           style={{ backgroundColor: step.color }}
@@ -469,12 +474,6 @@ export default function TherapeuticJourneyPage() {
                               {details.phaseTitle}
                             </h2>
                           </div>
-                          <span
-                            className="text-xs font-semibold uppercase tracking-[0.3em]"
-                            style={{ color: details.accentColor }}
-                          >
-                            {details.sessionLabel}
-                          </span>
                         </div>
 
                         {isOpen && (
@@ -490,7 +489,7 @@ export default function TherapeuticJourneyPage() {
                                 <li
                                   key={`mobile-tip-${step.id}-${index}`}
                                   className="list-inside list-disc"
-                                  style={{ markerColor: details.accentColor }}
+                                  style={{ '--marker-color': details.accentColor } as React.CSSProperties}
                                 >
                                   {tip}
                                 </li>
