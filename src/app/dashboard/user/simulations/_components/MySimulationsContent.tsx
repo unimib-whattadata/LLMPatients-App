@@ -145,7 +145,7 @@ export function MySimulationsContent() {
             <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
               {simulations.filter(s => s.status === "in-progress").length}
             </div>
-            <div className="dashboard-metric-card__label">In Corso</div>
+            <div className="dashboard-metric-card__label">In corso</div>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
@@ -174,7 +174,7 @@ export function MySimulationsContent() {
           {[
             { key: "all", label: "Tutte" },
             { key: "available", label: "Disponibili" },
-            { key: "in-progress", label: "In Corso" },
+            { key: "in-progress", label: "In corso" },
             { key: "completed", label: "Completate" }
           ].map((tab) => (
             <button

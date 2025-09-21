@@ -3819,4 +3819,47 @@
       height: 40px;
     }
   }
+
+  /* ===== PILL NAVIGATION STYLES ===== */
+  .dashboard-pill-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: var(--surface-tertiary);
+    border-radius: 0.75rem;
+  }
+  
+  .dashboard-pill-nav__button {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.6rem 1.1rem;
+    border-radius: 0.5rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .dashboard-pill-nav__button:hover {
+    color: var(--text-primary);
+  }
+  
+  .dashboard-pill-nav__button.is-active {
+    color: var(--text-primary);
+    background: var(--accent-success);
+  }
+  
+  .dashboard-pill-nav__button.is-active::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+  }
 }
