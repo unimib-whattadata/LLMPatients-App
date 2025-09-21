@@ -1,6 +1,20 @@
 import { relations, sql } from "drizzle-orm";
 import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
-import { type AdapterAccount } from "next-auth/adapters";
+// import { type AdapterAccount } from "next-auth/adapters";
+
+// Define AdapterAccount type manually for next-auth v5 beta compatibility
+type AdapterAccount = {
+  type: "oauth" | "email" | "credentials";
+  provider: string;
+  providerAccountId: string;
+  refresh_token?: string;
+  access_token?: string;
+  expires_at?: number;
+  token_type?: string;
+  scope?: string;
+  id_token?: string;
+  session_state?: string;
+};
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -9,27 +23,6 @@ import { type AdapterAccount } from "next-auth/adapters";
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
-
-export const posts = createTable(
-  "post",
-  (d) => ({
-    id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
-    name: d.text({ length: 256 }),
-    createdById: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => users.id),
-    createdAt: d
-      .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
-  }),
-  (t) => [
-    index("created_by_idx").on(t.createdById),
-    index("name_idx").on(t.name),
-  ],
-);
 
 export const users = createTable("user", (d) => ({
   id: d
@@ -44,13 +37,6 @@ export const users = createTable("user", (d) => ({
   role: d.text({ length: 20 }).default('user').notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
-}));
-
-export const postsRelations = relations(posts, ({ one }) => ({
-  createdBy: one(users, {
-    fields: [posts.createdById],
-    references: [users.id],
-  }),
 }));
 
 // Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
@@ -243,7 +229,6 @@ export const impersonationAuditLogRelations = relations(impersonationAuditLog, (
 // Add relations to users for impersonation
 export const extendedUsersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  posts: many(posts),
   activities: many(userActivities),
   adminImpersonationSessions: many(impersonationSessions, {
     relationName: "adminImpersonationSessions",

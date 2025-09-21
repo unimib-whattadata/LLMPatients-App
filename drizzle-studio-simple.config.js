@@ -4,4 +4,6 @@ export default {
   dbCredentials: {
     url: "file:./dev.db",
   },
+  port: 4985,
+  host: "localhost",
 };
