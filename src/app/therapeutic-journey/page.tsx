@@ -411,9 +411,30 @@ export default function TherapeuticJourneyPage() {
                       }}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <h2 className="text-heading-3 font-semibold text-white">
-                        {activeDetails.phaseTitle}
-                      </h2>
+                      <div className="flex items-start justify-between">
+                        <h2 className="text-heading-3 font-semibold text-white">
+                          {activeDetails.phaseTitle}
+                        </h2>
+                        <button
+                          onClick={() => setActiveBox(null)}
+                          className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                          aria-label="Close"
+                        >
+                          <svg
+                            className="h-4 w-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                        </button>
+                      </div>
                       <h3 className="mt-6 text-base font-semibold text-white">
                         Consigli per essere un buon terapeuta
                       </h3>
@@ -474,6 +495,39 @@ export default function TherapeuticJourneyPage() {
                               {details.phaseTitle}
                             </h2>
                           </div>
+                          {isOpen && (
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveBox(null);
+                              }}
+                              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+                              role="button"
+                              tabIndex={0}
+                              aria-label="Close"
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setActiveBox(null);
+                                }
+                              }}
+                            >
+                              <svg
+                                className="h-4 w-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M6 18L18 6M6 6l12 12"
+                                />
+                              </svg>
+                            </div>
+                          )}
                         </div>
 
                         {isOpen && (
