@@ -6,15 +6,15 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import {
-  virtualPatients,
+  patients,
   patientTags,
   patientTagRelations,
 } from "~/server/db/schema";
 
 /**
- * Virtual Patient type for TypeScript
+ * Patient type for TypeScript
  */
-export interface VirtualPatient {
+export interface Patient {
   id: string;
   name: string;
   age: number;
@@ -77,23 +77,23 @@ export const patientsRouter = createTRPCRouter({
       } = input ?? {};
 
       // Build where conditions
-      const whereConditions = [eq(virtualPatients.isActive, true)];
+      const whereConditions = [eq(patients.isActive, true)];
 
       if (difficulty.length > 0) {
         whereConditions.push(
           // Use IN operator for multiple difficulty values
-          eq(virtualPatients.difficulty, difficulty[0]!) // Simplified for now
+          eq(patients.difficulty, difficulty[0]!) // Simplified for now
         );
       }
 
       if (searchQuery.trim()) {
         whereConditions.push(
-          like(virtualPatients.name, `%${searchQuery}%`)
+          like(patients.name, `%${searchQuery}%`)
         );
       }
 
       // Get patients with their tag relationships
-      const patients = await ctx.db.query.virtualPatients.findMany({
+      const patientsData = await ctx.db.query.patients.findMany({
         where: and(...whereConditions),
         with: {
           tagRelations: {
@@ -102,13 +102,13 @@ export const patientsRouter = createTRPCRouter({
             },
           },
         },
-        orderBy: [asc(virtualPatients.difficulty), asc(virtualPatients.name)],
+        orderBy: [asc(patients.difficulty), asc(patients.name)],
         limit,
         offset,
       });
 
       // Transform the data to include tags array and parse objectives
-      const transformedPatients: VirtualPatient[] = patients.map((patient) => ({
+      const transformedPatients: Patient[] = patientsData.map((patient) => ({
         id: patient.id,
         name: patient.name,
         age: patient.age,
@@ -141,10 +141,10 @@ export const patientsRouter = createTRPCRouter({
   getPatientById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const patient = await ctx.db.query.virtualPatients.findFirst({
+      const patient = await ctx.db.query.patients.findFirst({
         where: and(
-          eq(virtualPatients.id, input.id),
-          eq(virtualPatients.isActive, true)
+          eq(patients.id, input.id),
+          eq(patients.isActive, true)
         ),
         with: {
           tagRelations: {
@@ -160,7 +160,7 @@ export const patientsRouter = createTRPCRouter({
       }
 
       // Transform the data to include tags array and parse objectives
-      const transformedPatient: VirtualPatient = {
+      const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
         age: patient.age,
@@ -232,7 +232,7 @@ export const patientsRouter = createTRPCRouter({
 
       // Create the patient
       const [newPatient] = await ctx.db
-        .insert(virtualPatients)
+        .insert(patients)
         .values({
           name: input.name,
           age: input.age,
@@ -308,12 +308,12 @@ export const patientsRouter = createTRPCRouter({
       }
 
       await ctx.db
-        .update(virtualPatients)
+        .update(patients)
         .set({
           isActive: input.isActive,
           updatedAt: new Date(),
         })
-        .where(eq(virtualPatients.id, input.id));
+        .where(eq(patients.id, input.id));
 
       return { success: true };
     }),

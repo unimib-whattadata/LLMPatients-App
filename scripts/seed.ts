@@ -29,8 +29,8 @@ const users = createTable("user", (d) => ({
   image: d.text({ length: 255 }),
 }));
 
-const virtualPatients = createTable(
-  "virtual_patient",
+const patients = createTable(
+  "patient",
   (d) => ({
     id: d
       .text({ length: 255 })
@@ -311,10 +311,10 @@ async function seedPatientTags() {
   console.log(`🏷️  Tag paziente pronti (${created} nuovi, ${knownLabels.size} totali)`);
 }
 
-async function seedVirtualPatients() {
+async function seedPatients() {
   const existingPatients = await db
-    .select({ name: virtualPatients.name })
-    .from(virtualPatients);
+    .select({ name: patients.name })
+    .from(patients);
 
   const existingNames = new Set(existingPatients.map((patient) => patient.name));
   const tagRows = await db
@@ -330,7 +330,7 @@ async function seedVirtualPatients() {
     }
 
     const result = await db
-      .insert(virtualPatients)
+      .insert(patients)
       .values({
         name: patient.name,
         age: patient.age,
@@ -343,7 +343,7 @@ async function seedVirtualPatients() {
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,
       })
-      .returning({ id: virtualPatients.id });
+      .returning({ id: patients.id });
 
     const patientId = result[0]?.id;
     if (!patientId) {
@@ -370,7 +370,7 @@ async function runSeeding() {
   try {
     await seedDatabase();
     await seedPatientTags();
-    await seedVirtualPatients();
+    await seedPatients();
     console.log("[SUCCESS] Seeding completato");
     process.exit(0);
   } catch (error) {

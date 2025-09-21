@@ -1,11 +1,11 @@
 import Link from "next/link";
-import type { VirtualPatient } from "~/server/api/routers/patients";
+import type { Patient } from "~/server/api/routers/patients";
 import { PatientAvatar } from "./PatientAvatar";
 import { PatientTags } from "./PatientTags";
 import { ClockIcon } from "@heroicons/react/24/outline";
 
 interface PatientCardProps {
-  patient: VirtualPatient;
+  patient: Patient;
 }
 
 /**

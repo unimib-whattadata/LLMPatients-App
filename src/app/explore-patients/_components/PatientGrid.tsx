@@ -1,9 +1,9 @@
-import type { VirtualPatient } from "~/server/api/routers/patients";
+import type { Patient } from "~/server/api/routers/patients";
 import { PatientCard } from "./PatientCard";
 import { LoadingGrid } from "./LoadingGrid";
 
 interface PatientGridProps {
-  patients: VirtualPatient[];
+  patients: Patient[];
   isLoading?: boolean;
   error?: string | null;
 }

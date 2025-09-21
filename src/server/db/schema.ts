@@ -238,9 +238,9 @@ export const extendedUsersRelations = relations(users, ({ many }) => ({
   }),
 }));
 
-// Virtual Patients table for patient exploration page
-export const virtualPatients = createTable(
-  "virtual_patient",
+// Patients table for patient exploration page
+export const patients = createTable(
+  "patient",
   (d) => ({
     id: d
       .text({ length: 255 })
@@ -301,7 +301,7 @@ export const patientTagRelations = createTable(
     patientId: d
       .text({ length: 255 })
       .notNull()
-      .references(() => virtualPatients.id, { onDelete: "cascade" }),
+      .references(() => patients.id, { onDelete: "cascade" }),
     tagId: d
       .text({ length: 255 })
       .notNull()
@@ -314,8 +314,8 @@ export const patientTagRelations = createTable(
   ],
 );
 
-// Relations for virtual patients
-export const virtualPatientsRelations = relations(virtualPatients, ({ many }) => ({
+// Relations for patients
+export const patientsRelations = relations(patients, ({ many }) => ({
   tagRelations: many(patientTagRelations),
 }));
 
@@ -324,9 +324,9 @@ export const patientTagsRelations = relations(patientTags, ({ many }) => ({
 }));
 
 export const patientTagRelationsRelations = relations(patientTagRelations, ({ one }) => ({
-  patient: one(virtualPatients, {
+  patient: one(patients, {
     fields: [patientTagRelations.patientId],
-    references: [virtualPatients.id],
+    references: [patients.id],
   }),
   tag: one(patientTags, {
     fields: [patientTagRelations.tagId],
