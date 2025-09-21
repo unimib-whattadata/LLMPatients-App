@@ -1,0 +1,343 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Schema di Valutazione Psicologica Strutturata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "dati_socio_culturali": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stato_civile": { "type": "string", "enum": ["single", "convivente", "sposato/a", "separato/a", "divorziato/a", "vedovo/a", "unione civile", "altro"] },
+        "lingua_parlata": { "type": "string", "enum": ["monolingue", "bilingue", "multilingue"] },
+        "background_culturale": { "type": "string", "enum": ["urbano", "rurale", "minoranza etnica", "maggioranza"] },
+        "credenze_religiose": { "type": "string", "enum": ["cattolico", "cristiano (altre)", "musulmano", "ebraico", "buddista", "indù", "agnostico", "ateo", "spirituale-non religioso", "altro"] },
+        "stato_migratorio": { "type": "string", "enum": ["nativo", "1ª generazione", "2ª generazione", "rifugiato", "richiedente asilo", "cittadinanza acquisita", "altro"] },
+        "valori_morali": { "type": "string", "enum": ["tradizionali", "liberali", "religiosi", "laici", "deontologici", "relativisti", "altro"] }
+      }
+    },
+    "sviluppo_famiglia_storia": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "esperienze_infantili": {
+          "type": "array",
+          "description": "Lista di esperienze (vuota = nessuna).",
+          "items": { "type": "string", "enum": ["normative", "avversità", "bullismo", "neglect", "abuso", "malattia", "migrazione"] },
+          "uniqueItems": true
+        },
+        "eventi_crescita_significativi": {
+          "type": "array",
+          "description": "Lista di eventi (vuota = nessuno).",
+          "items": { "type": "string", "enum": ["lutti", "traumi", "abusi", "separazioni", "trasferimenti"] },
+          "uniqueItems": true
+        },
+        "dinamiche_familiari_evolutiva": {
+          "type": "array",
+          "description": "Caratteristiche ricorrenti (vuota = nessuna).",
+          "items": { "type": "string", "enum": ["coese", "conflittuali", "iperprotettive", "negligenti", "abusive", "separazioni/affido", "istituzionalizzazione"] },
+          "uniqueItems": true
+        },
+        "malattie_psichiatriche_familiari": {
+          "type": "array",
+          "description": "Diagnosi familiari note (vuota = nessuna).",
+          "items": { "type": "string", "enum": ["ansia", "depressione", "disturbo bipolare", "schizofrenia", "uso di sostanze", "disturbi di personalità", "disturbi neuroevolutivi", "storia di suicidio"] },
+          "uniqueItems": true
+        },
+        "relazioni_attuali_genitori": { "type": "string", "enum": ["buone", "distanti", "conflittuali", "interrotte", "ambivalenti", "dipendenti"] },
+        "interazioni_familiari": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["supportive", "critiche", "ostili", "triangolazioni", "parentificazione", "altro"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "istruzione_lavoro_condizioni": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "livello_istruzione": { "type": "string", "enum": ["nessuna", "primaria", "secondaria", "diploma", "laurea triennale", "laurea magistrale", "dottorato"] },
+        "storia_lavorativa": { "type": "string", "enum": ["studente", "disoccupato", "tirocinante", "precario", "part-time", "full-time", "autonomo/freelance", "caregiver", "pensionato"] },
+        "stabilita_abitativa": { "type": "string", "enum": ["proprietà stabile", "affitto stabile", "coabitazione", "alloggio temporaneo", "comunità/istituto", "senzatetto"] },
+        "situazione_finanziaria": { "type": "string", "enum": ["precaria", "sufficiente", "stabile", "con debiti", "con sussidi", "supporto familiare"] },
+        "hobby_interessi": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["sport", "arte", "musica", "lettura", "videogiochi", "natura", "volontariato", "altro"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "rete_sociale_relazioni": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "amicizie": { "type": "string", "enum": ["numerose", "poche ma stabili", "superficiali", "assenti", "conflittuali"] },
+        "relazioni_coetanei_colleghi": { "type": "string", "enum": ["adeguate", "isolate", "conflittuali", "bullismo subito", "bullismo agito"] },
+        "relazioni_romantiche": { "type": "string", "enum": ["assenti", "stabili", "occasionali", "multiple", "conflittuali", "violente"] },
+        "relazioni_sessuali": { "type": "string", "enum": ["non attive", "attive protette", "attive non protette", "consensuali (storia)", "non consensuali (storia)"] },
+        "uso_social_media": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "intensita": { "type": "string", "enum": ["nessuna", "bassa", "moderata", "elevata"] },
+            "impatto": { "type": "string", "enum": ["positivo", "neutro", "negativo"] }
+          }
+        }
+      }
+    },
+    "presentazione_clinica": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sintomi_principali": {
+          "type": "array",
+          "description": "Seleziona tutti i sintomi pertinenti.",
+          "items": { "type": "string", "enum": ["ansia", "umore depresso", "irritabilità", "anedonia", "insonnia", "ipersonnia", "ideazione suicidaria", "ossessioni/compulsioni", "allucinazioni", "deliri", "attacchi di panico", "fobie", "alimentazione disordinata", "somatizzazioni", "uso di sostanze"] },
+          "uniqueItems": true
+        },
+        "comorbidita_psichiatriche": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["ansia", "depressione", "bipolare", "psicotica", "disturbo di personalità", "trauma/stress", "alimentare", "uso di sostanze", "neuroevolutiva", "OCD", "dissociativa"] },
+          "uniqueItems": true
+        },
+        "diagnosi_psichiatriche_pregresse": { "type": "string", "enum": ["nessuna", "presenti"] }
+      }
+    },
+    "funzionamento_psicologico": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "funzionamento_affettivo_umore": { "type": "string", "enum": ["stabile", "labile", "reattivo", "iporegolato", "iperregolato", "disforico", "euforico", "depresso"] },
+        "senso_di_se_e_altri": { "type": "string", "enum": ["integrato", "fragile", "diffuso", "grandioso", "svalutato", "fiducioso", "diffidente"] },
+        "pensiero_stile_cognitivo": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["coerente", "ruminativo", "perseverativo", "disorganizzato", "rigido", "flessibile", "paranoide"] },
+          "uniqueItems": true
+        },
+        "attenzione_concentrazione": { "type": "string", "enum": ["nella norma", "ridotta", "distraibile", "ipervigilanza"] },
+        "memoria": { "type": "string", "enum": ["nella norma", "lieve deficit", "moderato deficit", "grave deficit"] },
+        "funzioni_cognitive_superiori": { "type": "string", "enum": ["nella norma", "lieve compromissione", "moderata compromissione", "grave compromissione"] },
+        "strategie_coping": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["orientato al problema", "orientato all’emozione", "evitamento", "ricerca di supporto", "ruminazione", "uso di sostanze", "dissociazione"] },
+          "uniqueItems": true
+        },
+        "meccanismi_difesa": { "type": "string", "enum": ["maturi", "nevrotici", "primitivi"] },
+        "dinamiche_ricorrenti": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["manipolatività", "sottomissione", "svalutazione", "evitamento", "dipendenza", "controllo", "idealizzazione/svalutazione"] },
+          "uniqueItems": true
+        },
+        "emozioni_espresse_congruenza": { "type": "string", "enum": ["congrue", "incongrue", "iper-espresse", "ipo-espresse", "alessitimia"] }
+      }
+    },
+    "rischi_condotte": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "autolesionismo_suicidalita": { "type": "string", "enum": ["assente", "NSSI", "ideazione", "pianificazione", "tentativi", "rischio imminente"] },
+        "uso_sostanze": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["alcol", "cannabis", "stimolanti", "oppioidi", "sedativi", "poliuso"] },
+          "uniqueItems": true
+        },
+        "aggressivita_eterodiretta": { "type": "string", "enum": ["assente", "verbale", "fisica", "episodica", "strumentale"] },
+        "comportamenti_impulsivi_rischio": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["gioco d’azzardo", "guida pericolosa", "promiscuità", "spese compulsive", "binge cibo", "binge alcol", "autolesionismo"] },
+          "uniqueItems": true
+        },
+        "inganno_manipolazione": { "type": "string", "enum": ["assenti", "occasionali", "frequenti", "strumentali"] },
+        "attivita_illecite": { "type": "string", "enum": ["nessuna", "precedenti penali", "procedimenti in corso", "misure alternative"] },
+        "senso_di_colpa": { "type": "string", "enum": ["assente", "appropriato", "eccessivo", "patologico"] }
+      }
+    },
+    "salute_fisica_stile_vita": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "salute_fisica_generale": { "type": "string", "enum": ["buona", "discreta", "scadente"] },
+        "condizioni_mediche_preesistenti": {
+          "type": "array",
+          "description": "Se vuoto, nessuna condizione nota.",
+          "items": { "type": "string", "enum": ["cardiovascolari", "endocrino-metaboliche", "neurologiche", "respiratorie", "gastrointestinali", "dolore cronico", "gravidanza"] },
+          "uniqueItems": true
+        },
+        "attivita_fisica": { "type": "string", "enum": ["nessuna", "bassa", "moderata", "elevata"] },
+        "fumo": { "type": "string", "enum": ["no", "ex", "sì"] },
+        "alcol": { "type": "string", "enum": ["no", "moderato", "eccessivo"] },
+        "sostanze": { "type": "string", "enum": ["no", "sì"] },
+        "sonno": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["regolare", "difficoltà addormentamento", "risvegli multipli", "risveglio precoce", "ipersonnia", "ritmo irregolare"] },
+          "uniqueItems": true
+        },
+        "alimentazione": { "type": "string", "enum": ["regolare", "restrittiva", "abbuffate", "alimentazione emotiva", "iperfagia", "iporessia"] }
+      }
+    },
+    "percorso_cura_adesione": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "esperienze_terapeutiche_pregresse": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "tipi": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["psicoterapia individuale", "familiare", "di gruppo", "TCC", "psicodinamica", "counselling", "psicoeducazione"] },
+              "uniqueItems": true
+            },
+            "durata": { "type": "string", "enum": ["breve", "medio", "lungo"] }
+          }
+        },
+        "resistenze_trattamento": { "type": "string", "enum": ["nessuna", "moderate", "elevate", "scarsa aderenza", "scarsa fiducia", "drop-out"] },
+        "obiettivi_terapeutici": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["riduzione sintomi", "migliorare funzionamento", "riduzione rischio", "migliorare relazioni", "elaborare traumi", "cessazione sostanze", "migliorare sonno"] },
+          "uniqueItems": true
+        },
+        "storia_farmacologica": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["SSRI", "SNRI", "antipsicotici", "stabilizzatori dell’umore", "benzodiazepine", "stimolanti", "altri"] },
+          "uniqueItems": true
+        },
+        "trattamenti_farmacologici_correnti": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["SSRI", "SNRI", "antipsicotici", "stabilizzatori dell’umore", "benzodiazepine", "stimolanti", "altri"] },
+          "uniqueItems": true
+        },
+        "risposta_ai_farmaci": { "type": "string", "enum": ["buona", "parziale", "scarsa", "intolleranza"] },
+        "ricoveri_psichiatrici_pregressi": { "type": "string", "enum": ["nessuno", "1", "2-3", "piu_di_3"] },
+        "accessi_pronto_soccorso": { "type": "string", "enum": ["nessuno", "1", "2-3", "piu_di_3"] },
+        "precedenti_drop_out": { "type": "string", "enum": ["nessuno", "1", "piu_di_1"] },
+        "insight_mentalizzazione": { "type": "string", "enum": ["buono", "parziale", "scarso", "assente"] },
+        "motivazione_cambiamento": { "type": "string", "enum": ["alta", "media", "bassa", "ambivalente"] },
+        "stadio_cambiamento": { "type": "string", "enum": ["pre-contemplazione", "contemplazione", "preparazione", "azione", "mantenimento"] }
+      }
+    },
+    "risorse_benessere_prospettive": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "resilienza_psicologica": { "type": "string", "enum": ["alta", "media", "bassa"] },
+        "soddisfazione_vita": { "type": "string", "enum": ["alta", "media", "bassa"] },
+        "speranza_futuro": { "type": "string", "enum": ["alta", "media", "bassa"] },
+        "obiettivi_lungo_termine": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["famiglia", "lavoro", "studio", "salute", "autonomia", "creatività", "altro"] },
+          "uniqueItems": true
+        }
+      }
+    },
+    "esame_stato_mentale": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "aspetto_espressione": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "cura_di_se": { "type": "string", "enum": ["adeguata", "scarsa", "trascurata"] },
+            "abbigliamento": { "type": "string", "enum": ["adeguato", "bizzarro", "non congruo"] },
+            "struttura_fisica": { "type": "string", "enum": ["nella norma", "sottopeso", "sovrappeso/obesità", "segni di malattia"] },
+            "postura": { "type": "string", "enum": ["aperta", "chiusa", "tesa", "catatonica"] },
+            "espressione_facciale": { "type": "string", "enum": ["ricca", "povera", "fissa", "hiperespressiva", "iperespressiva"] },
+            "tono_voce": { "type": "string", "enum": ["normale", "basso", "alto", "monotono"] },
+            "gestualita_mimica": { "type": "string", "enum": ["nella norma", "ridotta", "aumentata", "manierismi", "stereotipie"] },
+            "contatto_visivo": { "type": "string", "enum": ["buono", "ridotto", "evitante"] },
+            "relazionalita_colloquio": { "type": "string", "enum": ["adeguata", "inibita", "invadente", "seduttiva", "ostile"] }
+          }
+        },
+        "atteggiamento_verso_clinico": { "type": "string", "enum": ["collaborante", "non collaborante", "amichevole", "seduttivo", "rigido", "difensivo", "passivo", "sospettoso", "ostile", "aggressivo"] },
+        "coscienza_orientamento": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "stato_coscienza": { "type": "string", "enum": ["lucido", "soporoso", "obnubilato"] },
+            "orientamento": { "type": "string", "enum": ["integro", "parziale", "assente"] }
+          }
+        },
+        "linguaggio_eloquio": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fluenza_contenuto": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["spontaneo", "fluente", "rallentato", "povero", "stereotipato", "logorroico", "ripetitivo", "incoerente", "disorganizzato"] },
+              "uniqueItems": true
+            },
+            "fenomeni_associati": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["povertà di contenuto", "latenza aumentata", "schizofasia", "ecolalia", "neologismi", "paralogismi"] },
+              "uniqueItems": true
+            }
+          }
+        },
+        "umore_affettivita_emotivita": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "umore": { "type": "string", "enum": ["eutimico", "depresso", "euforico", "sereno", "fluttuante"] },
+            "affettivita_emotivita": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["adeguata", "scarsa", "labile", "vivace", "sintona", "disintonica", "piatta", "coartata", "angosciata", "apatica", "ostile"] },
+              "uniqueItems": true
+            },
+            "correlati": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["tristezza vitale", "apatia/abulia/astenia", "ambivalenza", "labilità", "inadeguatezza", "anedonia", "alessitimia", "disforia", "ipomania", "mania"] },
+              "uniqueItems": true
+            },
+            "partecipazione_emotiva": { "type": "string", "enum": ["intensa", "ridotta", "variata", "stabile", "asincronica"] },
+            "ansia": { "type": "string", "enum": ["assente", "generalizzata", "somatizzata", "irrequietudine", "paura", "panico"] }
+          }
+        },
+        "pensiero_forma_contenuto": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "forma": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["coerente", "rallentato", "accelerato", "deragliato", "tangenziale", "blocchi"] },
+              "uniqueItems": true
+            },
+            "contenuti": {
+              "type": "array",
+              "items": { "type": "string", "enum": ["idee prevalenti", "idee dominanti", "deliri persecutori", "deliri grandiosi", "deliri somatici", "deliri di gelosia", "deliri di colpa", "deliri religiosi"] },
+              "uniqueItems": true
+            }
+          }
+        },
+        "percezioni": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["nessuna alterazione", "illusioni", "allucinazioni uditive", "allucinazioni visive", "allucinazioni olfattive", "allucinazioni tattili", "allucinazioni cenestesiche"] },
+          "uniqueItems": true
+        },
+        "funzioni_cognitive": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "attenzione": { "type": "string", "enum": ["nella norma", "discontinua", "distraibile", "ridotta"] },
+            "memoria": { "type": "string", "enum": ["nella norma", "recente deficitaria", "remota deficitaria"] },
+            "capacita_intellettive": { "type": "string", "enum": ["nella norma", "sotto la norma", "sopra la norma"] }
+          }
+        },
+        "comportamento_psicomotorio": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["agitazione", "eccitamento", "arresto", "catatonia/catatessia", "automatismi al comando", "negativismo (passivo)", "negativismo (attivo)", "manierismi", "stereotipie", "ecoprassia", "ecomimia", "paleocinesie", "fuga", "tendenze autoaggressive", "tendenze eteroaggressive", "azioni coatte", "rituali/cerimoniali", "evitamento"] },
+          "uniqueItems": true
+        },
+        "disponibilita_colloquio": { "type": "string", "enum": ["chiede di parlare", "collaborativo", "insistente", "reticente", "mutacico", "rifiuta"] },
+        "insight_giudizio": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "coscienza_malattia": { "type": "string", "enum": ["assente", "parziale", "incongrua", "buona"] },
+            "giudizio": { "type": "string", "enum": ["conservato", "compromesso"] }
+          }
+        }
+      }
+    }
+  }
+}

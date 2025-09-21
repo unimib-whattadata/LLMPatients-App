@@ -11,7 +11,8 @@ import {
   ClipboardDocumentCheckIcon,
   UserCircleIcon,
   ClockIcon,
-  MapIcon
+  MapIcon,
+  DocumentTextIcon
 } from "@heroicons/react/24/outline";
 
 /**
@@ -68,6 +69,7 @@ export function getNavSections(
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
           { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
           { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: UserPlusIcon },
+          { label: "Schema Valutazione", href: "/dashboard/patient-details", icon: DocumentTextIcon },
         ]
       }
     ];
@@ -94,6 +96,7 @@ export function getNavSections(
         items: [
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
           { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
+          { label: "Schema Valutazione", href: "/dashboard/patient-details", icon: DocumentTextIcon },
         ]
       }
     ];
