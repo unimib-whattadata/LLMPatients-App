@@ -97,7 +97,11 @@ export function StudentEvaluationsContent() {
 
   const getStatusBadge = (status: string, score: number) => {
     if (status === "completed") {
-      const statusClass = score >= 80 ? "status-tag status-tag--excellent" : score >= 60 ? "status-tag status-tag--good" : "status-tag status-tag--needs-improvement";
+      const statusClass = score >= 80
+        ? "pill pill--sm status-tag status-tag--excellent"
+        : score >= 60
+        ? "pill pill--sm status-tag status-tag--good"
+        : "pill pill--sm status-tag status-tag--needs-improvement";
       return (
         <span className={statusClass}>
           {score >= 80 ? "Eccellente" : score >= 60 ? "Buono" : "Da migliorare"}
@@ -105,7 +109,7 @@ export function StudentEvaluationsContent() {
       );
     }
     return (
-      <span className="status-tag status-tag--in-progress">
+      <span className="pill pill--sm status-tag status-tag--in-progress">
         In corso
       </span>
     );
@@ -340,7 +344,15 @@ export function StudentEvaluationsContent() {
                           </span>
                           <span className="text-sm font-medium">{evaluation.difficulty}</span>
                         </div>
-                        <div className={`status-tag font-bold text-sm ${evaluation.score >= 80 ? "status-tag--excellent" : evaluation.score >= 60 ? "status-tag--good" : "status-tag--needs-improvement"}`}>
+                        <div
+                          className={`pill pill--sm status-tag font-bold text-sm ${
+                            evaluation.score >= 80
+                              ? "status-tag--excellent"
+                              : evaluation.score >= 60
+                              ? "status-tag--good"
+                              : "status-tag--needs-improvement"
+                          }`}
+                        >
                           {evaluation.score}/100
                         </div>
                         {getStatusBadge(evaluation.status, evaluation.score)}

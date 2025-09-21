@@ -744,7 +744,7 @@ export function PatientDetailsContent() {
               {getFieldDisplayName(fieldKey)}
             </h4>
             {showFieldTypes && fieldDef.type && (
-              <span className="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-semibold rounded-full bg-accent-500/20 text-accent-100 flex-shrink-0">
+              <span className="pill pill--sm pill--accent flex-shrink-0">
                 {fieldDef.type}
                 {isArray && "[]"}
               </span>
@@ -786,7 +786,7 @@ export function PatientDetailsContent() {
               {fieldDef.enum!.map((value) => (
                 <span
                   key={value}
-                  className="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-semibold rounded-full bg-accent-500/20 text-accent-100"
+                  className="pill pill--sm pill--accent"
                 >
                   {getEnumDisplayName(value)}
                 </span>

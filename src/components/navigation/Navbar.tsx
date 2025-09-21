@@ -179,11 +179,13 @@ export function Navbar({
             
             {/* Role badge */}
             {displayUser && (
-              <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${
-                displayUser.role === "admin" 
-                  ? "bg-secondary-500/20 text-secondary-100" 
-                  : "bg-accent-500/20 text-accent-100"
-              }`}>
+              <span
+                className={`pill pill--sm ${
+                  displayUser.role === "admin"
+                    ? "site-menu__role-badge site-menu__role-badge--admin"
+                    : "site-menu__role-badge site-menu__role-badge--user"
+                }`}
+              >
                 <span className="hidden sm:inline">
                   {displayUser.role === "admin" ? "Admin" : "Utente"}
                 </span>
@@ -281,8 +283,8 @@ export function Navbar({
 
     const roleLabel = displayUser?.role === "admin" ? "Admin" : "Utente";
     const badgeClass = displayUser?.role === "admin"
-      ? "site-menu__role-badge site-menu__role-badge--admin"
-      : "site-menu__role-badge site-menu__role-badge--user";
+      ? "pill pill--sm site-menu__role-badge site-menu__role-badge--admin"
+      : "pill pill--sm site-menu__role-badge site-menu__role-badge--user";
 
     const desktopActions = displayUser ? (
       <div className="site-menu__auth-block">

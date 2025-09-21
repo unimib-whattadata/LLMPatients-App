@@ -64,9 +64,9 @@ export function MySimulationsContent() {
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      available: { class: "status-tag status-tag--available", text: "Disponibile" },
-      "in-progress": { class: "status-tag status-tag--in-progress", text: "In corso" },
-      completed: { class: "status-tag status-tag--completed", text: "Completata" }
+      available: { class: "pill pill--sm status-tag status-tag--available", text: "Disponibile" },
+      "in-progress": { class: "pill pill--sm status-tag status-tag--in-progress", text: "In corso" },
+      completed: { class: "pill pill--sm status-tag status-tag--completed", text: "Completata" }
     };
     
     const config = statusConfig[status as keyof typeof statusConfig];
@@ -182,7 +182,7 @@ export function MySimulationsContent() {
               onClick={() => setFilter(tab.key)}
               role="tab"
               aria-selected={filter === tab.key}
-              className={`dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
+              className={`pill pill--interactive dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
             >
               {tab.label}
             </button>

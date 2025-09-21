@@ -10,9 +10,9 @@ interface PatientTagsProps {
 }
 
 const CATEGORY_CLASS: Record<string, string> = {
-  psychological: "patient-tag patient-tag--psychological",
-  physical: "patient-tag patient-tag--physical",
-  behavioral: "patient-tag patient-tag--behavioral",
+  psychological: "pill patient-tag patient-tag--psychological",
+  physical: "pill patient-tag patient-tag--physical",
+  behavioral: "pill patient-tag patient-tag--behavioral",
 };
 
 export function PatientTags({ tags }: PatientTagsProps) {
@@ -28,14 +28,14 @@ export function PatientTags({ tags }: PatientTagsProps) {
       {visibleTags.map((tag) => (
         <span
           key={tag.id}
-          className={CATEGORY_CLASS[tag.category] ?? "patient-tag"}
+          className={CATEGORY_CLASS[tag.category] ?? "pill patient-tag"}
           title={`Categoria: ${tag.category}`}
         >
           {tag.label}
         </span>
       ))}
       {surplus > 0 && (
-        <span className="patient-tag patient-tag--more" title={`Altri ${surplus} tag`}>
+        <span className="pill patient-tag patient-tag--more" title={`Altri ${surplus} tag`}>
           +{surplus}
         </span>
       )}

@@ -14,13 +14,13 @@ const BREADCRUMB_NAV = "flex flex-wrap items-center gap-2 text-sm text-text-tert
 const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
 const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md text-center";
 const DIFFICULTY_BADGES: Record<string, string> = {
-  Facile: "text-primary-200 bg-primary-800/20",
-  Medio: "text-secondary-200 bg-secondary-800/20",
-  Difficile: "text-accent-200 bg-accent-800/20",
+  Facile: "pill pill--lg pill--primary",
+  Medio: "pill pill--lg pill--secondary",
+  Difficile: "pill pill--lg pill--accent",
 };
 
 function getDifficultyClass(value: string) {
-  return DIFFICULTY_BADGES[value] ?? "text-text-tertiary bg-background-primary/30";
+  return DIFFICULTY_BADGES[value] ?? "pill pill--lg pill--muted";
 }
 
 function normalizeParam(value: unknown): string | null {
@@ -92,7 +92,7 @@ export default function PatientDetailPage() {
 
           <div className="flex flex-wrap items-center gap-4">
             <h1 className="text-3xl font-bold text-text-primary">{patient.name}</h1>
-            <span className={`px-3 py-1 text-sm font-medium rounded-full ${getDifficultyClass(patient.difficulty)}`}>
+            <span className={getDifficultyClass(patient.difficulty)}>
               {patient.difficulty}
             </span>
           </div>

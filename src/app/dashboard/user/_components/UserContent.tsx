@@ -164,21 +164,21 @@ export const UserContent = React.memo(function UserContent() {
 
               <div className="dashboard-action-grid">
                 <div className="dashboard-action-card">
-                  <span className="dashboard-action-card__badge">Profilo</span>
+                  <span className="pill pill--sm dashboard-action-card__badge">Profilo</span>
                   <p className="dashboard-action-card__title">Mantieni aggiornate le tue informazioni</p>
                   <p className="dashboard-action-card__description">
                     Modifica nome, email e preferenze per ricevere suggerimenti piu pertinenti.
                   </p>
                 </div>
                 <div className="dashboard-action-card">
-                  <span className="dashboard-action-card__badge">Simulazioni</span>
+                  <span className="pill pill--sm dashboard-action-card__badge">Simulazioni</span>
                   <p className="dashboard-action-card__title">Accedi alle sessioni attive</p>
                   <p className="dashboard-action-card__description">
                     Prosegui con le simulazioni in corso o esplora nuovi scenari clinici.
                   </p>
                 </div>
                 <div className="dashboard-action-card">
-                  <span className="dashboard-action-card__badge">Progressi</span>
+                  <span className="pill pill--sm dashboard-action-card__badge">Progressi</span>
                   <p className="dashboard-action-card__title">Analizza la tua evoluzione</p>
                   <p className="dashboard-action-card__description">
                     Consulta le valutazioni ricevute e monitora la crescita delle tue competenze.
@@ -228,7 +228,7 @@ export const UserContent = React.memo(function UserContent() {
                           {formatDate(activity.createdAt)}
                         </div>
                       </div>
-                      <span className="dashboard-chip" aria-hidden="true">
+                      <span className="pill dashboard-chip" aria-hidden="true">
                         {activity.type}
                       </span>
                     </div>
@@ -333,9 +333,11 @@ export const UserContent = React.memo(function UserContent() {
                 <div>
                   <label className="label">Ruolo</label>
                   <div className="p-3 bg-background-secondary rounded-md">
-                    <span className={`dashboard-badge ${
-                      profile?.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
-                    }`}>
+                    <span
+                      className={`pill pill--sm dashboard-badge ${
+                        profile?.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
+                      }`}
+                    >
                       {profile?.role === "admin" ? "Amministratore" : "Utente"}
                     </span>
                   </div>

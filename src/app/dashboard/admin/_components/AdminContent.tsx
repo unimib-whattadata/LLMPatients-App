@@ -314,7 +314,7 @@ export function AdminContent() {
                         </div>
                         <div className="dashboard-activity-meta">{new Date(activity.createdAt).toLocaleDateString()}</div>
                       </div>
-                      <span className="dashboard-chip" aria-hidden="true">{activity.type}</span>
+                      <span className="pill dashboard-chip" aria-hidden="true">{activity.type}</span>
                     </div>
                   ))}
                 </div>

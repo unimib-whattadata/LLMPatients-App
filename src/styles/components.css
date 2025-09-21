@@ -153,6 +153,122 @@
     opacity: 0.6;
   }
 
+  /* ===== PILL SYSTEM ===== */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.1;
+    text-transform: var(--pill-case, none);
+    background: var(--pill-bg, color-mix(in srgb, var(--surface-tertiary) 92%, transparent));
+    color: var(--pill-color, var(--text-secondary));
+    border: var(--pill-border, 1px solid transparent);
+    box-shadow: var(--pill-shadow, none);
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pill--sm {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .pill--lg {
+    font-size: 0.85rem;
+    padding: 0.45rem 1.1rem;
+  }
+
+  .pill--uppercase {
+    --pill-case: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.68rem;
+  }
+
+  .pill--muted {
+    --pill-bg: color-mix(in srgb, var(--surface-tertiary) 88%, transparent);
+    --pill-color: var(--text-tertiary);
+  }
+
+  .pill--surface {
+    --pill-bg: color-mix(in srgb, var(--surface-tertiary) 94%, transparent);
+    --pill-color: var(--text-secondary);
+  }
+
+  .pill--outline {
+    --pill-bg: transparent;
+    --pill-border: 1px solid color-mix(in srgb, var(--text-secondary) 38%, transparent);
+    --pill-color: var(--text-primary);
+  }
+
+  .pill--ghost {
+    --pill-bg: transparent;
+    --pill-color: var(--text-tertiary);
+    --pill-border: 1px solid transparent;
+  }
+
+  .pill--accent {
+    --pill-bg: color-mix(in srgb, var(--color-accent-500) 22%, transparent);
+    --pill-color: var(--color-accent-100);
+  }
+
+  .pill--secondary {
+    --pill-bg: color-mix(in srgb, var(--color-secondary-500) 22%, transparent);
+    --pill-color: color-mix(in srgb, var(--color-secondary-50) 90%, white);
+  }
+
+  .pill--primary {
+    --pill-bg: color-mix(in srgb, var(--color-primary-500) 22%, transparent);
+    --pill-color: var(--color-primary-100);
+  }
+
+  .pill--success {
+    --pill-bg: color-mix(in srgb, var(--color-success-500) 22%, transparent);
+    --pill-color: var(--color-success-50);
+  }
+
+  .pill--warning {
+    --pill-bg: color-mix(in srgb, var(--color-warning-500) 22%, transparent);
+    --pill-color: color-mix(in srgb, var(--color-warning-50) 92%, white);
+  }
+
+  .pill--danger {
+    --pill-bg: color-mix(in srgb, var(--color-error-500) 22%, transparent);
+    --pill-color: var(--color-error-50);
+  }
+
+  .pill--info {
+    --pill-bg: color-mix(in srgb, var(--color-info-500) 22%, transparent);
+    --pill-color: var(--color-info-50);
+  }
+
+  .pill--interactive {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .pill--interactive:hover {
+    transform: translateY(-1px);
+  }
+
+  .pill--interactive:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+  }
+
+  .pill--interactive:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   /* ===== BUTTON VARIANTS ===== */
   .btn-primary {
     background: var(--home-primary);
@@ -1769,14 +1885,10 @@
 
 
   .dashboard-chip {
-    display: inline-flex;
-    align-items: center;
     gap: 0.5rem;
     font-size: 0.8rem;
-    padding: 0.55rem 0.85rem;
-    border-radius: 999px;
-    background: rgba(19, 19, 19, 0.35);
-    color: rgba(236, 236, 236, 0.82);
+    --pill-bg: rgba(19, 19, 19, 0.35);
+    --pill-color: rgba(236, 236, 236, 0.82);
   }
 
   .dashboard-stack {
@@ -1928,9 +2040,10 @@
 
   .dashboard-action-card__badge {
     font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.22em;
-    color: var(--text-tertiary);
+    letter-spacing: 0.18em;
+    --pill-case: uppercase;
+    --pill-bg: color-mix(in srgb, var(--surface-tertiary) 92%, transparent);
+    --pill-color: var(--text-tertiary);
   }
 
   .dashboard-action-card__title {
@@ -2159,23 +2272,19 @@
   }
 
   .site-menu__role-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
     font-size: 0.7rem;
-    font-weight: 600;
-    white-space: nowrap;
+    --pill-bg: color-mix(in srgb, var(--surface-tertiary) 92%, transparent);
+    --pill-color: var(--text-secondary);
   }
 
   .site-menu__role-badge--admin {
-    background: rgba(198, 154, 57, 0.18);
-    color: var(--color-secondary-500);
+    --pill-bg: color-mix(in srgb, var(--color-secondary-500) 22%, transparent);
+    --pill-color: color-mix(in srgb, var(--color-secondary-50) 88%, white);
   }
 
   .site-menu__role-badge--user {
-    background: rgba(167, 160, 202, 0.18);
-    color: var(--color-accent-500);
+    --pill-bg: color-mix(in srgb, var(--color-accent-500) 22%, transparent);
+    --pill-color: var(--color-accent-100);
   }
 
   .site-menu--dark {
@@ -2773,35 +2882,30 @@
   }
 
   .patient-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.4rem 0.9rem;
     font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 999px;
-    background: rgba(20, 24, 17, 0.65);
-    color: var(--home-text-soft);
     letter-spacing: 0.02em;
+    --pill-bg: rgba(20, 24, 17, 0.65);
+    --pill-color: var(--home-text-soft);
   }
 
   .patient-tag--psychological {
-    background: rgba(125, 113, 166, 0.22);
-    color: #d3c8f0;
+    --pill-bg: rgba(125, 113, 166, 0.22);
+    --pill-color: #d3c8f0;
   }
 
   .patient-tag--physical {
-    background: rgba(143, 157, 86, 0.22);
-    color: var(--home-text-strong);
+    --pill-bg: rgba(143, 157, 86, 0.22);
+    --pill-color: var(--home-text-strong);
   }
 
   .patient-tag--behavioral {
-    background: rgba(197, 150, 79, 0.22);
-    color: #efd7b4;
+    --pill-bg: rgba(197, 150, 79, 0.22);
+    --pill-color: #efd7b4;
   }
 
   .patient-tag--more {
-    background: rgba(20, 24, 17, 0.5);
-    color: var(--home-text-muted);
+    --pill-bg: rgba(20, 24, 17, 0.5);
+    --pill-color: var(--home-text-muted);
   }
 
   .patient-tag-group {
@@ -2813,45 +2917,40 @@
 
   /* ===== STATUS TAGS ===== */
   .status-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.4rem 0.9rem;
     font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 999px;
-    background: rgba(20, 24, 17, 0.65);
-    color: var(--home-text-soft);
     letter-spacing: 0.02em;
+    --pill-bg: rgba(20, 24, 17, 0.65);
+    --pill-color: var(--home-text-soft);
   }
 
   .status-tag--completed {
-    background: rgba(143, 157, 86, 0.22);
-    color: var(--home-text-strong);
+    --pill-bg: rgba(143, 157, 86, 0.22);
+    --pill-color: var(--home-text-strong);
   }
 
   .status-tag--in-progress {
-    background: rgba(197, 150, 79, 0.22);
-    color: #efd7b4;
+    --pill-bg: rgba(197, 150, 79, 0.22);
+    --pill-color: #efd7b4;
   }
 
   .status-tag--available {
-    background: rgba(125, 113, 166, 0.22);
-    color: #d3c8f0;
+    --pill-bg: rgba(125, 113, 166, 0.22);
+    --pill-color: #d3c8f0;
   }
 
   .status-tag--excellent {
-    background: rgba(143, 157, 86, 0.22);
-    color: var(--home-text-strong);
+    --pill-bg: rgba(143, 157, 86, 0.22);
+    --pill-color: var(--home-text-strong);
   }
 
   .status-tag--good {
-    background: rgba(197, 150, 79, 0.22);
-    color: #efd7b4;
+    --pill-bg: rgba(197, 150, 79, 0.22);
+    --pill-color: #efd7b4;
   }
 
   .status-tag--needs-improvement {
-    background: rgba(210, 122, 92, 0.22);
-    color: #f2c4a8;
+    --pill-bg: rgba(210, 122, 92, 0.22);
+    --pill-color: #f2c4a8;
   }
 
   @media (max-width: 900px) {
@@ -3025,26 +3124,21 @@
   }
 
   .dashboard-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.3rem 0.8rem;
-    border-radius: 9999px;
-    font-size: var(--font-size-xs);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background: var(--surface-tertiary);
-    color: var(--text-secondary);
+    --pill-case: uppercase;
+    --pill-bg: color-mix(in srgb, var(--surface-tertiary) 94%, transparent);
+    --pill-color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
   }
 
   .dashboard-badge-admin {
-    background: rgba(198, 154, 57, 0.22);
-    color: var(--color-secondary-500);
+    --pill-bg: color-mix(in srgb, var(--color-secondary-500) 22%, transparent);
+    --pill-color: color-mix(in srgb, var(--color-secondary-50) 90%, white);
   }
 
   .dashboard-badge-user {
-    background: rgba(167, 160, 202, 0.22);
-    color: var(--color-accent-500);
+    --pill-bg: color-mix(in srgb, var(--color-accent-500) 22%, transparent);
+    --pill-color: var(--color-accent-100);
   }
 
   .dashboard-activity-item {
@@ -3829,42 +3923,27 @@
   .dashboard-pill-nav {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem;
+    gap: 0.5rem;
+    padding: 0.4rem;
     background: var(--surface-tertiary);
     border-radius: 0.75rem;
   }
   
   .dashboard-pill-nav__button {
     position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    padding: 0.6rem 1.1rem;
-    border-radius: 0.5rem;
-    color: var(--text-secondary);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    --pill-bg: transparent;
+    --pill-border: none;
+    --pill-color: var(--text-secondary);
   }
   
   .dashboard-pill-nav__button:hover {
-    color: var(--text-primary);
+    --pill-color: var(--text-primary);
   }
   
   .dashboard-pill-nav__button.is-active {
-    color: var(--text-primary);
-    background: var(--accent-success);
-  }
-  
-  .dashboard-pill-nav__button.is-active::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: inherit;
-    pointer-events: none;
+    --pill-bg: color-mix(in srgb, var(--accent-success) 35%, transparent);
+    --pill-color: var(--text-primary);
+    --pill-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-success) 55%, transparent);
   }
 }

@@ -361,7 +361,7 @@ export function ManageUsersContent() {
                           <option value="admin">Admin</option>
                         </select>
                       ) : (
-                        <span className={`dashboard-badge ${
+                        <span className={`pill pill--sm dashboard-badge ${
                           user.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
                         }`}>
                           {user.role}

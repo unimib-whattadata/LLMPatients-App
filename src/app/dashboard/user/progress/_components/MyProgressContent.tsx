@@ -93,6 +93,13 @@ export function MyProgressContent() {
     ? achievements 
     : achievements.filter(a => a.category === selectedCategory);
 
+  const achievementBadgeClass: Record<Achievement["category"], string> = {
+    clinical: "pill pill--sm pill--accent",
+    communication: "pill pill--sm pill--success",
+    emergency: "pill pill--sm pill--danger",
+    academic: "pill pill--sm pill--accent",
+  };
+
   const totalSimulations = 15;
   const completedSimulations = 12;
   const averageScore = 82;
@@ -236,12 +243,7 @@ export function MyProgressContent() {
                     <span className="text-xs text-text-tertiary">
                       Sbloccato il {achievement.unlockedAt}
                     </span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${{
-                      clinical: "bg-accent-100 text-accent-800",
-                      communication: "bg-success-50 text-success-700",
-                      emergency: "bg-error-100 text-error-800",
-                      academic: "bg-accent-100 text-accent-800"
-                    }[achievement.category]}`}>
+                    <span className={achievementBadgeClass[achievement.category]}>
                       {achievement.category}
                     </span>
                   </div>
