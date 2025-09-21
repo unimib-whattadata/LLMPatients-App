@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { DocumentTextIcon, ChevronDownIcon, ChevronRightIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 // Import the patient details schema
 import patientDetailsSchema from "~/server/db/patient-details.json";
@@ -41,8 +40,29 @@ export function PatientDetailsContent() {
   const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
   const [allExpanded, setAllExpanded] = useState(false);
+  const [showFieldTypes, setShowFieldTypes] = useState(true);
 
   const schema = patientDetailsSchema as PatientDetailsSchema;
+
+  /**
+   * Collect all field keys recursively for expansion controls
+   */
+  const collectFieldKeys = (fields?: Record<string, FieldDefinition>): string[] => {
+    if (!fields) return [];
+    const keys: string[] = [];
+
+    const traverse = (entries: Record<string, FieldDefinition>) => {
+      Object.entries(entries).forEach(([key, def]) => {
+        keys.push(key);
+        if (def.properties) {
+          traverse(def.properties);
+        }
+      });
+    };
+
+    traverse(fields);
+    return keys;
+  };
 
   /**
    * Filter sections based on search term
@@ -115,11 +135,22 @@ export function PatientDetailsContent() {
     if (allExpanded) {
       setExpandedSections(new Set());
       setExpandedSubsections(new Set());
-    } else {
-      const allSectionKeys = new Set(filteredSections.map(([key]) => key));
-      setExpandedSections(allSectionKeys);
+      setAllExpanded(false);
+      return;
     }
-    setAllExpanded(!allExpanded);
+
+    const allSectionKeys = new Set(filteredSections.map(([key]) => key));
+    const allFieldKeys = new Set<string>();
+
+    filteredSections.forEach(([, sectionDef]) => {
+      collectFieldKeys(sectionDef.properties).forEach((fieldKey) => {
+        allFieldKeys.add(fieldKey);
+      });
+    });
+
+    setExpandedSections(allSectionKeys);
+    setExpandedSubsections(allFieldKeys);
+    setAllExpanded(true);
   };
 
   /**
@@ -691,72 +722,87 @@ export function PatientDetailsContent() {
     const hasSubfields = fieldDef.properties && Object.keys(fieldDef.properties).length > 0;
     const hasEnumValues = fieldDef.enum && fieldDef.enum.length > 0;
     const isArray = fieldDef.type === "array";
+    const indentationStyle = level > 0 ? { paddingLeft: `${level * 1.15}rem` } : undefined;
+    const enumIndentationStyle = { paddingLeft: `${(level + 1) * 1.15}rem` };
 
-    return (
-      <div key={fieldKey} className={`${level > 0 ? 'ml-3' : ''}`}>
-        <div 
-          className={`flex items-center justify-between p-2 rounded border ${
-            hasSubfields ? 'cursor-pointer hover:bg-background-secondary' : 'bg-background-secondary'
-          }`}
-          onClick={hasSubfields ? () => toggleSubsection(fieldKey) : undefined}
-        >
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2">
-              <h4 className="font-medium text-text-primary text-sm truncate">
-                {getFieldDisplayName(fieldKey)}
-              </h4>
-              {fieldDef.type && (
-                <span className="inline-block px-1.5 py-0.5 text-xs bg-accent-100 text-accent-600 rounded flex-shrink-0">
-                  {fieldDef.type}
-                  {isArray && "[]"}
-                </span>
-              )}
-            </div>
-            {fieldDef.description && (
-              <p className="text-xs text-text-secondary mt-1 line-clamp-2">
-                {fieldDef.description}
-              </p>
+    const indicator = hasSubfields ? (
+      <span className="flex h-6 w-6 items-center justify-center rounded-md border border-border-primary text-xs font-semibold text-text-secondary">
+        {isExpanded ? "−" : "+"}
+      </span>
+    ) : (
+      <span className="flex h-6 w-6 items-center justify-center text-sm text-text-tertiary">•</span>
+    );
+
+    const fieldContent = (
+      <>
+        <div className="flex h-6 w-6 items-center justify-center flex-shrink-0">
+          {indicator}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h4 className="text-sm font-medium text-text-primary truncate">
+              {getFieldDisplayName(fieldKey)}
+            </h4>
+            {showFieldTypes && fieldDef.type && (
+              <span className="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-semibold rounded-full bg-accent-500/20 text-accent-100 flex-shrink-0">
+                {fieldDef.type}
+                {isArray && "[]"}
+              </span>
             )}
           </div>
-          {hasSubfields && (
-            <div className="ml-2 flex-shrink-0">
-              {isExpanded ? (
-                <ChevronDownIcon className="w-3 h-3 text-text-tertiary" />
-              ) : (
-                <ChevronRightIcon className="w-3 h-3 text-text-tertiary" />
-              )}
-            </div>
+          {fieldDef.description && (
+            <p className="text-xs text-text-secondary mt-1 line-clamp-2">
+              {fieldDef.description}
+            </p>
           )}
         </div>
+      </>
+    );
 
-        {hasSubfields && isExpanded && (
-          <div className="mt-1 space-y-1">
-            {Object.entries(fieldDef.properties!).map(([subFieldKey, subFieldDef]) => 
-              renderField(subFieldKey, subFieldDef, level + 1)
-            )}
+    return (
+      <li key={fieldKey} className="list-none space-y-1">
+        {hasSubfields ? (
+          <button
+            type="button"
+            onClick={() => toggleSubsection(fieldKey)}
+            aria-expanded={isExpanded}
+            style={indentationStyle}
+            className="flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors hover:bg-background-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+          >
+            {fieldContent}
+          </button>
+        ) : (
+          <div
+            style={indentationStyle}
+            className="flex items-start gap-2 px-1 py-1.5"
+          >
+            {fieldContent}
           </div>
         )}
 
         {hasEnumValues && (
-          <div className="mt-1 p-2 bg-background-tertiary rounded text-xs">
-            <div className="flex flex-wrap gap-1">
-              {fieldDef.enum!.slice(0, 8).map((value) => (
-                <span 
-                  key={value} 
-                  className="px-1.5 py-0.5 text-xs bg-background-secondary text-text-primary rounded border"
+          <div style={enumIndentationStyle} className="mt-1.5">
+            <div className="flex flex-wrap gap-1.5">
+              {fieldDef.enum!.map((value) => (
+                <span
+                  key={value}
+                  className="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-semibold rounded-full bg-accent-500/20 text-accent-100"
                 >
                   {getEnumDisplayName(value)}
                 </span>
               ))}
-              {fieldDef.enum!.length > 8 && (
-                <span className="px-1.5 py-0.5 text-xs text-text-tertiary">
-                  +{fieldDef.enum!.length - 8} altri
-                </span>
-              )}
             </div>
           </div>
         )}
-      </div>
+
+        {hasSubfields && isExpanded && (
+          <ul className="mt-1.5 space-y-1.5" role="group">
+            {Object.entries(fieldDef.properties!).map(([subFieldKey, subFieldDef]) =>
+              renderField(subFieldKey, subFieldDef, level + 1)
+            )}
+          </ul>
+        )}
+      </li>
     );
   };
 
@@ -766,42 +812,33 @@ export function PatientDetailsContent() {
   const renderSection = (sectionKey: string, sectionDef: SectionDefinition) => {
     const isExpanded = expandedSections.has(sectionKey);
     const hasFields = sectionDef.properties && Object.keys(sectionDef.properties).length > 0;
-    const fieldCount = hasFields ? Object.keys(sectionDef.properties!).length : 0;
 
     return (
-      <div key={sectionKey} className="dashboard-panel">
-        <div 
-          className="flex items-center justify-between cursor-pointer p-3 hover:bg-background-secondary rounded"
+      <div key={sectionKey} className="dashboard-panel dashboard-panel--compact">
+        <button
+          type="button"
           onClick={() => toggleSection(sectionKey)}
+          aria-expanded={isExpanded}
+          className={`w-full flex items-center justify-between rounded-lg px-3 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 ${
+            isExpanded ? 'bg-background-secondary' : 'bg-background-tertiary hover:bg-background-secondary'
+          }`}
         >
-          <div className="flex items-center gap-3">
-            <DocumentTextIcon className="w-4 h-4 text-primary-600 flex-shrink-0" />
-            <div>
-              <h3 className="text-base font-semibold text-text-primary">
-                {getSectionDisplayName(sectionKey)}
-              </h3>
-              {fieldCount > 0 && (
-                <p className="text-xs text-text-tertiary">
-                  {fieldCount} {fieldCount === 1 ? 'campo' : 'campi'}
-                </p>
-              )}
-            </div>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-semibold text-text-primary">
+              {getSectionDisplayName(sectionKey)}
+            </h3>
           </div>
-          <div className="ml-2 flex-shrink-0">
-            {isExpanded ? (
-              <ChevronDownIcon className="w-4 h-4 text-text-tertiary" />
-            ) : (
-              <ChevronRightIcon className="w-4 h-4 text-text-tertiary" />
-            )}
-          </div>
-        </div>
+          <span className="ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border border-border-primary text-xs font-semibold text-text-secondary">
+            {isExpanded ? "−" : "+"}
+          </span>
+        </button>
 
         {isExpanded && hasFields && (
-          <div className="mt-2 space-y-1 border-t border-border-primary pt-2">
-            {Object.entries(sectionDef.properties!).map(([fieldKey, fieldDef]) => 
+          <ul className="mt-2 space-y-1.5" role="group">
+            {Object.entries(sectionDef.properties!).map(([fieldKey, fieldDef]) =>
               renderField(fieldKey, fieldDef)
             )}
-          </div>
+          </ul>
         )}
       </div>
     );
@@ -824,32 +861,45 @@ export function PatientDetailsContent() {
 
         {/* Search Bar and Controls */}
         <div className="mb-4 space-y-3">
-          <div className="relative">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+          <div className="auth-input-group">
+            <label htmlFor="patient-schema-search" className="auth-label">
+              Cerca nello schema
+            </label>
             <input
+              id="patient-schema-search"
               type="text"
-              placeholder="Cerca sezioni, campi o valori..."
+              placeholder="Digita parola chiave..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 text-sm bg-background-secondary border border-border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="auth-input"
             />
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-text-tertiary">
             {searchTerm ? (
-              <p className="text-xs text-text-tertiary">
+              <p>
                 {filteredSections.length} sezioni trovate
               </p>
             ) : (
-              <p className="text-xs text-text-tertiary">
+              <p>
                 {filteredSections.length} sezioni totali
               </p>
             )}
-            <button
-              onClick={toggleAllSections}
-              className="text-xs px-3 py-1 bg-background-secondary hover:bg-background-tertiary text-text-primary rounded border border-border-primary transition-colors"
-            >
-              {allExpanded ? "Contrai tutto" : "Espandi tutto"}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                className="btn btn-sm btn-outline"
+                onClick={() => setShowFieldTypes((prev) => !prev)}
+              >
+                {showFieldTypes ? "Nascondi tipi campo" : "Mostra tipi campo"}
+              </button>
+              <button
+                onClick={toggleAllSections}
+                type="button"
+                className="btn btn-sm btn-ghost"
+              >
+                {allExpanded ? "Contrai tutto" : "Espandi tutto"}
+              </button>
+            </div>
           </div>
         </div>
 
