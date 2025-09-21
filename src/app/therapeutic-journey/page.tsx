@@ -1,7 +1,7 @@
 "use client";
 
 import { SharedLayout } from "~/components/layout/SharedLayout";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 
 type PathPoint = {
   x: number;
@@ -47,80 +47,90 @@ const timelinePathPoints: PathPoint[] = [
   { x: 520, y: 1460 },
 ];
 
-const TIMELINE_BASE_WIDTH = 960;
-const TIMELINE_BASE_HEIGHT = 1450;
-const TIMELINE_TOOLTIP_OFFSET_X = 100;
-const TIMELINE_NODE_OFFSET_X = -14;
+// Timeline configuration constants
+const TIMELINE_CONFIG = {
+  BASE_WIDTH: 960,
+  BASE_HEIGHT: 1450,
+  TOOLTIP_OFFSET_X: 100,
+  NODE_OFFSET_X: -14,
+  PATH_RADIUS: 60,
+  MIN_CIRCLE_SIZE: 40,
+  MAX_CIRCLE_SIZE: 62,
+  MIN_FONT_SIZE: 14,
+  MAX_FONT_SIZE: 18,
+} as const;
 
-const knowledgeTips = [
-  "Ascolta attivamente il paziente senza interrompere.",
-  "Mantieni un atteggiamento empatico e non giudicante.",
-  "Fai domande aperte per approfondire la comprensione.",
-  "Osserva il linguaggio del corpo e le emozioni.",
-];
+// Tips configuration
+const TIPS_CONFIG = {
+  KNOWLEDGE: [
+    "Ascolta attivamente il paziente senza interrompere.",
+    "Mantieni un atteggiamento empatico e non giudicante.",
+    "Fai domande aperte per approfondire la comprensione.",
+    "Osserva il linguaggio del corpo e le emozioni.",
+  ],
+  INTERVENTION: [
+    "Utilizza tecniche di riformulazione per chiarire i concetti.",
+    "Proponi strategie concrete e personalizzate per il paziente.",
+    "Mantieni un approccio collaborativo e coinvolgente.",
+    "Monitora i progressi e adatta l'intervento di conseguenza.",
+    "Fornisci feedback costruttivo e incoraggiante.",
+    "Documenta accuratamente le osservazioni e i progressi.",
+  ],
+  CONCLUSION: [
+    "Riassumi i punti chiave emersi durante il percorso.",
+    "Valuta l'efficacia delle strategie implementate.",
+    "Pianifica eventuali follow-up o approfondimenti.",
+    "Celebra i progressi e i successi ottenuti.",
+  ],
+} as const;
 
-const interventionTips = [
-  "Utilizza tecniche di riformulazione per chiarire i concetti.",
-  "Proponi strategie concrete e personalizzate per il paziente.",
-  "Mantieni un approccio collaborativo e coinvolgente.",
-  "Monitora i progressi e adatta l'intervento di conseguenza.",
-  "Fornisci feedback costruttivo e incoraggiante.",
-  "Documenta accuratamente le osservazioni e i progressi.",
-];
-
-const conclusionTips = [
-  "Riassumi i punti chiave emersi durante il percorso.",
-  "Valuta l'efficacia delle strategie implementate.",
-  "Pianifica eventuali follow-up o approfondimenti.",
-  "Celebra i progressi e i successi ottenuti.",
-];
-
-const timelinePathD = buildRoundedOrthogonalPath(timelinePathPoints, 60);
+const timelinePathD = buildRoundedOrthogonalPath(timelinePathPoints, TIMELINE_CONFIG.PATH_RADIUS);
 
 type StepDetails = {
   phaseTitle: string;
   sessionLabel: string;
-  tips: string[];
+  tips: readonly string[];
   backgroundColor: string;
   textColor: string;
   accentColor: string;
   bodyColor: string;
 };
 
-const getStepDetails = (stepId: number): StepDetails => {
-  if (stepId === 11) {
-    return {
-      phaseTitle: "Conclusione",
-      sessionLabel: "Seduta 11",
-      tips: conclusionTips,
-      backgroundColor: "#2a2548",
-      textColor: "#EEE9FF",
-      accentColor: "#B8A7F4",
-      bodyColor: "#E4DEFF",
-    };
-  }
-
-  if (stepId >= 3) {
-    return {
-      phaseTitle: "Fase di Intervento",
-      sessionLabel: "Sedute 3-10",
-      tips: interventionTips,
-      backgroundColor: "#1a2720",
-      textColor: "#E8F4E3",
-      accentColor: "#9BD0A8",
-      bodyColor: "#DAE7D8",
-    };
-  }
-
-  return {
+// Step details configuration
+const STEP_DETAILS_CONFIG = {
+  CONCLUSION: {
+    phaseTitle: "Conclusione",
+    sessionLabel: "Seduta 11",
+    tips: TIPS_CONFIG.CONCLUSION,
+    backgroundColor: "#2a2548",
+    textColor: "#EEE9FF",
+    accentColor: "#B8A7F4",
+    bodyColor: "#E4DEFF",
+  },
+  INTERVENTION: {
+    phaseTitle: "Fase di Intervento",
+    sessionLabel: "Sedute 3-10",
+    tips: TIPS_CONFIG.INTERVENTION,
+    backgroundColor: "#2a1f0f",
+    textColor: "#FFF4E6",
+    accentColor: "#E3B23C",
+    bodyColor: "#F5E6D3",
+  },
+  KNOWLEDGE: {
     phaseTitle: "Fase di Conoscenza",
     sessionLabel: "Sedute 1-2",
-    tips: knowledgeTips,
+    tips: TIPS_CONFIG.KNOWLEDGE,
     backgroundColor: "#1a2720",
     textColor: "#E8F4E3",
     accentColor: "#9BD0A8",
     bodyColor: "#DAE7D8",
-  };
+  },
+} as const;
+
+const getStepDetails = (stepId: number): StepDetails => {
+  if (stepId === 11) return STEP_DETAILS_CONFIG.CONCLUSION;
+  if (stepId >= 3) return STEP_DETAILS_CONFIG.INTERVENTION;
+  return STEP_DETAILS_CONFIG.KNOWLEDGE;
 };
 
 function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string {
@@ -212,14 +222,207 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 }
 
 
+// Close button component
+const CloseButton = ({ onClose }: { onClose: () => void }) => (
+  <button
+    onClick={onClose}
+    className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+    aria-label="Close"
+  >
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </button>
+);
+
+// Mobile close button component
+const MobileCloseButton = ({ onClose }: { onClose: () => void }) => (
+  <div
+    onClick={(e) => {
+      e.stopPropagation();
+      onClose();
+    }}
+    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
+    role="button"
+    tabIndex={0}
+    aria-label="Close"
+    onKeyDown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        e.stopPropagation();
+        onClose();
+      }
+    }}
+  >
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M6 18L18 6M6 6l12 12"
+      />
+    </svg>
+  </div>
+);
+
+// Timeline step component
+const TimelineStep = memo(({ 
+  step, 
+  circleSize, 
+  circleFontSize, 
+  onStepClick 
+}: { 
+  step: TimelineStep & { scaledTop: number; scaledLeft: number }; 
+  circleSize: number; 
+  circleFontSize: number; 
+  onStepClick: (stepId: number) => void; 
+}) => (
+  <div
+    key={step.id}
+    style={{
+      top: `${step.scaledTop}px`,
+      left: `${step.scaledLeft}px`,
+      backgroundColor: step.color,
+      color: step.textColor ?? "#0b0d06",
+      width: `${circleSize}px`,
+      height: `${circleSize}px`,
+      fontSize: `${circleFontSize}px`,
+    }}
+    className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
+    onClick={() => onStepClick(step.id)}
+  >
+    {step.id}
+  </div>
+));
+
+// Desktop tooltip component
+const DesktopTooltip = memo(({ 
+  activeDetails, 
+  tooltipPosition, 
+  onClose 
+}: { 
+  activeDetails: StepDetails; 
+  tooltipPosition: { top: number; left: number }; 
+  onClose: () => void; 
+}) => (
+  <div
+    className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
+    style={{
+      top: `${tooltipPosition.top}px`,
+      left: `${tooltipPosition.left}px`,
+      backgroundColor: activeDetails.backgroundColor,
+      color: activeDetails.textColor,
+    }}
+    onClick={(e) => e.stopPropagation()}
+  >
+    <div className="flex items-start justify-between">
+      <h2 className="text-heading-3 font-semibold text-white">
+        {activeDetails.phaseTitle}
+      </h2>
+      <CloseButton onClose={onClose} />
+    </div>
+    <h3 className="mt-6 text-base font-semibold text-white">
+      Consigli per essere un buon terapeuta
+    </h3>
+    <ul
+      className="mt-4 space-y-3 text-sm leading-relaxed"
+      style={{ color: activeDetails.bodyColor }}
+    >
+      {activeDetails.tips.map((tip, index) => (
+        <li
+          key={`tip-${index}`}
+          className="list-inside list-disc"
+          style={{ '--marker-color': activeDetails.accentColor } as React.CSSProperties}
+        >
+          {tip}
+        </li>
+      ))}
+    </ul>
+  </div>
+));
+
+// Mobile timeline step component
+const MobileTimelineStep = memo(({ 
+  step, 
+  details, 
+  isOpen, 
+  onStepClick, 
+  onClose 
+}: { 
+  step: TimelineStep; 
+  details: StepDetails; 
+  isOpen: boolean; 
+  onStepClick: (stepId: number) => void; 
+  onClose: () => void; 
+}) => (
+  <div key={`mobile-step-${step.id}`} className="relative">
+    <span
+      className="absolute -left-6.5 top-4 flex h-3 w-3 items-center justify-center"
+      aria-hidden
+    >
+      <span
+        className="block h-3 w-3 rounded-full"
+        style={{ backgroundColor: step.color }}
+      />
+    </span>
+
+    <button
+      type="button"
+      onClick={() => onStepClick(step.id)}
+      aria-expanded={isOpen}
+      className="w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#4F9D69]"
+      style={{ backgroundColor: details.backgroundColor, color: details.textColor }}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/70">
+            Step {step.id}
+          </p>
+          <h2 className="mt-2 text-base font-semibold text-white">
+            {details.phaseTitle}
+          </h2>
+        </div>
+        {isOpen && <MobileCloseButton onClose={onClose} />}
+      </div>
+
+      {isOpen && (
+        <div className="mt-4">
+          <h3 className="text-sm font-semibold text-white">
+            Consigli per essere un buon terapeuta
+          </h3>
+          <ul
+            className="mt-3 space-y-2 text-sm leading-relaxed"
+            style={{ color: details.bodyColor }}
+          >
+            {details.tips.map((tip, index) => (
+              <li
+                key={`mobile-tip-${step.id}-${index}`}
+                className="list-inside list-disc"
+                style={{ '--marker-color': details.accentColor } as React.CSSProperties}
+              >
+                {tip}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </button>
+  </div>
+));
+
 export default function TherapeuticJourneyPage() {
   const [session, setSession] = useState<any>(null);
   const [activeBox, setActiveBox] = useState<number | null>(null);
   const [timelineScale, setTimelineScale] = useState(1);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
+  // Session management
   useEffect(() => {
-    // Get session data
     const getSession = async () => {
       try {
         const response = await fetch('/api/auth/session');
@@ -237,86 +440,116 @@ export default function TherapeuticJourneyPage() {
     getSession();
   }, []);
 
+  // Timeline scaling
   useEffect(() => {
     const element = timelineContainerRef.current;
-    if (!element) {
-      return;
-    }
+    if (!element) return;
 
     const updateScale = () => {
       const width = element.clientWidth;
-      if (width === 0) {
-        return;
-      }
-
-      setTimelineScale(width / TIMELINE_BASE_WIDTH);
+      if (width === 0) return;
+      setTimelineScale(width / TIMELINE_CONFIG.BASE_WIDTH);
     };
 
     updateScale();
 
-    if (typeof ResizeObserver === "undefined") {
-      return;
-    }
+    if (typeof ResizeObserver === "undefined") return;
 
-    const observer = new ResizeObserver(() => updateScale());
+    const observer = new ResizeObserver(updateScale);
     observer.observe(element);
 
-    return () => {
-      observer.disconnect();
+    return () => observer.disconnect();
+  }, [session?.user]);
+
+  // User data - must be before early return to maintain hook order
+  const user = useMemo((): {
+    id: string;
+    name: string | null;
+    email: string;
+    role: "admin" | "user";
+    image: string | null | undefined;
+  } | null => {
+    if (!session?.user) return null;
+    return {
+      id: session.user.id,
+      name: session.user.name ?? null,
+      email: session.user.email!,
+      role: (session.user.role as "admin" | "user") || "user",
+      image: session.user.image,
     };
   }, [session?.user]);
 
-  if (!session || !session.user) {
-    return <div>Loading...</div>;
-  }
+  const impersonation = session?.impersonation ?? undefined;
 
-  const user = {
-    id: session.user.id,
-    name: session.user.name ?? null,
-    email: session.user.email!,
-    role: (session.user.role as "admin" | "user") || "user",
-    image: session.user.image,
-  };
+  // Event handlers - must be before early return to maintain hook order
+  const handleStepClick = useCallback((stepId: number) => {
+    setActiveBox(prev => prev === stepId ? null : stepId);
+  }, []);
 
-  const impersonation = session.impersonation ?? undefined;
+  const handleCloseBox = useCallback(() => {
+    setActiveBox(null);
+  }, []);
 
-  const handleStepClick = (stepId: number) => {
-    if (activeBox === stepId) {
-      setActiveBox(null); // Hide if already active
-    } else {
-      setActiveBox(stepId); // Show the clicked step's box
-    }
-  };
-
-  const handleContainerClick = (e: React.MouseEvent) => {
-    // Only close if clicking on the container itself, not on child elements
+  const handleContainerClick = useCallback((e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       setActiveBox(null);
     }
-  };
+  }, []);
 
-  const activeStep = activeBox ? timelineSteps.find((step) => step.id === activeBox) : null;
-  const activeDetails = activeBox ? getStepDetails(activeBox) : null;
+  // Computed values - must be before early return to maintain hook order
+  const activeStep = useMemo(() => 
+    activeBox ? timelineSteps.find((step) => step.id === activeBox) : null, 
+    [activeBox]
+  );
+  
+  const activeDetails = useMemo(() => 
+    activeBox ? getStepDetails(activeBox) : null, 
+    [activeBox]
+  );
 
-  const scaledStepPositions = timelineSteps.map((step) => ({
-    ...step,
-    scaledTop: step.top * timelineScale,
-    scaledLeft: (step.left + TIMELINE_NODE_OFFSET_X) * timelineScale,
-  }));
+  const scaledStepPositions = useMemo(() => 
+    timelineSteps.map((step) => ({
+      ...step,
+      scaledTop: step.top * timelineScale,
+      scaledLeft: (step.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
+    })), 
+    [timelineScale]
+  );
 
-  const circleSize = Math.max(40, 62 * timelineScale);
-  const circleFontSize = Math.max(14, 18 * timelineScale);
-  const activePosition =
-    activeStep && activeDetails
-      ? {
-          top: activeStep.top * timelineScale,
-          left: (activeStep.left + TIMELINE_NODE_OFFSET_X) * timelineScale,
-        }
-      : null;
-  const tooltipLeft = activePosition
-    ? activePosition.left + TIMELINE_TOOLTIP_OFFSET_X * timelineScale
-    : 0;
-  const tooltipTop = activePosition ? activePosition.top : 0;
+  const circleSize = useMemo(() => 
+    Math.max(TIMELINE_CONFIG.MIN_CIRCLE_SIZE, TIMELINE_CONFIG.MAX_CIRCLE_SIZE * timelineScale), 
+    [timelineScale]
+  );
+  
+  const circleFontSize = useMemo(() => 
+    Math.max(TIMELINE_CONFIG.MIN_FONT_SIZE, TIMELINE_CONFIG.MAX_FONT_SIZE * timelineScale), 
+    [timelineScale]
+  );
+  
+  const activePosition = useMemo(() => {
+    if (!activeStep || !activeDetails) return null;
+    return {
+      top: activeStep.top * timelineScale,
+      left: (activeStep.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
+    };
+  }, [activeStep, activeDetails, timelineScale]);
+  
+  const tooltipPosition = useMemo(() => {
+    if (!activePosition) return { left: 0, top: 0 };
+    return {
+      left: activePosition.left + TIMELINE_CONFIG.TOOLTIP_OFFSET_X * timelineScale,
+      top: activePosition.top,
+    };
+  }, [activePosition, timelineScale]);
+
+  // Loading state
+  if (!session?.user || !user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <SharedLayout
@@ -342,11 +575,11 @@ export default function TherapeuticJourneyPage() {
             <div
               ref={timelineContainerRef}
               className="relative mx-auto w-full"
-              style={{ maxWidth: `${TIMELINE_BASE_WIDTH}px` }}
+              style={{ maxWidth: `${TIMELINE_CONFIG.BASE_WIDTH}px` }}
             >
               <div
                 className="relative w-full"
-                style={{ paddingTop: `${(TIMELINE_BASE_HEIGHT / TIMELINE_BASE_WIDTH) * 100}%` }}
+                style={{ paddingTop: `${(TIMELINE_CONFIG.BASE_HEIGHT / TIMELINE_CONFIG.BASE_WIDTH) * 100}%` }}
               >
                 <svg
                   className="absolute inset-0 h-full w-full"
@@ -382,77 +615,21 @@ export default function TherapeuticJourneyPage() {
                   onClick={handleContainerClick}
                 >
                   {scaledStepPositions.map((step) => (
-                    <div
+                    <TimelineStep
                       key={step.id}
-                      style={{
-                        top: `${step.scaledTop}px`,
-                        left: `${step.scaledLeft}px`,
-                        backgroundColor: step.color,
-                        color: step.textColor ?? "#0b0d06",
-                        width: `${circleSize}px`,
-                        height: `${circleSize}px`,
-                        fontSize: `${circleFontSize}px`,
-                      }}
-                      className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
-                      onClick={() => handleStepClick(step.id)}
-                    >
-                      {step.id}
-                    </div>
+                      step={step}
+                      circleSize={circleSize}
+                      circleFontSize={circleFontSize}
+                      onStepClick={handleStepClick}
+                    />
                   ))}
 
                   {activeStep && activeDetails && (
-                    <div
-                      className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
-                      style={{
-                        top: `${tooltipTop}px`,
-                        left: `${tooltipLeft}px`,
-                        backgroundColor: activeDetails.backgroundColor,
-                        color: activeDetails.textColor,
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="flex items-start justify-between">
-                        <h2 className="text-heading-3 font-semibold text-white">
-                          {activeDetails.phaseTitle}
-                        </h2>
-                        <button
-                          onClick={() => setActiveBox(null)}
-                          className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-                          aria-label="Close"
-                        >
-                          <svg
-                            className="h-4 w-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M6 18L18 6M6 6l12 12"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                      <h3 className="mt-6 text-base font-semibold text-white">
-                        Consigli per essere un buon terapeuta
-                      </h3>
-                      <ul
-                        className="mt-4 space-y-3 text-sm leading-relaxed"
-                        style={{ color: activeDetails.bodyColor }}
-                      >
-                        {activeDetails.tips.map((tip, index) => (
-                          <li
-                            key={`tip-${index}`}
-                            className="list-inside list-disc"
-                            style={{ '--marker-color': activeDetails.accentColor } as React.CSSProperties}
-                          >
-                            {tip}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <DesktopTooltip
+                      activeDetails={activeDetails}
+                      tooltipPosition={tooltipPosition}
+                      onClose={handleCloseBox}
+                    />
                   )}
                 </div>
               </div>
@@ -468,91 +645,14 @@ export default function TherapeuticJourneyPage() {
                   const isOpen = activeBox === step.id;
 
                   return (
-                    <div key={`mobile-step-${step.id}`} className="relative">
-                        <span
-                          className="absolute -left-6.5 top-4 flex h-3 w-3 items-center justify-center"
-                          aria-hidden
-                        >
-                        <span
-                          className="block h-3 w-3 rounded-full"
-                          style={{ backgroundColor: step.color }}
-                        />
-                      </span>
-
-                      <button
-                        type="button"
-                        onClick={() => handleStepClick(step.id)}
-                        aria-expanded={isOpen}
-                        className="w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#4F9D69]"
-                        style={{ backgroundColor: details.backgroundColor, color: details.textColor }}
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/70">
-                              Step {step.id}
-                            </p>
-                            <h2 className="mt-2 text-base font-semibold text-white">
-                              {details.phaseTitle}
-                            </h2>
-                          </div>
-                          {isOpen && (
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveBox(null);
-                              }}
-                              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-                              role="button"
-                              tabIndex={0}
-                              aria-label="Close"
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  setActiveBox(null);
-                                }
-                              }}
-                            >
-                              <svg
-                                className="h-4 w-4"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M6 18L18 6M6 6l12 12"
-                                />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-
-                        {isOpen && (
-                          <div className="mt-4">
-                            <h3 className="text-sm font-semibold text-white">
-                              Consigli per essere un buon terapeuta
-                            </h3>
-                            <ul
-                              className="mt-3 space-y-2 text-sm leading-relaxed"
-                              style={{ color: details.bodyColor }}
-                            >
-                              {details.tips.map((tip, index) => (
-                                <li
-                                  key={`mobile-tip-${step.id}-${index}`}
-                                  className="list-inside list-disc"
-                                  style={{ '--marker-color': details.accentColor } as React.CSSProperties}
-                                >
-                                  {tip}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </button>
-                    </div>
+                    <MobileTimelineStep
+                      key={`mobile-step-${step.id}`}
+                      step={step}
+                      details={details}
+                      isOpen={isOpen}
+                      onStepClick={handleStepClick}
+                      onClose={handleCloseBox}
+                    />
                   );
                 })}
               </div>
