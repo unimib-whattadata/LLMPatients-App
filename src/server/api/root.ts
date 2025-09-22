@@ -3,6 +3,7 @@ import { dashboardRouter } from "~/server/api/routers/dashboard";
 import { userManagementRouter } from "~/server/api/routers/user-management";
 import { impersonationRouter } from "~/server/api/routers/impersonation";
 import { patientsRouter } from "~/server/api/routers/patients";
+import { chatRouter } from "~/server/api/routers/chat";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -11,6 +12,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  chat: chatRouter,
   post: postRouter,
   dashboard: dashboardRouter, // Add dashboard router for role-based dashboard functionality
   userManagement: userManagementRouter, // Add user management router for admin operations
