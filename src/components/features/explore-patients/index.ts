@@ -5,3 +5,4 @@ export { PatientGrid } from './PatientGrid';
 export { PatientGridWrapper } from './PatientGridWrapper';
 export { PatientTags } from './PatientTags';
 export { LoadingGrid } from './LoadingGrid';
+export { PatientDetailContent } from './PatientDetailContent';

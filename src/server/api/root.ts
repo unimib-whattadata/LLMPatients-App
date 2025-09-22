@@ -3,6 +3,7 @@ import { userManagementRouter } from "~/server/api/routers/user-management";
 import { impersonationRouter } from "~/server/api/routers/impersonation";
 import { patientsRouter } from "~/server/api/routers/patients";
 import { chatRouter } from "~/server/api/routers/chat";
+import { therapySessionsRouter } from "~/server/api/routers/therapy-sessions";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   userManagement: userManagementRouter, // Add user management router for admin operations
   impersonation: impersonationRouter, // Add impersonation router for admin user impersonation
   patients: patientsRouter, // Add patients router for patient exploration functionality
+  therapySessions: therapySessionsRouter,
 });
 
 // export type definition of API

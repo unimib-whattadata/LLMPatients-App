@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "@/components/layout/SharedLayout";
-import { PatientDetailContent } from "@/components/features/explore-patients/PatientDetailContent";
+import { SessionTimelineContent } from "@/components/features/therapeutic-journey/SessionTimelineContent";
 
 /**
- * Patient Detail Page
+ * Session Timeline Page
  * 
- * Server-side rendered page for viewing individual patient details
+ * Server-side rendered page for viewing therapy session timeline
  */
-export default async function PatientDetailPage() {
+export default async function SessionTimelinePage() {
   // Check authentication server-side
   const session = await auth();
 
@@ -18,7 +17,7 @@ export default async function PatientDetailPage() {
   }
 
   return (
-    <SharedLayout
+    <SessionTimelineContent
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -27,10 +26,6 @@ export default async function PatientDetailPage() {
         image: session.user.image,
       }}
       impersonation={session.impersonation ?? undefined}
-      layoutType="home"
-      currentPage="/explore-patients"
-    >
-      <PatientDetailContent />
-    </SharedLayout>
+    />
   );
 }
