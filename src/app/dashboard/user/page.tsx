@@ -7,6 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { UserContent } from "@/components/features/dashboard/UserContent";
 
 /**
  * User Dashboard Page Component
@@ -21,6 +23,20 @@ export default async function UserDashboardPage() {
     redirect("/login");
   }
 
-  // Redirect to the main user function - simulations
-  redirect("/dashboard/user/simulations");
+  return (
+    <SharedLayout 
+      user={{
+        id: session.user.id,
+        name: session.user.name ?? null,
+        email: session.user.email!,
+        role: session.user.role,
+        image: session.user.image,
+      }}
+      impersonation={(session as any).impersonation ?? undefined}
+      layoutType="dashboard"
+      currentPage="/dashboard/user"
+    >
+      <UserContent />
+    </SharedLayout>
+  );
 }

@@ -1,6 +1,20 @@
 import { relations, sql } from "drizzle-orm";
 import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
-import { type AdapterAccount } from "next-auth/adapters";
+// import { type AdapterAccount } from "next-auth/adapters";
+
+// Define AdapterAccount type manually for next-auth v5 beta compatibility
+type AdapterAccount = {
+  type: "oauth" | "email" | "credentials";
+  provider: string;
+  providerAccountId: string;
+  refresh_token?: string;
+  access_token?: string;
+  expires_at?: number;
+  token_type?: string;
+  scope?: string;
+  id_token?: string;
+  session_state?: string;
+};
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -23,7 +37,7 @@ export const chats = createTable("chat", (d) => ({
   virtualPatientId: d
     .text({ length: 255 })
     .notNull()
-    .references(() => virtualPatients.id, { onDelete: "cascade" }),
+    .references(() => patients.id, { onDelete: "cascade" }),
   createdAt: d
     .integer({ mode: "timestamp" })
     .default(sql`(unixepoch())`)
@@ -98,13 +112,6 @@ export const users = createTable("user", (d) => ({
   role: d.text({ length: 20 }).default("user").notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
-}));
-
-export const postsRelations = relations(posts, ({ one }) => ({
-  createdBy: one(users, {
-    fields: [posts.createdById],
-    references: [users.id],
-  }),
 }));
 
 // Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
@@ -303,7 +310,6 @@ export const impersonationAuditLogRelations = relations(
 // Add relations to users for impersonation
 export const extendedUsersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
-  posts: many(posts),
   activities: many(userActivities),
   adminImpersonationSessions: many(impersonationSessions, {
     relationName: "adminImpersonationSessions",
@@ -313,9 +319,9 @@ export const extendedUsersRelations = relations(users, ({ many }) => ({
   }),
 }));
 
-// Virtual Patients table for patient exploration page
-export const virtualPatients = createTable(
-  "virtual_patient",
+// Patients table for patient exploration page
+export const patients = createTable(
+  "patient",
   (d) => ({
     id: d
       .text({ length: 255 })
@@ -376,7 +382,7 @@ export const patientTagRelations = createTable(
     patientId: d
       .text({ length: 255 })
       .notNull()
-      .references(() => virtualPatients.id, { onDelete: "cascade" }),
+      .references(() => patients.id, { onDelete: "cascade" }),
     tagId: d
       .text({ length: 255 })
       .notNull()
@@ -389,14 +395,10 @@ export const patientTagRelations = createTable(
   ],
 );
 
-// Relations for virtual patients
-export const virtualPatientsRelations = relations(
-  virtualPatients,
-  ({ many }) => ({
-    tagRelations: many(patientTagRelations),
-    chats: many(chats),
-  }),
-);
+// Relations for patients
+export const patientsRelations = relations(patients, ({ many }) => ({
+  tagRelations: many(patientTagRelations),
+}));
 
 export const patientTagsRelations = relations(patientTags, ({ many }) => ({
   patientRelations: many(patientTagRelations),
@@ -405,13 +407,9 @@ export const patientTagsRelations = relations(patientTags, ({ many }) => ({
 export const patientTagRelationsRelations = relations(
   patientTagRelations,
   ({ one }) => ({
-    patient: one(virtualPatients, {
+    patient: one(patients, {
       fields: [patientTagRelations.patientId],
-      references: [virtualPatients.id],
-    }),
-    tag: one(patientTags, {
-      fields: [patientTagRelations.tagId],
-      references: [patientTags.id],
+      references: [patients.id],
     }),
   }),
 );
@@ -436,9 +434,9 @@ export const chatsRelations = relations(chats, ({ many, one }) => ({
     fields: [chats.userId],
     references: [users.id],
   }),
-  virtualPatient: one(virtualPatients, {
+  virtualPatient: one(patients, {
     fields: [chats.virtualPatientId],
-    references: [virtualPatients.id],
+    references: [patients.id],
   }),
   messages: many(messages),
 }));

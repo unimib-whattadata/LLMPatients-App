@@ -1,27 +1,20 @@
 #!/usr/bin/env node
 
-/**
- * Database seeding script for the ePatient application
- * Creates a default admin user with predefined credentials
- * 
- * Usage: npm run db:seed
- */
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { text, integer, sqliteTableCreator, primaryKey, index } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import { config } from "dotenv";
 
-// Load environment variables
 config();
 
-// Create table creator for this seeding script
 const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
-// Define users table schema for seeding (updated with role field)
 const users = createTable("user", (d) => ({
   id: d
     .text({ length: 255 })
@@ -31,15 +24,13 @@ const users = createTable("user", (d) => ({
   name: d.text({ length: 255 }),
   email: d.text({ length: 255 }).notNull(),
   password: d.text({ length: 255 }),
-  // Role field for user access control - 'admin' or 'user'
-  role: d.text({ length: 20 }).default('user').notNull(),
+  role: d.text({ length: 20 }).default("user").notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
 }));
 
-// Virtual Patients table for seeding
-const virtualPatients = createTable(
-  "virtual_patient",
+const patients = createTable(
+  "patient",
   (d) => ({
     id: d
       .text({ length: 255 })
@@ -53,7 +44,7 @@ const virtualPatients = createTable(
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(),
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default('illustration').notNull(),
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(),
     difficulty: d.text({ length: 20 }).notNull(),
     estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(),
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
@@ -65,7 +56,6 @@ const virtualPatients = createTable(
   }),
 );
 
-// Patient Tags table for seeding
 const patientTags = createTable(
   "patient_tag",
   (d) => ({
@@ -76,7 +66,7 @@ const patientTags = createTable(
       .$defaultFn(() => crypto.randomUUID()),
     label: d.text({ length: 100 }).notNull(),
     category: d.text({ length: 50 }).notNull(),
-    color: d.text({ length: 20 }).default('#gray').notNull(),
+    color: d.text({ length: 20 }).default("#gray").notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
@@ -84,23 +74,15 @@ const patientTags = createTable(
   }),
 );
 
-// Patient-Tag Relations table for seeding
 const patientTagRelations = createTable(
   "patient_tag_relation",
   (d) => ({
-    patientId: d
-      .text({ length: 255 })
-      .notNull(),
-    tagId: d
-      .text({ length: 255 })
-      .notNull(),
+    patientId: d.text({ length: 255 }).notNull(),
+    tagId: d.text({ length: 255 }).notNull(),
   }),
-  (t) => [
-    primaryKey({ columns: [t.patientId, t.tagId] }),
-  ],
+  (t) => [primaryKey({ columns: [t.patientId, t.tagId] })],
 );
 
-// Create database connection
 const databaseUrl = process.env.DATABASE_URL ?? "file:./db.sqlite";
 const client = createClient({
   url: databaseUrl,
@@ -109,341 +91,216 @@ const client = createClient({
 
 const db = drizzle(client);
 
+const SALT_ROUNDS = 10;
+
+const SEED_USERS = [
+  {
+    name: "Administrator",
+    email: "admin",
+    password: "Qwerty123!",
+    role: "admin",
+  },
+  {
+    name: "Test User",
+    email: "user@example.com",
+    password: "Qwerty123!",
+    role: "user",
+  },
+] as const;
+
+const TAGS = [
+  { label: "Tono dell'umore basso", category: "psychological", color: "#8B5CF6" },
+  { label: "Impulsività", category: "behavioral", color: "#F59E0B" },
+  { label: "Ansia sociale", category: "psychological", color: "#8B5CF6" },
+  { label: "Dolore cronico", category: "physical", color: "#3B82F6" },
+  { label: "Disturbi del sonno", category: "physical", color: "#3B82F6" },
+  { label: "Aggressività", category: "behavioral", color: "#F59E0B" },
+  { label: "Depressione", category: "psychological", color: "#8B5CF6" },
+  { label: "Ipertensione", category: "physical", color: "#3B82F6" },
+  { label: "Isolamento sociale", category: "behavioral", color: "#F59E0B" },
+  { label: "Trauma", category: "psychological", color: "#8B5CF6" },
+];
+
+type PatientSeed = {
+  name: string;
+  age: number;
+  gender: string;
+  condition: string;
+  background: string;
+  objectives: string[];
+  avatarUrl: string | null;
+  avatarType: string;
+  difficulty: string;
+  estimatedDuration: number;
+  tags?: string[];
+};
+
+const PATIENTS: PatientSeed[] = [
+  {
+    name: "Juanita Delgado",
+    age: 33,
+    gender: "female",
+    condition: "Terapia per depressione",
+    background:
+      "Juanita è una donna di 33 anni che ha recentemente attraversato un periodo difficile della sua vita. Ha perso il lavoro sei mesi fa e da allora sta lottando con sentimenti di inadeguatezza e tristezza persistente. Vive da sola e ha notato un progressivo isolamento sociale.",
+    objectives: [
+      "Valutare il livello di depressione e rischio suicidario",
+      "Stabilire una relazione terapeutica di fiducia",
+      "Identificare strategie di coping efficaci",
+    ],
+    avatarUrl: "/images/patients/juanita.png",
+    avatarType: "photo",
+    difficulty: "Medio",
+    estimatedDuration: 45,
+    tags: ["Tono dell'umore basso", "Isolamento sociale"],
+  },
+];
+
 async function seedDatabase() {
-  console.log("🌱 Starting database seeding...");
+  const targetEmails = SEED_USERS.map((user) => user.email);
+  const existingUsers = await db
+    .select({ email: users.email })
+    .from(users)
+    .where(inArray(users.email, targetEmails));
 
-  try {
-    // Default admin user credentials
-    const adminEmail = "admin";
-    const adminPassword = "Qwerty123!";
-    const adminName = "Administrator";
+  const existing = new Set(existingUsers.map((record) => record.email));
+  const createdUsers: string[] = [];
 
-    // Default user credentials
-    const userEmail = "user@example.com";
-    const userPassword = "Qwerty123!";
-    const userName = "Test User";
-
-    // Check if admin user already exists
-    console.log("Checking for existing admin user...");
-    const existingAdmin = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, adminEmail))
-      .limit(1);
-
-    // Check if test user already exists
-    console.log("Checking for existing test user...");
-    const existingUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.email, userEmail))
-      .limit(1);
-
-    // Create admin user if doesn't exist
-    if (existingAdmin.length === 0) {
-      console.log("Creating admin user...");
-      const saltRounds = 10;
-      const hashedAdminPassword = await bcrypt.hash(adminPassword, saltRounds);
-
-      const newAdmin = await db
-        .insert(users)
-        .values({
-          name: adminName,
-          email: adminEmail,
-          password: hashedAdminPassword,
-          role: "admin", // Set admin role
-        })
-        .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
-        });
-
-      if (newAdmin.length > 0) {
-        console.log("✅ Admin user created successfully!");
-        console.log(`   ID: ${newAdmin[0]?.id}`);
-        console.log(`   Name: ${newAdmin[0]?.name}`);
-        console.log(`   Email: ${newAdmin[0]?.email}`);
-        console.log(`   Role: ${newAdmin[0]?.role}`);
-        console.log(`   Password: ${adminPassword}`);
-      }
-    } else {
-      console.log("✅ Admin user already exists, skipping creation");
-      console.log(`   Email: ${adminEmail}`);
-      console.log(`   Name: ${existingAdmin[0]?.name}`);
+  for (const user of SEED_USERS) {
+    if (existing.has(user.email)) {
+      console.log(`ℹ️  Utente già presente: ${user.email}`);
+      continue;
     }
 
-    // Create test user if doesn't exist
-    if (existingUser.length === 0) {
-      console.log("Creating test user...");
-      const saltRounds = 10;
-      const hashedUserPassword = await bcrypt.hash(userPassword, saltRounds);
+    const passwordHash = await bcrypt.hash(user.password, SALT_ROUNDS);
+    await db.insert(users).values({
+      name: user.name,
+      email: user.email,
+      password: passwordHash,
+      role: user.role,
+    });
 
-      const newUser = await db
-        .insert(users)
-        .values({
-          name: userName,
-          email: userEmail,
-          password: hashedUserPassword,
-          role: "user", // Set user role
-        })
-        .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
-        });
+    createdUsers.push(user.email);
+    console.log(`[SUCCESS] Creato utente ${user.email}`);
+  }
 
-      if (newUser.length > 0) {
-        console.log("✅ Test user created successfully!");
-        console.log(`   ID: ${newUser[0]?.id}`);
-        console.log(`   Name: ${newUser[0]?.name}`);
-        console.log(`   Email: ${newUser[0]?.email}`);
-        console.log(`   Role: ${newUser[0]?.role}`);
-        console.log(`   Password: ${userPassword}`);
+  if (createdUsers.length === 0) {
+    console.log("👌 Nessun nuovo utente da creare");
+  } else {
+    console.log("Credenziali disponibili:");
+    for (const user of SEED_USERS) {
+      if (createdUsers.includes(user.email)) {
+        console.log(` • ${user.email} / ${user.password}`);
       }
-    } else {
-      console.log("✅ Test user already exists, skipping creation");
-      console.log(`   Email: ${userEmail}`);
-      console.log(`   Name: ${existingUser[0]?.name}`);
     }
-
-    console.log("");
-    console.log("🚀 Database seeding completed successfully!");
-    console.log("");
-    console.log("You can now log in with:");
-    console.log("\n--- ADMIN ACCOUNT ---");
-    console.log(`   Email: ${adminEmail}`);
-    console.log(`   Password: ${adminPassword}`);
-    console.log("\n--- USER ACCOUNT ---");
-    console.log(`   Email: ${userEmail}`);
-    console.log(`   Password: ${userPassword}`);
-
-  } catch (error) {
-    console.error("❌ Database seeding failed:");
-    console.error(error);
-    process.exit(1);
   }
 }
 
-// Additional seeding functions
 async function seedPatientTags() {
-  console.log("🏷️ Seeding patient tags...");
+  const existingTags = await db
+    .select({ label: patientTags.label })
+    .from(patientTags);
 
-  const sampleTags = [
-    { label: "Tono dell'umore basso", category: "psychological", color: "#8B5CF6" },
-    { label: "Impulsività", category: "behavioral", color: "#F59E0B" },
-    { label: "Ansia sociale", category: "psychological", color: "#8B5CF6" },
-    { label: "Dolore cronico", category: "physical", color: "#3B82F6" },
-    { label: "Disturbi del sonno", category: "physical", color: "#3B82F6" },
-    { label: "Aggressività", category: "behavioral", color: "#F59E0B" },
-    { label: "Depressione", category: "psychological", color: "#8B5CF6" },
-    { label: "Ipertensione", category: "physical", color: "#3B82F6" },
-    { label: "Isolamento sociale", category: "behavioral", color: "#F59E0B" },
-    { label: "Trauma", category: "psychological", color: "#8B5CF6" },
-  ];
+  const knownLabels = new Set(existingTags.map((tag) => tag.label));
+  let created = 0;
 
-  try {
-    for (const tag of sampleTags) {
-      const existingTag = await db
-        .select()
-        .from(patientTags)
-        .where(eq(patientTags.label, tag.label))
-        .limit(1);
-
-      if (existingTag.length === 0) {
-        await db.insert(patientTags).values(tag);
-        console.log(`   ✅ Created tag: ${tag.label}`);
-      } else {
-        console.log(`   ⏭️ Tag already exists: ${tag.label}`);
-      }
+  for (const tag of TAGS) {
+    if (knownLabels.has(tag.label)) {
+      continue;
     }
-    console.log("✅ Patient tags seeding completed!");
-  } catch (error) {
-    console.error("❌ Patient tags seeding failed:", error);
-    throw error;
+
+    await db.insert(patientTags).values(tag);
+    knownLabels.add(tag.label);
+    created += 1;
   }
+
+  console.log(`🏷️  Tag paziente pronti (${created} nuovi, ${knownLabels.size} totali)`);
 }
 
-async function seedVirtualPatients() {
-  console.log("👥 Seeding virtual patients...");
+async function seedPatients() {
+  const existingPatients = await db
+    .select({ name: patients.name })
+    .from(patients);
 
-  const samplePatients = [
-    {
-      name: "Juanita Delgado",
-      age: 33,
-      gender: "female",
-      condition: "Terapia per depressione",
-      background: "Juanita è una donna di 33 anni che ha recentemente attraversato un periodo difficile della sua vita. Ha perso il lavoro sei mesi fa e da allora sta lottando con sentimenti di inadeguatezza e tristezza persistente. Vive da sola e ha notato un progressivo isolamento sociale.",
-      objectives: JSON.stringify([
-        "Valutare il livello di depressione e rischio suicidario",
-        "Stabilire una relazione terapeutica di fiducia",
-        "Identificare strategie di coping efficaci"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Medio",
-      estimatedDuration: 45
-    },
-    {
-      name: "Marco Rossi",
-      age: 28,
-      gender: "male",
-      condition: "Gestione dell'ansia sociale",
-      background: "Marco è un giovane sviluppatore software che ha sempre avuto difficoltà nelle situazioni sociali. Recentemente ha iniziato un nuovo lavoro dove deve presentare progetti al team, causandogli attacchi di panico. Cerca aiuto per gestire l'ansia.",
-      objectives: JSON.stringify([
-        "Identificare i trigger dell'ansia sociale",
-        "Insegnare tecniche di rilassamento",
-        "Sviluppare un piano graduale di esposizione"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Facile",
-      estimatedDuration: 30
-    },
-    {
-      name: "Elena Bianchi",
-      age: 45,
-      gender: "female",
-      condition: "Disturbo post-traumatico da stress",
-      background: "Elena è sopravvissuta a un grave incidente stradale otto mesi fa. Da allora soffre di flashback, incubi ricorrenti e evita di guidare. Ha difficoltà a dormire e si sente costantemente in allerta. La famiglia è preoccupata per i suoi cambiamenti comportamentali.",
-      objectives: JSON.stringify([
-        "Valutare i sintomi del PTSD",
-        "Stabilire la sicurezza del paziente",
-        "Introdurre tecniche di grounding",
-        "Pianificare un trattamento specialistico"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Difficile",
-      estimatedDuration: 60
-    },
-    {
-      name: "Giuseppe Marino",
-      age: 52,
-      gender: "male",
-      condition: "Dipendenza da alcol",
-      background: "Giuseppe è un manager di mezza età che ha sviluppato una dipendenza da alcol negli ultimi tre anni. Ha iniziato a bere per gestire lo stress lavorativo, ma ora non riesce più a controllare il consumo. La moglie minaccia di lasciarlo se non cerca aiuto.",
-      objectives: JSON.stringify([
-        "Valutare il grado di dipendenza",
-        "Identificare la motivazione al cambiamento",
-        "Discutere opzioni di trattamento",
-        "Coinvolgere il supporto familiare"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Difficile",
-      estimatedDuration: 50
-    },
-    {
-      name: "Sofia Chen",
-      age: 19,
-      gender: "female",
-      condition: "Disturbi alimentari",
-      background: "Sofia è una studentessa universitaria al primo anno che ha sviluppato comportamenti alimentari restrittivi. È molto preoccupata per il peso e l'aspetto fisico. I genitori hanno notato una significativa perdita di peso e l'hanno convinta a cercare aiuto.",
-      objectives: JSON.stringify([
-        "Valutare i comportamenti alimentari attuali",
-        "Identificare fattori scatenanti",
-        "Stabilire obiettivi nutrizionali sicuri",
-        "Coinvolgere un team multidisciplinare"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Medio",
-      estimatedDuration: 40
-    },
-    {
-      name: "Roberto Ferri",
-      age: 35,
-      gender: "male",
-      condition: "Disturbo bipolare",
-      background: "Roberto ha una storia di episodi maniacali e depressivi alternati. Attualmente sta attraversando una fase depressiva dopo un periodo di ipomania durato due mesi. Ha smesso di prendere i farmaci senza consultare il medico perché si sentiva 'guarito'.",
-      objectives: JSON.stringify([
-        "Valutare l'episodio depressivo attuale",
-        "Discutere l'importanza dell'aderenza farmacologica",
-        "Identificare i segni precoci degli episodi",
-        "Stabilire un piano di monitoraggio"
-      ]),
-      avatarUrl: null,
-      avatarType: "illustration",
-      difficulty: "Difficile",
-      estimatedDuration: 55
+  const existingNames = new Set(existingPatients.map((patient) => patient.name));
+  const tagRows = await db
+    .select({ id: patientTags.id, label: patientTags.label })
+    .from(patientTags);
+  const tagIdByLabel = new Map(tagRows.map((tag) => [tag.label, tag.id] as const));
+
+  let created = 0;
+
+  for (const patient of PATIENTS) {
+    if (existingNames.has(patient.name)) {
+      continue;
     }
-  ];
 
-  try {
-    for (const patient of samplePatients) {
-      const existingPatient = await db
-        .select()
-        .from(virtualPatients)
-        .where(eq(virtualPatients.name, patient.name))
-        .limit(1);
+    const result = await db
+      .insert(patients)
+      .values({
+        name: patient.name,
+        age: patient.age,
+        gender: patient.gender,
+        condition: patient.condition,
+        background: patient.background,
+        objectives: JSON.stringify(patient.objectives),
+        avatarUrl: patient.avatarUrl,
+        avatarType: patient.avatarType,
+        difficulty: patient.difficulty,
+        estimatedDuration: patient.estimatedDuration,
+      })
+      .returning({ id: patients.id });
 
-      if (existingPatient.length === 0) {
-        const [newPatient] = await db.insert(virtualPatients).values(patient).returning({ id: virtualPatients.id });
-        console.log(`   ✅ Created patient: ${patient.name}`);
+    const patientId = result[0]?.id;
+    if (!patientId) {
+      console.error("[ERROR] Failed to create patient:", patient.name);
+      continue;
+    }
 
-        // Add some tags to patients
-        const tagAssignments = {
-          "Juanita Delgado": ["Tono dell'umore basso", "Isolamento sociale"],
-          "Marco Rossi": ["Ansia sociale"],
-          "Elena Bianchi": ["Trauma", "Disturbi del sonno"],
-          "Giuseppe Marino": ["Impulsività", "Aggressività"],
-          "Sofia Chen": ["Ansia sociale", "Disturbi del sonno"],
-          "Roberto Ferri": ["Tono dell'umore basso", "Impulsività"]
-        };
+    created += 1;
 
-        const assignedTags = tagAssignments[patient.name as keyof typeof tagAssignments];
-        if (assignedTags && newPatient) {
-          for (const tagLabel of assignedTags) {
-            const tag = await db
-              .select()
-              .from(patientTags)
-              .where(eq(patientTags.label, tagLabel))
-              .limit(1);
-
-            if (tag.length > 0) {
-              await db.insert(patientTagRelations).values({
-                patientId: newPatient.id,
-                tagId: tag[0]!.id
-              });
-              console.log(`     🏷️ Added tag "${tagLabel}" to ${patient.name}`);
-            }
-          }
-        }
-      } else {
-        console.log(`   ⏭️ Patient already exists: ${patient.name}`);
+    for (const label of patient.tags ?? []) {
+      const tagId = tagIdByLabel.get(label);
+      if (!tagId) {
+        continue;
       }
+
+      await db.insert(patientTagRelations).values({ patientId, tagId });
     }
-    console.log("✅ Virtual patients seeding completed!");
-  } catch (error) {
-    console.error("❌ Virtual patients seeding failed:", error);
-    throw error;
   }
+
+  console.log(`[INFO] Pazienti virtuali pronti (${created} nuovi)`);
 }
 
-// Main seeding function
 async function runSeeding() {
   try {
     await seedDatabase();
     await seedPatientTags();
-    await seedVirtualPatients();
-    
-    console.log("🎉 All seeding completed successfully!");
+    await seedPatients();
+    console.log("[SUCCESS] Seeding completato");
     process.exit(0);
   } catch (error) {
-    console.error("❌ Seeding process failed:", error);
+    console.error("[ERROR] Seeding non riuscito", error);
     process.exit(1);
   } finally {
-    // Close database connection
     client.close();
   }
 }
 
-// Run seeding if this file is executed directly
-if (process.argv[1] && import.meta.url.includes(process.argv[1])) {
+const isDirectExecution = (() => {
+  if (!process.argv[1]) {
+    return false;
+  }
+
+  try {
+    return fileURLToPath(import.meta.url) === resolve(process.argv[1]);
+  } catch {
+    return false;
+  }
+})();
+
+if (isDirectExecution) {
   void runSeeding();
 }
 
-export { seedDatabase, seedPatientTags, seedVirtualPatients };
+export { seedDatabase, seedPatientTags };

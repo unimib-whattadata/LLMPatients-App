@@ -7,8 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { StudentEvaluationsContent } from "./_components/StudentEvaluationsContent";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { StudentEvaluationsContent } from "@/components/features/dashboard/StudentEvaluationsContent";
 
 /**
  * Student Evaluations Page Component

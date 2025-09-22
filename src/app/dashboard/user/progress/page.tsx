@@ -7,8 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { MyProgressContent } from "./_components/MyProgressContent";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { MyProgressContent } from "@/components/features/dashboard/MyProgressContent";
 
 /**
  * My Progress Page Component

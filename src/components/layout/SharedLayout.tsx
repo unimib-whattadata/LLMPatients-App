@@ -1,26 +1,13 @@
-/**
- * Shared Layout Component
- * 
- * Provides a unified layout structure for both dashboard and home page
- * Features:
- * - Responsive header with navigation
- * - Impersonation status banner
- * - Role-based navigation menus
- * - Sidebar for dashboard pages
- * - Footer for home page
- */
-
 "use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
-import { api } from "~/trpc/react";
+import { usePathname } from "next/navigation";
+import { Navbar, getNavSections } from "@/components/navigation";
+import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-// Admin view mode type
-type AdminViewMode = "admin" | "user";
+import type { User, ImpersonationContext, AdminViewMode, NavItem } from "~/types";
 
-// Layout configuration types
 interface LayoutConfig {
   showSidebar: boolean;
   showFooter: boolean;
@@ -28,117 +15,14 @@ interface LayoutConfig {
   containerClass: string;
 }
 
-// User interface for type safety
-interface User {
-  id: string;
-  name: string | null;
-  email: string;
-  role: "admin" | "user";
-  image?: string | null;
-}
-
-// Impersonation context interface
-interface ImpersonationContext {
-  isImpersonating: boolean;
-  originalAdminId: string;
-  targetUserId: string;
-  targetUserEmail: string;
-  targetUserName: string | null;
-  startedAt: Date;
-  sessionId: string;
-}
-
-// Main props interface
 interface SharedLayoutProps {
   children: React.ReactNode;
-  user: User;
+  user?: User;
   impersonation?: ImpersonationContext;
   layoutType: "dashboard" | "home";
   currentPage?: string;
 }
 
-// Navigation item interface
-interface NavItem {
-  label: string;
-  href: string;
-  icon: string;
-}
-
-/**
- * Admin Role Switch Button Component
- * Allows admins to switch between admin and user view modes
- */
-interface AdminRoleSwitchProps {
-  currentMode: AdminViewMode;
-  onModeChange: (mode: AdminViewMode) => void;
-}
-
-function AdminRoleSwitch({ currentMode, onModeChange }: AdminRoleSwitchProps) {
-  return (
-    <div className="flex items-center space-x-1 sm:space-x-2">
-      <span className="text-xs text-white/70 hidden sm:inline">Vista:</span>
-      <button
-        onClick={() => onModeChange(currentMode === "admin" ? "user" : "admin")}
-        className="text-xs bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-md transition-colors duration-200 border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
-        title={`Passa alla vista ${currentMode === "admin" ? "utente" : "admin"}`}
-      >
-        <span className="hidden sm:inline">
-          {currentMode === "admin" ? "👤 Utente" : "🔧 Admin"}
-        </span>
-        <span className="sm:hidden">
-          {currentMode === "admin" ? "👤" : "🔧"}
-        </span>
-      </button>
-    </div>
-  );
-}
-
-/**
- * Impersonation Banner Component
- * Shows when user is being impersonated with exit functionality
- */
-interface ImpersonationBannerProps {
-  impersonation: ImpersonationContext;
-  onExitImpersonation: () => void;
-  isExiting: boolean;
-}
-
-function ImpersonationBanner({ 
-  impersonation, 
-  onExitImpersonation, 
-  isExiting 
-}: ImpersonationBannerProps) {
-  const duration = Math.floor((Date.now() - impersonation.startedAt.getTime()) / 1000 / 60);
-  
-  return (
-    <div className="bg-orange-600 border-l-4 border-orange-800 p-4 shadow-lg">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="flex-shrink-0">
-            <span className="text-white text-lg">👤</span>
-          </div>
-          <div className="ml-3">
-            <p className="text-sm font-medium text-white">
-              Stai impersonando: <strong>{impersonation.targetUserName ?? impersonation.targetUserEmail}</strong>
-            </p>
-            <p className="text-xs text-orange-100">
-              Sessione attiva da {duration} minuti • ID Sessione: {impersonation.sessionId.slice(0, 8)}...
-            </p>
-          </div>
-        </div>
-        <div className="flex-shrink-0">
-          <button
-            onClick={onExitImpersonation}
-            disabled={isExiting}
-            className="bg-white text-orange-600 px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-          >
-            {isExiting ? "Uscendo..." : "Esci dall'impersonificazione"}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /**
  * Shared Layout Component
@@ -152,9 +36,8 @@ export function SharedLayout({
   currentPage = "" 
 }: SharedLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [adminViewMode, setAdminViewMode] = useState<AdminViewMode>("admin");
-  const router = useRouter();
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
 
   // Handle responsive sidebar behavior
@@ -163,7 +46,7 @@ export function SharedLayout({
       const isMobile = window.innerWidth < 1024;
       if (isMobile) {
         setSidebarCollapsed(true);
-        setMobileMenuOpen(false);
+        setMobileSidebarOpen(false);
       }
     };
 
@@ -172,83 +55,37 @@ export function SharedLayout({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Close mobile menu when route changes
+  // Close mobile sidebar when clicking outside
   useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
+    const handleClickOutside = (event: MouseEvent) => {
+      const sidebar = document.querySelector('.sidebar-container');
+      const toggleButton = document.querySelector('[aria-label*="sidebar"]');
+      
+      if (mobileSidebarOpen && 
+          sidebar && 
+          !sidebar.contains(event.target as Node) && 
+          toggleButton && 
+          !toggleButton.contains(event.target as Node)) {
+        setMobileSidebarOpen(false);
+      }
+    };
+
+    if (mobileSidebarOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [mobileSidebarOpen]);
 
   // Configure layout based on type
   const layoutConfig: LayoutConfig = {
     showSidebar: layoutType === "dashboard",
     showFooter: layoutType === "home",
     headerStyle: layoutType,
-    containerClass: layoutType === "dashboard" ? "dashboard-container" : "min-h-screen bg-gray-50",
+    containerClass: layoutType === "dashboard" ? "dashboard-container" : "min-h-screen bg-background-primary",
   };
 
-  // Exit impersonation mutation
-  const exitImpersonationMutation = api.impersonation.endImpersonation.useMutation({
-    onSuccess: () => {
-      console.log("Impersonation ended successfully");
-      // Redirect to admin dashboard
-      router.push("/dashboard/admin");
-      router.refresh(); // Force refresh to update session
-    },
-    onError: (error) => {
-      console.error("Failed to exit impersonation:", error);
-      // Still try to redirect in case of API error
-      router.push("/dashboard/admin");
-      router.refresh();
-    },
-  });
-
-  // Handle exit impersonation
-  const handleExitImpersonation = () => {
-    console.log("Exiting impersonation session:", impersonation?.sessionId);
-    exitImpersonationMutation.mutate({
-      ipAddress: undefined, // Could be populated from client if needed
-      userAgent: navigator.userAgent,
-    });
-  };
-
-  // Get navigation items based on user role and impersonation status
-  const getNavItems = (): NavItem[] => {
-    // If impersonating, always show user navigation
-    if (impersonation?.isImpersonating) {
-      return [
-        { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-        { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
-      ];
-    }
-
-    // For admins, show navigation based on current view mode
-    if (user.role === "admin") {
-      if (adminViewMode === "user") {
-        // Admin viewing as user - show user navigation
-        return [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-          { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
-        ];
-      } else {
-        // Admin viewing as admin - show admin navigation
-        return [
-          { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: "🩺" },
-          { label: "Valutazioni studenti", href: "/dashboard/admin/student-evaluations", icon: "📝" },
-          { label: "Statistiche studenti", href: "/dashboard/admin/student-statistics", icon: "📊" },
-        ];
-      }
-    } else {
-      // Regular user - show user navigation
-      return [
-        { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: "🎯" },
-        { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: "📝" },
-        { label: "I miei progressi", href: "/dashboard/user/progress", icon: "📈" },
-      ];
-    }
-  };
-
-  const navItems = getNavItems();
+  // Get navigation sections for sidebar
+  const navSections = getNavSections(user, impersonation);
 
   // Determine display user (impersonated or actual)
   const displayUser = impersonation?.isImpersonating ? {
@@ -258,244 +95,6 @@ export function SharedLayout({
     role: "user" as const,
   } : user;
 
-  // Render header based on layout type
-  const renderHeader = () => {
-    if (layoutConfig.headerStyle === "dashboard") {
-      return (
-        <header className="dashboard-header">
-          <div className="layout-container px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Left section: Menu toggle + Logo */}
-              <div className="flex items-center space-x-4">
-                {/* Mobile menu toggle */}
-                <button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 lg:hidden transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  aria-label="Toggle mobile menu"
-                >
-                  <span className="sr-only">Open main menu</span>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {mobileMenuOpen ? (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    ) : (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                    )}
-                  </svg>
-                </button>
-                
-                {/* Desktop sidebar toggle */}
-                <button
-                  onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                  className="p-2 rounded-md text-white hover:text-gray-200 hover:bg-white/10 hidden lg:block transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  aria-label="Toggle sidebar"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h8M4 18h16" />
-                  </svg>
-                </button>
-                
-                {/* Logo */}
-                <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-white/20 rounded-md">
-                  <div className="w-8 h-8 bg-white/20 rounded-lg backdrop-blur-sm flex items-center justify-content-center">
-                    <span className="text-white font-bold text-sm">eP</span>
-                  </div>
-                  <span className="ml-2 text-lg font-bold text-white hidden sm:inline">ePatient</span>
-                </Link>
-              </div>
-              
-              {/* Right section: User info + Controls */}
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                {/* User name - hidden on mobile */}
-                <span className="text-sm text-white/90 font-medium hidden md:inline truncate max-w-32">
-                  {displayUser.name ?? displayUser.email}
-                </span>
-                
-                {/* Role badge */}
-                <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full transition-colors duration-200 ${
-                  displayUser.role === "admin" 
-                    ? "bg-red-500/20 text-red-100 border border-red-400/30" 
-                    : "bg-blue-500/20 text-blue-100 border border-blue-400/30"
-                }`}>
-                  <span className="hidden sm:inline">
-                    {displayUser.role === "admin" ? "Admin" : "Utente"}
-                    {impersonation?.isImpersonating && " (Impersonificato)"}
-                    {user.role === "admin" && !impersonation?.isImpersonating && adminViewMode === "user" && " (Vista Utente)"}
-                  </span>
-                  <span className="sm:hidden">
-                    {displayUser.role === "admin" ? "A" : "U"}
-                  </span>
-                </span>
-                
-                {/* Admin Role Switch Button - only show for admins not being impersonated */}
-                {user.role === "admin" && !impersonation?.isImpersonating && (
-                  <AdminRoleSwitch 
-                    currentMode={adminViewMode} 
-                    onModeChange={setAdminViewMode} 
-                  />
-                )}
-                
-                {/* Logout button */}
-                <button
-                  onClick={() => {
-                    const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
-                    window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-                  }}
-                  className="text-sm text-white/80 hover:text-white transition-colors duration-200 px-2 sm:px-3 py-1 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/20"
-                  title="Logout"
-                >
-                  <span className="hidden sm:inline">Esci</span>
-                  <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          {/* Mobile Menu Overlay */}
-          {mobileMenuOpen && (
-            <div className="lg:hidden" role="dialog" aria-modal="true" aria-label="Mobile navigation menu">
-              <div 
-                className="fixed inset-0 z-50 bg-black/50" 
-                onClick={() => setMobileMenuOpen(false)}
-                aria-hidden="true"
-              />
-              <div className="fixed top-16 left-0 right-0 z-50 bg-gray-800 border-t border-gray-700 shadow-lg max-h-96 overflow-y-auto">
-                <nav className="px-4 py-6" role="navigation" aria-label="Mobile navigation">
-                  <div className="space-y-1" role="list">
-                    {navItems.map((item, index) => {
-                      const isActive = currentPage === item.href || pathname === item.href;
-                      return (
-                        <Link
-                          key={item.href}
-                          href={item.href}
-                          className={`flex items-center px-3 py-3 text-base font-medium rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-white/20 ${
-                            isActive
-                              ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                                ? "bg-red-600 text-white"
-                                : "bg-blue-600 text-white"
-                              : "text-gray-300 hover:bg-gray-700 hover:text-white"
-                          }`}
-                          onClick={() => setMobileMenuOpen(false)}
-                          role="listitem"
-                          aria-current={isActive ? "page" : undefined}
-                        >
-                          <span className="mr-3 text-lg" aria-hidden="true">{item.icon}</span>
-                          {item.label}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                  
-                  {/* Mobile user info */}
-                  <div className="mt-6 pt-6 border-t border-gray-700" role="contentinfo" aria-label="User information">
-                    <div className="flex items-center px-3">
-                      <div className="flex-shrink-0">
-                        <div 
-                          className="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center"
-                          role="img"
-                          aria-label={`${displayUser.name || 'User'} avatar`}
-                        >
-                          <span className="text-white text-sm font-medium" aria-hidden="true">
-                            {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-base font-medium text-white">
-                          {displayUser.name ?? 'User'}
-                        </div>
-                        <div className="text-sm text-gray-400">{displayUser.email}</div>
-                      </div>
-                    </div>
-                  </div>
-                </nav>
-              </div>
-            </div>
-          )}
-        </header>
-      );
-    } else {
-      // Home page header with improved responsive navigation
-      return (
-        <header className="bg-white shadow-sm border-b border-gray-200">
-          <div className="layout-container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <div className="flex items-center">
-                <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-md">
-                  <div className="w-8 h-8 bg-gray-800 rounded flex items-center justify-center">
-                    <span className="text-white font-bold text-sm">eP</span>
-                  </div>
-                  <span className="ml-2 text-lg font-medium text-gray-900">ePatient</span>
-                </Link>
-              </div>
-              
-              {/* Desktop Navigation */}
-              <nav className="hidden md:flex space-x-8">
-                <Link href="/" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Home</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Chi siamo</Link>
-                <Link href="/esplora-pazienti" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">Esplora pazienti</Link>
-                <Link href="#" className="link-secondary hover:text-gray-700 px-3 py-2 rounded-md transition-colors duration-200">News</Link>
-              </nav>
-              
-              {/* User controls */}
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                {user && (
-                  <>
-                    <span className="text-sm text-gray-700 font-medium hidden sm:inline truncate max-w-32">
-                      {displayUser.name || displayUser.email}
-                    </span>
-                    <span className={`px-2 sm:px-3 py-1 text-xs font-semibold rounded-full ${
-                      displayUser.role === "admin" 
-                        ? "bg-red-100 text-red-800 border border-red-200" 
-                        : "bg-blue-100 text-blue-800 border border-blue-200"
-                    }`}>
-                      <span className="hidden sm:inline">
-                        {displayUser.role === "admin" ? "Admin" : "Utente"}
-                        {impersonation?.isImpersonating && " (Impersonificato)"}
-                      </span>
-                      <span className="sm:hidden">
-                        {displayUser.role === "admin" ? "A" : "U"}
-                      </span>
-                    </span>
-                    <Link
-                      href="/dashboard"
-                      className="btn btn-primary btn-sm hidden sm:inline-flex"
-                    >
-                      Area Personale
-                    </Link>
-                    <Link
-                      href="/dashboard"
-                      className="btn btn-primary btn-sm sm:hidden p-2"
-                      title="Area Personale"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
-                        window.location.href = `/api/auth/signout?callbackUrl=${encodeURIComponent(callbackUrl)}`;
-                      }}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200 px-2 py-1 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      title="Logout"
-                    >
-                      <span className="hidden sm:inline">Esci</span>
-                      <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                      </svg>
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </header>
-      );
-    }
-  };
 
   // Render sidebar for dashboard layout
   const renderSidebar = () => {
@@ -503,18 +102,18 @@ export function SharedLayout({
 
     return (
       <aside 
-        className={`dashboard-sidebar ${sidebarCollapsed ? "collapsed" : ""} ${mobileMenuOpen ? "mobile-open" : ""}`}
+        className={`dashboard-sidebar ${sidebarCollapsed ? "collapsed" : ""}`}
         role="complementary"
         aria-label="Dashboard navigation"
       >
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-gray-200">
+        <div className={`${sidebarCollapsed ? 'p-2' : 'p-4'}`}>
           <div className="flex items-center justify-between">
             {!sidebarCollapsed && (
-              <h2 className="text-lg font-semibold text-gray-800" id="sidebar-heading">
+              <h2 className="text-lg font-semibold text-text-primary" id="sidebar-heading">
                 {impersonation?.isImpersonating 
                   ? "Area Personale" 
-                  : user.role === "admin" && adminViewMode === "admin"
+                  : user?.role === "admin"
                     ? "Amministrazione" 
                     : "Area Personale"
                 }
@@ -522,135 +121,100 @@ export function SharedLayout({
             )}
             <button
               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className="p-1.5 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block"
+              className={`${sidebarCollapsed ? 'p-2 bg-background-tertiary border border-border-primary' : 'p-1.5'} rounded-md text-text-tertiary hover:text-text-primary hover:bg-background-tertiary focus:outline-none focus:ring-2 focus:ring-primary-500 hidden lg:block`}
               aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
               aria-expanded={!sidebarCollapsed}
               aria-controls="sidebar-navigation"
             >
-              <svg className={`w-4 h-4 transition-transform duration-200 ${sidebarCollapsed ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-              </svg>
+              <ChevronLeftIcon className={`w-4 h-4 ${sidebarCollapsed ? 'rotate-180' : ''}`} aria-hidden="true" />
             </button>
           </div>
         </div>
         
         {/* Navigation */}
         <nav 
-          className="flex-1 px-4 py-6 space-y-2" 
+          className={`flex-1 ${sidebarCollapsed ? 'px-2 py-4' : 'px-4 py-6'} space-y-2`}
           id="sidebar-navigation"
           aria-labelledby="sidebar-heading"
           role="navigation"
         >
           {/* Navigation Section Label */}
-          {!sidebarCollapsed && (
-            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4" role="heading" aria-level={3}>
-              {impersonation?.isImpersonating 
-                ? "Sessione Impersonificata" 
-                : user.role === "admin" && adminViewMode === "admin"
-                  ? "Funzioni Amministratore" 
-                  : "Le Tue Attività"
-              }
+          {!sidebarCollapsed && impersonation?.isImpersonating && (
+            <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-4" role="heading" aria-level={3}>
+              Sessione Impersonificata
             </p>
           )}
           
-          {/* Navigation Items */}
-          <ul className="space-y-1" role="list">
-            {navItems.map((item, index) => {
-              const isActive = currentPage === item.href || pathname === item.href;
-              return (
-                <li key={item.href} role="listitem">
-                  <Link
-                    href={item.href}
-                    className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-                      isActive
-                        ? (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                          ? "admin-nav-item active"
-                          : "user-nav-item active"
-                        : (user.role === "admin" && adminViewMode === "admin" && !impersonation?.isImpersonating)
-                        ? "admin-nav-item"
-                        : "user-nav-item"
-                    }`}
-                    title={sidebarCollapsed ? item.label : undefined}
-                    aria-current={isActive ? "page" : undefined}
-                    aria-describedby={sidebarCollapsed ? `tooltip-${index}` : undefined}
-                  >
-                    <span className="mr-3 text-lg flex-shrink-0" aria-hidden="true">{item.icon}</span>
-                    {!sidebarCollapsed && (
-                      <span className="truncate">{item.label}</span>
-                    )}
-                    {/* Active indicator */}
-                    {isActive && (
-                      <span 
-                        className="ml-auto w-2 h-2 rounded-full bg-current opacity-75 flex-shrink-0" 
-                        aria-hidden="true"
-                      />
-                    )}
-                  </Link>
-                  
-                  {/* Tooltip for collapsed state */}
-                  {sidebarCollapsed && (
-                    <div 
-                      id={`tooltip-${index}`}
-                      className="absolute left-16 top-0 z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap"
-                      role="tooltip"
-                      aria-hidden="true"
-                    >
-                      {item.label}
-                    </div>
-                  )}
-                </li>
-              );
-            })}
-          </ul>
-          
-          {/* Quick Actions Section */}
-          {!sidebarCollapsed && (
-            <div className="mt-8 pt-6 border-t border-gray-200">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3" role="heading" aria-level={3}>
-                Azioni Rapide
-              </p>
-              <div className="space-y-2" role="list">
-                <Link
-                  href="/esplora-pazienti"
-                  className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  role="listitem"
-                >
-                  <span className="mr-3" aria-hidden="true">🔍</span>
-                  Esplora Pazienti
-                </Link>
-                <Link
-                  href="/"
-                  className="flex items-center px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
-                  role="listitem"
-                >
-                  <span className="mr-3" aria-hidden="true">🏠</span>
-                  Torna alla Home
-                </Link>
-              </div>
+          {/* Navigation Sections */}
+          {navSections.map((section, sectionIndex) => (
+            <div key={section.title} className={sectionIndex > 0 ? "mt-6" : ""}>
+              {!sidebarCollapsed && (
+                <h3 className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-3 px-3" role="heading" aria-level={3}>
+                  {section.title}
+                </h3>
+              )}
+              <ul className="nav-list" role="list">
+                {section.items.map((item: NavItem, itemIndex: number) => {
+                  const isActive = currentPage === item.href || pathname === item.href;
+                  const globalIndex = navSections.slice(0, sectionIndex).reduce((acc, s) => acc + s.items.length, 0) + itemIndex;
+                  return (
+                    <li key={item.href} role="listitem">
+                      <div className="relative group">
+                        <Link
+                          href={item.href}
+                          className={`nav-item ${isActive ? "active" : ""}`}
+                          title={sidebarCollapsed ? item.label : undefined}
+                          aria-current={isActive ? "page" : undefined}
+                          aria-describedby={sidebarCollapsed ? `tooltip-${globalIndex}` : undefined}
+                        >
+                          <item.icon className="w-5 h-5 mr-3 flex-shrink-0" aria-hidden="true" />
+                          {!sidebarCollapsed && (
+                            <span className="truncate">{item.label}</span>
+                          )}
+                        </Link>
+                        
+                        {/* Tooltip for collapsed state */}
+                        {sidebarCollapsed && (
+                          <div 
+                            id={`tooltip-${globalIndex}`}
+                            className="absolute left-16 top-1/2 transform -translate-y-1/2 z-50 px-3 py-2 text-sm text-white bg-background-primary rounded-lg shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap"
+                            role="tooltip"
+                            aria-hidden="true"
+                          >
+                            {item.label}
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1 w-2 h-2 bg-background-primary rotate-45"></div>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
-          )}
+          ))}
+          
         </nav>
         
         {/* User Info Footer */}
         {!sidebarCollapsed && (
-          <div className="p-4 border-t border-gray-200 bg-gray-50" role="contentinfo" aria-label="User information">
+          <div className="p-4 bg-background-secondary" role="contentinfo" aria-label="User information">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div 
-                  className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center"
+                  className="w-8 h-8 bg-background-tertiary rounded-full flex items-center justify-center"
                   role="img"
-                  aria-label={`${displayUser.name || 'User'} avatar`}
+                  aria-label={`${displayUser?.name || 'User'} avatar`}
                 >
-                  <span className="text-gray-700 text-sm font-medium" aria-hidden="true">
-                    {(displayUser.name || displayUser.email).charAt(0).toUpperCase()}
+                  <span className="text-text-primary text-sm font-medium" aria-hidden="true">
+                    {(displayUser?.name || displayUser?.email || 'U').charAt(0).toUpperCase()}
                   </span>
                 </div>
               </div>
               <div className="ml-3 flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {displayUser.name || 'User'}
+                <p className="text-sm font-medium text-text-primary truncate">
+                  {displayUser?.name || 'User'}
                 </p>
-                <p className="text-xs text-gray-500 truncate">{displayUser.email}</p>
+                <p className="text-xs text-text-tertiary truncate">{displayUser?.email}</p>
               </div>
             </div>
           </div>
@@ -659,156 +223,60 @@ export function SharedLayout({
     );
   };
 
-  // Render footer for home layout
-  const renderFooter = () => {
-    if (!layoutConfig.showFooter) return null;
-
-    return (
-      <footer className="bg-gray-900 text-white">
-        {/* Newsletter Section */}
-        <div className="bg-gray-700 py-8">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <p className="text-body-sm text-white">
-                Vuoi ricevere aggiornamenti sui progetti e ricerche gratuite?
-                <br />
-                Iscriviti alla nostra newsletter.
-              </p>
-            </div>
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Il tuo indirizzo email"
-                className="input-field rounded-r-none"
-              />
-              <button className="btn btn-primary rounded-l-none">
-                Iscriviti
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Footer */}
-        <div className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              {/* Logo and Info */}
-              <div className="col-span-2">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-white rounded"></div>
-                  <div className="ml-4">
-                    <p className="text-body-sm text-white">
-                      Progetto sviluppato in collaborazione con l&apos;Università degli Studi di
-                      Milano-Bicocca
-                    </p>
-                    <p className="text-body-sm text-white">
-                      Dipartimento di Informatica, Sistemistica e Comunicazione
-                    </p>
-                    <p className="text-body-sm text-white">
-                      Dipartimento di Medicina e Chirurgia
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Collegamenti rapidi */}
-              <div>
-                <h3 className="text-body font-semibold mb-4 text-white">Collegamenti rapidi</h3>
-                <ul className="space-y-2 text-body-sm">
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">Chi siamo</Link></li>
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">News</Link></li>
-                  <li><Link href="/esplora-pazienti" className="link-secondary hover:text-gray-300">Esplora pazienti</Link></li>
-                  <li><Link href="#" className="link-secondary hover:text-gray-300">Contatti</Link></li>
-                </ul>
-              </div>
-
-              {/* Contatti */}
-              <div>
-                <h3 className="text-body font-semibold mb-4 text-white">Contatti</h3>
-                <div className="space-y-2 text-body-sm text-white">
-                  <p>ePatient</p>
-                  <p>epatient@email.com</p>
-                  <div className="flex space-x-4 mt-4">
-                    {/* Social Media Icons */}
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                      </svg>
-                    </Link>
-                    <Link href="#" className="hover:text-gray-300">
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.888-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.357-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001 12.017.001z"/>
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Bottom section */}
-            <div className="mt-8 pt-8 border-t border-gray-600">
-              <div className="flex flex-col md:flex-row justify-between items-center">
-                <p className="text-body-sm text-gray-400">
-                  © 2024 ePatient. Tutti i diritti riservati.
-                </p>
-                <div className="flex space-x-6 text-body-sm text-gray-400 mt-4 md:mt-0">
-                  <Link href="#" className="link-secondary hover:text-gray-300">Privacy Policy</Link>
-                  <Link href="#" className="link-secondary hover:text-gray-300">Termini e condizioni</Link>
-                  <Link href="#" className="link-secondary hover:text-gray-300">Informazioni cookie</Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-    );
-  };
 
   return (
     <div className={`layout-container ${layoutConfig.containerClass}`}>
-      {/* Skip Navigation Link */}
+      {/* Skip Navigation Links */}
       <a 
         href="#main-content" 
         className="skip-link"
         onFocus={(e) => e.currentTarget.style.top = '6px'}
         onBlur={(e) => e.currentTarget.style.top = '-40px'}
       >
-        Skip to main content
+        Vai al contenuto principale
+      </a>
+      {layoutConfig.showSidebar && (
+        <a 
+          href="#sidebar-navigation" 
+          className="skip-link"
+          onFocus={(e) => e.currentTarget.style.top = '6px'}
+          onBlur={(e) => e.currentTarget.style.top = '-40px'}
+        >
+          Vai alla navigazione laterale
+        </a>
+      )}
+      <a 
+        href="#site-navigation" 
+        className="skip-link"
+        onFocus={(e) => e.currentTarget.style.top = '6px'}
+        onBlur={(e) => e.currentTarget.style.top = '-40px'}
+      >
+        Vai al menu principale
       </a>
       
-      {/* Impersonation Banner */}
-      {impersonation?.isImpersonating && (
-        <div role="banner" aria-label="Impersonation notification">
-          <ImpersonationBanner
-            impersonation={impersonation}
-            onExitImpersonation={handleExitImpersonation}
-            isExiting={exitImpersonationMutation.isPending}
-          />
-        </div>
-      )}
-
-      {/* Header */}
-      <div className="header-container">
-        <div role="banner">
-          {renderHeader()}
-        </div>
-      </div>
+      {/* Unified Navbar */}
+      <Navbar
+        user={user}
+        impersonation={impersonation}
+        layoutType={layoutType}
+        currentPage={currentPage}
+        onSidebarToggle={() => {
+          const isMobile = window.innerWidth < 1024;
+          if (isMobile) {
+            setMobileSidebarOpen(!mobileSidebarOpen);
+          } else {
+            setSidebarCollapsed(!sidebarCollapsed);
+          }
+        }}
+        sidebarCollapsed={sidebarCollapsed}
+        showSidebar={layoutConfig.showSidebar}
+      />
 
       {/* Main Layout */}
       <div className={`main-container ${layoutConfig.showSidebar ? "dashboard-layout" : "home-layout"}`}>
         {/* Sidebar */}
         {layoutConfig.showSidebar && (
-          <div className="sidebar-container">
+          <div className={`sidebar-container ${mobileSidebarOpen ? "mobile-open" : ""}`}>
             <nav role="navigation" aria-label="Main navigation">
               {renderSidebar()}
             </nav>
@@ -829,14 +297,6 @@ export function SharedLayout({
         </main>
       </div>
 
-      {/* Footer */}
-      {layoutConfig.showFooter && (
-        <div className="footer-container">
-          <footer role="contentinfo" aria-label="Site footer">
-            {renderFooter()}
-          </footer>
-        </div>
-      )}
     </div>
   );
 }

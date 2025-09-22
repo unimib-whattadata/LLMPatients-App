@@ -238,6 +238,7 @@ export const authConfig = {
   // Enhanced pages configuration
   pages: {
     signIn: '/login',
+    signOut: '/signout', // Custom styled signout page
     error: '/login', // Redirect errors to login page
   },
   

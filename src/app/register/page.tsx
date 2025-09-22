@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -165,7 +166,7 @@ export default function RegisterPage() {
       {/* Left Side - Branding */}
       <div className="auth-brand-section">
         <div className="auth-brand-content">
-          <h1 className="auth-brand-title">Nome Brand</h1>
+          <h1 className="auth-brand-title">LLMPatient</h1>
           <p className="auth-brand-subtitle">
             Unisciti alla nostra piattaforma di allenamento con pazienti virtuali. Inizia la tua esperienza qui.
           </p>
@@ -180,8 +181,15 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Global Error Message */}
               {error && (
-                <div className="auth-global-error">
-                  {error}
+                <div className="message message-error message-large">
+                  <div className="message-icon">
+                    <XMarkIcon className="w-5 h-5" />
+                  </div>
+                  <div className="message-content">
+                    <div className="message-text">
+                      {error}
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -208,9 +216,16 @@ export default function RegisterPage() {
                   aria-invalid={!!nameError}
                 />
                 {nameError && (
-                  <p id="name-error" className="auth-error-message" role="alert">
-                    {nameError}
-                  </p>
+                  <div id="name-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {nameError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -237,9 +252,16 @@ export default function RegisterPage() {
                   aria-invalid={!!emailError}
                 />
                 {emailError && (
-                  <p id="email-error" className="auth-error-message" role="alert">
-                    {emailError}
-                  </p>
+                  <div id="email-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {emailError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -269,9 +291,16 @@ export default function RegisterPage() {
                   aria-invalid={!!passwordError}
                 />
                 {passwordError && (
-                  <p id="password-error" className="auth-error-message" role="alert">
-                    {passwordError}
-                  </p>
+                  <div id="password-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {passwordError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -298,9 +327,16 @@ export default function RegisterPage() {
                   aria-invalid={!!confirmPasswordError}
                 />
                 {confirmPasswordError && (
-                  <p id="confirm-password-error" className="auth-error-message" role="alert">
-                    {confirmPasswordError}
-                  </p>
+                  <div id="confirm-password-error" className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {confirmPasswordError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -318,7 +354,7 @@ export default function RegisterPage() {
                     }}
                     className="auth-checkbox mt-1"
                   />
-                  <label htmlFor="accept-terms" className="ml-2 text-sm text-gray-300">
+                  <label htmlFor="accept-terms" className="ml-2 text-sm text-text-secondary">
                     Accetto i{" "}
                     <Link href="/terms" className="auth-link">
                       termini e condizioni
@@ -330,9 +366,16 @@ export default function RegisterPage() {
                   </label>
                 </div>
                 {termsError && (
-                  <p className="auth-error-message" role="alert">
-                    {termsError}
-                  </p>
+                  <div className="message message-error message-inline" role="alert">
+                    <div className="message-icon">
+                      <XMarkIcon className="w-4 h-4" />
+                    </div>
+                    <div className="message-content">
+                      <div className="message-text">
+                        {termsError}
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -355,7 +398,7 @@ export default function RegisterPage() {
 
               {/* Login Link */}
               <div className="text-center mt-4">
-                <span className="auth-text-muted text-sm">Hai già un account? </span>
+                <span className="auth-text-muted text-sm">Hai gia un account? </span>
                 <Link href="/login" className="auth-link text-sm">
                   Accedi qui
                 </Link>

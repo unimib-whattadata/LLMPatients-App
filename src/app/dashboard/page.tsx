@@ -18,10 +18,10 @@ import { Suspense } from "react";
  */
 function DashboardLoading() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-background-primary">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">Redirecting to your dashboard...</p>
+        <div className="rounded-full h-12 w-12 border-b-2 border-success-600 mx-auto mb-4"></div>
+        <p className="text-text-secondary">Redirecting to your dashboard...</p>
       </div>
     </div>
   );
@@ -77,10 +77,10 @@ async function DashboardRouter() {
     // Role-based routing with enhanced logging
     if (userRole === "admin") {
       console.log("Redirecting admin user to admin dashboard");
-      redirect("/dashboard/admin/create-patient?auth=jwt");
+      redirect("/dashboard/admin?auth=jwt");
     } else {
       console.log("Redirecting user to user dashboard");
-      redirect("/dashboard/user/simulations?auth=jwt");
+      redirect("/dashboard/user?auth=jwt");
     }
   } catch (error) {
     // Handle redirect errors (normal flow) vs actual errors

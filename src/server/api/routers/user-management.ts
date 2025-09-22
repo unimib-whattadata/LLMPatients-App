@@ -11,8 +11,8 @@
 
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "~/server/api/trpc";
-import { users, accounts } from "~/server/db/schema";
-import { eq, desc, asc, and, or, like } from "drizzle-orm";
+import { users, accounts, sessions, userActivities, impersonationSessions, impersonationAuditLog } from "~/server/db/schema";
+import { eq, desc, asc, and, or, like, count } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
 export const userManagementRouter = createTRPCRouter({
@@ -266,23 +266,66 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("Cannot delete your own account");
       }
 
-      // Delete user accounts first (foreign key constraint)
-      await ctx.db.delete(accounts).where(eq(accounts.userId, userId));
+      try {
+        // Use a transaction to ensure all deletions succeed or none do
+        const result = await ctx.db.transaction(async (tx) => {
+          // First, get all impersonation session IDs for this user
+          const userImpersonationSessions = await tx
+            .select({ id: impersonationSessions.id })
+            .from(impersonationSessions)
+            .where(
+              or(
+                eq(impersonationSessions.adminUserId, userId),
+                eq(impersonationSessions.targetUserId, userId)
+              )
+            );
 
-      // Delete user
-      const deletedUser = await ctx.db
-        .delete(users)
-        .where(eq(users.id, userId))
-        .returning({
-          id: users.id,
-          email: users.email,
+          // Delete impersonation audit logs (references impersonation sessions)
+          if (userImpersonationSessions.length > 0) {
+            const sessionIds = userImpersonationSessions.map(session => session.id);
+            await tx.delete(impersonationAuditLog).where(
+              or(...sessionIds.map(id => eq(impersonationAuditLog.impersonationSessionId, id)))
+            );
+          }
+
+          // Delete impersonation sessions (references users)
+          await tx.delete(impersonationSessions).where(
+            or(
+              eq(impersonationSessions.adminUserId, userId),
+              eq(impersonationSessions.targetUserId, userId)
+            )
+          );
+
+          // Delete user activities (references users)
+          await tx.delete(userActivities).where(eq(userActivities.userId, userId));
+
+          // Delete sessions (references users)
+          await tx.delete(sessions).where(eq(sessions.userId, userId));
+
+          // Delete user accounts (references users)
+          await tx.delete(accounts).where(eq(accounts.userId, userId));
+
+          // Finally delete the user
+          const deletedUser = await tx
+            .delete(users)
+            .where(eq(users.id, userId))
+            .returning({
+              id: users.id,
+              email: users.email,
+            });
+
+          if (deletedUser.length === 0) {
+            throw new Error("User not found");
+          }
+
+          return deletedUser[0];
         });
 
-      if (deletedUser.length === 0) {
-        throw new Error("User not found");
+        return { success: true, deletedUser: result };
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        throw new Error(`Failed to delete user: ${error instanceof Error ? error.message : "Unknown error"}`);
       }
-
-      return { success: true, deletedUser: deletedUser[0] };
     }),
 
   /**
@@ -333,25 +376,27 @@ export const userManagementRouter = createTRPCRouter({
       throw new Error("Unauthorized: Admin access required");
     }
 
-    // Get total users
-    const totalUsers = await ctx.db.select({ count: users.id }).from(users);
+    // Get total users count
+    const totalUsersResult = await ctx.db
+      .select({ count: count() })
+      .from(users);
     
-    // Get admin users
-    const adminUsers = await ctx.db
-      .select({ count: users.id })
+    // Get admin users count
+    const adminUsersResult = await ctx.db
+      .select({ count: count() })
       .from(users)
       .where(eq(users.role, "admin"));
     
-    // Get regular users
-    const regularUsers = await ctx.db
-      .select({ count: users.id })
+    // Get regular users count
+    const regularUsersResult = await ctx.db
+      .select({ count: count() })
       .from(users)
       .where(eq(users.role, "user"));
 
     return {
-      totalUsers: totalUsers.length,
-      adminUsers: adminUsers.length,
-      regularUsers: regularUsers.length,
+      totalUsers: totalUsersResult[0]?.count ?? 0,
+      adminUsers: adminUsersResult[0]?.count ?? 0,
+      regularUsers: regularUsersResult[0]?.count ?? 0,
     };
   }),
 

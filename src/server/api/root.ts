@@ -1,4 +1,3 @@
-import { postRouter } from "~/server/api/routers/post";
 import { dashboardRouter } from "~/server/api/routers/dashboard";
 import { userManagementRouter } from "~/server/api/routers/user-management";
 import { impersonationRouter } from "~/server/api/routers/impersonation";
@@ -13,7 +12,6 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   chat: chatRouter,
-  post: postRouter,
   dashboard: dashboardRouter, // Add dashboard router for role-based dashboard functionality
   userManagement: userManagementRouter, // Add user management router for admin operations
   impersonation: impersonationRouter, // Add impersonation router for admin user impersonation

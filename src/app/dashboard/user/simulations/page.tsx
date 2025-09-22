@@ -7,8 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { MySimulationsContent } from "./_components/MySimulationsContent";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { MySimulationsContent } from "@/components/features/dashboard/MySimulationsContent";
 
 /**
  * My Simulations Page Component

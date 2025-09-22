@@ -55,7 +55,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
       {/* Floating debug button */}
       <button
         onClick={() => setIsVisible(!isVisible)}
-        className="fixed bottom-4 left-4 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50"
+        className="fixed bottom-4 left-4 bg-accent-600 text-text-primary p-3 rounded-full hover:bg-accent-700 z-50"
         title="Toggle Session Debug Info"
       >
         🐛
@@ -63,12 +63,12 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
 
       {/* Debug panel */}
       {isVisible && (
-        <div className="fixed bottom-20 left-4 bg-black bg-opacity-90 text-green-400 p-4 rounded-lg shadow-xl max-w-lg max-h-96 overflow-auto font-mono text-xs z-50">
+        <div className="fixed bottom-20 left-4 bg-background-secondary/95 text-text-secondary p-4 rounded-lg max-w-lg max-h-96 overflow-auto font-mono text-xs z-50">
           <div className="flex justify-between items-center mb-2">
-            <h3 className="text-white font-bold">Session Debug Info</h3>
+            <h3 className="text-text-primary font-bold">Session Debug Info</h3>
             <button
               onClick={() => setIsVisible(false)}
-              className="text-gray-400 hover:text-white"
+              className="text-text-tertiary hover:text-text-primary"
             >
               ✕
             </button>
@@ -76,24 +76,24 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
           
           <div className="space-y-2">
             <div>
-              <span className="text-yellow-400">Status:</span> 
+              <span className="text-secondary-300">Status:</span> 
               <span className={`ml-2 ${
-                status === 'authenticated' ? 'text-green-400' : 
-                status === 'loading' ? 'text-yellow-400' : 'text-red-400'
+                status === 'authenticated' ? 'text-success-500' : 
+                status === 'loading' ? 'text-warning-500' : 'text-error-500'
               }`}>
                 {status}
               </span>
             </div>
             
             <div>
-              <span className="text-yellow-400">Session Data:</span>
-              <pre className="mt-1 text-xs bg-gray-800 p-2 rounded overflow-x-auto">
+              <span className="text-secondary-300">Session Data:</span>
+              <pre className="mt-1 text-xs bg-background-tertiary p-2 rounded overflow-x-auto">
                 {JSON.stringify(debugInfo.sessionData, null, 2) || 'null'}
               </pre>
             </div>
             
             <div>
-              <span className="text-yellow-400">Auth Cookies:</span>
+              <span className="text-secondary-300">Auth Cookies:</span>
               <div className="mt-1 space-y-1">
                 {debugInfo.cookieInfo.map((cookie, index) => (
                   <div key={index} className="text-xs break-all">
@@ -104,17 +104,17 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
             </div>
             
             <div>
-              <span className="text-yellow-400">Last Updated:</span> 
+              <span className="text-secondary-300">Last Updated:</span> 
               <span className="ml-2">{debugInfo.clientTimestamp}</span>
             </div>
             
-            <div className="pt-2 border-t border-gray-700">
+            <div className="pt-2">
               <button
                 onClick={() => {
                   update();
                   console.log('Session update triggered');
                 }}
-                className="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700"
+                className="bg-accent-600 text-text-primary px-3 py-1 rounded text-xs hover:bg-accent-700"
               >
                 Force Session Update
               </button>
@@ -133,7 +133,7 @@ export function SessionDebug({ enabled = false }: SessionDebugProps) {
                     Object.keys(sessionStorage).filter(key => key.includes('next-auth')));
                   console.log('========================');
                 }}
-                className="bg-green-600 text-white px-3 py-1 rounded text-xs hover:bg-green-700 ml-2"
+                className="bg-success-600 text-text-primary px-3 py-1 rounded text-xs hover:bg-success-700 ml-2"
               >
                 Log to Console
               </button>

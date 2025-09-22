@@ -200,16 +200,16 @@ export function logAuthError(error: AuthError, context?: Record<string, unknown>
       console.error('🚨 CRITICAL AUTH ERROR:', logData);
       break;
     case 'high':
-      console.error('❌ HIGH SEVERITY AUTH ERROR:', logData);
+      console.error('[HIGH SEVERITY] AUTH ERROR:', logData);
       break;
     case 'medium':
-      console.warn('⚠️ MEDIUM SEVERITY AUTH ERROR:', logData);
+      console.warn(' MEDIUM SEVERITY AUTH ERROR:', logData);
       break;
     case 'low':
-      console.info('ℹ️ LOW SEVERITY AUTH ERROR:', logData);
+      console.info(' LOW SEVERITY AUTH ERROR:', logData);
       break;
     default:
-      console.log('📝 AUTH ERROR:', logData);
+      console.log('AUTH ERROR:', logData);
   }
 }
 
@@ -268,7 +268,7 @@ export async function handleAuthErrorWithRetry<T>(
       
       // If we had previous errors but this attempt succeeded, log recovery
       if (lastError && attempt > 1) {
-        console.log('✅ Auth operation recovered after retry:', {
+        console.log('[RECOVERY] Auth operation recovered after retry:', {
           attempt,
           previousError: lastError.type,
           context
