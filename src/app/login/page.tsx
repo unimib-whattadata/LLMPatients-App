@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn, useSession, getSession } from "next-auth/react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -21,7 +21,7 @@ interface LoginState {
   sessionRetries: number;
 }
 
-export default function LoginPage() {
+function LoginPageComponent() {
   // Consolidated state management with JWT session tracking
   const [loginState, setLoginState] = useState<LoginState>({
     phase: "loading",
@@ -571,5 +571,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPageComponent />
+    </Suspense>
   );
 }
