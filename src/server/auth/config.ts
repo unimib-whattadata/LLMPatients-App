@@ -205,6 +205,8 @@ export const authConfig = {
      */
   ],
 
+  trustHost: true,
+
   // Note: Adapter is removed when using JWT strategy
   // adapter: DrizzleAdapter(db, {...}) - Only used with database strategy
 
