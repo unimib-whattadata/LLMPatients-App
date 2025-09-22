@@ -29,7 +29,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <ToastProvider>
               {children}
-              <SessionDebug enabled={process.env.NODE_ENV === 'development'} />
+              <SessionDebug enabled={process.env.NODE_ENV === "development"} />
             </ToastProvider>
           </TRPCReactProvider>
         </SessionProvider>

@@ -17,6 +17,8 @@ db.sqlite
 /.next/
 /out/
 next-env.d.ts
+dev.db
+package-lock.json
 
 # production
 /build

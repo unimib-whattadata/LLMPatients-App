@@ -29,6 +29,60 @@ type AdapterAccount = {
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
+export const chats = createTable("chat", (d) => ({
+  id: d
+    .text({ length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: d
+    .text({ length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  virtualPatientId: d
+    .text({ length: 255 })
+    .notNull()
+    .references(() => patients.id, { onDelete: "cascade" }),
+  createdAt: d
+    .integer({ mode: "timestamp" })
+    .default(sql`(unixepoch())`)
+    .notNull(),
+  updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+}));
+
+export const messages = createTable(
+  "message",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+
+    chatId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => chats.id, { onDelete: "cascade" }),
+
+    senderId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+
+    content: d.text({ length: 2000 }).notNull(),
+
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+  }),
+  (t) => [
+    index("message_chat_id_idx").on(t.chatId),
+    index("message_sender_id_idx").on(t.senderId),
+    index("message_created_at_idx").on(t.createdAt),
+  ],
+);
+
 export const users = createTable("user", (d) => ({
   id: d
     .text({ length: 255 })
@@ -39,7 +93,7 @@ export const users = createTable("user", (d) => ({
   email: d.text({ length: 255 }).notNull(),
   password: d.text({ length: 255 }),
   // Role field for user access control - 'admin' or 'user'
-  role: d.text({ length: 20 }).default('user').notNull(),
+  role: d.text({ length: 20 }).default("user").notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
 }));
@@ -210,26 +264,32 @@ export const impersonationAuditLog = createTable(
 );
 
 // Relations for impersonation tables
-export const impersonationSessionsRelations = relations(impersonationSessions, ({ one, many }) => ({
-  adminUser: one(users, {
-    fields: [impersonationSessions.adminUserId],
-    references: [users.id],
-    relationName: "adminImpersonationSessions",
+export const impersonationSessionsRelations = relations(
+  impersonationSessions,
+  ({ one, many }) => ({
+    adminUser: one(users, {
+      fields: [impersonationSessions.adminUserId],
+      references: [users.id],
+      relationName: "adminImpersonationSessions",
+    }),
+    targetUser: one(users, {
+      fields: [impersonationSessions.targetUserId],
+      references: [users.id],
+      relationName: "targetImpersonationSessions",
+    }),
+    auditLogs: many(impersonationAuditLog),
   }),
-  targetUser: one(users, {
-    fields: [impersonationSessions.targetUserId],
-    references: [users.id],
-    relationName: "targetImpersonationSessions",
-  }),
-  auditLogs: many(impersonationAuditLog),
-}));
+);
 
-export const impersonationAuditLogRelations = relations(impersonationAuditLog, ({ one }) => ({
-  impersonationSession: one(impersonationSessions, {
-    fields: [impersonationAuditLog.impersonationSessionId],
-    references: [impersonationSessions.id],
+export const impersonationAuditLogRelations = relations(
+  impersonationAuditLog,
+  ({ one }) => ({
+    impersonationSession: one(impersonationSessions, {
+      fields: [impersonationAuditLog.impersonationSessionId],
+      references: [impersonationSessions.id],
+    }),
   }),
-}));
+);
 
 // Patients table for patient exploration page
 export const patients = createTable(
@@ -246,7 +306,7 @@ export const patients = createTable(
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default('illustration').notNull(), // 'photo', 'illustration', 'avatar'
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
     difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
     estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
@@ -274,7 +334,7 @@ export const patientTags = createTable(
       .$defaultFn(() => crypto.randomUUID()),
     label: d.text({ length: 100 }).notNull(),
     category: d.text({ length: 50 }).notNull(), // 'psychological', 'physical', 'behavioral'
-    color: d.text({ length: 20 }).default('#gray').notNull(),
+    color: d.text({ length: 20 }).default("#gray").notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
@@ -316,17 +376,46 @@ export const patientTagsRelations = relations(patientTags, ({ many }) => ({
   patientRelations: many(patientTagRelations),
 }));
 
-export const patientTagRelationsRelations = relations(patientTagRelations, ({ one }) => ({
-  patient: one(patients, {
-    fields: [patientTagRelations.patientId],
+export const patientTagRelationsRelations = relations(
+  patientTagRelations,
+  ({ one }) => ({
+    patient: one(patients, {
+      fields: [patientTagRelations.patientId],
+      references: [patients.id],
+    }),
+    tag: one(patientTags, {
+      fields: [patientTagRelations.tagId],
+      references: [patientTags.id],
+    }),
+  }),
+);
+
+export const chatsRelations = relations(chats, ({ many, one }) => ({
+  user: one(users, {
+    fields: [chats.userId],
+    references: [users.id],
+  }),
+  virtualPatient: one(patients, {
+    fields: [chats.virtualPatientId],
     references: [patients.id],
   }),
-  tag: one(patientTags, {
-    fields: [patientTagRelations.tagId],
-    references: [patientTags.id],
+  messages: many(messages),
+}));
+
+export const messagesRelations = relations(messages, ({ one }) => ({
+  chat: one(chats, {
+    fields: [messages.chatId],
+    references: [chats.id],
+  }),
+  sender: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
   }),
 }));
 
+export const usersRelations = relations(users, ({ many }) => ({
+  chats: many(chats),
+}));
 export const therapySessions = createTable(
   "therapy_session",
   (d) => ({
@@ -357,16 +446,19 @@ export const therapySessions = createTable(
   ],
 );
 
-export const therapySessionsRelations = relations(therapySessions, ({ one }) => ({
-  user: one(users, {
-    fields: [therapySessions.userId],
-    references: [users.id],
+export const therapySessionsRelations = relations(
+  therapySessions,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [therapySessions.userId],
+      references: [users.id],
+    }),
+    patient: one(patients, {
+      fields: [therapySessions.patientId],
+      references: [patients.id],
+    }),
   }),
-  patient: one(patients, {
-    fields: [therapySessions.patientId],
-    references: [patients.id],
-  }),
-}));
+);
 
 export const extendedUsersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
