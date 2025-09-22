@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, ActionCardSkeleton } from "~/components/ui/Skeleton";
+import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, ActionCardSkeleton } from "@/components/ui/Skeleton";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<"overview" | "profile" | "activities">("overview");

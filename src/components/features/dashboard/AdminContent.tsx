@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, TableSkeleton } from "~/components/ui/Skeleton";
+import { MetricCardSkeleton, SectionSkeleton, ListItemSkeleton, TableSkeleton } from "@/components/ui/Skeleton";
 import { UsersIcon } from "@heroicons/react/24/outline";
 
 interface ImpersonationModalProps {

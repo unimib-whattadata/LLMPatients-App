@@ -7,8 +7,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { PatientDetailsContent } from "./_components/PatientDetailsContent";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { PatientDetailsContent } from "@/components/features/dashboard/PatientDetailsContent";
 
 /**
  * Patient Details Page Component

@@ -1,6 +1,6 @@
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { PatientGridWrapper } from "./_components/PatientGridWrapper";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { PatientGridWrapper } from "@/components/features/explore-patients/PatientGridWrapper";
 import { HydrateClient } from "~/trpc/server";
 
 /**

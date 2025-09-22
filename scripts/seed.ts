@@ -397,4 +397,4 @@ if (isDirectExecution) {
   void runSeeding();
 }
 
-export { seedDatabase, seedPatientTags, seedVirtualPatients };
+export { seedDatabase, seedPatientTags };

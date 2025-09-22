@@ -5,8 +5,8 @@ import { Geist } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { ToastProvider } from "~/components/ui/ToastProvider";
-import SessionDebug from "~/components/debug/SessionDebug";
+import { ToastProvider } from "@/components/ui/ToastProvider";
+import SessionDebug from "@/components/debug/SessionDebug";
 
 export const metadata: Metadata = {
   title: "LLMPatient - Medical Simulation Platform",

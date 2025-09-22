@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useToast } from "~/components/ui/ToastProvider";
+import { useToast } from "@/components/ui/ToastProvider";
 
 // Define the consolidated login state interface
 interface LoginState {

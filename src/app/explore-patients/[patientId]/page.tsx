@@ -3,8 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { PatientAvatar } from "../_components/PatientAvatar";
-import { PatientTags } from "../_components/PatientTags";
+import { PatientAvatar, PatientTags } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
 
 const SECTION_BASE = "bg-background-secondary rounded-lg";

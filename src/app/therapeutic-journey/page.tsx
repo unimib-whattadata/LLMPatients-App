@@ -1,6 +1,6 @@
 "use client";
 
-import { SharedLayout } from "~/components/layout/SharedLayout";
+import { SharedLayout } from "@/components/layout/SharedLayout";
 import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 
 type PathPoint = {

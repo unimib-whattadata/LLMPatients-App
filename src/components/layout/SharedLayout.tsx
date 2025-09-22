@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Navbar } from "~/components/navigation/Navbar";
-import { getNavSections } from "~/components/navigation/navigationUtils";
+import { Navbar, getNavSections } from "@/components/navigation";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 
-import type { User, ImpersonationContext, AdminViewMode, NavItem } from "~/components/navigation/Navbar";
+import type { User, ImpersonationContext, AdminViewMode, NavItem } from "~/types";
 
 interface LayoutConfig {
   showSidebar: boolean;

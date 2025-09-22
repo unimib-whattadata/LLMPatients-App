@@ -15,8 +15,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "~/components/layout/SharedLayout";
-import { ManageUsersContent } from "./_components/ManageUsersContent";
+import { SharedLayout } from "@/components/layout/SharedLayout";
+import { ManageUsersContent } from "@/components/features/admin/ManageUsersContent";
 
 /**
  * User Management Page Component
