@@ -50,7 +50,7 @@ export function useChat({ userId, virtualPatientId }: UseChatOptions) {
       setTimeout(async () => {
         const botMessage = await sendMessageMutation.mutateAsync({
           chatId,
-          senderId: virtualPatientId, // simuliamo bot come virtual patient
+          senderId: virtualPatientId,
           content: "Risposta generata dal bot 🤖",
         });
         setIsGenerating(false);
