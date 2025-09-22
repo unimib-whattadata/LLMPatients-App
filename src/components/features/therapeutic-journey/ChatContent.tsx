@@ -32,7 +32,15 @@ interface ChatMessage {
   stepId: number;
 }
 
-// Function to generate patient avatar placeholder
+/**
+ * Generates a consistent avatar placeholder for patients based on their name
+ * 
+ * Creates a colored circle with initials for patients who don't have profile images.
+ * Uses a deterministic color selection based on the patient's name for consistency.
+ * 
+ * @param name - The patient's name
+ * @returns CSS background style string for the avatar
+ */
 function generatePatientAvatar(name: string): string {
   const initials = name
     .split(' ')
@@ -60,12 +68,31 @@ function generatePatientAvatar(name: string): string {
   return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
+/**
+ * ChatContent Component
+ * 
+ * Interactive chat interface for therapy sessions with virtual patients.
+ * Handles real-time messaging, message persistence, and patient interaction.
+ * 
+ * Features:
+ * - Real-time chat with virtual patients
+ * - Message history persistence
+ * - Auto-scroll to latest messages
+ * - Patient avatar generation
+ * - Loading states and error handling
+ * - Support for impersonation mode
+ * 
+ * @param user - Current user information
+ * @param impersonation - Optional impersonation context for admin users
+ * @returns JSX element containing the chat interface
+ */
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
   const router = useRouter();
   const sessionId = params.sessionId as string;
   const stepId = parseInt(params.stepId as string);
   
+  // Chat state management
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);

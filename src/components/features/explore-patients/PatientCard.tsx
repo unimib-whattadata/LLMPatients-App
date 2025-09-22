@@ -16,7 +16,19 @@ interface PatientCardProps {
 
 /**
  * PatientCard Component
- * Enhanced patient information card with improved styling and accessibility
+ * 
+ * Displays patient information in a card format with enhanced styling and accessibility.
+ * Shows patient demographics, psychological profile, difficulty level, and estimated duration.
+ * 
+ * Features:
+ * - Patient avatar display
+ * - Difficulty level indicators with accessibility labels
+ * - Patient tags for categorization
+ * - Estimated session duration
+ * - Link to patient detail page
+ * 
+ * @param patient - Patient object containing all patient information
+ * @returns JSX element representing a patient card
  */
 export function PatientCard({ patient }: PatientCardProps) {
   const details = JSON.parse(patient.details) as {

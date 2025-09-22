@@ -19,7 +19,9 @@ import {
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 
-// Types
+/**
+ * User interface for navigation context
+ */
 interface User {
   id: string;
   name: string | null;
@@ -28,6 +30,9 @@ interface User {
   image?: string | null;
 }
 
+/**
+ * Impersonation context for admin users
+ */
 interface ImpersonationContext {
   isImpersonating: boolean;
   originalAdminId: string;
@@ -38,12 +43,18 @@ interface ImpersonationContext {
   sessionId: string;
 }
 
+/**
+ * Navigation item structure
+ */
 interface NavItem {
   label: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
+/**
+ * Navigation section containing multiple items
+ */
 interface NavSection {
   title: string;
   items: NavItem[];
@@ -63,8 +74,27 @@ interface NavbarProps {
 }
 
 /**
- * Unified Navbar Component
- * Handles all navigation across different page types
+ * Navbar Component
+ * 
+ * Unified navigation component that handles all navigation across different page types.
+ * Provides responsive navigation with mobile support, user authentication, and admin features.
+ * 
+ * Features:
+ * - Responsive mobile navigation with hamburger menu
+ * - User authentication state display
+ * - Admin impersonation functionality
+ * - Dynamic navigation items based on user role
+ * - Sidebar toggle for dashboard layouts
+ * - Breadcrumb navigation
+ * 
+ * @param user - Current user information
+ * @param impersonation - Impersonation context for admin users
+ * @param layoutType - Layout type ("dashboard" or "home")
+ * @param currentPage - Current page identifier
+ * @param onSidebarToggle - Callback for sidebar toggle
+ * @param sidebarCollapsed - Whether sidebar is collapsed
+ * @param showSidebar - Whether to show sidebar toggle
+ * @returns JSX element containing the navigation bar
  */
 export function Navbar({
   user,

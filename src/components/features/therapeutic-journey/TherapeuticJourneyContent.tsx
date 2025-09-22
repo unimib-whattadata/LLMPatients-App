@@ -7,9 +7,20 @@ import { api } from "~/trpc/react";
 
 /**
  * Therapeutic Journey Content Component
- * Client-side component for managing therapy sessions
+ * 
+ * Main component for displaying and managing therapy sessions for users.
+ * Provides filtering, metrics, and session management functionality.
+ * 
+ * Features:
+ * - Session filtering by status (all, started, in-progress, completed)
+ * - Real-time metrics calculation (progress, completion rates)
+ * - Responsive grid layout with loading states
+ * - Integration with tRPC for data fetching
+ * 
+ * @returns JSX element containing the therapeutic journey interface
  */
 export function TherapeuticJourneyContent() {
+  // Current filter state for session status
   const [filter, setFilter] = useState<string>("all");
 
   const {
@@ -18,14 +29,21 @@ export function TherapeuticJourneyContent() {
     error: sessionsError,
   } = api.therapySessions.getAllForUser.useQuery();
 
-  // Memoized function to get session status
+  /**
+   * Determines the status of a therapy session based on session number
+   * @param sessionNumber - The current session number (1-11)
+   * @returns Session status: "started", "in-progress", or "completed"
+   */
   const getSessionStatus = useCallback((sessionNumber: number) => {
     if (sessionNumber === 1) return "started";
     if (sessionNumber >= 11) return "completed";
     return "in-progress";
   }, []);
 
-  // Memoized filtered sessions
+  /**
+   * Filters therapy sessions based on the current filter state
+   * @returns Array of filtered therapy sessions
+   */
   const filteredSessions = useMemo(() => {
     if (!allTherapySessions) return [];
     if (filter === "all") return allTherapySessions;
@@ -36,7 +54,10 @@ export function TherapeuticJourneyContent() {
     });
   }, [allTherapySessions, filter, getSessionStatus]);
 
-  // Memoized metrics calculation
+  /**
+   * Calculates session metrics for display in the metrics component
+   * @returns Object containing inProgress count, completed count, and average progress percentage
+   */
   const metrics = useMemo(() => {
     if (!allTherapySessions) return { inProgress: 0, completed: 0, averageProgress: 0 };
     
@@ -49,7 +70,10 @@ export function TherapeuticJourneyContent() {
     return { inProgress, completed, averageProgress };
   }, [allTherapySessions, getSessionStatus]);
 
-  // Memoized filter change handler
+  /**
+   * Handles filter changes from the filter component
+   * @param newFilter - The new filter value to apply
+   */
   const handleFilterChange = useCallback((newFilter: string) => {
     setFilter(newFilter);
   }, []);

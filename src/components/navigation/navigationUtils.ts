@@ -17,6 +17,13 @@ import {
 
 /**
  * Get navigation sections based on user role and impersonation status
+ * 
+ * Returns appropriate navigation sections based on the user's role and whether
+ * an admin is currently impersonating another user.
+ * 
+ * @param user - Current user information
+ * @param impersonation - Optional impersonation context for admin users
+ * @returns Array of navigation sections with items
  */
 export function getNavSections(
   user: User | undefined, 
@@ -104,7 +111,14 @@ export function getNavSections(
 }
 
 /**
- * Get navigation items based on user role and impersonation status (legacy function for backward compatibility)
+ * Get navigation items based on user role and impersonation status
+ * 
+ * Legacy function for backward compatibility. Flattens navigation sections
+ * into a single array of navigation items.
+ * 
+ * @param user - Current user information
+ * @param impersonation - Optional impersonation context for admin users
+ * @returns Flattened array of navigation items
  */
 export function getNavItems(
   user: User | undefined, 

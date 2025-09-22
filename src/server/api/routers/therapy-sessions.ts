@@ -7,9 +7,27 @@ import {
 } from "~/server/api/trpc";
 import { patients, therapySessions } from "~/server/db/schema";
 
+/**
+ * TherapySession type inferred from database schema
+ */
 export type TherapySession = typeof therapySessions.$inferSelect;
 
+/**
+ * Therapy Sessions Router
+ * 
+ * Handles all therapy session related operations including starting sessions,
+ * retrieving user sessions, and managing session progress.
+ */
 export const therapySessionsRouter = createTRPCRouter({
+  /**
+   * Start a new therapy session or update existing session
+   * 
+   * Creates a new therapy session for a user-patient pair or updates
+   * the session number if a higher number is provided.
+   * 
+   * @param input - Patient ID and optional session number
+   * @returns Created or updated therapy session
+   */
   start: protectedProcedure
     .input(
       z.object({
@@ -74,6 +92,15 @@ export const therapySessionsRouter = createTRPCRouter({
       return inserted[0];
     }),
 
+  /**
+   * Get therapy session for a specific patient
+   * 
+   * Retrieves the therapy session for the current user and specified patient.
+   * Returns null if no session exists.
+   * 
+   * @param input - Patient ID
+   * @returns Therapy session or null
+   */
   getByPatient: protectedProcedure
     .input(
       z.object({
@@ -94,6 +121,15 @@ export const therapySessionsRouter = createTRPCRouter({
       return session ?? null;
     }),
 
+  /**
+   * Advance therapy session to next step
+   * 
+   * Increments the session number for a therapy session, up to a maximum of 11.
+   * Used when a user completes a step in their therapy journey.
+   * 
+   * @param input - Patient ID
+   * @returns Updated therapy session
+   */
   advanceSession: protectedProcedure
     .input(
       z.object({

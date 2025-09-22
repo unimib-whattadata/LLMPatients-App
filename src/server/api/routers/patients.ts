@@ -13,7 +13,10 @@ import {
 import { DIFFICULTY_LEVELS, type DifficultyLevel } from "~/lib/constants/difficulty";
 
 /**
- * Patient type for TypeScript
+ * Patient interface representing a virtual patient in the system
+ * 
+ * Contains all necessary information for patient exploration and therapy sessions.
+ * Includes demographic data, psychological profile, difficulty level, and metadata.
  */
 export interface Patient {
   id: string;
@@ -38,7 +41,10 @@ export interface Patient {
 }
 
 /**
- * Patient Tag type for TypeScript
+ * PatientTag interface representing categorization tags for patients
+ * 
+ * Used to categorize patients by psychological, physical, or behavioral characteristics.
+ * Helps in filtering and organizing patient exploration.
  */
 export interface PatientTag {
   id: string;
@@ -50,12 +56,19 @@ export interface PatientTag {
 
 /**
  * Patients Router
- * Handles all patient exploration and management endpoints
+ * 
+ * Handles all patient exploration and management endpoints.
+ * Provides functionality for browsing, filtering, and retrieving patient information.
  */
 export const patientsRouter = createTRPCRouter({
   /**
    * Get all active virtual patients for exploration page
-   * Public endpoint - no authentication required
+   * 
+   * Public endpoint that returns paginated list of patients with optional filtering.
+   * Supports filtering by difficulty level, tags, and search queries.
+   * 
+   * @param input - Optional filtering and pagination parameters
+   * @returns Array of patient objects with associated tags
    */
   getExplorationPatients: publicProcedure
     .input(
@@ -186,7 +199,11 @@ export const patientsRouter = createTRPCRouter({
 
   /**
    * Get all available patient tags
-   * Public endpoint - for filtering and display purposes
+   * 
+   * Public endpoint that returns all patient tags for filtering and display purposes.
+   * Tags are ordered by category and label for consistent UI display.
+   * 
+   * @returns Array of patient tag objects
    */
   getPatientTags: publicProcedure.query(async ({ ctx }) => {
     const tags = await ctx.db.query.patientTags.findMany({
@@ -204,7 +221,12 @@ export const patientsRouter = createTRPCRouter({
 
   /**
    * Create a new virtual patient
-   * Protected endpoint - admin only
+   * 
+   * Protected endpoint for admin users to create new virtual patients.
+   * Validates input data and creates patient with associated tags.
+   * 
+   * @param input - Patient creation data including name, description, details, etc.
+   * @returns Created patient object
    */
   createPatient: protectedProcedure
     .input(

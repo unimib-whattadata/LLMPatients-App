@@ -1,10 +1,18 @@
 /**
- * YOU PROBABLY DON'T NEED TO EDIT THIS FILE, UNLESS:
- * 1. You want to modify request context (see Part 1).
- * 2. You want to create a new middleware or type of procedure (see Part 3).
- *
- * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
- * need to use are documented accordingly near the end.
+ * tRPC Server Configuration
+ * 
+ * This file configures the tRPC server with context, middleware, and error handling.
+ * It provides type-safe API endpoints with authentication and database access.
+ * 
+ * Key components:
+ * 1. Context creation with database and session access
+ * 2. Middleware for authentication and authorization
+ * 3. Error formatting and validation
+ * 4. Procedure types (public, protected, admin)
+ * 
+ * You typically don't need to edit this file unless you want to:
+ * - Modify request context (see Part 1)
+ * - Create new middleware or procedure types (see Part 3)
  */
 
 import { initTRPC, TRPCError } from "@trpc/server";
@@ -15,14 +23,15 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 
 /**
- * 1. CONTEXT
+ * 1. CONTEXT CREATION
  *
- * This section defines the "contexts" that are available in the backend API.
+ * Defines the context available in all tRPC procedures.
+ * Provides access to database, session, and request headers.
  *
- * These allow you to access things when processing a request, like the database, the session, etc.
- *
- * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
- * wrap this and provides the required context.
+ * The context is created for each request and includes:
+ * - Database connection for data access
+ * - User session for authentication
+ * - Request headers for additional context
  *
  * @see https://trpc.io/docs/server/context
  */

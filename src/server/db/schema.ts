@@ -7,7 +7,12 @@ import {
 } from "drizzle-orm/sqlite-core";
 // import { type AdapterAccount } from "next-auth/adapters";
 
-// Define AdapterAccount type manually for next-auth v5 beta compatibility
+/**
+ * AdapterAccount type for NextAuth v5 beta compatibility
+ * 
+ * Manually defined type to ensure compatibility with the current NextAuth version.
+ * Contains OAuth provider account information and tokens.
+ */
 type AdapterAccount = {
   type: "oauth" | "email" | "credentials";
   provider: string;
@@ -22,14 +27,22 @@ type AdapterAccount = {
 };
 
 /**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
+ * Table creator for multi-project schema support
+ * 
+ * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'epatient_'.
+ * This allows multiple projects to share the same database instance without conflicts.
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
 
+/**
+ * Users table for authentication and user management
+ * 
+ * Stores user account information including authentication credentials,
+ * profile data, and role-based access control.
+ */
 export const users = createTable("user", (d) => ({
   id: d
     .text({ length: 255 })
@@ -43,7 +56,12 @@ export const users = createTable("user", (d) => ({
   role: d.text({ length: 20 }).default("user").notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
-}));
+}), (t) => [
+  // Indexes for common query patterns
+  index("users_email_idx").on(t.email),
+  index("users_name_idx").on(t.name),
+  index("users_role_idx").on(t.role),
+]);
 
 // Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
 
@@ -267,6 +285,7 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
+    index("virtual_patient_name_idx").on(t.name), // For LIKE searches
   ],
 );
 
@@ -365,6 +384,7 @@ export const therapySessions = createTable(
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
+    index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );

@@ -9,7 +9,7 @@ import {
   PatientTags,
 } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
-import { getDifficultyClass, getDifficultyLabel } from "~/lib/constants/difficulty";
+import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
 
 const SECTION_BASE = "bg-background-secondary rounded-lg";
 const SECTION = `${SECTION_BASE} p-6`;
@@ -128,7 +128,7 @@ export function PatientDetailContent() {
             <h1 className="text-text-primary text-3xl font-bold">
               {patient.name}
             </h1>
-            <span className={getDifficultyClass(patient.difficulty)}>
+            <span className={getDifficultyIconClass(patient.difficulty)}>
               {getDifficultyLabel(patient.difficulty)}
             </span>
           </div>
