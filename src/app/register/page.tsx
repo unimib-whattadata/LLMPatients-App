@@ -75,17 +75,19 @@ export default function RegisterPage() {
       setPasswordError("Password must be at least 8 characters");
       return false;
     }
-    
+
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /\d/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-    
+
     if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
-      setPasswordError("Password must contain uppercase, lowercase, number, and special character");
+      setPasswordError(
+        "Password must contain uppercase, lowercase, number, and special character",
+      );
       return false;
     }
-    
+
     setPasswordError("");
     return true;
   };
@@ -118,20 +120,26 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
+
     // Validate all inputs
     const isNameValid = validateName(name);
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
     const isConfirmPasswordValid = validateConfirmPassword(confirmPassword);
     const isTermsValid = validateTerms(acceptTerms);
-    
-    if (!isNameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid || !isTermsValid) {
+
+    if (
+      !isNameValid ||
+      !isEmailValid ||
+      !isPasswordValid ||
+      !isConfirmPasswordValid ||
+      !isTermsValid
+    ) {
       return;
     }
 
     setIsLoading(true);
-    
+
     try {
       const response = await fetch("/api/auth/register", {
         method: "POST",
@@ -145,16 +153,16 @@ export default function RegisterPage() {
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        setError(data.error || "Registration failed. Please try again.");
+        setError(data?.error || "Registration failed. Please try again.");
         return;
       }
 
       // Registration successful, redirect to login
       router.push("/login?message=Registration successful! Please log in.");
-    } catch (error) {
+    } catch {
       setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -168,7 +176,8 @@ export default function RegisterPage() {
         <div className="auth-brand-content">
           <h1 className="auth-brand-title">LLMPatient</h1>
           <p className="auth-brand-subtitle">
-            Unisciti alla nostra piattaforma di allenamento con pazienti virtuali. Inizia la tua esperienza qui.
+            Unisciti alla nostra piattaforma di allenamento con pazienti
+            virtuali. Inizia la tua esperienza qui.
           </p>
         </div>
       </div>
@@ -183,12 +192,10 @@ export default function RegisterPage() {
               {error && (
                 <div className="message message-error message-large">
                   <div className="message-icon">
-                    <XMarkIcon className="w-5 h-5" />
+                    <XMarkIcon className="h-5 w-5" />
                   </div>
                   <div className="message-content">
-                    <div className="message-text">
-                      {error}
-                    </div>
+                    <div className="message-text">{error}</div>
                   </div>
                 </div>
               )}
@@ -210,20 +217,22 @@ export default function RegisterPage() {
                     if (nameError) validateName(e.target.value);
                   }}
                   onBlur={() => validateName(name)}
-                  className={`auth-input ${nameError ? 'auth-input-error' : ''}`}
+                  className={`auth-input ${nameError ? "auth-input-error" : ""}`}
                   placeholder="Il tuo nome completo"
                   aria-describedby={nameError ? "name-error" : undefined}
                   aria-invalid={!!nameError}
                 />
                 {nameError && (
-                  <div id="name-error" className="message message-error message-inline" role="alert">
+                  <div
+                    id="name-error"
+                    className="message message-error message-inline"
+                    role="alert"
+                  >
                     <div className="message-icon">
-                      <XMarkIcon className="w-4 h-4" />
+                      <XMarkIcon className="h-4 w-4" />
                     </div>
                     <div className="message-content">
-                      <div className="message-text">
-                        {nameError}
-                      </div>
+                      <div className="message-text">{nameError}</div>
                     </div>
                   </div>
                 )}
@@ -246,20 +255,22 @@ export default function RegisterPage() {
                     if (emailError) validateEmail(e.target.value);
                   }}
                   onBlur={() => validateEmail(email)}
-                  className={`auth-input ${emailError ? 'auth-input-error' : ''}`}
+                  className={`auth-input ${emailError ? "auth-input-error" : ""}`}
                   placeholder="La tua e-mail"
                   aria-describedby={emailError ? "email-error" : undefined}
                   aria-invalid={!!emailError}
                 />
                 {emailError && (
-                  <div id="email-error" className="message message-error message-inline" role="alert">
+                  <div
+                    id="email-error"
+                    className="message message-error message-inline"
+                    role="alert"
+                  >
                     <div className="message-icon">
-                      <XMarkIcon className="w-4 h-4" />
+                      <XMarkIcon className="h-4 w-4" />
                     </div>
                     <div className="message-content">
-                      <div className="message-text">
-                        {emailError}
-                      </div>
+                      <div className="message-text">{emailError}</div>
                     </div>
                   </div>
                 )}
@@ -285,20 +296,24 @@ export default function RegisterPage() {
                     }
                   }}
                   onBlur={() => validatePassword(password)}
-                  className={`auth-input ${passwordError ? 'auth-input-error' : ''}`}
+                  className={`auth-input ${passwordError ? "auth-input-error" : ""}`}
                   placeholder="La tua password"
-                  aria-describedby={passwordError ? "password-error" : undefined}
+                  aria-describedby={
+                    passwordError ? "password-error" : undefined
+                  }
                   aria-invalid={!!passwordError}
                 />
                 {passwordError && (
-                  <div id="password-error" className="message message-error message-inline" role="alert">
+                  <div
+                    id="password-error"
+                    className="message message-error message-inline"
+                    role="alert"
+                  >
                     <div className="message-icon">
-                      <XMarkIcon className="w-4 h-4" />
+                      <XMarkIcon className="h-4 w-4" />
                     </div>
                     <div className="message-content">
-                      <div className="message-text">
-                        {passwordError}
-                      </div>
+                      <div className="message-text">{passwordError}</div>
                     </div>
                   </div>
                 )}
@@ -318,23 +333,28 @@ export default function RegisterPage() {
                   value={confirmPassword}
                   onChange={(e) => {
                     setConfirmPassword(e.target.value);
-                    if (confirmPasswordError) validateConfirmPassword(e.target.value);
+                    if (confirmPasswordError)
+                      validateConfirmPassword(e.target.value);
                   }}
                   onBlur={() => validateConfirmPassword(confirmPassword)}
-                  className={`auth-input ${confirmPasswordError ? 'auth-input-error' : ''}`}
+                  className={`auth-input ${confirmPasswordError ? "auth-input-error" : ""}`}
                   placeholder="Conferma la tua password"
-                  aria-describedby={confirmPasswordError ? "confirm-password-error" : undefined}
+                  aria-describedby={
+                    confirmPasswordError ? "confirm-password-error" : undefined
+                  }
                   aria-invalid={!!confirmPasswordError}
                 />
                 {confirmPasswordError && (
-                  <div id="confirm-password-error" className="message message-error message-inline" role="alert">
+                  <div
+                    id="confirm-password-error"
+                    className="message message-error message-inline"
+                    role="alert"
+                  >
                     <div className="message-icon">
-                      <XMarkIcon className="w-4 h-4" />
+                      <XMarkIcon className="h-4 w-4" />
                     </div>
                     <div className="message-content">
-                      <div className="message-text">
-                        {confirmPasswordError}
-                      </div>
+                      <div className="message-text">{confirmPasswordError}</div>
                     </div>
                   </div>
                 )}
@@ -354,7 +374,10 @@ export default function RegisterPage() {
                     }}
                     className="auth-checkbox mt-1"
                   />
-                  <label htmlFor="accept-terms" className="ml-2 text-sm text-text-secondary">
+                  <label
+                    htmlFor="accept-terms"
+                    className="text-text-secondary ml-2 text-sm"
+                  >
                     Accetto i{" "}
                     <Link href="/terms" className="auth-link">
                       termini e condizioni
@@ -366,14 +389,15 @@ export default function RegisterPage() {
                   </label>
                 </div>
                 {termsError && (
-                  <div className="message message-error message-inline" role="alert">
+                  <div
+                    className="message message-error message-inline"
+                    role="alert"
+                  >
                     <div className="message-icon">
-                      <XMarkIcon className="w-4 h-4" />
+                      <XMarkIcon className="h-4 w-4" />
                     </div>
                     <div className="message-content">
-                      <div className="message-text">
-                        {termsError}
-                      </div>
+                      <div className="message-text">{termsError}</div>
                     </div>
                   </div>
                 )}
@@ -397,8 +421,10 @@ export default function RegisterPage() {
               </button>
 
               {/* Login Link */}
-              <div className="text-center mt-4">
-                <span className="auth-text-muted text-sm">Hai gia un account? </span>
+              <div className="mt-4 text-center">
+                <span className="auth-text-muted text-sm">
+                  Hai gia un account?{" "}
+                </span>
                 <Link href="/login" className="auth-link text-sm">
                   Accedi qui
                 </Link>

@@ -1,6 +1,6 @@
 /**
  * Admin Create Patient Page
- * 
+ *
  * Interface for creating new patient cases and medical scenarios
  * for student simulations. Accessible only to admin users.
  */
@@ -29,7 +29,7 @@ export default async function CreatePatientPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -37,7 +37,7 @@ export default async function CreatePatientPage() {
         role: session.user.role,
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/admin/create-patient"
     >

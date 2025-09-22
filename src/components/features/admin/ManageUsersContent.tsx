@@ -1,6 +1,6 @@
 /**
  * Manage Users Content Component
- * 
+ *
  * Interface for managing user accounts, roles, and permissions
  * for admin users only
  */
@@ -24,10 +24,11 @@ interface User {
 }
 
 interface CreateUserForm {
+  specialKey: string;
   name: string;
   email: string;
   password: string;
-  role: "admin" | "user";
+  role?: "admin" | "user";
 }
 
 interface EditUserForm {
@@ -41,13 +42,16 @@ export function ManageUsersContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const specialKey = searchParams.get("specialKey");
-  
+
   // State management
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRole, setSelectedRole] = useState<"all" | "admin" | "user">("all");
+  const [selectedRole, setSelectedRole] = useState<"all" | "admin" | "user">(
+    "all",
+  );
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [createForm, setCreateForm] = useState<CreateUserForm>({
+    specialKey: typeof specialKey === "string" ? specialKey : "",
     name: "",
     email: "",
     password: "",
@@ -62,7 +66,10 @@ export function ManageUsersContent() {
   // Access control check
   const hasAccess = React.useMemo(() => {
     // Development bypass
-    if (process.env.NODE_ENV === "development" && specialKey === "DavideIsTesting") {
+    if (
+      process.env.NODE_ENV === "development" &&
+      specialKey === "DavideIsTesting"
+    ) {
       return true;
     }
     // Production admin access
@@ -70,39 +77,57 @@ export function ManageUsersContent() {
   }, [session, specialKey]);
 
   // API queries and mutations
-  const isDevelopmentAccess = process.env.NODE_ENV === "development" && specialKey === "DavideIsTesting";
-  
-  const { 
-    data: usersData, 
-    isLoading: usersLoading, 
-    refetch: refetchUsers 
-  } = isDevelopmentAccess 
-    ? api.userManagement.getPublicUserList.useQuery({ 
+  const isDevelopmentAccess =
+    process.env.NODE_ENV === "development" && specialKey === "DavideIsTesting";
+
+  const {
+    data: usersData,
+    isLoading: usersLoading,
+    refetch: refetchUsers,
+  } = isDevelopmentAccess
+    ? api.userManagement.getPublicUserList.useQuery({
         specialKey: "DavideIsTesting",
-        limit: 100 
+        limit: 100,
       })
-    : api.userManagement.getAllUsers.useQuery({ 
-        limit: 100, 
-        search: searchTerm || undefined,
-        role: selectedRole === "all" ? undefined : selectedRole 
-      }, { enabled: hasAccess });
+    : api.userManagement.getAllUsers.useQuery(
+        {
+          limit: 100,
+          search: searchTerm || undefined,
+          role: selectedRole === "all" ? undefined : selectedRole,
+        },
+        { enabled: hasAccess },
+      );
 
   const { data: userStats } = isDevelopmentAccess
     ? { data: null }
-    : api.userManagement.getUserStats.useQuery(undefined, { enabled: hasAccess });
+    : api.userManagement.getUserStats.useQuery(undefined, {
+        enabled: hasAccess,
+      });
 
   const createUserMutation = isDevelopmentAccess
     ? api.userManagement.createPublicUser.useMutation({
         onSuccess: () => {
           setShowCreateForm(false);
-          setCreateForm({ name: "", email: "", password: "", role: "user" });
+          setCreateForm({
+            specialKey: "",
+            name: "",
+            email: "",
+            password: "",
+            role: "user",
+          });
           void refetchUsers();
         },
       })
     : api.userManagement.createUser.useMutation({
         onSuccess: () => {
           setShowCreateForm(false);
-          setCreateForm({ name: "", email: "", password: "", role: "user" });
+          setCreateForm({
+            specialKey: "",
+            name: "",
+            email: "",
+            password: "",
+            role: "user",
+          });
           void refetchUsers();
         },
       });
@@ -129,7 +154,7 @@ export function ManageUsersContent() {
   // Access control redirect
   useEffect(() => {
     if (status === "loading") return;
-    
+
     if (!hasAccess) {
       router.push("/login");
     }
@@ -149,18 +174,22 @@ export function ManageUsersContent() {
   // Handle form submissions
   const handleCreateUser = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!createForm.name.trim() || !createForm.email.trim() || !createForm.password.trim()) {
+    if (
+      !createForm.name.trim() ||
+      !createForm.email.trim() ||
+      !createForm.password.trim()
+    ) {
       return;
     }
 
     try {
       if (isDevelopmentAccess) {
         await createUserMutation.mutateAsync({
-          specialKey: "DavideIsTesting",
           ...createForm,
+          specialKey: "DavideIsTesting",
         });
       } else {
-        await (createUserMutation as any).mutateAsync(createForm);
+        await createUserMutation.mutateAsync(createForm);
       }
     } catch (error) {
       console.error("Failed to create user:", error);
@@ -184,7 +213,10 @@ export function ManageUsersContent() {
     }
   };
 
-  const handleRoleChange = async (userId: string, newRole: "admin" | "user") => {
+  const handleRoleChange = async (
+    userId: string,
+    newRole: "admin" | "user",
+  ) => {
     try {
       await updateRoleMutation.mutateAsync({ userId, role: newRole });
     } catch (error) {
@@ -193,7 +225,11 @@ export function ManageUsersContent() {
   };
 
   const handleDeleteUser = async (userId: string) => {
-    if (!confirm("Are you sure you want to delete this user? This action cannot be undone.")) {
+    if (
+      !confirm(
+        "Are you sure you want to delete this user? This action cannot be undone.",
+      )
+    ) {
       return;
     }
 
@@ -218,9 +254,9 @@ export function ManageUsersContent() {
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
     return (
-      <div className="min-h-screen bg-background-primary flex items-center justify-center">
+      <div className="bg-background-primary flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="rounded-full h-8 w-8 border-b-2 border-accent-600 mx-auto mb-4"></div>
+          <div className="border-accent-600 mx-auto mb-4 h-8 w-8 rounded-full border-b-2"></div>
           <p className="text-text-secondary">Loading...</p>
         </div>
       </div>
@@ -230,10 +266,14 @@ export function ManageUsersContent() {
   // Access denied
   if (!hasAccess) {
     return (
-      <div className="min-h-screen bg-background-primary flex items-center justify-center">
+      <div className="bg-background-primary flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-text-primary mb-4">Access Denied</h1>
-          <p className="text-text-secondary mb-4">You don't have permission to access this page.</p>
+          <h1 className="text-text-primary mb-4 text-2xl font-bold">
+            Access Denied
+          </h1>
+          <p className="text-text-secondary mb-4">
+            You don&apos;t have permission to access this page.
+          </p>
           <Link href="/" className="btn btn-primary">
             Go Home
           </Link>
@@ -250,11 +290,11 @@ export function ManageUsersContent() {
       {isDevelopmentAccess && (
         <section className="dashboard-section" aria-labelledby="dev-notice">
           <div className="dashboard-panel">
-            <div className="flex items-center gap-2 p-4 bg-warning-50 border border-warning-200 rounded-lg">
-              <span className="px-2 py-1 text-xs bg-warning-100 text-warning-700 rounded">
+            <div className="bg-warning-50 border-warning-200 flex items-center gap-2 rounded-lg border p-4">
+              <span className="bg-warning-100 text-warning-700 rounded px-2 py-1 text-xs">
                 Development Access
               </span>
-              <span className="text-sm text-warning-700">
+              <span className="text-warning-700 text-sm">
                 Accessing with development bypass key
               </span>
             </div>
@@ -267,7 +307,9 @@ export function ManageUsersContent() {
         <section className="dashboard-section" aria-labelledby="user-stats">
           <div className="dashboard-section__header">
             <div>
-              <h2 id="user-stats" className="dashboard-section__title">User Statistics</h2>
+              <h2 id="user-stats" className="dashboard-section__title">
+                User Statistics
+              </h2>
               <p className="dashboard-section__description">
                 Overview of user accounts and roles in the system
               </p>
@@ -276,16 +318,26 @@ export function ManageUsersContent() {
 
           <div className="dashboard-metric-grid">
             <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">{userStats.totalUsers}</span>
+              <span className="dashboard-metric-card__value">
+                {userStats.totalUsers}
+              </span>
               <span className="dashboard-metric-card__label">Total Users</span>
             </div>
             <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">{userStats.adminUsers}</span>
-              <span className="dashboard-metric-card__label">Administrators</span>
+              <span className="dashboard-metric-card__value">
+                {userStats.adminUsers}
+              </span>
+              <span className="dashboard-metric-card__label">
+                Administrators
+              </span>
             </div>
             <div className="dashboard-metric-card">
-              <span className="dashboard-metric-card__value">{userStats.regularUsers}</span>
-              <span className="dashboard-metric-card__label">Regular Users</span>
+              <span className="dashboard-metric-card__value">
+                {userStats.regularUsers}
+              </span>
+              <span className="dashboard-metric-card__label">
+                Regular Users
+              </span>
             </div>
           </div>
         </section>
@@ -295,7 +347,9 @@ export function ManageUsersContent() {
       <section className="dashboard-section" aria-labelledby="user-management">
         <div className="dashboard-section__header">
           <div>
-            <h2 id="user-management" className="dashboard-section__title">User Management</h2>
+            <h2 id="user-management" className="dashboard-section__title">
+              User Management
+            </h2>
             <p className="dashboard-section__description">
               Manage user accounts, roles, and permissions
             </p>
@@ -310,7 +364,7 @@ export function ManageUsersContent() {
 
         <div className="dashboard-panel">
           {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+          <div className="mb-6 flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
               <input
                 type="text"
@@ -323,7 +377,9 @@ export function ManageUsersContent() {
             <div>
               <select
                 value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value as "all" | "admin" | "user")}
+                onChange={(e) =>
+                  setSelectedRole(e.target.value as "all" | "admin" | "user")
+                }
                 className="auth-input"
               >
                 <option value="all">All Roles</option>
@@ -353,17 +409,26 @@ export function ManageUsersContent() {
                       {!isDevelopmentAccess && session?.user?.id !== user.id ? (
                         <select
                           value={user.role}
-                          onChange={(e) => handleRoleChange(user.id, e.target.value as "admin" | "user")}
-                          className="text-sm rounded px-2 py-1 bg-background-secondary text-text-primary"
+                          onChange={(e) =>
+                            handleRoleChange(
+                              user.id,
+                              e.target.value as "admin" | "user",
+                            )
+                          }
+                          className="bg-background-secondary text-text-primary rounded px-2 py-1 text-sm"
                           disabled={updateRoleMutation.isPending}
                         >
                           <option value="user">User</option>
                           <option value="admin">Admin</option>
                         </select>
                       ) : (
-                        <span className={`pill pill--sm dashboard-badge ${
-                          user.role === "admin" ? "dashboard-badge-admin" : "dashboard-badge-user"
-                        }`}>
+                        <span
+                          className={`pill pill--sm dashboard-badge ${
+                            user.role === "admin"
+                              ? "dashboard-badge-admin"
+                              : "dashboard-badge-user"
+                          }`}
+                        >
                           {user.role}
                         </span>
                       )}
@@ -376,15 +441,16 @@ export function ManageUsersContent() {
                         >
                           Edit
                         </button>
-                        {!isDevelopmentAccess && session?.user?.id !== user.id && (
-                          <button
-                            onClick={() => handleDeleteUser(user.id)}
-                            className="btn btn-danger btn-xs"
-                            disabled={deleteUserMutation.isPending}
-                          >
-                            Delete
-                          </button>
-                        )}
+                        {!isDevelopmentAccess &&
+                          session?.user?.id !== user.id && (
+                            <button
+                              onClick={() => handleDeleteUser(user.id)}
+                              className="btn btn-danger btn-xs"
+                              disabled={deleteUserMutation.isPending}
+                            >
+                              Delete
+                            </button>
+                          )}
                       </div>
                     </td>
                   </tr>
@@ -394,10 +460,14 @@ export function ManageUsersContent() {
 
             {users.length === 0 && (
               <div className="dashboard-empty-state">
-                <UsersIcon className="w-16 h-16 text-text-tertiary mx-auto" />
-                <div className="dashboard-empty-state-title">No Users Found</div>
+                <UsersIcon className="text-text-tertiary mx-auto h-16 w-16" />
+                <div className="dashboard-empty-state-title">
+                  No Users Found
+                </div>
                 <div className="dashboard-empty-state-description">
-                  {searchTerm ? "No users match your search criteria" : "No users in the system"}
+                  {searchTerm
+                    ? "No users match your search criteria"
+                    : "No users in the system"}
                 </div>
               </div>
             )}
@@ -407,16 +477,20 @@ export function ManageUsersContent() {
 
       {/* Create User Modal */}
       {showCreateForm && (
-        <div className="fixed inset-0 bg-background-primary/80 flex items-center justify-center z-50">
-          <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Create New User</h3>
+        <div className="bg-background-primary/80 fixed inset-0 z-50 flex items-center justify-center">
+          <div className="bg-background-secondary w-full max-w-md rounded-lg p-6">
+            <h3 className="text-text-primary mb-4 text-lg font-semibold">
+              Create New User
+            </h3>
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div className="auth-input-group">
                 <label className="auth-label">Name</label>
                 <input
                   type="text"
                   value={createForm.name}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) =>
+                    setCreateForm((prev) => ({ ...prev, name: e.target.value }))
+                  }
                   className="auth-input"
                   required
                 />
@@ -426,7 +500,12 @@ export function ManageUsersContent() {
                 <input
                   type="email"
                   value={createForm.email}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={(e) =>
+                    setCreateForm((prev) => ({
+                      ...prev,
+                      email: e.target.value,
+                    }))
+                  }
                   className="auth-input"
                   required
                 />
@@ -436,7 +515,12 @@ export function ManageUsersContent() {
                 <input
                   type="password"
                   value={createForm.password}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, password: e.target.value }))}
+                  onChange={(e) =>
+                    setCreateForm((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
                   className="auth-input"
                   required
                 />
@@ -445,7 +529,12 @@ export function ManageUsersContent() {
                 <label className="auth-label">Role</label>
                 <select
                   value={createForm.role}
-                  onChange={(e) => setCreateForm(prev => ({ ...prev, role: e.target.value as "admin" | "user" }))}
+                  onChange={(e) =>
+                    setCreateForm((prev) => ({
+                      ...prev,
+                      role: e.target.value as "admin" | "user",
+                    }))
+                  }
                   className="auth-input"
                 >
                   <option value="user">User</option>
@@ -475,16 +564,20 @@ export function ManageUsersContent() {
 
       {/* Edit User Modal */}
       {editingUser && (
-        <div className="fixed inset-0 bg-background-primary/80 flex items-center justify-center z-50">
-          <div className="bg-background-secondary rounded-lg p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-text-primary mb-4">Edit User</h3>
+        <div className="bg-background-primary/80 fixed inset-0 z-50 flex items-center justify-center">
+          <div className="bg-background-secondary w-full max-w-md rounded-lg p-6">
+            <h3 className="text-text-primary mb-4 text-lg font-semibold">
+              Edit User
+            </h3>
             <form onSubmit={handleUpdateUser} className="space-y-4">
               <div className="auth-input-group">
                 <label className="auth-label">Name</label>
                 <input
                   type="text"
                   value={editForm.name}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                  onChange={(e) =>
+                    setEditForm((prev) => ({ ...prev, name: e.target.value }))
+                  }
                   className="auth-input"
                   required
                 />
@@ -494,7 +587,9 @@ export function ManageUsersContent() {
                 <input
                   type="email"
                   value={editForm.email}
-                  onChange={(e) => setEditForm(prev => ({ ...prev, email: e.target.value }))}
+                  onChange={(e) =>
+                    setEditForm((prev) => ({ ...prev, email: e.target.value }))
+                  }
                   className="auth-input"
                   required
                 />

@@ -10,6 +10,7 @@ import { drizzle } from "drizzle-orm/libsql";
 import { text, integer, sqliteTableCreator, primaryKey, index } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import { config } from "dotenv";
+import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
 config();
 
@@ -38,15 +39,14 @@ const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    age: d.integer({ mode: "number" }).notNull(),
-    gender: d.text({ length: 20 }).notNull(),
-    condition: d.text({ length: 500 }).notNull(),
+    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
-    objectives: d.text({ length: 2000 }).notNull(),
+    objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default("illustration").notNull(),
-    difficulty: d.text({ length: 20 }).notNull(),
-    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(),
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
+    difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
+    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
@@ -119,18 +119,27 @@ const TAGS = [
   { label: "Ipertensione", category: "physical", color: "#3B82F6" },
   { label: "Isolamento sociale", category: "behavioral", color: "#F59E0B" },
   { label: "Trauma", category: "psychological", color: "#8B5CF6" },
+  { label: "Disturbi alimentari", category: "behavioral", color: "#F59E0B" },
+  { label: "Problemi relazionali", category: "psychological", color: "#8B5CF6" },
 ];
 
 type PatientSeed = {
   name: string;
-  age: number;
-  gender: string;
-  condition: string;
+  description: string;
+  details: {
+    demographic_sociocultural_information: {
+      age: string;
+      gender: string;
+    };
+    psychological_profile_and_cognitive_functioning: {
+      current_and_past_psychiatric_diagnoses: string;
+    };
+  };
   background: string;
   objectives: string[];
   avatarUrl: string | null;
   avatarType: string;
-  difficulty: string;
+  difficulty: number;
   estimatedDuration: number;
   tags?: string[];
 };
@@ -138,9 +147,16 @@ type PatientSeed = {
 const PATIENTS: PatientSeed[] = [
   {
     name: "Juanita Delgado",
-    age: 33,
-    gender: "female",
-    condition: "Terapia per depressione",
+    description: "Depressione",
+    details: {
+      demographic_sociocultural_information: {
+        age: "33",
+        gender: "female",
+      },
+      psychological_profile_and_cognitive_functioning: {
+        current_and_past_psychiatric_diagnoses: "Terapia per depressione",
+      },
+    },
     background:
       "Juanita è una donna di 33 anni che ha recentemente attraversato un periodo difficile della sua vita. Ha perso il lavoro sei mesi fa e da allora sta lottando con sentimenti di inadeguatezza e tristezza persistente. Vive da sola e ha notato un progressivo isolamento sociale.",
     objectives: [
@@ -150,9 +166,35 @@ const PATIENTS: PatientSeed[] = [
     ],
     avatarUrl: "/images/patients/juanita.png",
     avatarType: "photo",
-    difficulty: "Medio",
+    difficulty: DIFFICULTY_LEVELS.MEDIO,
     estimatedDuration: 45,
     tags: ["Tono dell'umore basso", "Isolamento sociale"],
+  },
+  {
+    name: "John",
+    description: "Disturbo dell'adattamento e disturbi alimentari",
+    details: {
+      demographic_sociocultural_information: {
+        age: "58",
+        gender: "male",
+      },
+      psychological_profile_and_cognitive_functioning: {
+        current_and_past_psychiatric_diagnoses: "Adjustment Disorder with Depressed Mood; Binge Eating Disorder; Substance/Medication-Induced Sexual Dysfunction",
+      },
+    },
+    background:
+      "John è un uomo di 58 anni che sta attraversando un periodo di stress significativo. Ha recentemente subito una riduzione delle ore lavorative che ha causato difficoltà finanziarie. Sta lottando con depressione, binge eating e disfunzione sessuale legata ai farmaci antidepressivi. Il suo matrimonio è sotto stress a causa di questi problemi.",
+    objectives: [
+      "Gestire i sintomi depressivi e l'ansia",
+      "Sviluppare strategie di coping più sane per sostituire il binge eating",
+      "Affrontare le difficoltà relazionali e sessuali nel matrimonio",
+      "Valutare e gestire gli effetti collaterali dei farmaci",
+    ],
+    avatarUrl: null,
+    avatarType: "illustration",
+    difficulty: DIFFICULTY_LEVELS.DIFFICILE,
+    estimatedDuration: 60,
+    tags: ["Depressione", "Disturbi alimentari", "Problemi relazionali"],
   },
 ];
 
@@ -239,9 +281,8 @@ async function seedPatients() {
       .insert(patients)
       .values({
         name: patient.name,
-        age: patient.age,
-        gender: patient.gender,
-        condition: patient.condition,
+        description: patient.description,
+        details: JSON.stringify(patient.details),
         background: patient.background,
         objectives: JSON.stringify(patient.objectives),
         avatarUrl: patient.avatarUrl,

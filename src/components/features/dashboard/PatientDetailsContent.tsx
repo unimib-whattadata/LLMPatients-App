@@ -36,8 +36,12 @@ interface PatientDetailsSchema {
  * Displays the structured psychological evaluation schema in an organized, user-friendly format
  */
 export function PatientDetailsContent() {
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
-  const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(
+    new Set(),
+  );
+  const [expandedSubsections, setExpandedSubsections] = useState<Set<string>>(
+    new Set(),
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const [allExpanded, setAllExpanded] = useState(false);
   const [showFieldTypes, setShowFieldTypes] = useState(true);
@@ -47,7 +51,9 @@ export function PatientDetailsContent() {
   /**
    * Collect all field keys recursively for expansion controls
    */
-  const collectFieldKeys = (fields?: Record<string, FieldDefinition>): string[] => {
+  const collectFieldKeys = (
+    fields?: Record<string, FieldDefinition>,
+  ): string[] => {
     if (!fields) return [];
     const keys: string[] = [];
 
@@ -73,36 +79,40 @@ export function PatientDetailsContent() {
     }
 
     const searchLower = searchTerm.toLowerCase();
-    return Object.entries(schema.properties).filter(([sectionKey, sectionDef]) => {
-      const sectionName = getSectionDisplayName(sectionKey).toLowerCase();
-      if (sectionName.includes(searchLower)) return true;
+    return Object.entries(schema.properties).filter(
+      ([sectionKey, sectionDef]) => {
+        const sectionName = getSectionDisplayName(sectionKey).toLowerCase();
+        if (sectionName.includes(searchLower)) return true;
 
-      // Check fields within the section
-      if (sectionDef.properties) {
-        return Object.entries(sectionDef.properties).some(([fieldKey, fieldDef]) => {
-          const fieldName = getFieldDisplayName(fieldKey).toLowerCase();
-          if (fieldName.includes(searchLower)) return true;
+        // Check fields within the section
+        if (sectionDef.properties) {
+          return Object.entries(sectionDef.properties).some(
+            ([fieldKey, fieldDef]) => {
+              const fieldName = getFieldDisplayName(fieldKey).toLowerCase();
+              if (fieldName.includes(searchLower)) return true;
 
-          // Check enum values
-          if (fieldDef.enum) {
-            return fieldDef.enum.some(value => 
-              getEnumDisplayName(value).toLowerCase().includes(searchLower)
-            );
-          }
+              // Check enum values
+              if (fieldDef.enum) {
+                return fieldDef.enum.some((value) =>
+                  getEnumDisplayName(value).toLowerCase().includes(searchLower),
+                );
+              }
 
-          return false;
-        });
-      }
+              return false;
+            },
+          );
+        }
 
-      return false;
-    });
+        return false;
+      },
+    );
   }, [searchTerm, schema.properties]);
 
   /**
    * Toggle section expansion
    */
   const toggleSection = (sectionKey: string) => {
-    setExpandedSections(prev => {
+    setExpandedSections((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(sectionKey)) {
         newSet.delete(sectionKey);
@@ -117,7 +127,7 @@ export function PatientDetailsContent() {
    * Toggle subsection expansion
    */
   const toggleSubsection = (subsectionKey: string) => {
-    setExpandedSubsections(prev => {
+    setExpandedSubsections((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(subsectionKey)) {
         newSet.delete(subsectionKey);
@@ -158,19 +168,22 @@ export function PatientDetailsContent() {
    */
   const getSectionDisplayName = (key: string): string => {
     const names: Record<string, string> = {
-      "dati_socio_culturali": "Dati Socio-Culturali",
-      "sviluppo_famiglia_storia": "Sviluppo e Storia Familiare",
-      "istruzione_lavoro_condizioni": "Istruzione, Lavoro e Condizioni",
-      "rete_sociale_relazioni": "Rete Sociale e Relazioni",
-      "presentazione_clinica": "Presentazione Clinica",
-      "funzionamento_psicologico": "Funzionamento Psicologico",
-      "rischi_condotte": "Rischi e Condotte",
-      "salute_fisica_stile_vita": "Salute Fisica e Stile di Vita",
-      "percorso_cura_adesione": "Percorso di Cura e Adesione",
-      "risorse_benessere_prospettive": "Risorse, Benessere e Prospettive",
-      "esame_stato_mentale": "Esame dello Stato Mentale"
+      dati_socio_culturali: "Dati Socio-Culturali",
+      sviluppo_famiglia_storia: "Sviluppo e Storia Familiare",
+      istruzione_lavoro_condizioni: "Istruzione, Lavoro e Condizioni",
+      rete_sociale_relazioni: "Rete Sociale e Relazioni",
+      presentazione_clinica: "Presentazione Clinica",
+      funzionamento_psicologico: "Funzionamento Psicologico",
+      rischi_condotte: "Rischi e Condotte",
+      salute_fisica_stile_vita: "Salute Fisica e Stile di Vita",
+      percorso_cura_adesione: "Percorso di Cura e Adesione",
+      risorse_benessere_prospettive: "Risorse, Benessere e Prospettive",
+      esame_stato_mentale: "Esame dello Stato Mentale",
     };
-    return names[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return (
+      names[key] ??
+      key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+    );
   };
 
   /**
@@ -178,85 +191,88 @@ export function PatientDetailsContent() {
    */
   const getFieldDisplayName = (key: string): string => {
     const names: Record<string, string> = {
-      "stato_civile": "Stato Civile",
-      "lingua_parlata": "Lingua Parlata",
-      "background_culturale": "Background Culturale",
-      "credenze_religiose": "Credenze Religiose",
-      "stato_migratorio": "Stato Migratorio",
-      "valori_morali": "Valori Morali",
-      "esperienze_infantili": "Esperienze Infantili",
-      "eventi_crescita_significativi": "Eventi di Crescita Significativi",
-      "dinamiche_familiari_evolutiva": "Dinamiche Familiari Evolutive",
-      "malattie_psichiatriche_familiari": "Malattie Psichiatriche Familiari",
-      "relazioni_attuali_genitori": "Relazioni Attuali con i Genitori",
-      "interazioni_familiari": "Interazioni Familiari",
-      "livello_istruzione": "Livello di Istruzione",
-      "storia_lavorativa": "Storia Lavorativa",
-      "stabilita_abitativa": "Stabilità Abitativa",
-      "situazione_finanziaria": "Situazione Finanziaria",
-      "hobby_interessi": "Hobby e Interessi",
-      "amicizie": "Amicizie",
-      "relazioni_coetanei_colleghi": "Relazioni con Coetanei/Colleghi",
-      "relazioni_romantiche": "Relazioni Romantiche",
-      "relazioni_sessuali": "Relazioni Sessuali",
-      "uso_social_media": "Uso dei Social Media",
-      "sintomi_principali": "Sintomi Principali",
-      "comorbidita_psichiatriche": "Comorbidità Psichiatriche",
-      "diagnosi_psichiatriche_pregresse": "Diagnosi Psichiatriche Pregresse",
-      "funzionamento_affettivo_umore": "Funzionamento Affettivo e Umore",
-      "senso_di_se_e_altri": "Senso di Sé e degli Altri",
-      "pensiero_stile_cognitivo": "Pensiero e Stile Cognitivo",
-      "attenzione_concentrazione": "Attenzione e Concentrazione",
-      "memoria": "Memoria",
-      "funzioni_cognitive_superiori": "Funzioni Cognitive Superiori",
-      "strategie_coping": "Strategie di Coping",
-      "meccanismi_difesa": "Meccanismi di Difesa",
-      "dinamiche_ricorrenti": "Dinamiche Ricorrenti",
-      "emozioni_espresse_congruenza": "Emozioni Espresse e Congruenza",
-      "autolesionismo_suicidalita": "Autolesionismo e Suicidabilità",
-      "uso_sostanze": "Uso di Sostanze",
-      "aggressivita_eterodiretta": "Aggressività Eterodiretta",
-      "comportamenti_impulsivi_rischio": "Comportamenti Impulsivi a Rischio",
-      "inganno_manipolazione": "Inganno e Manipolazione",
-      "attivita_illecite": "Attività Illecite",
-      "senso_di_colpa": "Senso di Colpa",
-      "salute_fisica_generale": "Salute Fisica Generale",
-      "condizioni_mediche_preesistenti": "Condizioni Mediche Preexistenti",
-      "attivita_fisica": "Attività Fisica",
-      "fumo": "Fumo",
-      "alcol": "Alcol",
-      "sostanze": "Sostanze",
-      "sonno": "Sonno",
-      "alimentazione": "Alimentazione",
-      "esperienze_terapeutiche_pregresse": "Esperienze Terapeutiche Pregresse",
-      "resistenze_trattamento": "Resistenze al Trattamento",
-      "obiettivi_terapeutici": "Obiettivi Terapeutici",
-      "storia_farmacologica": "Storia Farmacologica",
-      "trattamenti_farmacologici_correnti": "Trattamenti Farmacologici Correnti",
-      "risposta_ai_farmaci": "Risposta ai Farmaci",
-      "ricoveri_psichiatrici_pregressi": "Ricoveri Psichiatrici Pregressi",
-      "accessi_pronto_soccorso": "Accessi al Pronto Soccorso",
-      "precedenti_drop_out": "Precedenti Drop-out",
-      "insight_mentalizzazione": "Insight e Mentalizzazione",
-      "motivazione_cambiamento": "Motivazione al Cambiamento",
-      "stadio_cambiamento": "Stadio di Cambiamento",
-      "resilienza_psicologica": "Resilienza Psicologica",
-      "soddisfazione_vita": "Soddisfazione della Vita",
-      "speranza_futuro": "Speranza nel Futuro",
-      "obiettivi_lungo_termine": "Obiettivi a Lungo Termine",
-      "aspetto_espressione": "Aspetto ed Espressione",
-      "atteggiamento_verso_clinico": "Atteggiamento verso il Clinico",
-      "coscienza_orientamento": "Coscienza e Orientamento",
-      "linguaggio_eloquio": "Linguaggio ed Eloquio",
-      "umore_affettivita_emotivita": "Umore, Affettività ed Emotività",
-      "pensiero_forma_contenuto": "Pensiero: Forma e Contenuto",
-      "percezioni": "Percezioni",
-      "funzioni_cognitive": "Funzioni Cognitive",
-      "comportamento_psicomotorio": "Comportamento Psicomotorio",
-      "disponibilita_colloquio": "Disponibilità al Colloquio",
-      "insight_giudizio": "Insight e Giudizio"
+      stato_civile: "Stato Civile",
+      lingua_parlata: "Lingua Parlata",
+      background_culturale: "Background Culturale",
+      credenze_religiose: "Credenze Religiose",
+      stato_migratorio: "Stato Migratorio",
+      valori_morali: "Valori Morali",
+      esperienze_infantili: "Esperienze Infantili",
+      eventi_crescita_significativi: "Eventi di Crescita Significativi",
+      dinamiche_familiari_evolutiva: "Dinamiche Familiari Evolutive",
+      malattie_psichiatriche_familiari: "Malattie Psichiatriche Familiari",
+      relazioni_attuali_genitori: "Relazioni Attuali con i Genitori",
+      interazioni_familiari: "Interazioni Familiari",
+      livello_istruzione: "Livello di Istruzione",
+      storia_lavorativa: "Storia Lavorativa",
+      stabilita_abitativa: "Stabilità Abitativa",
+      situazione_finanziaria: "Situazione Finanziaria",
+      hobby_interessi: "Hobby e Interessi",
+      amicizie: "Amicizie",
+      relazioni_coetanei_colleghi: "Relazioni con Coetanei/Colleghi",
+      relazioni_romantiche: "Relazioni Romantiche",
+      relazioni_sessuali: "Relazioni Sessuali",
+      uso_social_media: "Uso dei Social Media",
+      sintomi_principali: "Sintomi Principali",
+      comorbidita_psichiatriche: "Comorbidità Psichiatriche",
+      diagnosi_psichiatriche_pregresse: "Diagnosi Psichiatriche Pregresse",
+      funzionamento_affettivo_umore: "Funzionamento Affettivo e Umore",
+      senso_di_se_e_altri: "Senso di Sé e degli Altri",
+      pensiero_stile_cognitivo: "Pensiero e Stile Cognitivo",
+      attenzione_concentrazione: "Attenzione e Concentrazione",
+      memoria: "Memoria",
+      funzioni_cognitive_superiori: "Funzioni Cognitive Superiori",
+      strategie_coping: "Strategie di Coping",
+      meccanismi_difesa: "Meccanismi di Difesa",
+      dinamiche_ricorrenti: "Dinamiche Ricorrenti",
+      emozioni_espresse_congruenza: "Emozioni Espresse e Congruenza",
+      autolesionismo_suicidalita: "Autolesionismo e Suicidabilità",
+      uso_sostanze: "Uso di Sostanze",
+      aggressivita_eterodiretta: "Aggressività Eterodiretta",
+      comportamenti_impulsivi_rischio: "Comportamenti Impulsivi a Rischio",
+      inganno_manipolazione: "Inganno e Manipolazione",
+      attivita_illecite: "Attività Illecite",
+      senso_di_colpa: "Senso di Colpa",
+      salute_fisica_generale: "Salute Fisica Generale",
+      condizioni_mediche_preesistenti: "Condizioni Mediche Preexistenti",
+      attivita_fisica: "Attività Fisica",
+      fumo: "Fumo",
+      alcol: "Alcol",
+      sostanze: "Sostanze",
+      sonno: "Sonno",
+      alimentazione: "Alimentazione",
+      esperienze_terapeutiche_pregresse: "Esperienze Terapeutiche Pregresse",
+      resistenze_trattamento: "Resistenze al Trattamento",
+      obiettivi_terapeutici: "Obiettivi Terapeutici",
+      storia_farmacologica: "Storia Farmacologica",
+      trattamenti_farmacologici_correnti: "Trattamenti Farmacologici Correnti",
+      risposta_ai_farmaci: "Risposta ai Farmaci",
+      ricoveri_psichiatrici_pregressi: "Ricoveri Psichiatrici Pregressi",
+      accessi_pronto_soccorso: "Accessi al Pronto Soccorso",
+      precedenti_drop_out: "Precedenti Drop-out",
+      insight_mentalizzazione: "Insight e Mentalizzazione",
+      motivazione_cambiamento: "Motivazione al Cambiamento",
+      stadio_cambiamento: "Stadio di Cambiamento",
+      resilienza_psicologica: "Resilienza Psicologica",
+      soddisfazione_vita: "Soddisfazione della Vita",
+      speranza_futuro: "Speranza nel Futuro",
+      obiettivi_lungo_termine: "Obiettivi a Lungo Termine",
+      aspetto_espressione: "Aspetto ed Espressione",
+      atteggiamento_verso_clinico: "Atteggiamento verso il Clinico",
+      coscienza_orientamento: "Coscienza e Orientamento",
+      linguaggio_eloquio: "Linguaggio ed Eloquio",
+      umore_affettivita_emotivita: "Umore, Affettività ed Emotività",
+      pensiero_forma_contenuto: "Pensiero: Forma e Contenuto",
+      percezioni: "Percezioni",
+      funzioni_cognitive: "Funzioni Cognitive",
+      comportamento_psicomotorio: "Comportamento Psicomotorio",
+      disponibilita_colloquio: "Disponibilità al Colloquio",
+      insight_giudizio: "Insight e Giudizio",
     };
-    return names[key] || key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+    return (
+      names[key] ??
+      key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+    );
   };
 
   /**
@@ -264,104 +280,104 @@ export function PatientDetailsContent() {
    */
   const getEnumDisplayName = (value: string): string => {
     const names: Record<string, string> = {
-      "single": "Single",
-      "convivente": "Convivente",
+      single: "Single",
+      convivente: "Convivente",
       "sposato/a": "Sposato/a",
       "separato/a": "Separato/a",
       "divorziato/a": "Divorziato/a",
       "vedovo/a": "Vedovo/a",
       "unione civile": "Unione Civile",
-      "altro": "Altro",
-      "monolingue": "Monolingue",
-      "bilingue": "Bilingue",
-      "multilingue": "Multilingue",
-      "urbano": "Urbano",
-      "rurale": "Rurale",
+      altro: "Altro",
+      monolingue: "Monolingue",
+      bilingue: "Bilingue",
+      multilingue: "Multilingue",
+      urbano: "Urbano",
+      rurale: "Rurale",
       "minoranza etnica": "Minoranza Etnica",
-      "maggioranza": "Maggioranza",
-      "cattolico": "Cattolico",
+      maggioranza: "Maggioranza",
+      cattolico: "Cattolico",
       "cristiano (altre)": "Cristiano (altre)",
-      "musulmano": "Musulmano",
-      "ebraico": "Ebraico",
-      "buddista": "Buddista",
-      "indù": "Indù",
-      "agnostico": "Agnostico",
-      "ateo": "Ateo",
+      musulmano: "Musulmano",
+      ebraico: "Ebraico",
+      buddista: "Buddista",
+      indù: "Indù",
+      agnostico: "Agnostico",
+      ateo: "Ateo",
       "spirituale-non religioso": "Spirituale-non religioso",
-      "nativo": "Nativo",
+      nativo: "Nativo",
       "1ª generazione": "1ª Generazione",
       "2ª generazione": "2ª Generazione",
-      "rifugiato": "Rifugiato",
+      rifugiato: "Rifugiato",
       "richiedente asilo": "Richiedente Asilo",
       "cittadinanza acquisita": "Cittadinanza Acquisita",
-      "tradizionali": "Tradizionali",
-      "liberali": "Liberali",
-      "religiosi": "Religiosi",
-      "laici": "Laici",
-      "deontologici": "Deontologici",
-      "relativisti": "Relativisti",
-      "normative": "Normative",
-      "avversità": "Avversità",
-      "bullismo": "Bullismo",
-      "neglect": "Neglect",
-      "abuso": "Abuso",
-      "malattia": "Malattia",
-      "migrazione": "Migrazione",
-      "lutti": "Lutti",
-      "traumi": "Traumi",
-      "abusi": "Abusi",
-      "separazioni": "Separazioni",
-      "trasferimenti": "Trasferimenti",
-      "coese": "Coese",
-      "conflittuali": "Conflittuali",
-      "iperprotettive": "Iperprotettive",
-      "negligenti": "Negligenti",
-      "abusive": "Abusive",
+      tradizionali: "Tradizionali",
+      liberali: "Liberali",
+      religiosi: "Religiosi",
+      laici: "Laici",
+      deontologici: "Deontologici",
+      relativisti: "Relativisti",
+      normative: "Normative",
+      avversità: "Avversità",
+      bullismo: "Bullismo",
+      neglect: "Neglect",
+      abuso: "Abuso",
+      malattia: "Malattia",
+      migrazione: "Migrazione",
+      lutti: "Lutti",
+      traumi: "Traumi",
+      abusi: "Abusi",
+      separazioni: "Separazioni",
+      trasferimenti: "Trasferimenti",
+      coese: "Coese",
+      conflittuali: "Conflittuali",
+      iperprotettive: "Iperprotettive",
+      negligenti: "Negligenti",
+      abusive: "Abusive",
       "separazioni/affido": "Separazioni/Affido",
-      "istituzionalizzazione": "Istituzionalizzazione",
-      "ansia": "Ansia",
-      "depressione": "Depressione",
+      istituzionalizzazione: "Istituzionalizzazione",
+      ansia: "Ansia",
+      depressione: "Depressione",
       "disturbo bipolare": "Disturbo Bipolare",
-      "schizofrenia": "Schizofrenia",
+      schizofrenia: "Schizofrenia",
       "uso di sostanze": "Uso di Sostanze",
       "disturbi di personalità": "Disturbi di Personalità",
       "disturbi neuroevolutivi": "Disturbi Neuroevolutivi",
       "storia di suicidio": "Storia di Suicidio",
-      "buone": "Buone",
-      "distanti": "Distanti",
-      "interrotte": "Interrotte",
-      "ambivalenti": "Ambivalenti",
-      "dipendenti": "Dipendenti",
-      "supportive": "Supportive",
-      "critiche": "Critiche",
-      "ostili": "Ostili",
-      "triangolazioni": "Triangolazioni",
-      "parentificazione": "Parentificazione",
-      "nessuna": "Nessuna",
-      "primaria": "Primaria",
-      "secondaria": "Secondaria",
-      "diploma": "Diploma",
+      buone: "Buone",
+      distanti: "Distanti",
+      interrotte: "Interrotte",
+      ambivalenti: "Ambivalenti",
+      dipendenti: "Dipendenti",
+      supportive: "Supportive",
+      critiche: "Critiche",
+      ostili: "Ostili",
+      triangolazioni: "Triangolazioni",
+      parentificazione: "Parentificazione",
+      nessuna: "Nessuna",
+      primaria: "Primaria",
+      secondaria: "Secondaria",
+      diploma: "Diploma",
       "laurea triennale": "Laurea Triennale",
       "laurea magistrale": "Laurea Magistrale",
-      "dottorato": "Dottorato",
-      "studente": "Studente",
-      "disoccupato": "Disoccupato",
-      "tirocinante": "Tirocinante",
-      "precario": "Precario",
+      dottorato: "Dottorato",
+      studente: "Studente",
+      disoccupato: "Disoccupato",
+      tirocinante: "Tirocinante",
+      precario: "Precario",
       "part-time": "Part-time",
       "full-time": "Full-time",
       "autonomo/freelance": "Autonomo/Freelance",
-      "caregiver": "Caregiver",
-      "pensionato": "Pensionato",
+      caregiver: "Caregiver",
+      pensionato: "Pensionato",
       "proprietà stabile": "Proprietà Stabile",
       "affitto stabile": "Affitto Stabile",
-      "coabitazione": "Coabitazione",
+      coabitazione: "Coabitazione",
       "alloggio temporaneo": "Alloggio Temporaneo",
       "comunità/istituto": "Comunità/Istituto",
-      "senzatetto": "Senzatetto",
-      "precaria": "Precaria",
-      "sufficiente": "Sufficiente",
-      "stabile": "Stabile",
+      senzatetto: "Senzatetto",
+      precaria: "Precaria",
+      sufficiente: "Sufficiente",
+      stabile: "Stabile",
       "con debiti": "Con Debiti",
       "con sussidi": "Con Sussidi",
       "supporto familiare": "Supporto Familiare",
@@ -372,64 +388,66 @@ export function PatientDetailsContent() {
       "videogiochi": "Videogiochi",
       "natura": "Natura",
       "volontariato": "Volontariato",
+      "televisione": "Televisione",
+      "shopping online": "Shopping Online",
       "numerose": "Numerose",
       "poche ma stabili": "Poche ma Stabili",
-      "superficiali": "Superficiali",
-      "assenti": "Assenti",
-      "adeguate": "Adeguate",
-      "isolate": "Isolate",
+      superficiali: "Superficiali",
+      assenti: "Assenti",
+      adeguate: "Adeguate",
+      isolate: "Isolate",
       "bullismo subito": "Bullismo Subito",
       "bullismo agito": "Bullismo Agito",
-      "stabili": "Stabili",
-      "occasionali": "Occasionali",
-      "multiple": "Multiple",
-      "violente": "Violente",
+      stabili: "Stabili",
+      occasionali: "Occasionali",
+      multiple: "Multiple",
+      violente: "Violente",
       "non attive": "Non Attive",
       "attive protette": "Attive Protette",
       "attive non protette": "Attive Non Protette",
       "consensuali (storia)": "Consensuali (Storia)",
       "non consensuali (storia)": "Non Consensuali (Storia)",
-      "intensita": "Intensità",
-      "impatto": "Impatto",
-      "bassa": "Bassa",
-      "moderata": "Moderata",
-      "elevata": "Elevata",
-      "positivo": "Positivo",
-      "neutro": "Neutro",
-      "negativo": "Negativo",
-      "bipolare": "Bipolare",
-      "psicotica": "Psicotica",
+      intensita: "Intensità",
+      impatto: "Impatto",
+      bassa: "Bassa",
+      moderata: "Moderata",
+      elevata: "Elevata",
+      positivo: "Positivo",
+      neutro: "Neutro",
+      negativo: "Negativo",
+      bipolare: "Bipolare",
+      psicotica: "Psicotica",
       "trauma/stress": "Trauma/Stress",
-      "alimentare": "Alimentare",
-      "neuroevolutiva": "Neuroevolutiva",
-      "OCD": "OCD",
-      "dissociativa": "Dissociativa",
-      "presenti": "Presenti",
-      "labile": "Labile",
-      "reattivo": "Reattivo",
-      "iporegolato": "Iporegolato",
-      "iperregolato": "Iperregolato",
-      "disforico": "Disforico",
-      "euforico": "Euforico",
-      "depresso": "Depresso",
-      "integrato": "Integrato",
-      "fragile": "Fragile",
-      "diffuso": "Diffuso",
-      "grandioso": "Grandioso",
-      "svalutato": "Svalutato",
-      "fiducioso": "Fiducioso",
-      "diffidente": "Diffidente",
-      "coerente": "Coerente",
-      "ruminativo": "Ruminativo",
-      "perseverativo": "Perseverativo",
-      "disorganizzato": "Disorganizzato",
-      "rigido": "Rigido",
-      "flessibile": "Flessibile",
-      "paranoide": "Paranoide",
+      alimentare: "Alimentare",
+      neuroevolutiva: "Neuroevolutiva",
+      OCD: "OCD",
+      dissociativa: "Dissociativa",
+      presenti: "Presenti",
+      labile: "Labile",
+      reattivo: "Reattivo",
+      iporegolato: "Iporegolato",
+      iperregolato: "Iperregolato",
+      disforico: "Disforico",
+      euforico: "Euforico",
+      depresso: "Depresso",
+      integrato: "Integrato",
+      fragile: "Fragile",
+      diffuso: "Diffuso",
+      grandioso: "Grandioso",
+      svalutato: "Svalutato",
+      fiducioso: "Fiducioso",
+      diffidente: "Diffidente",
+      coerente: "Coerente",
+      ruminativo: "Ruminativo",
+      perseverativo: "Perseverativo",
+      disorganizzato: "Disorganizzato",
+      rigido: "Rigido",
+      flessibile: "Flessibile",
+      paranoide: "Paranoide",
       "nella norma": "Nella Norma",
-      "ridotta": "Ridotta",
-      "distraibile": "Distraibile",
-      "ipervigilanza": "Ipervigilanza",
+      ridotta: "Ridotta",
+      distraibile: "Distraibile",
+      ipervigilanza: "Ipervigilanza",
       "lieve deficit": "Lieve Deficit",
       "moderato deficit": "Moderato Deficit",
       "grave deficit": "Grave Deficit",
@@ -438,89 +456,89 @@ export function PatientDetailsContent() {
       "grave compromissione": "Grave Compromissione",
       "orientato al problema": "Orientato al Problema",
       "orientato all'emozione": "Orientato all'Emozione",
-      "evitamento": "Evitamento",
+      evitamento: "Evitamento",
       "ricerca di supporto": "Ricerca di Supporto",
-      "ruminazione": "Ruminazione",
-      "dissociazione": "Dissociazione",
-      "maturi": "Maturi",
-      "nevrotici": "Nevrotici",
-      "primitivi": "Primitivi",
-      "manipolatività": "Manipolatività",
-      "sottomissione": "Sottomissione",
-      "svalutazione": "Svalutazione",
-      "dipendenza": "Dipendenza",
-      "controllo": "Controllo",
+      ruminazione: "Ruminazione",
+      dissociazione: "Dissociazione",
+      maturi: "Maturi",
+      nevrotici: "Nevrotici",
+      primitivi: "Primitivi",
+      manipolatività: "Manipolatività",
+      sottomissione: "Sottomissione",
+      svalutazione: "Svalutazione",
+      dipendenza: "Dipendenza",
+      controllo: "Controllo",
       "idealizzazione/svalutazione": "Idealizzazione/Svalutazione",
-      "congrue": "Congrue",
-      "incongrue": "Incongrue",
+      congrue: "Congrue",
+      incongrue: "Incongrue",
       "iper-espresse": "Iper-espresse",
       "ipo-espresse": "Ipo-espresse",
-      "alessitimia": "Alessitimia",
-      "NSSI": "NSSI",
-      "ideazione": "Ideazione",
-      "pianificazione": "Pianificazione",
-      "tentativi": "Tentativi",
+      alessitimia: "Alessitimia",
+      NSSI: "NSSI",
+      ideazione: "Ideazione",
+      pianificazione: "Pianificazione",
+      tentativi: "Tentativi",
       "rischio imminente": "Rischio Imminente",
-      "alcol": "Alcol",
-      "cannabis": "Cannabis",
-      "stimolanti": "Stimolanti",
-      "oppioidi": "Oppioidi",
-      "sedativi": "Sedativi",
-      "poliuso": "Poliuso",
-      "verbale": "Verbale",
-      "fisica": "Fisica",
-      "episodica": "Episodica",
-      "strumentale": "Strumentale",
+      alcol: "Alcol",
+      cannabis: "Cannabis",
+      stimolanti: "Stimolanti",
+      oppioidi: "Oppioidi",
+      sedativi: "Sedativi",
+      poliuso: "Poliuso",
+      verbale: "Verbale",
+      fisica: "Fisica",
+      episodica: "Episodica",
+      strumentale: "Strumentale",
       "gioco d'azzardo": "Gioco d'Azzardo",
       "guida pericolosa": "Guida Pericolosa",
-      "promiscuità": "Promiscuità",
+      promiscuità: "Promiscuità",
       "spese compulsive": "Spese Compulsive",
       "binge cibo": "Binge Cibo",
       "binge alcol": "Binge Alcol",
-      "autolesionismo": "Autolesionismo",
-      "frequenti": "Frequenti",
+      autolesionismo: "Autolesionismo",
+      frequenti: "Frequenti",
       "precedenti penali": "Precedenti Penali",
       "procedimenti in corso": "Procedimenti in Corso",
       "misure alternative": "Misure Alternative",
-      "appropriato": "Appropriato",
-      "eccessivo": "Eccessivo",
-      "patologico": "Patologico",
-      "buona": "Buona",
-      "discreta": "Discreta",
-      "scadente": "Scadente",
-      "cardiovascolari": "Cardiovascolari",
+      appropriato: "Appropriato",
+      eccessivo: "Eccessivo",
+      patologico: "Patologico",
+      buona: "Buona",
+      discreta: "Discreta",
+      scadente: "Scadente",
+      cardiovascolari: "Cardiovascolari",
       "endocrino-metaboliche": "Endocrino-metaboliche",
-      "neurologiche": "Neurologiche",
-      "respiratorie": "Respiratorie",
-      "gastrointestinali": "Gastrointestinali",
+      neurologiche: "Neurologiche",
+      respiratorie: "Respiratorie",
+      gastrointestinali: "Gastrointestinali",
       "dolore cronico": "Dolore Cronico",
-      "gravidanza": "Gravidanza",
-      "ex": "Ex",
-      "sì": "Sì",
-      "moderato": "Moderato",
-      "regolare": "Regolare",
+      gravidanza: "Gravidanza",
+      ex: "Ex",
+      sì: "Sì",
+      moderato: "Moderato",
+      regolare: "Regolare",
       "difficoltà addormentamento": "Difficoltà Addormentamento",
       "risvegli multipli": "Risvegli Multipli",
       "risveglio precoce": "Risveglio Precoce",
-      "ipersonnia": "Ipersonnia",
+      ipersonnia: "Ipersonnia",
       "ritmo irregolare": "Ritmo Irregolare",
-      "restrittiva": "Restrittiva",
-      "abbuffate": "Abbuffate",
+      restrittiva: "Restrittiva",
+      abbuffate: "Abbuffate",
       "alimentazione emotiva": "Alimentazione Emotiva",
-      "iperfagia": "Iperfagia",
-      "iporessia": "Iporessia",
+      iperfagia: "Iperfagia",
+      iporessia: "Iporessia",
       "psicoterapia individuale": "Psicoterapia Individuale",
-      "familiare": "Familiare",
+      familiare: "Familiare",
       "di gruppo": "Di Gruppo",
-      "TCC": "TCC",
-      "psicodinamica": "Psicodinamica",
-      "counselling": "Counselling",
-      "psicoeducazione": "Psicoeducazione",
-      "breve": "Breve",
-      "medio": "Medio",
-      "lungo": "Lungo",
-      "moderate": "Moderate",
-      "elevate": "Elevate",
+      TCC: "TCC",
+      psicodinamica: "Psicodinamica",
+      counselling: "Counselling",
+      psicoeducazione: "Psicoeducazione",
+      breve: "Breve",
+      medio: "Medio",
+      lungo: "Lungo",
+      moderate: "Moderate",
+      elevate: "Elevate",
       "scarsa aderenza": "Scarsa Aderenza",
       "scarsa fiducia": "Scarsa Fiducia",
       "drop-out": "Drop-out",
@@ -531,141 +549,141 @@ export function PatientDetailsContent() {
       "elaborare traumi": "Elaborare Traumi",
       "cessazione sostanze": "Cessazione Sostanze",
       "migliorare sonno": "Migliorare Sonno",
-      "SSRI": "SSRI",
-      "SNRI": "SNRI",
-      "antipsicotici": "Antipsicotici",
+      SSRI: "SSRI",
+      SNRI: "SNRI",
+      antipsicotici: "Antipsicotici",
       "stabilizzatori dell'umore": "Stabilizzatori dell'Umore",
-      "benzodiazepine": "Benzodiazepine",
-      "altri": "Altri",
-      "parziale": "Parziale",
-      "scarsa": "Scarsa",
-      "intolleranza": "Intolleranza",
-      "nessuno": "Nessuno",
+      benzodiazepine: "Benzodiazepine",
+      altri: "Altri",
+      parziale: "Parziale",
+      scarsa: "Scarsa",
+      intolleranza: "Intolleranza",
+      nessuno: "Nessuno",
       "1": "1",
       "2-3": "2-3",
-      "piu_di_3": "Più di 3",
-      "piu_di_1": "Più di 1",
-      "buono": "Buono",
-      "scarso": "Scarso",
-      "assente": "Assente",
-      "alta": "Alta",
-      "media": "Media",
-      "ambivalente": "Ambivalente",
+      piu_di_3: "Più di 3",
+      piu_di_1: "Più di 1",
+      buono: "Buono",
+      scarso: "Scarso",
+      assente: "Assente",
+      alta: "Alta",
+      media: "Media",
+      ambivalente: "Ambivalente",
       "pre-contemplazione": "Pre-contemplazione",
-      "contemplazione": "Contemplazione",
-      "preparazione": "Preparazione",
-      "azione": "Azione",
-      "mantenimento": "Mantenimento",
-      "famiglia": "Famiglia",
-      "lavoro": "Lavoro",
-      "studio": "Studio",
-      "salute": "Salute",
-      "autonomia": "Autonomia",
-      "creatività": "Creatività",
-      "cura_di_se": "Cura di Sé",
-      "abbigliamento": "Abbigliamento",
-      "struttura_fisica": "Struttura Fisica",
-      "postura": "Postura",
-      "espressione_facciale": "Espressione Facciale",
-      "tono_voce": "Tono di Voce",
-      "gestualita_mimica": "Gestualità e Mimica",
-      "contatto_visivo": "Contatto Visivo",
-      "relazionalita_colloquio": "Relazionalità nel Colloquio",
-      "adeguata": "Adeguata",
-      "trascurata": "Trascurata",
-      "adeguato": "Adeguato",
-      "bizzarro": "Bizzarro",
+      contemplazione: "Contemplazione",
+      preparazione: "Preparazione",
+      azione: "Azione",
+      mantenimento: "Mantenimento",
+      famiglia: "Famiglia",
+      lavoro: "Lavoro",
+      studio: "Studio",
+      salute: "Salute",
+      autonomia: "Autonomia",
+      creatività: "Creatività",
+      cura_di_se: "Cura di Sé",
+      abbigliamento: "Abbigliamento",
+      struttura_fisica: "Struttura Fisica",
+      postura: "Postura",
+      espressione_facciale: "Espressione Facciale",
+      tono_voce: "Tono di Voce",
+      gestualita_mimica: "Gestualità e Mimica",
+      contatto_visivo: "Contatto Visivo",
+      relazionalita_colloquio: "Relazionalità nel Colloquio",
+      adeguata: "Adeguata",
+      trascurata: "Trascurata",
+      adeguato: "Adeguato",
+      bizzarro: "Bizzarro",
       "non congruo": "Non Congruo",
-      "sottopeso": "Sottopeso",
+      sottopeso: "Sottopeso",
       "sovrappeso/obesità": "Sovrappeso/Obesità",
       "segni di malattia": "Segni di Malattia",
-      "aperta": "Aperta",
-      "chiusa": "Chiusa",
-      "tesa": "Tesa",
-      "catatonica": "Catatonica",
-      "ricca": "Ricca",
-      "povera": "Povera",
-      "fissa": "Fissa",
-      "hiperespressiva": "Hiperespressiva",
-      "iperespressiva": "Iperespressiva",
-      "normale": "Normale",
-      "basso": "Basso",
-      "alto": "Alto",
-      "monotono": "Monotono",
-      "aumentata": "Aumentata",
-      "manierismi": "Manierismi",
-      "stereotipie": "Stereotipie",
-      "ridotto": "Ridotto",
-      "evitante": "Evitante",
-      "inibita": "Inibita",
-      "invadente": "Invadente",
-      "seduttiva": "Seduttiva",
-      "ostile": "Ostile",
-      "collaborante": "Collaborante",
+      aperta: "Aperta",
+      chiusa: "Chiusa",
+      tesa: "Tesa",
+      catatonica: "Catatonica",
+      ricca: "Ricca",
+      povera: "Povera",
+      fissa: "Fissa",
+      hiperespressiva: "Hiperespressiva",
+      iperespressiva: "Iperespressiva",
+      normale: "Normale",
+      basso: "Basso",
+      alto: "Alto",
+      monotono: "Monotono",
+      aumentata: "Aumentata",
+      manierismi: "Manierismi",
+      stereotipie: "Stereotipie",
+      ridotto: "Ridotto",
+      evitante: "Evitante",
+      inibita: "Inibita",
+      invadente: "Invadente",
+      seduttiva: "Seduttiva",
+      ostile: "Ostile",
+      collaborante: "Collaborante",
       "non collaborante": "Non Collaborante",
-      "amichevole": "Amichevole",
-      "seduttivo": "Seduttivo",
-      "difensivo": "Difensivo",
-      "passivo": "Passivo",
-      "sospettoso": "Sospettoso",
-      "aggressivo": "Aggressivo",
-      "lucido": "Lucido",
-      "soporoso": "Soporoso",
-      "obnubilato": "Obnubilato",
-      "integro": "Integro",
-      "fluenza_contenuto": "Fluenza e Contenuto",
-      "fenomeni_associati": "Fenomeni Associati",
-      "spontaneo": "Spontaneo",
-      "fluente": "Fluente",
-      "rallentato": "Rallentato",
-      "povero": "Povero",
-      "stereotipato": "Stereotipato",
-      "logorroico": "Logorroico",
-      "ripetitivo": "Ripetitivo",
-      "incoerente": "Incoerente",
+      amichevole: "Amichevole",
+      seduttivo: "Seduttivo",
+      difensivo: "Difensivo",
+      passivo: "Passivo",
+      sospettoso: "Sospettoso",
+      aggressivo: "Aggressivo",
+      lucido: "Lucido",
+      soporoso: "Soporoso",
+      obnubilato: "Obnubilato",
+      integro: "Integro",
+      fluenza_contenuto: "Fluenza e Contenuto",
+      fenomeni_associati: "Fenomeni Associati",
+      spontaneo: "Spontaneo",
+      fluente: "Fluente",
+      rallentato: "Rallentato",
+      povero: "Povero",
+      stereotipato: "Stereotipato",
+      logorroico: "Logorroico",
+      ripetitivo: "Ripetitivo",
+      incoerente: "Incoerente",
       "povertà di contenuto": "Povertà di Contenuto",
       "latenza aumentata": "Latenza Aumentata",
-      "schizofasia": "Schizofasia",
-      "ecolalia": "Ecolalia",
-      "neologismi": "Neologismi",
-      "paralogismi": "Paralogismi",
-      "umore": "Umore",
-      "affettivita_emotivita": "Affettività ed Emotività",
-      "correlati": "Correlati",
-      "partecipazione_emotiva": "Partecipazione Emotiva",
-      "eutimico": "Eutimico",
-      "sereno": "Sereno",
-      "fluttuante": "Fluttuante",
-      "vivace": "Vivace",
-      "sintona": "Sintona",
-      "disintonica": "Disintonica",
-      "piatta": "Piatta",
-      "coartata": "Coartata",
-      "angosciata": "Angosciata",
-      "apatica": "Apatia",
+      schizofasia: "Schizofasia",
+      ecolalia: "Ecolalia",
+      neologismi: "Neologismi",
+      paralogismi: "Paralogismi",
+      umore: "Umore",
+      affettivita_emotivita: "Affettività ed Emotività",
+      correlati: "Correlati",
+      partecipazione_emotiva: "Partecipazione Emotiva",
+      eutimico: "Eutimico",
+      sereno: "Sereno",
+      fluttuante: "Fluttuante",
+      vivace: "Vivace",
+      sintona: "Sintona",
+      disintonica: "Disintonica",
+      piatta: "Piatta",
+      coartata: "Coartata",
+      angosciata: "Angosciata",
+      apatica: "Apatia",
       "tristezza vitale": "Tristezza Vitale",
       "apatia/abulia/astenia": "Apatia/Abulia/Astenia",
-      "ambivalenza": "Ambivalenza",
-      "labilità": "Labilità",
-      "inadeguatezza": "Inadeguatezza",
-      "anedonia": "Anedonia",
-      "disforia": "Disforia",
-      "ipomania": "Ipomania",
-      "mania": "Mania",
-      "intensa": "Intensa",
-      "variata": "Variata",
-      "asincronica": "Asincronica",
-      "generalizzata": "Generalizzata",
-      "somatizzata": "Somatizzata",
-      "irrequietudine": "Irrequietudine",
-      "paura": "Paura",
-      "panico": "Panico",
-      "forma": "Forma",
-      "contenuti": "Contenuti",
-      "accelerato": "Accelerato",
-      "deragliato": "Deragliato",
-      "tangenziale": "Tangenziale",
-      "blocchi": "Blocchi",
+      ambivalenza: "Ambivalenza",
+      labilità: "Labilità",
+      inadeguatezza: "Inadeguatezza",
+      anedonia: "Anedonia",
+      disforia: "Disforia",
+      ipomania: "Ipomania",
+      mania: "Mania",
+      intensa: "Intensa",
+      variata: "Variata",
+      asincronica: "Asincronica",
+      generalizzata: "Generalizzata",
+      somatizzata: "Somatizzata",
+      irrequietudine: "Irrequietudine",
+      paura: "Paura",
+      panico: "Panico",
+      forma: "Forma",
+      contenuti: "Contenuti",
+      accelerato: "Accelerato",
+      deragliato: "Deragliato",
+      tangenziale: "Tangenziale",
+      blocchi: "Blocchi",
       "idee prevalenti": "Idee Prevalenti",
       "idee dominanti": "Idee Dominanti",
       "deliri persecutori": "Deliri Persecutori",
@@ -675,72 +693,80 @@ export function PatientDetailsContent() {
       "deliri di colpa": "Deliri di Colpa",
       "deliri religiosi": "Deliri Religiosi",
       "nessuna alterazione": "Nessuna Alterazione",
-      "illusioni": "Illusioni",
+      illusioni: "Illusioni",
       "allucinazioni uditive": "Allucinazioni Uditive",
       "allucinazioni visive": "Allucinazioni Visive",
       "allucinazioni olfattive": "Allucinazioni Olfattive",
       "allucinazioni tattili": "Allucinazioni Tattili",
       "allucinazioni cenestesiche": "Allucinazioni Cenestesiche",
-      "capacita_intellettive": "Capacità Intellettive",
+      capacita_intellettive: "Capacità Intellettive",
       "sotto la norma": "Sotto la Norma",
       "sopra la norma": "Sopra la Norma",
-      "agitazione": "Agitazione",
-      "eccitamento": "Eccitamento",
-      "arresto": "Arresto",
+      agitazione: "Agitazione",
+      eccitamento: "Eccitamento",
+      arresto: "Arresto",
       "catatonia/catatessia": "Catatonia/Catatessia",
       "automatismi al comando": "Automatismi al Comando",
       "negativismo (passivo)": "Negativismo (Passivo)",
       "negativismo (attivo)": "Negativismo (Attivo)",
-      "ecoprassia": "Ecoprassia",
-      "ecomimia": "Ecomimia",
-      "paleocinesie": "Paleocinesie",
-      "fuga": "Fuga",
+      ecoprassia: "Ecoprassia",
+      ecomimia: "Ecomimia",
+      paleocinesie: "Paleocinesie",
+      fuga: "Fuga",
       "tendenze autoaggressive": "Tendenze Autoaggressive",
       "tendenze eteroaggressive": "Tendenze Eteroaggressive",
       "azioni coatte": "Azioni Coatte",
       "rituali/cerimoniali": "Rituali/Cerimoniali",
       "chiede di parlare": "Chiede di Parlare",
-      "collaborativo": "Collaborativo",
-      "insistente": "Insistente",
-      "reticente": "Reticente",
-      "mutacico": "Mutacico",
-      "rifiuta": "Rifiuta",
-      "coscienza_malattia": "Coscienza di Malattia",
-      "giudizio": "Giudizio",
-      "incongrua": "Incongrua",
-      "conservato": "Conservato",
-      "compromesso": "Compromesso"
+      collaborativo: "Collaborativo",
+      insistente: "Insistente",
+      reticente: "Reticente",
+      mutacico: "Mutacico",
+      rifiuta: "Rifiuta",
+      coscienza_malattia: "Coscienza di Malattia",
+      giudizio: "Giudizio",
+      incongrua: "Incongrua",
+      conservato: "Conservato",
+      compromesso: "Compromesso",
     };
-    return names[value] || value;
+    return names[value] ?? value;
   };
 
   /**
    * Render field based on its type and definition
    */
-  const renderField = (fieldKey: string, fieldDef: FieldDefinition, level: number = 0) => {
+  const renderField = (
+    fieldKey: string,
+    fieldDef: FieldDefinition,
+    level = 0,
+  ) => {
     const isExpanded = expandedSubsections.has(fieldKey);
-    const hasSubfields = fieldDef.properties && Object.keys(fieldDef.properties).length > 0;
+    const hasSubfields =
+      fieldDef.properties && Object.keys(fieldDef.properties).length > 0;
     const hasEnumValues = fieldDef.enum && fieldDef.enum.length > 0;
     const isArray = fieldDef.type === "array";
-    const indentationStyle = level > 0 ? { paddingLeft: `${level * 1.15}rem` } : undefined;
+    const indentationStyle =
+      level > 0 ? { paddingLeft: `${level * 1.15}rem` } : undefined;
     const enumIndentationStyle = { paddingLeft: `${(level + 1) * 1.15}rem` };
 
     const indicator = hasSubfields ? (
-      <span className="flex h-6 w-6 items-center justify-center rounded-md border border-border-primary text-xs font-semibold text-text-secondary">
+      <span className="border-border-primary text-text-secondary flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
         {isExpanded ? "−" : "+"}
       </span>
     ) : (
-      <span className="flex h-6 w-6 items-center justify-center text-sm text-text-tertiary">•</span>
+      <span className="text-text-tertiary flex h-6 w-6 items-center justify-center text-sm">
+        •
+      </span>
     );
 
     const fieldContent = (
       <>
-        <div className="flex h-6 w-6 items-center justify-center flex-shrink-0">
+        <div className="flex h-6 w-6 flex-shrink-0 items-center justify-center">
           {indicator}
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h4 className="text-sm font-medium text-text-primary truncate">
+            <h4 className="text-text-primary truncate text-sm font-medium">
               {getFieldDisplayName(fieldKey)}
             </h4>
             {showFieldTypes && fieldDef.type && (
@@ -751,7 +777,7 @@ export function PatientDetailsContent() {
             )}
           </div>
           {fieldDef.description && (
-            <p className="text-xs text-text-secondary mt-1 line-clamp-2">
+            <p className="text-text-secondary mt-1 line-clamp-2 text-xs">
               {fieldDef.description}
             </p>
           )}
@@ -767,7 +793,7 @@ export function PatientDetailsContent() {
             onClick={() => toggleSubsection(fieldKey)}
             aria-expanded={isExpanded}
             style={indentationStyle}
-            className="flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors hover:bg-background-secondary/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+            className="hover:bg-background-secondary/60 focus-visible:ring-primary-500/40 flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none"
           >
             {fieldContent}
           </button>
@@ -784,10 +810,7 @@ export function PatientDetailsContent() {
           <div style={enumIndentationStyle} className="mt-1.5">
             <div className="flex flex-wrap gap-1.5">
               {fieldDef.enum!.map((value) => (
-                <span
-                  key={value}
-                  className="pill pill--sm pill--accent"
-                >
+                <span key={value} className="pill pill--sm pill--accent">
                   {getEnumDisplayName(value)}
                 </span>
               ))}
@@ -797,8 +820,9 @@ export function PatientDetailsContent() {
 
         {hasSubfields && isExpanded && (
           <ul className="mt-1.5 space-y-1.5" role="group">
-            {Object.entries(fieldDef.properties!).map(([subFieldKey, subFieldDef]) =>
-              renderField(subFieldKey, subFieldDef, level + 1)
+            {Object.entries(fieldDef.properties!).map(
+              ([subFieldKey, subFieldDef]) =>
+                renderField(subFieldKey, subFieldDef, level + 1),
             )}
           </ul>
         )}
@@ -807,36 +831,76 @@ export function PatientDetailsContent() {
   };
 
   /**
+   * Count total elements in a section recursively
+   */
+  const countElements = (sectionDef: SectionDefinition): number => {
+    if (!sectionDef.properties) return 0;
+    
+    let count = 0;
+    const traverse = (fields: Record<string, FieldDefinition>) => {
+      Object.values(fields).forEach(field => {
+        count++;
+        if (field.properties) {
+          traverse(field.properties);
+        }
+      });
+    };
+    
+    traverse(sectionDef.properties);
+    return count;
+  };
+
+  /**
+   * Count total elements across all sections
+   */
+  const countTotalElements = (): number => {
+    return filteredSections.reduce((total, [sectionKey, sectionDef]) => {
+      if (!sectionDef) return total;
+      return total + countElements(sectionDef);
+    }, 0);
+  };
+
+  /**
    * Render section with all its fields
    */
   const renderSection = (sectionKey: string, sectionDef: SectionDefinition) => {
     const isExpanded = expandedSections.has(sectionKey);
-    const hasFields = sectionDef.properties && Object.keys(sectionDef.properties).length > 0;
+    const hasFields =
+      sectionDef.properties && Object.keys(sectionDef.properties).length > 0;
+    const elementCount = countElements(sectionDef);
 
     return (
-      <div key={sectionKey} className="dashboard-panel dashboard-panel--compact">
+      <div
+        key={sectionKey}
+        className="dashboard-panel dashboard-panel--compact"
+      >
         <button
           type="button"
           onClick={() => toggleSection(sectionKey)}
           aria-expanded={isExpanded}
-          className={`w-full flex items-center justify-between rounded-lg px-3 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40 ${
-            isExpanded ? 'bg-background-secondary' : 'bg-background-tertiary hover:bg-background-secondary'
+          className={`focus-visible:ring-primary-500/40 flex w-full items-center justify-between rounded-lg px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:outline-none ${
+            isExpanded
+              ? "bg-background-secondary"
+              : "bg-background-tertiary hover:bg-background-secondary"
           }`}
         >
           <div className="flex items-center gap-2">
-            <h3 className="text-sm font-semibold text-text-primary">
+            <h3 className="text-text-primary text-sm font-semibold">
               {getSectionDisplayName(sectionKey)}
             </h3>
+            <span className="text-text-tertiary text-xs">
+              ({elementCount} elementi)
+            </span>
           </div>
-          <span className="ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border border-border-primary text-xs font-semibold text-text-secondary">
+          <span className="border-border-primary text-text-secondary ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
             {isExpanded ? "−" : "+"}
           </span>
         </button>
 
         {isExpanded && hasFields && (
           <ul className="mt-2 space-y-1.5" role="group">
-            {Object.entries(sectionDef.properties!).map(([fieldKey, fieldDef]) =>
-              renderField(fieldKey, fieldDef)
+            {Object.entries(sectionDef.properties!).map(
+              ([fieldKey, fieldDef]) => renderField(fieldKey, fieldDef),
             )}
           </ul>
         )}
@@ -853,8 +917,9 @@ export function PatientDetailsContent() {
               Schema di Valutazione Psicologica Strutturata
             </h2>
             <p className="dashboard-section__description">
-              Visualizza tutti i campi disponibili per la valutazione psicologica strutturata dei pazienti.
-              Clicca sulle sezioni per espandere e visualizzare i dettagli dei campi.
+              Visualizza tutti i campi disponibili per la valutazione
+              psicologica strutturata dei pazienti. Clicca sulle sezioni per
+              espandere e visualizzare i dettagli dei campi.
             </p>
           </div>
         </div>
@@ -874,15 +939,11 @@ export function PatientDetailsContent() {
               className="auth-input"
             />
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-text-tertiary">
+          <div className="text-text-tertiary flex flex-wrap items-center justify-between gap-2 text-xs">
             {searchTerm ? (
-              <p>
-                {filteredSections.length} sezioni trovate
-              </p>
+              <p>{filteredSections.length} sezioni trovate ({countTotalElements()} elementi)</p>
             ) : (
-              <p>
-                {filteredSections.length} sezioni totali
-              </p>
+              <p>{filteredSections.length} sezioni totali ({countTotalElements()} elementi)</p>
             )}
             <div className="flex items-center gap-2">
               <button
@@ -904,14 +965,16 @@ export function PatientDetailsContent() {
         </div>
 
         <div className="space-y-2">
-          {filteredSections.map(([sectionKey, sectionDef]) => 
-            renderSection(sectionKey, sectionDef)
+          {filteredSections.map(([sectionKey, sectionDef]) =>
+            renderSection(sectionKey, sectionDef),
           )}
         </div>
 
         {filteredSections.length === 0 && searchTerm && (
-          <div className="text-center py-8">
-            <p className="text-text-tertiary">Nessuna sezione trovata per "{searchTerm}"</p>
+          <div className="py-8 text-center">
+            <p className="text-text-tertiary">
+              Nessuna sezione trovata per &quot;{searchTerm}&quot;
+            </p>
           </div>
         )}
       </section>

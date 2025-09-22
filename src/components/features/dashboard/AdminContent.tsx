@@ -57,8 +57,8 @@ function ImpersonationModal({
                 </h3>
                 <div className="text-warning-600 mt-2 text-sm">
                   <p>
-                    Stai per impersonificare l'utente. Tutte le azioni saranno
-                    registrate.
+                    Stai per impersonificare l&apos;utente. Tutte le azioni
+                    saranno registrate.
                   </p>
                 </div>
               </div>
@@ -326,8 +326,8 @@ export function AdminContent() {
                   Stato della piattaforma
                 </h2>
                 <p className="dashboard-section__description">
-                  Un riepilogo sui volumi di utilizzo e sull'attivita recente
-                  per mantenere il sistema sotto controllo.
+                  Un riepilogo sui volumi di utilizzo e sull&apos;attivita
+                  recente per mantenere il sistema sotto controllo.
                 </p>
               </div>
             </div>

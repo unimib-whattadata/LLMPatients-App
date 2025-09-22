@@ -3,44 +3,46 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-import { PatientAvatar, PatientTags } from "@/components/features/explore-patients";
+import {
+  PatientAvatar,
+  PatientTags,
+} from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
+import { getDifficultyClass, getDifficultyLabel } from "~/lib/constants/difficulty";
 
 const SECTION_BASE = "bg-background-secondary rounded-lg";
 const SECTION = `${SECTION_BASE} p-6`;
 const SECTION_WITH_OVERFLOW = `${SECTION_BASE} overflow-hidden`;
-const BREADCRUMB_NAV = "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
+const BREADCRUMB_NAV =
+  "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
 const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
 const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md text-center";
-const DIFFICULTY_BADGES: Record<string, string> = {
-  Facile: "pill pill--lg pill--primary",
-  Medio: "pill pill--lg pill--secondary",
-  Difficile: "pill pill--lg pill--accent",
-};
-
-function getDifficultyClass(value: string) {
-  return DIFFICULTY_BADGES[value] ?? "pill pill--lg pill--muted";
-}
+// Difficulty constants are now imported from the constants file
 
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
     return value;
   }
   if (Array.isArray(value)) {
-    return value[0] ?? null;
+    return (value[0] as string) ?? null;
   }
   return null;
 }
 
 export default function PatientDetailPage() {
   const params = useParams();
-  const patientId = normalizeParam((params as Record<string, unknown>).patientId);
+  const patientId = normalizeParam(
+    (params as Record<string, unknown>).patientId,
+  );
 
   const {
     data: patient,
     isLoading,
     error,
-  } = api.patients.getPatientById.useQuery({ id: patientId ?? "" }, { enabled: Boolean(patientId) });
+  } = api.patients.getPatientById.useQuery(
+    { id: patientId ?? "" },
+    { enabled: Boolean(patientId) },
+  );
 
   if (isLoading) {
     return <PatientDetailSkeleton />;
@@ -48,7 +50,7 @@ export default function PatientDetailPage() {
 
   if (error || !patient) {
     return (
-      <div className="min-h-screen bg-background-primary flex items-center justify-center px-4">
+      <div className="bg-background-primary flex min-h-screen items-center justify-center px-4">
         <NotFoundCard
           title="Paziente non trovato"
           description="Il paziente richiesto non e disponibile o non esiste."
@@ -63,17 +65,26 @@ export default function PatientDetailPage() {
     { label: patient.name },
   ];
 
+  const details = JSON.parse(patient.details) as {
+    demographic_sociocultural_information?: {
+      age?: string;
+      gender?: string;
+    };
+    psychological_profile_and_cognitive_functioning?: {
+      current_and_past_psychiatric_diagnoses?: string;
+    };
+  };
   const infoItems = [
-    { label: "Eta", value: `${patient.age} anni` },
-    { label: "Genere", value: patient.gender, capitalize: true },
-    { label: "Condizione", value: patient.condition },
+    { label: "Eta", value: `${details.demographic_sociocultural_information?.age || 'N/A'} anni` },
+    { label: "Genere", value: details.demographic_sociocultural_information?.gender || 'N/A', capitalize: true },
+    { label: "Condizione", value: details.psychological_profile_and_cognitive_functioning?.current_and_past_psychiatric_diagnoses || 'N/A' },
     { label: "Durata stimata", value: `${patient.estimatedDuration} minuti` },
   ];
 
   return (
-    <div className="min-h-screen bg-background-primary">
+    <div className="bg-background-primary min-h-screen">
       <header className="bg-background-secondary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
           <nav className={BREADCRUMB_NAV}>
             {breadcrumbs.map((crumb, index) => (
               <span key={crumb.label} className="flex items-center gap-2">
@@ -90,26 +101,41 @@ export default function PatientDetailPage() {
           </nav>
 
           <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-3xl font-bold text-text-primary">{patient.name}</h1>
+            <h1 className="text-text-primary text-3xl font-bold">
+              {patient.name}
+            </h1>
             <span className={getDifficultyClass(patient.difficulty)}>
-              {patient.difficulty}
+              {getDifficultyLabel(patient.difficulty)}
             </span>
+          </div>
+          
+          {/* Description */}
+          <div className="mt-4">
+            <p className="patient-card-condition">
+              {patient.description}
+            </p>
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <aside className="lg:col-span-1">
             <div className={SECTION_WITH_OVERFLOW}>
-              <PatientAvatar name={patient.name} avatarUrl={patient.avatarUrl} avatarType={patient.avatarType} />
+              <PatientAvatar
+                name={patient.name}
+                avatarUrl={patient.avatarUrl}
+                avatarType={patient.avatarType}
+              />
               <div className="p-6">
                 <ul className="space-y-4">
                   {infoItems.map((item) => (
                     <li key={item.label}>
-                      <p className="text-sm text-text-tertiary mb-1">{item.label}</p>
+                      <p className="text-text-tertiary mb-1 text-sm">
+                        {item.label}
+                      </p>
                       <p
-                        className={`text-text-primary font-medium${item.capitalize ? " capitalize" : ""}`}
+                        className={`text-text-primary font-medium${item.capitalize ? "capitalize" : ""}`}
                       >
                         {item.value}
                       </p>
@@ -120,17 +146,22 @@ export default function PatientDetailPage() {
             </div>
           </aside>
 
-          <section className="lg:col-span-2 space-y-6">
+          <section className="space-y-6 lg:col-span-2">
             <article className={SECTION}>
               <h2 className={HEADING_CLASS}>Storia del paziente</h2>
-              <p className="text-text-secondary leading-relaxed">{patient.background}</p>
+              <p className="text-text-secondary leading-relaxed">
+                {patient.background}
+              </p>
             </article>
 
             <article className={SECTION}>
               <h2 className={HEADING_CLASS}>Obiettivi di apprendimento</h2>
               <ul className="space-y-3">
                 {patient.objectives.map((objective, index) => (
-                  <li key={`${objective}-${index}`} className="flex items-start gap-3">
+                  <li
+                    key={`${objective}-${index}`}
+                    className="flex items-start gap-3"
+                  >
                     <span className="text-primary-300 mt-1">•</span>
                     <span className="text-text-secondary">{objective}</span>
                   </li>
@@ -148,18 +179,21 @@ export default function PatientDetailPage() {
             <article className={SECTION}>
               <h2 className={HEADING_CLASS}>Inizia la simulazione</h2>
               <p className="text-text-secondary mb-6">
-                Sei pronto a iniziare l'interazione con {patient.name}? La simulazione ti permette di mettere in pratica
-                le tue competenze cliniche in un ambiente sicuro e controllato.
+                Sei pronto a iniziare l&apos;interazione con {patient.name}? La
+                simulazione ti permette di mettere in pratica le tue competenze
+                cliniche in un ambiente sicuro e controllato.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button className={`${CTA_BUTTON} bg-primary-600 hover:bg-primary-700 text-text-primary`}>
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <button
+                  className={`${CTA_BUTTON} bg-primary-600 hover:bg-primary-700 text-text-primary`}
+                >
                   Inizia simulazione
                 </button>
                 <Link
                   href="/explore-patients"
                   className={`${CTA_BUTTON} bg-background-tertiary hover:bg-background-secondary text-text-primary`}
                 >
-                  &lt;- Torna all'esplorazione
+                  &lt;- Torna all&apos;esplorazione
                 </Link>
               </div>
             </article>
@@ -170,14 +204,23 @@ export default function PatientDetailPage() {
   );
 }
 
-function NotFoundCard({ title, description }: { title: string; description: string }) {
+function NotFoundCard({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) {
   return (
-    <div className="text-center max-w-md">
-      <div className="w-16 h-16 bg-accent-900/40 rounded-full flex items-center justify-center mx-auto mb-4" />
-      <h1 className="text-2xl font-bold text-text-primary mb-2">{title}</h1>
+    <div className="max-w-md text-center">
+      <div className="bg-accent-900/40 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full" />
+      <h1 className="text-text-primary mb-2 text-2xl font-bold">{title}</h1>
       <p className="text-text-tertiary mb-6">{description}</p>
-      <Link href="/explore-patients" className="inline-flex items-center justify-center px-5 py-2 rounded-md bg-primary-600 text-text-primary hover:bg-primary-700">
-        Torna all'esplorazione
+      <Link
+        href="/explore-patients"
+        className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
+      >
+        Torna all&apos;esplorazione
       </Link>
     </div>
   );
@@ -185,44 +228,44 @@ function NotFoundCard({ title, description }: { title: string; description: stri
 
 function PatientDetailSkeleton() {
   return (
-    <div className="min-h-screen bg-background-primary">
+    <div className="bg-background-primary min-h-screen">
       <header className="bg-background-secondary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-3">
-          <div className="h-4 w-64 bg-background-tertiary rounded" />
-          <div className="h-8 w-48 bg-background-tertiary rounded" />
+        <div className="mx-auto max-w-4xl space-y-3 px-4 py-6 sm:px-6 lg:px-8">
+          <div className="bg-background-tertiary h-4 w-64 rounded" />
+          <div className="bg-background-tertiary h-8 w-48 rounded" />
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <aside className="lg:col-span-1">
             <div className={`${SECTION_WITH_OVERFLOW}`}>
-              <div className="w-full h-48 bg-background-tertiary" />
-              <div className="p-6 space-y-4">
-                <div className="h-4 w-20 bg-background-tertiary rounded" />
-                <div className="h-6 w-32 bg-background-tertiary rounded" />
-                <div className="h-4 w-20 bg-background-tertiary rounded" />
-                <div className="h-6 w-24 bg-background-tertiary rounded" />
+              <div className="bg-background-tertiary h-48 w-full" />
+              <div className="space-y-4 p-6">
+                <div className="bg-background-tertiary h-4 w-20 rounded" />
+                <div className="bg-background-tertiary h-6 w-32 rounded" />
+                <div className="bg-background-tertiary h-4 w-20 rounded" />
+                <div className="bg-background-tertiary h-6 w-24 rounded" />
               </div>
             </div>
           </aside>
 
-          <section className="lg:col-span-2 space-y-6">
+          <section className="space-y-6 lg:col-span-2">
             <div className={`${SECTION}`}>
-              <div className="h-6 w-48 bg-background-tertiary rounded mb-4" />
+              <div className="bg-background-tertiary mb-4 h-6 w-48 rounded" />
               <div className="space-y-2">
-                <div className="h-4 w-full bg-background-tertiary rounded" />
-                <div className="h-4 w-4/5 bg-background-tertiary rounded" />
-                <div className="h-4 w-3/5 bg-background-tertiary rounded" />
+                <div className="bg-background-tertiary h-4 w-full rounded" />
+                <div className="bg-background-tertiary h-4 w-4/5 rounded" />
+                <div className="bg-background-tertiary h-4 w-3/5 rounded" />
               </div>
             </div>
 
             <div className={`${SECTION}`}>
-              <div className="h-6 w-56 bg-background-tertiary rounded mb-4" />
+              <div className="bg-background-tertiary mb-4 h-6 w-56 rounded" />
               <div className="space-y-3">
-                <div className="h-4 w-full bg-background-tertiary rounded" />
-                <div className="h-4 w-5/6 bg-background-tertiary rounded" />
-                <div className="h-4 w-4/5 bg-background-tertiary rounded" />
+                <div className="bg-background-tertiary h-4 w-full rounded" />
+                <div className="bg-background-tertiary h-4 w-5/6 rounded" />
+                <div className="bg-background-tertiary h-4 w-4/5 rounded" />
               </div>
             </div>
           </section>

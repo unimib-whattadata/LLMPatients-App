@@ -9,15 +9,17 @@ import { HydrateClient } from "~/trpc/server";
  */
 export default async function EsploraPazientiPage() {
   const session = await auth();
-  
+
   // Create a mock user for unauthenticated users
-  const user = session?.user ? {
-    id: session.user.id,
-    name: session.user.name ?? null,
-    email: session.user.email!,
-    role: (session.user.role as "admin" | "user") || "user",
-    image: session.user.image,
-  } : undefined;
+  const user = session?.user
+    ? {
+        id: session.user.id,
+        name: session.user.name ?? null,
+        email: session.user.email!,
+        role: session.user.role || "user",
+        image: session.user.image,
+      }
+    : undefined;
 
   return (
     <HydrateClient>
@@ -33,7 +35,9 @@ export default async function EsploraPazientiPage() {
               <div className="section-container">
                 <h1>ePatients</h1>
                 <p>
-                  Un catalogo di pazienti virtuali progettato per allenare empatia clinica, gestione emotiva e decisioni terapeutiche in ambienti sicuri.
+                  Un catalogo di pazienti virtuali progettato per allenare
+                  empatia clinica, gestione emotiva e decisioni terapeutiche in
+                  ambienti sicuri.
                 </p>
               </div>
             </section>

@@ -329,14 +329,13 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    age: d.integer({ mode: "number" }).notNull(),
-    gender: d.text({ length: 20 }).notNull(), // 'male', 'female', 'other'
-    condition: d.text({ length: 500 }).notNull(),
+    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
     avatarUrl: d.text({ length: 500 }),
     avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
-    difficulty: d.text({ length: 20 }).notNull(), // 'Facile', 'Medio', 'Difficile'
+    difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
     estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
     createdAt: d

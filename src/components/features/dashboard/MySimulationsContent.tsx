@@ -8,12 +8,13 @@
 "use client";
 
 import { useState } from "react";
+import { DIFFICULTY_LEVELS, getDifficultyLabel, getDifficultyIconClass, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 
 interface Simulation {
   id: string;
   title: string;
   patientName: string;
-  difficulty: "Facile" | "Medio" | "Difficile";
+  difficulty: 1 | 2 | 3;
   status: "available" | "in-progress" | "completed";
   progress: number;
   lastAccessed?: string;
@@ -29,7 +30,7 @@ export function MySimulationsContent() {
       id: "1",
       title: "Gestione Ipertensione Acuta",
       patientName: "Mario Rossi",
-      difficulty: "Medio",
+      difficulty: DIFFICULTY_LEVELS.MEDIO,
       status: "completed",
       progress: 100,
       lastAccessed: "2024-09-03",
@@ -39,7 +40,7 @@ export function MySimulationsContent() {
       id: "2",
       title: "Crisi Diabetica",
       patientName: "Laura Bianchi", 
-      difficulty: "Difficile",
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE,
       status: "in-progress",
       progress: 65,
       lastAccessed: "2024-09-03"
@@ -48,7 +49,7 @@ export function MySimulationsContent() {
       id: "3",
       title: "Attacco Asmatico",
       patientName: "Giuseppe Verde",
-      difficulty: "Facile",
+      difficulty: DIFFICULTY_LEVELS.FACILE,
       status: "available",
       progress: 0
     },
@@ -56,7 +57,7 @@ export function MySimulationsContent() {
       id: "4",
       title: "Trauma Cranico",
       patientName: "Anna Neri",
-      difficulty: "Difficile", 
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE, 
       status: "available",
       progress: 0
     }
@@ -77,42 +78,29 @@ export function MySimulationsContent() {
     );
   };
 
-  const getDifficultyClass = (difficulty: string) => {
+  const getDifficultyClass = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case "Medio":
+      case 2:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case "Difficile":
+      case 3:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
       default:
         return "patient-card-difficulty-icon";
     }
   };
 
-  const getDifficultyIcon = (difficulty: string) => {
+  const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "•";
-      case "Medio":
+      case 2:
         return "••";
-      case "Difficile":
+      case 3:
         return "•••";
       default:
         return "•";
-    }
-  };
-
-  const getDifficultyAccessibleText = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "Livello facile";
-      case "Medio":
-        return "Livello medio";
-      case "Difficile":
-        return "Livello difficile";
-      default:
-        return "Livello non specificato";
     }
   };
 
@@ -217,7 +205,7 @@ export function MySimulationsContent() {
                   >
                     {getDifficultyIcon(simulation.difficulty)}
                   </span>
-                  <span className="text-sm font-medium">{simulation.difficulty}</span>
+                  <span className="text-sm font-medium">{getDifficultyLabel(simulation.difficulty)}</span>
                 </div>
               </div>
 

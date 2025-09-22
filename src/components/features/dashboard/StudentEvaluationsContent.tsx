@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DIFFICULTY_LEVELS, getDifficultyLabel, getDifficultyIconClass, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";
 
 interface Evaluation {
@@ -13,7 +14,7 @@ interface Evaluation {
   feedback: string;
   strengths: string[];
   improvements: string[];
-  difficulty: "Facile" | "Medio" | "Difficile";
+  difficulty: 1 | 2 | 3;
   duration: number; // in minutes
 }
 
@@ -47,7 +48,7 @@ export function StudentEvaluationsContent() {
         "Velocità nella gestione dell'emergenza",
         "Documentazione clinica più dettagliata"
       ],
-      difficulty: "Medio",
+      difficulty: DIFFICULTY_LEVELS.MEDIO,
       duration: 45
     },
     {
@@ -68,7 +69,7 @@ export function StudentEvaluationsContent() {
       improvements: [
         "Documentazione clinica più dettagliata"
       ],
-      difficulty: "Facile",
+      difficulty: DIFFICULTY_LEVELS.FACILE,
       duration: 38
     },
     {
@@ -90,7 +91,7 @@ export function StudentEvaluationsContent() {
         "Comunicazione con il paziente in crisi",
         "Velocità di intervento"
       ],
-      difficulty: "Difficile",
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE,
       duration: 52
     }
   ];
@@ -115,42 +116,29 @@ export function StudentEvaluationsContent() {
     );
   };
 
-  const getDifficultyClass = (difficulty: string) => {
+  const getDifficultyClass = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case "Medio":
+      case 2:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case "Difficile":
+      case 3:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
       default:
         return "patient-card-difficulty-icon";
     }
   };
 
-  const getDifficultyIcon = (difficulty: string) => {
+  const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "•";
-      case "Medio":
+      case 2:
         return "••";
-      case "Difficile":
+      case 3:
         return "•••";
       default:
         return "•";
-    }
-  };
-
-  const getDifficultyAccessibleText = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "Livello facile";
-      case "Medio":
-        return "Livello medio";
-      case "Difficile":
-        return "Livello difficile";
-      default:
-        return "Livello non specificato";
     }
   };
 
@@ -342,7 +330,7 @@ export function StudentEvaluationsContent() {
                           >
                             {getDifficultyIcon(evaluation.difficulty)}
                           </span>
-                          <span className="text-sm font-medium">{evaluation.difficulty}</span>
+                          <span className="text-sm font-medium">{getDifficultyLabel(evaluation.difficulty)}</span>
                         </div>
                         <div
                           className={`pill pill--sm status-tag font-bold text-sm ${
