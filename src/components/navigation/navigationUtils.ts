@@ -13,7 +13,6 @@ import {
   ClockIcon,
   MapIcon,
   DocumentTextIcon,
-  ChatBubbleLeftRightIcon
 } from "@heroicons/react/24/outline";
 
 /**
@@ -36,7 +35,6 @@ export function getNavSections(
         items: [
           { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
           { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
-          { label: "Chat con Pazienti", href: "/dashboard/chat", icon: ChatBubbleLeftRightIcon },
         ]
       }
     ];
@@ -91,7 +89,6 @@ export function getNavSections(
         items: [
           { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
           { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
-          { label: "Chat con Pazienti", href: "/dashboard/chat", icon: ChatBubbleLeftRightIcon },
         ]
       },
       {

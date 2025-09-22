@@ -29,59 +29,6 @@ type AdapterAccount = {
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
-export const chats = createTable("chat", (d) => ({
-  id: d
-    .text({ length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  userId: d
-    .text({ length: 255 })
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  virtualPatientId: d
-    .text({ length: 255 })
-    .notNull()
-    .references(() => patients.id, { onDelete: "cascade" }),
-  createdAt: d
-    .integer({ mode: "timestamp" })
-    .default(sql`(unixepoch())`)
-    .notNull(),
-  updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
-}));
-
-export const messages = createTable(
-  "message",
-  (d) => ({
-    id: d
-      .text({ length: 255 })
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
-
-    chatId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => chats.id, { onDelete: "cascade" }),
-
-    senderId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-
-    content: d.text({ length: 2000 }).notNull(),
-
-    createdAt: d
-      .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-  }),
-  (t) => [
-    index("message_chat_id_idx").on(t.chatId),
-    index("message_sender_id_idx").on(t.senderId),
-    index("message_created_at_idx").on(t.createdAt),
-  ],
-);
 
 export const users = createTable("user", (d) => ({
   id: d
@@ -390,32 +337,8 @@ export const patientTagRelationsRelations = relations(
   }),
 );
 
-export const chatsRelations = relations(chats, ({ many, one }) => ({
-  user: one(users, {
-    fields: [chats.userId],
-    references: [users.id],
-  }),
-  virtualPatient: one(patients, {
-    fields: [chats.virtualPatientId],
-    references: [patients.id],
-  }),
-  messages: many(messages),
-}));
 
-export const messagesRelations = relations(messages, ({ one }) => ({
-  chat: one(chats, {
-    fields: [messages.chatId],
-    references: [chats.id],
-  }),
-  sender: one(users, {
-    fields: [messages.senderId],
-    references: [users.id],
-  }),
-}));
-
-export const usersRelations = relations(users, ({ many }) => ({
-  chats: many(chats),
-}));
+export const usersRelations = relations(users, ({ many }) => ({}));
 export const therapySessions = createTable(
   "therapy_session",
   (d) => ({

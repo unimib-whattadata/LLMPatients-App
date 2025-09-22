@@ -299,7 +299,7 @@ const TimelineStep = memo(
       role="button"
       tabIndex={isUnlocked ? 0 : -1}
       aria-disabled={!isUnlocked}
-      aria-label={`Apri chat per seduta ${step.id}${isUnlocked ? "" : " non disponibile"}`}
+      aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}`}
     >
       {step.id}
     </div>
@@ -360,7 +360,7 @@ const MobileTimelineStep = memo(
               {details.phaseTitle}
             </h2>
             <p className="mt-1 text-xs text-white/60">
-              Clicca per aprire la chat
+              Clicca per aprire la sessione
             </p>
           </div>
         </div>
@@ -462,11 +462,9 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   const handleStepClick = useCallback((stepId: number) => {
     if (stepId > unlockedSessionNumber) return;
     
-    // Navigate to chat with the current patient
-    if (sessionId && user.id) {
-      router.push(`/chat/${user.id}/${sessionId}`);
-    }
-  }, [unlockedSessionNumber, sessionId, user.id, router]);
+    // For now, just show an alert - session functionality
+    alert(`Sessione ${stepId} selezionata. Funzionalità in sviluppo.`);
+  }, [unlockedSessionNumber]);
 
 
 
