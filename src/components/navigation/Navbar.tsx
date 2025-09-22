@@ -187,7 +187,7 @@ export function Navbar({
                 }`}
               >
                 <span className="hidden sm:inline">
-                  {displayUser.role === "admin" ? "Admin" : "Utente"}
+                  {displayUser.role === "admin" ? "Admin" : "User"}
                 </span>
                 <span className="sm:hidden">
                   {displayUser.role === "admin" ? "A" : "U"}
@@ -281,7 +281,7 @@ export function Navbar({
       { label: "Esplora pazienti", href: "/explore-patients" },
     ];
 
-    const roleLabel = displayUser?.role === "admin" ? "Admin" : "Utente";
+    const roleLabel = displayUser?.role === "admin" ? "Admin" : "User";
     const badgeClass = displayUser?.role === "admin"
       ? "pill pill--sm site-menu__role-badge site-menu__role-badge--admin"
       : "pill pill--sm site-menu__role-badge site-menu__role-badge--user";
@@ -319,7 +319,7 @@ export function Navbar({
             {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="site-menu__mobile-name">{displayUser.name ?? "Utente"}</p>
+            <p className="site-menu__mobile-name">{displayUser.name ?? "User"}</p>
             <p className="site-menu__mobile-email">{displayUser.email}</p>
           </div>
         </div>
