@@ -1,0 +1,121 @@
+{
+  "name": "Todd",
+  "avatarUrl": "/images/patients/todd.png",
+  "avatarType": "illustration",
+  "difficulty": "Medio",
+  "estimatedDuration": 45,
+  "isActive": true,
+  "demographic_sociocultural_information": {
+    "age": "28",
+    "gender": "Male",
+    "marital_status": "Single",
+    "cultural_background": "Midwestern male raised in a family with three older sisters; cultural identity not otherwise specified.",
+    "religious_beliefs": "Not reported.",
+    "spoken_language": "English.",
+    "migration_status": "Lifelong U.S. resident who relocated 400 miles from his hometown for work."
+  },
+  "family_social_history": {
+    "developmental_family_dynamics": "Youngest of four with a six-year gap; close-knit family disrupted by father's sudden death when he was 8, followed by financial strain and emotional distancing.",
+    "current_parent_relationships": "Maintains contact with his mother, who makes critical comparisons to his late father; sisters minimize his emotional concerns.",
+    "childhood_experiences": "After his father died, academic performance declined, he withdrew from sports, and spent increasing time alone with video games and reading.",
+    "abuse_history": "No abuse disclosed; emotional invalidation noted when family discouraged discussion of grief."
+  },
+  "family_social_context": {
+    "social_support_overview": "Limited support network consisting mainly of a concerned neighbor; minimal family or peer involvement in his current community.",
+    "support_network": "Lives alone with occasional contact from neighbors; family resides several hours away and offers limited emotional support."
+  },
+  "education_and_employment": {
+    "education_level": "Completed GED after leaving high school in junior year; briefly attended community college before withdrawing due to anxiety.",
+    "employment_history": "Works night shifts in a small computer company with solitary duties; relocated with the company when it moved towns.",
+    "housing_stability": "Stable housing but home environment has become cluttered and poorly maintained due to low motivation and anxiety.",
+    "financial_situation": "Income appears modest but steady; financial strain implied after family's earlier loss though no acute crisis reported currently.",
+    "hobbies_interests": "Historically enjoyed video games and reading; current engagement limited by worry and fatigue."
+  },
+  "psychological_profile_and_cognitive_functioning": {
+    "current_and_past_psychiatric_diagnoses": "Generalized Anxiety Disorder; rule out depressive disorder, other anxiety disorders, and medical contributors.",
+    "main_symptoms": "Persistent worry, avoidance of public outings, physical anxiety symptoms (sweating, racing heart, diarrhea), sleep disturbance, fatigue, irritability, social withdrawal, and declining self-care.",
+    "emotional_reactions_and_mood": "Chronically anxious, easily overwhelmed, irritable, and embarrassed about symptoms; underlying sadness possible but unconfirmed.",
+    "auto_hetero_directed_aggression": "Denies self-harm or aggression; directs distress inward leading to neglect of personal needs.",
+    "self_perception_and_identity": "Sees himself as incapable of coping with daily tasks and fears judgment from others; internalizes family criticism.",
+    "psychiatric_comorbidities": "Monitoring for depressive features and potential gastrointestinal issues related to anxiety; no substance use noted.",
+    "self_esteem": "Low self-esteem tied to perceived inadequacy, social retreat, and comparisons to his late father.",
+    "sense_of_self_and_others": "Views others as potential sources of scrutiny; interprets family responses as invalidating and relies on solitude for safety.",
+    "identity_disturbances": "No identity diffusion, though confidence in social and occupational roles is eroded by anxiety.",
+    "cognitive_style": "Ruminative, anticipatory worry with catastrophizing about everyday tasks and interpersonal encounters.",
+    "cognitive_schemas": "Schemas of vulnerability, social incompetence, and fear of criticism; prefers controlled, solitary environments.",
+    "attachment_style": "Avoidant tendencies reinforced by early losses and critical family responses; limited ability to rely on others for support.",
+    "executive_functioning": "Organizational abilities compromised by anxiety-driven avoidance; struggles to complete instrumental activities of daily living.",
+    "memory": "Memory intact; no cognitive decline described.",
+    "attention_and_concentration": "Difficulty concentrating at work during anxious episodes and restlessness.",
+    "sensory_perception": "No hallucinations or perceptual disturbances reported.",
+    "higher_cognitive_functions": "Thought processes logical and reality-based despite anxious content."
+  },
+  "coping_mechanisms_and_defenses": {
+    "coping_strategies": "Avoidance, isolation, excessive time at home, reliance on delivery services, and distraction via solitary activities.",
+    "defense_mechanisms": "Withdrawal, suppression of grief, and minimization of distress when speaking with family."
+  },
+  "dysfunctional_behaviors_and_risk": {
+    "self_harm_and_suicidality": "No suicidal ideation or self-harm reported.",
+    "substance_abuse": "No substance use issues disclosed.",
+    "avoidance_behaviors": "Marked avoidance of shopping, social interactions, and routine errands; considers quitting work to escape stressors.",
+    "impulsive_and_risky_behaviors": "No impulsive dangerous acts; risk arises from neglect of health and potential job loss if avoidance persists.",
+    "morality": "Adheres to conventional moral values; conscientious about others though overwhelmed."
+  },
+  "social_relationships_and_interactions": {
+    "friendships": "Very limited; primary contact is a concerned neighbor in current town.",
+    "romantic_relationships": "No romantic relationships reported.",
+    "sexual_relationships": "Not discussed; presumed inactive.",
+    "family_interactions": "Family contact is emotionally distant; sisters dismiss his concerns and mother responds with critical comparisons.",
+    "peer_and_colleague_relationships": "Minimal workplace interaction due to solitary night shift; coworkers note increased irritability.",
+    "social_media_behavior": "Not mentioned."
+  },
+  "treatments_and_interventions": {
+    "previous_therapeutic_experiences": "No prior formal mental health treatment documented; recently referred to physician because of neighbor concerns.",
+    "treatment_progress_and_resistance": "Early in help-seeking; ambivalent and embarrassed yet receptive enough to attend medical evaluation.",
+    "therapeutic_goals": "Reduce pervasive anxiety, restore daily functioning and self-care, improve sleep, and expand social engagement.",
+    "pharmacological_history": "No medications reported at presentation; evaluation for medical contributors pending.",
+    "medication_response": "Not applicable; no psychotropic regimen initiated yet.",
+    "hospitalization_history": "No hospitalizations reported.",
+    "hospitalization_details": "Not applicable.",
+    "emergency_room_visits": "No emergency visits mentioned.",
+    "historical_psychiatric_diagnoses": "Generalized anxiety symptoms long-standing since childhood loss; no formal diagnoses recorded prior to current assessment."
+  },
+  "clinical_judgment_and_decision_capacities": {
+    "judgment_capacity": "Judgment generally intact; recognizes functional decline though contemplates quitting job due to anxiety.",
+    "insight_awareness": "Partial insight\u2014acknowledges symptoms yet minimizes severity when speaking to family and delays seeking help.",
+    "impulse_control": "Adequate regarding behavior safety; anxiety-driven avoidance undermines goal-directed actions.",
+    "self_control": "Limited ability to regulate physiological arousal and maintain routines during anxious spikes."
+  },
+  "resilience_and_psychological_wellbeing": {
+    "psychological_resilience": "Currently low; struggles to rebound from stressors and relies on isolation for perceived safety.",
+    "self_compassion": "Minimal; internalizes criticism and feels embarrassed about symptoms.",
+    "life_satisfaction": "Low due to isolation, anxiety, and decreased functioning.",
+    "personal_growth": "Stalled; avoidance prevents engagement in opportunities that might promote growth.",
+    "sense_of_coherence": "Narrative reflects disjointed coping since childhood loss with limited integration of grief and anxiety experiences.",
+    "sense_of_control_or_empowerment": "Feels little control over anxiety responses and daily obligations; tasks like grocery shopping feel overwhelming.",
+    "hope_for_future": "Guarded; contemplates leaving work to reduce stress, indicating limited optimism.",
+    "long_term_life_goals": "No articulated long-term goals beyond managing day-to-day survival."
+  },
+  "medical_and_physical_history": {
+    "pre_existing_medical_conditions": "No chronic medical conditions reported; experiencing recent diarrhea possibly related to anxiety.",
+    "pharmacological_treatments": "Not currently taking prescribed medications at the time of assessment.",
+    "allergies": "Not reported.",
+    "lifestyle": "Sedentary with disrupted routines, minimal outdoor activity, and neglect of hygiene and housekeeping.",
+    "general_physical_health": "Appears compromised by poor self-care and fatigue; formal evaluation pending to rule out medical causes.",
+    "sleep_patterns": "Difficulty sleeping during the day despite long-term night shift schedule; reports being easily fatigued.",
+    "eating_habits": "Relies on take-out deliveries, avoids grocery shopping, and may skip meals due to anxiety about leaving home."
+  },
+  "social_and_environmental_context": {
+    "community_social_support": "Little to no engagement with community resources; neighbors are primary informal support.",
+    "housing_conditions": "Lives alone in a small home that has become cluttered and poorly maintained.",
+    "social_security": "No governmental benefits mentioned; income derived from employment.",
+    "social_cohesion": "Feels disconnected from community members and avoids social spaces.",
+    "social_determinants_of_mental_health": "Early parental loss, financial instability in childhood, current isolation, and limited support exacerbate anxiety."
+  },
+  "test_session_behavior": {
+    "recurring_dynamics": "Reluctant to disclose distress due to embarrassment; presents when prompted by neighbor concern and tends to minimize needs with family.",
+    "prevalent_emotions": "Anxiety, fear, irritability, and shame regarding functional decline.",
+    "speech_characteristics": "Soft-spoken, coherent, goal-directed though hesitant when discussing anxiety triggers.",
+    "nonverbal_communication": "Arrived disheveled with reduced eye contact and psychomotor agitation consistent with reported anxiety."
+  }
+}

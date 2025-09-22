@@ -1,4 +1,10 @@
 {
+  "name": "John",
+  "avatarUrl": "/images/patients/john.png",
+  "avatarType": "illustration",
+  "difficulty": "Difficile",
+  "estimatedDuration": 60,
+  "isActive": true,
   "demographic_sociocultural_information": {
     "age": "58",
     "gender": "Male",
