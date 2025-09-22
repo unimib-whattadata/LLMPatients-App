@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, desc } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -141,13 +141,18 @@ export const therapySessionsRouter = createTRPCRouter({
               id: true,
               name: true,
               description: true,
+              details: true,
+              background: true,
+              objectives: true,
               avatarUrl: true,
               avatarType: true,
               difficulty: true,
+              estimatedDuration: true,
+              tags: true,
             },
           },
         },
-        orderBy: [therapySessions.createdAt],
+        orderBy: [desc(therapySessions.updatedAt), therapySessions.createdAt],
       });
 
       return sessions;
