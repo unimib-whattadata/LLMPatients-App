@@ -16,6 +16,23 @@ type TimelineStep = {
   textColor?: string;
 };
 
+type UserRole = "admin" | "user";
+
+type User = {
+  id: string;
+  name: string | null;
+  email: string;
+  role: UserRole;
+  image?: string | null;
+};
+
+import type { ImpersonationContext } from "~/types";
+
+type Session = {
+  user?: User;
+  impersonation?: ImpersonationContext | undefined;
+};
+
 const timelineSteps: TimelineStep[] = [
   { id: 1, top: 150, left: 533, color: "#B9C87C" },
   { id: 2, top: 340, left: 333, color: "#B9C87C" },
@@ -84,7 +101,10 @@ const TIPS_CONFIG = {
   ],
 } as const;
 
-const timelinePathD = buildRoundedOrthogonalPath(timelinePathPoints, TIMELINE_CONFIG.PATH_RADIUS);
+const timelinePathD = buildRoundedOrthogonalPath(
+  timelinePathPoints,
+  TIMELINE_CONFIG.PATH_RADIUS,
+);
 
 type StepDetails = {
   phaseTitle: string;
@@ -133,7 +153,10 @@ const getStepDetails = (stepId: number): StepDetails => {
   return STEP_DETAILS_CONFIG.KNOWLEDGE;
 };
 
-function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string {
+function buildRoundedOrthogonalPath(
+  points: PathPoint[],
+  radius: number,
+): string {
   if (points.length === 0) {
     return "";
   }
@@ -146,7 +169,7 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 
   const firstPoint = points[0];
   if (!firstPoint) return "";
-  
+
   const pathCommands: string[] = [`M ${firstPoint.x} ${firstPoint.y}`];
   let currentX = firstPoint.x;
   let currentY = firstPoint.y;
@@ -154,9 +177,9 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
   for (let index = 1; index < points.length; index += 1) {
     const previous = points[index - 1];
     const current = points[index];
-    
+
     if (!current || !previous) continue;
-    
+
     const deltaX = current.x - previous.x;
     const deltaY = current.y - previous.y;
 
@@ -174,12 +197,13 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
     if (index < points.length - 1) {
       const next = points[index + 1];
       if (!next) continue;
-      
+
       const nextDeltaX = next.x - current.x;
       const nextDeltaY = next.y - current.y;
       const nextDirectionX = Math.sign(nextDeltaX);
       const nextDirectionY = Math.sign(nextDeltaY);
-      const isCorner = directionX !== nextDirectionX || directionY !== nextDirectionY;
+      const isCorner =
+        directionX !== nextDirectionX || directionY !== nextDirectionY;
 
       if (isCorner) {
         const previousLength = Math.abs(deltaX !== 0 ? deltaX : deltaY);
@@ -199,7 +223,7 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
     if (cornerRadius > 0 && index < points.length - 1) {
       const next = points[index + 1];
       if (!next) continue;
-      
+
       const nextDeltaX = next.x - current.x;
       const nextDeltaY = next.y - current.y;
       const nextDirectionX = Math.sign(nextDeltaX);
@@ -207,7 +231,8 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
 
       const arcEndX = current.x + nextDirectionX * cornerRadius;
       const arcEndY = current.y + nextDirectionY * cornerRadius;
-      const sweepFlag = directionX * nextDirectionY - directionY * nextDirectionX > 0 ? 1 : 0;
+      const sweepFlag =
+        directionX * nextDirectionY - directionY * nextDirectionX > 0 ? 1 : 0;
 
       pathCommands.push(
         `A ${cornerRadius} ${cornerRadius} 0 0 ${sweepFlag} ${arcEndX} ${arcEndY}`,
@@ -221,7 +246,6 @@ function buildRoundedOrthogonalPath(points: PathPoint[], radius: number): string
   return pathCommands.join(" ");
 }
 
-
 // Close button component
 const CloseButton = ({ onClose }: { onClose: () => void }) => (
   <button
@@ -229,7 +253,12 @@ const CloseButton = ({ onClose }: { onClose: () => void }) => (
     className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
     aria-label="Close"
   >
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -252,14 +281,19 @@ const MobileCloseButton = ({ onClose }: { onClose: () => void }) => (
     tabIndex={0}
     aria-label="Close"
     onKeyDown={(e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
+      if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         e.stopPropagation();
         onClose();
       }
     }}
   >
-    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg
+      className="h-4 w-4"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -271,173 +305,193 @@ const MobileCloseButton = ({ onClose }: { onClose: () => void }) => (
 );
 
 // Timeline step component
-const TimelineStep = memo(({ 
-  step, 
-  circleSize, 
-  circleFontSize, 
-  onStepClick 
-}: { 
-  step: TimelineStep & { scaledTop: number; scaledLeft: number }; 
-  circleSize: number; 
-  circleFontSize: number; 
-  onStepClick: (stepId: number) => void; 
-}) => (
-  <div
-    key={step.id}
-    style={{
-      top: `${step.scaledTop}px`,
-      left: `${step.scaledLeft}px`,
-      backgroundColor: step.color,
-      color: step.textColor ?? "#0b0d06",
-      width: `${circleSize}px`,
-      height: `${circleSize}px`,
-      fontSize: `${circleFontSize}px`,
-    }}
-    className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
-    onClick={() => onStepClick(step.id)}
-  >
-    {step.id}
-  </div>
-));
+const TimelineStep = memo(
+  ({
+    step,
+    circleSize,
+    circleFontSize,
+    onStepClick,
+  }: {
+    step: TimelineStep & { scaledTop: number; scaledLeft: number };
+    circleSize: number;
+    circleFontSize: number;
+    onStepClick: (stepId: number) => void;
+  }) => (
+    <div
+      key={step.id}
+      style={{
+        top: `${step.scaledTop}px`,
+        left: `${step.scaledLeft}px`,
+        backgroundColor: step.color,
+        color: step.textColor ?? "#0b0d06",
+        width: `${circleSize}px`,
+        height: `${circleSize}px`,
+        fontSize: `${circleFontSize}px`,
+      }}
+      className="absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full font-semibold shadow-[0_18px_34px_rgba(0,0,0,0.45)] transition-transform duration-200 hover:scale-110"
+      onClick={() => onStepClick(step.id)}
+    >
+      {step.id}
+    </div>
+  ),
+);
+TimelineStep.displayName = "TimelineStep";
 
 // Desktop tooltip component
-const DesktopTooltip = memo(({ 
-  activeDetails, 
-  tooltipPosition, 
-  onClose 
-}: { 
-  activeDetails: StepDetails; 
-  tooltipPosition: { top: number; left: number }; 
-  onClose: () => void; 
-}) => (
-  <div
-    className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
-    style={{
-      top: `${tooltipPosition.top}px`,
-      left: `${tooltipPosition.left}px`,
-      backgroundColor: activeDetails.backgroundColor,
-      color: activeDetails.textColor,
-    }}
-    onClick={(e) => e.stopPropagation()}
-  >
-    <div className="flex items-start justify-between">
-      <h2 className="text-heading-3 font-semibold text-white">
-        {activeDetails.phaseTitle}
-      </h2>
-      <CloseButton onClose={onClose} />
-    </div>
-    <h3 className="mt-6 text-base font-semibold text-white">
-      Consigli per essere un buon terapeuta
-    </h3>
-    <ul
-      className="mt-4 space-y-3 text-sm leading-relaxed"
-      style={{ color: activeDetails.bodyColor }}
+const DesktopTooltip = memo(
+  ({
+    activeDetails,
+    tooltipPosition,
+    onClose,
+  }: {
+    activeDetails: StepDetails;
+    tooltipPosition: { top: number; left: number };
+    onClose: () => void;
+  }) => (
+    <div
+      className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
+      style={{
+        top: `${tooltipPosition.top}px`,
+        left: `${tooltipPosition.left}px`,
+        backgroundColor: activeDetails.backgroundColor,
+        color: activeDetails.textColor,
+      }}
+      onClick={(e) => e.stopPropagation()}
     >
-      {activeDetails.tips.map((tip, index) => (
-        <li
-          key={`tip-${index}`}
-          className="list-inside list-disc"
-          style={{ '--marker-color': activeDetails.accentColor } as React.CSSProperties}
-        >
-          {tip}
-        </li>
-      ))}
-    </ul>
-  </div>
-));
+      <div className="flex items-start justify-between">
+        <h2 className="text-heading-3 font-semibold text-white">
+          {activeDetails.phaseTitle}
+        </h2>
+        <CloseButton onClose={onClose} />
+      </div>
+      <h3 className="mt-6 text-base font-semibold text-white">
+        Consigli per essere un buon terapeuta
+      </h3>
+      <ul
+        className="mt-4 space-y-3 text-sm leading-relaxed"
+        style={{ color: activeDetails.bodyColor }}
+      >
+        {activeDetails.tips.map((tip, index) => (
+          <li
+            key={`tip-${index}`}
+            className="list-inside list-disc"
+            style={
+              {
+                "--marker-color": activeDetails.accentColor,
+              } as React.CSSProperties
+            }
+          >
+            {tip}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ),
+);
+DesktopTooltip.displayName = "DesktopTooltip";
 
 // Mobile timeline step component
-const MobileTimelineStep = memo(({ 
-  step, 
-  details, 
-  isOpen, 
-  onStepClick, 
-  onClose 
-}: { 
-  step: TimelineStep; 
-  details: StepDetails; 
-  isOpen: boolean; 
-  onStepClick: (stepId: number) => void; 
-  onClose: () => void; 
-}) => (
-  <div key={`mobile-step-${step.id}`} className="relative">
-    <span
-      className="absolute -left-6.5 top-4 flex h-3 w-3 items-center justify-center"
-      aria-hidden
-    >
+const MobileTimelineStep = memo(
+  ({
+    step,
+    details,
+    isOpen,
+    onStepClick,
+    onClose,
+  }: {
+    step: TimelineStep;
+    details: StepDetails;
+    isOpen: boolean;
+    onStepClick: (stepId: number) => void;
+    onClose: () => void;
+  }) => (
+    <div key={`mobile-step-${step.id}`} className="relative">
       <span
-        className="block h-3 w-3 rounded-full"
-        style={{ backgroundColor: step.color }}
-      />
-    </span>
+        className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center"
+        aria-hidden
+      >
+        <span
+          className="block h-3 w-3 rounded-full"
+          style={{ backgroundColor: step.color }}
+        />
+      </span>
 
-    <button
-      type="button"
-      onClick={() => onStepClick(step.id)}
-      aria-expanded={isOpen}
-      className="w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#4F9D69]"
-      style={{ backgroundColor: details.backgroundColor, color: details.textColor }}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-white/70">
-            Step {step.id}
-          </p>
-          <h2 className="mt-2 text-base font-semibold text-white">
-            {details.phaseTitle}
-          </h2>
+      <button
+        type="button"
+        onClick={() => onStepClick(step.id)}
+        aria-expanded={isOpen}
+        className="w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:ring-[#4F9D69] focus:outline-none"
+        style={{
+          backgroundColor: details.backgroundColor,
+          color: details.textColor,
+        }}
+      >
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.32em] text-white/70 uppercase">
+              Step {step.id}
+            </p>
+            <h2 className="mt-2 text-base font-semibold text-white">
+              {details.phaseTitle}
+            </h2>
+          </div>
+          {isOpen && <MobileCloseButton onClose={onClose} />}
         </div>
-        {isOpen && <MobileCloseButton onClose={onClose} />}
-      </div>
 
-      {isOpen && (
-        <div className="mt-4">
-          <h3 className="text-sm font-semibold text-white">
-            Consigli per essere un buon terapeuta
-          </h3>
-          <ul
-            className="mt-3 space-y-2 text-sm leading-relaxed"
-            style={{ color: details.bodyColor }}
-          >
-            {details.tips.map((tip, index) => (
-              <li
-                key={`mobile-tip-${step.id}-${index}`}
-                className="list-inside list-disc"
-                style={{ '--marker-color': details.accentColor } as React.CSSProperties}
-              >
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </button>
-  </div>
-));
+        {isOpen && (
+          <div className="mt-4">
+            <h3 className="text-sm font-semibold text-white">
+              Consigli per essere un buon terapeuta
+            </h3>
+            <ul
+              className="mt-3 space-y-2 text-sm leading-relaxed"
+              style={{ color: details.bodyColor }}
+            >
+              {details.tips.map((tip, index) => (
+                <li
+                  key={`mobile-tip-${step.id}-${index}`}
+                  className="list-inside list-disc"
+                  style={
+                    {
+                      "--marker-color": details.accentColor,
+                    } as React.CSSProperties
+                  }
+                >
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </button>
+    </div>
+  ),
+);
+MobileTimelineStep.displayName = "MobileTimelineStep";
 
 export default function TherapeuticJourneyPage() {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [activeBox, setActiveBox] = useState<number | null>(null);
-  const [timelineScale, setTimelineScale] = useState(1);
+  const [timelineScale, setTimelineScale] = useState<number>(1);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
   // Session management
   useEffect(() => {
     const getSession = async () => {
       try {
-        const response = await fetch('/api/auth/session');
-        const data = await response.json();
+        const response = await fetch("/api/auth/session");
+        const data = (await response.json()) as Session;
         if (data.user) {
           setSession(data);
         } else {
-          window.location.href = '/login';
+          window.location.href = "/login";
         }
       } catch (error) {
-        console.error('Error fetching session:', error);
-        window.location.href = '/login';
+        console.error("Error fetching session:", error);
+        window.location.href = "/login";
       }
     };
-    getSession();
+    void getSession();
   }, []);
 
   // Timeline scaling
@@ -462,70 +516,78 @@ export default function TherapeuticJourneyPage() {
   }, [session?.user]);
 
   // User data - must be before early return to maintain hook order
-  const user = useMemo((): {
-    id: string;
-    name: string | null;
-    email: string;
-    role: "admin" | "user";
-    image: string | null | undefined;
-  } | null => {
+  const user = useMemo<User | null>(() => {
     if (!session?.user) return null;
     return {
       id: session.user.id,
       name: session.user.name ?? null,
-      email: session.user.email!,
-      role: (session.user.role as "admin" | "user") || "user",
+      email: session.user.email,
+      role: session.user.role || "user",
       image: session.user.image,
     };
   }, [session?.user]);
 
-  const impersonation = session?.impersonation ?? undefined;
+  const impersonation: ImpersonationContext | undefined =
+    session?.impersonation;
 
   // Event handlers - must be before early return to maintain hook order
   const handleStepClick = useCallback((stepId: number) => {
-    setActiveBox(prev => prev === stepId ? null : stepId);
+    setActiveBox((prev) => (prev === stepId ? null : stepId));
   }, []);
 
   const handleCloseBox = useCallback(() => {
     setActiveBox(null);
   }, []);
 
-  const handleContainerClick = useCallback((e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      setActiveBox(null);
-    }
-  }, []);
+  const handleContainerClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) {
+        setActiveBox(null);
+      }
+    },
+    [],
+  );
 
   // Computed values - must be before early return to maintain hook order
-  const activeStep = useMemo(() => 
-    activeBox ? timelineSteps.find((step) => step.id === activeBox) : null, 
-    [activeBox]
-  );
-  
-  const activeDetails = useMemo(() => 
-    activeBox ? getStepDetails(activeBox) : null, 
-    [activeBox]
+  const activeStep = useMemo(
+    () =>
+      activeBox ? timelineSteps.find((step) => step.id === activeBox) : null,
+    [activeBox],
   );
 
-  const scaledStepPositions = useMemo(() => 
-    timelineSteps.map((step) => ({
-      ...step,
-      scaledTop: step.top * timelineScale,
-      scaledLeft: (step.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
-    })), 
-    [timelineScale]
+  const activeDetails = useMemo(
+    () => (activeBox ? getStepDetails(activeBox) : null),
+    [activeBox],
   );
 
-  const circleSize = useMemo(() => 
-    Math.max(TIMELINE_CONFIG.MIN_CIRCLE_SIZE, TIMELINE_CONFIG.MAX_CIRCLE_SIZE * timelineScale), 
-    [timelineScale]
+  const scaledStepPositions = useMemo(
+    () =>
+      timelineSteps.map((step) => ({
+        ...step,
+        scaledTop: step.top * timelineScale,
+        scaledLeft: (step.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
+      })),
+    [timelineScale],
   );
-  
-  const circleFontSize = useMemo(() => 
-    Math.max(TIMELINE_CONFIG.MIN_FONT_SIZE, TIMELINE_CONFIG.MAX_FONT_SIZE * timelineScale), 
-    [timelineScale]
+
+  const circleSize = useMemo(
+    () =>
+      Math.max(
+        TIMELINE_CONFIG.MIN_CIRCLE_SIZE,
+        TIMELINE_CONFIG.MAX_CIRCLE_SIZE * timelineScale,
+      ),
+    [timelineScale],
   );
-  
+
+  const circleFontSize = useMemo(
+    () =>
+      Math.max(
+        TIMELINE_CONFIG.MIN_FONT_SIZE,
+        TIMELINE_CONFIG.MAX_FONT_SIZE * timelineScale,
+      ),
+    [timelineScale],
+  );
+
   const activePosition = useMemo(() => {
     if (!activeStep || !activeDetails) return null;
     return {
@@ -533,11 +595,12 @@ export default function TherapeuticJourneyPage() {
       left: (activeStep.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
     };
   }, [activeStep, activeDetails, timelineScale]);
-  
+
   const tooltipPosition = useMemo(() => {
     if (!activePosition) return { left: 0, top: 0 };
     return {
-      left: activePosition.left + TIMELINE_CONFIG.TOOLTIP_OFFSET_X * timelineScale,
+      left:
+        activePosition.left + TIMELINE_CONFIG.TOOLTIP_OFFSET_X * timelineScale,
       top: activePosition.top,
     };
   }, [activePosition, timelineScale]);
@@ -545,7 +608,7 @@ export default function TherapeuticJourneyPage() {
   // Loading state
   if (!session?.user || !user) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex min-h-screen items-center justify-center">
         <div className="text-lg">Loading...</div>
       </div>
     );
@@ -566,7 +629,12 @@ export default function TherapeuticJourneyPage() {
                 Il tuo percorso con Juanita Delgado
               </h1>
               <p className="dashboard-section__description">
-                Inizia il tuo percorso terapeutico passo dopo passo. Ogni tappa rappresenta una seduta con il tuo "paziente virtuale". Procedi con calma: ogni sessione ti aiuterà a sviluppare nuove competenze, riflettere su ciò che hai appreso e sentirti sempre più sicura nel tuo ruolo. Proprio come in un viaggio, ogni punto è un piccolo traguardo. Sei pronto? Iniziamo!
+                Inizia il tuo percorso terapeutico passo dopo passo. Ogni tappa
+                rappresenta una seduta con il tuo &quot;paziente virtuale&quot;.
+                Procedi con calma: ogni sessione ti aiuterà a sviluppare nuove
+                competenze, riflettere su ciò che hai appreso e sentirti sempre
+                più sicura nel tuo ruolo. Proprio come in un viaggio, ogni punto
+                è un piccolo traguardo. Sei pronto? Iniziamo!
               </p>
             </div>
           </div>
@@ -579,7 +647,9 @@ export default function TherapeuticJourneyPage() {
             >
               <div
                 className="relative w-full"
-                style={{ paddingTop: `${(TIMELINE_CONFIG.BASE_HEIGHT / TIMELINE_CONFIG.BASE_WIDTH) * 100}%` }}
+                style={{
+                  paddingTop: `${(TIMELINE_CONFIG.BASE_HEIGHT / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
+                }}
               >
                 <svg
                   className="absolute inset-0 h-full w-full"
@@ -588,12 +658,25 @@ export default function TherapeuticJourneyPage() {
                   preserveAspectRatio="xMidYMid meet"
                 >
                   <defs>
-                    <linearGradient id="timelineGradient" x1="0" x2="0" y1="0" y2="1" gradientUnits="objectBoundingBox">
+                    <linearGradient
+                      id="timelineGradient"
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                      gradientUnits="objectBoundingBox"
+                    >
                       <stop offset="0%" stopColor="#2D3231" />
                       <stop offset="40%" stopColor="#343937" />
                       <stop offset="100%" stopColor="#262C2B" />
                     </linearGradient>
-                    <filter id="timelineGlow" x="-40%" y="-40%" width="180%" height="180%">
+                    <filter
+                      id="timelineGlow"
+                      x="-40%"
+                      y="-40%"
+                      width="180%"
+                      height="180%"
+                    >
                       <feGaussianBlur stdDeviation="18" result="coloredBlur" />
                       <feMerge>
                         <feMergeNode in="coloredBlur" />
@@ -638,7 +721,7 @@ export default function TherapeuticJourneyPage() {
 
           <div className="mt-10 md:hidden">
             <div className="relative pl-8">
-              <span className="pointer-events-none absolute left-3 top-0 h-full w-px bg-[#1f2423]" />
+              <span className="pointer-events-none absolute top-0 left-3 h-full w-px bg-[#1f2423]" />
               <div className="space-y-5">
                 {timelineSteps.map((step) => {
                   const details = getStepDetails(step.id);

@@ -1,6 +1,6 @@
 /**
  * Admin Student Statistics Page
- * 
+ *
  * Interface for viewing aggregate student performance statistics
  * and analytics across all clinical simulations. Accessible only to admin users.
  */
@@ -29,7 +29,7 @@ export default async function StudentStatisticsPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -37,7 +37,7 @@ export default async function StudentStatisticsPage() {
         role: session.user.role,
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/admin/student-statistics"
     >

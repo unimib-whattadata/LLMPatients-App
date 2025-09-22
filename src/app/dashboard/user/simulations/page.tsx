@@ -1,6 +1,6 @@
 /**
  * User Simulations Page
- * 
+ *
  * Interface for accessing and managing personal clinical simulations.
  * Shows available simulations, in-progress cases, and completed scenarios.
  */
@@ -24,7 +24,7 @@ export default async function MySimulationsPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -32,7 +32,7 @@ export default async function MySimulationsPage() {
         role: session.user.role || "user",
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/user/simulations"
     >

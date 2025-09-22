@@ -1,6 +1,6 @@
 /**
  * Admin Dashboard Page
- * 
+ *
  * Main admin dashboard displaying system overview, user management,
  * and administrative tools. Accessible only to users with admin role.
  */
@@ -29,7 +29,7 @@ export default async function AdminDashboardPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -37,7 +37,7 @@ export default async function AdminDashboardPage() {
         role: session.user.role,
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/admin"
     >

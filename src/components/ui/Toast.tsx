@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { 
-  CheckIcon, 
-  XMarkIcon, 
-  ExclamationTriangleIcon, 
-  InformationCircleIcon 
-} from '@heroicons/react/24/outline';
+import {
+  CheckIcon,
+  XMarkIcon,
+  ExclamationTriangleIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
 
 export interface ToastMessage {
   id: string;
-  type: 'success' | 'error' | 'info' | 'warning';
+  type: "success" | "error" | "info" | "warning";
   title: string;
   message: string;
   duration?: number;
@@ -27,7 +27,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
 
-  const duration = toast.duration || 5000;
+  const duration = toast.duration ?? 5000;
   const autoClose = toast.autoClose !== false;
 
   useEffect(() => {
@@ -55,15 +55,15 @@ const Toast = ({ toast, onClose }: ToastProps) => {
 
   const getToastStyles = () => {
     const baseStyles = "message message-large max-w-md w-full";
-    
+
     switch (toast.type) {
-      case 'success':
+      case "success":
         return `${baseStyles} message-success`;
-      case 'error':
+      case "error":
         return `${baseStyles} message-error`;
-      case 'warning':
+      case "warning":
         return `${baseStyles} message-warning`;
-      case 'info':
+      case "info":
         return `${baseStyles} message-info`;
       default:
         return `${baseStyles} message-info`;
@@ -72,22 +72,14 @@ const Toast = ({ toast, onClose }: ToastProps) => {
 
   const getIcon = () => {
     switch (toast.type) {
-      case 'success':
-        return (
-          <CheckIcon className="w-5 h-5" />
-        );
-      case 'error':
-        return (
-          <XMarkIcon className="w-5 h-5" />
-        );
-      case 'warning':
-        return (
-          <ExclamationTriangleIcon className="w-5 h-5" />
-        );
-      case 'info':
-        return (
-          <InformationCircleIcon className="w-5 h-5" />
-        );
+      case "success":
+        return <CheckIcon className="h-5 w-5" />;
+      case "error":
+        return <XMarkIcon className="h-5 w-5" />;
+      case "warning":
+        return <ExclamationTriangleIcon className="h-5 w-5" />;
+      case "info":
+        return <InformationCircleIcon className="h-5 w-5" />;
       default:
         return null;
     }
@@ -95,32 +87,24 @@ const Toast = ({ toast, onClose }: ToastProps) => {
 
   return (
     <div
-      className={`toast-item ${isVisible ? 'toast-enter' : ''} ${isExiting ? 'toast-exit' : ''}`}
+      className={`toast-item ${isVisible ? "toast-enter" : ""} ${isExiting ? "toast-exit" : ""}`}
       role="alert"
       aria-live="assertive"
     >
       <div className={getToastStyles()}>
-        <div className="message-icon">
-          {getIcon()}
-        </div>
-        
+        <div className="message-icon">{getIcon()}</div>
+
         <div className="message-content">
-          <div className="message-title">
-            {toast.title}
-          </div>
-          {toast.message && (
-            <div className="message-text">
-              {toast.message}
-            </div>
-          )}
+          <div className="message-title">{toast.title}</div>
+          {toast.message && <div className="message-text">{toast.message}</div>}
         </div>
-        
+
         <button
           onClick={handleClose}
           className="message-dismiss"
           aria-label="Close notification"
         >
-          <XMarkIcon className="w-4 h-4" />
+          <XMarkIcon className="h-4 w-4" />
         </button>
       </div>
     </div>
@@ -144,14 +128,10 @@ export const ToastContainer = ({ toasts, onRemove }: ToastContainerProps) => {
   return createPortal(
     <div className="toast-container">
       {toasts.map((toast) => (
-        <Toast
-          key={toast.id}
-          toast={toast}
-          onClose={onRemove}
-        />
+        <Toast key={toast.id} toast={toast} onClose={onRemove} />
       ))}
     </div>,
-    document.body
+    document.body,
   );
 };
 

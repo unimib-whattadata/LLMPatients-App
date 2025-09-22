@@ -1,6 +1,6 @@
 /**
  * User Dashboard Page
- * 
+ *
  * Main user dashboard for regular users displaying personal information,
  * progress tracking, and user-specific functionality.
  */
@@ -24,7 +24,7 @@ export default async function UserDashboardPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -32,7 +32,7 @@ export default async function UserDashboardPage() {
         role: session.user.role,
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/user"
     >
