@@ -259,6 +259,7 @@ const TimelineStep = memo(
     onStepClick,
     isUnlocked,
     isCurrent,
+    isCompleted,
   }: {
     step: TimelineStep & { scaledTop: number; scaledLeft: number };
     circleSize: number;
@@ -266,14 +267,15 @@ const TimelineStep = memo(
     onStepClick: (stepId: number) => void;
     isUnlocked: boolean;
     isCurrent: boolean;
+    isCompleted: boolean;
   }) => (
     <div
       key={step.id}
       style={{
         top: `${step.scaledTop}px`,
         left: `${step.scaledLeft}px`,
-        backgroundColor: step.color,
-        color: step.textColor ?? "#0b0d06",
+        backgroundColor: isCompleted ? "#22C55E" : step.color, // Green for completed steps
+        color: isCompleted ? "white" : (step.textColor ?? "#0b0d06"),
         width: `${circleSize}px`,
         height: `${circleSize}px`,
         fontSize: `${circleFontSize}px`,
@@ -284,7 +286,7 @@ const TimelineStep = memo(
         isUnlocked
           ? "cursor-pointer shadow-[0_18px_34px_rgba(0,0,0,0.45)] hover:scale-110 focus-visible:scale-110"
           : "cursor-not-allowed shadow-none"
-      } ${isCurrent ? "ring-4 ring-white/70" : ""}`}
+      } ${isCurrent ? "ring-4 ring-white/70" : ""} ${isCompleted ? "ring-2 ring-green-400" : ""}`}
       onClick={() => {
         if (!isUnlocked) return;
         onStepClick(step.id);
@@ -299,9 +301,9 @@ const TimelineStep = memo(
       role="button"
       tabIndex={isUnlocked ? 0 : -1}
       aria-disabled={!isUnlocked}
-      aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}`}
+      aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
     >
-      {step.id}
+      {isCompleted ? "✓" : step.id}
     </div>
   ),
 );
@@ -318,6 +320,7 @@ const MobileTimelineStep = memo(
     onClose,
     isUnlocked,
     isCurrent,
+    isCompleted,
   }: {
     step: TimelineStep;
     details: StepDetails;
@@ -326,13 +329,19 @@ const MobileTimelineStep = memo(
     onClose: () => void;
     isUnlocked: boolean;
     isCurrent: boolean;
+    isCompleted: boolean;
   }) => (
     <div key={`mobile-step-${step.id}`} className="relative">
       <span className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center" aria-hidden>
         <span
-          className="block h-3 w-3 rounded-full"
-          style={{ backgroundColor: step.color }}
-        />
+          className="block h-3 w-3 rounded-full flex items-center justify-center text-xs font-bold"
+          style={{ 
+            backgroundColor: isCompleted ? "#22C55E" : step.color,
+            color: isCompleted ? "white" : "inherit"
+          }}
+        >
+          {isCompleted ? "✓" : ""}
+        </span>
       </span>
 
       <button
@@ -354,13 +363,13 @@ const MobileTimelineStep = memo(
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.32em] text-white/70 uppercase">
-              Step {step.id}
+              Step {step.id} {isCompleted && "✓"}
             </p>
             <h2 className="mt-2 text-base font-semibold text-white">
               {details.phaseTitle}
             </h2>
             <p className="mt-1 text-xs text-white/60">
-              Clicca per aprire la sessione
+              {isCompleted ? "Sessione completata" : "Clicca per aprire la sessione"}
             </p>
           </div>
         </div>
@@ -430,6 +439,15 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
     { enabled: Boolean(sessionId) },
   );
 
+  // Get all completed chat steps for this therapy session
+  const {
+    data: completedSteps,
+    isLoading: completedStepsLoading,
+  } = api.chat.getSessionChats.useQuery(
+    { therapySessionId: therapySession?.id ?? "" },
+    { enabled: Boolean(therapySession?.id) },
+  );
+
   const {
     data: selectedPatient,
     isLoading: patientLoading,
@@ -450,21 +468,45 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   });
 
 
-  const unlockedSessionNumber = useMemo(() => {
-    if (!therapySession) return 1;
-    return Math.min(
-      Math.max(therapySession.sessionNumber ?? 1, 1),
-      timelineSteps.length,
-    );
-  }, [therapySession]);
+  // Calculate which steps are unlocked based on completed steps
+  const unlockedSteps = useMemo(() => {
+    if (!completedSteps) return [1]; // First step is always unlocked
+    
+    const completedStepNumbers = completedSteps
+      .filter(step => step.done)
+      .map(step => step.stepNumber)
+      .sort((a, b) => a - b);
+    
+    // Always include step 1
+    const unlocked = [1];
+    
+    // Add next step after each completed step
+    completedStepNumbers.forEach(completedStep => {
+      const nextStep = completedStep + 1;
+      if (nextStep <= timelineSteps.length && !unlocked.includes(nextStep)) {
+        unlocked.push(nextStep);
+      }
+    });
+    
+    return unlocked.sort((a, b) => a - b);
+  }, [completedSteps]);
+
+  const isStepUnlocked = useCallback((stepId: number) => {
+    return unlockedSteps.includes(stepId);
+  }, [unlockedSteps]);
+
+  const isStepCompleted = useCallback((stepId: number) => {
+    if (!completedSteps) return false;
+    return completedSteps.some(step => step.stepNumber === stepId && step.done);
+  }, [completedSteps]);
 
   // Event handlers - must be before early return to maintain hook order
   const handleStepClick = useCallback((stepId: number) => {
-    if (stepId > unlockedSessionNumber) return;
+    if (!isStepUnlocked(stepId)) return;
     
-    // For now, just show an alert - session functionality
-    alert(`Sessione ${stepId} selezionata. Funzionalità in sviluppo.`);
-  }, [unlockedSessionNumber]);
+    // Navigate to chat page for the selected step
+    router.push(`/therapeutic-journey/${sessionId}/chat/${stepId}`);
+  }, [isStepUnlocked, router, sessionId]);
 
 
 
@@ -533,7 +575,7 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
     );
   }
 
-  if (therapySessionLoading || patientLoading) {
+  if (therapySessionLoading || patientLoading || completedStepsLoading) {
     return (
       <SharedLayout
         user={user}
@@ -703,8 +745,9 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                       circleSize={circleSize}
                       circleFontSize={circleFontSize}
                       onStepClick={handleStepClick}
-                      isUnlocked={step.id <= unlockedSessionNumber}
-                      isCurrent={step.id === unlockedSessionNumber}
+                      isUnlocked={isStepUnlocked(step.id)}
+                      isCurrent={false}
+                      isCompleted={isStepCompleted(step.id)}
                     />
                   ))}
 
@@ -728,8 +771,9 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                       isOpen={false}
                       onStepClick={handleStepClick}
                       onClose={() => {}}
-                      isUnlocked={step.id <= unlockedSessionNumber}
-                      isCurrent={step.id === unlockedSessionNumber}
+                      isUnlocked={isStepUnlocked(step.id)}
+                      isCurrent={false}
+                      isCompleted={isStepCompleted(step.id)}
                     />
                   );
                 })}

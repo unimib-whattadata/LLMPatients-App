@@ -371,7 +371,7 @@ export const therapySessions = createTable(
 
 export const therapySessionsRelations = relations(
   therapySessions,
-  ({ one }) => ({
+  ({ one, many }) => ({
     user: one(users, {
       fields: [therapySessions.userId],
       references: [users.id],
@@ -380,8 +380,46 @@ export const therapySessionsRelations = relations(
       fields: [therapySessions.patientId],
       references: [patients.id],
     }),
+    chats: many(chat),
   }),
 );
+
+// Chat table for storing chat conversations per step
+export const chat = createTable(
+  "chat",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    therapySessionId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => therapySessions.id, { onDelete: "cascade" }),
+    stepNumber: d.integer({ mode: "number" }).notNull(), // 1, 2, 3, etc.
+    messages: d.text().notNull(), // JSON string containing chat messages
+    done: d.integer({ mode: "boolean" }).default(false).notNull(), // true when step is completed
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("chat_session_idx").on(t.therapySessionId),
+    index("chat_step_number_idx").on(t.stepNumber),
+    index("chat_done_idx").on(t.done),
+    uniqueIndex("chat_session_step_idx").on(t.therapySessionId, t.stepNumber),
+  ],
+);
+
+export const chatRelations = relations(chat, ({ one }) => ({
+  therapySession: one(therapySessions, {
+    fields: [chat.therapySessionId],
+    references: [therapySessions.id],
+  }),
+}));
 
 export const extendedUsersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
