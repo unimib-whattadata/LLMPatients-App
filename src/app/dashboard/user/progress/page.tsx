@@ -1,6 +1,6 @@
 /**
  * User Progress Page
- * 
+ *
  * Interface for viewing personal learning progress, achievements,
  * and skill development tracking across clinical simulations.
  */
@@ -24,7 +24,7 @@ export default async function MyProgressPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -32,7 +32,7 @@ export default async function MyProgressPage() {
         role: session.user.role || "user",
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/user/progress"
     >

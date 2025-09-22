@@ -5,17 +5,17 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { api } from "~/trpc/react";
-import { 
-  Bars3Icon, 
-  XMarkIcon, 
-  Bars3BottomLeftIcon, 
+import {
+  Bars3Icon,
+  XMarkIcon,
+  Bars3BottomLeftIcon,
   ArrowRightOnRectangleIcon,
   ChevronLeftIcon,
   UserPlusIcon,
   PlayIcon,
   ClipboardDocumentListIcon,
   MagnifyingGlassIcon,
-  HomeIcon
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 
@@ -62,20 +62,18 @@ interface NavbarProps {
   showSidebar?: boolean;
 }
 
-
-
 /**
  * Unified Navbar Component
  * Handles all navigation across different page types
  */
-export function Navbar({ 
-  user, 
-  impersonation, 
-  layoutType, 
+export function Navbar({
+  user,
+  impersonation,
+  layoutType,
   currentPage = "",
   onSidebarToggle,
   sidebarCollapsed = false,
-  showSidebar = false
+  showSidebar = false,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
@@ -91,8 +89,8 @@ export function Navbar({
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Close mobile menu when route changes
@@ -104,23 +102,26 @@ export function Navbar({
   const navItems = user ? getNavigationItems(user, impersonation) : [];
 
   // Determine display user (impersonated or actual)
-  const displayUser = impersonation?.isImpersonating ? {
-    id: impersonation.targetUserId,
-    name: impersonation.targetUserName,
-    email: impersonation.targetUserEmail,
-    role: "user" as const,
-  } : user;
+  const displayUser = impersonation?.isImpersonating
+    ? {
+        id: impersonation.targetUserId,
+        name: impersonation.targetUserName,
+        email: impersonation.targetUserEmail,
+        role: "user" as const,
+      }
+    : user;
 
   // Handle logout
   const handleLogout = async () => {
     try {
-      const callbackUrl = typeof window !== 'undefined' ? window.location.origin : '/';
+      const callbackUrl =
+        typeof window !== "undefined" ? window.location.origin : "/";
       await signOut({ callbackUrl });
     } catch (error) {
-      console.error('Logout error:', error);
+      console.error("Logout error:", error);
       // Fallback: redirect manually if signOut fails
-      if (typeof window !== 'undefined') {
-        window.location.href = '/';
+      if (typeof window !== "undefined") {
+        window.location.href = "/";
       }
     }
   };
@@ -129,54 +130,59 @@ export function Navbar({
   const renderDashboardHeader = () => (
     <header className="dashboard-header">
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex h-16 items-center justify-between">
           {/* Left section: Menu toggle + Logo */}
           <div className="flex items-center space-x-4">
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 lg:hidden focus:outline-none focus:ring-2 focus:ring-text-primary/20"
+              className="text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 focus:ring-text-primary/20 rounded-md p-2 focus:ring-2 focus:outline-none lg:hidden"
               aria-label="Toggle mobile menu"
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <XMarkIcon className="w-5 h-5" />
+                <XMarkIcon className="h-5 w-5" />
               ) : (
-                <Bars3Icon className="w-5 h-5" />
+                <Bars3Icon className="h-5 w-5" />
               )}
             </button>
-            
+
             {/* Desktop sidebar toggle */}
             {showSidebar && (
               <button
                 onClick={onSidebarToggle}
-                className="p-2 rounded-md text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 hidden lg:block focus:outline-none focus:ring-2 focus:ring-text-primary/20"
+                className="text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 focus:ring-text-primary/20 hidden rounded-md p-2 focus:ring-2 focus:outline-none lg:block"
                 aria-label="Toggle sidebar"
               >
-                <Bars3BottomLeftIcon className="w-5 h-5" />
+                <Bars3BottomLeftIcon className="h-5 w-5" />
               </button>
             )}
-            
+
             {/* Logo */}
-            <Link href="/" className="flex items-center focus:outline-none focus:ring-2 focus:ring-text-primary/20 rounded-md">
-              <img 
-                src="/images/logo.png" 
-                alt="LLMPatient Logo" 
-                className="w-8 h-8 rounded-lg"
+            <Link
+              href="/"
+              className="focus:ring-text-primary/20 flex items-center rounded-md focus:ring-2 focus:outline-none"
+            >
+              <img
+                src="/images/logo.png"
+                alt="LLMPatient Logo"
+                className="h-8 w-8 rounded-lg"
               />
-              <span className="ml-2 text-lg font-bold text-text-primary hidden sm:inline">LLMPatient</span>
+              <span className="text-text-primary ml-2 hidden text-lg font-bold sm:inline">
+                LLMPatient
+              </span>
             </Link>
           </div>
-          
+
           {/* Right section: User info + Controls */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             {/* User name - hidden on mobile */}
             {displayUser && (
-              <span className="text-sm text-text-primary/90 font-medium hidden md:inline truncate max-w-32">
+              <span className="text-text-primary/90 hidden max-w-32 truncate text-sm font-medium md:inline">
                 {displayUser.name ?? displayUser.email}
               </span>
             )}
-            
+
             {/* Role badge */}
             {displayUser && (
               <span
@@ -194,8 +200,7 @@ export function Navbar({
                 </span>
               </span>
             )}
-            
-            
+
             {/* Logout button */}
             {displayUser && (
               <button
@@ -203,31 +208,41 @@ export function Navbar({
                 className="btn btn-ghost btn-sm"
                 title="Esci"
               >
-                <ArrowRightOnRectangleIcon className="w-4 h-4" />
+                <ArrowRightOnRectangleIcon className="h-4 w-4" />
               </button>
             )}
           </div>
         </div>
       </div>
-      
+
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="lg:hidden" role="dialog" aria-modal="true" aria-label="Mobile navigation menu">
-          <div 
-            className="fixed inset-0 z-50 bg-black/50" 
+        <div
+          className="lg:hidden"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation menu"
+        >
+          <div
+            className="fixed inset-0 z-50 bg-black/50"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
-          <div className="fixed top-16 left-0 right-0 z-50 bg-background-secondary max-h-96 overflow-y-auto">
-            <nav className="px-4 py-6" role="navigation" aria-label="Mobile navigation">
+          <div className="bg-background-secondary fixed top-16 right-0 left-0 z-50 max-h-96 overflow-y-auto">
+            <nav
+              className="px-4 py-6"
+              role="navigation"
+              aria-label="Mobile navigation"
+            >
               <div className="space-y-1" role="list">
                 {navItems.map((item, index) => {
-                  const isActive = currentPage === item.href || pathname === item.href;
+                  const isActive =
+                    currentPage === item.href || pathname === item.href;
                   return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`flex items-center px-3 py-3 text-base font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-text-primary/20 ${
+                      className={`focus:ring-text-primary/20 flex items-center rounded-md px-3 py-3 text-base font-medium focus:ring-2 focus:outline-none ${
                         isActive
                           ? "bg-accent-600 text-text-primary"
                           : "text-text-secondary hover:bg-background-tertiary hover:text-text-primary"
@@ -236,33 +251,44 @@ export function Navbar({
                       role="listitem"
                       aria-current={isActive ? "page" : undefined}
                     >
-                      <item.icon className="w-5 h-5 mr-3" aria-hidden="true" />
+                      <item.icon className="mr-3 h-5 w-5" aria-hidden="true" />
                       {item.label}
                     </Link>
                   );
                 })}
               </div>
-              
+
               {/* Mobile user info */}
               {displayUser && (
-                <div className="mt-6 pt-6" role="contentinfo" aria-label="User information">
+                <div
+                  className="mt-6 pt-6"
+                  role="contentinfo"
+                  aria-label="User information"
+                >
                   <div className="flex items-center px-3">
                     <div className="flex-shrink-0">
-                      <div 
-                        className="w-8 h-8 bg-background-tertiary rounded-full flex items-center justify-center"
+                      <div
+                        className="bg-background-tertiary flex h-8 w-8 items-center justify-center rounded-full"
                         role="img"
-                        aria-label={`${displayUser.name || 'User'} avatar`}
+                        aria-label={`${displayUser.name ?? "User"} avatar`}
                       >
-                        <span className="text-text-primary text-sm font-medium" aria-hidden="true">
-                          {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
+                        <span
+                          className="text-text-primary text-sm font-medium"
+                          aria-hidden="true"
+                        >
+                          {(displayUser.name ?? displayUser.email)
+                            .charAt(0)
+                            .toUpperCase()}
                         </span>
                       </div>
                     </div>
                     <div className="ml-3">
-                      <div className="text-base font-medium text-text-primary">
-                        {displayUser.name ?? 'User'}
+                      <div className="text-text-primary text-base font-medium">
+                        {displayUser.name ?? "User"}
                       </div>
-                      <div className="text-sm text-text-tertiary">{displayUser.email}</div>
+                      <div className="text-text-tertiary text-sm">
+                        {displayUser.email}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -282,31 +308,44 @@ export function Navbar({
     ];
 
     const roleLabel = displayUser?.role === "admin" ? "Admin" : "Utente";
-    const badgeClass = displayUser?.role === "admin"
-      ? "pill pill--sm site-menu__role-badge site-menu__role-badge--admin"
-      : "pill pill--sm site-menu__role-badge site-menu__role-badge--user";
+    const badgeClass =
+      displayUser?.role === "admin"
+        ? "pill pill--sm site-menu__role-badge site-menu__role-badge--admin"
+        : "pill pill--sm site-menu__role-badge site-menu__role-badge--user";
 
     const desktopActions = displayUser ? (
       <div className="site-menu__auth-block">
-        <span className="hidden md:inline text-sm text-text-secondary truncate max-w-[9rem]">
+        <span className="text-text-secondary hidden max-w-[9rem] truncate text-sm md:inline">
           {displayUser.name ?? displayUser.email}
         </span>
         <span className={`${badgeClass} hidden md:inline-flex`}>
           {roleLabel}
         </span>
-        <Link href="/dashboard" className="btn btn-primary btn-sm hidden md:inline-flex">
+        <Link
+          href="/dashboard"
+          className="btn btn-primary btn-sm hidden md:inline-flex"
+        >
           Area personale
         </Link>
-        <button onClick={handleLogout} className="site-menu__logout-btn hidden md:inline-flex">
+        <button
+          onClick={handleLogout}
+          className="site-menu__logout-btn hidden md:inline-flex"
+        >
           Esci
         </button>
       </div>
     ) : (
       <div className="site-menu__auth-block">
-        <Link href="/login" className="btn btn-outline btn-sm hidden md:inline-flex">
+        <Link
+          href="/login"
+          className="btn btn-outline btn-sm hidden md:inline-flex"
+        >
           Accedi
         </Link>
-        <Link href="/register" className="btn btn-primary btn-sm hidden md:inline-flex">
+        <Link
+          href="/register"
+          className="btn btn-primary btn-sm hidden md:inline-flex"
+        >
           Registrati
         </Link>
       </div>
@@ -319,7 +358,9 @@ export function Navbar({
             {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="site-menu__mobile-name">{displayUser.name ?? "Utente"}</p>
+            <p className="site-menu__mobile-name">
+              {displayUser.name ?? "Utente"}
+            </p>
             <p className="site-menu__mobile-email">{displayUser.email}</p>
           </div>
         </div>
@@ -328,7 +369,10 @@ export function Navbar({
           <Link href="/dashboard" className="btn btn-primary btn-sm">
             Area personale
           </Link>
-          <button onClick={handleLogout} className="site-menu__logout-btn site-menu__logout-btn--block">
+          <button
+            onClick={handleLogout}
+            className="site-menu__logout-btn site-menu__logout-btn--block"
+          >
             Esci
           </button>
         </div>
@@ -345,16 +389,30 @@ export function Navbar({
     );
 
     return (
-      <header className={`site-menu site-menu--light ${mobileMenuOpen ? "site-menu--open" : ""}`}>
+      <header
+        className={`site-menu site-menu--light ${mobileMenuOpen ? "site-menu--open" : ""}`}
+      >
         <div className="site-menu__inner w-full px-4 sm:px-6 lg:px-8">
           <div className="site-menu__brand">
-            <Link href="/" className="site-menu__brand-link" onClick={() => setMobileMenuOpen(false)}>
-              <img src="/images/logo.png" alt="LLMPatient" className="site-menu__brand-logo" />
+            <Link
+              href="/"
+              className="site-menu__brand-link"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <img
+                src="/images/logo.png"
+                alt="LLMPatient"
+                className="site-menu__brand-logo"
+              />
               <span className="site-menu__brand-name">LLMPatient</span>
             </Link>
           </div>
 
-          <nav className="site-menu__nav" id="site-navigation" aria-label="Navigazione principale">
+          <nav
+            className="site-menu__nav"
+            id="site-navigation"
+            aria-label="Navigazione principale"
+          >
             <ul className="site-menu__nav-list" role="list">
               {menuLinks.map((link, index) => (
                 <li key={`${link.href}-${index}`} role="listitem">
@@ -380,7 +438,9 @@ export function Navbar({
             aria-label={mobileMenuOpen ? "Chiudi il menu" : "Apri il menu"}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
-            <span className="sr-only">{mobileMenuOpen ? "Chiudi il menu" : "Apri il menu"}</span>
+            <span className="sr-only">
+              {mobileMenuOpen ? "Chiudi il menu" : "Apri il menu"}
+            </span>
             <svg
               className="site-menu__mobile-icon"
               viewBox="0 0 24 24"
@@ -427,7 +487,9 @@ export function Navbar({
       {/* Header */}
       <div className="header-container">
         <div role="banner">
-          {layoutType === "dashboard" ? renderDashboardHeader() : renderHomeHeader()}
+          {layoutType === "dashboard"
+            ? renderDashboardHeader()
+            : renderHomeHeader()}
         </div>
       </div>
     </>
@@ -435,4 +497,11 @@ export function Navbar({
 }
 
 // Export types and utilities
-export type { User, ImpersonationContext, NavItem, NavSection, AdminViewMode, LayoutType };
+export type {
+  User,
+  ImpersonationContext,
+  NavItem,
+  NavSection,
+  AdminViewMode,
+  LayoutType,
+};

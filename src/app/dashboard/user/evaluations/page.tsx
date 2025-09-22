@@ -1,6 +1,6 @@
 /**
  * User Evaluations Page
- * 
+ *
  * Interface for viewing personal evaluation results and feedback
  * from completed clinical simulations and assessments.
  */
@@ -24,7 +24,7 @@ export default async function MyEvaluationsPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -32,7 +32,7 @@ export default async function MyEvaluationsPage() {
         role: session.user.role || "user",
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/user/evaluations"
     >

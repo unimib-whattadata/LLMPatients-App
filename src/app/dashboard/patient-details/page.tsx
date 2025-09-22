@@ -1,6 +1,6 @@
 /**
  * Patient Details Page
- * 
+ *
  * Displays the structured psychological evaluation schema fields
  * from patient-details.json in a user-friendly format.
  */
@@ -24,7 +24,7 @@ export default async function PatientDetailsPage() {
   }
 
   return (
-    <SharedLayout 
+    <SharedLayout
       user={{
         id: session.user.id,
         name: session.user.name ?? null,
@@ -32,7 +32,7 @@ export default async function PatientDetailsPage() {
         role: session.user.role,
         image: session.user.image,
       }}
-      impersonation={(session as any).impersonation ?? undefined}
+      impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
       currentPage="/dashboard/patient-details"
     >

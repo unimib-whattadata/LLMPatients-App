@@ -31,28 +31,30 @@ export interface DatabaseValidationOptions {
  */
 export async function validateUserById(
   userId: string,
-  options: DatabaseValidationOptions = {}
+  options: DatabaseValidationOptions = {},
 ): Promise<UserValidationResult> {
   const { timeout = 5000, retries = 3 } = options;
-  
+
   if (!userId) {
     return {
       isValid: false,
-      error: "User ID is required for validation"
+      error: "User ID is required for validation",
     };
   }
 
   let lastError: Error | null = null;
-  
+
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      console.log(`User validation attempt ${attempt}/${retries} for user ID: ${userId}`);
-      
+      console.log(
+        `User validation attempt ${attempt}/${retries} for user ID: ${userId}`,
+      );
+
       // Create a promise that will timeout if database query takes too long
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('Database query timeout')), timeout);
+        setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
-      
+
       const queryPromise = db
         .select({
           id: users.id,
@@ -64,53 +66,58 @@ export async function validateUserById(
         .from(users)
         .where(eq(users.id, userId))
         .limit(1);
-      
+
       const userResults = await Promise.race([queryPromise, timeoutPromise]);
-      
+
       if (userResults.length === 0) {
         console.warn(`User validation failed: User not found for ID ${userId}`);
         return {
           isValid: false,
-          error: "User not found in database"
+          error: "User not found in database",
         };
       }
-      
+
       const user = userResults[0]!;
       console.log(`User validation successful for ID ${userId}:`, {
         email: user.email,
-        role: user.role
+        role: user.role,
       });
-      
+
       return {
         isValid: true,
         user: {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role || "user",
+          role: user.role ?? "user",
           image: user.image,
-        }
+        },
       };
-      
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      console.error(`User validation attempt ${attempt}/${retries} failed:`, lastError.message);
-      
+      console.error(
+        `User validation attempt ${attempt}/${retries} failed:`,
+        lastError.message,
+      );
+
       // If this is the last attempt, return the error
       if (attempt === retries) {
         break;
       }
-      
+
       // Wait before retrying with exponential backoff
       const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  
-  console.error(`User validation failed after ${retries} attempts:`, lastError?.message);
+
+  console.error(
+    `User validation failed after ${retries} attempts:`,
+    lastError?.message,
+  );
   return {
     isValid: false,
-    error: `Database validation failed: ${lastError?.message || "Unknown error"}`
+    error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
   };
 }
 
@@ -120,27 +127,29 @@ export async function validateUserById(
  */
 export async function validateUserByEmail(
   email: string,
-  options: DatabaseValidationOptions = {}
+  options: DatabaseValidationOptions = {},
 ): Promise<UserValidationResult> {
   const { timeout = 5000, retries = 3 } = options;
-  
+
   if (!email) {
     return {
       isValid: false,
-      error: "Email is required for validation"
+      error: "Email is required for validation",
     };
   }
 
   let lastError: Error | null = null;
-  
+
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      console.log(`Email validation attempt ${attempt}/${retries} for email: ${email}`);
-      
+      console.log(
+        `Email validation attempt ${attempt}/${retries} for email: ${email}`,
+      );
+
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error('Database query timeout')), timeout);
+        setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
-      
+
       const queryPromise = db
         .select({
           id: users.id,
@@ -152,51 +161,58 @@ export async function validateUserByEmail(
         .from(users)
         .where(eq(users.email, email))
         .limit(1);
-      
+
       const userResults = await Promise.race([queryPromise, timeoutPromise]);
-      
+
       if (userResults.length === 0) {
-        console.warn(`Email validation failed: User not found for email ${email}`);
+        console.warn(
+          `Email validation failed: User not found for email ${email}`,
+        );
         return {
           isValid: false,
-          error: "User not found in database"
+          error: "User not found in database",
         };
       }
-      
+
       const user = userResults[0]!;
       console.log(`Email validation successful for ${email}:`, {
         id: user.id,
-        role: user.role
+        role: user.role,
       });
-      
+
       return {
         isValid: true,
         user: {
           id: user.id,
           email: user.email,
           name: user.name,
-          role: user.role || "user",
+          role: user.role ?? "user",
           image: user.image,
-        }
+        },
       };
-      
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      console.error(`Email validation attempt ${attempt}/${retries} failed:`, lastError.message);
-      
+      console.error(
+        `Email validation attempt ${attempt}/${retries} failed:`,
+        lastError.message,
+      );
+
       if (attempt === retries) {
         break;
       }
-      
+
       const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
-  
-  console.error(`Email validation failed after ${retries} attempts:`, lastError?.message);
+
+  console.error(
+    `Email validation failed after ${retries} attempts:`,
+    lastError?.message,
+  );
   return {
     isValid: false,
-    error: `Database validation failed: ${lastError?.message || "Unknown error"}`
+    error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
   };
 }
 
@@ -207,31 +223,33 @@ export async function validateUserByEmail(
 export async function checkUserRoleChange(
   userId: string,
   currentRole: string,
-  options: DatabaseValidationOptions = {}
+  options: DatabaseValidationOptions = {},
 ): Promise<{
   hasChanged: boolean;
   newRole?: string;
   error?: string;
 }> {
   const validation = await validateUserById(userId, options);
-  
+
   if (!validation.isValid || !validation.user) {
     return {
       hasChanged: false,
-      error: validation.error || "User validation failed"
+      error: validation.error ?? "User validation failed",
     };
   }
-  
+
   const dbRole = validation.user.role;
   const hasChanged = dbRole !== currentRole;
-  
+
   if (hasChanged) {
-    console.log(`Role change detected for user ${userId}: ${currentRole} -> ${dbRole}`);
+    console.log(
+      `Role change detected for user ${userId}: ${currentRole} -> ${dbRole}`,
+    );
   }
-  
+
   return {
     hasChanged,
-    newRole: hasChanged ? dbRole : undefined
+    newRole: hasChanged ? dbRole : undefined,
   };
 }
 
@@ -241,26 +259,26 @@ export async function checkUserRoleChange(
  */
 export async function validateUserAccountStatus(
   userId: string,
-  options: DatabaseValidationOptions = {}
+  options: DatabaseValidationOptions = {},
 ): Promise<{
   isActive: boolean;
   status?: string;
   error?: string;
 }> {
   const validation = await validateUserById(userId, options);
-  
+
   if (!validation.isValid || !validation.user) {
     return {
       isActive: false,
-      error: validation.error || "User validation failed"
+      error: validation.error ?? "User validation failed",
     };
   }
-  
+
   // For now, we consider all users with valid database records as active
   // This can be extended to check additional status fields in the future
   return {
     isActive: true,
-    status: "active"
+    status: "active",
   };
 }
 
@@ -271,33 +289,32 @@ export async function validateUserAccountStatus(
 export async function comprehensiveUserValidation(
   userId: string,
   expectedRole?: string,
-  options: DatabaseValidationOptions = {}
+  options: DatabaseValidationOptions = {},
 ): Promise<{
   isValid: boolean;
-  user?: UserValidationResult['user'];
+  user?: UserValidationResult["user"];
   roleChanged: boolean;
   accountActive: boolean;
   errors: string[];
 }> {
   const errors: string[] = [];
-  let user: UserValidationResult['user'];
   let roleChanged = false;
   let accountActive = false;
-  
+
   // Validate user existence
   const userValidation = await validateUserById(userId, options);
   if (!userValidation.isValid || !userValidation.user) {
-    errors.push(userValidation.error || "User validation failed");
+    errors.push(userValidation.error ?? "User validation failed");
     return {
       isValid: false,
       roleChanged: false,
       accountActive: false,
-      errors
+      errors,
     };
   }
-  
-  user = userValidation.user;
-  
+
+  const user: UserValidationResult["user"] = userValidation.user;
+
   // Check role changes if expected role is provided
   if (expectedRole) {
     const roleCheck = await checkUserRoleChange(userId, expectedRole, options);
@@ -307,7 +324,7 @@ export async function comprehensiveUserValidation(
       roleChanged = roleCheck.hasChanged;
     }
   }
-  
+
   // Check account status
   const statusCheck = await validateUserAccountStatus(userId, options);
   if (statusCheck.error) {
@@ -315,15 +332,15 @@ export async function comprehensiveUserValidation(
   } else {
     accountActive = statusCheck.isActive;
   }
-  
+
   const isValid = errors.length === 0 && accountActive;
-  
+
   return {
     isValid,
     user,
     roleChanged,
     accountActive,
-    errors
+    errors,
   };
 }
 
@@ -331,13 +348,15 @@ export async function comprehensiveUserValidation(
  * Creates a database validation configuration with default timeouts and retries
  * Adjusts based on environment (development vs production)
  */
-export function createValidationConfig(overrides: Partial<DatabaseValidationOptions> = {}): DatabaseValidationOptions {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  
+export function createValidationConfig(
+  overrides: Partial<DatabaseValidationOptions> = {},
+): DatabaseValidationOptions {
+  const isDevelopment = process.env.NODE_ENV === "development";
+
   return {
     timeout: isDevelopment ? 10000 : 5000, // Longer timeout in development
     retries: isDevelopment ? 5 : 3, // More retries in development
     skipCache: false,
-    ...overrides
+    ...overrides,
   };
 }
