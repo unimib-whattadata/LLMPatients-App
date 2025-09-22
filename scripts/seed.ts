@@ -85,6 +85,35 @@ const patientTagRelations = createTable(
   (t) => [primaryKey({ columns: [t.patientId, t.tagId] })],
 );
 
+const therapySessions = createTable(
+  "therapy_session",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id),
+    patientId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => patients.id),
+    sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("therapy_session_user_idx").on(t.userId),
+    index("therapy_session_patient_idx").on(t.patientId),
+  ],
+);
+
 const databaseUrl = process.env.DATABASE_URL ?? "file:./db.sqlite";
 const client = createClient({
   url: databaseUrl,
@@ -339,9 +368,11 @@ async function seedPatientTags() {
 }
 
 async function seedPatients() {
-  // First, delete all existing patients and their tag relations
+  // First, delete all existing patients and their dependent records
   console.log("[INFO] Removing existing patients...");
+  // Delete in order: first dependent tables, then main table
   await db.delete(patientTagRelations);
+  await db.delete(therapySessions);
   await db.delete(patients);
   console.log("[INFO] Existing patients removed");
 

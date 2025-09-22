@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useState } from "react";
 
 import {
   PatientAvatar,
@@ -34,6 +35,8 @@ export default function PatientDetailPage() {
   const patientId = normalizeParam(
     (params as Record<string, unknown>).patientId,
   );
+  const router = useRouter();
+  const [actionError, setActionError] = useState<string | null>(null);
 
   const {
     data: patient,
@@ -43,6 +46,28 @@ export default function PatientDetailPage() {
     { id: patientId ?? "" },
     { enabled: Boolean(patientId) },
   );
+
+  const startTherapySession = api.therapySessions.start.useMutation({
+    onSuccess: (startedSession) => {
+      setActionError(null);
+      if (startedSession) {
+        router.push(`/therapeutic-journey/${startedSession.patientId}`);
+      }
+    },
+    onError: (mutationError) => {
+      if (mutationError?.data?.code === "UNAUTHORIZED") {
+        const target = encodeURIComponent(
+          `/therapeutic-journey/${patientId ?? ""}`,
+        );
+        router.push(`/login?callbackUrl=${target}`);
+        return;
+      }
+      setActionError(
+        mutationError.message ||
+          "Non è stato possibile avviare la sessione terapeutica.",
+      );
+    },
+  });
 
   if (isLoading) {
     return <PatientDetailSkeleton />;
@@ -185,9 +210,19 @@ export default function PatientDetailPage() {
               </p>
               <div className="flex flex-col gap-4 sm:flex-row">
                 <button
+                  type="button"
                   className={`${CTA_BUTTON} bg-primary-600 hover:bg-primary-700 text-text-primary`}
+                  onClick={() => {
+                    if (!patient) return;
+                    setActionError(null);
+                    void startTherapySession.mutate({ patientId: patient.id });
+                  }}
+                  disabled={startTherapySession.isPending}
+                  aria-disabled={startTherapySession.isPending}
                 >
-                  Inizia simulazione
+                  {startTherapySession.isPending
+                    ? "Avvio in corso..."
+                    : "Inizia simulazione"}
                 </button>
                 <Link
                   href="/explore-patients"
@@ -196,6 +231,9 @@ export default function PatientDetailPage() {
                   &lt;- Torna all&apos;esplorazione
                 </Link>
               </div>
+              {actionError && (
+                <p className="text-sm text-red-500 mt-4">{actionError}</p>
+              )}
             </article>
           </section>
         </div>
@@ -216,10 +254,10 @@ function NotFoundCard({
       <div className="bg-accent-900/40 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full" />
       <h1 className="text-text-primary mb-2 text-2xl font-bold">{title}</h1>
       <p className="text-text-tertiary mb-6">{description}</p>
-      <Link
-        href="/explore-patients"
-        className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
-      >
+        <Link
+          href="/explore-patients"
+          className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
+        >
         Torna all&apos;esplorazione
       </Link>
     </div>

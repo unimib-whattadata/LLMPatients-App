@@ -1,5 +1,10 @@
 import { relations, sql } from "drizzle-orm";
-import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
+import {
+  index,
+  primaryKey,
+  sqliteTableCreator,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 // import { type AdapterAccount } from "next-auth/adapters";
 
 // Define AdapterAccount type manually for next-auth v5 beta compatibility
@@ -226,18 +231,6 @@ export const impersonationAuditLogRelations = relations(impersonationAuditLog, (
   }),
 }));
 
-// Add relations to users for impersonation
-export const extendedUsersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-  activities: many(userActivities),
-  adminImpersonationSessions: many(impersonationSessions, {
-    relationName: "adminImpersonationSessions",
-  }),
-  targetImpersonationSessions: many(impersonationSessions, {
-    relationName: "targetImpersonationSessions",
-  }),
-}));
-
 // Patients table for patient exploration page
 export const patients = createTable(
   "patient",
@@ -316,6 +309,7 @@ export const patientTagRelations = createTable(
 // Relations for patients
 export const patientsRelations = relations(patients, ({ many }) => ({
   tagRelations: many(patientTagRelations),
+  therapySessions: many(therapySessions),
 }));
 
 export const patientTagsRelations = relations(patientTags, ({ many }) => ({
@@ -331,4 +325,57 @@ export const patientTagRelationsRelations = relations(patientTagRelations, ({ on
     fields: [patientTagRelations.tagId],
     references: [patientTags.id],
   }),
+}));
+
+export const therapySessions = createTable(
+  "therapy_session",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id),
+    patientId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => patients.id),
+    sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("therapy_session_user_idx").on(t.userId),
+    index("therapy_session_patient_idx").on(t.patientId),
+    uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
+  ],
+);
+
+export const therapySessionsRelations = relations(therapySessions, ({ one }) => ({
+  user: one(users, {
+    fields: [therapySessions.userId],
+    references: [users.id],
+  }),
+  patient: one(patients, {
+    fields: [therapySessions.patientId],
+    references: [patients.id],
+  }),
+}));
+
+export const extendedUsersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  activities: many(userActivities),
+  adminImpersonationSessions: many(impersonationSessions, {
+    relationName: "adminImpersonationSessions",
+  }),
+  targetImpersonationSessions: many(impersonationSessions, {
+    relationName: "targetImpersonationSessions",
+  }),
+  therapySessions: many(therapySessions),
 }));
