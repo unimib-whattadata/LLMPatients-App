@@ -8,6 +8,7 @@ import {
   PatientTags,
 } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
+import { getDifficultyClass, getDifficultyLabel } from "~/lib/constants/difficulty";
 
 const SECTION_BASE = "bg-background-secondary rounded-lg";
 const SECTION = `${SECTION_BASE} p-6`;
@@ -16,15 +17,7 @@ const BREADCRUMB_NAV =
   "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
 const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
 const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md text-center";
-const DIFFICULTY_BADGES: Record<string, string> = {
-  Facile: "pill pill--lg pill--primary",
-  Medio: "pill pill--lg pill--secondary",
-  Difficile: "pill pill--lg pill--accent",
-};
-
-function getDifficultyClass(value: string) {
-  return DIFFICULTY_BADGES[value] ?? "pill pill--lg pill--muted";
-}
+// Difficulty constants are now imported from the constants file
 
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
@@ -72,10 +65,19 @@ export default function PatientDetailPage() {
     { label: patient.name },
   ];
 
+  const details = JSON.parse(patient.details) as {
+    demographic_sociocultural_information?: {
+      age?: string;
+      gender?: string;
+    };
+    psychological_profile_and_cognitive_functioning?: {
+      current_and_past_psychiatric_diagnoses?: string;
+    };
+  };
   const infoItems = [
-    { label: "Eta", value: `${patient.age} anni` },
-    { label: "Genere", value: patient.gender, capitalize: true },
-    { label: "Condizione", value: patient.condition },
+    { label: "Eta", value: `${details.demographic_sociocultural_information?.age || 'N/A'} anni` },
+    { label: "Genere", value: details.demographic_sociocultural_information?.gender || 'N/A', capitalize: true },
+    { label: "Condizione", value: details.psychological_profile_and_cognitive_functioning?.current_and_past_psychiatric_diagnoses || 'N/A' },
     { label: "Durata stimata", value: `${patient.estimatedDuration} minuti` },
   ];
 
@@ -103,8 +105,15 @@ export default function PatientDetailPage() {
               {patient.name}
             </h1>
             <span className={getDifficultyClass(patient.difficulty)}>
-              {patient.difficulty}
+              {getDifficultyLabel(patient.difficulty)}
             </span>
+          </div>
+          
+          {/* Description */}
+          <div className="mt-4">
+            <p className="patient-card-condition">
+              {patient.description}
+            </p>
           </div>
         </div>
       </header>

@@ -8,6 +8,13 @@
       "when": 1758472061344,
       "tag": "0000_aspiring_centennial",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1758472061345,
+      "tag": "0001_update_patient_schema",
+      "breakpoints": true
     }
   ]
 }

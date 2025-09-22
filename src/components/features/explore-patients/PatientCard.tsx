@@ -3,6 +3,12 @@ import type { Patient } from "~/types";
 import { PatientAvatar } from "./PatientAvatar";
 import { PatientTags } from "./PatientTags";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import { 
+  getDifficultyClass, 
+  getDifficultyIconClass, 
+  getDifficultyAccessibleText,
+  getDifficultyLabel 
+} from "~/lib/constants/difficulty";
 
 interface PatientCardProps {
   patient: Patient;
@@ -13,42 +19,26 @@ interface PatientCardProps {
  * Enhanced patient information card with improved styling and accessibility
  */
 export function PatientCard({ patient }: PatientCardProps) {
-  const getDifficultyClass = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case "Medio":
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case "Difficile":
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
-      default:
-        return "patient-card-difficulty-icon";
-    }
+  const details = JSON.parse(patient.details) as {
+    demographic_sociocultural_information?: {
+      age?: string;
+      gender?: string;
+    };
+    psychological_profile_and_cognitive_functioning?: {
+      current_and_past_psychiatric_diagnoses?: string;
+    };
   };
-
-  const getDifficultyIcon = (difficulty: string) => {
+  
+  const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "•";
-      case "Medio":
+      case 2:
         return "••";
-      case "Difficile":
+      case 3:
         return "•••";
       default:
         return "•";
-    }
-  };
-
-  const getDifficultyAccessibleText = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "Livello facile";
-      case "Medio":
-        return "Livello medio";
-      case "Difficile":
-        return "Livello difficile";
-      default:
-        return "Livello non specificato";
     }
   };
 
@@ -76,18 +66,18 @@ export function PatientCard({ patient }: PatientCardProps) {
             <h3 id={`patient-${patient.id}-title`} className="patient-card-title" itemProp="name">
               {patient.name}
             </h3>
-            <span className="patient-card-age" aria-label={`${patient.age} anni di eta`} itemProp="age">
-              {patient.age} anni
+            <span className="patient-card-age" aria-label={`${details.demographic_sociocultural_information?.age || 'N/A'} anni di eta`} itemProp="age">
+              {details.demographic_sociocultural_information?.age || 'N/A'} anni
             </span>
           </header>
 
-          {/* Condition */}
+          {/* Description */}
           <p className="patient-card-condition" itemProp="description">
-            {patient.condition}
+            {patient.description}
           </p>
 
           {/* Background Description */}
-          <p className="patient-card-description" itemProp="additionalProperty">
+          <p className="patient-card-background" itemProp="additionalProperty">
             {patient.background}
           </p>
 
@@ -115,13 +105,13 @@ export function PatientCard({ patient }: PatientCardProps) {
           <div className="patient-card-metadata">
             <div className="patient-card-difficulty">
               <span 
-                className={getDifficultyClass(patient.difficulty)}
+                className={getDifficultyIconClass(patient.difficulty)}
                 aria-label={getDifficultyAccessibleText(patient.difficulty)}
                 role="img"
               >
                 {getDifficultyIcon(patient.difficulty)}
               </span>
-              <span>{patient.difficulty}</span>
+              <span>{getDifficultyLabel(patient.difficulty)}</span>
             </div>
             <div className="patient-card-duration">
               <ClockIcon className="patient-card-duration-icon" aria-hidden="true" />

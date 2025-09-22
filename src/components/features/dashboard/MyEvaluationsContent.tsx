@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { DIFFICULTY_LEVELS, getDifficultyLabel, getDifficultyIconClass, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 interface Evaluation {
@@ -13,7 +14,7 @@ interface Evaluation {
   feedback: string;
   strengths: string[];
   improvements: string[];
-  difficulty: "Facile" | "Medio" | "Difficile";
+  difficulty: 1 | 2 | 3;
 }
 
 export function MyEvaluationsContent() {
@@ -27,7 +28,7 @@ export function MyEvaluationsContent() {
       completedAt: "2024-09-03",
       score: 85,
       maxScore: 100,
-      difficulty: "Medio",
+      difficulty: DIFFICULTY_LEVELS.MEDIO,
       feedback: "Ottima gestione della situazione clinica. Hai dimostrato buone competenze diagnostiche e terapeutiche.",
       strengths: [
         "Anamnesi completa e accurata",
@@ -46,7 +47,7 @@ export function MyEvaluationsContent() {
       completedAt: "2024-09-01",
       score: 92,
       maxScore: 100,
-      difficulty: "Facile",
+      difficulty: DIFFICULTY_LEVELS.FACILE,
       feedback: "Eccellente performance. Hai gestito il caso con sicurezza e competenza.",
       strengths: [
         "Diagnosi rapida e precisa",
@@ -65,7 +66,7 @@ export function MyEvaluationsContent() {
       completedAt: "2024-08-28",
       score: 72,
       maxScore: 100,
-      difficulty: "Difficile",
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE,
       feedback: "Buon lavoro complessivo, ma ci sono alcuni aspetti da migliorare nella gestione delle emergenze neurologiche.",
       strengths: [
         "Valutazione neurologica sistematica",
@@ -88,42 +89,29 @@ export function MyEvaluationsContent() {
     return "pill pill--sm status-tag status-tag--needs-improvement";
   };
 
-  const getDifficultyClass = (difficulty: string) => {
+  const getDifficultyClass = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case "Medio":
+      case 2:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case "Difficile":
+      case 3:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
       default:
         return "patient-card-difficulty-icon";
     }
   };
 
-  const getDifficultyIcon = (difficulty: string) => {
+  const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "•";
-      case "Medio":
+      case 2:
         return "••";
-      case "Difficile":
+      case 3:
         return "•••";
       default:
         return "•";
-    }
-  };
-
-  const getDifficultyAccessibleText = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "Livello facile";
-      case "Medio":
-        return "Livello medio";
-      case "Difficile":
-        return "Livello difficile";
-      default:
-        return "Livello non specificato";
     }
   };
 
@@ -190,7 +178,7 @@ export function MyEvaluationsContent() {
                           >
                             {getDifficultyIcon(evaluation.difficulty)}
                           </span>
-                          <span className="text-sm font-medium">{evaluation.difficulty}</span>
+                          <span className="text-sm font-medium">{getDifficultyLabel(evaluation.difficulty)}</span>
                         </div>
                         <h3 className="dashboard-action-card__title mb-2">
                           {evaluation.simulationTitle}
