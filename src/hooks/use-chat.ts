@@ -47,14 +47,20 @@ export function useChat({ userId, virtualPatientId }: UseChatOptions) {
       setIsGenerating(true);
 
       // Simulazione risposta bot
-      setTimeout(async () => {
-        const botMessage = await sendMessageMutation.mutateAsync({
-          chatId,
-          senderId: virtualPatientId,
-          content: "Risposta generata dal bot 🤖",
-        });
-        setIsGenerating(false);
-      }, 1500);
+      return new Promise<void>((resolve) => {
+        setTimeout(async () => {
+          try {
+            await sendMessageMutation.mutateAsync({
+              chatId,
+              senderId: virtualPatientId,
+              content: "Risposta generata dal bot 🤖",
+            });
+          } finally {
+            setIsGenerating(false);
+            resolve();
+          }
+        }, 1500);
+      });
     },
     [chatQuery.data, sendMessageMutation, userId, virtualPatientId],
   );

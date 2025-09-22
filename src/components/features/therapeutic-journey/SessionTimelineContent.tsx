@@ -1,7 +1,7 @@
 "use client";
 
 import { SharedLayout } from "@/components/layout/SharedLayout";
-import { useState, useEffect, useRef, useCallback, useMemo, memo, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -249,63 +249,6 @@ function buildRoundedOrthogonalPath(
   return pathCommands.join(" ");
 }
 
-// Close button component
-const CloseButton = ({ onClose }: { onClose: () => void }) => (
-  <button
-    onClick={onClose}
-    className="ml-4 flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-    aria-label="Close"
-  >
-    <svg
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M6 18L18 6M6 6l12 12"
-      />
-    </svg>
-  </button>
-);
-
-// Mobile close button component
-const MobileCloseButton = ({ onClose }: { onClose: () => void }) => (
-  <div
-    onClick={(e) => {
-      e.stopPropagation();
-      onClose();
-    }}
-    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white/70 transition-colors hover:bg-white/20 hover:text-white"
-    role="button"
-    tabIndex={0}
-    aria-label="Close"
-    onKeyDown={(e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        e.stopPropagation();
-        onClose();
-      }
-    }}
-  >
-    <svg
-      className="h-4 w-4"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        d="M6 18L18 6M6 6l12 12"
-      />
-    </svg>
-  </div>
-);
 
 // Timeline step component
 const TimelineStep = memo(
@@ -356,7 +299,7 @@ const TimelineStep = memo(
       role="button"
       tabIndex={isUnlocked ? 0 : -1}
       aria-disabled={!isUnlocked}
-      aria-label={`Seduta ${step.id}${isUnlocked ? "" : " non disponibile"}`}
+      aria-label={`Apri chat per seduta ${step.id}${isUnlocked ? "" : " non disponibile"}`}
     >
       {step.id}
     </div>
@@ -364,58 +307,6 @@ const TimelineStep = memo(
 );
 TimelineStep.displayName = "TimelineStep";
 
-// Desktop tooltip component
-const DesktopTooltip = memo(
-  ({
-    activeDetails,
-    tooltipPosition,
-    onClose,
-  }: {
-    activeDetails: StepDetails;
-    tooltipPosition: { top: number; left: number };
-    onClose: () => void;
-  }) => (
-    <div
-      className="absolute z-20 w-80 -translate-x-1/2 -translate-y-1/2 rounded-[28px] p-8"
-      style={{
-        top: `${tooltipPosition.top}px`,
-        left: `${tooltipPosition.left}px`,
-        backgroundColor: activeDetails.backgroundColor,
-        color: activeDetails.textColor,
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex items-start justify-between">
-        <h2 className="text-heading-3 font-semibold text-white">
-          {activeDetails.phaseTitle}
-        </h2>
-        <CloseButton onClose={onClose} />
-      </div>
-      <h3 className="mt-6 text-base font-semibold text-white">
-        Consigli per essere un buon terapeuta
-      </h3>
-      <ul
-        className="mt-4 space-y-3 text-sm leading-relaxed"
-        style={{ color: activeDetails.bodyColor }}
-      >
-        {activeDetails.tips.map((tip, index) => (
-          <li
-            key={`tip-${index}`}
-            className="list-inside list-disc"
-            style={
-              {
-                "--marker-color": activeDetails.accentColor,
-              } as React.CSSProperties
-            }
-          >
-            {tip}
-          </li>
-        ))}
-      </ul>
-    </div>
-  ),
-);
-DesktopTooltip.displayName = "DesktopTooltip";
 
 // Mobile timeline step component
 const MobileTimelineStep = memo(
@@ -468,35 +359,12 @@ const MobileTimelineStep = memo(
             <h2 className="mt-2 text-base font-semibold text-white">
               {details.phaseTitle}
             </h2>
+            <p className="mt-1 text-xs text-white/60">
+              Clicca per aprire la chat
+            </p>
           </div>
-          {isOpen && <MobileCloseButton onClose={onClose} />}
         </div>
 
-        {isOpen && (
-          <div className="mt-4">
-            <h3 className="text-sm font-semibold text-white">
-              Consigli per essere un buon terapeuta
-            </h3>
-            <ul
-              className="mt-3 space-y-2 text-sm leading-relaxed"
-              style={{ color: details.bodyColor }}
-            >
-              {details.tips.map((tip, index) => (
-                <li
-                  key={`mobile-tip-${step.id}-${index}`}
-                  className="list-inside list-disc"
-                  style={
-                    {
-                      "--marker-color": details.accentColor,
-                    } as React.CSSProperties
-                  }
-                >
-                  {tip}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </button>
     </div>
   ),
@@ -529,7 +397,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   const router = useRouter();
   const sessionId = normalizeParam(params.sessionId);
 
-  const [activeBox, setActiveBox] = useState<number | null>(null);
   const [timelineScale, setTimelineScale] = useState<number>(1);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
@@ -582,10 +449,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
     },
   });
 
-  useEffect(() => {
-    if (!therapySession) return;
-    setActiveBox((previous) => previous ?? therapySession.sessionNumber);
-  }, [therapySession]);
 
   const unlockedSessionNumber = useMemo(() => {
     if (!therapySession) return 1;
@@ -598,33 +461,16 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   // Event handlers - must be before early return to maintain hook order
   const handleStepClick = useCallback((stepId: number) => {
     if (stepId > unlockedSessionNumber) return;
-    setActiveBox((prev) => (prev === stepId ? null : stepId));
-  }, [unlockedSessionNumber]);
+    
+    // Navigate to chat with the current patient
+    if (sessionId && user.id) {
+      router.push(`/chat/${user.id}/${sessionId}`);
+    }
+  }, [unlockedSessionNumber, sessionId, user.id, router]);
 
-  const handleCloseBox = useCallback(() => {
-    setActiveBox(null);
-  }, []);
 
-  const handleContainerClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
-        setActiveBox(null);
-      }
-    },
-    [],
-  );
 
   // Computed values - must be before early return to maintain hook order
-  const activeStep = useMemo(
-    () =>
-      activeBox ? timelineSteps.find((step) => step.id === activeBox) : null,
-    [activeBox],
-  );
-
-  const activeDetails = useMemo(
-    () => (activeBox ? getStepDetails(activeBox) : null),
-    [activeBox],
-  );
 
   const scaledStepPositions = useMemo(
     () =>
@@ -654,22 +500,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
     [timelineScale],
   );
 
-  const activePosition = useMemo(() => {
-    if (!activeStep || !activeDetails) return null;
-    return {
-      top: activeStep.top * timelineScale,
-      left: (activeStep.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
-    };
-  }, [activeStep, activeDetails, timelineScale]);
-
-  const tooltipPosition = useMemo(() => {
-    if (!activePosition) return { left: 0, top: 0 };
-    return {
-      left:
-        activePosition.left + TIMELINE_CONFIG.TOOLTIP_OFFSET_X * timelineScale,
-      top: activePosition.top,
-    };
-  }, [activePosition, timelineScale]);
 
   if (!sessionId) {
     return (
@@ -867,7 +697,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
 
                 <div
                   className="absolute inset-0 z-10"
-                  onClick={handleContainerClick}
                 >
                   {scaledStepPositions.map((step) => (
                     <TimelineStep
@@ -881,13 +710,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                     />
                   ))}
 
-                  {activeStep && activeDetails && (
-                    <DesktopTooltip
-                      activeDetails={activeDetails}
-                      tooltipPosition={tooltipPosition}
-                      onClose={handleCloseBox}
-                    />
-                  )}
                 </div>
               </div>
             </div>
@@ -899,16 +721,15 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
               <div className="space-y-5">
                 {timelineSteps.map((step) => {
                   const details = getStepDetails(step.id);
-                  const isOpen = activeBox === step.id;
 
                   return (
                     <MobileTimelineStep
                       key={`mobile-step-${step.id}`}
                       step={step}
                       details={details}
-                      isOpen={isOpen}
+                      isOpen={false}
                       onStepClick={handleStepClick}
-                      onClose={handleCloseBox}
+                      onClose={() => {}}
                       isUnlocked={step.id <= unlockedSessionNumber}
                       isCurrent={step.id === unlockedSessionNumber}
                     />

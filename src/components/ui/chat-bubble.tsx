@@ -51,13 +51,13 @@ const chatBubbleVariant = cva("relative group", {
 });
 
 const chatBubbleMessageVariants = cva(
-  "px-5 py-3 text-gray-900 dark:text-gray-100 rounded-2xl shadow-md border border-transparent",
+  "px-5 py-3 text-text-primary rounded-2xl shadow-sm border border-border-primary",
   {
     variants: {
       variant: {
         received:
-          "bg-blue-100 dark:bg-blue-900 rounded-r-2xl rounded-tl-2xl rounded-bl-none",
-        sent: "bg-gray-200 dark:bg-gray-800 rounded-l-2xl rounded-tr-2xl rounded-br-none",
+          "bg-surface-tertiary rounded-r-2xl rounded-tl-2xl rounded-bl-none",
+        sent: "bg-primary-500 text-white rounded-l-2xl rounded-tr-2xl rounded-br-none",
       },
       layout: {
         default: "",
@@ -240,7 +240,7 @@ const ChatBubbleTimestamp = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "mt-1 text-xs text-gray-500 dark:text-gray-400",
+        "mt-1 text-xs text-text-secondary",
         variant === "sent" && "text-right",
         className,
       )}
