@@ -62,7 +62,7 @@
         "situazione_finanziaria": { "type": "string", "enum": ["precaria", "sufficiente", "stabile", "con debiti", "con sussidi", "supporto familiare"] },
         "hobby_interessi": {
           "type": "array",
-          "items": { "type": "string", "enum": ["sport", "arte", "musica", "lettura", "videogiochi", "natura", "volontariato", "altro"] },
+          "items": { "type": "string", "enum": ["sport", "arte", "musica", "lettura", "videogiochi", "natura", "volontariato", "televisione", "shopping online", "altro"] },
           "uniqueItems": true
         }
       }
@@ -100,7 +100,8 @@
           "items": { "type": "string", "enum": ["ansia", "depressione", "bipolare", "psicotica", "disturbo di personalità", "trauma/stress", "alimentare", "uso di sostanze", "neuroevolutiva", "OCD", "dissociativa"] },
           "uniqueItems": true
         },
-        "diagnosi_psichiatriche_pregresse": { "type": "string", "enum": ["nessuna", "presenti"] }
+        "diagnosi_psichiatriche_pregresse": { "type": "string", "enum": ["nessuna", "presenti"] },
+        "diagnosi_attuale": { "type": "string", "description": "Current psychiatric diagnosis" }
       }
     },
     "funzionamento_psicologico": {

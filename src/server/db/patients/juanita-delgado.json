@@ -1,0 +1,147 @@
+{
+  "dati_socio_culturali": {
+    "stato_civile": "single",
+    "background_culturale": "minoranza etnica",
+    "stato_migratorio": "2ª generazione"
+  },
+  "sviluppo_famiglia_storia": {
+    "esperienze_infantili": ["avversità"],
+    "dinamiche_familiari_evolutiva": ["conflittuali"],
+    "relazioni_attuali_genitori": "ambivalenti",
+    "interazioni_familiari": ["critiche"]
+  },
+  "istruzione_lavoro_condizioni": {
+    "livello_istruzione": "diploma",
+    "storia_lavorativa": "disoccupato",
+    "stabilita_abitativa": "affitto stabile",
+    "situazione_finanziaria": "con debiti",
+    "hobby_interessi": ["televisione", "shopping online"]
+  },
+  "rete_sociale_relazioni": {
+    "amicizie": "superficiali",
+    "relazioni_coetanei_colleghi": "conflittuali",
+    "relazioni_romantiche": "assenti",
+    "relazioni_sessuali": "non attive",
+    "uso_social_media": {
+      "intensita": "moderata",
+      "impatto": "negativo"
+    }
+  },
+  "presentazione_clinica": {
+    "sintomi_principali": [
+      "umore depresso",
+      "irritabilità",
+      "anedonia",
+      "ideazione suicidaria",
+      "ipersonnia",
+      "alimentazione disordinata",
+      "ansia"
+    ],
+    "comorbidita_psichiatriche": ["depressione", "disturbo di personalità"],
+    "diagnosi_psichiatriche_pregresse": "presenti",
+    "diagnosi_attuale": "Disturbo Borderline di Personalità (BPD); Disturbo Depressivo Maggiore (MDD)"
+  },
+  "funzionamento_psicologico": {
+    "funzionamento_affettivo_umore": "labile",
+    "senso_di_se_e_altri": "diffuso",
+    "pensiero_stile_cognitivo": ["ruminativo", "paranoide"],
+    "attenzione_concentrazione": "nella norma",
+    "memoria": "nella norma",
+    "funzioni_cognitive_superiori": "nella norma",
+    "strategie_coping": ["evitamento", "ruminazione"],
+    "meccanismi_difesa": "primitivi",
+    "dinamiche_ricorrenti": ["svalutazione", "idealizzazione/svalutazione", "evitamento"],
+    "emozioni_espresse_congruenza": "ipo-espresse"
+  },
+  "rischi_condotte": {
+    "autolesionismo_suicidalita": "tentativi",
+    "uso_sostanze": [],
+    "aggressivita_eterodiretta": "verbale",
+    "comportamenti_impulsivi_rischio": ["spese compulsive", "binge cibo", "autolesionismo"],
+    "inganno_manipolazione": "assenti",
+    "attivita_illecite": "nessuna",
+    "senso_di_colpa": "appropriato"
+  },
+  "salute_fisica_stile_vita": {
+    "salute_fisica_generale": "scadente",
+    "condizioni_mediche_preesistenti": [],
+    "attivita_fisica": "nessuna",
+    "fumo": "no",
+    "alcol": "no",
+    "sostanze": "no",
+    "sonno": ["ipersonnia", "ritmo irregolare"],
+    "alimentazione": "iperfagia"
+  },
+  "percorso_cura_adesione": {
+    "esperienze_terapeutiche_pregresse": {
+      "tipi": ["psicoterapia individuale"],
+      "durata": "medio"
+    },
+    "resistenze_trattamento": "scarsa aderenza",
+    "obiettivi_terapeutici": [
+      "riduzione sintomi",
+      "migliorare funzionamento",
+      "migliorare relazioni",
+      "riduzione rischio",
+      "migliorare sonno"
+    ],
+    "storia_farmacologica": [
+      "stabilizzatori dell’umore",
+      "antipsicotici",
+      "SSRI"
+    ],
+    "trattamenti_farmacologici_correnti": [],
+    "risposta_ai_farmaci": "scarsa",
+    "ricoveri_psichiatrici_pregressi": "2-3",
+    "accessi_pronto_soccorso": "nessuno",
+    "precedenti_drop_out": "nessuno",
+    "insight_mentalizzazione": "parziale",
+    "motivazione_cambiamento": "media",
+    "stadio_cambiamento": "contemplazione"
+  },
+  "risorse_benessere_prospettive": {
+    "resilienza_psicologica": "bassa",
+    "soddisfazione_vita": "bassa",
+    "speranza_futuro": "media",
+    "obiettivi_lungo_termine": ["studio", "lavoro", "autonomia"]
+  },
+  "esame_stato_mentale": {
+    "aspetto_espressione": {
+      "cura_di_se": "trascurata",
+      "abbigliamento": "adeguato",
+      "struttura_fisica": "nella norma",
+      "relazionalita_colloquio": "adeguata"
+    },
+    "atteggiamento_verso_clinico": "collaborante",
+    "coscienza_orientamento": {
+      "stato_coscienza": "lucido",
+      "orientamento": "integro"
+    },
+    "linguaggio_eloquio": {
+      "fluenza_contenuto": ["spontaneo", "fluente"],
+      "fenomeni_associati": []
+    },
+    "umore_affettivita_emotivita": {
+      "umore": "depresso",
+      "affettivita_emotivita": ["coartata"],
+      "correlati": ["disforia"]
+    },
+    "pensiero_forma_contenuto": {
+      "forma": ["coerente"],
+      "contenuti": ["idee prevalenti"]
+    },
+    "percezioni": ["nessuna alterazione"],
+    "funzioni_cognitive": {
+      "attenzione": "nella norma",
+      "memoria": "nella norma",
+      "capacita_intellettive": "nella norma"
+    },
+    "comportamento_psicomotorio": [],
+    "disponibilita_colloquio": "collaborativo",
+    "insight_giudizio": {
+      "coscienza_malattia": "parziale",
+      "giudizio": "conservato"
+    }
+  }
+}
+

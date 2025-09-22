@@ -372,6 +372,8 @@ export function PatientDetailsContent() {
       "videogiochi": "Videogiochi",
       "natura": "Natura",
       "volontariato": "Volontariato",
+      "televisione": "Televisione",
+      "shopping online": "Shopping Online",
       "numerose": "Numerose",
       "poche ma stabili": "Poche ma Stabili",
       "superficiali": "Superficiali",
