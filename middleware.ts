@@ -35,14 +35,23 @@ export default auth((req) => {
   const isAdminRoute = pathname.startsWith("/admin");
   const isAuthRoute =
     pathname.startsWith("/login") || pathname.startsWith("/register");
+  const isPublicAuthRoute = isAuthRoute;
   const isApiAuthRoute = pathname.startsWith("/api/auth");
   const isStaticRoute =
     pathname.startsWith("/_next") ||
     pathname.startsWith("/favicon") ||
     pathname.includes(".");
+  const isPublicPatientRoute = pathname.startsWith("/explore-patients");
+  const isPublicHomeRoute = pathname === "/";
 
   // Skip middleware for API auth routes and static assets
   if (isApiAuthRoute || isStaticRoute) {
+    return NextResponse.next();
+  }
+
+  // Allow public access to patient detail pages, home page, and auth pages
+  if (isPublicPatientRoute || isPublicHomeRoute || isPublicAuthRoute) {
+    console.log("Middleware - Allowing public access to page:", pathname);
     return NextResponse.next();
   }
 
@@ -60,6 +69,9 @@ export default auth((req) => {
       isProtectedRoute,
       isAdminRoute,
       isAuthRoute,
+      isPublicPatientRoute,
+      isPublicHomeRoute,
+      isPublicAuthRoute,
       specialKey: specialKey || "none",
       // Impersonation context
       isImpersonating: isImpersonating || false,

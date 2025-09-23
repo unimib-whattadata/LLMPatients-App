@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
 import { ClockIcon } from "@heroicons/react/24/outline";
+import { useSession } from "next-auth/react";
 
 import {
   PatientAvatar,
@@ -33,6 +34,7 @@ export function PatientDetailContent() {
   );
   const router = useRouter();
   const [actionError, setActionError] = useState<string | null>(null);
+  const { data: session } = useSession();
 
   const {
     data: patient,
@@ -208,30 +210,57 @@ export function PatientDetailContent() {
 
             <article className="bg-background-secondary rounded-lg p-6">
               <h2 className="text-xl font-semibold text-text-primary mb-4">Inizia la simulazione</h2>
-              <p className="text-text-secondary mb-6">
-                Sei pronto a iniziare l&apos;interazione con {patient.name}? La
-                simulazione ti permette di mettere in pratica le tue competenze
-                cliniche in un ambiente sicuro e controllato.
-              </p>
-              <div className="flex flex-col gap-4 sm:flex-row">
-                <button
-                  type="button"
-                  className="patient-card-button"
-                  onClick={() => {
-                    if (!patient) return;
-                    setActionError(null);
-                    void startTherapySession.mutate({ patientId: patient.id });
-                  }}
-                  disabled={startTherapySession.isPending}
-                  aria-disabled={startTherapySession.isPending}
-                >
-                  {startTherapySession.isPending
-                    ? "Avvio in corso..."
-                    : "Inizia simulazione"}
-                </button>
-              </div>
-              {actionError && (
-                <p className="text-sm text-red-500 mt-4">{actionError}</p>
+              {session ? (
+                <>
+                  <p className="text-text-secondary mb-6">
+                    Sei pronto a iniziare l&apos;interazione con {patient.name}? La
+                    simulazione ti permette di mettere in pratica le tue competenze
+                    cliniche in un ambiente sicuro e controllato.
+                  </p>
+                  <div className="flex flex-col gap-4 sm:flex-row">
+                    <button
+                      type="button"
+                      className="patient-card-button"
+                      onClick={() => {
+                        if (!patient) return;
+                        setActionError(null);
+                        void startTherapySession.mutate({ patientId: patient.id });
+                      }}
+                      disabled={startTherapySession.isPending}
+                      aria-disabled={startTherapySession.isPending}
+                    >
+                      {startTherapySession.isPending
+                        ? "Avvio in corso..."
+                        : "Inizia simulazione"}
+                    </button>
+                  </div>
+                  {actionError && (
+                    <p className="text-sm text-red-500 mt-4">{actionError}</p>
+                  )}
+                </>
+              ) : (
+                <>
+                  <p className="text-text-secondary mb-6">
+                    Per iniziare l&apos;interazione con {patient.name} e accedere alla
+                    simulazione terapeutica, è necessario effettuare l&apos;accesso.
+                    La simulazione ti permetterà di mettere in pratica le tue competenze
+                    cliniche in un ambiente sicuro e controllato.
+                  </p>
+                  <div className="flex flex-col gap-4 sm:flex-row">
+                    <Link
+                      href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}`)}`}
+                      className="patient-card-button text-center"
+                    >
+                      Accedi per iniziare la simulazione
+                    </Link>
+                    <Link
+                      href="/register"
+                      className="patient-card-button text-center bg-background-tertiary text-text-primary hover:bg-background-quaternary"
+                    >
+                      Registrati
+                    </Link>
+                  </div>
+                </>
               )}
             </article>
           </section>
