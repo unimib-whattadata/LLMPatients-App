@@ -60,7 +60,7 @@ export default async function Home() {
             <div className="home-footer-column">
               <h3>Contatti</h3>
               <ul itemScope itemType="https://schema.org/Person">
-                <li itemProp="email">marco.cremaschi@unimib.it</li>
+                <li itemProp="email">llmpatient@unimib.it</li>
                 <meta itemProp="name" content="Marco Cremaschi" />
                 <meta itemProp="jobTitle" content="Ricercatore" />
                 <meta
@@ -72,7 +72,6 @@ export default async function Home() {
           </div>
 
           <div className="home-footer-bottom">
-            <p>Copyright 2025 Whattadata S.r.l. Tutti i diritti riservati.</p>
             <div className="home-footer-links">
               <Link href="#">Privacy Policy</Link>
               <Link href="#">Termini e condizioni</Link>

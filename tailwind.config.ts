@@ -8,11 +8,11 @@ export default {
       // Keep only essential theme extensions that can't be handled in CSS
       fontFamily: {
         sans: [
-          "Merriweather",
+          "Inter",
           "var(--font-geist-sans)",
           "ui-sans-serif",
           "system-ui",
-          "serif",
+          "sans-serif",
         ],
       },
     },
