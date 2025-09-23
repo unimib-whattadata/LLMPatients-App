@@ -36,15 +36,7 @@ export function getNavSections(
 
   // If impersonating, always show user navigation
   if (impersonation?.isImpersonating) {
-    return [
-      {
-        title: "Simulazioni",
-        items: [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
-        ]
-      }
-    ];
+    return [];
   }
 
   // For admins, show admin navigation with separate sections
@@ -89,13 +81,6 @@ export function getNavSections(
           { label: "Panoramica", href: "/dashboard/user?section=overview", icon: HomeIcon },
           { label: "Il Mio Profilo", href: "/dashboard/user?section=profile", icon: UserCircleIcon },
           { label: "La Mia Attività", href: "/dashboard/user?section=activities", icon: ClockIcon },
-        ]
-      },
-      {
-        title: "Simulazioni",
-        items: [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
         ]
       },
       {
