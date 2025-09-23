@@ -272,12 +272,12 @@ const TimelineStep = memo(
     <div
       key={step.id}
       style={{
-        top: `${step.scaledTop}px`,
-        left: `${step.scaledLeft}px`,
+        top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
+        left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         backgroundColor: isCompleted ? "#22C55E" : step.color, // Green for completed steps
         color: isCompleted ? "white" : (step.textColor ?? "#0b0d06"),
-        width: `${circleSize}px`,
-        height: `${circleSize}px`,
+        width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
+        height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         fontSize: `${circleFontSize}px`,
         opacity: isUnlocked ? 1 : 0.35,
         filter: isUnlocked ? undefined : "grayscale(60%)",
@@ -406,29 +406,9 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   const router = useRouter();
   const sessionId = normalizeParam(params.sessionId);
 
-  const [timelineScale, setTimelineScale] = useState<number>(1);
   const timelineContainerRef = useRef<HTMLDivElement>(null);
 
-  // Timeline scaling
-  useEffect(() => {
-    const element = timelineContainerRef.current;
-    if (!element) return;
-
-    const updateScale = () => {
-      const width = element.clientWidth;
-      if (width === 0) return;
-      setTimelineScale(width / TIMELINE_CONFIG.BASE_WIDTH);
-    };
-
-    updateScale();
-
-    if (typeof ResizeObserver === "undefined") return;
-
-    const observer = new ResizeObserver(updateScale);
-    observer.observe(element);
-
-    return () => observer.disconnect();
-  }, []);
+  // Timeline scaling - removed JavaScript scaling in favor of CSS-based scaling
 
   const {
     data: therapySession,
@@ -512,33 +492,19 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
 
   // Computed values - must be before early return to maintain hook order
 
-  const scaledStepPositions = useMemo(
+  // Use original positions and sizes - CSS will handle scaling
+  const stepPositions = useMemo(
     () =>
       timelineSteps.map((step) => ({
         ...step,
-        scaledTop: step.top * timelineScale,
-        scaledLeft: (step.left + TIMELINE_CONFIG.NODE_OFFSET_X) * timelineScale,
+        scaledTop: step.top,
+        scaledLeft: step.left + TIMELINE_CONFIG.NODE_OFFSET_X,
       })),
-    [timelineScale],
+    [],
   );
 
-  const circleSize = useMemo(
-    () =>
-      Math.max(
-        TIMELINE_CONFIG.MIN_CIRCLE_SIZE,
-        TIMELINE_CONFIG.MAX_CIRCLE_SIZE * timelineScale,
-      ),
-    [timelineScale],
-  );
-
-  const circleFontSize = useMemo(
-    () =>
-      Math.max(
-        TIMELINE_CONFIG.MIN_FONT_SIZE,
-        TIMELINE_CONFIG.MAX_FONT_SIZE * timelineScale,
-      ),
-    [timelineScale],
-  );
+  const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
+  const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
 
 
   if (!sessionId) {
@@ -738,7 +704,7 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                 <div
                   className="absolute inset-0 z-10"
                 >
-                  {scaledStepPositions.map((step) => (
+                  {stepPositions.map((step) => (
                     <TimelineStep
                       key={step.id}
                       step={step}
