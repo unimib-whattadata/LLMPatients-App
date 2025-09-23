@@ -1,7 +1,6 @@
 {
   "id": "juanita-delgado",
   "name": "Juanita Delgado",
-  "description": "A 33-year-old single woman with borderline personality disorder and major depression, struggling with identity issues, self-harm behaviors, and chronic social isolation.",
   "small_description": "Personality Disorder",
   "details": {
     "demographic_sociocultural_information": {
@@ -13,104 +12,104 @@
       "spoken_language": "Not reported; therapy conducted in English.",
       "migration_status": "Second-generation immigrant background; born and raised locally with immigrant parents."
     },
-  "family_social_history": {
-    "developmental_family_dynamics": "Middle of three siblings in a high-achieving household where her father prioritized success, fostering chronic feelings of isolation and anger.",
-    "current_parent_relationships": "Ambivalent view of her father, describing him as both a spectacular success and a manipulative loser; no details provided about her mother.",
-    "childhood_experiences": "Felt isolated throughout school, experienced recurrent depressed mood, and was known for angry outbursts.",
-    "abuse_history": "No abuse disclosed."
-  },
-  "family_social_context": {
-    "social_support_overview": "Limited in-person support; has been socially isolated for months with minimal engagement.",
-    "support_network": "Maintains superficial contact with former college peers through social media; views most neighborhood friends negatively."
-  },
-  "education_and_employment": {
-    "education_level": "Completed high school with strong academics; withdrew from college after conflicts with a roommate and a professor.",
-    "employment_history": "Multiple internships and entry-level positions ended abruptly due to perceived disrespect from supervisors; currently unemployed.",
-    "housing_stability": "Lives alone in her apartment; housing appears stable but isolating.",
-    "financial_situation": "Financially strained by unemployment and excessive online shopping beyond her means.",
-    "hobbies_interests": "Passively watches television and shops online; no sustaining hobbies reported."
-  },
-  "psychological_profile_and_cognitive_functioning": {
-    "current_and_past_psychiatric_diagnoses": "Borderline personality disorder and major depressive disorder; persistent depressive disorder to be ruled in if symptoms persist beyond two years.",
-    "main_symptoms": "Depressed mood, anergia, overeating, chronic suicidal ideation, poor hygiene, episodic 1-2 day energized periods followed by crashes, anger dysregulation, and social withdrawal.",
-    "emotional_reactions_and_mood": "Generally dysphoric with constricted affect, alternating shame and reactive anger, and brief energized episodes.",
-    "auto_hetero_directed_aggression": "Engages in superficial cutting, has attempted overdoses, and externalizes anger toward perceived slights from others.",
-    "self_perception_and_identity": "Sees herself as both inadequate and destined for greatness, reflecting identity diffusion and unstable self-image.",
-    "psychiatric_comorbidities": "Co-occurring depressive symptoms; bipolar disorder considered but criteria not met.",
-    "self_esteem": "Chronically low self-esteem punctuated by grandiose self-beliefs.",
-    "sense_of_self_and_others": "Splitting and projection shape views of self and others as either exceptional or malicious.",
-    "identity_disturbances": "Pronounced identity diffusion consistent with borderline personality organization.",
-    "cognitive_style": "Rigid, accusatory thinking with externalization of blame toward authority figures.",
-    "cognitive_schemas": "Dominated by mistrust, expectations of betrayal, and fear of failure.",
-    "attachment_style": "Fearful-avoidant; avoids intimacy due to anxiety and distrust.",
-    "executive_functioning": "Capable of coherent planning in session but struggles to sustain effort and follow-through in work and daily structure during mood episodes.",
-    "memory": "No memory impairments reported.",
-    "attention_and_concentration": "Not formally assessed; likely fluctuates with mood and sleep disruption.",
-    "sensory_perception": "Reality testing generally intact; no hallucinations reported.",
-    "higher_cognitive_functions": "Thought processes remain coherent and goal directed despite affective volatility."
-  },
-  "coping_mechanisms_and_defenses": {
-    "coping_strategies": "Relies on withdrawal, extended bed rest, passive media consumption, and compulsive online shopping; lacks adaptive coping tools.",
-    "defense_mechanisms": "Splitting, projection, devaluation of others, and idealization of her own potential."
-  },
-  "dysfunctional_behaviors_and_risk": {
-    "self_harm_and_suicidality": "Superficial self-cutting, persistent thoughts of death, and three hospitalizations following overdoses.",
-    "substance_abuse": "No substance use issues reported.",
-    "avoidance_behaviors": "Avoids social contact, intimacy, and sustained employment; spends extended periods isolated at home.",
-    "impulsive_and_risky_behaviors": "Compulsive spending, abrupt job resignations, and explosive anger reactions to perceived slights.",
-    "morality": "Rigid moral judgments with strong resentment toward perceived manipulation; no antisocial conduct noted."
-  },
-  "social_relationships_and_interactions": {
-    "friendships": "Few active friendships; maintains distant online connections with former classmates while dismissing local peers.",
-    "romantic_relationships": "Past dating limited by anxiety around physical closeness; currently not in a romantic relationship.",
-    "sexual_relationships": "Avoids sexual intimacy due to heightened anxiety and mistrust.",
-    "family_interactions": "History of angry outbursts within family and lasting resentment toward her father.",
-    "peer_and_colleague_relationships": "Pattern of conflict with supervisors and colleagues whom she perceives as disrespectful or manipulative.",
-    "social_media_behavior": "Uses social media to stay connected superficially and to idealize the successes of distant acquaintances."
-  },
-  "treatments_and_interventions": {
-    "previous_therapeutic_experiences": "Multiple psychotherapy attempts with minimal perceived benefit.",
-    "treatment_progress_and_resistance": "Chronic treatment resistance marked by mistrust, anger at providers, and limited insight into interpersonal patterns.",
-    "therapeutic_goals": "Stabilize mood, reduce self-harm risk, rebuild daily functioning, and develop sustainable social connections.",
-    "pharmacological_history": "Trials of mood stabilizers, antidepressants, and low-dose antipsychotics with limited effectiveness.",
-    "medication_response": "Reports little relief from prescribed medications and frequently discontinues due to perceived ineffectiveness.",
-    "hospitalization_history": "Psychiatrically hospitalized three times following intentional overdoses.",
-    "hospitalization_details": "Inpatient admissions for stabilization after overdoses; specific facilities and durations not provided.",
-    "emergency_room_visits": "Emergency care sought during overdose episodes; frequency beyond hospitalizations not documented.",
-    "historical_psychiatric_diagnoses": "Diagnosed with borderline personality disorder and major depressive disorder; bipolar spectrum ruled out."
-  },
-  "clinical_judgment_and_decision_capacities": {
-    "judgment_capacity": "Judgment fluctuates; generally intact but compromised when she perceives disrespect or abandonment.",
-    "insight_awareness": "Aware of depressive symptoms yet minimizes her role in interpersonal conflicts and projects blame outward.",
-    "impulse_control": "Notably poor during affective surges, leading to self-harm and abrupt decisions.",
-    "self_control": "Limited under stress though can remain cooperative and coherent during structured interviews."
-  },
-  "resilience_and_psychological_wellbeing": {
-    "psychological_resilience": "Low resilience with prolonged periods of withdrawal and difficulty recovering from setbacks.",
-    "self_compassion": "Very limited; oscillates between self-loathing and grandiose self-expectations.",
-    "life_satisfaction": "Reports pervasive dissatisfaction with life and achievements.",
-    "personal_growth": "Stagnant personal development despite aspirations for greatness.",
-    "sense_of_coherence": "Fragmented narrative with inconsistent integration of self and others.",
-    "sense_of_control_or_empowerment": "Feels powerless when dependent on others and attempts to regain control by quitting roles and relationships.",
-    "hope_for_future": "Ambivalent; combines despair with fantasies of future accomplishments.",
-    "long_term_life_goals": "Dreams of doing something great but lacks concrete plans or steps."
-  },
-  "medical_and_physical_history": {
-    "pre_existing_medical_conditions": "No medical conditions reported.",
-    "pharmacological_treatments": "Currently prescribed mood stabilizers, antidepressants, and low-dose antipsychotics, though adherence is unclear.",
-    "allergies": "Not reported.",
-    "lifestyle": "Sedentary, spends much of the day in bed, with poor personal hygiene and limited daily structure.",
-    "general_physical_health": "No major illnesses noted but physical self-care is compromised.",
-    "sleep_patterns": "Irregular sleep with all-nighters during brief energized periods followed by 12-hour crashes and extended daytime bedrest.",
-    "eating_habits": "Heavy reliance on junk food and overeating, especially during depressive episodes."
-  },
-  "social_and_environmental_context": {
-    "community_social_support": "Minimal involvement with community resources or support systems.",
-    "housing_conditions": "Lives alone in an apartment that serves as both refuge and site of prolonged isolation.",
-    "social_security": "Unemployed with unclear access to financial assistance or benefits.",
-    "social_cohesion": "Feels disconnected from neighbors and broader community.",
-    "social_determinants_of_mental_health": "Chronic unemployment, financial strain, social isolation, and familial achievement pressure exacerbate symptoms."
-  },
+    "family_social_history": {
+      "developmental_family_dynamics": "Middle of three siblings in a high-achieving household where her father prioritized success, fostering chronic feelings of isolation and anger.",
+      "current_parent_relationships": "Ambivalent view of her father, describing him as both a spectacular success and a manipulative loser; no details provided about her mother.",
+      "childhood_experiences": "Felt isolated throughout school, experienced recurrent depressed mood, and was known for angry outbursts.",
+      "abuse_history": "No abuse disclosed."
+    },
+    "family_social_context": {
+      "social_support_overview": "Limited in-person support; has been socially isolated for months with minimal engagement.",
+      "support_network": "Maintains superficial contact with former college peers through social media; views most neighborhood friends negatively."
+    },
+    "education_and_employment": {
+      "education_level": "Completed high school with strong academics; withdrew from college after conflicts with a roommate and a professor.",
+      "employment_history": "Multiple internships and entry-level positions ended abruptly due to perceived disrespect from supervisors; currently unemployed.",
+      "housing_stability": "Lives alone in her apartment; housing appears stable but isolating.",
+      "financial_situation": "Financially strained by unemployment and excessive online shopping beyond her means.",
+      "hobbies_interests": "Passively watches television and shops online; no sustaining hobbies reported."
+    },
+    "psychological_profile_and_cognitive_functioning": {
+      "current_and_past_psychiatric_diagnoses": "Borderline personality disorder and major depressive disorder; persistent depressive disorder to be ruled in if symptoms persist beyond two years.",
+      "main_symptoms": "Depressed mood, anergia, overeating, chronic suicidal ideation, poor hygiene, episodic 1-2 day energized periods followed by crashes, anger dysregulation, and social withdrawal.",
+      "emotional_reactions_and_mood": "Generally dysphoric with constricted affect, alternating shame and reactive anger, and brief energized episodes.",
+      "auto_hetero_directed_aggression": "Engages in superficial cutting, has attempted overdoses, and externalizes anger toward perceived slights from others.",
+      "self_perception_and_identity": "Sees herself as both inadequate and destined for greatness, reflecting identity diffusion and unstable self-image.",
+      "psychiatric_comorbidities": "Co-occurring depressive symptoms; bipolar disorder considered but criteria not met.",
+      "self_esteem": "Chronically low self-esteem punctuated by grandiose self-beliefs.",
+      "sense_of_self_and_others": "Splitting and projection shape views of self and others as either exceptional or malicious.",
+      "identity_disturbances": "Pronounced identity diffusion consistent with borderline personality organization.",
+      "cognitive_style": "Rigid, accusatory thinking with externalization of blame toward authority figures.",
+      "cognitive_schemas": "Dominated by mistrust, expectations of betrayal, and fear of failure.",
+      "attachment_style": "Fearful-avoidant; avoids intimacy due to anxiety and distrust.",
+      "executive_functioning": "Capable of coherent planning in session but struggles to sustain effort and follow-through in work and daily structure during mood episodes.",
+      "memory": "No memory impairments reported.",
+      "attention_and_concentration": "Not formally assessed; likely fluctuates with mood and sleep disruption.",
+      "sensory_perception": "Reality testing generally intact; no hallucinations reported.",
+      "higher_cognitive_functions": "Thought processes remain coherent and goal directed despite affective volatility."
+    },
+    "coping_mechanisms_and_defenses": {
+      "coping_strategies": "Relies on withdrawal, extended bed rest, passive media consumption, and compulsive online shopping; lacks adaptive coping tools.",
+      "defense_mechanisms": "Splitting, projection, devaluation of others, and idealization of her own potential."
+    },
+    "dysfunctional_behaviors_and_risk": {
+      "self_harm_and_suicidality": "Superficial self-cutting, persistent thoughts of death, and three hospitalizations following overdoses.",
+      "substance_abuse": "No substance use issues reported.",
+      "avoidance_behaviors": "Avoids social contact, intimacy, and sustained employment; spends extended periods isolated at home.",
+      "impulsive_and_risky_behaviors": "Compulsive spending, abrupt job resignations, and explosive anger reactions to perceived slights.",
+      "morality": "Rigid moral judgments with strong resentment toward perceived manipulation; no antisocial conduct noted."
+    },
+    "social_relationships_and_interactions": {
+      "friendships": "Few active friendships; maintains distant online connections with former classmates while dismissing local peers.",
+      "romantic_relationships": "Past dating limited by anxiety around physical closeness; currently not in a romantic relationship.",
+      "sexual_relationships": "Avoids sexual intimacy due to heightened anxiety and mistrust.",
+      "family_interactions": "History of angry outbursts within family and lasting resentment toward her father.",
+      "peer_and_colleague_relationships": "Pattern of conflict with supervisors and colleagues whom she perceives as disrespectful or manipulative.",
+      "social_media_behavior": "Uses social media to stay connected superficially and to idealize the successes of distant acquaintances."
+    },
+    "treatments_and_interventions": {
+      "previous_therapeutic_experiences": "Multiple psychotherapy attempts with minimal perceived benefit.",
+      "treatment_progress_and_resistance": "Chronic treatment resistance marked by mistrust, anger at providers, and limited insight into interpersonal patterns.",
+      "therapeutic_goals": "Stabilize mood, reduce self-harm risk, rebuild daily functioning, and develop sustainable social connections.",
+      "pharmacological_history": "Trials of mood stabilizers, antidepressants, and low-dose antipsychotics with limited effectiveness.",
+      "medication_response": "Reports little relief from prescribed medications and frequently discontinues due to perceived ineffectiveness.",
+      "hospitalization_history": "Psychiatrically hospitalized three times following intentional overdoses.",
+      "hospitalization_details": "Inpatient admissions for stabilization after overdoses; specific facilities and durations not provided.",
+      "emergency_room_visits": "Emergency care sought during overdose episodes; frequency beyond hospitalizations not documented.",
+      "historical_psychiatric_diagnoses": "Diagnosed with borderline personality disorder and major depressive disorder; bipolar spectrum ruled out."
+    },
+    "clinical_judgment_and_decision_capacities": {
+      "judgment_capacity": "Judgment fluctuates; generally intact but compromised when she perceives disrespect or abandonment.",
+      "insight_awareness": "Aware of depressive symptoms yet minimizes her role in interpersonal conflicts and projects blame outward.",
+      "impulse_control": "Notably poor during affective surges, leading to self-harm and abrupt decisions.",
+      "self_control": "Limited under stress though can remain cooperative and coherent during structured interviews."
+    },
+    "resilience_and_psychological_wellbeing": {
+      "psychological_resilience": "Low resilience with prolonged periods of withdrawal and difficulty recovering from setbacks.",
+      "self_compassion": "Very limited; oscillates between self-loathing and grandiose self-expectations.",
+      "life_satisfaction": "Reports pervasive dissatisfaction with life and achievements.",
+      "personal_growth": "Stagnant personal development despite aspirations for greatness.",
+      "sense_of_coherence": "Fragmented narrative with inconsistent integration of self and others.",
+      "sense_of_control_or_empowerment": "Feels powerless when dependent on others and attempts to regain control by quitting roles and relationships.",
+      "hope_for_future": "Ambivalent; combines despair with fantasies of future accomplishments.",
+      "long_term_life_goals": "Dreams of doing something great but lacks concrete plans or steps."
+    },
+    "medical_and_physical_history": {
+      "pre_existing_medical_conditions": "No medical conditions reported.",
+      "pharmacological_treatments": "Currently prescribed mood stabilizers, antidepressants, and low-dose antipsychotics, though adherence is unclear.",
+      "allergies": "Not reported.",
+      "lifestyle": "Sedentary, spends much of the day in bed, with poor personal hygiene and limited daily structure.",
+      "general_physical_health": "No major illnesses noted but physical self-care is compromised.",
+      "sleep_patterns": "Irregular sleep with all-nighters during brief energized periods followed by 12-hour crashes and extended daytime bedrest.",
+      "eating_habits": "Heavy reliance on junk food and overeating, especially during depressive episodes."
+    },
+    "social_and_environmental_context": {
+      "community_social_support": "Minimal involvement with community resources or support systems.",
+      "housing_conditions": "Lives alone in an apartment that serves as both refuge and site of prolonged isolation.",
+      "social_security": "Unemployed with unclear access to financial assistance or benefits.",
+      "social_cohesion": "Feels disconnected from neighbors and broader community.",
+      "social_determinants_of_mental_health": "Chronic unemployment, financial strain, social isolation, and familial achievement pressure exacerbate symptoms."
+    },
     "test_session_behavior": {
       "recurring_dynamics": "Displays sensitivity to perceived slights, reacting with anger when the clinician glanced at the clock, consistent with borderline transference patterns.",
       "prevalent_emotions": "Dysphoria, shame, irritability, and guarded hopefulness surfaced during the session.",
@@ -119,7 +118,7 @@
     }
   },
   "background": "A 33-year-old Hispanic woman with a complex psychological profile presenting with borderline personality disorder and major depressive disorder. She has a history of multiple treatment attempts, self-harm behaviors, and social isolation. Her background includes an upper-middle-class immigrant family that emphasized professional achievement, contributing to her current struggles with identity, relationships, and career stability.",
-  "objectives": "[\"Stabilize mood and reduce depressive symptoms\", \"Develop healthy coping mechanisms\", \"Improve interpersonal relationships and social functioning\", \"Address self-harm behaviors and suicidal ideation\", \"Build sustainable daily routines and work habits\", \"Enhance self-awareness and emotional regulation\"]",
+  "objectives": ["Stabilize mood and reduce depressive symptoms", "Develop healthy coping mechanisms", "Improve interpersonal relationships and social functioning", "Address self-harm behaviors and suicidal ideation", "Build sustainable daily routines and work habits", "Enhance self-awareness and emotional regulation"],
   "avatarUrl": "/images/patients/juanita.png",
   "avatarType": "illustration",
   "difficulty": "Difficile",

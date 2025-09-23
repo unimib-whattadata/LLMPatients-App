@@ -1,13 +1,17 @@
 {
+  "id": "todd",
   "name": "Todd",
-  "description": "A 28-year-old single man with generalized anxiety disorder, experiencing social withdrawal, avoidance behaviors, and difficulty managing daily activities since childhood trauma.",
   "small_description": "Anxiety Disorder",
+  "background": "A 28-year-old single man with generalized anxiety disorder, experiencing social withdrawal, avoidance behaviors, and difficulty managing daily activities since childhood trauma.",
+  "objectives": ["Reduce pervasive anxiety", "Restore daily functioning and self-care", "Improve sleep", "Expand social engagement"],
+  "tags": ["Anxiety", "Social Withdrawal", "Avoidance"],
   "avatarUrl": "/images/patients/todd.png",
   "avatarType": "illustration",
   "difficulty": "Medio",
   "estimatedDuration": 45,
   "isActive": true,
-  "demographic_sociocultural_information": {
+  "details": {
+    "demographic_sociocultural_information": {
     "age": "28",
     "gender": "Male",
     "marital_status": "Single",
@@ -115,9 +119,10 @@
     "social_determinants_of_mental_health": "Early parental loss, financial instability in childhood, current isolation, and limited support exacerbate anxiety."
   },
   "test_session_behavior": {
-    "recurring_dynamics": "Reluctant to disclose distress due to embarrassment; presents when prompted by neighbor concern and tends to minimize needs with family.",
-    "prevalent_emotions": "Anxiety, fear, irritability, and shame regarding functional decline.",
-    "speech_characteristics": "Soft-spoken, coherent, goal-directed though hesitant when discussing anxiety triggers.",
-    "nonverbal_communication": "Arrived disheveled with reduced eye contact and psychomotor agitation consistent with reported anxiety."
+      "recurring_dynamics": "Reluctant to disclose distress due to embarrassment; presents when prompted by neighbor concern and tends to minimize needs with family.",
+      "prevalent_emotions": "Anxiety, fear, irritability, and shame regarding functional decline.",
+      "speech_characteristics": "Soft-spoken, coherent, goal-directed though hesitant when discussing anxiety triggers.",
+      "nonverbal_communication": "Arrived disheveled with reduced eye contact and psychomotor agitation consistent with reported anxiety."
+    }
   }
 }
