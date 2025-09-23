@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "865dba06-6ae1-449d-8d38-f6f1a4d1e9fb",
+  "id": "4cd2e7b1-9006-4e14-bc04-8c43104fd6ed",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "epatient_account": {
@@ -118,6 +118,79 @@
           "name": "epatient_account_provider_providerAccountId_pk"
         }
       },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "epatient_chat": {
+      "name": "epatient_chat",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "virtualPatientId": {
+          "name": "virtualPatientId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "epatient_chat_userId_epatient_user_id_fk": {
+          "name": "epatient_chat_userId_epatient_user_id_fk",
+          "tableFrom": "epatient_chat",
+          "tableTo": "epatient_user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "epatient_chat_virtualPatientId_epatient_patient_id_fk": {
+          "name": "epatient_chat_virtualPatientId_epatient_patient_id_fk",
+          "tableFrom": "epatient_chat",
+          "tableTo": "epatient_patient",
+          "columnsFrom": [
+            "virtualPatientId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
@@ -369,6 +442,101 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "epatient_message": {
+      "name": "epatient_message",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "chatId": {
+          "name": "chatId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "senderId": {
+          "name": "senderId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        }
+      },
+      "indexes": {
+        "message_chat_id_idx": {
+          "name": "message_chat_id_idx",
+          "columns": [
+            "chatId"
+          ],
+          "isUnique": false
+        },
+        "message_sender_id_idx": {
+          "name": "message_sender_id_idx",
+          "columns": [
+            "senderId"
+          ],
+          "isUnique": false
+        },
+        "message_created_at_idx": {
+          "name": "message_created_at_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "epatient_message_chatId_epatient_chat_id_fk": {
+          "name": "epatient_message_chatId_epatient_chat_id_fk",
+          "tableFrom": "epatient_message",
+          "tableTo": "epatient_chat",
+          "columnsFrom": [
+            "chatId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "epatient_message_senderId_epatient_user_id_fk": {
+          "name": "epatient_message_senderId_epatient_user_id_fk",
+          "tableFrom": "epatient_message",
+          "tableTo": "epatient_user",
+          "columnsFrom": [
+            "senderId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "epatient_patient_tag_relation": {
       "name": "epatient_patient_tag_relation",
       "columns": {
@@ -404,10 +572,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_patient_tag_relation_patientId_epatient_virtual_patient_id_fk": {
-          "name": "epatient_patient_tag_relation_patientId_epatient_virtual_patient_id_fk",
+        "epatient_patient_tag_relation_patientId_epatient_patient_id_fk": {
+          "name": "epatient_patient_tag_relation_patientId_epatient_patient_id_fk",
           "tableFrom": "epatient_patient_tag_relation",
-          "tableTo": "epatient_virtual_patient",
+          "tableTo": "epatient_patient",
           "columnsFrom": [
             "patientId"
           ],
@@ -505,6 +673,133 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "epatient_patient": {
+      "name": "epatient_patient",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text(500)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "details": {
+          "name": "details",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "background": {
+          "name": "background",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "objectives": {
+          "name": "objectives",
+          "type": "text(2000)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "avatarUrl": {
+          "name": "avatarUrl",
+          "type": "text(500)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "avatarType": {
+          "name": "avatarType",
+          "type": "text(20)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'illustration'"
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "estimatedDuration": {
+          "name": "estimatedDuration",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 30
+        },
+        "isActive": {
+          "name": "isActive",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "virtual_patient_difficulty_idx": {
+          "name": "virtual_patient_difficulty_idx",
+          "columns": [
+            "difficulty"
+          ],
+          "isUnique": false
+        },
+        "virtual_patient_active_idx": {
+          "name": "virtual_patient_active_idx",
+          "columns": [
+            "isActive"
+          ],
+          "isUnique": false
+        },
+        "virtual_patient_created_at_idx": {
+          "name": "virtual_patient_created_at_idx",
+          "columns": [
+            "createdAt"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "epatient_session": {
       "name": "epatient_session",
       "columns": {
@@ -546,6 +841,110 @@
           "tableTo": "epatient_user",
           "columnsFrom": [
             "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "epatient_therapy_session": {
+      "name": "epatient_therapy_session",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text(255)",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "patientId": {
+          "name": "patientId",
+          "type": "text(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "sessionNumber": {
+          "name": "sessionNumber",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 1
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(unixepoch())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "therapy_session_user_idx": {
+          "name": "therapy_session_user_idx",
+          "columns": [
+            "userId"
+          ],
+          "isUnique": false
+        },
+        "therapy_session_patient_idx": {
+          "name": "therapy_session_patient_idx",
+          "columns": [
+            "patientId"
+          ],
+          "isUnique": false
+        },
+        "therapy_session_user_patient_idx": {
+          "name": "therapy_session_user_patient_idx",
+          "columns": [
+            "userId",
+            "patientId"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "epatient_therapy_session_userId_epatient_user_id_fk": {
+          "name": "epatient_therapy_session_userId_epatient_user_id_fk",
+          "tableFrom": "epatient_therapy_session",
+          "tableTo": "epatient_user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "epatient_therapy_session_patientId_epatient_patient_id_fk": {
+          "name": "epatient_therapy_session_patientId_epatient_patient_id_fk",
+          "tableFrom": "epatient_therapy_session",
+          "tableTo": "epatient_patient",
+          "columnsFrom": [
+            "patientId"
           ],
           "columnsTo": [
             "id"
@@ -730,140 +1129,6 @@
           "name": "epatient_verification_token_identifier_token_pk"
         }
       },
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "epatient_virtual_patient": {
-      "name": "epatient_virtual_patient",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text(255)",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "age": {
-          "name": "age",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "gender": {
-          "name": "gender",
-          "type": "text(20)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "condition": {
-          "name": "condition",
-          "type": "text(500)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "background": {
-          "name": "background",
-          "type": "text(2000)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "objectives": {
-          "name": "objectives",
-          "type": "text(2000)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "avatarUrl": {
-          "name": "avatarUrl",
-          "type": "text(500)",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "avatarType": {
-          "name": "avatarType",
-          "type": "text(20)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'illustration'"
-        },
-        "difficulty": {
-          "name": "difficulty",
-          "type": "text(20)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "estimatedDuration": {
-          "name": "estimatedDuration",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 30
-        },
-        "isActive": {
-          "name": "isActive",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "virtual_patient_difficulty_idx": {
-          "name": "virtual_patient_difficulty_idx",
-          "columns": [
-            "difficulty"
-          ],
-          "isUnique": false
-        },
-        "virtual_patient_active_idx": {
-          "name": "virtual_patient_active_idx",
-          "columns": [
-            "isActive"
-          ],
-          "isUnique": false
-        },
-        "virtual_patient_created_at_idx": {
-          "name": "virtual_patient_created_at_idx",
-          "columns": [
-            "createdAt"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
     }

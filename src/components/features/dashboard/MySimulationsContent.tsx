@@ -7,20 +7,21 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
+import { DIFFICULTY_LEVELS, getDifficultyLabel, getDifficultyIconClass, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 
 interface Simulation {
   id: string;
   title: string;
   patientName: string;
-  difficulty: "Facile" | "Medio" | "Difficile";
+  difficulty: 1 | 2 | 3;
   status: "available" | "in-progress" | "completed";
   progress: number;
   lastAccessed?: string;
   score?: number;
 }
 
-export function MySimulationsContent() {
+function MySimulationsContentComponent() {
   const [filter, setFilter] = useState<string>("all");
 
   // Mock data - in real app this would come from API
@@ -29,7 +30,7 @@ export function MySimulationsContent() {
       id: "1",
       title: "Gestione Ipertensione Acuta",
       patientName: "Mario Rossi",
-      difficulty: "Medio",
+      difficulty: DIFFICULTY_LEVELS.MEDIO,
       status: "completed",
       progress: 100,
       lastAccessed: "2024-09-03",
@@ -39,7 +40,7 @@ export function MySimulationsContent() {
       id: "2",
       title: "Crisi Diabetica",
       patientName: "Laura Bianchi", 
-      difficulty: "Difficile",
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE,
       status: "in-progress",
       progress: 65,
       lastAccessed: "2024-09-03"
@@ -48,7 +49,7 @@ export function MySimulationsContent() {
       id: "3",
       title: "Attacco Asmatico",
       patientName: "Giuseppe Verde",
-      difficulty: "Facile",
+      difficulty: DIFFICULTY_LEVELS.FACILE,
       status: "available",
       progress: 0
     },
@@ -56,13 +57,14 @@ export function MySimulationsContent() {
       id: "4",
       title: "Trauma Cranico",
       patientName: "Anna Neri",
-      difficulty: "Difficile", 
+      difficulty: DIFFICULTY_LEVELS.DIFFICILE, 
       status: "available",
       progress: 0
     }
   ];
 
-  const getStatusBadge = (status: string) => {
+  // Memoized functions
+  const getStatusBadge = useCallback((status: string) => {
     const statusConfig = {
       available: { class: "pill pill--sm status-tag status-tag--available", text: "Disponibile" },
       "in-progress": { class: "pill pill--sm status-tag status-tag--in-progress", text: "In corso" },
@@ -75,51 +77,56 @@ export function MySimulationsContent() {
         {config.text}
       </span>
     );
-  };
+  }, []);
 
-  const getDifficultyClass = (difficulty: string) => {
+  const getDifficultyClass = useCallback((difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case "Medio":
+      case 2:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case "Difficile":
+      case 3:
         return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
       default:
         return "patient-card-difficulty-icon";
     }
-  };
+  }, []);
 
-  const getDifficultyIcon = (difficulty: string) => {
+  const getDifficultyIcon = useCallback((difficulty: number) => {
     switch (difficulty) {
-      case "Facile":
+      case 1:
         return "•";
-      case "Medio":
+      case 2:
         return "••";
-      case "Difficile":
+      case 3:
         return "•••";
       default:
         return "•";
     }
-  };
+  }, []);
 
-  const getDifficultyAccessibleText = (difficulty: string) => {
-    switch (difficulty) {
-      case "Facile":
-        return "Livello facile";
-      case "Medio":
-        return "Livello medio";
-      case "Difficile":
-        return "Livello difficile";
-      default:
-        return "Livello non specificato";
-    }
-  };
+  // Memoized filtered simulations
+  const filteredSimulations = useMemo(() => {
+    if (filter === "all") return simulations;
+    return simulations.filter(sim => sim.status === filter);
+  }, [simulations, filter]);
 
-  const filteredSimulations = simulations.filter(sim => {
-    if (filter === "all") return true;
-    return sim.status === filter;
-  });
+  // Memoized metrics calculation
+  const metrics = useMemo(() => {
+    const completed = simulations.filter(s => s.status === "completed").length;
+    const inProgress = simulations.filter(s => s.status === "in-progress").length;
+    const scoredSimulations = simulations.filter(s => s.score);
+    const averageScore = scoredSimulations.length > 0 
+      ? Math.round(scoredSimulations.reduce((acc, s) => acc + (s.score || 0), 0) / scoredSimulations.length)
+      : 0;
+    
+    return { completed, inProgress, averageScore };
+  }, [simulations]);
+
+  // Memoized filter change handler
+  const handleFilterChange = useCallback((newFilter: string) => {
+    setFilter(newFilter);
+  }, []);
 
   return (
     <div className="dashboard-panel-stack">
@@ -137,21 +144,19 @@ export function MySimulationsContent() {
         <div className="dashboard-metric-grid">
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
-              {simulations.filter(s => s.status === "completed").length}
+              {metrics.completed}
             </div>
             <div className="dashboard-metric-card__label">Simulazioni Completate</div>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
-              {simulations.filter(s => s.status === "in-progress").length}
+              {metrics.inProgress}
             </div>
             <div className="dashboard-metric-card__label">In corso</div>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
-              {simulations.filter(s => s.score).length > 0 
-                ? Math.round(simulations.filter(s => s.score).reduce((acc, s) => acc + (s.score || 0), 0) / simulations.filter(s => s.score).length)
-                : 0}
+              {metrics.averageScore}
             </div>
             <div className="dashboard-metric-card__label">Score Medio</div>
           </div>
@@ -179,7 +184,7 @@ export function MySimulationsContent() {
           ].map((tab) => (
             <button
               key={tab.key}
-              onClick={() => setFilter(tab.key)}
+              onClick={() => handleFilterChange(tab.key)}
               role="tab"
               aria-selected={filter === tab.key}
               className={`pill pill--interactive dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
@@ -217,7 +222,7 @@ export function MySimulationsContent() {
                   >
                     {getDifficultyIcon(simulation.difficulty)}
                   </span>
-                  <span className="text-sm font-medium">{simulation.difficulty}</span>
+                  <span className="text-sm font-medium">{getDifficultyLabel(simulation.difficulty)}</span>
                 </div>
               </div>
 
@@ -297,3 +302,6 @@ export function MySimulationsContent() {
     </div>
   );
 }
+
+// Memoize the component to prevent unnecessary re-renders
+export const MySimulationsContent = memo(MySimulationsContentComponent);

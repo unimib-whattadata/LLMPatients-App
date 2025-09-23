@@ -13,6 +13,9 @@ import type {
   NavItem,
 } from "~/types";
 
+/**
+ * Configuration for layout behavior
+ */
 interface LayoutConfig {
   showSidebar: boolean;
   showFooter: boolean;
@@ -20,6 +23,9 @@ interface LayoutConfig {
   containerClass: string;
 }
 
+/**
+ * Props for the SharedLayout component
+ */
 interface SharedLayoutProps {
   children: React.ReactNode;
   user?: User;
@@ -29,8 +35,24 @@ interface SharedLayoutProps {
 }
 
 /**
- * Shared Layout Component
- * Main layout wrapper that adapts to different page types
+ * SharedLayout Component
+ * 
+ * Main layout wrapper that provides consistent structure across the application.
+ * Adapts its appearance and behavior based on the layout type and user context.
+ * 
+ * Features:
+ * - Responsive navigation with sidebar
+ * - User authentication state handling
+ * - Impersonation support for admin users
+ * - Dynamic page titles and breadcrumbs
+ * - Consistent styling across different page types
+ * 
+ * @param children - Page content to be rendered
+ * @param user - Current user information
+ * @param impersonation - Impersonation context for admin users
+ * @param layoutType - Layout style ("dashboard" or "home")
+ * @param currentPage - Current page identifier for navigation
+ * @returns JSX element containing the complete page layout
  */
 export function SharedLayout({
   children,

@@ -10,21 +10,24 @@ import {
   patientTags,
   patientTagRelations,
 } from "~/server/db/schema";
+import { DIFFICULTY_LEVELS, type DifficultyLevel } from "~/lib/constants/difficulty";
 
 /**
- * Patient type for TypeScript
+ * Patient interface representing a virtual patient in the system
+ * 
+ * Contains all necessary information for patient exploration and therapy sessions.
+ * Includes demographic data, psychological profile, difficulty level, and metadata.
  */
 export interface Patient {
   id: string;
   name: string;
-  age: number;
-  gender: "male" | "female" | "other";
-  condition: string;
+  description: string; // Brief description of the case
+  details: string; // JSON string containing all patient details
   background: string;
   objectives: string[];
   avatarUrl?: string | null;
   avatarType: "photo" | "illustration" | "avatar";
-  difficulty: "Facile" | "Medio" | "Difficile";
+  difficulty: DifficultyLevel;
   estimatedDuration: number;
   isActive: boolean;
   createdAt: Date;
@@ -38,7 +41,10 @@ export interface Patient {
 }
 
 /**
- * Patient Tag type for TypeScript
+ * PatientTag interface representing categorization tags for patients
+ * 
+ * Used to categorize patients by psychological, physical, or behavioral characteristics.
+ * Helps in filtering and organizing patient exploration.
  */
 export interface PatientTag {
   id: string;
@@ -50,17 +56,24 @@ export interface PatientTag {
 
 /**
  * Patients Router
- * Handles all patient exploration and management endpoints
+ * 
+ * Handles all patient exploration and management endpoints.
+ * Provides functionality for browsing, filtering, and retrieving patient information.
  */
 export const patientsRouter = createTRPCRouter({
   /**
    * Get all active virtual patients for exploration page
-   * Public endpoint - no authentication required
+   * 
+   * Public endpoint that returns paginated list of patients with optional filtering.
+   * Supports filtering by difficulty level, tags, and search queries.
+   * 
+   * @param input - Optional filtering and pagination parameters
+   * @returns Array of patient objects with associated tags
    */
   getExplorationPatients: publicProcedure
     .input(
       z.object({
-        difficulty: z.array(z.enum(["Facile", "Medio", "Difficile"])).optional(),
+        difficulty: z.array(z.number().min(1).max(3)).optional(),
         tags: z.array(z.string()).optional(),
         searchQuery: z.string().optional(),
         limit: z.number().min(1).max(50).default(20),
@@ -111,14 +124,13 @@ export const patientsRouter = createTRPCRouter({
       const transformedPatients: Patient[] = patientsData.map((patient) => ({
         id: patient.id,
         name: patient.name,
-        age: patient.age,
-        gender: patient.gender as "male" | "female" | "other",
-        condition: patient.condition,
+        description: patient.description,
+        details: patient.details,
         background: patient.background,
         objectives: JSON.parse(patient.objectives) as string[],
         avatarUrl: patient.avatarUrl,
         avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
-        difficulty: patient.difficulty as "Facile" | "Medio" | "Difficile",
+        difficulty: patient.difficulty as DifficultyLevel,
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
         createdAt: patient.createdAt,
@@ -163,14 +175,13 @@ export const patientsRouter = createTRPCRouter({
       const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
-        age: patient.age,
-        gender: patient.gender as "male" | "female" | "other",
-        condition: patient.condition,
+        description: patient.description,
+        details: patient.details,
         background: patient.background,
         objectives: JSON.parse(patient.objectives) as string[],
         avatarUrl: patient.avatarUrl,
         avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
-        difficulty: patient.difficulty as "Facile" | "Medio" | "Difficile",
+        difficulty: patient.difficulty as DifficultyLevel,
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
         createdAt: patient.createdAt,
@@ -188,7 +199,11 @@ export const patientsRouter = createTRPCRouter({
 
   /**
    * Get all available patient tags
-   * Public endpoint - for filtering and display purposes
+   * 
+   * Public endpoint that returns all patient tags for filtering and display purposes.
+   * Tags are ordered by category and label for consistent UI display.
+   * 
+   * @returns Array of patient tag objects
    */
   getPatientTags: publicProcedure.query(async ({ ctx }) => {
     const tags = await ctx.db.query.patientTags.findMany({
@@ -206,20 +221,24 @@ export const patientsRouter = createTRPCRouter({
 
   /**
    * Create a new virtual patient
-   * Protected endpoint - admin only
+   * 
+   * Protected endpoint for admin users to create new virtual patients.
+   * Validates input data and creates patient with associated tags.
+   * 
+   * @param input - Patient creation data including name, description, details, etc.
+   * @returns Created patient object
    */
   createPatient: protectedProcedure
     .input(
       z.object({
         name: z.string().min(1).max(255),
-        age: z.number().min(1).max(120),
-        gender: z.enum(["male", "female", "other"]),
-        condition: z.string().min(1).max(500),
+        description: z.string().min(1).max(500),
+        details: z.string().min(1), // JSON string containing all patient details
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
         avatarType: z.enum(["photo", "illustration", "avatar"]).default("illustration"),
-        difficulty: z.enum(["Facile", "Medio", "Difficile"]),
+        difficulty: z.number().min(1).max(3),
         estimatedDuration: z.number().min(5).max(180).default(30),
         tagIds: z.array(z.string()).optional(),
       })
@@ -235,9 +254,8 @@ export const patientsRouter = createTRPCRouter({
         .insert(patients)
         .values({
           name: input.name,
-          age: input.age,
-          gender: input.gender,
-          condition: input.condition,
+          description: input.description,
+          details: input.details,
           background: input.background,
           objectives: JSON.stringify(input.objectives),
           avatarUrl: input.avatarUrl,

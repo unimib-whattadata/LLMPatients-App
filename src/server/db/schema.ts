@@ -1,8 +1,18 @@
 import { relations, sql } from "drizzle-orm";
-import { index, primaryKey, sqliteTableCreator } from "drizzle-orm/sqlite-core";
+import {
+  index,
+  primaryKey,
+  sqliteTableCreator,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 // import { type AdapterAccount } from "next-auth/adapters";
 
-// Define AdapterAccount type manually for next-auth v5 beta compatibility
+/**
+ * AdapterAccount type for NextAuth v5 beta compatibility
+ * 
+ * Manually defined type to ensure compatibility with the current NextAuth version.
+ * Contains OAuth provider account information and tokens.
+ */
 type AdapterAccount = {
   type: "oauth" | "email" | "credentials";
   provider: string;
@@ -17,13 +27,22 @@ type AdapterAccount = {
 };
 
 /**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
+ * Table creator for multi-project schema support
+ * 
+ * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'epatient_'.
+ * This allows multiple projects to share the same database instance without conflicts.
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
+
+/**
+ * Users table for authentication and user management
+ * 
+ * Stores user account information including authentication credentials,
+ * profile data, and role-based access control.
+ */
 export const users = createTable("user", (d) => ({
   id: d
     .text({ length: 255 })
@@ -34,10 +53,15 @@ export const users = createTable("user", (d) => ({
   email: d.text({ length: 255 }).notNull(),
   password: d.text({ length: 255 }),
   // Role field for user access control - 'admin' or 'user'
-  role: d.text({ length: 20 }).default('user').notNull(),
+  role: d.text({ length: 20 }).default("user").notNull(),
   emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
   image: d.text({ length: 255 }),
-}));
+}), (t) => [
+  // Indexes for common query patterns
+  index("users_email_idx").on(t.email),
+  index("users_name_idx").on(t.name),
+  index("users_role_idx").on(t.role),
+]);
 
 // Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
 
@@ -205,38 +229,32 @@ export const impersonationAuditLog = createTable(
 );
 
 // Relations for impersonation tables
-export const impersonationSessionsRelations = relations(impersonationSessions, ({ one, many }) => ({
-  adminUser: one(users, {
-    fields: [impersonationSessions.adminUserId],
-    references: [users.id],
-    relationName: "adminImpersonationSessions",
+export const impersonationSessionsRelations = relations(
+  impersonationSessions,
+  ({ one, many }) => ({
+    adminUser: one(users, {
+      fields: [impersonationSessions.adminUserId],
+      references: [users.id],
+      relationName: "adminImpersonationSessions",
+    }),
+    targetUser: one(users, {
+      fields: [impersonationSessions.targetUserId],
+      references: [users.id],
+      relationName: "targetImpersonationSessions",
+    }),
+    auditLogs: many(impersonationAuditLog),
   }),
-  targetUser: one(users, {
-    fields: [impersonationSessions.targetUserId],
-    references: [users.id],
-    relationName: "targetImpersonationSessions",
-  }),
-  auditLogs: many(impersonationAuditLog),
-}));
+);
 
-export const impersonationAuditLogRelations = relations(impersonationAuditLog, ({ one }) => ({
-  impersonationSession: one(impersonationSessions, {
-    fields: [impersonationAuditLog.impersonationSessionId],
-    references: [impersonationSessions.id],
+export const impersonationAuditLogRelations = relations(
+  impersonationAuditLog,
+  ({ one }) => ({
+    impersonationSession: one(impersonationSessions, {
+      fields: [impersonationAuditLog.impersonationSessionId],
+      references: [impersonationSessions.id],
+    }),
   }),
-}));
-
-// Add relations to users for impersonation
-export const extendedUsersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-  activities: many(userActivities),
-  adminImpersonationSessions: many(impersonationSessions, {
-    relationName: "adminImpersonationSessions",
-  }),
-  targetImpersonationSessions: many(impersonationSessions, {
-    relationName: "targetImpersonationSessions",
-  }),
-}));
+);
 
 // Patients table for patient exploration page
 export const patients = createTable(
@@ -248,14 +266,13 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    age: d.integer({ mode: "number" }).notNull(),
-    gender: d.text({ length: 20 }).notNull(), // 'male', 'female', 'other'
-    condition: d.text({ length: 500 }).notNull(),
+    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default('illustration').notNull(), // 'photo', 'illustration', 'avatar'
-    difficulty: d.text({ length: 20 }).notNull(), // 'Facile', 'Medio', 'Difficile'
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
+    difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
     estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
     createdAt: d
@@ -268,6 +285,7 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
+    index("virtual_patient_name_idx").on(t.name), // For LIKE searches
   ],
 );
 
@@ -282,7 +300,7 @@ export const patientTags = createTable(
       .$defaultFn(() => crypto.randomUUID()),
     label: d.text({ length: 100 }).notNull(),
     category: d.text({ length: 50 }).notNull(), // 'psychological', 'physical', 'behavioral'
-    color: d.text({ length: 20 }).default('#gray').notNull(),
+    color: d.text({ length: 20 }).default("#gray").notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
@@ -317,19 +335,120 @@ export const patientTagRelations = createTable(
 // Relations for patients
 export const patientsRelations = relations(patients, ({ many }) => ({
   tagRelations: many(patientTagRelations),
+  therapySessions: many(therapySessions),
 }));
 
 export const patientTagsRelations = relations(patientTags, ({ many }) => ({
   patientRelations: many(patientTagRelations),
 }));
 
-export const patientTagRelationsRelations = relations(patientTagRelations, ({ one }) => ({
-  patient: one(patients, {
-    fields: [patientTagRelations.patientId],
-    references: [patients.id],
+export const patientTagRelationsRelations = relations(
+  patientTagRelations,
+  ({ one }) => ({
+    patient: one(patients, {
+      fields: [patientTagRelations.patientId],
+      references: [patients.id],
+    }),
+    tag: one(patientTags, {
+      fields: [patientTagRelations.tagId],
+      references: [patientTags.id],
+    }),
   }),
-  tag: one(patientTags, {
-    fields: [patientTagRelations.tagId],
-    references: [patientTags.id],
+);
+
+
+export const usersRelations = relations(users, ({ many }) => ({}));
+export const therapySessions = createTable(
+  "therapy_session",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id),
+    patientId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => patients.id),
+    sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
   }),
+  (t) => [
+    index("therapy_session_user_idx").on(t.userId),
+    index("therapy_session_patient_idx").on(t.patientId),
+    index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
+    uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
+  ],
+);
+
+export const therapySessionsRelations = relations(
+  therapySessions,
+  ({ one, many }) => ({
+    user: one(users, {
+      fields: [therapySessions.userId],
+      references: [users.id],
+    }),
+    patient: one(patients, {
+      fields: [therapySessions.patientId],
+      references: [patients.id],
+    }),
+    chats: many(chat),
+  }),
+);
+
+// Chat table for storing chat conversations per step
+export const chat = createTable(
+  "chat",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    therapySessionId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => therapySessions.id, { onDelete: "cascade" }),
+    stepNumber: d.integer({ mode: "number" }).notNull(), // 1, 2, 3, etc.
+    messages: d.text().notNull(), // JSON string containing chat messages
+    done: d.integer({ mode: "boolean" }).default(false).notNull(), // true when step is completed
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("chat_session_idx").on(t.therapySessionId),
+    index("chat_step_number_idx").on(t.stepNumber),
+    index("chat_done_idx").on(t.done),
+    uniqueIndex("chat_session_step_idx").on(t.therapySessionId, t.stepNumber),
+  ],
+);
+
+export const chatRelations = relations(chat, ({ one }) => ({
+  therapySession: one(therapySessions, {
+    fields: [chat.therapySessionId],
+    references: [therapySessions.id],
+  }),
+}));
+
+export const extendedUsersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  activities: many(userActivities),
+  adminImpersonationSessions: many(impersonationSessions, {
+    relationName: "adminImpersonationSessions",
+  }),
+  targetImpersonationSessions: many(impersonationSessions, {
+    relationName: "targetImpersonationSessions",
+  }),
+  therapySessions: many(therapySessions),
 }));

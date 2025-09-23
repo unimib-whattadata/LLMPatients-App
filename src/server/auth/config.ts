@@ -23,9 +23,11 @@ import {
 } from "~/server/auth/user-validation";
 
 /**
- * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
- * object and keep type safety.
- *
+ * Module augmentation for `next-auth` types
+ * 
+ * Extends the default NextAuth types to include custom properties for our application.
+ * Adds role-based access control and impersonation functionality to the session object.
+ * 
  * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
  */
 declare module "next-auth" {

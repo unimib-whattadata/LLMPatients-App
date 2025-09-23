@@ -12,9 +12,7 @@ import { useState } from "react";
 export function CreatePatientContent() {
   const [patientData, setPatientData] = useState({
     name: "",
-    age: "",
-    condition: "",
-    symptoms: "",
+    details: "",
     background: "",
   });
 
@@ -32,61 +30,31 @@ export function CreatePatientContent() {
 
           <div className="dashboard-panel">
             <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="auth-input-group">
-                  <label className="auth-label" htmlFor="patient-name">
-                    Nome Paziente
-                  </label>
-                  <input
-                    id="patient-name"
-                    type="text"
-                    value={patientData.name}
-                    onChange={(e) => setPatientData({...patientData, name: e.target.value})}
-                    className="auth-input"
-                    placeholder="Inserisci il nome del paziente"
-                  />
-                </div>
-
-                <div className="auth-input-group">
-                  <label className="auth-label" htmlFor="patient-age">
-                    Età
-                  </label>
-                  <input
-                    id="patient-age"
-                    type="number"
-                    value={patientData.age}
-                    onChange={(e) => setPatientData({...patientData, age: e.target.value})}
-                    className="auth-input"
-                    placeholder="Età del paziente"
-                  />
-                </div>
-              </div>
-
               <div className="auth-input-group">
-                <label className="auth-label" htmlFor="patient-condition">
-                  Condizione Medica
+                <label className="auth-label" htmlFor="patient-name">
+                  Nome Paziente
                 </label>
                 <input
-                  id="patient-condition"
+                  id="patient-name"
                   type="text"
-                  value={patientData.condition}
-                  onChange={(e) => setPatientData({...patientData, condition: e.target.value})}
+                  value={patientData.name}
+                  onChange={(e) => setPatientData({...patientData, name: e.target.value})}
                   className="auth-input"
-                  placeholder="Diagnosi o condizione principale"
+                  placeholder="Inserisci il nome del paziente"
                 />
               </div>
 
               <div className="auth-input-group">
-                <label className="auth-label" htmlFor="patient-symptoms">
-                  Sintomi Presentati
+                <label className="auth-label" htmlFor="patient-details">
+                  Dettagli Paziente (JSON)
                 </label>
                 <textarea
-                  id="patient-symptoms"
-                  value={patientData.symptoms}
-                  onChange={(e) => setPatientData({...patientData, symptoms: e.target.value})}
-                  rows={4}
+                  id="patient-details"
+                  value={patientData.details}
+                  onChange={(e) => setPatientData({...patientData, details: e.target.value})}
+                  rows={8}
                   className="auth-input"
-                  placeholder="Descrivi i sintomi che il paziente presenta..."
+                  placeholder="Inserisci i dettagli del paziente in formato JSON..."
                 />
               </div>
 

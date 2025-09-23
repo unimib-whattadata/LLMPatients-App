@@ -15,6 +15,16 @@ CREATE TABLE `epatient_account` (
 );
 --> statement-breakpoint
 CREATE INDEX `account_user_id_idx` ON `epatient_account` (`userId`);--> statement-breakpoint
+CREATE TABLE `epatient_chat` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`userId` text(255) NOT NULL,
+	`virtualPatientId` text(255) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`updatedAt` integer,
+	FOREIGN KEY (`userId`) REFERENCES `epatient_user`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`virtualPatientId`) REFERENCES `epatient_patient`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `epatient_impersonation_audit_log` (
 	`id` text(255) PRIMARY KEY NOT NULL,
 	`impersonationSessionId` text(255) NOT NULL,
@@ -50,11 +60,24 @@ CREATE INDEX `impersonation_admin_user_idx` ON `epatient_impersonation_session` 
 CREATE INDEX `impersonation_target_user_idx` ON `epatient_impersonation_session` (`targetUserId`);--> statement-breakpoint
 CREATE INDEX `impersonation_active_idx` ON `epatient_impersonation_session` (`isActive`);--> statement-breakpoint
 CREATE INDEX `impersonation_started_at_idx` ON `epatient_impersonation_session` (`startedAt`);--> statement-breakpoint
+CREATE TABLE `epatient_message` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`chatId` text(255) NOT NULL,
+	`senderId` text(255) NOT NULL,
+	`content` text(2000) NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
+	FOREIGN KEY (`chatId`) REFERENCES `epatient_chat`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`senderId`) REFERENCES `epatient_user`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `message_chat_id_idx` ON `epatient_message` (`chatId`);--> statement-breakpoint
+CREATE INDEX `message_sender_id_idx` ON `epatient_message` (`senderId`);--> statement-breakpoint
+CREATE INDEX `message_created_at_idx` ON `epatient_message` (`createdAt`);--> statement-breakpoint
 CREATE TABLE `epatient_patient_tag_relation` (
 	`patientId` text(255) NOT NULL,
 	`tagId` text(255) NOT NULL,
 	PRIMARY KEY(`patientId`, `tagId`),
-	FOREIGN KEY (`patientId`) REFERENCES `epatient_virtual_patient`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`patientId`) REFERENCES `epatient_patient`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`tagId`) REFERENCES `epatient_patient_tag`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
@@ -70,6 +93,25 @@ CREATE TABLE `epatient_patient_tag` (
 --> statement-breakpoint
 CREATE INDEX `patient_tag_category_idx` ON `epatient_patient_tag` (`category`);--> statement-breakpoint
 CREATE INDEX `patient_tag_label_idx` ON `epatient_patient_tag` (`label`);--> statement-breakpoint
+CREATE TABLE `epatient_patient` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`name` text(255) NOT NULL,
+	`description` text(500) NOT NULL,
+	`details` text NOT NULL,
+	`background` text(2000) NOT NULL,
+	`objectives` text(2000) NOT NULL,
+	`avatarUrl` text(500),
+	`avatarType` text(20) DEFAULT 'illustration' NOT NULL,
+	`difficulty` integer NOT NULL,
+	`estimatedDuration` integer DEFAULT 30 NOT NULL,
+	`isActive` integer DEFAULT true NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`updatedAt` integer
+);
+--> statement-breakpoint
+CREATE INDEX `virtual_patient_difficulty_idx` ON `epatient_patient` (`difficulty`);--> statement-breakpoint
+CREATE INDEX `virtual_patient_active_idx` ON `epatient_patient` (`isActive`);--> statement-breakpoint
+CREATE INDEX `virtual_patient_created_at_idx` ON `epatient_patient` (`createdAt`);--> statement-breakpoint
 CREATE TABLE `epatient_session` (
 	`sessionToken` text(255) PRIMARY KEY NOT NULL,
 	`userId` text(255) NOT NULL,
@@ -78,6 +120,20 @@ CREATE TABLE `epatient_session` (
 );
 --> statement-breakpoint
 CREATE INDEX `session_userId_idx` ON `epatient_session` (`userId`);--> statement-breakpoint
+CREATE TABLE `epatient_therapy_session` (
+	`id` text(255) PRIMARY KEY NOT NULL,
+	`userId` text(255) NOT NULL,
+	`patientId` text(255) NOT NULL,
+	`sessionNumber` integer DEFAULT 1 NOT NULL,
+	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
+	`updatedAt` integer,
+	FOREIGN KEY (`userId`) REFERENCES `epatient_user`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`patientId`) REFERENCES `epatient_patient`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE INDEX `therapy_session_user_idx` ON `epatient_therapy_session` (`userId`);--> statement-breakpoint
+CREATE INDEX `therapy_session_patient_idx` ON `epatient_therapy_session` (`patientId`);--> statement-breakpoint
+CREATE UNIQUE INDEX `therapy_session_user_patient_idx` ON `epatient_therapy_session` (`userId`,`patientId`);--> statement-breakpoint
 CREATE TABLE `epatient_user_activity` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`userId` text(255) NOT NULL,
@@ -105,24 +161,3 @@ CREATE TABLE `epatient_verification_token` (
 	`expires` integer NOT NULL,
 	PRIMARY KEY(`identifier`, `token`)
 );
---> statement-breakpoint
-CREATE TABLE `epatient_virtual_patient` (
-	`id` text(255) PRIMARY KEY NOT NULL,
-	`name` text(255) NOT NULL,
-	`age` integer NOT NULL,
-	`gender` text(20) NOT NULL,
-	`condition` text(500) NOT NULL,
-	`background` text(2000) NOT NULL,
-	`objectives` text(2000) NOT NULL,
-	`avatarUrl` text(500),
-	`avatarType` text(20) DEFAULT 'illustration' NOT NULL,
-	`difficulty` text(20) NOT NULL,
-	`estimatedDuration` integer DEFAULT 30 NOT NULL,
-	`isActive` integer DEFAULT true NOT NULL,
-	`createdAt` integer DEFAULT (unixepoch()) NOT NULL,
-	`updatedAt` integer
-);
---> statement-breakpoint
-CREATE INDEX `virtual_patient_difficulty_idx` ON `epatient_virtual_patient` (`difficulty`);--> statement-breakpoint
-CREATE INDEX `virtual_patient_active_idx` ON `epatient_virtual_patient` (`isActive`);--> statement-breakpoint
-CREATE INDEX `virtual_patient_created_at_idx` ON `epatient_virtual_patient` (`createdAt`);

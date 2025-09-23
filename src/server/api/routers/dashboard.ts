@@ -7,11 +7,11 @@
  * - Role-based access control for different dashboard features
  */
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
+ 
+ 
+ 
+ 
+ 
 
 import { z } from "zod";
 import { eq, desc, count, and, gte, ne } from "drizzle-orm";

@@ -831,12 +831,43 @@ export function PatientDetailsContent() {
   };
 
   /**
+   * Count total elements in a section recursively
+   */
+  const countElements = (sectionDef: SectionDefinition): number => {
+    if (!sectionDef.properties) return 0;
+    
+    let count = 0;
+    const traverse = (fields: Record<string, FieldDefinition>) => {
+      Object.values(fields).forEach(field => {
+        count++;
+        if (field.properties) {
+          traverse(field.properties);
+        }
+      });
+    };
+    
+    traverse(sectionDef.properties);
+    return count;
+  };
+
+  /**
+   * Count total elements across all sections
+   */
+  const countTotalElements = (): number => {
+    return filteredSections.reduce((total, [sectionKey, sectionDef]) => {
+      if (!sectionDef) return total;
+      return total + countElements(sectionDef);
+    }, 0);
+  };
+
+  /**
    * Render section with all its fields
    */
   const renderSection = (sectionKey: string, sectionDef: SectionDefinition) => {
     const isExpanded = expandedSections.has(sectionKey);
     const hasFields =
       sectionDef.properties && Object.keys(sectionDef.properties).length > 0;
+    const elementCount = countElements(sectionDef);
 
     return (
       <div
@@ -857,6 +888,9 @@ export function PatientDetailsContent() {
             <h3 className="text-text-primary text-sm font-semibold">
               {getSectionDisplayName(sectionKey)}
             </h3>
+            <span className="text-text-tertiary text-xs">
+              ({elementCount} elementi)
+            </span>
           </div>
           <span className="border-border-primary text-text-secondary ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
             {isExpanded ? "−" : "+"}
@@ -907,9 +941,9 @@ export function PatientDetailsContent() {
           </div>
           <div className="text-text-tertiary flex flex-wrap items-center justify-between gap-2 text-xs">
             {searchTerm ? (
-              <p>{filteredSections.length} sezioni trovate</p>
+              <p>{filteredSections.length} sezioni trovate ({countTotalElements()} elementi)</p>
             ) : (
-              <p>{filteredSections.length} sezioni totali</p>
+              <p>{filteredSections.length} sezioni totali ({countTotalElements()} elementi)</p>
             )}
             <div className="flex items-center gap-2">
               <button

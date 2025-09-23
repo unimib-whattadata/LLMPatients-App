@@ -2,6 +2,8 @@
 
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
 import bcrypt from "bcryptjs";
 import { eq, inArray } from "drizzle-orm";
@@ -10,6 +12,7 @@ import { drizzle } from "drizzle-orm/libsql";
 import { text, integer, sqliteTableCreator, primaryKey, index } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 import { config } from "dotenv";
+import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
 config();
 
@@ -38,15 +41,14 @@ const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    age: d.integer({ mode: "number" }).notNull(),
-    gender: d.text({ length: 20 }).notNull(),
-    condition: d.text({ length: 500 }).notNull(),
+    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
-    objectives: d.text({ length: 2000 }).notNull(),
+    objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default("illustration").notNull(),
-    difficulty: d.text({ length: 20 }).notNull(),
-    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(),
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
+    difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
+    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
@@ -83,6 +85,35 @@ const patientTagRelations = createTable(
   (t) => [primaryKey({ columns: [t.patientId, t.tagId] })],
 );
 
+const therapySessions = createTable(
+  "therapy_session",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => users.id),
+    patientId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => patients.id),
+    sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(unixepoch())`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+  }),
+  (t) => [
+    index("therapy_session_user_idx").on(t.userId),
+    index("therapy_session_patient_idx").on(t.patientId),
+  ],
+);
+
 const databaseUrl = process.env.DATABASE_URL ?? "file:./db.sqlite";
 const client = createClient({
   url: databaseUrl,
@@ -98,6 +129,12 @@ const SEED_USERS = [
     name: "Administrator",
     email: "admin",
     password: "Qwerty123!",
+    role: "admin",
+  },
+  {
+    name: "Marco Cremaschi",
+    email: "marco.cremaschi@unimib.it",
+    password: "PassLLMPatients.25",
     role: "admin",
   },
   {
@@ -119,42 +156,155 @@ const TAGS = [
   { label: "Ipertensione", category: "physical", color: "#3B82F6" },
   { label: "Isolamento sociale", category: "behavioral", color: "#F59E0B" },
   { label: "Trauma", category: "psychological", color: "#8B5CF6" },
+  { label: "Disturbi alimentari", category: "behavioral", color: "#F59E0B" },
+  { label: "Problemi relazionali", category: "psychological", color: "#8B5CF6" },
 ];
 
 type PatientSeed = {
   name: string;
-  age: number;
-  gender: string;
-  condition: string;
+  description: string;
+  details: {
+    demographic_sociocultural_information: {
+      age: string;
+      gender: string;
+    };
+    psychological_profile_and_cognitive_functioning: {
+      current_and_past_psychiatric_diagnoses: string;
+    };
+  };
   background: string;
   objectives: string[];
   avatarUrl: string | null;
   avatarType: string;
-  difficulty: string;
+  difficulty: number;
   estimatedDuration: number;
   tags?: string[];
 };
 
-const PATIENTS: PatientSeed[] = [
-  {
-    name: "Juanita Delgado",
-    age: 33,
-    gender: "female",
-    condition: "Terapia per depressione",
-    background:
-      "Juanita è una donna di 33 anni che ha recentemente attraversato un periodo difficile della sua vita. Ha perso il lavoro sei mesi fa e da allora sta lottando con sentimenti di inadeguatezza e tristezza persistente. Vive da sola e ha notato un progressivo isolamento sociale.",
-    objectives: [
-      "Valutare il livello di depressione e rischio suicidario",
-      "Stabilire una relazione terapeutica di fiducia",
-      "Identificare strategie di coping efficaci",
-    ],
-    avatarUrl: "/images/patients/juanita.png",
-    avatarType: "photo",
-    difficulty: "Medio",
-    estimatedDuration: 45,
-    tags: ["Tono dell'umore basso", "Isolamento sociale"],
-  },
-];
+// Function to read patient data from JSON files
+function loadPatientsFromFiles(): PatientSeed[] {
+  const patientsDir = join(process.cwd(), "src", "server", "db", "patients");
+  const patientFiles = readdirSync(patientsDir).filter(file => file.endsWith('.json'));
+  
+  const patients: PatientSeed[] = [];
+  
+  for (const file of patientFiles) {
+    try {
+      const filePath = join(patientsDir, file);
+      const fileContent = readFileSync(filePath, 'utf-8');
+      const patientData = JSON.parse(fileContent);
+      
+      // Convert JSON data to PatientSeed format
+      const patient: PatientSeed = {
+        name: patientData.name || extractNameFromFilename(file),
+        description: patientData.description || extractDescriptionFromData(patientData),
+        details: patientData.details || patientData, // Use the full data if no details field
+        background: patientData.background || extractBackgroundFromData(patientData),
+        objectives: patientData.objectives ? 
+          (Array.isArray(patientData.objectives) ? patientData.objectives : JSON.parse(patientData.objectives)) :
+          extractObjectivesFromData(patientData),
+        avatarUrl: patientData.avatarUrl || null,
+        avatarType: patientData.avatarType || "illustration",
+        difficulty: mapDifficultyToNumber(patientData.difficulty),
+        estimatedDuration: patientData.estimatedDuration || 30,
+        tags: patientData.tags || extractTagsFromData(patientData),
+      };
+      
+      patients.push(patient);
+      console.log(`[INFO] Loaded patient: ${patient.name}`);
+    } catch (error) {
+      console.error(`[ERROR] Failed to load patient from ${file}:`, error);
+    }
+  }
+  
+  return patients;
+}
+
+// Helper functions to extract data from patient JSON
+function extractNameFromFilename(filename: string): string {
+  return filename.replace('.json', '').replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+
+function extractDescriptionFromData(data: any): string {
+  const diagnoses = data.psychological_profile_and_cognitive_functioning?.current_and_past_psychiatric_diagnoses;
+  if (diagnoses) {
+    return diagnoses.split(';')[0].trim();
+  }
+  return "Patient case study";
+}
+
+function extractBackgroundFromData(data: any): string {
+  // Try to find a background field, or create one from available data
+  if (data.background) return data.background;
+  
+  const age = data.demographic_sociocultural_information?.age;
+  const gender = data.demographic_sociocultural_information?.gender;
+  const mainSymptoms = data.psychological_profile_and_cognitive_functioning?.main_symptoms;
+  
+  let background = "";
+  if (age && gender) {
+    background += `A ${age}-year-old ${gender.toLowerCase()} `;
+  }
+  if (mainSymptoms) {
+    background += `presenting with ${mainSymptoms.toLowerCase()}. `;
+  }
+  background += "This case study provides an opportunity to practice clinical assessment and intervention skills.";
+  
+  return background;
+}
+
+function extractObjectivesFromData(data: any): string[] {
+  if (data.therapeutic_goals) {
+    return Array.isArray(data.therapeutic_goals) ? data.therapeutic_goals : [data.therapeutic_goals];
+  }
+  
+  // Default objectives based on common patterns
+  return [
+    "Conduct comprehensive clinical assessment",
+    "Develop appropriate treatment plan",
+    "Practice therapeutic communication skills",
+    "Address patient's primary concerns"
+  ];
+}
+
+function mapDifficultyToNumber(difficulty: any): number {
+  if (typeof difficulty === 'number') return difficulty;
+  if (typeof difficulty === 'string') {
+    const lower = difficulty.toLowerCase();
+    if (lower.includes('facile') || lower.includes('easy')) return DIFFICULTY_LEVELS.FACILE;
+    if (lower.includes('medio') || lower.includes('medium')) return DIFFICULTY_LEVELS.MEDIO;
+    if (lower.includes('difficile') || lower.includes('difficult')) return DIFFICULTY_LEVELS.DIFFICILE;
+  }
+  return DIFFICULTY_LEVELS.MEDIO; // Default to medium difficulty
+}
+
+function extractTagsFromData(data: any): string[] {
+  const tags: string[] = [];
+  
+  // Extract tags based on psychological profile
+  const mainSymptoms = data.psychological_profile_and_cognitive_functioning?.main_symptoms?.toLowerCase();
+  if (mainSymptoms) {
+    if (mainSymptoms.includes('depression') || mainSymptoms.includes('depressed')) tags.push('Depressione');
+    if (mainSymptoms.includes('anxiety') || mainSymptoms.includes('anxious')) tags.push('Ansia sociale');
+    if (mainSymptoms.includes('eating') || mainSymptoms.includes('binge')) tags.push('Disturbi alimentari');
+    if (mainSymptoms.includes('aggression') || mainSymptoms.includes('aggressive')) tags.push('Aggressività');
+    if (mainSymptoms.includes('isolation') || mainSymptoms.includes('withdrawal')) tags.push('Isolamento sociale');
+    if (mainSymptoms.includes('trauma') || mainSymptoms.includes('traumatic')) tags.push('Trauma');
+    if (mainSymptoms.includes('relationship') || mainSymptoms.includes('marital')) tags.push('Problemi relazionali');
+  }
+  
+  // Add physical health tags
+  const medicalConditions = data.medical_and_physical_history?.pre_existing_medical_conditions?.toLowerCase();
+  if (medicalConditions) {
+    if (medicalConditions.includes('hypertension') || medicalConditions.includes('blood pressure')) tags.push('Ipertensione');
+    if (medicalConditions.includes('sleep') || medicalConditions.includes('insomnia')) tags.push('Disturbi del sonno');
+    if (medicalConditions.includes('pain') || medicalConditions.includes('chronic')) tags.push('Dolore cronico');
+  }
+  
+  return tags.length > 0 ? tags : ['Tono dell\'umore basso']; // Default tag
+}
+
+const PATIENTS: PatientSeed[] = loadPatientsFromFiles();
 
 async function seedDatabase() {
   const targetEmails = SEED_USERS.map((user) => user.email);
@@ -218,11 +368,15 @@ async function seedPatientTags() {
 }
 
 async function seedPatients() {
-  const existingPatients = await db
-    .select({ name: patients.name })
-    .from(patients);
+  // First, delete all existing patients and their dependent records
+  console.log("[INFO] Removing existing patients...");
+  // Delete in order: first dependent tables, then main table
+  await db.delete(patientTagRelations);
+  await db.delete(therapySessions);
+  await db.delete(patients);
+  console.log("[INFO] Existing patients removed");
 
-  const existingNames = new Set(existingPatients.map((patient) => patient.name));
+  // Get all available tags
   const tagRows = await db
     .select({ id: patientTags.id, label: patientTags.label })
     .from(patientTags);
@@ -230,18 +384,14 @@ async function seedPatients() {
 
   let created = 0;
 
+  // Add all patients from JSON files
   for (const patient of PATIENTS) {
-    if (existingNames.has(patient.name)) {
-      continue;
-    }
-
     const result = await db
       .insert(patients)
       .values({
         name: patient.name,
-        age: patient.age,
-        gender: patient.gender,
-        condition: patient.condition,
+        description: patient.description,
+        details: JSON.stringify(patient.details),
         background: patient.background,
         objectives: JSON.stringify(patient.objectives),
         avatarUrl: patient.avatarUrl,
@@ -259,6 +409,7 @@ async function seedPatients() {
 
     created += 1;
 
+    // Add tag relations
     for (const label of patient.tags ?? []) {
       const tagId = tagIdByLabel.get(label);
       if (!tagId) {
@@ -269,7 +420,7 @@ async function seedPatients() {
     }
   }
 
-  console.log(`[INFO] Pazienti virtuali pronti (${created} nuovi)`);
+  console.log(`[INFO] Pazienti virtuali pronti (${created} totali)`);
 }
 
 async function runSeeding() {
