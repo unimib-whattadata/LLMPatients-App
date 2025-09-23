@@ -5,11 +5,12 @@ import {
   sqliteTableCreator,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import { randomUUID } from "crypto";
 // import { type AdapterAccount } from "next-auth/adapters";
 
 /**
  * AdapterAccount type for NextAuth v5 beta compatibility
- * 
+ *
  * Manually defined type to ensure compatibility with the current NextAuth version.
  * Contains OAuth provider account information and tokens.
  */
@@ -28,7 +29,7 @@ type AdapterAccount = {
 
 /**
  * Table creator for multi-project schema support
- * 
+ *
  * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'epatient_'.
  * This allows multiple projects to share the same database instance without conflicts.
  *
@@ -36,32 +37,35 @@ type AdapterAccount = {
  */
 export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
-
 /**
  * Users table for authentication and user management
- * 
+ *
  * Stores user account information including authentication credentials,
  * profile data, and role-based access control.
  */
-export const users = createTable("user", (d) => ({
-  id: d
-    .text({ length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: d.text({ length: 255 }),
-  email: d.text({ length: 255 }).notNull(),
-  password: d.text({ length: 255 }),
-  // Role field for user access control - 'admin' or 'user'
-  role: d.text({ length: 20 }).default("user").notNull(),
-  emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
-  image: d.text({ length: 255 }),
-}), (t) => [
-  // Indexes for common query patterns
-  index("users_email_idx").on(t.email),
-  index("users_name_idx").on(t.name),
-  index("users_role_idx").on(t.role),
-]);
+export const users = createTable(
+  "user",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    name: d.text({ length: 255 }),
+    email: d.text({ length: 255 }).notNull(),
+    password: d.text({ length: 255 }),
+    // Role field for user access control - 'admin' or 'user'
+    role: d.text({ length: 20 }).default("user").notNull(),
+    emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
+    image: d.text({ length: 255 }),
+  }),
+  (t) => [
+    // Indexes for common query patterns
+    index("users_email_idx").on(t.email),
+    index("users_name_idx").on(t.name),
+    index("users_role_idx").on(t.role),
+  ],
+);
 
 // Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
 
@@ -158,7 +162,7 @@ export const impersonationSessions = createTable(
       .text({ length: 255 })
       .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => randomUUID()),
     // Admin user who initiated the impersonation
     adminUserId: d
       .text({ length: 255 })
@@ -200,7 +204,7 @@ export const impersonationAuditLog = createTable(
       .text({ length: 255 })
       .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => randomUUID()),
     // Reference to impersonation session
     impersonationSessionId: d
       .text({ length: 255 })
@@ -264,7 +268,7 @@ export const patients = createTable(
       .text({ length: 255 })
       .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => randomUUID()),
     name: d.text({ length: 255 }).notNull(),
     smallDescription: d.text({ length: 500 }).notNull(), // Brief description of the case
     details: d.text().notNull(), // JSON string containing all patient details
@@ -289,12 +293,10 @@ export const patients = createTable(
   ],
 );
 
-
 // Relations for patients
 export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
 }));
-
 
 export const usersRelations = relations(users, ({ many }) => ({}));
 export const therapySessions = createTable(
@@ -304,7 +306,7 @@ export const therapySessions = createTable(
       .text({ length: 255 })
       .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => randomUUID()),
     userId: d
       .text({ length: 255 })
       .notNull()
@@ -351,7 +353,7 @@ export const chat = createTable(
       .text({ length: 255 })
       .notNull()
       .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
+      .$defaultFn(() => randomUUID()),
     therapySessionId: d
       .text({ length: 255 })
       .notNull()
