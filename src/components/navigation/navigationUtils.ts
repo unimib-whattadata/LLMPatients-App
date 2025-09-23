@@ -36,15 +36,7 @@ export function getNavSections(
 
   // If impersonating, always show user navigation
   if (impersonation?.isImpersonating) {
-    return [
-      {
-        title: "Simulazioni",
-        items: [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
-        ]
-      }
-    ];
+    return [];
   }
 
   // For admins, show admin navigation with separate sections
@@ -74,9 +66,9 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
-          { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
+          { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey", icon: MapIcon },
           { label: "Crea nuovo paziente", href: "/dashboard/admin/create-patient", icon: UserPlusIcon },
-          { label: "Schema Valutazione", href: "/dashboard/patient-details", icon: DocumentTextIcon },
+          { label: "Schema Valutazione", href: "/dashboard/patient-attributes", icon: DocumentTextIcon },
         ]
       }
     ];
@@ -92,18 +84,11 @@ export function getNavSections(
         ]
       },
       {
-        title: "Simulazioni",
-        items: [
-          { label: "Le mie simulazioni", href: "/dashboard/user/simulations", icon: PlayIcon },
-          { label: "Le mie valutazioni", href: "/dashboard/user/evaluations", icon: ClipboardDocumentListIcon },
-        ]
-      },
-      {
         title: "Gestione Pazienti",
         items: [
           { label: "Esplora Pazienti", href: "/explore-patients", icon: MagnifyingGlassIcon },
-          { label: "Percorso Terapeutico", href: "/therapeutic-journey", icon: MapIcon },
-          { label: "Schema Valutazione", href: "/dashboard/patient-details", icon: DocumentTextIcon },
+          { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey", icon: MapIcon },
+          { label: "Schema Valutazione", href: "/dashboard/patient-attributes", icon: DocumentTextIcon },
         ]
       }
     ];

@@ -426,8 +426,14 @@ export function SessionTimelineContent({
 
   const advanceSession = api.therapySessions.advanceSession.useMutation({
     onSuccess: () => {
-      // Refetch the therapy session data to update the UI
-      window.location.reload();
+      // Find the next unlocked step and navigate to its chat
+      const nextUnlockedStep = unlockedSteps.find(stepId => !isStepCompleted(stepId));
+      if (nextUnlockedStep && sessionId) {
+        router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${nextUnlockedStep}`);
+      } else {
+        // If no unlocked step found, just reload to update the UI
+        window.location.reload();
+      }
     },
     onError: (error) => {
       console.error("Error advancing session:", error);
@@ -480,7 +486,7 @@ export function SessionTimelineContent({
       if (!isStepUnlocked(stepId)) return;
 
       // Navigate to chat page for the selected step
-      router.push(`/therapeutic-journey/${sessionId}/chat/${stepId}`);
+      router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${stepId}`);
     },
     [isStepUnlocked, router, sessionId],
   );
@@ -507,7 +513,7 @@ export function SessionTimelineContent({
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
-        currentPage="/therapeutic-journey"
+        currentPage="/dashboard/therapeutic-journey"
       >
         <div className="dashboard-panel-stack">
           <section className="dashboard-section">
@@ -521,7 +527,7 @@ export function SessionTimelineContent({
                 </p>
                 <div className="mt-6">
                   <Link
-                    href="/therapeutic-journey"
+                    href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
                     Torna alle sessioni
@@ -541,7 +547,7 @@ export function SessionTimelineContent({
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
-        currentPage="/therapeutic-journey"
+        currentPage="/dashboard/therapeutic-journey"
       >
         <div className="flex min-h-[60vh] items-center justify-center">
           <p className="text-text-secondary text-lg">
@@ -558,7 +564,7 @@ export function SessionTimelineContent({
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
-        currentPage="/therapeutic-journey"
+        currentPage="/dashboard/therapeutic-journey"
       >
         <div className="dashboard-panel-stack">
           <section className="dashboard-section">
@@ -574,7 +580,7 @@ export function SessionTimelineContent({
                 </p>
                 <div className="mt-6">
                   <Link
-                    href="/therapeutic-journey"
+                    href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
                     Torna alle sessioni

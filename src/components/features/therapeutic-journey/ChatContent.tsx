@@ -232,7 +232,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   };
 
   const goBack = () => {
-    router.push(`/therapeutic-journey/${sessionId}`);
+    router.push(`/dashboard/therapeutic-journey/${sessionId}`);
   };
 
   const handleCompleteStep = async () => {
