@@ -7,8 +7,6 @@ import {
 } from "~/server/api/trpc";
 import {
   patients,
-  patientTags,
-  patientTagRelations,
 } from "~/server/db/schema";
 import { DIFFICULTY_LEVELS, type DifficultyLevel } from "~/lib/constants/difficulty";
 
@@ -21,7 +19,7 @@ import { DIFFICULTY_LEVELS, type DifficultyLevel } from "~/lib/constants/difficu
 export interface Patient {
   id: string;
   name: string;
-  description: string; // Brief description of the case
+  smallDescription: string; // Brief description of the case
   details: string; // JSON string containing all patient details
   background: string;
   objectives: string[];
@@ -32,27 +30,8 @@ export interface Patient {
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date | null;
-  tags: Array<{
-    id: string;
-    label: string;
-    category: string;
-    color: string;
-  }>;
 }
 
-/**
- * PatientTag interface representing categorization tags for patients
- * 
- * Used to categorize patients by psychological, physical, or behavioral characteristics.
- * Helps in filtering and organizing patient exploration.
- */
-export interface PatientTag {
-  id: string;
-  label: string;
-  category: "psychological" | "physical" | "behavioral";
-  color: string;
-  createdAt: Date;
-}
 
 /**
  * Patients Router
@@ -74,7 +53,6 @@ export const patientsRouter = createTRPCRouter({
     .input(
       z.object({
         difficulty: z.array(z.number().min(1).max(3)).optional(),
-        tags: z.array(z.string()).optional(),
         searchQuery: z.string().optional(),
         limit: z.number().min(1).max(50).default(20),
         offset: z.number().min(0).default(0),
@@ -83,7 +61,6 @@ export const patientsRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { 
         difficulty = [], 
-        tags = [], 
         searchQuery = "", 
         limit = 20, 
         offset = 0 
@@ -105,26 +82,19 @@ export const patientsRouter = createTRPCRouter({
         );
       }
 
-      // Get patients with their tag relationships
+      // Get patients
       const patientsData = await ctx.db.query.patients.findMany({
         where: and(...whereConditions),
-        with: {
-          tagRelations: {
-            with: {
-              tag: true,
-            },
-          },
-        },
         orderBy: [asc(patients.difficulty), asc(patients.name)],
         limit,
         offset,
       });
 
-      // Transform the data to include tags array and parse objectives
+      // Transform the data and parse objectives
       const transformedPatients: Patient[] = patientsData.map((patient) => ({
         id: patient.id,
         name: patient.name,
-        description: patient.description,
+        smallDescription: patient.smallDescription,
         details: patient.details,
         background: patient.background,
         objectives: JSON.parse(patient.objectives) as string[],
@@ -135,12 +105,6 @@ export const patientsRouter = createTRPCRouter({
         isActive: patient.isActive,
         createdAt: patient.createdAt,
         updatedAt: patient.updatedAt,
-        tags: patient.tagRelations.map((relation) => ({
-          id: relation.tag.id,
-          label: relation.tag.label,
-          category: relation.tag.category,
-          color: relation.tag.color,
-        })),
       }));
 
       return transformedPatients;
@@ -158,24 +122,17 @@ export const patientsRouter = createTRPCRouter({
           eq(patients.id, input.id),
           eq(patients.isActive, true)
         ),
-        with: {
-          tagRelations: {
-            with: {
-              tag: true,
-            },
-          },
-        },
       });
 
       if (!patient) {
         throw new Error("Patient not found");
       }
 
-      // Transform the data to include tags array and parse objectives
+      // Transform the data and parse objectives
       const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
-        description: patient.description,
+        smallDescription: patient.smallDescription,
         details: patient.details,
         background: patient.background,
         objectives: JSON.parse(patient.objectives) as string[],
@@ -186,38 +143,11 @@ export const patientsRouter = createTRPCRouter({
         isActive: patient.isActive,
         createdAt: patient.createdAt,
         updatedAt: patient.updatedAt,
-        tags: patient.tagRelations.map((relation) => ({
-          id: relation.tag.id,
-          label: relation.tag.label,
-          category: relation.tag.category,
-          color: relation.tag.color,
-        })),
       };
 
       return transformedPatient;
     }),
 
-  /**
-   * Get all available patient tags
-   * 
-   * Public endpoint that returns all patient tags for filtering and display purposes.
-   * Tags are ordered by category and label for consistent UI display.
-   * 
-   * @returns Array of patient tag objects
-   */
-  getPatientTags: publicProcedure.query(async ({ ctx }) => {
-    const tags = await ctx.db.query.patientTags.findMany({
-      orderBy: [asc(patientTags.category), asc(patientTags.label)],
-    });
-
-    return tags.map((tag): PatientTag => ({
-      id: tag.id,
-      label: tag.label,
-      category: tag.category as "psychological" | "physical" | "behavioral",
-      color: tag.color,
-      createdAt: tag.createdAt,
-    }));
-  }),
 
   /**
    * Create a new virtual patient
@@ -232,7 +162,7 @@ export const patientsRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1).max(255),
-        description: z.string().min(1).max(500),
+        smallDescription: z.string().min(1).max(500),
         details: z.string().min(1), // JSON string containing all patient details
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
@@ -240,7 +170,6 @@ export const patientsRouter = createTRPCRouter({
         avatarType: z.enum(["photo", "illustration", "avatar"]).default("illustration"),
         difficulty: z.number().min(1).max(3),
         estimatedDuration: z.number().min(5).max(180).default(30),
-        tagIds: z.array(z.string()).optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
@@ -254,7 +183,7 @@ export const patientsRouter = createTRPCRouter({
         .insert(patients)
         .values({
           name: input.name,
-          description: input.description,
+          smallDescription: input.smallDescription,
           details: input.details,
           background: input.background,
           objectives: JSON.stringify(input.objectives),
@@ -265,48 +194,9 @@ export const patientsRouter = createTRPCRouter({
         })
         .returning();
 
-      // Add tag relationships if provided
-      if (input.tagIds && input.tagIds.length > 0 && newPatient) {
-        const tagRelationValues = input.tagIds.map((tagId) => ({
-          patientId: newPatient.id,
-          tagId,
-        }));
-
-        await ctx.db.insert(patientTagRelations).values(tagRelationValues);
-      }
-
       return { id: newPatient?.id, success: true };
     }),
 
-  /**
-   * Create a new patient tag
-   * Protected endpoint - admin only
-   */
-  createTag: protectedProcedure
-    .input(
-      z.object({
-        label: z.string().min(1).max(100),
-        category: z.enum(["psychological", "physical", "behavioral"]),
-        color: z.string().regex(/^#[0-9A-Fa-f]{6}$/).default("#gray"),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
-      const [newTag] = await ctx.db
-        .insert(patientTags)
-        .values({
-          label: input.label,
-          category: input.category,
-          color: input.color,
-        })
-        .returning();
-
-      return { id: newTag?.id, success: true };
-    }),
 
   /**
    * Update patient status (activate/deactivate)

@@ -1,124 +1,124 @@
 {
   "id": "juanita-delgado",
   "name": "Juanita Delgado",
-  "small_description": "Personality Disorder",
+  "small_description": "Disturbo di Personalità",
   "details": {
     "demographic_sociocultural_information": {
       "age": "33",
-      "gender": "Female",
-      "marital_status": "Single",
-      "cultural_background": "Hispanic woman raised in an upper-middle-class immigrant family that emphasized professional achievement.",
-      "religious_beliefs": "Not reported.",
-      "spoken_language": "Not reported; therapy conducted in English.",
-      "migration_status": "Second-generation immigrant background; born and raised locally with immigrant parents."
+      "gender": "Femmina",
+      "marital_status": "Nubile",
+      "cultural_background": "Donna ispanica cresciuta in una famiglia di immigrati della classe medio-alta che enfatizzava il successo professionale.",
+      "religious_beliefs": "Non riportato.",
+      "spoken_language": "Non riportato; terapia condotta in italiano.",
+      "migration_status": "Background di immigrata di seconda generazione; nata e cresciuta localmente con genitori immigrati."
     },
     "family_social_history": {
-      "developmental_family_dynamics": "Middle of three siblings in a high-achieving household where her father prioritized success, fostering chronic feelings of isolation and anger.",
-      "current_parent_relationships": "Ambivalent view of her father, describing him as both a spectacular success and a manipulative loser; no details provided about her mother.",
-      "childhood_experiences": "Felt isolated throughout school, experienced recurrent depressed mood, and was known for angry outbursts.",
-      "abuse_history": "No abuse disclosed."
+      "developmental_family_dynamics": "Mediana di tre fratelli in una famiglia ad alto rendimento dove suo padre dava priorità al successo, favorendo sentimenti cronici di isolamento e rabbia.",
+      "current_parent_relationships": "Visione ambivalente di suo padre, descrivendolo sia come un successo spettacolare che come un perdente manipolatore; nessun dettaglio fornito su sua madre.",
+      "childhood_experiences": "Si sentiva isolata durante tutta la scuola, ha sperimentato umore depresso ricorrente ed era conosciuta per scoppi di rabbia.",
+      "abuse_history": "Nessun abuso rivelato."
     },
     "family_social_context": {
-      "social_support_overview": "Limited in-person support; has been socially isolated for months with minimal engagement.",
-      "support_network": "Maintains superficial contact with former college peers through social media; views most neighborhood friends negatively."
+      "social_support_overview": "Supporto di persona limitato; è stata socialmente isolata per mesi con coinvolgimento minimo.",
+      "support_network": "Mantiene contatto superficiale con ex colleghi universitari attraverso i social media; vede la maggior parte degli amici del quartiere negativamente."
     },
     "education_and_employment": {
-      "education_level": "Completed high school with strong academics; withdrew from college after conflicts with a roommate and a professor.",
-      "employment_history": "Multiple internships and entry-level positions ended abruptly due to perceived disrespect from supervisors; currently unemployed.",
-      "housing_stability": "Lives alone in her apartment; housing appears stable but isolating.",
-      "financial_situation": "Financially strained by unemployment and excessive online shopping beyond her means.",
-      "hobbies_interests": "Passively watches television and shops online; no sustaining hobbies reported."
+      "education_level": "Completato il liceo con buoni risultati accademici; si è ritirata dall'università dopo conflitti con un coinquilino e un professore.",
+      "employment_history": "Multiple tirocini e posizioni entry-level terminati bruscamente a causa di mancanza di rispetto percepita dai supervisori; attualmente disoccupata.",
+      "housing_stability": "Vive da sola nel suo appartamento; l'abitazione appare stabile ma isolante.",
+      "financial_situation": "Sotto stress finanziario a causa della disoccupazione e shopping online eccessivo oltre i suoi mezzi.",
+      "hobbies_interests": "Guarda passivamente la televisione e fa shopping online; nessun hobby sostenibile riportato."
     },
     "psychological_profile_and_cognitive_functioning": {
-      "current_and_past_psychiatric_diagnoses": "Borderline personality disorder and major depressive disorder; persistent depressive disorder to be ruled in if symptoms persist beyond two years.",
-      "main_symptoms": "Depressed mood, anergia, overeating, chronic suicidal ideation, poor hygiene, episodic 1-2 day energized periods followed by crashes, anger dysregulation, and social withdrawal.",
-      "emotional_reactions_and_mood": "Generally dysphoric with constricted affect, alternating shame and reactive anger, and brief energized episodes.",
-      "auto_hetero_directed_aggression": "Engages in superficial cutting, has attempted overdoses, and externalizes anger toward perceived slights from others.",
-      "self_perception_and_identity": "Sees herself as both inadequate and destined for greatness, reflecting identity diffusion and unstable self-image.",
-      "psychiatric_comorbidities": "Co-occurring depressive symptoms; bipolar disorder considered but criteria not met.",
-      "self_esteem": "Chronically low self-esteem punctuated by grandiose self-beliefs.",
-      "sense_of_self_and_others": "Splitting and projection shape views of self and others as either exceptional or malicious.",
-      "identity_disturbances": "Pronounced identity diffusion consistent with borderline personality organization.",
-      "cognitive_style": "Rigid, accusatory thinking with externalization of blame toward authority figures.",
-      "cognitive_schemas": "Dominated by mistrust, expectations of betrayal, and fear of failure.",
-      "attachment_style": "Fearful-avoidant; avoids intimacy due to anxiety and distrust.",
-      "executive_functioning": "Capable of coherent planning in session but struggles to sustain effort and follow-through in work and daily structure during mood episodes.",
-      "memory": "No memory impairments reported.",
-      "attention_and_concentration": "Not formally assessed; likely fluctuates with mood and sleep disruption.",
-      "sensory_perception": "Reality testing generally intact; no hallucinations reported.",
-      "higher_cognitive_functions": "Thought processes remain coherent and goal directed despite affective volatility."
+      "current_and_past_psychiatric_diagnoses": "Disturbo borderline di personalità e disturbo depressivo maggiore; disturbo depressivo persistente da escludere se i sintomi persistono oltre due anni.",
+      "main_symptoms": "Umore depresso, anergia, eccesso di cibo, ideazione suicidaria cronica, scarsa igiene, periodi energizzati episodici di 1-2 giorni seguiti da crolli, disregolazione della rabbia e ritiro sociale.",
+      "emotional_reactions_and_mood": "Generalmente disforica con affetto costretto, vergogna alternata e rabbia reattiva, ed episodi energizzati brevi.",
+      "auto_hetero_directed_aggression": "Si impegna in tagli superficiali, ha tentato overdose, ed esternalizza la rabbia verso slights percepiti da altri.",
+      "self_perception_and_identity": "Si vede sia come inadeguata che destinata alla grandezza, riflettendo diffusione dell'identità e immagine di sé instabile.",
+      "psychiatric_comorbidities": "Sintomi depressivi co-occorrenti; disturbo bipolare considerato ma criteri non soddisfatti.",
+      "self_esteem": "Autostima cronicamente bassa punteggiata da credenze grandiose su se stessa.",
+      "sense_of_self_and_others": "Splitting e proiezione modellano le visioni di sé e degli altri come eccezionali o malvagi.",
+      "identity_disturbances": "Diffusione dell'identità pronunciata coerente con l'organizzazione borderline di personalità.",
+      "cognitive_style": "Pensiero rigido e accusatorio con esternalizzazione della colpa verso figure autoritarie.",
+      "cognitive_schemas": "Dominati da sfiducia, aspettative di tradimento e paura del fallimento.",
+      "attachment_style": "Evitante-paura; evita l'intimità a causa di ansia e sfiducia.",
+      "executive_functioning": "Capace di pianificazione coerente in seduta ma lotta per sostenere lo sforzo e il follow-through nel lavoro e nella struttura quotidiana durante gli episodi d'umore.",
+      "memory": "Nessun deficit di memoria riportato.",
+      "attention_and_concentration": "Non valutato formalmente; probabilmente fluttua con l'umore e la disruzione del sonno.",
+      "sensory_perception": "Test di realtà generalmente intatto; nessuna allucinazione riportata.",
+      "higher_cognitive_functions": "I processi di pensiero rimangono coerenti e orientati agli obiettivi nonostante la volatilità affettiva."
     },
     "coping_mechanisms_and_defenses": {
-      "coping_strategies": "Relies on withdrawal, extended bed rest, passive media consumption, and compulsive online shopping; lacks adaptive coping tools.",
-      "defense_mechanisms": "Splitting, projection, devaluation of others, and idealization of her own potential."
+      "coping_strategies": "Si affida al ritiro, riposo a letto prolungato, consumo passivo di media e shopping online compulsivo; manca di strumenti di coping adattivi.",
+      "defense_mechanisms": "Splitting, proiezione, svalutazione degli altri e idealizzazione del proprio potenziale."
     },
     "dysfunctional_behaviors_and_risk": {
-      "self_harm_and_suicidality": "Superficial self-cutting, persistent thoughts of death, and three hospitalizations following overdoses.",
-      "substance_abuse": "No substance use issues reported.",
-      "avoidance_behaviors": "Avoids social contact, intimacy, and sustained employment; spends extended periods isolated at home.",
-      "impulsive_and_risky_behaviors": "Compulsive spending, abrupt job resignations, and explosive anger reactions to perceived slights.",
-      "morality": "Rigid moral judgments with strong resentment toward perceived manipulation; no antisocial conduct noted."
+      "self_harm_and_suicidality": "Autolesionismo superficiale, pensieri persistenti di morte e tre ricoveri ospedalieri dopo overdose.",
+      "substance_abuse": "Nessun problema di uso di sostanze riportato.",
+      "avoidance_behaviors": "Evita il contatto sociale, l'intimità e l'occupazione sostenuta; trascorre periodi prolungati isolata a casa.",
+      "impulsive_and_risky_behaviors": "Spesa compulsiva, dimissioni lavorative brusche e reazioni di rabbia esplosiva a slights percepiti.",
+      "morality": "Giudizi morali rigidi con forte risentimento verso la manipolazione percepita; nessuna condotta antisociale notata."
     },
     "social_relationships_and_interactions": {
-      "friendships": "Few active friendships; maintains distant online connections with former classmates while dismissing local peers.",
-      "romantic_relationships": "Past dating limited by anxiety around physical closeness; currently not in a romantic relationship.",
-      "sexual_relationships": "Avoids sexual intimacy due to heightened anxiety and mistrust.",
-      "family_interactions": "History of angry outbursts within family and lasting resentment toward her father.",
-      "peer_and_colleague_relationships": "Pattern of conflict with supervisors and colleagues whom she perceives as disrespectful or manipulative.",
-      "social_media_behavior": "Uses social media to stay connected superficially and to idealize the successes of distant acquaintances."
+      "friendships": "Poche amicizie attive; mantiene connessioni online distanti con ex compagni di classe mentre respinge i coetanei locali.",
+      "romantic_relationships": "Appuntamenti passati limitati dall'ansia riguardo alla vicinanza fisica; attualmente non in una relazione romantica.",
+      "sexual_relationships": "Evita l'intimità sessuale a causa di ansia elevata e sfiducia.",
+      "family_interactions": "Storia di scoppi di rabbia in famiglia e risentimento duraturo verso suo padre.",
+      "peer_and_colleague_relationships": "Pattern di conflitto con supervisori e colleghi che percepisce come irrispettosi o manipolatori.",
+      "social_media_behavior": "Usa i social media per rimanere connessa superficialmente e per idealizzare i successi di conoscenti distanti."
     },
     "treatments_and_interventions": {
-      "previous_therapeutic_experiences": "Multiple psychotherapy attempts with minimal perceived benefit.",
-      "treatment_progress_and_resistance": "Chronic treatment resistance marked by mistrust, anger at providers, and limited insight into interpersonal patterns.",
-      "therapeutic_goals": "Stabilize mood, reduce self-harm risk, rebuild daily functioning, and develop sustainable social connections.",
-      "pharmacological_history": "Trials of mood stabilizers, antidepressants, and low-dose antipsychotics with limited effectiveness.",
-      "medication_response": "Reports little relief from prescribed medications and frequently discontinues due to perceived ineffectiveness.",
-      "hospitalization_history": "Psychiatrically hospitalized three times following intentional overdoses.",
-      "hospitalization_details": "Inpatient admissions for stabilization after overdoses; specific facilities and durations not provided.",
-      "emergency_room_visits": "Emergency care sought during overdose episodes; frequency beyond hospitalizations not documented.",
-      "historical_psychiatric_diagnoses": "Diagnosed with borderline personality disorder and major depressive disorder; bipolar spectrum ruled out."
+      "previous_therapeutic_experiences": "Multiple tentativi di psicoterapia con beneficio percepito minimo.",
+      "treatment_progress_and_resistance": "Resistenza cronica al trattamento marcata da sfiducia, rabbia verso i fornitori e insight limitato sui pattern interpersonali.",
+      "therapeutic_goals": "Stabilizzare l'umore, ridurre il rischio di autolesionismo, ricostruire il funzionamento quotidiano e sviluppare connessioni sociali sostenibili.",
+      "pharmacological_history": "Prove di stabilizzatori dell'umore, antidepressivi e antipsicotici a basso dosaggio con efficacia limitata.",
+      "medication_response": "Riporta poco sollievo dai farmaci prescritti e li interrompe frequentemente a causa della percezione di inefficacia.",
+      "hospitalization_history": "Ricoverata psichiatricamente tre volte dopo overdose intenzionali.",
+      "hospitalization_details": "Ammissioni ospedaliere per stabilizzazione dopo overdose; strutture specifiche e durate non fornite.",
+      "emergency_room_visits": "Cure di emergenza cercate durante episodi di overdose; frequenza oltre i ricoveri non documentata.",
+      "historical_psychiatric_diagnoses": "Diagnosticata con disturbo borderline di personalità e disturbo depressivo maggiore; spettro bipolare escluso."
     },
     "clinical_judgment_and_decision_capacities": {
-      "judgment_capacity": "Judgment fluctuates; generally intact but compromised when she perceives disrespect or abandonment.",
-      "insight_awareness": "Aware of depressive symptoms yet minimizes her role in interpersonal conflicts and projects blame outward.",
-      "impulse_control": "Notably poor during affective surges, leading to self-harm and abrupt decisions.",
-      "self_control": "Limited under stress though can remain cooperative and coherent during structured interviews."
+      "judgment_capacity": "Il giudizio fluttua; generalmente intatto ma compromesso quando percepisce mancanza di rispetto o abbandono.",
+      "insight_awareness": "Consapevole dei sintomi depressivi tuttavia minimizza il suo ruolo nei conflitti interpersonali e proietta la colpa verso l'esterno.",
+      "impulse_control": "Notevolmente scarso durante le ondate affettive, portando ad autolesionismo e decisioni brusche.",
+      "self_control": "Limitato sotto stress anche se può rimanere cooperativa e coerente durante interviste strutturate."
     },
     "resilience_and_psychological_wellbeing": {
-      "psychological_resilience": "Low resilience with prolonged periods of withdrawal and difficulty recovering from setbacks.",
-      "self_compassion": "Very limited; oscillates between self-loathing and grandiose self-expectations.",
-      "life_satisfaction": "Reports pervasive dissatisfaction with life and achievements.",
-      "personal_growth": "Stagnant personal development despite aspirations for greatness.",
-      "sense_of_coherence": "Fragmented narrative with inconsistent integration of self and others.",
-      "sense_of_control_or_empowerment": "Feels powerless when dependent on others and attempts to regain control by quitting roles and relationships.",
-      "hope_for_future": "Ambivalent; combines despair with fantasies of future accomplishments.",
-      "long_term_life_goals": "Dreams of doing something great but lacks concrete plans or steps."
+      "psychological_resilience": "Bassa resilienza con periodi prolungati di ritiro e difficoltà nel recupero dalle battute d'arresto.",
+      "self_compassion": "Molto limitata; oscilla tra auto-disprezzo e aspettative grandiose su se stessa.",
+      "life_satisfaction": "Riporta insoddisfazione pervasiva con la vita e i risultati.",
+      "personal_growth": "Sviluppo personale stagnante nonostante le aspirazioni alla grandezza.",
+      "sense_of_coherence": "Narrativa frammentata con integrazione inconsistente di sé e degli altri.",
+      "sense_of_control_or_empowerment": "Si sente impotente quando dipende dagli altri e tenta di riacquistare controllo abbandonando ruoli e relazioni.",
+      "hope_for_future": "Ambivalente; combina disperazione con fantasie di risultati futuri.",
+      "long_term_life_goals": "Sogna di fare qualcosa di grande ma manca di piani concreti o passi."
     },
     "medical_and_physical_history": {
-      "pre_existing_medical_conditions": "No medical conditions reported.",
-      "pharmacological_treatments": "Currently prescribed mood stabilizers, antidepressants, and low-dose antipsychotics, though adherence is unclear.",
-      "allergies": "Not reported.",
-      "lifestyle": "Sedentary, spends much of the day in bed, with poor personal hygiene and limited daily structure.",
-      "general_physical_health": "No major illnesses noted but physical self-care is compromised.",
-      "sleep_patterns": "Irregular sleep with all-nighters during brief energized periods followed by 12-hour crashes and extended daytime bedrest.",
-      "eating_habits": "Heavy reliance on junk food and overeating, especially during depressive episodes."
+      "pre_existing_medical_conditions": "Nessuna condizione medica riportata.",
+      "pharmacological_treatments": "Attualmente prescritti stabilizzatori dell'umore, antidepressivi e antipsicotici a basso dosaggio, anche se l'aderenza non è chiara.",
+      "allergies": "Non riportato.",
+      "lifestyle": "Sedentaria, trascorre gran parte della giornata a letto, con scarsa igiene personale e struttura quotidiana limitata.",
+      "general_physical_health": "Nessuna malattia maggiore notata ma la cura di sé fisica è compromessa.",
+      "sleep_patterns": "Sonno irregolare con notti in bianco durante brevi periodi energizzati seguiti da crolli di 12 ore e riposo a letto prolungato durante il giorno.",
+      "eating_habits": "Forte dipendenza da cibo spazzatura e eccesso di cibo, specialmente durante episodi depressivi."
     },
     "social_and_environmental_context": {
-      "community_social_support": "Minimal involvement with community resources or support systems.",
-      "housing_conditions": "Lives alone in an apartment that serves as both refuge and site of prolonged isolation.",
-      "social_security": "Unemployed with unclear access to financial assistance or benefits.",
-      "social_cohesion": "Feels disconnected from neighbors and broader community.",
-      "social_determinants_of_mental_health": "Chronic unemployment, financial strain, social isolation, and familial achievement pressure exacerbate symptoms."
+      "community_social_support": "Coinvolgimento minimo con risorse comunitarie o sistemi di supporto.",
+      "housing_conditions": "Vive da sola in un appartamento che serve sia come rifugio che come sito di isolamento prolungato.",
+      "social_security": "Disoccupata con accesso non chiaro all'assistenza finanziaria o ai benefici.",
+      "social_cohesion": "Si sente disconnessa dai vicini e dalla comunità più ampia.",
+      "social_determinants_of_mental_health": "Disoccupazione cronica, stress finanziario, isolamento sociale e pressione familiare per il successo aggravano i sintomi."
     },
     "test_session_behavior": {
-      "recurring_dynamics": "Displays sensitivity to perceived slights, reacting with anger when the clinician glanced at the clock, consistent with borderline transference patterns.",
-      "prevalent_emotions": "Dysphoria, shame, irritability, and guarded hopefulness surfaced during the session.",
-      "speech_characteristics": "Coherent, goal-directed speech with edgy tone when discussing grievances.",
-      "nonverbal_communication": "Casually groomed yet somewhat unkempt appearance; cooperative demeanor despite evident tension."
+      "recurring_dynamics": "Mostra sensibilità a slights percepiti, reagendo con rabbia quando il clinico ha guardato l'orologio, coerente con pattern di transfert borderline.",
+      "prevalent_emotions": "Disforia, vergogna, irritabilità e speranza cauta sono emerse durante la seduta.",
+      "speech_characteristics": "Parlato coerente e orientato agli obiettivi con tono nervoso quando discute lamentele.",
+      "nonverbal_communication": "Aspetto casualmente curato ma piuttosto trasandato; comportamento cooperativo nonostante la tensione evidente."
     }
   },
-  "background": "A 33-year-old Hispanic woman with a complex psychological profile presenting with borderline personality disorder and major depressive disorder. She has a history of multiple treatment attempts, self-harm behaviors, and social isolation. Her background includes an upper-middle-class immigrant family that emphasized professional achievement, contributing to her current struggles with identity, relationships, and career stability.",
-  "objectives": ["Stabilize mood and reduce depressive symptoms", "Develop healthy coping mechanisms", "Improve interpersonal relationships and social functioning", "Address self-harm behaviors and suicidal ideation", "Build sustainable daily routines and work habits", "Enhance self-awareness and emotional regulation"],
+  "background": "Una donna ispanica di 33 anni con un profilo psicologico complesso che presenta disturbo borderline di personalità e disturbo depressivo maggiore. Ha una storia di multiple tentativi di trattamento, comportamenti autolesionistici e isolamento sociale. Il suo background include una famiglia di immigrati della classe medio-alta che enfatizzava il successo professionale, contribuendo alle sue attuali lotte con identità, relazioni e stabilità di carriera.",
+  "objectives": ["Stabilizzare l'umore e ridurre i sintomi depressivi", "Sviluppare meccanismi di coping sani", "Migliorare le relazioni interpersonali e il funzionamento sociale", "Affrontare i comportamenti autolesionistici e l'ideazione suicidaria", "Costruire routine quotidiane sostenibili e abitudini lavorative", "Migliorare la consapevolezza di sé e la regolazione emotiva"],
   "avatarUrl": "/images/patients/juanita.png",
   "avatarType": "illustration",
   "difficulty": "Difficile",

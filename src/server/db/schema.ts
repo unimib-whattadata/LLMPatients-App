@@ -266,7 +266,7 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    smallDescription: d.text({ length: 500 }).notNull(), // Brief description of the case
     details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
@@ -289,72 +289,11 @@ export const patients = createTable(
   ],
 );
 
-// Patient Tags table
-export const patientTags = createTable(
-  "patient_tag",
-  (d) => ({
-    id: d
-      .text({ length: 255 })
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
-    label: d.text({ length: 100 }).notNull(),
-    category: d.text({ length: 50 }).notNull(), // 'psychological', 'physical', 'behavioral'
-    color: d.text({ length: 20 }).default("#gray").notNull(),
-    createdAt: d
-      .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-  }),
-  (t) => [
-    index("patient_tag_category_idx").on(t.category),
-    index("patient_tag_label_idx").on(t.label),
-  ],
-);
-
-// Patient-Tag Relations (many-to-many)
-export const patientTagRelations = createTable(
-  "patient_tag_relation",
-  (d) => ({
-    patientId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => patients.id, { onDelete: "cascade" }),
-    tagId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => patientTags.id, { onDelete: "cascade" }),
-  }),
-  (t) => [
-    primaryKey({ columns: [t.patientId, t.tagId] }),
-    index("patient_tag_patient_idx").on(t.patientId),
-    index("patient_tag_tag_idx").on(t.tagId),
-  ],
-);
 
 // Relations for patients
 export const patientsRelations = relations(patients, ({ many }) => ({
-  tagRelations: many(patientTagRelations),
   therapySessions: many(therapySessions),
 }));
-
-export const patientTagsRelations = relations(patientTags, ({ many }) => ({
-  patientRelations: many(patientTagRelations),
-}));
-
-export const patientTagRelationsRelations = relations(
-  patientTagRelations,
-  ({ one }) => ({
-    patient: one(patients, {
-      fields: [patientTagRelations.patientId],
-      references: [patients.id],
-    }),
-    tag: one(patientTags, {
-      fields: [patientTagRelations.tagId],
-      references: [patientTags.id],
-    }),
-  }),
-);
 
 
 export const usersRelations = relations(users, ({ many }) => ({}));

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Test script to verify statistics calculation logic
 function getSessionStatus(sessionNumber) {
   if (sessionNumber === 1) return "started";

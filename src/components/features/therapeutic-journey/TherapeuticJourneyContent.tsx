@@ -20,7 +20,7 @@ type TherapySessionWithPatient = {
   patient: {
     id: string;
     name: string;
-    description: string;
+    smallDescription: string;
     difficulty: number;
     estimatedDuration: number;
   };

@@ -2581,7 +2581,7 @@
     font-size: 0.9rem;
     color: var(--home-gold);
     font-weight: 500;
-    margin-bottom: 0.9rem;
+    margin-bottom: 1.5rem;
   }
 
   .patient-card-description {
@@ -2595,7 +2595,15 @@
     -webkit-line-clamp: 4;
   }
 
+  .patient-card-background {
+    font-size: 0.9rem;
+    color: var(--home-text-soft);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
   .patient-card-objectives {
+    margin-top: 1.5rem;
     margin-bottom: 1.1rem;
   }
 

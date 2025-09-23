@@ -41,7 +41,7 @@ const patients = createTable(
       .primaryKey()
       .$defaultFn(() => crypto.randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    description: d.text({ length: 500 }).notNull(), // Brief description of the case
+    smallDescription: d.text({ length: 500 }).notNull(), // Brief description of the case
     details: d.text().notNull(), // JSON string containing all patient details
     background: d.text({ length: 2000 }).notNull(),
     objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
@@ -58,32 +58,6 @@ const patients = createTable(
   }),
 );
 
-const patientTags = createTable(
-  "patient_tag",
-  (d) => ({
-    id: d
-      .text({ length: 255 })
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => crypto.randomUUID()),
-    label: d.text({ length: 100 }).notNull(),
-    category: d.text({ length: 50 }).notNull(),
-    color: d.text({ length: 20 }).default("#gray").notNull(),
-    createdAt: d
-      .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-  }),
-);
-
-const patientTagRelations = createTable(
-  "patient_tag_relation",
-  (d) => ({
-    patientId: d.text({ length: 255 }).notNull(),
-    tagId: d.text({ length: 255 }).notNull(),
-  }),
-  (t) => [primaryKey({ columns: [t.patientId, t.tagId] })],
-);
 
 const therapySessions = createTable(
   "therapy_session",
@@ -145,24 +119,10 @@ const SEED_USERS = [
   },
 ] as const;
 
-const TAGS = [
-  { label: "Tono dell'umore basso", category: "psychological", color: "#8B5CF6" },
-  { label: "Impulsività", category: "behavioral", color: "#F59E0B" },
-  { label: "Ansia sociale", category: "psychological", color: "#8B5CF6" },
-  { label: "Dolore cronico", category: "physical", color: "#3B82F6" },
-  { label: "Disturbi del sonno", category: "physical", color: "#3B82F6" },
-  { label: "Aggressività", category: "behavioral", color: "#F59E0B" },
-  { label: "Depressione", category: "psychological", color: "#8B5CF6" },
-  { label: "Ipertensione", category: "physical", color: "#3B82F6" },
-  { label: "Isolamento sociale", category: "behavioral", color: "#F59E0B" },
-  { label: "Trauma", category: "psychological", color: "#8B5CF6" },
-  { label: "Disturbi alimentari", category: "behavioral", color: "#F59E0B" },
-  { label: "Problemi relazionali", category: "psychological", color: "#8B5CF6" },
-];
 
 type PatientSeed = {
   name: string;
-  description: string;
+  smallDescription: string;
   details: {
     demographic_sociocultural_information: {
       age: string;
@@ -178,7 +138,6 @@ type PatientSeed = {
   avatarType: string;
   difficulty: number;
   estimatedDuration: number;
-  tags?: string[];
 };
 
 // Function to read patient data from JSON files
@@ -197,7 +156,7 @@ function loadPatientsFromFiles(): PatientSeed[] {
       // Convert JSON data to PatientSeed format
       const patient: PatientSeed = {
         name: patientData.name || extractNameFromFilename(file),
-        description: patientData.description || extractDescriptionFromData(patientData),
+        smallDescription: patientData.small_description || extractDescriptionFromData(patientData),
         details: patientData.details || patientData, // Use the full data if no details field
         background: patientData.background || extractBackgroundFromData(patientData),
         objectives: patientData.objectives ? 
@@ -207,7 +166,6 @@ function loadPatientsFromFiles(): PatientSeed[] {
         avatarType: patientData.avatarType || "illustration",
         difficulty: mapDifficultyToNumber(patientData.difficulty),
         estimatedDuration: patientData.estimatedDuration || 30,
-        tags: patientData.tags || extractTagsFromData(patientData),
       };
       
       patients.push(patient);
@@ -278,31 +236,6 @@ function mapDifficultyToNumber(difficulty: any): number {
   return DIFFICULTY_LEVELS.MEDIO; // Default to medium difficulty
 }
 
-function extractTagsFromData(data: any): string[] {
-  const tags: string[] = [];
-  
-  // Extract tags based on psychological profile
-  const mainSymptoms = data.psychological_profile_and_cognitive_functioning?.main_symptoms?.toLowerCase();
-  if (mainSymptoms) {
-    if (mainSymptoms.includes('depression') || mainSymptoms.includes('depressed')) tags.push('Depressione');
-    if (mainSymptoms.includes('anxiety') || mainSymptoms.includes('anxious')) tags.push('Ansia sociale');
-    if (mainSymptoms.includes('eating') || mainSymptoms.includes('binge')) tags.push('Disturbi alimentari');
-    if (mainSymptoms.includes('aggression') || mainSymptoms.includes('aggressive')) tags.push('Aggressività');
-    if (mainSymptoms.includes('isolation') || mainSymptoms.includes('withdrawal')) tags.push('Isolamento sociale');
-    if (mainSymptoms.includes('trauma') || mainSymptoms.includes('traumatic')) tags.push('Trauma');
-    if (mainSymptoms.includes('relationship') || mainSymptoms.includes('marital')) tags.push('Problemi relazionali');
-  }
-  
-  // Add physical health tags
-  const medicalConditions = data.medical_and_physical_history?.pre_existing_medical_conditions?.toLowerCase();
-  if (medicalConditions) {
-    if (medicalConditions.includes('hypertension') || medicalConditions.includes('blood pressure')) tags.push('Ipertensione');
-    if (medicalConditions.includes('sleep') || medicalConditions.includes('insomnia')) tags.push('Disturbi del sonno');
-    if (medicalConditions.includes('pain') || medicalConditions.includes('chronic')) tags.push('Dolore cronico');
-  }
-  
-  return tags.length > 0 ? tags : ['Tono dell\'umore basso']; // Default tag
-}
 
 const PATIENTS: PatientSeed[] = loadPatientsFromFiles();
 
@@ -346,41 +279,14 @@ async function seedDatabase() {
   }
 }
 
-async function seedPatientTags() {
-  const existingTags = await db
-    .select({ label: patientTags.label })
-    .from(patientTags);
-
-  const knownLabels = new Set(existingTags.map((tag) => tag.label));
-  let created = 0;
-
-  for (const tag of TAGS) {
-    if (knownLabels.has(tag.label)) {
-      continue;
-    }
-
-    await db.insert(patientTags).values(tag);
-    knownLabels.add(tag.label);
-    created += 1;
-  }
-
-  console.log(`🏷️  Tag paziente pronti (${created} nuovi, ${knownLabels.size} totali)`);
-}
 
 async function seedPatients() {
   // First, delete all existing patients and their dependent records
   console.log("[INFO] Removing existing patients...");
   // Delete in order: first dependent tables, then main table
-  await db.delete(patientTagRelations);
   await db.delete(therapySessions);
   await db.delete(patients);
   console.log("[INFO] Existing patients removed");
-
-  // Get all available tags
-  const tagRows = await db
-    .select({ id: patientTags.id, label: patientTags.label })
-    .from(patientTags);
-  const tagIdByLabel = new Map(tagRows.map((tag) => [tag.label, tag.id] as const));
 
   let created = 0;
 
@@ -390,7 +296,7 @@ async function seedPatients() {
       .insert(patients)
       .values({
         name: patient.name,
-        description: patient.description,
+        smallDescription: patient.smallDescription,
         details: JSON.stringify(patient.details),
         background: patient.background,
         objectives: JSON.stringify(patient.objectives),
@@ -408,16 +314,6 @@ async function seedPatients() {
     }
 
     created += 1;
-
-    // Add tag relations
-    for (const label of patient.tags ?? []) {
-      const tagId = tagIdByLabel.get(label);
-      if (!tagId) {
-        continue;
-      }
-
-      await db.insert(patientTagRelations).values({ patientId, tagId });
-    }
   }
 
   console.log(`[INFO] Pazienti virtuali pronti (${created} totali)`);
@@ -426,7 +322,6 @@ async function seedPatients() {
 async function runSeeding() {
   try {
     await seedDatabase();
-    await seedPatientTags();
     await seedPatients();
     console.log("[SUCCESS] Seeding completato");
     process.exit(0);
@@ -454,4 +349,4 @@ if (isDirectExecution) {
   void runSeeding();
 }
 
-export { seedDatabase, seedPatientTags };
+export { seedDatabase };

@@ -167,7 +167,7 @@ export const therapySessionsRouter = createTRPCRouter({
           columns: {
             id: true,
             name: true,
-            description: true,
+            smallDescription: true,
             details: true,
             background: true,
             objectives: true,
@@ -176,32 +176,11 @@ export const therapySessionsRouter = createTRPCRouter({
             difficulty: true,
             estimatedDuration: true,
           },
-          with: {
-            tagRelations: {
-              with: {
-                tag: true,
-              },
-            },
-          },
         },
       },
       orderBy: [desc(therapySessions.updatedAt), therapySessions.createdAt],
     });
 
-    // Transform the data to include tags array
-    const transformedSessions = sessions.map((session) => ({
-      ...session,
-      patient: {
-        ...session.patient,
-        tags: session.patient.tagRelations.map((relation) => ({
-          id: relation.tag.id,
-          label: relation.tag.label,
-          category: relation.tag.category,
-          color: relation.tag.color,
-        })),
-      },
-    }));
-
-    return transformedSessions;
+    return sessions;
   }),
 });

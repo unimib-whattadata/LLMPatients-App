@@ -6,7 +6,6 @@ import { useState } from "react";
 
 import {
   PatientAvatar,
-  PatientTags,
 } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
@@ -89,7 +88,7 @@ export function PatientDetailContent() {
     { label: patient.name },
   ];
 
-  const details = JSON.parse(patient.details) as {
+  let details: {
     demographic_sociocultural_information?: {
       age?: string;
       gender?: string;
@@ -97,7 +96,15 @@ export function PatientDetailContent() {
     psychological_profile_and_cognitive_functioning?: {
       current_and_past_psychiatric_diagnoses?: string;
     };
-  };
+  } = {};
+
+  try {
+    details = JSON.parse(patient.details) as typeof details;
+  } catch (error) {
+    console.error('Failed to parse patient details:', error);
+    // Fallback to empty object to prevent crashes
+    details = {};
+  }
   const infoItems = [
     { label: "Eta", value: `${details.demographic_sociocultural_information?.age || 'N/A'} anni` },
     { label: "Genere", value: details.demographic_sociocultural_information?.gender || 'N/A', capitalize: true },
@@ -136,7 +143,7 @@ export function PatientDetailContent() {
           {/* Description */}
           <div className="mt-4">
             <p className="patient-card-condition">
-              {patient.description}
+              {patient.smallDescription}
             </p>
           </div>
         </div>
@@ -193,12 +200,6 @@ export function PatientDetailContent() {
               </ul>
             </article>
 
-            {(patient.tags?.length ?? 0) > 0 && (
-              <article className={SECTION}>
-                <h2 className={HEADING_CLASS}>Caratteristiche cliniche</h2>
-                <PatientTags tags={patient.tags} />
-              </article>
-            )}
 
             <article className={SECTION}>
               <h2 className={HEADING_CLASS}>Inizia la simulazione</h2>

@@ -8,7 +8,7 @@ import {
   SectionSkeleton,
   ListItemSkeleton,
   ActionCardSkeleton,
-} from "~/components/ui/Skeleton";
+} from "~/components/ui/skeleton";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<

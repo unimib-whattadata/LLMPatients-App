@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Patient } from "~/types";
 import { PatientAvatar } from "./PatientAvatar";
-import { PatientTags } from "./PatientTags";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import {
   getDifficultyIconClass,
@@ -30,7 +29,7 @@ interface PatientCardProps {
  * @returns JSX element representing a patient card
  */
 export function PatientCard({ patient }: PatientCardProps) {
-  const details = JSON.parse(patient.details) as {
+  let details: {
     demographic_sociocultural_information?: {
       age?: string;
       gender?: string;
@@ -38,7 +37,15 @@ export function PatientCard({ patient }: PatientCardProps) {
     psychological_profile_and_cognitive_functioning?: {
       current_and_past_psychiatric_diagnoses?: string;
     };
-  };
+  } = {};
+
+  try {
+    details = JSON.parse(patient.details) as typeof details;
+  } catch (error) {
+    console.error('Failed to parse patient details:', error);
+    // Fallback to empty object to prevent crashes
+    details = {};
+  }
 
   const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
@@ -92,7 +99,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
           {/* Description */}
           <p className="patient-card-condition" itemProp="description">
-            {patient.description}
+            {patient.smallDescription}
           </p>
 
           {/* Background Description */}
@@ -150,8 +157,6 @@ export function PatientCard({ patient }: PatientCardProps) {
             </div>
           </div>
 
-          {/* Tags */}
-          <PatientTags tags={patient.tags} />
         </div>
 
         {/* Action Button */}

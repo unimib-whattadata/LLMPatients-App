@@ -20,7 +20,7 @@ type TherapySessionWithPatient = {
   patient: {
     id: string;
     name: string;
-    description: string;
+    smallDescription: string;
     difficulty: number;
     estimatedDuration: number;
   };
@@ -118,7 +118,7 @@ function TherapySessionCardComponent({
                 className="dashboard-action-card__description"
                 itemProp="description"
               >
-                {therapySession.patient.description}
+                {therapySession.patient.smallDescription}
               </p>
             </div>
             <div className="flex flex-col items-end gap-2">
