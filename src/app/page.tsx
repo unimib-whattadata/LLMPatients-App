@@ -102,11 +102,6 @@ export default async function Home() {
             Uno strumento per l&apos;addestramento alla psicoterapia, progettato
             per studenti universitari e tutor clinici.
           </p>
-          <div className="home-hero-actions">
-            <Link href="#" className="btn btn-primary" itemProp="url">
-              Scopri il progetto
-            </Link>
-          </div>
           <meta
             itemProp="applicationCategory"
             content="EducationalApplication"
