@@ -28,7 +28,7 @@ export default async function TherapeuticJourneyPage() {
       }}
       impersonation={session.impersonation ?? undefined}
       layoutType="dashboard"
-      currentPage="/therapeutic-journey"
+      currentPage="/dashboard/therapeutic-journey"
     >
       <TherapeuticJourneyContent />
     </SharedLayout>

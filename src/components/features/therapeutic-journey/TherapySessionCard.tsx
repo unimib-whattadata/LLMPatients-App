@@ -184,7 +184,7 @@ function TherapySessionCardComponent({
 
           <div className="mt-6">
             <Link
-              href={`/therapeutic-journey/${therapySession.patientId}`}
+              href={`/dashboard/therapeutic-journey/${therapySession.patientId}`}
               className="btn btn-primary w-full"
             >
               {sessionStatus === "completed"

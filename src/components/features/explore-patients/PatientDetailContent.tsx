@@ -49,13 +49,13 @@ export function PatientDetailContent() {
     onSuccess: (startedSession) => {
       setActionError(null);
       if (startedSession) {
-        router.push(`/therapeutic-journey/${startedSession.patientId}`);
+        router.push(`/dashboard/therapeutic-journey/${startedSession.patientId}`);
       }
     },
     onError: (mutationError) => {
       if (mutationError?.data?.code === "UNAUTHORIZED") {
         const target = encodeURIComponent(
-          `/therapeutic-journey/${patientId ?? ""}`,
+          `/dashboard/therapeutic-journey/${patientId ?? ""}`,
         );
         router.push(`/login?callbackUrl=${target}`);
         return;
