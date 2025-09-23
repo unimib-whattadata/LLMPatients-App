@@ -61,7 +61,11 @@ export function TherapeuticJourneyContent() {
   const metrics = useMemo(() => {
     if (!allTherapySessions) return { inProgress: 0, completed: 0, averageProgress: 0 };
     
-    const inProgress = allTherapySessions.filter(s => getSessionStatus(s.sessionNumber) === "in-progress").length;
+    // Count sessions that are either started or in-progress as "in progress"
+    const inProgress = allTherapySessions.filter(s => {
+      const status = getSessionStatus(s.sessionNumber);
+      return status === "in-progress" || status === "started";
+    }).length;
     const completed = allTherapySessions.filter(s => getSessionStatus(s.sessionNumber) === "completed").length;
     const averageProgress = Math.round(
       allTherapySessions.reduce((acc, session) => acc + (session.sessionNumber / 11) * 100, 0) / allTherapySessions.length

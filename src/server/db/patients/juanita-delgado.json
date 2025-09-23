@@ -1,6 +1,8 @@
 {
   "id": "juanita-delgado",
   "name": "Juanita Delgado",
+  "description": "A 33-year-old single woman with borderline personality disorder and major depression, struggling with identity issues, self-harm behaviors, and chronic social isolation.",
+  "small_description": "Personality Disorder",
   "details": {
     "demographic_sociocultural_information": {
       "age": "33",

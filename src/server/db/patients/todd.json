@@ -1,5 +1,7 @@
 {
   "name": "Todd",
+  "description": "A 28-year-old single man with generalized anxiety disorder, experiencing social withdrawal, avoidance behaviors, and difficulty managing daily activities since childhood trauma.",
+  "small_description": "Anxiety Disorder",
   "avatarUrl": "/images/patients/todd.png",
   "avatarType": "illustration",
   "difficulty": "Medio",
