@@ -1,9 +1,6 @@
 import { z } from "zod";
 import { eq, and, desc } from "drizzle-orm";
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { chat, therapySessions } from "~/server/db/schema";
 
 /**
@@ -38,7 +35,7 @@ export const chatRouter = createTRPCRouter({
       z.object({
         therapySessionId: z.string(),
         stepNumber: z.number(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       // Verify user has access to this therapy session
@@ -48,8 +45,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id)
-          )
+            eq(therapySessions.userId, ctx.session.user.id),
+          ),
         )
         .limit(1);
 
@@ -63,8 +60,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber)
-          )
+            eq(chat.stepNumber, input.stepNumber),
+          ),
         )
         .limit(1);
 
@@ -72,7 +69,7 @@ export const chatRouter = createTRPCRouter({
         return null;
       }
 
-      const chatData = chatStep[0];
+      const chatData = chatStep[0]!;
       return {
         ...chatData,
         messages: JSON.parse(chatData.messages) as ChatMessage[],
@@ -92,9 +89,9 @@ export const chatRouter = createTRPCRouter({
             sender: z.enum(["user", "patient"]),
             timestamp: z.date(),
             stepId: z.number(),
-          })
+          }),
         ),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Verify user has access to this therapy session
@@ -104,8 +101,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id)
-          )
+            eq(therapySessions.userId, ctx.session.user.id),
+          ),
         )
         .limit(1);
 
@@ -119,8 +116,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber)
-          )
+            eq(chat.stepNumber, input.stepNumber),
+          ),
         )
         .limit(1);
 
@@ -138,22 +135,35 @@ export const chatRouter = createTRPCRouter({
           .insert(chat)
           .values(chatData)
           .returning();
-        
+
+        if (!newChat) {
+          throw new Error("Failed to create chat step");
+        }
+
         return {
           ...newChat,
           messages: JSON.parse(newChat.messages) as ChatMessage[],
         };
       } else {
         // Update existing chat step
+        const existingChatData = existingChat[0];
+        if (!existingChatData) {
+          throw new Error("Chat step not found");
+        }
+
         const [updatedChat] = await ctx.db
           .update(chat)
           .set({
             messages: JSON.stringify(input.messages),
             updatedAt: new Date(),
           })
-          .where(eq(chat.id, existingChat[0].id))
+          .where(eq(chat.id, existingChatData.id))
           .returning();
-        
+
+        if (!updatedChat) {
+          throw new Error("Failed to update chat step");
+        }
+
         return {
           ...updatedChat,
           messages: JSON.parse(updatedChat.messages) as ChatMessage[],
@@ -167,13 +177,13 @@ export const chatRouter = createTRPCRouter({
       z.object({
         therapySessionId: z.string(),
         stepNumber: z.number(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
-      console.log("markStepDone called with:", { 
-        therapySessionId: input.therapySessionId, 
+      console.log("markStepDone called with:", {
+        therapySessionId: input.therapySessionId,
         stepNumber: input.stepNumber,
-        userId: ctx.session.user.id 
+        userId: ctx.session.user.id,
       });
 
       // Verify user has access to this therapy session
@@ -183,8 +193,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id)
-          )
+            eq(therapySessions.userId, ctx.session.user.id),
+          ),
         )
         .limit(1);
 
@@ -201,13 +211,18 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber)
-          )
+            eq(chat.stepNumber, input.stepNumber),
+          ),
         )
         .limit(1);
 
       if (existingChat.length > 0) {
-        console.log("Updating existing chat step:", existingChat[0].id);
+        const existingChatData = existingChat[0];
+        if (!existingChatData) {
+          throw new Error("Chat step not found");
+        }
+
+        console.log("Updating existing chat step:", existingChatData.id);
         // Update existing chat step
         const [updatedChat] = await ctx.db
           .update(chat)
@@ -215,8 +230,12 @@ export const chatRouter = createTRPCRouter({
             done: true,
             updatedAt: new Date(),
           })
-          .where(eq(chat.id, existingChat[0].id))
+          .where(eq(chat.id, existingChatData.id))
           .returning();
+
+        if (!updatedChat) {
+          throw new Error("Failed to update chat step");
+        }
 
         console.log("Updated chat step successfully");
         return {
@@ -237,6 +256,10 @@ export const chatRouter = createTRPCRouter({
           })
           .returning();
 
+        if (!newChat) {
+          throw new Error("Failed to create chat step");
+        }
+
         console.log("Created new chat step successfully:", newChat.id);
         return {
           ...newChat,
@@ -250,7 +273,7 @@ export const chatRouter = createTRPCRouter({
     .input(
       z.object({
         therapySessionId: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       // Verify user has access to this therapy session
@@ -260,8 +283,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id)
-          )
+            eq(therapySessions.userId, ctx.session.user.id),
+          ),
         )
         .limit(1);
 
@@ -275,7 +298,7 @@ export const chatRouter = createTRPCRouter({
         .where(eq(chat.therapySessionId, input.therapySessionId))
         .orderBy(chat.stepNumber);
 
-      return chatSteps.map(step => ({
+      return chatSteps.map((step) => ({
         ...step,
         messages: JSON.parse(step.messages) as ChatMessage[],
       }));
@@ -287,7 +310,7 @@ export const chatRouter = createTRPCRouter({
       z.object({
         therapySessionId: z.string(),
         stepNumber: z.number(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       // Verify user has access to this therapy session
@@ -297,8 +320,8 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id)
-          )
+            eq(therapySessions.userId, ctx.session.user.id),
+          ),
         )
         .limit(1);
 
@@ -312,11 +335,11 @@ export const chatRouter = createTRPCRouter({
         .where(
           and(
             eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber)
-          )
+            eq(chat.stepNumber, input.stepNumber),
+          ),
         )
         .limit(1);
 
-      return chatStep.length > 0 ? chatStep[0].done : false;
+      return chatStep.length > 0 ? chatStep[0]!.done : false;
     }),
 });

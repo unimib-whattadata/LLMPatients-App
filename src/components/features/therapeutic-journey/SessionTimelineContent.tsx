@@ -18,17 +18,7 @@ type TimelineStep = {
   textColor?: string;
 };
 
-type UserRole = "admin" | "user";
-
-type User = {
-  id: string;
-  name: string | null;
-  email: string;
-  role: UserRole;
-  image?: string | null;
-};
-
-import type { ImpersonationContext } from "~/types";
+import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
 
 type Session = {
@@ -249,7 +239,6 @@ function buildRoundedOrthogonalPath(
   return pathCommands.join(" ");
 }
 
-
 // Timeline step component
 const TimelineStep = memo(
   ({
@@ -309,7 +298,6 @@ const TimelineStep = memo(
 );
 TimelineStep.displayName = "TimelineStep";
 
-
 // Mobile timeline step component
 const MobileTimelineStep = memo(
   ({
@@ -332,12 +320,15 @@ const MobileTimelineStep = memo(
     isCompleted: boolean;
   }) => (
     <div key={`mobile-step-${step.id}`} className="relative">
-      <span className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center" aria-hidden>
+      <span
+        className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center"
+        aria-hidden
+      >
         <span
-          className="block h-3 w-3 rounded-full flex items-center justify-center text-xs font-bold"
-          style={{ 
+          className="block flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
+          style={{
             backgroundColor: isCompleted ? "#22C55E" : step.color,
-            color: isCompleted ? "white" : "inherit"
+            color: isCompleted ? "white" : "inherit",
           }}
         >
           {isCompleted ? "✓" : ""}
@@ -369,11 +360,12 @@ const MobileTimelineStep = memo(
               {details.phaseTitle}
             </h2>
             <p className="mt-1 text-xs text-white/60">
-              {isCompleted ? "Sessione completata" : "Clicca per aprire la sessione"}
+              {isCompleted
+                ? "Sessione completata"
+                : "Clicca per aprire la sessione"}
             </p>
           </div>
         </div>
-
       </button>
     </div>
   ),
@@ -391,17 +383,14 @@ function normalizeParam(value: unknown): string | null {
 }
 
 interface SessionTimelineContentProps {
-  user: {
-    id: string;
-    name: string | null;
-    email: string;
-    role: string;
-    image?: string | null;
-  };
+  user: User;
   impersonation?: ImpersonationContext | undefined;
 }
 
-export function SessionTimelineContent({ user, impersonation }: SessionTimelineContentProps) {
+export function SessionTimelineContent({
+  user,
+  impersonation,
+}: SessionTimelineContentProps) {
   const params = useParams();
   const router = useRouter();
   const sessionId = normalizeParam(params.sessionId);
@@ -420,13 +409,11 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
   );
 
   // Get all completed chat steps for this therapy session
-  const {
-    data: completedSteps,
-    isLoading: completedStepsLoading,
-  } = api.chat.getSessionChats.useQuery(
-    { therapySessionId: therapySession?.id ?? "" },
-    { enabled: Boolean(therapySession?.id) },
-  );
+  const { data: completedSteps, isLoading: completedStepsLoading } =
+    api.chat.getSessionChats.useQuery(
+      { therapySessionId: therapySession?.id ?? "" },
+      { enabled: Boolean(therapySession?.id) },
+    );
 
   const {
     data: selectedPatient,
@@ -447,48 +434,56 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
     },
   });
 
-
   // Calculate which steps are unlocked based on completed steps
   const unlockedSteps = useMemo(() => {
     if (!completedSteps) return [1]; // First step is always unlocked
-    
+
     const completedStepNumbers = completedSteps
-      .filter(step => step.done)
-      .map(step => step.stepNumber)
+      .filter((step) => step.done)
+      .map((step) => step.stepNumber)
       .sort((a, b) => a - b);
-    
+
     // Always include step 1
     const unlocked = [1];
-    
+
     // Add next step after each completed step
-    completedStepNumbers.forEach(completedStep => {
+    completedStepNumbers.forEach((completedStep) => {
       const nextStep = completedStep + 1;
       if (nextStep <= timelineSteps.length && !unlocked.includes(nextStep)) {
         unlocked.push(nextStep);
       }
     });
-    
+
     return unlocked.sort((a, b) => a - b);
   }, [completedSteps]);
 
-  const isStepUnlocked = useCallback((stepId: number) => {
-    return unlockedSteps.includes(stepId);
-  }, [unlockedSteps]);
+  const isStepUnlocked = useCallback(
+    (stepId: number) => {
+      return unlockedSteps.includes(stepId);
+    },
+    [unlockedSteps],
+  );
 
-  const isStepCompleted = useCallback((stepId: number) => {
-    if (!completedSteps) return false;
-    return completedSteps.some(step => step.stepNumber === stepId && step.done);
-  }, [completedSteps]);
+  const isStepCompleted = useCallback(
+    (stepId: number) => {
+      if (!completedSteps) return false;
+      return completedSteps.some(
+        (step) => step.stepNumber === stepId && step.done,
+      );
+    },
+    [completedSteps],
+  );
 
   // Event handlers - must be before early return to maintain hook order
-  const handleStepClick = useCallback((stepId: number) => {
-    if (!isStepUnlocked(stepId)) return;
-    
-    // Navigate to chat page for the selected step
-    router.push(`/therapeutic-journey/${sessionId}/chat/${stepId}`);
-  }, [isStepUnlocked, router, sessionId]);
+  const handleStepClick = useCallback(
+    (stepId: number) => {
+      if (!isStepUnlocked(stepId)) return;
 
-
+      // Navigate to chat page for the selected step
+      router.push(`/therapeutic-journey/${sessionId}/chat/${stepId}`);
+    },
+    [isStepUnlocked, router, sessionId],
+  );
 
   // Computed values - must be before early return to maintain hook order
 
@@ -505,7 +500,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
 
   const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
   const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
-
 
   if (!sessionId) {
     return (
@@ -528,7 +522,7 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                 <div className="mt-6">
                   <Link
                     href="/therapeutic-journey"
-                    className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-block"
+                    className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
                     Torna alle sessioni
                   </Link>
@@ -550,7 +544,9 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
         currentPage="/therapeutic-journey"
       >
         <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-lg text-text-secondary">Caricamento del percorso...</p>
+          <p className="text-text-secondary text-lg">
+            Caricamento del percorso...
+          </p>
         </div>
       </SharedLayout>
     );
@@ -579,7 +575,7 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                 <div className="mt-6">
                   <Link
                     href="/therapeutic-journey"
-                    className="bg-primary-600 hover:bg-primary-700 text-white px-6 py-3 rounded-md font-medium transition-colors inline-block"
+                    className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
                     Torna alle sessioni
                   </Link>
@@ -607,12 +603,11 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                 <h1 className="dashboard-section__title">
                   {selectedPatient
                     ? `Il tuo percorso con ${selectedPatient.name}`
-                    : "Il tuo percorso terapeutico"
-                  }
+                    : "Il tuo percorso terapeutico"}
                 </h1>
                 <Link
                   href="/therapeutic-journey"
-                  className="bg-background-tertiary hover:bg-background-secondary text-text-primary px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                  className="bg-background-tertiary hover:bg-background-secondary text-text-primary rounded-md px-4 py-2 text-sm font-medium transition-colors"
                 >
                   ← Torna alle sessioni
                 </Link>
@@ -627,8 +622,11 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
               </p>
               {therapySession && (
                 <div className="mt-4 flex items-center gap-4">
-                  <div className="text-sm text-text-secondary">
-                    Sessione corrente: <span className="font-semibold text-text-primary">{therapySession.sessionNumber}/11</span>
+                  <div className="text-text-secondary text-sm">
+                    Sessione corrente:{" "}
+                    <span className="text-text-primary font-semibold">
+                      {therapySession.sessionNumber}/11
+                    </span>
                   </div>
                   {therapySession.sessionNumber < 11 && (
                     <button
@@ -637,9 +635,11 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                         void advanceSession.mutate({ patientId: sessionId });
                       }}
                       disabled={advanceSession.isPending}
-                      className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+                      className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
                     >
-                      {advanceSession.isPending ? "Avanzamento..." : "Avanza alla prossima sessione"}
+                      {advanceSession.isPending
+                        ? "Avanzamento..."
+                        : "Avanza alla prossima sessione"}
                     </button>
                   )}
                 </div>
@@ -701,9 +701,7 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                   />
                 </svg>
 
-                <div
-                  className="absolute inset-0 z-10"
-                >
+                <div className="absolute inset-0 z-10">
                   {stepPositions.map((step) => (
                     <TimelineStep
                       key={step.id}
@@ -716,7 +714,6 @@ export function SessionTimelineContent({ user, impersonation }: SessionTimelineC
                       isCompleted={isStepCompleted(step.id)}
                     />
                   ))}
-
                 </div>
               </div>
             </div>

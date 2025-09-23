@@ -4,7 +4,7 @@ import { ChatContent } from "@/components/features/therapeutic-journey/ChatConte
 
 /**
  * Chat Page for Virtual Patient Interaction
- * 
+ *
  * Server-side rendered page for chatting with virtual patients during therapy sessions
  */
 export default async function ChatPage() {
@@ -16,6 +16,8 @@ export default async function ChatPage() {
     redirect("/login");
   }
 
+  const impersonation = session.impersonation ?? undefined;
+
   return (
     <ChatContent
       user={{
@@ -25,7 +27,7 @@ export default async function ChatPage() {
         role: session.user.role || "user",
         image: session.user.image,
       }}
-      impersonation={session.impersonation ?? undefined}
+      impersonation={impersonation}
     />
   );
 }

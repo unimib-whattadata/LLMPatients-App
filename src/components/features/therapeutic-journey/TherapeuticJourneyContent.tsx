@@ -2,21 +2,42 @@
 
 import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { TherapySessionCard, TherapySessionFilters, TherapySessionMetrics, TherapySessionCardSkeleton } from "./index";
+import {
+  TherapySessionCard,
+  TherapySessionFilters,
+  TherapySessionMetrics,
+  TherapySessionCardSkeleton,
+} from "./index";
 import { api } from "~/trpc/react";
+
+type TherapySessionWithPatient = {
+  id: string;
+  userId: string;
+  patientId: string;
+  sessionNumber: number;
+  createdAt: Date;
+  updatedAt: Date | null;
+  patient: {
+    id: string;
+    name: string;
+    description: string;
+    difficulty: number;
+    estimatedDuration: number;
+  };
+};
 
 /**
  * Therapeutic Journey Content Component
- * 
+ *
  * Main component for displaying and managing therapy sessions for users.
  * Provides filtering, metrics, and session management functionality.
- * 
+ *
  * Features:
  * - Session filtering by status (all, started, in-progress, completed)
  * - Real-time metrics calculation (progress, completion rates)
  * - Responsive grid layout with loading states
  * - Integration with tRPC for data fetching
- * 
+ *
  * @returns JSX element containing the therapeutic journey interface
  */
 export function TherapeuticJourneyContent() {
@@ -47,8 +68,8 @@ export function TherapeuticJourneyContent() {
   const filteredSessions = useMemo(() => {
     if (!allTherapySessions) return [];
     if (filter === "all") return allTherapySessions;
-    
-    return allTherapySessions.filter(session => {
+
+    return allTherapySessions.filter((session) => {
       const status = getSessionStatus(session.sessionNumber);
       return status === filter;
     });
@@ -59,14 +80,22 @@ export function TherapeuticJourneyContent() {
    * @returns Object containing inProgress count, completed count, and average progress percentage
    */
   const metrics = useMemo(() => {
-    if (!allTherapySessions) return { inProgress: 0, completed: 0, averageProgress: 0 };
-    
-    const inProgress = allTherapySessions.filter(s => getSessionStatus(s.sessionNumber) === "in-progress").length;
-    const completed = allTherapySessions.filter(s => getSessionStatus(s.sessionNumber) === "completed").length;
+    if (!allTherapySessions)
+      return { inProgress: 0, completed: 0, averageProgress: 0 };
+
+    const inProgress = allTherapySessions.filter(
+      (s) => getSessionStatus(s.sessionNumber) === "in-progress",
+    ).length;
+    const completed = allTherapySessions.filter(
+      (s) => getSessionStatus(s.sessionNumber) === "completed",
+    ).length;
     const averageProgress = Math.round(
-      allTherapySessions.reduce((acc, session) => acc + (session.sessionNumber / 11) * 100, 0) / allTherapySessions.length
+      allTherapySessions.reduce(
+        (acc, session) => acc + (session.sessionNumber / 11) * 100,
+        0,
+      ) / allTherapySessions.length,
     );
-    
+
     return { inProgress, completed, averageProgress };
   }, [allTherapySessions, getSessionStatus]);
 
@@ -84,9 +113,12 @@ export function TherapeuticJourneyContent() {
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
-            <h1 className="dashboard-section__title">I tuoi percorsi terapeutici</h1>
+            <h1 className="dashboard-section__title">
+              I tuoi percorsi terapeutici
+            </h1>
             <p className="dashboard-section__description">
-              Seleziona un paziente per continuare il tuo percorso terapeutico o inizia una nuova simulazione.
+              Seleziona un paziente per continuare il tuo percorso terapeutico o
+              inizia una nuova simulazione.
             </p>
           </div>
         </div>
@@ -125,7 +157,7 @@ export function TherapeuticJourneyContent() {
           </div>
         ) : sessionsError ? (
           <div className="dashboard-empty-state">
-            <h3 className="text-lg font-medium text-text-primary mb-2">
+            <h3 className="text-text-primary mb-2 text-lg font-medium">
               Errore nel caricamento
             </h3>
             <p className="text-text-secondary">
@@ -134,23 +166,25 @@ export function TherapeuticJourneyContent() {
           </div>
         ) : !allTherapySessions || allTherapySessions.length === 0 ? (
           <div className="dashboard-empty-state">
-            <h3 className="text-lg font-medium text-text-primary mb-2">
+            <h3 className="text-text-primary mb-2 text-lg font-medium">
               Nessuna sessione avviata
             </h3>
             <p className="text-text-secondary">
-              Non hai ancora avviato nessuna sessione terapeutica. Vai alla pagina "Esplora Pazienti" per iniziare.
+              Non hai ancora avviato nessuna sessione terapeutica. Vai alla
+              pagina &quot;Esplora Pazienti&quot; per iniziare.
             </p>
             <div className="mt-6">
-              <Link
-                href="/explore-patients"
-                className="btn btn-primary"
-              >
+              <Link href="/explore-patients" className="btn btn-primary">
                 Esplora Pazienti
               </Link>
             </div>
           </div>
         ) : (
-          <div className="dashboard-action-grid" role="list" aria-label={`Griglia di ${filteredSessions.length} sessioni terapeutiche`}>
+          <div
+            className="dashboard-action-grid"
+            role="list"
+            aria-label={`Griglia di ${filteredSessions.length} sessioni terapeutiche`}
+          >
             {filteredSessions.map((therapySession) => (
               <TherapySessionCard
                 key={therapySession.id}
@@ -161,16 +195,18 @@ export function TherapeuticJourneyContent() {
           </div>
         )}
 
-        {filteredSessions.length === 0 && allTherapySessions && allTherapySessions.length > 0 && (
-          <div className="dashboard-empty-state">
-            <h3 className="text-lg font-medium text-text-primary mb-2">
-              Nessuna sessione trovata
-            </h3>
-            <p className="text-text-secondary">
-              Modifica i filtri per vedere più sessioni
-            </p>
-          </div>
-        )}
+        {filteredSessions.length === 0 &&
+          allTherapySessions &&
+          allTherapySessions.length > 0 && (
+            <div className="dashboard-empty-state">
+              <h3 className="text-text-primary mb-2 text-lg font-medium">
+                Nessuna sessione trovata
+              </h3>
+              <p className="text-text-secondary">
+                Modifica i filtri per vedere più sessioni
+              </p>
+            </div>
+          )}
       </section>
     </div>
   );
