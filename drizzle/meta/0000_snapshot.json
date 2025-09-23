@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4cd2e7b1-9006-4e14-bc04-8c43104fd6ed",
+  "id": "6ce500fb-d216-4cff-aa76-286ccc33a967",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "epatient_account": {
@@ -131,19 +131,34 @@
           "notNull": true,
           "autoincrement": false
         },
-        "userId": {
-          "name": "userId",
+        "therapySessionId": {
+          "name": "therapySessionId",
           "type": "text(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "virtualPatientId": {
-          "name": "virtualPatientId",
-          "type": "text(255)",
+        "stepNumber": {
+          "name": "stepNumber",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "messages": {
+          "name": "messages",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "done": {
+          "name": "done",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
         },
         "createdAt": {
           "name": "createdAt",
@@ -161,27 +176,44 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
-      "foreignKeys": {
-        "epatient_chat_userId_epatient_user_id_fk": {
-          "name": "epatient_chat_userId_epatient_user_id_fk",
-          "tableFrom": "epatient_chat",
-          "tableTo": "epatient_user",
-          "columnsFrom": [
-            "userId"
+      "indexes": {
+        "chat_session_idx": {
+          "name": "chat_session_idx",
+          "columns": [
+            "therapySessionId"
           ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
+          "isUnique": false
         },
-        "epatient_chat_virtualPatientId_epatient_patient_id_fk": {
-          "name": "epatient_chat_virtualPatientId_epatient_patient_id_fk",
+        "chat_step_number_idx": {
+          "name": "chat_step_number_idx",
+          "columns": [
+            "stepNumber"
+          ],
+          "isUnique": false
+        },
+        "chat_done_idx": {
+          "name": "chat_done_idx",
+          "columns": [
+            "done"
+          ],
+          "isUnique": false
+        },
+        "chat_session_step_idx": {
+          "name": "chat_session_step_idx",
+          "columns": [
+            "therapySessionId",
+            "stepNumber"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "epatient_chat_therapySessionId_epatient_therapy_session_id_fk": {
+          "name": "epatient_chat_therapySessionId_epatient_therapy_session_id_fk",
           "tableFrom": "epatient_chat",
-          "tableTo": "epatient_patient",
+          "tableTo": "epatient_therapy_session",
           "columnsFrom": [
-            "virtualPatientId"
+            "therapySessionId"
           ],
           "columnsTo": [
             "id"
@@ -442,237 +474,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_message": {
-      "name": "epatient_message",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text(255)",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "chatId": {
-          "name": "chatId",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "senderId": {
-          "name": "senderId",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "content": {
-          "name": "content",
-          "type": "text(2000)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        }
-      },
-      "indexes": {
-        "message_chat_id_idx": {
-          "name": "message_chat_id_idx",
-          "columns": [
-            "chatId"
-          ],
-          "isUnique": false
-        },
-        "message_sender_id_idx": {
-          "name": "message_sender_id_idx",
-          "columns": [
-            "senderId"
-          ],
-          "isUnique": false
-        },
-        "message_created_at_idx": {
-          "name": "message_created_at_idx",
-          "columns": [
-            "createdAt"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "epatient_message_chatId_epatient_chat_id_fk": {
-          "name": "epatient_message_chatId_epatient_chat_id_fk",
-          "tableFrom": "epatient_message",
-          "tableTo": "epatient_chat",
-          "columnsFrom": [
-            "chatId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "epatient_message_senderId_epatient_user_id_fk": {
-          "name": "epatient_message_senderId_epatient_user_id_fk",
-          "tableFrom": "epatient_message",
-          "tableTo": "epatient_user",
-          "columnsFrom": [
-            "senderId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "epatient_patient_tag_relation": {
-      "name": "epatient_patient_tag_relation",
-      "columns": {
-        "patientId": {
-          "name": "patientId",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "tagId": {
-          "name": "tagId",
-          "type": "text(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "patient_tag_patient_idx": {
-          "name": "patient_tag_patient_idx",
-          "columns": [
-            "patientId"
-          ],
-          "isUnique": false
-        },
-        "patient_tag_tag_idx": {
-          "name": "patient_tag_tag_idx",
-          "columns": [
-            "tagId"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {
-        "epatient_patient_tag_relation_patientId_epatient_patient_id_fk": {
-          "name": "epatient_patient_tag_relation_patientId_epatient_patient_id_fk",
-          "tableFrom": "epatient_patient_tag_relation",
-          "tableTo": "epatient_patient",
-          "columnsFrom": [
-            "patientId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "epatient_patient_tag_relation_tagId_epatient_patient_tag_id_fk": {
-          "name": "epatient_patient_tag_relation_tagId_epatient_patient_tag_id_fk",
-          "tableFrom": "epatient_patient_tag_relation",
-          "tableTo": "epatient_patient_tag",
-          "columnsFrom": [
-            "tagId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "epatient_patient_tag_relation_patientId_tagId_pk": {
-          "columns": [
-            "patientId",
-            "tagId"
-          ],
-          "name": "epatient_patient_tag_relation_patientId_tagId_pk"
-        }
-      },
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "epatient_patient_tag": {
-      "name": "epatient_patient_tag",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text(255)",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "label": {
-          "name": "label",
-          "type": "text(100)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "category": {
-          "name": "category",
-          "type": "text(50)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "color": {
-          "name": "color",
-          "type": "text(20)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'#gray'"
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(unixepoch())"
-        }
-      },
-      "indexes": {
-        "patient_tag_category_idx": {
-          "name": "patient_tag_category_idx",
-          "columns": [
-            "category"
-          ],
-          "isUnique": false
-        },
-        "patient_tag_label_idx": {
-          "name": "patient_tag_label_idx",
-          "columns": [
-            "label"
-          ],
-          "isUnique": false
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "epatient_patient": {
       "name": "epatient_patient",
       "columns": {
@@ -690,8 +491,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "description": {
-          "name": "description",
+        "smallDescription": {
+          "name": "smallDescription",
           "type": "text(500)",
           "primaryKey": false,
           "notNull": true,
@@ -791,6 +592,13 @@
           "name": "virtual_patient_created_at_idx",
           "columns": [
             "createdAt"
+          ],
+          "isUnique": false
+        },
+        "virtual_patient_name_idx": {
+          "name": "virtual_patient_name_idx",
+          "columns": [
+            "name"
           ],
           "isUnique": false
         }
@@ -913,6 +721,13 @@
           "name": "therapy_session_patient_idx",
           "columns": [
             "patientId"
+          ],
+          "isUnique": false
+        },
+        "therapy_session_updated_at_idx": {
+          "name": "therapy_session_updated_at_idx",
+          "columns": [
+            "updatedAt"
           ],
           "isUnique": false
         },
@@ -1087,7 +902,29 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "users_email_idx": {
+          "name": "users_email_idx",
+          "columns": [
+            "email"
+          ],
+          "isUnique": false
+        },
+        "users_name_idx": {
+          "name": "users_name_idx",
+          "columns": [
+            "name"
+          ],
+          "isUnique": false
+        },
+        "users_role_idx": {
+          "name": "users_role_idx",
+          "columns": [
+            "role"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
