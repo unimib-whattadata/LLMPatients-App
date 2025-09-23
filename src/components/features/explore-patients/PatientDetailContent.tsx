@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
+import { ClockIcon } from "@heroicons/react/24/outline";
 
 import {
   PatientAvatar,
@@ -10,13 +11,10 @@ import {
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
 
-const SECTION_BASE = "bg-background-secondary rounded-lg";
-const SECTION = `${SECTION_BASE} p-6`;
-const SECTION_WITH_OVERFLOW = `${SECTION_BASE} overflow-hidden`;
 const BREADCRUMB_NAV =
   "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
-const HEADING_CLASS = "text-xl font-semibold text-text-primary mb-4";
-const CTA_BUTTON = "flex-1 font-medium py-3 px-6 rounded-md text-center";
+const SECTION_WITH_OVERFLOW = "bg-background-secondary rounded-lg overflow-hidden";
+const SECTION = "bg-background-secondary rounded-lg p-6";
 
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
@@ -131,78 +129,85 @@ export function PatientDetailContent() {
             ))}
           </nav>
 
-          <div className="flex flex-wrap items-center gap-4">
-            <h1 className="text-text-primary text-3xl font-bold">
-              {patient.name}
-            </h1>
-            <span className={getDifficultyIconClass(patient.difficulty)}>
-              {getDifficultyLabel(patient.difficulty)}
-            </span>
-          </div>
-          
-          {/* Description */}
-          <div className="mt-4">
-            <p className="patient-card-condition">
-              {patient.smallDescription}
-            </p>
-          </div>
         </div>
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <aside className="lg:col-span-1">
-            <div className={SECTION_WITH_OVERFLOW}>
+            <div className="bg-background-secondary rounded-lg overflow-hidden">
               <PatientAvatar
                 name={patient.name}
                 avatarUrl={patient.avatarUrl}
                 avatarType={patient.avatarType}
+                isDetailPage={true}
               />
               <div className="p-6">
-                <ul className="space-y-4">
-                  {infoItems.map((item) => (
-                    <li key={item.label}>
-                      <p className="text-text-tertiary mb-1 text-sm">
-                        {item.label}
-                      </p>
-                      <p
-                        className={`text-text-primary font-medium${item.capitalize ? "capitalize" : ""}`}
-                      >
-                        {item.value}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
+                {/* Patient Info Header */}
+                <header className="patient-card-header">
+                  <h1 className="patient-card-title">
+                    {patient.name}
+                  </h1>
+                  <span className="patient-card-age">
+                    {details.demographic_sociocultural_information?.age || "N/A"} anni
+                  </span>
+                </header>
+
+                {/* Description */}
+                <p className="patient-card-condition">
+                  {patient.smallDescription}
+                </p>
+
+                {/* Metadata */}
+                <div className="patient-card-metadata">
+                  <div className="patient-card-difficulty">
+                    <span
+                      className={getDifficultyIconClass(patient.difficulty)}
+                      aria-label={`Difficoltà ${getDifficultyLabel(patient.difficulty)}`}
+                      role="img"
+                    >
+                      {patient.difficulty === 1 ? "•" : patient.difficulty === 2 ? "••" : "•••"}
+                    </span>
+                    <span>{getDifficultyLabel(patient.difficulty)}</span>
+                  </div>
+                  <div className="patient-card-duration">
+                    <ClockIcon
+                      className="patient-card-duration-icon"
+                      aria-hidden="true"
+                    />
+                    <span>{patient.estimatedDuration} min</span>
+                  </div>
+                </div>
               </div>
             </div>
           </aside>
 
           <section className="space-y-6 lg:col-span-2">
-            <article className={SECTION}>
-              <h2 className={HEADING_CLASS}>Storia del paziente</h2>
-              <p className="text-text-secondary leading-relaxed">
+            <article className="bg-background-secondary rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-text-primary mb-4">Storia del paziente</h2>
+              <p className="patient-card-background">
                 {patient.background}
               </p>
             </article>
 
-            <article className={SECTION}>
-              <h2 className={HEADING_CLASS}>Obiettivi di apprendimento</h2>
-              <ul className="space-y-3">
-                {patient.objectives.map((objective, index) => (
-                  <li
-                    key={`${objective}-${index}`}
-                    className="flex items-start gap-3"
-                  >
-                    <span className="text-primary-300 mt-1">•</span>
-                    <span className="text-text-secondary">{objective}</span>
-                  </li>
-                ))}
-              </ul>
+            <article className="bg-background-secondary rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-text-primary mb-4">Obiettivi di apprendimento</h2>
+              <div className="patient-card-objectives">
+                <ul className="patient-card-objective-list">
+                  {patient.objectives.map((objective, index) => (
+                    <li key={index} className="patient-card-objective-item">
+                      <span className="patient-card-objective-bullet">-</span>
+                      <span className="patient-card-objective-text">
+                        {objective}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
 
-
-            <article className={SECTION}>
-              <h2 className={HEADING_CLASS}>Inizia la simulazione</h2>
+            <article className="bg-background-secondary rounded-lg p-6">
+              <h2 className="text-xl font-semibold text-text-primary mb-4">Inizia la simulazione</h2>
               <p className="text-text-secondary mb-6">
                 Sei pronto a iniziare l&apos;interazione con {patient.name}? La
                 simulazione ti permette di mettere in pratica le tue competenze
@@ -211,7 +216,7 @@ export function PatientDetailContent() {
               <div className="flex flex-col gap-4 sm:flex-row">
                 <button
                   type="button"
-                  className={`${CTA_BUTTON} bg-primary-600 hover:bg-primary-700 text-text-primary`}
+                  className="patient-card-button"
                   onClick={() => {
                     if (!patient) return;
                     setActionError(null);
@@ -224,12 +229,6 @@ export function PatientDetailContent() {
                     ? "Avvio in corso..."
                     : "Inizia simulazione"}
                 </button>
-                <Link
-                  href="/explore-patients"
-                  className={`${CTA_BUTTON} bg-background-tertiary hover:bg-background-secondary text-text-primary`}
-                >
-                  &lt;- Torna all&apos;esplorazione
-                </Link>
               </div>
               {actionError && (
                 <p className="text-sm text-red-500 mt-4">{actionError}</p>

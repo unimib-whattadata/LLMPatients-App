@@ -8,6 +8,7 @@ interface PatientAvatarProps {
   name: string;
   avatarUrl?: string | null;
   avatarType: "photo" | "illustration" | "avatar";
+  isDetailPage?: boolean;
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
@@ -68,26 +69,24 @@ function buildPlaceholder(name: string) {
   return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
-export function PatientAvatar({ name, avatarUrl, avatarType }: PatientAvatarProps) {
+export function PatientAvatar({ name, avatarUrl, avatarType, isDetailPage = false }: PatientAvatarProps) {
   const [hasError, setHasError] = useState(false);
   const placeholder = useMemo(() => buildPlaceholder(name), [name]);
   const showPlaceholder = !avatarUrl || hasError;
 
   return (
-    <div className="patient-avatar-container">
+    <div className={`patient-avatar-container ${isDetailPage ? 'patient-avatar-container--detail' : ''}`}>
       <Image
         src={showPlaceholder ? placeholder : avatarUrl}
         alt={`Avatar di ${name}`}
-        width={192}
-        height={192}
+        width={400}
+        height={400}
         className="patient-avatar-image"
         onLoad={() => setHasError(false)}
         onError={() => setHasError(true)}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         unoptimized={showPlaceholder}
       />
-
-      <div className="absolute inset-0 bg-black/20 pointer-events-none" />
 
       {hasError && avatarUrl && (
         <div className="patient-avatar-error">
