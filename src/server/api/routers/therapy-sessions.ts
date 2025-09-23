@@ -1,10 +1,7 @@
 import { and, eq, desc } from "drizzle-orm";
 import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { patients, therapySessions } from "~/server/db/schema";
 
 /**
@@ -14,17 +11,17 @@ export type TherapySession = typeof therapySessions.$inferSelect;
 
 /**
  * Therapy Sessions Router
- * 
+ *
  * Handles all therapy session related operations including starting sessions,
  * retrieving user sessions, and managing session progress.
  */
 export const therapySessionsRouter = createTRPCRouter({
   /**
    * Start a new therapy session or update existing session
-   * 
+   *
    * Creates a new therapy session for a user-patient pair or updates
    * the session number if a higher number is provided.
-   * 
+   *
    * @param input - Patient ID and optional session number
    * @returns Created or updated therapy session
    */
@@ -32,12 +29,7 @@ export const therapySessionsRouter = createTRPCRouter({
     .input(
       z.object({
         patientId: z.string().min(1, "Patient id is required"),
-        sessionNumber: z
-          .number()
-          .int()
-          .min(1)
-          .max(11)
-          .optional(),
+        sessionNumber: z.number().int().min(1).max(11).optional(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -94,10 +86,10 @@ export const therapySessionsRouter = createTRPCRouter({
 
   /**
    * Get therapy session for a specific patient
-   * 
+   *
    * Retrieves the therapy session for the current user and specified patient.
    * Returns null if no session exists.
-   * 
+   *
    * @param input - Patient ID
    * @returns Therapy session or null
    */
@@ -123,10 +115,10 @@ export const therapySessionsRouter = createTRPCRouter({
 
   /**
    * Advance therapy session to next step
-   * 
+   *
    * Increments the session number for a therapy session, up to a maximum of 11.
    * Used when a user completes a step in their therapy journey.
-   * 
+   *
    * @param input - Patient ID
    * @returns Updated therapy session
    */
@@ -165,32 +157,51 @@ export const therapySessionsRouter = createTRPCRouter({
       return updated[0];
     }),
 
-  getAllForUser: protectedProcedure
-    .query(async ({ ctx }) => {
-      const userId = ctx.session.user.id;
+  getAllForUser: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
 
-      const sessions = await ctx.db.query.therapySessions.findMany({
-        where: eq(therapySessions.userId, userId),
-        with: {
-          patient: {
-            columns: {
-              id: true,
-              name: true,
-              description: true,
-              details: true,
-              background: true,
-              objectives: true,
-              avatarUrl: true,
-              avatarType: true,
-              difficulty: true,
-              estimatedDuration: true,
-              tags: true,
+    const sessions = await ctx.db.query.therapySessions.findMany({
+      where: eq(therapySessions.userId, userId),
+      with: {
+        patient: {
+          columns: {
+            id: true,
+            name: true,
+            description: true,
+            details: true,
+            background: true,
+            objectives: true,
+            avatarUrl: true,
+            avatarType: true,
+            difficulty: true,
+            estimatedDuration: true,
+          },
+          with: {
+            tagRelations: {
+              with: {
+                tag: true,
+              },
             },
           },
         },
-        orderBy: [desc(therapySessions.updatedAt), therapySessions.createdAt],
-      });
+      },
+      orderBy: [desc(therapySessions.updatedAt), therapySessions.createdAt],
+    });
 
-      return sessions;
-    }),
+    // Transform the data to include tags array
+    const transformedSessions = sessions.map((session) => ({
+      ...session,
+      patient: {
+        ...session.patient,
+        tags: session.patient.tagRelations.map((relation) => ({
+          id: relation.tag.id,
+          label: relation.tag.label,
+          category: relation.tag.category,
+          color: relation.tag.color,
+        })),
+      },
+    }));
+
+    return transformedSessions;
+  }),
 });

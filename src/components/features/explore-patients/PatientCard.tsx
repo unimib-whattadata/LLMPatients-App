@@ -3,11 +3,10 @@ import type { Patient } from "~/types";
 import { PatientAvatar } from "./PatientAvatar";
 import { PatientTags } from "./PatientTags";
 import { ClockIcon } from "@heroicons/react/24/outline";
-import { 
-  getDifficultyClass, 
-  getDifficultyIconClass, 
+import {
+  getDifficultyIconClass,
   getDifficultyAccessibleText,
-  getDifficultyLabel 
+  getDifficultyLabel,
 } from "~/lib/constants/difficulty";
 
 interface PatientCardProps {
@@ -16,17 +15,17 @@ interface PatientCardProps {
 
 /**
  * PatientCard Component
- * 
+ *
  * Displays patient information in a card format with enhanced styling and accessibility.
  * Shows patient demographics, psychological profile, difficulty level, and estimated duration.
- * 
+ *
  * Features:
  * - Patient avatar display
  * - Difficulty level indicators with accessibility labels
  * - Patient tags for categorization
  * - Estimated session duration
  * - Link to patient detail page
- * 
+ *
  * @param patient - Patient object containing all patient information
  * @returns JSX element representing a patient card
  */
@@ -40,7 +39,7 @@ export function PatientCard({ patient }: PatientCardProps) {
       current_and_past_psychiatric_diagnoses?: string;
     };
   };
-  
+
   const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
       case 1:
@@ -75,11 +74,19 @@ export function PatientCard({ patient }: PatientCardProps) {
         <div className="patient-card-main-content">
           {/* Name and Age */}
           <header className="patient-card-header">
-            <h3 id={`patient-${patient.id}-title`} className="patient-card-title" itemProp="name">
+            <h3
+              id={`patient-${patient.id}-title`}
+              className="patient-card-title"
+              itemProp="name"
+            >
               {patient.name}
             </h3>
-            <span className="patient-card-age" aria-label={`${details.demographic_sociocultural_information?.age || 'N/A'} anni di eta`} itemProp="age">
-              {details.demographic_sociocultural_information?.age || 'N/A'} anni
+            <span
+              className="patient-card-age"
+              aria-label={`${details.demographic_sociocultural_information?.age || "N/A"} anni di eta`}
+              itemProp="age"
+            >
+              {details.demographic_sociocultural_information?.age || "N/A"} anni
             </span>
           </header>
 
@@ -95,14 +102,23 @@ export function PatientCard({ patient }: PatientCardProps) {
 
           {/* Objectives */}
           <div className="patient-card-objectives">
-            <p className="patient-card-objectives-title">
-              Obiettivi:
-            </p>
+            <p className="patient-card-objectives-title">Obiettivi:</p>
             <ul className="patient-card-objective-list" role="list">
               {patient.objectives.slice(0, 2).map((objective, index) => (
-                <li key={index} className="patient-card-objective-item" role="listitem">
-                  <span className="patient-card-objective-bullet" aria-hidden="true">-</span>
-                  <span className="patient-card-objective-text">{objective}</span>
+                <li
+                  key={index}
+                  className="patient-card-objective-item"
+                  role="listitem"
+                >
+                  <span
+                    className="patient-card-objective-bullet"
+                    aria-hidden="true"
+                  >
+                    -
+                  </span>
+                  <span className="patient-card-objective-text">
+                    {objective}
+                  </span>
                 </li>
               ))}
               {patient.objectives.length > 2 && (
@@ -116,7 +132,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           {/* Metadata */}
           <div className="patient-card-metadata">
             <div className="patient-card-difficulty">
-              <span 
+              <span
                 className={getDifficultyIconClass(patient.difficulty)}
                 aria-label={getDifficultyAccessibleText(patient.difficulty)}
                 role="img"
@@ -126,7 +142,10 @@ export function PatientCard({ patient }: PatientCardProps) {
               <span>{getDifficultyLabel(patient.difficulty)}</span>
             </div>
             <div className="patient-card-duration">
-              <ClockIcon className="patient-card-duration-icon" aria-hidden="true" />
+              <ClockIcon
+                className="patient-card-duration-icon"
+                aria-hidden="true"
+              />
               <span>{patient.estimatedDuration} min</span>
             </div>
           </div>
