@@ -1,6 +1,6 @@
 /**
  * Skeleton Loading Components
- * 
+ *
  * Reusable skeleton components for better loading states
  */
 
