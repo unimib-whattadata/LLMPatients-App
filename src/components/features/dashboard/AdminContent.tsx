@@ -8,7 +8,7 @@ import {
   SectionSkeleton,
   ListItemSkeleton,
   TableSkeleton,
-} from "~/components/ui/skeleton";
+} from "~/components/ui/Skeleton";
 import { UsersIcon } from "@heroicons/react/24/outline";
 
 interface ImpersonationModalProps {
