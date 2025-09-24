@@ -135,7 +135,7 @@ export function PatientDetailContent() {
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
           <aside className="lg:col-span-1">
             <div className="bg-background-secondary rounded-lg overflow-hidden">
               <PatientAvatar
@@ -144,24 +144,24 @@ export function PatientDetailContent() {
                 avatarType={patient.avatarType}
                 isDetailPage={true}
               />
-              <div className="p-6">
+              <div className="p-4 sm:p-6">
                 {/* Patient Info Header */}
                 <header className="patient-card-header">
-                  <h1 className="patient-card-title">
+                  <h1 className="patient-card-title text-xl sm:text-2xl">
                     {patient.name}
                   </h1>
-                  <span className="patient-card-age">
+                  <span className="patient-card-age text-sm sm:text-base">
                     {details.demographic_sociocultural_information?.age || "N/A"} anni
                   </span>
                 </header>
 
                 {/* Description */}
-                <p className="patient-card-condition">
+                <p className="patient-card-condition text-sm sm:text-base mt-3">
                   {patient.smallDescription}
                 </p>
 
                 {/* Metadata */}
-                <div className="patient-card-metadata">
+                <div className="patient-card-metadata mt-4">
                   <div className="patient-card-difficulty">
                     <span
                       className={getDifficultyIconClass(patient.difficulty)}
@@ -170,36 +170,36 @@ export function PatientDetailContent() {
                     >
                       {patient.difficulty === 1 ? "•" : patient.difficulty === 2 ? "••" : "•••"}
                     </span>
-                    <span>{getDifficultyLabel(patient.difficulty)}</span>
+                    <span className="text-sm">{getDifficultyLabel(patient.difficulty)}</span>
                   </div>
                   <div className="patient-card-duration">
                     <ClockIcon
-                      className="patient-card-duration-icon"
+                      className="patient-card-duration-icon w-4 h-4"
                       aria-hidden="true"
                     />
-                    <span>{patient.estimatedDuration} min</span>
+                    <span className="text-sm">{patient.estimatedDuration} min</span>
                   </div>
                 </div>
               </div>
             </div>
           </aside>
 
-          <section className="space-y-6 lg:col-span-2">
-            <article className="bg-background-secondary rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-text-primary mb-4">Storia del paziente</h2>
-              <p className="patient-card-background">
+          <section className="space-y-4 sm:space-y-6 lg:col-span-2">
+            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Storia del paziente</h2>
+              <p className="patient-card-background text-sm sm:text-base leading-relaxed">
                 {patient.background}
               </p>
             </article>
 
-            <article className="bg-background-secondary rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-text-primary mb-4">Obiettivi di apprendimento</h2>
+            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Obiettivi di apprendimento</h2>
               <div className="patient-card-objectives">
-                <ul className="patient-card-objective-list">
+                <ul className="patient-card-objective-list space-y-2">
                   {patient.objectives.map((objective, index) => (
                     <li key={index} className="patient-card-objective-item">
                       <span className="patient-card-objective-bullet">-</span>
-                      <span className="patient-card-objective-text">
+                      <span className="patient-card-objective-text text-sm sm:text-base">
                         {objective}
                       </span>
                     </li>
@@ -208,19 +208,19 @@ export function PatientDetailContent() {
               </div>
             </article>
 
-            <article className="bg-background-secondary rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-text-primary mb-4">Inizia la simulazione</h2>
+            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Inizia la simulazione</h2>
               {session ? (
                 <>
-                  <p className="text-text-secondary mb-6">
+                  <p className="text-text-secondary mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                     Sei pronto a iniziare l&apos;interazione con {patient.name}? La
                     simulazione ti permette di mettere in pratica le tue competenze
                     cliniche in un ambiente sicuro e controllato.
                   </p>
-                  <div className="flex flex-col gap-4 sm:flex-row">
+                  <div className="flex flex-col gap-3 sm:gap-4">
                     <button
                       type="button"
-                      className="patient-card-button"
+                      className="patient-card-button w-full text-center py-3 sm:py-4 text-sm sm:text-base"
                       onClick={() => {
                         if (!patient) return;
                         setActionError(null);
@@ -235,27 +235,27 @@ export function PatientDetailContent() {
                     </button>
                   </div>
                   {actionError && (
-                    <p className="text-sm text-red-500 mt-4">{actionError}</p>
+                    <p className="text-sm text-red-500 mt-3 sm:mt-4">{actionError}</p>
                   )}
                 </>
               ) : (
                 <>
-                  <p className="text-text-secondary mb-6">
+                  <p className="text-text-secondary mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
                     Per iniziare l&apos;interazione con {patient.name} e accedere alla
                     simulazione terapeutica, è necessario effettuare l&apos;accesso.
                     La simulazione ti permetterà di mettere in pratica le tue competenze
                     cliniche in un ambiente sicuro e controllato.
                   </p>
-                  <div className="flex flex-col gap-4 sm:flex-row">
+                  <div className="flex flex-col gap-3 sm:gap-4">
                     <Link
                       href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}`)}`}
-                      className="patient-card-button text-center"
+                      className="patient-card-button text-center py-3 sm:py-4 text-sm sm:text-base"
                     >
                       Accedi per iniziare la simulazione
                     </Link>
                     <Link
                       href="/register"
-                      className="patient-card-button text-center bg-background-tertiary text-text-primary hover:bg-background-quaternary"
+                      className="patient-card-button text-center bg-background-tertiary text-text-primary hover:bg-background-quaternary py-3 sm:py-4 text-sm sm:text-base"
                     >
                       Registrati
                     </Link>
