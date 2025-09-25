@@ -1,10 +1,27 @@
+/**
+ * Home Page
+ *
+ * Main landing page for the ePatients application.
+ * Displays marketing content, features overview, and call-to-action sections.
+ * 
+ * @description Server-side rendered page that handles authentication redirects
+ * and renders the marketing homepage. Redirects authenticated users to dashboard.
+ */
+
 import { HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
 import { SharedLayout } from "@/components/layout/SharedLayout";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+/**
+ * Home Page Component
+ * 
+ * Handles authentication redirects and renders marketing homepage.
+ * Redirects authenticated users to dashboard.
+ */
 export default async function Home() {
+  // Check authentication server-side
   const session = await auth();
 
   // Redirect authenticated users to dashboard

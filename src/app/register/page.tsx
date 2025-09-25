@@ -1,3 +1,14 @@
+/**
+ * Register Page
+ *
+ * User registration interface for creating new accounts.
+ * Provides comprehensive form validation and account creation.
+ * 
+ * @description Client-side rendered page that handles user registration,
+ * form validation, and account creation. Includes comprehensive validation
+ * for all registration fields and terms acceptance.
+ */
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -6,6 +17,12 @@ import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
+/**
+ * Register Page Component
+ * 
+ * Handles user registration with comprehensive validation.
+ * Redirects authenticated users to home page.
+ */
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");

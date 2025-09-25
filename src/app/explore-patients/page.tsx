@@ -1,16 +1,30 @@
+/**
+ * Explore Patients Page
+ *
+ * Main public interface for exploring virtual patients and clinical scenarios.
+ * Displays a catalog of available virtual patients for clinical training.
+ * 
+ * @description Server-side rendered page that handles optional authentication
+ * and renders the patient exploration interface. Accessible to both
+ * authenticated and unauthenticated users.
+ */
+
 import { auth } from "~/server/auth";
 import { SharedLayout } from "@/components/layout/SharedLayout";
 import { PatientGridWrapper } from "@/components/features/explore-patients/PatientGridWrapper";
 import { HydrateClient } from "~/trpc/server";
 
 /**
- * Esplora Pazienti Page
- * Enhanced main page for exploring virtual patients with improved styling
+ * Explore Patients Page Component
+ * 
+ * Handles optional authentication and renders patient exploration interface.
+ * Works for both authenticated and unauthenticated users.
  */
-export default async function EsploraPazientiPage() {
+export default async function ExplorePatientsPage() {
+  // Get session if available, but don't require authentication
   const session = await auth();
 
-  // Create a mock user for unauthenticated users
+  // Create user object for authenticated users, undefined for unauthenticated
   const user = session?.user
     ? {
         id: session.user.id,
@@ -25,7 +39,7 @@ export default async function EsploraPazientiPage() {
     <HydrateClient>
       <SharedLayout
         user={user}
-        impersonation={undefined}
+        impersonation={session?.impersonation ?? undefined}
         layoutType="home"
         currentPage="/explore-patients"
       >

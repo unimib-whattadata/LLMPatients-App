@@ -1,11 +1,24 @@
+/**
+ * Chat Page for Virtual Patient Interaction
+ *
+ * Interface for real-time chat interaction with virtual patients during therapy sessions.
+ * Provides conversational interface for clinical simulation and training.
+ * 
+ * @description Server-side rendered page that handles authentication
+ * and renders the chat interface for virtual patient interaction.
+ * Only accessible to authenticated users.
+ */
+
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { ChatContent } from "@/components/features/therapeutic-journey/ChatContent";
 
 /**
- * Chat Page for Virtual Patient Interaction
- *
- * Server-side rendered page for chatting with virtual patients during therapy sessions
+ * Chat Page Component
+ * 
+ * Handles authentication and renders chat interface for virtual patient interaction.
+ * Redirects unauthenticated users to login page.
+ * Note: ChatContent handles its own layout internally.
  */
 export default async function ChatPage() {
   // Check authentication server-side
@@ -16,8 +29,6 @@ export default async function ChatPage() {
     redirect("/login");
   }
 
-  const impersonation = session.impersonation ?? undefined;
-
   return (
     <ChatContent
       user={{
@@ -27,7 +38,7 @@ export default async function ChatPage() {
         role: session.user.role || "user",
         image: session.user.image,
       }}
-      impersonation={impersonation}
+      impersonation={session.impersonation ?? undefined}
     />
   );
 }
