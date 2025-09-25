@@ -5,7 +5,8 @@ import {
   sqliteTableCreator,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
-import { randomUUID } from "crypto";
+// Use web-compatible crypto for Edge Runtime compatibility
+const randomUUID = () => crypto.randomUUID();
 // import { type AdapterAccount } from "next-auth/adapters";
 
 /**

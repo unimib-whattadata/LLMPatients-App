@@ -13,12 +13,12 @@ interface SkeletonProps {
 }
 
 /**
- * Base skeleton component
+ * Base skeleton component with animation
  */
 export function Skeleton({ className = "", width, height }: SkeletonProps) {
   return (
     <div
-      className={`bg-background-tertiary rounded ${className}`}
+      className={`bg-background-tertiary rounded animate-pulse ${className}`}
       style={{ width, height }}
     />
   );

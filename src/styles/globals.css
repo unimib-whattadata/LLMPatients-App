@@ -12,7 +12,7 @@
 
 @theme {
   /* Font Family Configuration */
-  --font-sans: 'Inter', var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif,
+  --font-sans: 'Inter', var(--font-inter), ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* Enhanced Color System - Updated Palette */

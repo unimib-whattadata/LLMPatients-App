@@ -1434,6 +1434,7 @@
     flex-direction: column;
     min-width: 0;
     overflow-x: hidden;
+    padding-top: 5rem; /* Add top padding to account for navbar height (74px) */
   }
 
   .content-container.with-sidebar {
@@ -1446,6 +1447,7 @@
     max-width: 100%;
     margin: 0;
     border-radius: 0;
+    padding-top: 1rem; /* Additional padding for content */
   }
 
   .footer-container {
@@ -1604,6 +1606,7 @@
     padding: var(--space-xl);
     min-height: 100vh;
     background: var(--surface-secondary);
+    margin-top: 0; /* Remove any top margin that might interfere */
   }
 
   /* Responsive dashboard main */
@@ -2224,6 +2227,20 @@
   /* ===== ENHANCED LOADING SKELETON ===== */
   .loading-skeleton {
     background: rgba(47, 55, 39, 0.8);
+  }
+
+  /* ===== SKELETON ANIMATIONS ===== */
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
   .loading-grid {
@@ -3288,6 +3305,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    padding-top: 5rem; /* Add top padding to account for navbar height (74px) */
   }
 
   .home-topbar {

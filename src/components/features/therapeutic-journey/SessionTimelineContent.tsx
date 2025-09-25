@@ -356,7 +356,7 @@ const MobileTimelineStep = memo(
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.32em] text-white/70 uppercase">
-              Step {step.id} {isCompleted && "✓"}
+              Sessione {step.id} {isCompleted && "✓"}
             </p>
             <h2 className="mt-2 text-base font-semibold text-white">
               {details.phaseTitle}

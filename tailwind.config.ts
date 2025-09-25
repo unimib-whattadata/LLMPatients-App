@@ -9,7 +9,7 @@ export default {
       fontFamily: {
         sans: [
           "Inter",
-          "var(--font-geist-sans)",
+          "var(--font-inter)",
           "ui-sans-serif",
           "system-ui",
           "sans-serif",

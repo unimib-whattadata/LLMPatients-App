@@ -311,7 +311,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       });
 
       // Show success message or redirect
-      alert(`Step ${stepId} completato con successo!`);
+      alert(`Sessione ${stepId} completata con successo!`);
       goBack();
     } catch (error) {
       console.error("Error completing step:", error);
@@ -326,10 +326,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             "Sessione non trovata o accesso negato. Ricarica la pagina e riprova.",
           );
         } else {
-          alert(`Errore nel completare lo step: ${error.message}`);
+          alert(`Errore nel completare la sessione: ${error.message}`);
         }
       } else {
-        alert("Errore nel completare lo step. Riprova.");
+        alert("Errore nel completare la sessione. Riprova.");
       }
     }
   };
@@ -354,8 +354,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         layoutType="dashboard"
       >
         <div
-          className="flex h-screen items-center justify-center"
-          style={{ backgroundColor: "var(--surface-primary)" }}
+          className="flex items-center justify-center"
+          style={{ 
+            backgroundColor: "var(--surface-primary)",
+            height: "calc(100vh - 5rem)",
+            minHeight: "calc(100vh - 5rem)"
+          }}
         >
           <div className="text-center">
             <h2
@@ -402,8 +406,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       layoutType="dashboard"
     >
       <div
-        className="flex h-screen flex-col pt-16"
-        style={{ backgroundColor: "var(--surface-primary)" }}
+        className="flex flex-col"
+        style={{ 
+          backgroundColor: "var(--surface-primary)",
+          height: "calc(100vh - 5rem)", // Subtract the content padding
+          minHeight: "calc(100vh - 5rem)"
+        }}
       >
         {/* Header */}
         <div
@@ -624,7 +632,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         )}
 
-        {/* Step completed message */}
+        {/* Session completed message */}
         {isStepCompleted && (
           <div
             className="border-t p-6"
@@ -642,7 +650,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 }}
               >
                 <p className="text-sm font-medium">
-                  ✓ Step {stepId} completato - La conversazione è in modalità sola lettura
+                  ✓ Sessione {stepId} completata - La conversazione è in modalità sola lettura
                 </p>
               </div>
             </div>
