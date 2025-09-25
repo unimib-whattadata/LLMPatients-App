@@ -1,17 +1,5 @@
 /* ===== BASE BUTTON FOUNDATION ===== */
 @layer components {
-  /* Global home color variables for navbar and other components */
-  :root {
-    --home-primary: #8f9d56;
-    --home-primary-soft: #aab973;
-    --home-primary-dark: #5f6d36;
-    --home-text-strong: #f6f7ef;
-    --home-text-soft: rgba(233, 236, 218, 0.82);
-    --home-text-muted: rgba(202, 207, 180, 0.6);
-    --home-border-strong: rgba(120, 133, 71, 0.45);
-    --home-gold: #c5964f;
-    --home-rust: #d27a5c;
-  }
   /* ===== ENHANCED TYPOGRAPHY CLASSES ===== */
 
   .text-heading-2 {
@@ -1850,20 +1838,6 @@
 
   /* ===== ENHANCED PATIENT COMPONENTS ===== */
   .patients-page {
-    --home-bg: #070807;
-    --home-surface: rgba(12, 14, 11, 0.95);
-    --home-surface-alt: rgba(24, 28, 21, 0.92);
-    --home-border: rgba(120, 133, 71, 0.28);
-    --home-border-strong: rgba(120, 133, 71, 0.45);
-    --home-text-strong: #f6f7ef;
-    --home-text-soft: rgba(233, 236, 218, 0.82);
-    --home-text-muted: rgba(202, 207, 180, 0.6);
-    --home-primary: #8f9d56;
-    --home-primary-soft: #aab973;
-    --home-primary-dark: #5f6d36;
-    --home-gold: #c5964f;
-    --home-lilac: #7d71a6;
-    --home-rust: #d27a5c;
     min-height: 100vh;
     background: var(--home-bg);
     color: var(--home-text-strong);
@@ -2645,19 +2619,6 @@
     }
   }
   .home-landing {
-    --home-bg: #070807;
-    --home-surface: rgba(12, 14, 11, 0.95);
-    --home-surface-alt: rgba(18, 21, 17, 0.85);
-    --home-border: rgba(120, 133, 71, 0.28);
-    --home-border-strong: rgba(120, 133, 71, 0.45);
-    --home-text-strong: #f6f7ef;
-    --home-text-soft: rgba(233, 236, 218, 0.82);
-    --home-text-muted: rgba(202, 207, 180, 0.6);
-    --home-primary: #8f9d56;
-    --home-primary-soft: #aab973;
-    --home-primary-dark: #5f6d36;
-    --home-gold: #c5964f;
-    --home-lilac: #7d71a6;
     min-height: 100vh;
     background-color: var(--home-bg);
     color: var(--home-text-strong);
