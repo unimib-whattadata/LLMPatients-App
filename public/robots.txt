@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://epatients.unimib.it/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /api/
+Disallow: /dashboard/admin/
+
+# Allow public pages
+Allow: /explore-patients/
+Allow: /login
+Allow: /register
+
+# Block access to sensitive files
+Disallow: /*.json$
+Disallow: /dev.db
+Disallow: /drizzle/
+Disallow: /scripts/
+Disallow: /src/
+Disallow: /node_modules/

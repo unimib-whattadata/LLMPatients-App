@@ -69,7 +69,7 @@ export function PatientDetailContent() {
     onError: (mutationError) => {
       if (mutationError?.data?.code === "UNAUTHORIZED") {
         const target = encodeURIComponent(
-          `/explore-patients/${patientId ?? ""}/${createPatientSlug(patient.name)}`,
+          `/explore-patients/${patientId ?? ""}/${createPatientSlug(patient?.name ?? "")}`,
         );
         router.push(`/login?callbackUrl=${target}`);
         return;

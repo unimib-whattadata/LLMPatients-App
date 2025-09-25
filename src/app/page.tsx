@@ -35,6 +35,8 @@ export default async function Home() {
       className="home-footer"
       itemScope
       itemType="https://schema.org/Organization"
+      role="contentinfo"
+      aria-label="Informazioni di contatto e link utili"
     >
       <div className="home-footer-main">
         <div className="section-container">
@@ -42,13 +44,16 @@ export default async function Home() {
             <div className="home-footer-brand">
               <img
                 src="/images/logo.png"
-                alt="LLMPatient Logo"
+                alt="ePatients Logo"
                 className="home-footer-brand-logo"
                 itemProp="logo"
+                width="48"
+                height="48"
+                loading="lazy"
               />
               <div>
                 <p className="home-footer-brand-name" itemProp="name">
-                  LLMPatient
+                  ePatients
                 </p>
                 <p className="home-footer-brand-caption" itemProp="description">
                   Un progetto dedicato alla formazione e alla valutazione delle
@@ -58,25 +63,47 @@ export default async function Home() {
             </div>
 
             <div className="home-footer-column">
-              <h3>Contatti</h3>
-              <ul itemScope itemType="https://schema.org/Person">
-                <li itemProp="email">llmpatient@unimib.it</li>
-                <meta itemProp="name" content="Marco Cremaschi" />
-                <meta itemProp="jobTitle" content="Ricercatore" />
-                <meta
-                  itemProp="affiliation"
-                  content="Università degli Studi di Milano-Bicocca"
-                />
-              </ul>
+              <h3 id="footer-contacts">Contatti</h3>
+              <address itemScope itemType="https://schema.org/Person" aria-labelledby="footer-contacts">
+                <p>
+                  <span itemProp="name">Marco Cremaschi</span><br />
+                  <span itemProp="jobTitle">Ricercatore</span><br />
+                  <span itemProp="affiliation">Università degli Studi di Milano-Bicocca</span>
+                </p>
+                <p>
+                  <a 
+                    href="mailto:llmpatient@unimib.it" 
+                    itemProp="email"
+                    aria-label="Invia email a Marco Cremaschi"
+                  >
+                    llmpatient@unimib.it
+                  </a>
+                </p>
+              </address>
             </div>
           </div>
 
           <div className="home-footer-bottom">
-            <div className="home-footer-links">
-              <Link href="#">Privacy Policy</Link>
-              <Link href="#">Termini e condizioni</Link>
-              <Link href="#">Impostazioni cookie</Link>
-            </div>
+            <nav className="home-footer-links" role="navigation" aria-label="Link utili">
+              <Link 
+                href="/privacy" 
+                aria-label="Leggi la privacy policy"
+              >
+                Privacy Policy
+              </Link>
+              <Link 
+                href="/terms" 
+                aria-label="Leggi i termini e condizioni"
+              >
+                Termini e condizioni
+              </Link>
+              <Link 
+                href="/cookies" 
+                aria-label="Gestisci le impostazioni cookie"
+              >
+                Impostazioni cookie
+              </Link>
+            </nav>
           </div>
         </div>
       </div>
@@ -88,20 +115,51 @@ export default async function Home() {
       className="home-page"
       itemScope
       itemType="https://schema.org/WebApplication"
+      role="main"
+      aria-label="Contenuto principale"
     >
       <section
         className="home-hero"
         itemScope
         itemType="https://schema.org/SoftwareApplication"
+        role="banner"
+        aria-labelledby="hero-title"
       >
         <div className="home-hero-inner">
-          <h1 className="home-hero-title" itemProp="name">
+          <h1 
+            id="hero-title"
+            className="home-hero-title" 
+            itemProp="name"
+            aria-describedby="hero-description"
+          >
             Simula. Valuta. Impara.
           </h1>
-          <p className="home-hero-subtitle" itemProp="description">
+          <p 
+            id="hero-description"
+            className="home-hero-subtitle" 
+            itemProp="description"
+            role="complementary"
+            aria-label="Descrizione della piattaforma"
+          >
             Uno strumento per l&apos;addestramento alla psicoterapia, progettato
             per studenti universitari e tutor clinici.
           </p>
+          <div className="home-hero-actions" role="group" aria-label="Azioni principali">
+            <Link 
+              href="/register" 
+              className="btn btn-primary"
+              aria-describedby="hero-description"
+            >
+              Inizia subito
+            </Link>
+            <Link 
+              href="/explore-patients" 
+              className="btn btn-outline"
+              aria-label="Esplora i pazienti virtuali disponibili"
+            >
+              Esplora pazienti
+            </Link>
+          </div>
           <meta
             itemProp="applicationCategory"
             content="EducationalApplication"
@@ -120,16 +178,32 @@ export default async function Home() {
         className="home-process section-spacing"
         itemScope
         itemType="https://schema.org/HowTo"
+        role="region"
+        aria-labelledby="process-heading"
       >
         <div className="section-container">
-          <h2 className="section-heading" itemProp="name">
-            Il tuo percorso formativo, passo dopo passo
-          </h2>
-          <meta
-            itemProp="description"
-            content="Processo formativo per l'addestramento alla psicoterapia con pazienti virtuali"
-          />
-          <ol className="home-process-list" role="list" itemProp="step">
+          <header>
+            <h2 
+              id="process-heading"
+              className="section-heading" 
+              itemProp="name"
+              aria-describedby="process-description"
+            >
+              Il tuo percorso formativo, passo dopo passo
+            </h2>
+            <meta
+              id="process-description"
+              itemProp="description"
+              content="Processo formativo per l'addestramento alla psicoterapia con pazienti virtuali"
+            />
+          </header>
+          
+          <ol 
+            className="home-process-list" 
+            role="list" 
+            itemProp="step"
+            aria-label="Passaggi del processo formativo"
+          >
             {processSteps.map((step, index) => (
               <li
                 key={step.title}
@@ -138,26 +212,47 @@ export default async function Home() {
                 itemScope
                 itemType="https://schema.org/HowToStep"
                 itemProp="itemListElement"
+                aria-labelledby={`step-${index + 1}-title`}
+                aria-describedby={`step-${index + 1}-description`}
               >
                 <div className="home-process-text">
-                  <h3 itemProp="name">{step.title}</h3>
-                  <p itemProp="text">{step.description}</p>
+                  <h3 
+                    id={`step-${index + 1}-title`}
+                    itemProp="name"
+                    aria-level={3}
+                  >
+                    {step.title}
+                  </h3>
+                  <p 
+                    id={`step-${index + 1}-description`}
+                    itemProp="text"
+                    role="complementary"
+                  >
+                    {step.description}
+                  </p>
                 </div>
 
                 <div
                   className={`home-process-number home-process-number--${index + 1}`}
                   itemProp="position"
+                  aria-label={`Passaggio ${index + 1}`}
+                  role="img"
                 >
                   {index + 1}
                 </div>
               </li>
             ))}
           </ol>
-          <div className="home-process-cta">
-            <Link href="/register" className="btn btn-primary">
+          
+          <footer className="home-process-cta" role="complementary">
+            <Link 
+              href="/register" 
+              className="btn btn-primary"
+              aria-describedby="process-description"
+            >
               Inizia subito
             </Link>
-          </div>
+          </footer>
         </div>
       </section>
     </main>

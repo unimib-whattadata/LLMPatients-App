@@ -7,7 +7,7 @@ import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 interface PatientAvatarProps {
   name: string;
   avatarUrl?: string | null;
-  avatarType: "photo" | "illustration" | "avatar";
+  avatarType: string;
   isDetailPage?: boolean;
 }
 

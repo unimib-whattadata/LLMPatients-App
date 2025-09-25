@@ -30,19 +30,30 @@ export default async function EsploraPazientiPage() {
         currentPage="/explore-patients"
       >
         <div className="patients-page">
-          <main className="patients-main">
-            <section className="patients-hero">
+          <main className="patients-main" role="main" aria-label="Catalogo pazienti virtuali">
+            <section 
+              className="patients-hero" 
+              role="banner"
+              aria-labelledby="patients-title"
+            >
               <div className="section-container">
-                <h1>ePatients</h1>
-                <p>
-                  Un catalogo di pazienti virtuali progettato per allenare
-                  empatia clinica, gestione emotiva e decisioni terapeutiche in
-                  ambienti sicuri.
-                </p>
+                <header>
+                  <h1 id="patients-title">ePatients</h1>
+                  <p id="patients-description" aria-describedby="patients-title">
+                    Un catalogo di pazienti virtuali progettato per allenare
+                    empatia clinica, gestione emotiva e decisioni terapeutiche in
+                    ambienti sicuri.
+                  </p>
+                </header>
               </div>
             </section>
 
-            <section className="patients-grid-section">
+            <section 
+              className="patients-grid-section" 
+              role="region"
+              aria-labelledby="patients-title"
+              aria-describedby="patients-description"
+            >
               <div className="section-container">
                 <PatientGridWrapper />
               </div>
