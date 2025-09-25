@@ -108,6 +108,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
+  background-color: var(--color-background);
+  color: var(--text-primary);
 }
 
 /* Enhanced Focus Styles */
@@ -139,6 +141,8 @@ body {
   position: absolute;
   top: -40px;
   left: 6px;
+  background: var(--color-gray-900);
+  color: white;
   padding: 8px;
   text-decoration: none;
   border-radius: 4px;
@@ -190,6 +194,7 @@ body {
   .user-nav-item.active {
     forced-color-adjust: none;
     background: Highlight;
+    color: HighlightText;
   }
 
   .dashboard-header {
@@ -220,13 +225,10 @@ body {
 
 @layer base {
   * {
-    box-sizing: border-box;
+    @apply border-border outline-ring/50;
   }
   body {
-    font-feature-settings: "rlig" 1, "calt" 1;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
   }
 }
 /* ===== ENHANCED RESPONSIVE DESIGN ===== */

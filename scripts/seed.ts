@@ -18,10 +18,9 @@ import {
   index,
 } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
-import { config } from "dotenv";
 import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
-config();
+// Next.js automatically loads environment variables from .env files
 
 const createTable = sqliteTableCreator((name) => `epatient_${name}`);
 
