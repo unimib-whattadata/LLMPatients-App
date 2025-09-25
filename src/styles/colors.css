@@ -109,72 +109,13 @@ navbar: 131313
   --color-surface: #131313;
   --color-overlay: rgba(19, 19, 19, 0.8);
 
-  /* Avatar Color Palette - Centralized from hardcoded values */
-  --color-avatar-pink: #E91E63;
-  --color-avatar-purple: #9C27B0;
-  --color-avatar-deep-purple: #673AB7;
-  --color-avatar-indigo: #3F51B5;
-  --color-avatar-blue: #2196F3;
-  --color-avatar-light-blue: #03A9F4;
-  --color-avatar-cyan: #00BCD4;
-  --color-avatar-teal: #009688;
-  --color-avatar-green: #4CAF50;
-  --color-avatar-light-green: #8BC34A;
-  --color-avatar-lime: #CDDC39;
-  --color-avatar-yellow: #FFEB3B;
-  --color-avatar-amber: #FFC107;
-  --color-avatar-orange: #FF9800;
-  --color-avatar-deep-orange: #FF5722;
-  --color-avatar-brown: #795548;
-  --color-avatar-blue-grey: #607D8B;
-  --color-avatar-grey: #9E9E9E;
+  /* Avatar Color Palette - Centralized from hardcoded values - REMOVED UNUSED COLORS */
 
-  /* Timeline Step Colors - Centralized from hardcoded values */
-  --color-timeline-knowledge: #B9C87C;
-  --color-timeline-intervention: #E3B23C;
-  --color-timeline-conclusion: #B4A7E6;
+  /* Timeline and Phase colors - REMOVED UNUSED */
 
-  /* Timeline Phase Backgrounds - Centralized from hardcoded values */
-  --color-phase-knowledge-bg: #1a2720;
-  --color-phase-knowledge-text: #E8F4E3;
-  --color-phase-knowledge-accent: #9BD0A8;
-  --color-phase-knowledge-body: #DAE7D8;
-
-  --color-phase-intervention-bg: #2a1f0f;
-  --color-phase-intervention-text: #FFF4E6;
-  --color-phase-intervention-accent: #E3B23C;
-  --color-phase-intervention-body: #F5E6D3;
-
-  --color-phase-conclusion-bg: #2a2548;
-  --color-phase-conclusion-text: #EEE9FF;
-  --color-phase-conclusion-accent: #B8A7F4;
-  --color-phase-conclusion-body: #E4DEFF;
-
-  /* UI Component Colors - Centralized from hardcoded values */
+  /* UI Component Colors - Keep only used ones */
   --color-success-text: #0d1206;
   --color-button-text-dark: #0b0d06;
-  --color-footer-bg: #050605;
-  --color-timeline-path: #1f2423;
-  --color-timeline-gradient-start: #2D3231;
-  --color-timeline-gradient-mid: #343937;
-  --color-timeline-gradient-end: #262C2B;
-
-  /* Focus and Interaction Colors */
-  --color-focus-blue: #3b82f6;
-  --color-focus-green: #059669;
-  --color-focus-primary: #4F9D69;
-
-  /* Pill Colors - Centralized from hardcoded values */
-  --color-pill-lilac-bg: rgba(125, 113, 166, 0.22);
-  --color-pill-lilac-text: #d3c8f0;
-  --color-pill-gold-bg: rgba(197, 150, 79, 0.22);
-  --color-pill-gold-text: #efd7b4;
-  --color-pill-rust-bg: rgba(210, 122, 92, 0.22);
-  --color-pill-rust-text: #f2c4a8;
-
-  /* Background Colors - Additional centralized values */
-  --color-bg-light-green: #f2f6e8;
-  --color-bg-warm-beige: #d9c6a3;
 }
 
 /* Enhanced Theme System */

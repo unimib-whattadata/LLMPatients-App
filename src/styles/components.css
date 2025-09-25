@@ -788,19 +788,6 @@
     outline: none;
   }
 
-  .auth-error-message {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    line-height: 1.4;
-    margin-top: 0.25rem;
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--color-error-500);
-  }
 
   .auth-submit-btn {
     width: 100%;
@@ -851,21 +838,6 @@
     color: var(--text-muted);
   }
 
-  .auth-global-error {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    line-height: 1.4;
-    margin-top: 0;
-    margin-bottom: 1.5rem;
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--color-error-500);
-    text-align: center;
-  }
 
   .auth-divider {
     margin: 1.5rem 0;
@@ -3431,71 +3403,5 @@
   }
 }
 
-/* ===== TAILWIND UTILITY CLASSES FOR CENTRALIZED COLORS ===== */
-@layer utilities {
-  /* Avatar Colors */
-  .bg-avatar-pink { background-color: var(--color-avatar-pink); }
-  .bg-avatar-purple { background-color: var(--color-avatar-purple); }
-  .bg-avatar-deep-purple { background-color: var(--color-avatar-deep-purple); }
-  .bg-avatar-indigo { background-color: var(--color-avatar-indigo); }
-  .bg-avatar-blue { background-color: var(--color-avatar-blue); }
-  .bg-avatar-light-blue { background-color: var(--color-avatar-light-blue); }
-  .bg-avatar-cyan { background-color: var(--color-avatar-cyan); }
-  .bg-avatar-teal { background-color: var(--color-avatar-teal); }
-  .bg-avatar-green { background-color: var(--color-avatar-green); }
-  .bg-avatar-light-green { background-color: var(--color-avatar-light-green); }
-  .bg-avatar-lime { background-color: var(--color-avatar-lime); }
-  .bg-avatar-yellow { background-color: var(--color-avatar-yellow); }
-  .bg-avatar-amber { background-color: var(--color-avatar-amber); }
-  .bg-avatar-orange { background-color: var(--color-avatar-orange); }
-  .bg-avatar-deep-orange { background-color: var(--color-avatar-deep-orange); }
-  .bg-avatar-brown { background-color: var(--color-avatar-brown); }
-  .bg-avatar-blue-grey { background-color: var(--color-avatar-blue-grey); }
-  .bg-avatar-grey { background-color: var(--color-avatar-grey); }
-
-  /* Timeline Colors */
-  .bg-timeline-knowledge { background-color: var(--color-timeline-knowledge); }
-  .bg-timeline-intervention { background-color: var(--color-timeline-intervention); }
-  .bg-timeline-conclusion { background-color: var(--color-timeline-conclusion); }
-
-  /* Phase Backgrounds */
-  .bg-phase-knowledge { background-color: var(--color-phase-knowledge-bg); }
-  .bg-phase-intervention { background-color: var(--color-phase-intervention-bg); }
-  .bg-phase-conclusion { background-color: var(--color-phase-conclusion-bg); }
-
-  /* Phase Text Colors */
-  .text-phase-knowledge { color: var(--color-phase-knowledge-text); }
-  .text-phase-intervention { color: var(--color-phase-intervention-text); }
-  .text-phase-conclusion { color: var(--color-phase-conclusion-text); }
-
-  /* Phase Accent Colors */
-  .text-phase-knowledge-accent { color: var(--color-phase-knowledge-accent); }
-  .text-phase-intervention-accent { color: var(--color-phase-intervention-accent); }
-  .text-phase-conclusion-accent { color: var(--color-phase-conclusion-accent); }
-
-  /* UI Component Colors */
-  .bg-light-green { background-color: var(--color-bg-light-green); }
-  .bg-warm-beige { background-color: var(--color-bg-warm-beige); }
-  .bg-footer { background-color: var(--color-footer-bg); }
-
-  /* Focus Colors */
-  .focus-ring-blue { 
-    --tw-ring-color: var(--color-focus-blue);
-    --tw-ring-offset-color: var(--color-focus-blue);
-  }
-  .focus-ring-green { 
-    --tw-ring-color: var(--color-focus-green);
-    --tw-ring-offset-color: var(--color-focus-green);
-  }
-  .focus-ring-primary { 
-    --tw-ring-color: var(--color-focus-primary);
-    --tw-ring-offset-color: var(--color-focus-primary);
-  }
-
-  /* Timeline Path Colors */
-  .stroke-timeline-path { stroke: var(--color-timeline-path); }
-  .bg-timeline-gradient-start { stop-color: var(--color-timeline-gradient-start); }
-  .bg-timeline-gradient-mid { stop-color: var(--color-timeline-gradient-mid); }
-  .bg-timeline-gradient-end { stop-color: var(--color-timeline-gradient-end); }
-}
+/* ===== REMOVED UNUSED UTILITY CLASSES ===== */
 
