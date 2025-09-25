@@ -7,6 +7,7 @@ import {
   getDifficultyAccessibleText,
   getDifficultyLabel,
 } from "~/lib/constants/difficulty";
+import { createPatientSlug } from "~/lib/utils/slugify";
 
 interface PatientCardProps {
   patient: Patient;
@@ -161,7 +162,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
         {/* Action Button */}
         <Link
-          href={`/explore-patients/${patient.id}`}
+          href={`/explore-patients/${patient.id}/${createPatientSlug(patient.name)}`}
           className="patient-card-button"
           aria-label={`Inizia simulazione con ${patient.name}`}
         >

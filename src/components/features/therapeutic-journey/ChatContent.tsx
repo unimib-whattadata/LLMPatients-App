@@ -20,8 +20,17 @@ interface ChatMessage {
   id: string;
   content: string;
   sender: "user" | "patient";
-  timestamp: Date;
+  timestamp: Date | string;
   stepId: number;
+}
+
+/**
+ * Safely formats a timestamp to locale time string
+ * @param timestamp - Date object or string timestamp
+ * @returns Formatted time string
+ */
+function formatTimestamp(timestamp: Date | string): string {
+  return new Date(timestamp).toLocaleTimeString();
 }
 
 /**
@@ -31,9 +40,9 @@ interface ChatMessage {
  * Uses a deterministic color selection based on the patient's name for consistency.
  *
  * @param name - The patient's name
- * @returns CSS background style string for the avatar
+ * @returns Object with background color and initials for the avatar
  */
-function generatePatientAvatar(name: string): string {
+function generatePatientAvatar(name: string): { backgroundColor: string; initials: string } {
   const initials = name
     .split(" ")
     .map((word) => word.charAt(0))
@@ -64,14 +73,7 @@ function generatePatientAvatar(name: string): string {
     colors.length;
   const backgroundColor = colors[colorIndex] || colors[0];
 
-  const svg = `
-    <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-      <rect width="40" height="40" fill="${backgroundColor}" rx="20"/>
-      <text x="20" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" text-anchor="middle" dominant-baseline="central" fill="white">${initials}</text>
-    </svg>
-  `.trim();
-
-  return `data:image/svg+xml;base64,${btoa(svg)}`;
+  return { backgroundColor, initials };
 }
 
 /**
@@ -342,15 +344,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }
 
-  // Parse patient details to extract diagnosis
-  const patientDetails = JSON.parse(selectedPatient.details) as {
-    psychological_profile_and_cognitive_functioning?: {
-      current_and_past_psychiatric_diagnoses?: string;
-    };
-  };
-  const diagnosis =
-    patientDetails.psychological_profile_and_cognitive_functioning
-      ?.current_and_past_psychiatric_diagnoses || "Diagnosi non specificata";
+
+  // Generate patient avatar data once
+  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : null;
 
   return (
     <SharedLayout
@@ -400,12 +396,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 >
                   Chat con {selectedPatient.name}
                 </h1>
-                <p
-                  className="text-body-sm"
-                  style={{ color: "var(--text-tertiary)" }}
-                >
-                  Sessione {stepId} - {diagnosis}
-                </p>
               </div>
             </div>
           </div>
@@ -442,24 +432,24 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       >
                         <UserIcon className="h-5 w-5" />
                       </div>
-                    ) : (
+                    ) : selectedPatient.avatarUrl ? (
                       <Image
-                        src={
-                          selectedPatient.avatarUrl ||
-                          generatePatientAvatar(selectedPatient.name)
-                        }
+                        src={selectedPatient.avatarUrl}
                         alt={`Avatar di ${selectedPatient.name}`}
                         width={40}
                         height={40}
                         className="rounded-full object-cover"
                         style={{ width: "40px", height: "40px" }}
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = generatePatientAvatar(
-                            selectedPatient.name,
-                          );
-                        }}
                       />
+                    ) : (
+                      <div
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
+                        style={{
+                          backgroundColor: patientAvatar?.backgroundColor,
+                        }}
+                      >
+                        {patientAvatar?.initials}
+                      </div>
                     )}
                   </div>
                   <div
@@ -495,7 +485,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                             : "var(--text-tertiary)",
                       }}
                     >
-                      {message.timestamp.toLocaleTimeString()}
+                      {formatTimestamp(message.timestamp)}
                     </p>
                   </div>
                 </div>
@@ -506,23 +496,25 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               <div className="flex justify-start">
                 <div className="flex space-x-3">
                   <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
-                    <Image
-                      src={
-                        selectedPatient.avatarUrl ||
-                        generatePatientAvatar(selectedPatient.name)
-                      }
-                      alt={`Avatar di ${selectedPatient.name}`}
-                      width={40}
-                      height={40}
-                      className="rounded-full object-cover"
-                      style={{ width: "40px", height: "40px" }}
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.src = generatePatientAvatar(
-                          selectedPatient.name,
-                        );
-                      }}
-                    />
+                    {selectedPatient.avatarUrl ? (
+                      <Image
+                        src={selectedPatient.avatarUrl}
+                        alt={`Avatar di ${selectedPatient.name}`}
+                        width={40}
+                        height={40}
+                        className="rounded-full object-cover"
+                        style={{ width: "40px", height: "40px" }}
+                      />
+                    ) : (
+                      <div
+                        className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
+                        style={{
+                          backgroundColor: patientAvatar?.backgroundColor,
+                        }}
+                      >
+                        {patientAvatar?.initials}
+                      </div>
+                    )}
                   </div>
                   <div
                     className="rounded-lg px-4 py-3"

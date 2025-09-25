@@ -9,6 +9,7 @@
 
 import { memo } from "react";
 import Link from "next/link";
+import { createPatientSlug } from "~/lib/utils/slugify";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -184,7 +185,7 @@ function TherapySessionCardComponent({
 
           <div className="mt-6">
             <Link
-              href={`/dashboard/therapeutic-journey/${therapySession.patientId}`}
+              href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
               className="btn btn-primary w-full"
             >
               {sessionStatus === "completed"

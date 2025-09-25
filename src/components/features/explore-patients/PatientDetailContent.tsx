@@ -11,6 +11,7 @@ import {
 } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
+import { extractPatientIdFromSlug, createPatientSlug } from "~/lib/utils/slugify";
 
 const BREADCRUMB_NAV =
   "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
@@ -29,9 +30,11 @@ function normalizeParam(value: unknown): string | null {
 
 export function PatientDetailContent() {
   const params = useParams();
-  const patientId = normalizeParam(
+  const patientIdParam = normalizeParam(
     (params as Record<string, unknown>).patientId,
   );
+  // Extract patient ID from the URL slug (first part before hyphen)
+  const patientId = patientIdParam ? extractPatientIdFromSlug(patientIdParam) : null;
   const router = useRouter();
   const [actionError, setActionError] = useState<string | null>(null);
   const { data: session } = useSession();
@@ -48,14 +51,15 @@ export function PatientDetailContent() {
   const startTherapySession = api.therapySessions.start.useMutation({
     onSuccess: (startedSession) => {
       setActionError(null);
-      if (startedSession) {
-        router.push(`/dashboard/therapeutic-journey/${startedSession.patientId}`);
+      if (startedSession && patient) {
+        const patientSlug = createPatientSlug(patient.name);
+        router.push(`/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`);
       }
     },
     onError: (mutationError) => {
       if (mutationError?.data?.code === "UNAUTHORIZED") {
         const target = encodeURIComponent(
-          `/dashboard/therapeutic-journey/${patientId ?? ""}`,
+          `/explore-patients/${patientId ?? ""}`,
         );
         router.push(`/login?callbackUrl=${target}`);
         return;
@@ -248,7 +252,7 @@ export function PatientDetailContent() {
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <Link
-                      href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}`)}`}
+                      href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}/${createPatientSlug(patient.name)}`)}`}
                       className="patient-card-button text-center py-3 sm:py-4 text-sm sm:text-base"
                     >
                       Accedi per iniziare la simulazione

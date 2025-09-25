@@ -20,6 +20,7 @@ type TimelineStep = {
 
 import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
+import { extractPatientIdFromSlug, createPatientSlug } from "~/lib/utils/slugify";
 
 type Session = {
   user?: User;
@@ -428,7 +429,10 @@ export function SessionTimelineContent({
     onSuccess: () => {
       // Find the next unlocked step and navigate to its chat
       const nextUnlockedStep = unlockedSteps.find(stepId => !isStepCompleted(stepId));
-      if (nextUnlockedStep && sessionId) {
+      if (nextUnlockedStep && sessionId && selectedPatient) {
+        const patientSlug = createPatientSlug(selectedPatient.name);
+        router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${nextUnlockedStep}`);
+      } else if (nextUnlockedStep && sessionId) {
         router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${nextUnlockedStep}`);
       } else {
         // If no unlocked step found, just reload to update the UI
@@ -485,10 +489,15 @@ export function SessionTimelineContent({
     (stepId: number) => {
       if (!isStepUnlocked(stepId)) return;
 
-      // Navigate to chat page for the selected step
-      router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${stepId}`);
+      // Navigate to chat page for the selected step with patient name
+      if (selectedPatient) {
+        const patientSlug = createPatientSlug(selectedPatient.name);
+        router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`);
+      } else {
+        router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${stepId}`);
+      }
     },
-    [isStepUnlocked, router, sessionId],
+    [isStepUnlocked, router, sessionId, selectedPatient],
   );
 
   // Computed values - must be before early return to maintain hook order
@@ -612,7 +621,7 @@ export function SessionTimelineContent({
                     : "Il tuo percorso terapeutico"}
                 </h1>
                 <Link
-                  href="/therapeutic-journey"
+                  href="/dashboard/therapeutic-journey"
                   className="bg-background-tertiary hover:bg-background-secondary text-text-primary rounded-md px-4 py-2 text-sm font-medium transition-colors"
                 >
                   ← Torna alle sessioni
