@@ -3,12 +3,6 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  MetricCardSkeleton,
-  SectionSkeleton,
-  ListItemSkeleton,
-  TableSkeleton,
-} from "~/components/ui/Skeleton";
 import { UsersIcon } from "@heroicons/react/24/outline";
 
 interface ImpersonationModalProps {
@@ -335,7 +329,10 @@ export function AdminContent() {
             {statsLoading ? (
               <div className="dashboard-metric-grid" aria-hidden="true">
                 {[1, 2, 3].map((i) => (
-                  <MetricCardSkeleton key={i} />
+                  <div key={i} className="dashboard-metric-card">
+                    <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20 mb-2" />
+                    <div className="bg-background-tertiary animate-pulse rounded-md h-8 w-16" />
+                  </div>
                 ))}
               </div>
             ) : (
@@ -441,7 +438,30 @@ export function AdminContent() {
           </div>
 
           {usersLoading ? (
-            <TableSkeleton rows={3} />
+            <div className="overflow-hidden rounded-xl">
+              <table className="dashboard-table">
+                <thead>
+                  <tr>
+                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-8" /></th>
+                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-16" /></th>
+                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20" /></th>
+                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-12" /></th>
+                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-16" /></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <tr key={i}>
+                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-8" /></td>
+                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20" /></td>
+                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-24" /></td>
+                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-12" /></td>
+                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-8 w-20" /></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           ) : users && users.length > 0 ? (
             <div className="overflow-hidden rounded-xl">
               <table className="dashboard-table">

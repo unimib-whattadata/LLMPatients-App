@@ -17,7 +17,6 @@ src/
 ├── components/                   # Reusable components
 │   ├── ui/                      # Basic UI components
 │   │   ├── AuthButton.tsx
-│   │   ├── Skeleton.tsx
 │   │   ├── Toast.tsx
 │   │   └── index.ts             # Barrel export
 │   ├── layout/                  # Layout components
@@ -89,7 +88,6 @@ Each directory has an `index.ts` file that exports all public components:
 ```typescript
 // components/ui/index.ts
 export { default as AuthButton } from './AuthButton';
-export { Skeleton } from './Skeleton';
 export { Toast } from './Toast';
 export { ToastProvider } from './ToastProvider';
 ```

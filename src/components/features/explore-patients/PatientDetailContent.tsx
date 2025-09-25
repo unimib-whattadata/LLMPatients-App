@@ -9,13 +9,11 @@ import { useSession } from "next-auth/react";
 import {
   PatientAvatar,
 } from "@/components/features/explore-patients";
-import { Skeleton } from "@/components/ui/Skeleton";
+import { Breadcrumb } from "@/components/ui";
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
-const BREADCRUMB_NAV =
-  "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
 const SECTION_WITH_OVERFLOW = "bg-background-secondary rounded-lg overflow-hidden";
 const SECTION = "bg-background-secondary rounded-lg p-6";
 
@@ -84,7 +82,14 @@ export function PatientDetailContent() {
   });
 
   if (isLoading) {
-    return <PatientDetailSkeleton />;
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-text-secondary">Loading patient details...</p>
+        </div>
+      </div>
+    );
   }
 
   if (error || !patient) {
@@ -101,7 +106,7 @@ export function PatientDetailContent() {
   const breadcrumbs = [
     { label: "Home", href: "/" },
     { label: "Esplora Pazienti", href: "/explore-patients" },
-    { label: patient.name },
+    { label: patient.name, isActive: true },
   ];
 
   let details: {
@@ -132,20 +137,7 @@ export function PatientDetailContent() {
     <div className="bg-background-primary min-h-screen">
       <header className="bg-background-secondary">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
-          <nav className={BREADCRUMB_NAV}>
-            {breadcrumbs.map((crumb, index) => (
-              <span key={crumb.label} className="flex items-center gap-2">
-                {crumb.href ? (
-                  <Link href={crumb.href} className="hover:text-text-primary">
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span className="text-text-primary">{crumb.label}</span>
-                )}
-                {index < breadcrumbs.length - 1 && <span>&gt;</span>}
-              </span>
-            ))}
-          </nav>
+          <Breadcrumb items={breadcrumbs} />
 
         </div>
       </header>
@@ -308,51 +300,3 @@ function NotFoundCard({
   );
 }
 
-function PatientDetailSkeleton() {
-  return (
-    <div className="bg-background-primary min-h-screen">
-      <header className="bg-background-secondary">
-        <div className="mx-auto max-w-4xl space-y-3 px-4 py-6 sm:px-6 lg:px-8">
-          <Skeleton className="h-4 w-64" />
-          <Skeleton className="h-8 w-48" />
-        </div>
-      </header>
-
-      <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <aside className="lg:col-span-1">
-            <div className={`${SECTION_WITH_OVERFLOW}`}>
-              <Skeleton className="h-48 w-full" radius="rounded-none" />
-              <div className="space-y-4 p-6">
-                <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-6 w-24" />
-              </div>
-            </div>
-          </aside>
-
-          <section className="space-y-6 lg:col-span-2">
-            <div className={`${SECTION}`}>
-              <Skeleton className="mb-4 h-6 w-48" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-4/5" />
-                <Skeleton className="h-4 w-3/5" />
-              </div>
-            </div>
-
-            <div className={`${SECTION}`}>
-              <Skeleton className="mb-4 h-6 w-56" />
-              <div className="space-y-3">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
-                <Skeleton className="h-4 w-4/5" />
-              </div>
-            </div>
-          </section>
-        </div>
-      </main>
-    </div>
-  );
-}

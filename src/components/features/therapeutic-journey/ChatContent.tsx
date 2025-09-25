@@ -7,8 +7,6 @@ import { api } from "~/trpc/react";
 import { SharedLayout } from "@/components/layout/SharedLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
-import { ChatInterfaceSkeleton, ChatHeaderSkeleton, ChatMessageSkeleton, PatientAvatarSkeleton, SessionTimerSkeleton, TypingIndicatorSkeleton } from "@/components/ui/ChatSkeleton";
 import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
 import { ArrowLeft, Send, User as UserIcon } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
@@ -364,7 +362,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <ChatInterfaceSkeleton />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-text-secondary">Loading chat...</p>
+          </div>
+        </div>
       </SharedLayout>
     );
   }

@@ -1,8 +1,6 @@
-import { Skeleton } from "@/components/ui/Skeleton";
-
 /**
  * LoadingGrid Component
- * Enhanced loading skeleton for patient cards
+ * Enhanced loading component for patient cards
  */
 export function LoadingGrid() {
   return (
@@ -14,16 +12,16 @@ export function LoadingGrid() {
     >
       {Array.from({ length: 6 }).map((_, index) => (
         <div key={index} className="loading-card">
-          <Skeleton className="loading-card-avatar" radius="rounded-none" />
+          <div className="loading-card-avatar bg-background-tertiary animate-pulse rounded-none" />
 
           <div className="loading-card-content">
-            <Skeleton className="loading-card-title" />
+            <div className="loading-card-title bg-background-tertiary animate-pulse rounded-md h-6 w-3/4 mb-2" />
             <div className="space-y-3">
-              <Skeleton className="loading-card-text" />
-              <Skeleton className="loading-card-text" />
-              <Skeleton className="loading-card-text" />
+              <div className="loading-card-text bg-background-tertiary animate-pulse rounded-md h-4 w-full" />
+              <div className="loading-card-text bg-background-tertiary animate-pulse rounded-md h-4 w-5/6" />
+              <div className="loading-card-text bg-background-tertiary animate-pulse rounded-md h-4 w-4/5" />
             </div>
-            <Skeleton className="loading-card-button" />
+            <div className="loading-card-button bg-background-tertiary animate-pulse rounded-md h-10 w-full" />
           </div>
         </div>
       ))}

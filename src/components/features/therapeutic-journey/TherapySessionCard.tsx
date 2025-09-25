@@ -10,6 +10,7 @@
 import { memo } from "react";
 import Link from "next/link";
 import { createPatientSlug } from "~/lib/utils/slugify";
+import { PatientAvatar } from "../explore-patients/PatientAvatar";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -24,6 +25,8 @@ type TherapySessionWithPatient = {
     smallDescription: string;
     difficulty: number;
     estimatedDuration: number;
+    avatarUrl: string | null;
+    avatarType: "photo" | "illustration" | "avatar";
   };
 };
 
@@ -110,17 +113,27 @@ function TherapySessionCardComponent({
     >
       <div className="dashboard-action-card-content">
         <div className="dashboard-action-card-main">
-          <div className="mb-4 flex items-start justify-between">
-            <div>
-              <h3 className="dashboard-action-card__title mb-1" itemProp="name">
-                {therapySession.patient.name}
-              </h3>
-              <p
-                className="dashboard-action-card__description"
-                itemProp="description"
-              >
-                {therapySession.patient.smallDescription}
-              </p>
+          {/* Header with avatar and status */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="therapy-session-avatar">
+                <PatientAvatar
+                  name={therapySession.patient.name}
+                  avatarUrl={therapySession.patient.avatarUrl}
+                  avatarType={therapySession.patient.avatarType}
+                />
+              </div>
+              <div>
+                <h3 className="dashboard-action-card__title mb-1" itemProp="name">
+                  {therapySession.patient.name}
+                </h3>
+                <p
+                  className="dashboard-action-card__description text-sm"
+                  itemProp="description"
+                >
+                  {therapySession.patient.smallDescription}
+                </p>
+              </div>
             </div>
             <div className="flex flex-col items-end gap-2">
               {getStatusBadge(sessionStatus)}

@@ -1440,7 +1440,6 @@
     flex-direction: column;
     min-width: 0;
     overflow-x: hidden;
-    padding-top: 5rem; /* Add top padding to account for navbar height (74px) */
   }
 
   .content-container.with-sidebar {
@@ -2229,10 +2228,6 @@
     }
   }
 
-  /* ===== ENHANCED LOADING SKELETON ===== */
-  .loading-skeleton {
-    background: rgba(47, 55, 39, 0.8);
-  }
 
   /* ===== SKELETON ANIMATIONS ===== */
   @keyframes pulse {
@@ -2521,7 +2516,7 @@
   }
 
   .patient-avatar-container--detail {
-    border-radius: 0;
+    border-radius: 0.75rem;
   }
 
   .patient-avatar-image {
@@ -2531,6 +2526,7 @@
     max-height: 100%;
     object-fit: contain;
     object-position: center;
+    border-radius: 0.75rem;
   }
 
   .patient-avatar-loading {
@@ -4036,6 +4032,49 @@
     --pill-bg: color-mix(in srgb, var(--accent-success) 35%, transparent);
     --pill-color: var(--text-primary);
     --pill-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-success) 55%, transparent);
+  }
+
+  /* Therapy session avatar - small and square */
+  .therapy-session-avatar {
+    width: 3rem;
+    height: 3rem;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: var(--background-tertiary);
+  }
+
+  .therapy-session-avatar .patient-avatar-container {
+    width: 100%;
+    height: 100%;
+    min-height: unset;
+    border-radius: 0.5rem;
+    background: var(--background-tertiary);
+  }
+
+  .therapy-session-avatar .patient-avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  /* Breadcrumb Navigation */
+  .breadcrumb-link {
+    color: var(--text-tertiary);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--text-secondary);
+    text-decoration: underline;
+  }
+
+  .breadcrumb-link:focus {
+    outline: 2px solid var(--accent-600);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 }
 

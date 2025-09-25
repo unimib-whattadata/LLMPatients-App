@@ -3,12 +3,6 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  MetricCardSkeleton,
-  SectionSkeleton,
-  ListItemSkeleton,
-  ActionCardSkeleton,
-} from "~/components/ui/Skeleton";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
@@ -351,7 +345,19 @@ export const UserContent = React.memo(function UserContent() {
           </div>
 
           {profileLoading ? (
-            <SectionSkeleton />
+            <div className="dashboard-section">
+              <div className="dashboard-section__header">
+                <div>
+                  <div className="bg-background-tertiary animate-pulse rounded-md h-6 w-48 mb-2" />
+                  <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-96" />
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
+                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
+                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
+              </div>
+            </div>
           ) : isEditingProfile ? (
             <form
               onSubmit={handleProfileSubmit}
@@ -473,7 +479,13 @@ export const UserContent = React.memo(function UserContent() {
           {activitiesLoading ? (
             <div className="space-y-4" aria-hidden="true">
               {[1, 2, 3, 4, 5].map((i) => (
-                <ListItemSkeleton key={i} />
+                <div key={i} className="dashboard-list__item">
+                  <div className="flex-1">
+                    <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-32 mb-2" />
+                    <div className="bg-background-tertiary animate-pulse rounded-md h-3 w-24" />
+                  </div>
+                  <div className="bg-background-tertiary animate-pulse rounded-full h-6 w-16" />
+                </div>
               ))}
             </div>
           ) : activities && activities.length > 0 ? (

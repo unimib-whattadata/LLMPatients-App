@@ -6,7 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useToast } from "@/components/ui/ToastProvider";
-import { GenericPageSkeleton } from "@/components/ui/PageSkeleton";
 
 // Define the consolidated login state interface
 interface LoginState {
@@ -577,7 +576,14 @@ function LoginPageComponent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<GenericPageSkeleton showMetrics={false} showTable={false} />}>
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-text-secondary">Loading...</p>
+        </div>
+      </div>
+    }>
       <LoginPageComponent />
     </Suspense>
   );

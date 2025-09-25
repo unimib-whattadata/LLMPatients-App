@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useCallback } from "react";
-import { Skeleton } from "./Skeleton";
 
 /**
  * Dynamic Authentication Button Component
@@ -11,7 +10,7 @@ import { Skeleton } from "./Skeleton";
  * This component displays different buttons based on the user's authentication state:
  * - If authenticated: Shows "Area Personale" link to dashboard and logout button
  * - If not authenticated: Shows "Accedi" link to login page
- * - Handles loading states with a skeleton loader
+ * - Handles loading states with a loading indicator
  */
 export default function AuthButton() {
   const { data: session, status } = useSession({
@@ -43,11 +42,11 @@ export default function AuthButton() {
 
 
 
-  // Show loading skeleton while session is being fetched
+  // Show loading state while session is being fetched
   if (status === "loading") {
     return (
       <div className="btn btn-primary btn-md" aria-hidden="true">
-        <Skeleton className="h-4 w-16 bg-text-primary/40" radius="rounded" />
+        <div className="animate-pulse bg-text-primary/40 h-4 w-16 rounded"></div>
       </div>
     );
   }

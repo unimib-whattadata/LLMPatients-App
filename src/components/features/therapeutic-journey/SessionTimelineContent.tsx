@@ -4,7 +4,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { TherapySessionTimelineSkeleton } from "@/components/ui/PageSkeleton";
+import { Breadcrumb } from "@/components/ui";
 
 type PathPoint = {
   x: number;
@@ -531,6 +531,14 @@ export function SessionTimelineContent({
           <section className="dashboard-section">
             <div className="dashboard-section__header">
               <div>
+                <Breadcrumb 
+                  items={[
+                    { label: "Dashboard", href: "/dashboard" },
+                    { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
+                    { label: "Sessione non trovata", isActive: true },
+                  ]} 
+                />
+                
                 <h1 className="dashboard-section__title">
                   Sessione non trovata
                 </h1>
@@ -542,7 +550,7 @@ export function SessionTimelineContent({
                     href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
-                    Torna alle sessioni
+                    Torna al Percorso Terapeutico
                   </Link>
                 </div>
               </div>
@@ -561,7 +569,12 @@ export function SessionTimelineContent({
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <TherapySessionTimelineSkeleton />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-text-secondary">Loading session timeline...</p>
+          </div>
+        </div>
       </SharedLayout>
     );
   }
@@ -578,6 +591,14 @@ export function SessionTimelineContent({
           <section className="dashboard-section">
             <div className="dashboard-section__header">
               <div>
+                <Breadcrumb 
+                  items={[
+                    { label: "Dashboard", href: "/dashboard" },
+                    { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
+                    { label: "Percorso non disponibile", isActive: true },
+                  ]} 
+                />
+                
                 <h1 className="dashboard-section__title">
                   Percorso non disponibile
                 </h1>
@@ -591,7 +612,7 @@ export function SessionTimelineContent({
                     href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
-                    Torna alle sessioni
+                    Torna al Percorso Terapeutico
                   </Link>
                 </div>
               </div>
@@ -614,17 +635,22 @@ export function SessionTimelineContent({
           <div className="dashboard-section__header">
             <div>
               <div className="flex items-center justify-between">
-                <h1 className="dashboard-section__title">
-                  {selectedPatient
-                    ? `Il tuo percorso con ${selectedPatient.name}`
-                    : "Il tuo percorso terapeutico"}
-                </h1>
-                <Link
-                  href="/dashboard/therapeutic-journey"
-                  className="bg-background-tertiary hover:bg-background-secondary text-text-primary rounded-md px-4 py-2 text-sm font-medium transition-colors"
-                >
-                  ← Torna alle sessioni
-                </Link>
+                <div>
+                  {/* Breadcrumb Navigation */}
+                  <Breadcrumb 
+                    items={[
+                      { label: "Dashboard", href: "/dashboard" },
+                      { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
+                      { label: selectedPatient ? selectedPatient.name : "Sessione", isActive: true },
+                    ]} 
+                  />
+                  
+                  <h1 className="dashboard-section__title">
+                    {selectedPatient
+                      ? `Il tuo percorso con ${selectedPatient.name}`
+                      : "Il tuo percorso terapeutico"}
+                  </h1>
+                </div>
               </div>
               <p className="dashboard-section__description">
                 Inizia il tuo percorso terapeutico passo dopo passo. Ogni tappa
