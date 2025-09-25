@@ -14,6 +14,7 @@ type TherapySessionWithPatient = {
   userId: string;
   patientId: string;
   sessionNumber: number;
+  isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date | null;
   patient: {
@@ -52,13 +53,16 @@ export function TherapeuticJourneyContent() {
   } = api.therapySessions.getAllForUser.useQuery();
 
   /**
-   * Determines the status of a therapy session based on session number
-   * @param sessionNumber - The current session number (1-11)
+   * Determines the status of a therapy session based on completion status and session number
+   * @param therapySession - The therapy session object with isCompleted field
    * @returns Session status: "started", "in-progress", or "completed"
    */
-  const getSessionStatus = useCallback((sessionNumber: number) => {
-    if (sessionNumber === 1) return "started";
-    if (sessionNumber >= 11) return "completed";
+  const getSessionStatus = useCallback((therapySession: TherapySessionWithPatient) => {
+    // If the session is marked as completed in the database, it's completed
+    if (therapySession.isCompleted) return "completed";
+    
+    // Otherwise, determine status based on session number
+    if (therapySession.sessionNumber === 1) return "started";
     return "in-progress";
   }, []);
 
@@ -71,7 +75,7 @@ export function TherapeuticJourneyContent() {
     if (filter === "all") return allTherapySessions;
 
     return allTherapySessions.filter((session) => {
-      const status = getSessionStatus(session.sessionNumber);
+      const status = getSessionStatus(session);
       return status === filter;
     });
   }, [allTherapySessions, filter, getSessionStatus]);
@@ -85,10 +89,10 @@ export function TherapeuticJourneyContent() {
       return { inProgress: 0, completed: 0, averageProgress: 0 };
 
     const inProgress = allTherapySessions.filter(
-      (s) => getSessionStatus(s.sessionNumber) === "in-progress",
+      (s) => getSessionStatus(s) === "in-progress",
     ).length;
     const completed = allTherapySessions.filter(
-      (s) => getSessionStatus(s.sessionNumber) === "completed",
+      (s) => getSessionStatus(s) === "completed",
     ).length;
     const averageProgress = Math.round(
       allTherapySessions.reduce(

@@ -317,6 +317,7 @@ export const therapySessions = createTable(
       .notNull()
       .references(() => patients.id),
     sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
+    isCompleted: d.integer({ mode: "boolean" }).default(false).notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
@@ -327,6 +328,7 @@ export const therapySessions = createTable(
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
     index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
+    index("therapy_session_completed_idx").on(t.isCompleted), // For filtering completed sessions
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );

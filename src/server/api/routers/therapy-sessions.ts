@@ -183,4 +183,33 @@ export const therapySessionsRouter = createTRPCRouter({
 
     return sessions;
   }),
+
+  /**
+   * Check if a therapy session is completed
+   *
+   * Returns true if the therapy session has isCompleted set to true.
+   *
+   * @param input - Therapy session ID
+   * @returns Boolean indicating completion status
+   */
+  isCompleted: protectedProcedure
+    .input(
+      z.object({
+        therapySessionId: z.string().min(1, "Therapy session ID is required"),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const { therapySessionId } = input;
+      const userId = ctx.session.user.id;
+
+      const session = await ctx.db.query.therapySessions.findFirst({
+        where: and(
+          eq(therapySessions.id, therapySessionId),
+          eq(therapySessions.userId, userId),
+        ),
+        columns: { isCompleted: true },
+      });
+
+      return session?.isCompleted ?? false;
+    }),
 });

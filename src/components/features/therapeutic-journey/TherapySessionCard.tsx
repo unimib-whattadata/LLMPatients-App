@@ -17,6 +17,7 @@ type TherapySessionWithPatient = {
   userId: string;
   patientId: string;
   sessionNumber: number;
+  isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date | null;
   patient: {
@@ -32,14 +33,14 @@ type TherapySessionWithPatient = {
 
 interface TherapySessionCardProps {
   therapySession: TherapySessionWithPatient;
-  getSessionStatus: (sessionNumber: number) => string;
+  getSessionStatus: (therapySession: TherapySessionWithPatient) => string;
 }
 
 function TherapySessionCardComponent({
   therapySession,
   getSessionStatus,
 }: TherapySessionCardProps) {
-  const sessionStatus = getSessionStatus(therapySession.sessionNumber);
+  const sessionStatus = getSessionStatus(therapySession);
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
@@ -100,9 +101,9 @@ function TherapySessionCardComponent({
     }
   };
 
-  const progressPercentage = Math.round(
-    (therapySession.sessionNumber / 11) * 100,
-  );
+  const progressPercentage = therapySession.isCompleted 
+    ? 100 
+    : Math.round((therapySession.sessionNumber / 11) * 100);
 
   return (
     <article
@@ -138,7 +139,9 @@ function TherapySessionCardComponent({
             <div className="flex flex-col items-end gap-2">
               {getStatusBadge(sessionStatus)}
               <span className="text-text-tertiary text-xs">
-                Sessione {therapySession.sessionNumber}/11
+                {therapySession.isCompleted 
+                  ? "Completato (11/11)" 
+                  : `Sessione ${therapySession.sessionNumber}/11`}
               </span>
             </div>
           </div>
@@ -166,9 +169,11 @@ function TherapySessionCardComponent({
 
             <div>
               <div className="mb-1 flex items-center justify-between">
-                <span className="text-text-secondary text-sm">Progresso:</span>
+                <span className="text-text-secondary text-sm">
+                  {therapySession.isCompleted ? "Stato:" : "Progresso:"}
+                </span>
                 <span className="text-sm font-medium">
-                  {progressPercentage}%
+                  {therapySession.isCompleted ? "Completato" : `${progressPercentage}%`}
                 </span>
               </div>
               <div
@@ -177,10 +182,16 @@ function TherapySessionCardComponent({
                 aria-valuenow={progressPercentage}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label={`Progresso sessione: ${progressPercentage}%`}
+                aria-label={therapySession.isCompleted 
+                  ? "Sessione completata al 100%" 
+                  : `Progresso sessione: ${progressPercentage}%`}
               >
                 <div
-                  className="bg-accent-600 h-2 rounded-full transition-all duration-300"
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    therapySession.isCompleted 
+                      ? "bg-green-500" 
+                      : "bg-accent-600"
+                  }`}
                   style={{ width: `${progressPercentage}%` }}
                 />
               </div>
@@ -188,10 +199,12 @@ function TherapySessionCardComponent({
 
             <div className="flex items-center justify-between">
               <span className="text-text-secondary text-sm">
-                Durata stimata:
+                {therapySession.isCompleted ? "Completato il:" : "Durata stimata:"}
               </span>
               <span className="text-text-tertiary text-sm">
-                {therapySession.patient.estimatedDuration} min
+                {therapySession.isCompleted 
+                  ? new Date(therapySession.updatedAt || therapySession.createdAt).toLocaleDateString('it-IT')
+                  : `${therapySession.patient.estimatedDuration} min`}
               </span>
             </div>
           </div>
@@ -201,8 +214,10 @@ function TherapySessionCardComponent({
               href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
               className="btn btn-primary w-full"
             >
-              {sessionStatus === "completed"
-                ? "Rivedi Sessione"
+              {therapySession.isCompleted
+                ? "Rivedi Percorso Completato"
+                : sessionStatus === "started"
+                ? "Inizia Sessione"
                 : "Continua Sessione"}
             </Link>
           </div>
