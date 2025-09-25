@@ -1419,6 +1419,10 @@
     flex-direction: column;
   }
 
+  .main-container.home-layout .content-container {
+    padding-top: 0;
+  }
+
   .sidebar-container {
     flex-shrink: 0;
     position: fixed;
@@ -1447,7 +1451,6 @@
     max-width: 100%;
     margin: 0;
     border-radius: 0;
-    padding-top: 1rem; /* Additional padding for content */
   }
 
   .footer-container {
@@ -3305,7 +3308,6 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    padding-top: 5rem; /* Add top padding to account for navbar height (74px) */
   }
 
   .home-topbar {
@@ -3943,6 +3945,10 @@
     }
 
     .home-process-number {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateX(-50%) translateY(-50%);
       width: 40px;
       height: 40px;
     }
