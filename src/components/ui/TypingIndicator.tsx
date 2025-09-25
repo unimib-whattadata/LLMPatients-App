@@ -129,7 +129,7 @@ export function ChatTypingIndicator({
             <div
               className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
               style={{
-                backgroundColor: avatarData?.backgroundColor || "#8B9769",
+                backgroundColor: avatarData?.backgroundColor || "var(--color-primary-500)",
               }}
             >
               {avatarData?.initials || "P"}

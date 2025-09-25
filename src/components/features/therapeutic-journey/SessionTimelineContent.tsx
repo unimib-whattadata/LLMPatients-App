@@ -29,17 +29,17 @@ type Session = {
 };
 
 const timelineSteps: TimelineStep[] = [
-  { id: 1, top: 150, left: 533, color: "#B9C87C" },
-  { id: 2, top: 340, left: 333, color: "#B9C87C" },
-  { id: 3, top: 460, left: 533, color: "#E3B23C" },
-  { id: 4, top: 560, left: 713, color: "#E3B23C" },
-  { id: 5, top: 680, left: 533, color: "#E3B23C" },
-  { id: 6, top: 780, left: 373, color: "#E3B23C" },
-  { id: 7, top: 900, left: 533, color: "#E3B23C" },
-  { id: 8, top: 1000, left: 713, color: "#E3B23C" },
-  { id: 9, top: 1120, left: 533, color: "#E3B23C" },
-  { id: 10, top: 1210, left: 353, color: "#E3B23C" },
-  { id: 11, top: 1400, left: 533, color: "#B4A7E6" },
+  { id: 1, top: 150, left: 533, color: "var(--color-timeline-knowledge)" },
+  { id: 2, top: 340, left: 333, color: "var(--color-timeline-knowledge)" },
+  { id: 3, top: 460, left: 533, color: "var(--color-timeline-intervention)" },
+  { id: 4, top: 560, left: 713, color: "var(--color-timeline-intervention)" },
+  { id: 5, top: 680, left: 533, color: "var(--color-timeline-intervention)" },
+  { id: 6, top: 780, left: 373, color: "var(--color-timeline-intervention)" },
+  { id: 7, top: 900, left: 533, color: "var(--color-timeline-intervention)" },
+  { id: 8, top: 1000, left: 713, color: "var(--color-timeline-intervention)" },
+  { id: 9, top: 1120, left: 533, color: "var(--color-timeline-intervention)" },
+  { id: 10, top: 1210, left: 353, color: "var(--color-timeline-intervention)" },
+  { id: 11, top: 1400, left: 533, color: "var(--color-timeline-conclusion)" },
 ];
 
 const timelinePathPoints: PathPoint[] = [
@@ -117,28 +117,28 @@ const STEP_DETAILS_CONFIG = {
     phaseTitle: "Conclusione",
     sessionLabel: "Seduta 11",
     tips: TIPS_CONFIG.CONCLUSION,
-    backgroundColor: "#2a2548",
-    textColor: "#EEE9FF",
-    accentColor: "#B8A7F4",
-    bodyColor: "#E4DEFF",
+    backgroundColor: "var(--color-phase-conclusion-bg)",
+    textColor: "var(--color-phase-conclusion-text)",
+    accentColor: "var(--color-phase-conclusion-accent)",
+    bodyColor: "var(--color-phase-conclusion-body)",
   },
   INTERVENTION: {
     phaseTitle: "Fase di Intervento",
     sessionLabel: "Sedute 3-10",
     tips: TIPS_CONFIG.INTERVENTION,
-    backgroundColor: "#2a1f0f",
-    textColor: "#FFF4E6",
-    accentColor: "#E3B23C",
-    bodyColor: "#F5E6D3",
+    backgroundColor: "var(--color-phase-intervention-bg)",
+    textColor: "var(--color-phase-intervention-text)",
+    accentColor: "var(--color-phase-intervention-accent)",
+    bodyColor: "var(--color-phase-intervention-body)",
   },
   KNOWLEDGE: {
     phaseTitle: "Fase di Conoscenza",
     sessionLabel: "Sedute 1-2",
     tips: TIPS_CONFIG.KNOWLEDGE,
-    backgroundColor: "#1a2720",
-    textColor: "#E8F4E3",
-    accentColor: "#9BD0A8",
-    bodyColor: "#DAE7D8",
+    backgroundColor: "var(--color-phase-knowledge-bg)",
+    textColor: "var(--color-phase-knowledge-text)",
+    accentColor: "var(--color-phase-knowledge-accent)",
+    bodyColor: "var(--color-phase-knowledge-body)",
   },
 } as const;
 
@@ -265,8 +265,8 @@ const TimelineStep = memo(
       style={{
         top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
-        backgroundColor: isCompleted ? "#22C55E" : step.color, // Green for completed steps
-        color: isCompleted ? "white" : (step.textColor ?? "#0b0d06"),
+        backgroundColor: isCompleted ? "var(--color-success-500)" : step.color, // Green for completed steps
+        color: isCompleted ? "white" : (step.textColor ?? "var(--color-button-text-dark)"),
         width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         fontSize: `${circleFontSize}px`,
@@ -329,7 +329,7 @@ const MobileTimelineStep = memo(
         <span
           className="block flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
           style={{
-            backgroundColor: isCompleted ? "#22C55E" : step.color,
+            backgroundColor: isCompleted ? "var(--color-success-500)" : step.color,
             color: isCompleted ? "white" : "inherit",
           }}
         >
@@ -345,7 +345,7 @@ const MobileTimelineStep = memo(
         }}
         aria-expanded={isOpen}
         disabled={!isUnlocked}
-        className={`w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:ring-[#4F9D69] focus:outline-none ${
+        className={`w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:ring-[var(--color-focus-primary)] focus:outline-none ${
           isUnlocked ? "" : "cursor-not-allowed opacity-40"
         } ${isCurrent ? "ring-2 ring-white/70" : ""}`}
         style={{
@@ -709,9 +709,9 @@ export function SessionTimelineContent({
                       y2="1"
                       gradientUnits="objectBoundingBox"
                     >
-                      <stop offset="0%" stopColor="#2D3231" />
-                      <stop offset="40%" stopColor="#343937" />
-                      <stop offset="100%" stopColor="#262C2B" />
+                      <stop offset="0%" stopColor="var(--color-timeline-gradient-start)" />
+                      <stop offset="40%" stopColor="var(--color-timeline-gradient-mid)" />
+                      <stop offset="100%" stopColor="var(--color-timeline-gradient-end)" />
                     </linearGradient>
                     <filter
                       id="timelineGlow"
@@ -729,7 +729,7 @@ export function SessionTimelineContent({
                   </defs>
                   <path
                     d={timelinePathD}
-                    stroke="#1f2423"
+                    stroke="var(--color-timeline-path)"
                     strokeWidth="20"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -756,7 +756,7 @@ export function SessionTimelineContent({
 
           <div className="mt-10 md:hidden">
             <div className="relative pl-8">
-              <span className="pointer-events-none absolute top-0 left-3 h-full w-px bg-[#1f2423]" />
+              <span className="pointer-events-none absolute top-0 left-3 h-full w-px stroke-timeline-path" />
               <div className="space-y-5">
                 {timelineSteps.map((step) => {
                   const details = getStepDetails(step.id);

@@ -123,7 +123,7 @@
 
   .btn-success {
     background: var(--color-success-500);
-    color: #0d1206;
+    color: var(--color-success-text);
     border-radius: 0.75rem;
     padding: 0.85rem 1rem;
     font-weight: 600;
@@ -1872,7 +1872,7 @@
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: #f2f6e8;
+    background: var(--color-bg-light-green);
   }
 
   .patients-nav {
@@ -1974,7 +1974,7 @@
     position: relative;
     width: 100%;
     min-height: 20rem;
-    background: #d9c6a3;
+    background: var(--color-bg-warm-beige);
     border-radius: 1.1rem 1.1rem 0 0;
     display: flex;
     align-items: center;
@@ -2205,7 +2205,7 @@
   .patient-card-button {
     width: 100%;
     background: var(--home-primary);
-    color: #0d1206;
+    color: var(--color-success-text);
     font-weight: 600;
     padding: 0.85rem 1rem;
     border-radius: 0.75rem;
@@ -2494,12 +2494,12 @@
   /* ===== FOCUS ENHANCEMENTS ===== */
   .admin-nav-item:focus,
   .user-nav-item:focus {
-    outline: 2px solid #3b82f6;
+    outline: 2px solid var(--color-focus-blue);
     outline-offset: 2px;
   }
 
   .patient-card-button:focus {
-    outline: 2px solid #059669;
+    outline: 2px solid var(--color-focus-green);
     outline-offset: 2px;
   }
 
@@ -2688,7 +2688,7 @@
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: #f2f6e8;
+    background: var(--color-bg-light-green);
   }
 
   .home-brand-logo {
@@ -2733,7 +2733,7 @@
   .home-landing .btn-primary,
   .home-page .btn-primary {
     background: var(--home-primary);
-    color: #0d1206;
+    color: var(--color-success-text);
     font-weight: var(--font-weight-semibold);
   }
 
@@ -2862,7 +2862,7 @@
     align-items: center;
     justify-content: center;
     font-weight: var(--font-weight-semibold);
-    color: #0b0d06;
+    color: var(--color-button-text-dark);
     background: var(--home-primary);
     font-size: 1.2rem;
     position: absolute;
@@ -3030,7 +3030,7 @@
   }
 
   .home-footer {
-    background: #050605;
+    background: var(--color-footer-bg);
     color: var(--home-text-soft);
   }
 
@@ -3081,7 +3081,7 @@
     padding: 0.9rem 2.2rem;
     border-radius: 999px;
     background: var(--home-primary);
-    color: #0d1206;
+    color: var(--color-success-text);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
   }
@@ -3429,5 +3429,73 @@
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
+}
+
+/* ===== TAILWIND UTILITY CLASSES FOR CENTRALIZED COLORS ===== */
+@layer utilities {
+  /* Avatar Colors */
+  .bg-avatar-pink { background-color: var(--color-avatar-pink); }
+  .bg-avatar-purple { background-color: var(--color-avatar-purple); }
+  .bg-avatar-deep-purple { background-color: var(--color-avatar-deep-purple); }
+  .bg-avatar-indigo { background-color: var(--color-avatar-indigo); }
+  .bg-avatar-blue { background-color: var(--color-avatar-blue); }
+  .bg-avatar-light-blue { background-color: var(--color-avatar-light-blue); }
+  .bg-avatar-cyan { background-color: var(--color-avatar-cyan); }
+  .bg-avatar-teal { background-color: var(--color-avatar-teal); }
+  .bg-avatar-green { background-color: var(--color-avatar-green); }
+  .bg-avatar-light-green { background-color: var(--color-avatar-light-green); }
+  .bg-avatar-lime { background-color: var(--color-avatar-lime); }
+  .bg-avatar-yellow { background-color: var(--color-avatar-yellow); }
+  .bg-avatar-amber { background-color: var(--color-avatar-amber); }
+  .bg-avatar-orange { background-color: var(--color-avatar-orange); }
+  .bg-avatar-deep-orange { background-color: var(--color-avatar-deep-orange); }
+  .bg-avatar-brown { background-color: var(--color-avatar-brown); }
+  .bg-avatar-blue-grey { background-color: var(--color-avatar-blue-grey); }
+  .bg-avatar-grey { background-color: var(--color-avatar-grey); }
+
+  /* Timeline Colors */
+  .bg-timeline-knowledge { background-color: var(--color-timeline-knowledge); }
+  .bg-timeline-intervention { background-color: var(--color-timeline-intervention); }
+  .bg-timeline-conclusion { background-color: var(--color-timeline-conclusion); }
+
+  /* Phase Backgrounds */
+  .bg-phase-knowledge { background-color: var(--color-phase-knowledge-bg); }
+  .bg-phase-intervention { background-color: var(--color-phase-intervention-bg); }
+  .bg-phase-conclusion { background-color: var(--color-phase-conclusion-bg); }
+
+  /* Phase Text Colors */
+  .text-phase-knowledge { color: var(--color-phase-knowledge-text); }
+  .text-phase-intervention { color: var(--color-phase-intervention-text); }
+  .text-phase-conclusion { color: var(--color-phase-conclusion-text); }
+
+  /* Phase Accent Colors */
+  .text-phase-knowledge-accent { color: var(--color-phase-knowledge-accent); }
+  .text-phase-intervention-accent { color: var(--color-phase-intervention-accent); }
+  .text-phase-conclusion-accent { color: var(--color-phase-conclusion-accent); }
+
+  /* UI Component Colors */
+  .bg-light-green { background-color: var(--color-bg-light-green); }
+  .bg-warm-beige { background-color: var(--color-bg-warm-beige); }
+  .bg-footer { background-color: var(--color-footer-bg); }
+
+  /* Focus Colors */
+  .focus-ring-blue { 
+    --tw-ring-color: var(--color-focus-blue);
+    --tw-ring-offset-color: var(--color-focus-blue);
+  }
+  .focus-ring-green { 
+    --tw-ring-color: var(--color-focus-green);
+    --tw-ring-offset-color: var(--color-focus-green);
+  }
+  .focus-ring-primary { 
+    --tw-ring-color: var(--color-focus-primary);
+    --tw-ring-offset-color: var(--color-focus-primary);
+  }
+
+  /* Timeline Path Colors */
+  .stroke-timeline-path { stroke: var(--color-timeline-path); }
+  .bg-timeline-gradient-start { stop-color: var(--color-timeline-gradient-start); }
+  .bg-timeline-gradient-mid { stop-color: var(--color-timeline-gradient-mid); }
+  .bg-timeline-gradient-end { stop-color: var(--color-timeline-gradient-end); }
 }
 

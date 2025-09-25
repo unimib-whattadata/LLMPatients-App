@@ -66,27 +66,27 @@ function generatePatientAvatar(name: string): { backgroundColor: string; initial
   const finalInitials = initials.length > 0 ? initials : "P";
 
   const colors = [
-    "#E91E63",
-    "#9C27B0",
-    "#673AB7",
-    "#3F51B5",
-    "#2196F3",
-    "#00BCD4",
-    "#009688",
-    "#4CAF50",
-    "#8BC34A",
-    "#CDDC39",
-    "#FFEB3B",
-    "#FFC107",
-    "#FF9800",
-    "#FF5722",
-    "#795548",
+    "var(--color-avatar-pink)",
+    "var(--color-avatar-purple)",
+    "var(--color-avatar-deep-purple)",
+    "var(--color-avatar-indigo)",
+    "var(--color-avatar-blue)",
+    "var(--color-avatar-cyan)",
+    "var(--color-avatar-teal)",
+    "var(--color-avatar-green)",
+    "var(--color-avatar-light-green)",
+    "var(--color-avatar-lime)",
+    "var(--color-avatar-yellow)",
+    "var(--color-avatar-amber)",
+    "var(--color-avatar-orange)",
+    "var(--color-avatar-deep-orange)",
+    "var(--color-avatar-brown)",
   ];
 
   const colorIndex =
     name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
     colors.length;
-  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "#8B9769";
+  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "var(--color-primary-500)";
 
   return { backgroundColor, initials: finalInitials };
 }
@@ -164,7 +164,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const utils = api.useUtils();
 
   // Generate patient avatar data once
-  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "#8B9769", initials: "P" };
+  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "var(--color-primary-500)", initials: "P" };
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {

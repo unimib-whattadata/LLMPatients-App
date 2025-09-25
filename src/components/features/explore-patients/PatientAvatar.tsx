@@ -12,24 +12,24 @@ interface PatientAvatarProps {
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
-  "#E91E63", // Pink
-  "#9C27B0", // Purple
-  "#673AB7", // Deep Purple
-  "#3F51B5", // Indigo
-  "#2196F3", // Blue
-  "#03A9F4", // Light Blue
-  "#00BCD4", // Cyan
-  "#009688", // Teal
-  "#4CAF50", // Green
-  "#8BC34A", // Light Green
-  "#CDDC39", // Lime
-  "#FFEB3B", // Yellow
-  "#FFC107", // Amber
-  "#FF9800", // Orange
-  "#FF5722", // Deep Orange
-  "#795548", // Brown
-  "#607D8B", // Blue Grey
-  "#9E9E9E", // Grey
+  "var(--color-avatar-pink)", // Pink
+  "var(--color-avatar-purple)", // Purple
+  "var(--color-avatar-deep-purple)", // Deep Purple
+  "var(--color-avatar-indigo)", // Indigo
+  "var(--color-avatar-blue)", // Blue
+  "var(--color-avatar-light-blue)", // Light Blue
+  "var(--color-avatar-cyan)", // Cyan
+  "var(--color-avatar-teal)", // Teal
+  "var(--color-avatar-green)", // Green
+  "var(--color-avatar-light-green)", // Light Green
+  "var(--color-avatar-lime)", // Lime
+  "var(--color-avatar-yellow)", // Yellow
+  "var(--color-avatar-amber)", // Amber
+  "var(--color-avatar-orange)", // Orange
+  "var(--color-avatar-deep-orange)", // Deep Orange
+  "var(--color-avatar-brown)", // Brown
+  "var(--color-avatar-blue-grey)", // Blue Grey
+  "var(--color-avatar-grey)", // Grey
 ];
 
 
