@@ -11,7 +11,7 @@ import {
 } from "@/components/features/explore-patients";
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
-import { extractPatientIdFromSlug, createPatientSlug } from "~/lib/utils/slugify";
+import { createPatientSlug } from "~/lib/utils/slugify";
 
 const BREADCRUMB_NAV =
   "flex flex-wrap items-center gap-2 text-sm text-text-tertiary mb-4";
@@ -30,11 +30,9 @@ function normalizeParam(value: unknown): string | null {
 
 export function PatientDetailContent() {
   const params = useParams();
-  const patientIdParam = normalizeParam(
+  const patientId = normalizeParam(
     (params as Record<string, unknown>).patientId,
   );
-  // Extract patient ID from the URL slug (first part before hyphen)
-  const patientId = patientIdParam ? extractPatientIdFromSlug(patientIdParam) : null;
   const router = useRouter();
   const [actionError, setActionError] = useState<string | null>(null);
   const { data: session } = useSession();
@@ -59,7 +57,7 @@ export function PatientDetailContent() {
     onError: (mutationError) => {
       if (mutationError?.data?.code === "UNAUTHORIZED") {
         const target = encodeURIComponent(
-          `/explore-patients/${patientId ?? ""}`,
+          `/explore-patients/${patientId ?? ""}/${createPatientSlug(patient.name)}`,
         );
         router.push(`/login?callbackUrl=${target}`);
         return;

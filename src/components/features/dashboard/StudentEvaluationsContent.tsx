@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DIFFICULTY_LEVELS, getDifficultyLabel, getDifficultyIconClass, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";
+import { MetricCardSkeleton } from "@/components/ui/Skeleton";
 
 interface Evaluation {
   id: string;
@@ -157,12 +158,7 @@ export function StudentEvaluationsContent() {
           {statsLoading ? (
             <div className="dashboard-metric-grid" aria-hidden="true">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="dashboard-metric-card">
-                  <div className="animate-pulse">
-                    <div className="h-8 bg-background-tertiary rounded mb-2"></div>
-                    <div className="h-4 bg-background-tertiary rounded w-3/4"></div>
-                  </div>
-                </div>
+                <MetricCardSkeleton key={i} />
               ))}
             </div>
           ) : (

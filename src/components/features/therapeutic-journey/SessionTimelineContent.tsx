@@ -4,6 +4,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { TherapySessionTimelineSkeleton } from "@/components/ui/PageSkeleton";
 
 type PathPoint = {
   x: number;
@@ -433,7 +434,8 @@ export function SessionTimelineContent({
         const patientSlug = createPatientSlug(selectedPatient.name);
         router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${nextUnlockedStep}`);
       } else if (nextUnlockedStep && sessionId) {
-        router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${nextUnlockedStep}`);
+        // Fallback without patient name - this should not happen in normal flow
+        router.push(`/dashboard/therapeutic-journey`);
       } else {
         // If no unlocked step found, just reload to update the UI
         window.location.reload();
@@ -494,7 +496,8 @@ export function SessionTimelineContent({
         const patientSlug = createPatientSlug(selectedPatient.name);
         router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`);
       } else {
-        router.push(`/dashboard/therapeutic-journey/${sessionId}/chat/${stepId}`);
+        // Fallback without patient name - this should not happen in normal flow
+        router.push(`/dashboard/therapeutic-journey`);
       }
     },
     [isStepUnlocked, router, sessionId, selectedPatient],
@@ -558,11 +561,7 @@ export function SessionTimelineContent({
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-text-secondary text-lg">
-            Caricamento del percorso...
-          </p>
-        </div>
+        <TherapySessionTimelineSkeleton />
       </SharedLayout>
     );
   }

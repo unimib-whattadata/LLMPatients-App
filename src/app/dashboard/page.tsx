@@ -12,19 +12,13 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { Suspense } from "react";
+import { DashboardPageSkeleton } from "@/components/ui/PageSkeleton";
 
 /**
  * Loading component for dashboard routing
  */
 function DashboardLoading() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background-primary">
-      <div className="text-center">
-        <div className="rounded-full h-12 w-12 border-b-2 border-success-600 mx-auto mb-4"></div>
-        <p className="text-text-secondary">Redirecting to your dashboard...</p>
-      </div>
-    </div>
-  );
+  return <DashboardPageSkeleton />;
 }
 
 /**

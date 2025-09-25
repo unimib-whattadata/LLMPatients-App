@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { api } from "~/trpc/react";
@@ -8,7 +8,9 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
+import { ChatInterfaceSkeleton, ChatHeaderSkeleton, ChatMessageSkeleton, PatientAvatarSkeleton, SessionTimerSkeleton } from "@/components/ui/ChatSkeleton";
 import { ArrowLeft, Send, User as UserIcon } from "lucide-react";
+import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
 interface ChatContentProps {
@@ -34,6 +36,17 @@ function formatTimestamp(timestamp: Date | string): string {
 }
 
 /**
+ * Formats session time in MM:SS format
+ * @param seconds - Number of seconds
+ * @returns Formatted time string
+ */
+function formatSessionTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+}
+
+/**
  * Generates a consistent avatar placeholder for patients based on their name
  *
  * Creates a colored circle with initials for patients who don't have profile images.
@@ -49,6 +62,8 @@ function generatePatientAvatar(name: string): { backgroundColor: string; initial
     .join("")
     .toUpperCase()
     .slice(0, 2);
+  
+  const finalInitials = initials.length > 0 ? initials : "P";
 
   const colors = [
     "#E91E63",
@@ -71,9 +86,9 @@ function generatePatientAvatar(name: string): { backgroundColor: string; initial
   const colorIndex =
     name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
     colors.length;
-  const backgroundColor = colors[colorIndex] || colors[0];
+  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "#8B9769";
 
-  return { backgroundColor, initials };
+  return { backgroundColor, initials: finalInitials };
 }
 
 /**
@@ -104,6 +119,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionTime, setSessionTime] = useState(0); // Timer in seconds
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch patient data
@@ -133,6 +149,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       { enabled: Boolean(therapySession?.id) },
     );
 
+  // Get all completed chat steps for this therapy session
+  const { data: completedSteps, isLoading: completedStepsLoading } =
+    api.chat.getSessionChats.useQuery(
+      { therapySessionId: therapySession?.id ?? "" },
+      { enabled: Boolean(therapySession?.id) },
+    );
+
   // Mutations for chat operations
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
@@ -140,19 +163,44 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Get utils for invalidating queries
   const utils = api.useUtils();
 
+  // Generate patient avatar data once
+  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "#8B9769", initials: "P" };
+
+  // Check if current step is completed
+  const isStepCompleted = useMemo(() => {
+    if (!completedSteps) return false;
+    return completedSteps.some(
+      (step) => step.stepNumber === stepId && step.done,
+    );
+  }, [completedSteps, stepId]);
+
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Timer effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSessionTime(prev => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   // Initialize chat with existing data or welcome message
   useEffect(() => {
     if (existingChat && existingChat.messages.length > 0) {
-      setMessages(existingChat.messages);
+      // Convert string timestamps to Date objects
+      const messagesWithDates = existingChat.messages.map(msg => ({
+        ...msg,
+        timestamp: typeof msg.timestamp === 'string' ? new Date(msg.timestamp) : msg.timestamp
+      }));
+      setMessages(messagesWithDates);
     } else if (selectedPatient && messages.length === 0 && !chatLoading) {
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
-        content: `Ciao! Sono ${selectedPatient.name}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
+        content: `Ciao! Sono ${selectedPatient.name || 'il tuo paziente'}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
         sender: "patient",
         timestamp: new Date(),
         stepId,
@@ -177,16 +225,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setInputMessage("");
     setIsLoading(true);
 
-    // Save user message immediately
-    try {
-      await saveChatMutation.mutateAsync({
-        therapySessionId: therapySession.id,
-        stepNumber: stepId,
-        messages: newMessages,
-      });
-    } catch (error) {
-      console.error("Error saving chat:", error);
-    }
+        // Save user message immediately
+        try {
+          await saveChatMutation.mutateAsync({
+            therapySessionId: therapySession.id,
+            stepNumber: stepId,
+            messages: newMessages.map(msg => ({
+              ...msg,
+              timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
+            })),
+          });
+        } catch (error) {
+          console.error("Error saving chat:", error);
+        }
 
     // Simulate AI response (replace with actual API call)
     setTimeout(
@@ -219,7 +270,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         saveChatMutation.mutate({
           therapySessionId: therapySession.id,
           stepNumber: stepId,
-          messages: finalMessages,
+          messages: finalMessages.map(msg => ({
+            ...msg,
+            timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
+          })),
         });
       },
       1000 + Math.random() * 2000,
@@ -234,7 +288,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   };
 
   const goBack = () => {
-    router.push(`/dashboard/therapeutic-journey/${sessionId}`);
+    if (selectedPatient) {
+      const patientSlug = createPatientSlug(selectedPatient.name);
+      router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}`);
+    } else {
+      router.push(`/dashboard/therapeutic-journey`);
+    }
   };
 
   const handleCompleteStep = async () => {
@@ -275,22 +334,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   };
 
-  if (patientLoading || therapySessionLoading || chatLoading) {
+  if (patientLoading || therapySessionLoading || chatLoading || completedStepsLoading) {
     return (
       <SharedLayout
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <div
-          className="flex h-screen items-center justify-center"
-          style={{ backgroundColor: "var(--surface-primary)" }}
-        >
-          <div className="text-center">
-            <LoadingSkeleton className="mb-4 h-8 w-64" />
-            <p style={{ color: "var(--text-tertiary)" }}>Caricamento chat...</p>
-          </div>
-        </div>
+        <ChatInterfaceSkeleton />
       </SharedLayout>
     );
   }
@@ -344,10 +395,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }
 
-
-  // Generate patient avatar data once
-  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : null;
-
   return (
     <SharedLayout
       user={user}
@@ -355,7 +402,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       layoutType="dashboard"
     >
       <div
-        className="flex h-screen flex-col"
+        className="flex h-screen flex-col pt-16"
         style={{ backgroundColor: "var(--surface-primary)" }}
       >
         {/* Header */}
@@ -394,9 +441,49 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   className="text-heading-3"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  Chat con {selectedPatient.name}
+                  Sessione {stepId} - {new Date().toLocaleDateString('it-IT')}
                 </h1>
               </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div
+                className="rounded-lg px-3 py-1"
+                style={{
+                  backgroundColor: "var(--surface-tertiary)",
+                  border: "1px solid var(--border-primary)",
+                  color: "var(--text-primary)",
+                }}
+              >
+                <span className="text-sm font-medium">
+                  {formatSessionTime(sessionTime)}
+                </span>
+              </div>
+              {!isStepCompleted && (
+                <Button
+                  onClick={handleCompleteStep}
+                  disabled={markStepDoneMutation.isPending}
+                  className="px-4 py-2"
+                  style={{
+                    backgroundColor: "var(--color-success-500)",
+                    color: "white",
+                    border: "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--color-success-600)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--color-success-500)";
+                    }
+                  }}
+                >
+                  {markStepDoneMutation.isPending ? "Completando..." : "Fine"}
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -415,50 +502,45 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 }`}
               >
                 <div
-                  className={`flex max-w-xs space-x-3 ${
+                  className={`flex max-w-2xl space-x-3 ${
                     message.sender === "user"
                       ? "flex-row-reverse space-x-reverse"
                       : "flex-row"
                   }`}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
-                    {message.sender === "user" ? (
-                      <div
-                        className="flex h-10 w-10 items-center justify-center rounded-full"
-                        style={{
-                          backgroundColor: "var(--color-user-500)",
-                          color: "white",
-                        }}
-                      >
-                        <UserIcon className="h-5 w-5" />
-                      </div>
-                    ) : selectedPatient.avatarUrl ? (
-                      <Image
-                        src={selectedPatient.avatarUrl}
-                        alt={`Avatar di ${selectedPatient.name}`}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover"
-                        style={{ width: "40px", height: "40px" }}
-                      />
-                    ) : (
-                      <div
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
-                        style={{
-                          backgroundColor: patientAvatar?.backgroundColor,
-                        }}
-                      >
-                        {patientAvatar?.initials}
-                      </div>
-                    )}
-                  </div>
+                  {/* Avatar only for patient messages */}
+                  {message.sender === "patient" && (
+                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full flex-shrink-0">
+                      {selectedPatient.avatarUrl ? (
+                        <Image
+                          src={selectedPatient.avatarUrl}
+                          alt={`Avatar di ${selectedPatient.name}`}
+                          width={40}
+                          height={40}
+                          className="rounded-full object-cover"
+                          style={{ width: "40px", height: "40px" }}
+                        />
+                      ) : (
+                        <div
+                          className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
+                          style={{
+                            backgroundColor: patientAvatar?.backgroundColor,
+                          }}
+                        >
+                          {patientAvatar?.initials}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Message bubble */}
                   <div
                     className="rounded-lg px-4 py-3"
                     style={{
                       backgroundColor:
                         message.sender === "user"
-                          ? "var(--color-user-500)"
-                          : "var(--surface-secondary)",
+                          ? "var(--color-primary-500)"
+                          : "var(--color-secondary-500)",
                       color:
                         message.sender === "user"
                           ? "white"
@@ -476,161 +558,96 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     <p className="text-body" style={{ color: "inherit" }}>
                       {message.content}
                     </p>
-                    <p
-                      className="text-caption mt-2"
-                      style={{
-                        color:
-                          message.sender === "user"
-                            ? "rgba(255, 255, 255, 0.7)"
-                            : "var(--text-tertiary)",
-                      }}
-                    >
-                      {formatTimestamp(message.timestamp)}
-                    </p>
                   </div>
                 </div>
               </div>
             ))}
 
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="flex space-x-3">
-                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
-                    {selectedPatient.avatarUrl ? (
-                      <Image
-                        src={selectedPatient.avatarUrl}
-                        alt={`Avatar di ${selectedPatient.name}`}
-                        width={40}
-                        height={40}
-                        className="rounded-full object-cover"
-                        style={{ width: "40px", height: "40px" }}
-                      />
-                    ) : (
-                      <div
-                        className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
-                        style={{
-                          backgroundColor: patientAvatar?.backgroundColor,
-                        }}
-                      >
-                        {patientAvatar?.initials}
-                      </div>
-                    )}
-                  </div>
-                  <div
-                    className="rounded-lg px-4 py-3"
-                    style={{
-                      backgroundColor: "var(--surface-secondary)",
-                      border: "1px solid var(--border-primary)",
-                      boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-                    }}
-                  >
-                    <div className="flex space-x-1">
-                      <div
-                        className="h-2 w-2 animate-bounce rounded-full"
-                        style={{ backgroundColor: "var(--text-tertiary)" }}
-                      ></div>
-                      <div
-                        className="h-2 w-2 animate-bounce rounded-full"
-                        style={{
-                          backgroundColor: "var(--text-tertiary)",
-                          animationDelay: "0.1s",
-                        }}
-                      ></div>
-                      <div
-                        className="h-2 w-2 animate-bounce rounded-full"
-                        style={{
-                          backgroundColor: "var(--text-tertiary)",
-                          animationDelay: "0.2s",
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ChatMessageSkeleton isUser={false} showAvatar={true} />
             )}
 
             <div ref={messagesEndRef} />
           </div>
         </div>
 
-        {/* Input */}
-        <div
-          className="border-t p-6"
-          style={{
-            backgroundColor: "var(--surface-secondary)",
-            borderColor: "var(--border-primary)",
-          }}
-        >
-          <div className="mx-auto max-w-4xl">
-            <div className="flex space-x-3">
-              <Input
-                value={inputMessage}
-                onChange={(e) => setInputMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Scrivi un messaggio..."
-                disabled={isLoading}
-                className="flex-1"
-                style={{
-                  backgroundColor: "var(--surface-primary)",
-                  borderColor: "var(--border-primary)",
-                  color: "var(--text-primary)",
-                }}
-              />
-              <Button
-                onClick={() => void handleSendMessage()}
-                disabled={!inputMessage.trim() || isLoading}
-                className="px-6"
-                style={{
-                  backgroundColor: "var(--color-primary-500)",
-                  color: "white",
-                  border: "none",
-                }}
-                onMouseEnter={(e) => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-primary-600)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-primary-500)";
-                  }
-                }}
-              >
-                <Send className="h-4 w-4" />
-              </Button>
+        {/* Input - Only show if step is not completed */}
+        {!isStepCompleted && (
+          <div
+            className="border-t p-6"
+            style={{
+              backgroundColor: "var(--surface-secondary)",
+              borderColor: "var(--border-primary)",
+            }}
+          >
+            <div className="mx-auto max-w-4xl">
+              <div className="flex space-x-3">
+                <Input
+                  value={inputMessage}
+                  onChange={(e) => setInputMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Inizia la conversazione"
+                  disabled={isLoading}
+                  className="flex-1"
+                  style={{
+                    backgroundColor: "var(--surface-primary)",
+                    borderColor: "var(--border-primary)",
+                    color: "var(--text-primary)",
+                  }}
+                />
+                <Button
+                  onClick={() => void handleSendMessage()}
+                  disabled={!inputMessage.trim() || isLoading}
+                  className="px-6"
+                  style={{
+                    backgroundColor: "var(--color-secondary-500)",
+                    color: "white",
+                    border: "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--color-secondary-600)";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor =
+                        "var(--color-secondary-500)";
+                    }
+                  }}
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
+          </div>
+        )}
 
-            {/* Complete Step Button */}
-            <div className="mt-4 flex justify-center">
-              <Button
-                onClick={handleCompleteStep}
-                disabled={markStepDoneMutation.isPending}
-                className="px-8 py-2"
+        {/* Step completed message */}
+        {isStepCompleted && (
+          <div
+            className="border-t p-6"
+            style={{
+              backgroundColor: "var(--surface-secondary)",
+              borderColor: "var(--border-primary)",
+            }}
+          >
+            <div className="mx-auto max-w-4xl text-center">
+              <div
+                className="rounded-lg px-4 py-3"
                 style={{
                   backgroundColor: "var(--color-success-500)",
                   color: "white",
-                  border: "none",
-                }}
-                onMouseEnter={(e) => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-success-600)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!e.currentTarget.disabled) {
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-success-500)";
-                  }
                 }}
               >
-                {markStepDoneMutation.isPending ? "Completando..." : "Fine"}
-              </Button>
+                <p className="text-sm font-medium">
+                  ✓ Step {stepId} completato - La conversazione è in modalità sola lettura
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </SharedLayout>
   );
