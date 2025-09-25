@@ -5,21 +5,48 @@
  */
 
 import React from "react";
+import { cn } from "~/lib/utils/cn";
 
-interface SkeletonProps {
-  className?: string;
+interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: string | number;
   height?: string | number;
+  radius?: string | number;
 }
 
 /**
  * Base skeleton component with animation
  */
-export function Skeleton({ className = "", width, height }: SkeletonProps) {
+export function Skeleton({
+  className = "",
+  width,
+  height,
+  radius,
+  style,
+  role,
+  ...rest
+}: SkeletonProps) {
+  const widthClass = typeof width === "string" ? width : undefined;
+  const heightClass = typeof height === "string" ? height : undefined;
+  const radiusClass = typeof radius === "string" ? radius : undefined;
+
   return (
     <div
-      className={`bg-background-tertiary rounded animate-pulse ${className}`}
-      style={{ width, height }}
+      aria-hidden={role !== "status"}
+      role={role}
+      className={cn(
+        "bg-background-tertiary animate-pulse",
+        radiusClass ?? "rounded-md",
+        widthClass,
+        heightClass,
+        className,
+      )}
+      style={{
+        width: typeof width === "number" ? width : style?.width,
+        height: typeof height === "number" ? height : style?.height,
+        borderRadius: typeof radius === "number" ? radius : style?.borderRadius,
+        ...style,
+      }}
+      {...rest}
     />
   );
 }

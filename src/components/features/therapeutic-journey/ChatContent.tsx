@@ -8,7 +8,8 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LoadingSkeleton } from "@/components/ui/LoadingSkeleton";
-import { ChatInterfaceSkeleton, ChatHeaderSkeleton, ChatMessageSkeleton, PatientAvatarSkeleton, SessionTimerSkeleton } from "@/components/ui/ChatSkeleton";
+import { ChatInterfaceSkeleton, ChatHeaderSkeleton, ChatMessageSkeleton, PatientAvatarSkeleton, SessionTimerSkeleton, TypingIndicatorSkeleton } from "@/components/ui/ChatSkeleton";
+import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
 import { ArrowLeft, Send, User as UserIcon } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
@@ -118,7 +119,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Chat state management
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
   const [sessionTime, setSessionTime] = useState(0); // Timer in seconds
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -174,10 +175,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }, [completedSteps, stepId]);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Auto-scroll to bottom when new messages arrive or typing state changes
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    // Use a small delay to ensure DOM is updated
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  }, [messages, isTyping]);
 
   // Timer effect
   useEffect(() => {
@@ -197,7 +201,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         timestamp: typeof msg.timestamp === 'string' ? new Date(msg.timestamp) : msg.timestamp
       }));
       setMessages(messagesWithDates);
-    } else if (selectedPatient && messages.length === 0 && !chatLoading) {
+    } else if (selectedPatient && !chatLoading && !existingChat) {
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
         content: `Ciao! Sono ${selectedPatient.name || 'il tuo paziente'}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
@@ -207,77 +211,96 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       };
       setMessages([welcomeMessage]);
     }
-  }, [existingChat, selectedPatient, stepId, messages.length, chatLoading]);
+  }, [existingChat, selectedPatient, stepId, chatLoading]);
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim() || isLoading || !therapySession) return;
+    if (!inputMessage.trim() || isTyping || !therapySession) return;
 
+    const messageText = inputMessage.trim();
+    setInputMessage(""); // Clear input immediately
+
+    // Create user message
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
-      content: inputMessage.trim(),
+      content: messageText,
       sender: "user",
       timestamp: new Date(),
       stepId,
     };
 
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
-    setInputMessage("");
-    setIsLoading(true);
+    // Add user message to chat immediately
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+    
+    // Force immediate scroll to show user message
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 50);
 
-        // Save user message immediately
-        try {
-          await saveChatMutation.mutateAsync({
-            therapySessionId: therapySession.id,
-            stepNumber: stepId,
-            messages: newMessages.map(msg => ({
-              ...msg,
-              timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
-            })),
-          });
-        } catch (error) {
-          console.error("Error saving chat:", error);
-        }
+    // Show typing indicator after user message is visible
+    setTimeout(() => {
+      setIsTyping(true);
+      // Scroll to show typing indicator
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    }, 200);
 
-    // Simulate AI response (replace with actual API call)
-    setTimeout(
-      () => {
-        const responses = [
-          "Interessante punto di vista. Puoi elaborare ulteriormente?",
-          "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
-          "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
-          "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
-          "Mi sembra che stai facendo progressi. Continua così!",
-        ];
+    // Save user message to database
+    try {
+      await saveChatMutation.mutateAsync({
+        therapySessionId: therapySession.id,
+        stepNumber: stepId,
+        messages: updatedMessages.map(msg => ({
+          ...msg,
+          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
+        })),
+      });
+    } catch (error) {
+      console.error("Error saving user message:", error);
+    }
 
-        const randomResponse =
-          responses[Math.floor(Math.random() * responses.length)] ||
-          "Mi dispiace, non riesco a rispondere in questo momento.";
+    // Generate patient response after delay
+    setTimeout(() => {
+      const responses = [
+        "Interessante punto di vista. Puoi elaborare ulteriormente?",
+        "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
+        "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
+        "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
+        "Mi sembra che stai facendo progressi. Continua così!",
+      ];
 
-        const patientMessage: ChatMessage = {
-          id: `patient-${Date.now()}`,
-          content: randomResponse,
-          sender: "patient",
-          timestamp: new Date(),
-          stepId,
-        };
+      const randomResponse = responses[Math.floor(Math.random() * responses.length)] || 
+        "Mi dispiace, non riesco a rispondere in questo momento.";
 
-        const finalMessages = [...newMessages, patientMessage];
-        setMessages(finalMessages);
-        setIsLoading(false);
+      const patientMessage: ChatMessage = {
+        id: `patient-${Date.now()}`,
+        content: randomResponse,
+        sender: "patient",
+        timestamp: new Date(),
+        stepId,
+      };
 
-        // Save complete conversation
-        saveChatMutation.mutate({
-          therapySessionId: therapySession.id,
-          stepNumber: stepId,
-          messages: finalMessages.map(msg => ({
-            ...msg,
-            timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
-          })),
-        });
-      },
-      1000 + Math.random() * 2000,
-    ); // Random delay between 1-3 seconds
+      // Add patient response
+      const finalMessages = [...updatedMessages, patientMessage];
+      setMessages(finalMessages);
+      setIsTyping(false);
+      
+      // Force scroll to show patient response
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+
+      // Save complete conversation
+      saveChatMutation.mutate({
+        therapySessionId: therapySession.id,
+        stepNumber: stepId,
+        messages: finalMessages.map(msg => ({
+          ...msg,
+          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
+        })),
+      });
+    }, 2000 + Math.random() * 2000); // 2-4 seconds delay
   };
 
   const handleKeyPress = async (e: React.KeyboardEvent) => {
@@ -571,9 +594,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             ))}
 
-            {isLoading && (
-              <ChatMessageSkeleton isUser={false} showAvatar={true} />
+            {isTyping && (
+              <ChatTypingIndicator
+                isVisible={true}
+                avatarUrl={selectedPatient?.avatarUrl || undefined}
+                patientName={selectedPatient?.name}
+                avatarData={patientAvatar}
+              />
             )}
+
 
             <div ref={messagesEndRef} />
           </div>
@@ -595,7 +624,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Inizia la conversazione"
-                  disabled={isLoading}
+                  disabled={isTyping}
                   className="flex-1"
                   style={{
                     backgroundColor: "var(--surface-primary)",
@@ -605,7 +634,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 />
                 <Button
                   onClick={() => void handleSendMessage()}
-                  disabled={!inputMessage.trim() || isLoading}
+                  disabled={!inputMessage.trim() || isTyping}
                   className="px-6"
                   style={{
                     backgroundColor: "var(--color-secondary-500)",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useCallback } from "react";
+import { Skeleton } from "./Skeleton";
 
 /**
  * Dynamic Authentication Button Component
@@ -45,8 +46,8 @@ export default function AuthButton() {
   // Show loading skeleton while session is being fetched
   if (status === "loading") {
     return (
-      <div className="btn btn-primary btn-md">
-        <div className="h-4 w-16 bg-text-primary/40 rounded"></div>
+      <div className="btn btn-primary btn-md" aria-hidden="true">
+        <Skeleton className="h-4 w-16 bg-text-primary/40" radius="rounded" />
       </div>
     );
   }

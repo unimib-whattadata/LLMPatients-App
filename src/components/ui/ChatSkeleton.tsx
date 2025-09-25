@@ -8,6 +8,7 @@
 
 import React from "react";
 import { Skeleton } from "./Skeleton";
+import { TypingIndicator } from "./TypingIndicator";
 
 /**
  * Chat message skeleton - simulates a chat message bubble
@@ -122,6 +123,40 @@ export function ChatInterfaceSkeleton() {
       
       {/* Input skeleton */}
       <ChatInputSkeleton />
+    </div>
+  );
+}
+
+/**
+ * Typing indicator skeleton - shows typing animation
+ */
+export function TypingIndicatorSkeleton({ 
+  isUser = false, 
+  showAvatar = true 
+}: { 
+  isUser?: boolean; 
+  showAvatar?: boolean; 
+}) {
+  return (
+    <div className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
+      <div className={`flex max-w-2xl space-x-3 ${
+        isUser ? "flex-row-reverse space-x-reverse" : "flex-row"
+      }`}>
+        {/* Avatar skeleton for patient messages */}
+        {!isUser && showAvatar && (
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full flex-shrink-0">
+            <Skeleton className="h-10 w-10 rounded-full" />
+          </div>
+        )}
+        
+        {/* Typing indicator bubble */}
+        <div className="rounded-lg px-4 py-3">
+          <TypingIndicator 
+            dotColor="var(--text-tertiary)"
+            dotSize={6}
+          />
+        </div>
+      </div>
     </div>
   );
 }

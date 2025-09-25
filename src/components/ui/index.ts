@@ -9,3 +9,6 @@ export { ErrorBoundary } from "./ErrorBoundary";
 // Skeleton Components
 export * from "./ChatSkeleton";
 export * from "./PageSkeleton";
+
+// Typing Components
+export * from "./TypingIndicator";

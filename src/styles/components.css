@@ -9,6 +9,8 @@
     --home-text-soft: rgba(233, 236, 218, 0.82);
     --home-text-muted: rgba(202, 207, 180, 0.6);
     --home-border-strong: rgba(120, 133, 71, 0.45);
+    --home-gold: #c5964f;
+    --home-rust: #d27a5c;
   }
   /* ===== ENHANCED TYPOGRAPHY CLASSES ===== */
   .text-heading-1 {

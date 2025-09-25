@@ -7,28 +7,41 @@
 "use client";
 
 import { memo } from "react";
+import { cn } from "~/lib/utils/cn";
+import { Skeleton } from "./Skeleton";
 
 interface LoadingSkeletonProps {
   className?: string;
+  lineClassName?: string;
   lines?: number;
-  height?: string;
-  width?: string;
+  height?: string | number;
+  width?: string | number;
+  radius?: string | number;
+  spacingClass?: string;
 }
 
 function LoadingSkeletonComponent({ 
   className = "", 
+  lineClassName = "",
   lines = 1, 
   height = "h-4",
-  width = "w-full"
+  width = "w-full",
+  radius,
+  spacingClass = "gap-2"
 }: LoadingSkeletonProps) {
   return (
-    <div className={`animate-pulse ${className}`}>
+    <div className={cn("flex flex-col", spacingClass, className)}>
       {Array.from({ length: lines }).map((_, index) => (
-        <div
+        <Skeleton
           key={index}
-          className={`bg-background-tertiary rounded ${height} ${width} ${
-            index < lines - 1 ? "mb-2" : ""
-          }`}
+          className={cn(
+            typeof height === "string" ? height : undefined,
+            typeof width === "string" ? width : undefined,
+            lineClassName,
+          )}
+          height={typeof height === "number" ? height : undefined}
+          width={typeof width === "number" ? width : undefined}
+          radius={radius}
         />
       ))}
     </div>

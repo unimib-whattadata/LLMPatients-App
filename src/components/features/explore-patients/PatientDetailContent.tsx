@@ -9,8 +9,9 @@ import { useSession } from "next-auth/react";
 import {
   PatientAvatar,
 } from "@/components/features/explore-patients";
+import { Skeleton } from "@/components/ui/Skeleton";
 import { api } from "~/trpc/react";
-import { getDifficultyIconClass, getDifficultyLabel } from "~/lib/constants/difficulty";
+import { getDifficultyIconClass, getDifficultyLabel, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
 const BREADCRUMB_NAV =
@@ -30,6 +31,19 @@ function normalizeParam(value: unknown): string | null {
 
 export function PatientDetailContent() {
   const params = useParams();
+
+  const getDifficultyIcon = (difficulty: number) => {
+    switch (difficulty) {
+      case 1:
+        return "•";
+      case 2:
+        return "••";
+      case 3:
+        return "•••";
+      default:
+        return "•";
+    }
+  };
   const patientId = normalizeParam(
     (params as Record<string, unknown>).patientId,
   );
@@ -167,10 +181,10 @@ export function PatientDetailContent() {
                   <div className="patient-card-difficulty">
                     <span
                       className={getDifficultyIconClass(patient.difficulty)}
-                      aria-label={`Difficoltà ${getDifficultyLabel(patient.difficulty)}`}
+                      aria-label={getDifficultyAccessibleText(patient.difficulty)}
                       role="img"
                     >
-                      {patient.difficulty === 1 ? "•" : patient.difficulty === 2 ? "••" : "•••"}
+                      {getDifficultyIcon(patient.difficulty)}
                     </span>
                     <span className="text-sm">{getDifficultyLabel(patient.difficulty)}</span>
                   </div>
@@ -299,8 +313,8 @@ function PatientDetailSkeleton() {
     <div className="bg-background-primary min-h-screen">
       <header className="bg-background-secondary">
         <div className="mx-auto max-w-4xl space-y-3 px-4 py-6 sm:px-6 lg:px-8">
-          <div className="bg-background-tertiary h-4 w-64 rounded" />
-          <div className="bg-background-tertiary h-8 w-48 rounded" />
+          <Skeleton className="h-4 w-64" />
+          <Skeleton className="h-8 w-48" />
         </div>
       </header>
 
@@ -308,32 +322,32 @@ function PatientDetailSkeleton() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <aside className="lg:col-span-1">
             <div className={`${SECTION_WITH_OVERFLOW}`}>
-              <div className="bg-background-tertiary h-48 w-full" />
+              <Skeleton className="h-48 w-full" radius="rounded-none" />
               <div className="space-y-4 p-6">
-                <div className="bg-background-tertiary h-4 w-20 rounded" />
-                <div className="bg-background-tertiary h-6 w-32 rounded" />
-                <div className="bg-background-tertiary h-4 w-20 rounded" />
-                <div className="bg-background-tertiary h-6 w-24 rounded" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-4 w-20" />
+                <Skeleton className="h-6 w-24" />
               </div>
             </div>
           </aside>
 
           <section className="space-y-6 lg:col-span-2">
             <div className={`${SECTION}`}>
-              <div className="bg-background-tertiary mb-4 h-6 w-48 rounded" />
+              <Skeleton className="mb-4 h-6 w-48" />
               <div className="space-y-2">
-                <div className="bg-background-tertiary h-4 w-full rounded" />
-                <div className="bg-background-tertiary h-4 w-4/5 rounded" />
-                <div className="bg-background-tertiary h-4 w-3/5 rounded" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
+                <Skeleton className="h-4 w-3/5" />
               </div>
             </div>
 
             <div className={`${SECTION}`}>
-              <div className="bg-background-tertiary mb-4 h-6 w-56 rounded" />
+              <Skeleton className="mb-4 h-6 w-56" />
               <div className="space-y-3">
-                <div className="bg-background-tertiary h-4 w-full rounded" />
-                <div className="bg-background-tertiary h-4 w-5/6 rounded" />
-                <div className="bg-background-tertiary h-4 w-4/5 rounded" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-4 w-4/5" />
               </div>
             </div>
           </section>

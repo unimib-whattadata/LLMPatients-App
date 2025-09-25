@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useToast } from "@/components/ui/ToastProvider";
+import { GenericPageSkeleton } from "@/components/ui/PageSkeleton";
 
 // Define the consolidated login state interface
 interface LoginState {
@@ -576,7 +577,7 @@ function LoginPageComponent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<GenericPageSkeleton showMetrics={false} showTable={false} />}>
       <LoginPageComponent />
     </Suspense>
   );
