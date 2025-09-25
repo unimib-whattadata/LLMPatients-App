@@ -4,7 +4,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumb } from "@/components/ui";
+import { Breadcrumb, SessionLoading } from "@/components/ui";
 
 type PathPoint = {
   x: number;
@@ -569,12 +569,7 @@ export function SessionTimelineContent({
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-text-secondary">Loading session timeline...</p>
-          </div>
-        </div>
+        <SessionLoading />
       </SharedLayout>
     );
   }

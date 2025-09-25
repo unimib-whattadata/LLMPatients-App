@@ -13,6 +13,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import { api } from "~/trpc/react";
 import Link from "next/link";
+import { AdminLoading } from "~/components/ui";
 
 interface User {
   id: string;
@@ -253,14 +254,7 @@ export function ManageUsersContent() {
 
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
-    return (
-      <div className="bg-background-primary flex min-h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="border-accent-600 mx-auto mb-4 h-8 w-8 rounded-full border-b-2"></div>
-          <p className="text-text-secondary">Loading...</p>
-        </div>
-      </div>
-    );
+    return <AdminLoading />;
   }
 
   // Access denied

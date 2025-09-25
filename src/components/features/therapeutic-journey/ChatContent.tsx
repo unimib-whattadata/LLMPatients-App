@@ -8,6 +8,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
+import { LoadingSpinner } from "@/components/ui";
 import { ArrowLeft, Send, User as UserIcon } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
@@ -362,12 +363,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-text-secondary">Loading chat...</p>
-          </div>
-        </div>
+        <LoadingSpinner message="Loading chat..." fullScreen={true} />
       </SharedLayout>
     );
   }

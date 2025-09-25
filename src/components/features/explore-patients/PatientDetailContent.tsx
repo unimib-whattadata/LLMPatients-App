@@ -9,7 +9,7 @@ import { useSession } from "next-auth/react";
 import {
   PatientAvatar,
 } from "@/components/features/explore-patients";
-import { Breadcrumb } from "@/components/ui";
+import { Breadcrumb, PatientDetailLoading } from "@/components/ui";
 import { api } from "~/trpc/react";
 import { getDifficultyIconClass, getDifficultyLabel, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
@@ -82,14 +82,7 @@ export function PatientDetailContent() {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-text-secondary">Loading patient details...</p>
-        </div>
-      </div>
-    );
+    return <PatientDetailLoading />;
   }
 
   if (error || !patient) {

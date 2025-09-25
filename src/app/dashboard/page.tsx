@@ -12,19 +12,13 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { Suspense } from "react";
+import { DashboardLoading } from "~/components/ui";
 
 /**
  * Loading component for dashboard routing
  */
-function DashboardLoading() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-        <p className="text-text-secondary">Loading dashboard...</p>
-      </div>
-    </div>
-  );
+function DashboardLoadingComponent() {
+  return <DashboardLoading />;
 }
 
 /**
@@ -116,7 +110,7 @@ async function DashboardRouter() {
  */
 export default function DashboardPage() {
   return (
-    <Suspense fallback={<DashboardLoading />}>
+    <Suspense fallback={<DashboardLoadingComponent />}>
       <DashboardRouter />
     </Suspense>
   );

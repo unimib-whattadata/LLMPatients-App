@@ -1,6 +1,6 @@
 import type { Patient } from "~/server/api/routers/patients";
 import { PatientCard } from "./PatientCard";
-import { LoadingGrid } from "./LoadingGrid";
+import { PatientGridLoading } from "~/components/ui";
 
 interface PatientGridProps {
   patients: Patient[];
@@ -34,7 +34,7 @@ export function PatientGrid({ patients, isLoading = false, error = null }: Patie
 
   // Loading state
   if (isLoading) {
-    return <LoadingGrid />;
+    return <PatientGridLoading />;
   }
 
   // Empty state
