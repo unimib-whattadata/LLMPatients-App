@@ -29,17 +29,17 @@ type Session = {
 };
 
 const timelineSteps: TimelineStep[] = [
-  { id: 1, top: 150, left: 533, color: "var(--color-timeline-knowledge)" },
-  { id: 2, top: 340, left: 333, color: "var(--color-timeline-knowledge)" },
-  { id: 3, top: 460, left: 533, color: "var(--color-timeline-intervention)" },
-  { id: 4, top: 560, left: 713, color: "var(--color-timeline-intervention)" },
-  { id: 5, top: 680, left: 533, color: "var(--color-timeline-intervention)" },
-  { id: 6, top: 780, left: 373, color: "var(--color-timeline-intervention)" },
-  { id: 7, top: 900, left: 533, color: "var(--color-timeline-intervention)" },
-  { id: 8, top: 1000, left: 713, color: "var(--color-timeline-intervention)" },
-  { id: 9, top: 1120, left: 533, color: "var(--color-timeline-intervention)" },
-  { id: 10, top: 1210, left: 353, color: "var(--color-timeline-intervention)" },
-  { id: 11, top: 1400, left: 533, color: "var(--color-timeline-conclusion)" },
+  { id: 1, top: 150, left: 533, color: "" },
+  { id: 2, top: 340, left: 333, color: "" },
+  { id: 3, top: 460, left: 533, color: "" },
+  { id: 4, top: 560, left: 713, color: "" },
+  { id: 5, top: 680, left: 533, color: "" },
+  { id: 6, top: 780, left: 373, color: "" },
+  { id: 7, top: 900, left: 533, color: "" },
+  { id: 8, top: 1000, left: 713, color: "" },
+  { id: 9, top: 1120, left: 533, color: "" },
+  { id: 10, top: 1210, left: 353, color: "" },
+  { id: 11, top: 1400, left: 533, color: "" },
 ];
 
 const timelinePathPoints: PathPoint[] = [
@@ -117,28 +117,28 @@ const STEP_DETAILS_CONFIG = {
     phaseTitle: "Conclusione",
     sessionLabel: "Seduta 11",
     tips: TIPS_CONFIG.CONCLUSION,
-    backgroundColor: "var(--color-phase-conclusion-bg)",
-    textColor: "var(--color-phase-conclusion-text)",
-    accentColor: "var(--color-phase-conclusion-accent)",
-    bodyColor: "var(--color-phase-conclusion-body)",
+    backgroundColor: "",
+    textColor: "",
+    accentColor: "",
+    bodyColor: "",
   },
   INTERVENTION: {
     phaseTitle: "Fase di Intervento",
     sessionLabel: "Sedute 3-10",
     tips: TIPS_CONFIG.INTERVENTION,
-    backgroundColor: "var(--color-phase-intervention-bg)",
-    textColor: "var(--color-phase-intervention-text)",
-    accentColor: "var(--color-phase-intervention-accent)",
-    bodyColor: "var(--color-phase-intervention-body)",
+    backgroundColor: "",
+    textColor: "",
+    accentColor: "",
+    bodyColor: "",
   },
   KNOWLEDGE: {
     phaseTitle: "Fase di Conoscenza",
     sessionLabel: "Sedute 1-2",
     tips: TIPS_CONFIG.KNOWLEDGE,
-    backgroundColor: "var(--color-phase-knowledge-bg)",
-    textColor: "var(--color-phase-knowledge-text)",
-    accentColor: "var(--color-phase-knowledge-accent)",
-    bodyColor: "var(--color-phase-knowledge-body)",
+    backgroundColor: "",
+    textColor: "",
+    accentColor: "",
+    bodyColor: "",
   },
 } as const;
 
@@ -265,8 +265,6 @@ const TimelineStep = memo(
       style={{
         top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
-        backgroundColor: isCompleted ? "var(--color-success-500)" : step.color, // Green for completed steps
-        color: isCompleted ? "white" : (step.textColor ?? "var(--color-button-text-dark)"),
         width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         fontSize: `${circleFontSize}px`,
@@ -328,10 +326,6 @@ const MobileTimelineStep = memo(
       >
         <span
           className="block flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
-          style={{
-            backgroundColor: isCompleted ? "var(--color-success-500)" : step.color,
-            color: isCompleted ? "white" : "inherit",
-          }}
         >
           {isCompleted ? "✓" : ""}
         </span>
@@ -345,13 +339,9 @@ const MobileTimelineStep = memo(
         }}
         aria-expanded={isOpen}
         disabled={!isUnlocked}
-        className={`w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:ring-[var(--color-focus-primary)] focus:outline-none ${
+        className={`w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:outline-none ${
           isUnlocked ? "" : "cursor-not-allowed opacity-40"
         } ${isCurrent ? "ring-2 ring-white/70" : ""}`}
-        style={{
-          backgroundColor: details.backgroundColor,
-          color: details.textColor,
-        }}
       >
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -709,9 +699,9 @@ export function SessionTimelineContent({
                       y2="1"
                       gradientUnits="objectBoundingBox"
                     >
-                      <stop offset="0%" stopColor="var(--color-timeline-gradient-start)" />
-                      <stop offset="40%" stopColor="var(--color-timeline-gradient-mid)" />
-                      <stop offset="100%" stopColor="var(--color-timeline-gradient-end)" />
+                      <stop offset="0%" stopColor="" />
+                      <stop offset="40%" stopColor="" />
+                      <stop offset="100%" stopColor="" />
                     </linearGradient>
                     <filter
                       id="timelineGlow"
@@ -729,7 +719,7 @@ export function SessionTimelineContent({
                   </defs>
                   <path
                     d={timelinePathD}
-                    stroke="var(--color-timeline-path)"
+                    stroke=""
                     strokeWidth="20"
                     strokeLinecap="round"
                     strokeLinejoin="round"

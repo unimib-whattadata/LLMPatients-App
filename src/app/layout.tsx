@@ -105,8 +105,8 @@ export default function RootLayout({
         <link rel="preload" href="/images/logo.png" as="image" type="image/png" />
         
         {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="var(--color-primary-500)" />
-        <meta name="msapplication-TileColor" content="var(--color-primary-500)" />
+        <meta name="theme-color" content="" />
+        <meta name="msapplication-TileColor" content="" />
         
         {/* Viewport optimization */}
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

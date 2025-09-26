@@ -143,19 +143,19 @@ function MySimulationsContentComponent() {
 
         <div className="dashboard-metric-grid">
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+            <div className="dashboard-metric-card__value">
               {metrics.completed}
             </div>
             <div className="dashboard-metric-card__label">Simulazioni Completate</div>
           </div>
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+            <div className="dashboard-metric-card__value">
               {metrics.inProgress}
             </div>
             <div className="dashboard-metric-card__label">In corso</div>
           </div>
           <div className="dashboard-metric-card">
-            <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+            <div className="dashboard-metric-card__value">
               {metrics.averageScore}
             </div>
             <div className="dashboard-metric-card__label">Score Medio</div>

@@ -12,24 +12,24 @@ interface PatientAvatarProps {
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
-  "var(--color-avatar-pink)", // Pink
-  "var(--color-avatar-purple)", // Purple
-  "var(--color-avatar-deep-purple)", // Deep Purple
-  "var(--color-avatar-indigo)", // Indigo
-  "var(--color-avatar-blue)", // Blue
-  "var(--color-avatar-light-blue)", // Light Blue
-  "var(--color-avatar-cyan)", // Cyan
-  "var(--color-avatar-teal)", // Teal
-  "var(--color-avatar-green)", // Green
-  "var(--color-avatar-light-green)", // Light Green
-  "var(--color-avatar-lime)", // Lime
-  "var(--color-avatar-yellow)", // Yellow
-  "var(--color-avatar-amber)", // Amber
-  "var(--color-avatar-orange)", // Orange
-  "var(--color-avatar-deep-orange)", // Deep Orange
-  "var(--color-avatar-brown)", // Brown
-  "var(--color-avatar-blue-grey)", // Blue Grey
-  "var(--color-avatar-grey)", // Grey
+  "", // Pink
+  "", // Purple
+  "", // Deep Purple
+  "", // Indigo
+  "", // Blue
+  "", // Light Blue
+  "", // Cyan
+  "", // Teal
+  "", // Green
+  "", // Light Green
+  "", // Lime
+  "", // Yellow
+  "", // Amber
+  "", // Orange
+  "", // Deep Orange
+  "", // Brown
+  "", // Blue Grey
+  "", // Grey
 ];
 
 

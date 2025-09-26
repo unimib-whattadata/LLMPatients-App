@@ -66,27 +66,27 @@ function generatePatientAvatar(name: string): { backgroundColor: string; initial
   const finalInitials = initials.length > 0 ? initials : "P";
 
   const colors = [
-    "var(--color-avatar-pink)",
-    "var(--color-avatar-purple)",
-    "var(--color-avatar-deep-purple)",
-    "var(--color-avatar-indigo)",
-    "var(--color-avatar-blue)",
-    "var(--color-avatar-cyan)",
-    "var(--color-avatar-teal)",
-    "var(--color-avatar-green)",
-    "var(--color-avatar-light-green)",
-    "var(--color-avatar-lime)",
-    "var(--color-avatar-yellow)",
-    "var(--color-avatar-amber)",
-    "var(--color-avatar-orange)",
-    "var(--color-avatar-deep-orange)",
-    "var(--color-avatar-brown)",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
   ];
 
   const colorIndex =
     name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
     colors.length;
-  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "var(--color-primary-500)";
+  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "";
 
   return { backgroundColor, initials: finalInitials };
 }
@@ -164,7 +164,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const utils = api.useUtils();
 
   // Generate patient avatar data once
-  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "var(--color-primary-500)", initials: "P" };
+  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "", initials: "P" };
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {
@@ -378,7 +378,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         <div
           className="flex items-center justify-center"
           style={{ 
-            backgroundColor: "var(--surface-primary)",
             height: "calc(100vh - 5rem)",
             minHeight: "calc(100vh - 5rem)"
           }}
@@ -386,31 +385,16 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="text-center">
             <h2
               className="text-heading-2 mb-4"
-              style={{ color: "var(--text-primary)" }}
             >
               Paziente non trovato
             </h2>
             <p
               className="text-body-lg mb-6"
-              style={{ color: "var(--text-secondary)" }}
             >
               Il paziente richiesto non è disponibile.
             </p>
             <Button
               onClick={goBack}
-              style={{
-                backgroundColor: "var(--color-primary-500)",
-                color: "white",
-                border: "none",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "var(--color-primary-600)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor =
-                  "var(--color-primary-500)";
-              }}
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               Torna alla Timeline
@@ -430,7 +414,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       <div
         className="flex flex-col"
         style={{ 
-          backgroundColor: "var(--surface-primary)",
           height: "calc(100vh - 5rem)", // Subtract the content padding
           minHeight: "calc(100vh - 5rem)"
         }}
@@ -438,10 +421,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {/* Header */}
         <div
           className="border-b px-6 py-4 shadow-sm"
-          style={{
-            backgroundColor: "var(--surface-secondary)",
-            borderColor: "var(--border-primary)",
-          }}
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -450,17 +429,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 size="sm"
                 onClick={goBack}
                 className="hover:bg-opacity-10"
-                style={{
-                  color: "var(--text-tertiary)",
-                  backgroundColor: "transparent",
-                }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--text-primary)";
-                  e.currentTarget.style.backgroundColor =
-                    "var(--surface-tertiary)";
+                  e.currentTarget.style.color = "";
+                  e.currentTarget.style.backgroundColor = "";
                 }}
                 onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--text-tertiary)";
+                  e.currentTarget.style.color = "";
                   e.currentTarget.style.backgroundColor = "transparent";
                 }}
               >
@@ -469,7 +443,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               <div>
                 <h1
                   className="text-heading-3"
-                  style={{ color: "var(--text-primary)" }}
                 >
                   Sessione {stepId} - {new Date().toLocaleDateString('it-IT')}
                 </h1>
@@ -478,11 +451,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             <div className="flex items-center space-x-4">
               <div
                 className="rounded-lg px-3 py-1"
-                style={{
-                  backgroundColor: "var(--surface-tertiary)",
-                  border: "1px solid var(--border-primary)",
-                  color: "var(--text-primary)",
-                }}
               >
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
@@ -493,21 +461,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   onClick={handleCompleteStep}
                   disabled={markStepDoneMutation.isPending}
                   className="px-4 py-2"
-                  style={{
-                    backgroundColor: "var(--color-success-500)",
-                    color: "white",
-                    border: "none",
-                  }}
                   onMouseEnter={(e) => {
                     if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--color-success-600)";
+                      e.currentTarget.style.backgroundColor = "";
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--color-success-500)";
+                      e.currentTarget.style.backgroundColor = "";
                     }
                   }}
                 >
@@ -521,7 +482,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {/* Messages */}
         <div
           className="flex-1 overflow-y-auto p-6"
-          style={{ backgroundColor: "var(--surface-primary)" }}
         >
           <div className="mx-auto max-w-4xl space-y-6">
             {messages.map((message) => (
@@ -553,9 +513,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       ) : (
                         <div
                           className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
-                          style={{
-                            backgroundColor: patientAvatar?.backgroundColor,
-                          }}
                         >
                           {patientAvatar?.initials}
                         </div>
@@ -566,26 +523,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   {/* Message bubble */}
                   <div
                     className="rounded-lg px-4 py-3"
-                    style={{
-                      backgroundColor:
-                        message.sender === "user"
-                          ? "var(--color-primary-500)"
-                          : "var(--color-secondary-500)",
-                      color:
-                        message.sender === "user"
-                          ? "white"
-                          : "var(--text-primary)",
-                      border:
-                        message.sender === "user"
-                          ? "none"
-                          : `1px solid var(--border-primary)`,
-                      boxShadow:
-                        message.sender === "user"
-                          ? "none"
-                          : "0 1px 3px rgba(0, 0, 0, 0.1)",
-                    }}
                   >
-                    <p className="text-body" style={{ color: "inherit" }}>
+                    <p className="text-body">
                       {message.content}
                     </p>
                   </div>
@@ -611,10 +550,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {!isStepCompleted && (
           <div
             className="border-t p-6"
-            style={{
-              backgroundColor: "var(--surface-secondary)",
-              borderColor: "var(--border-primary)",
-            }}
           >
             <div className="mx-auto max-w-4xl">
               <div className="flex space-x-3">
@@ -625,31 +560,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   placeholder="Inizia la conversazione"
                   disabled={isTyping}
                   className="flex-1"
-                  style={{
-                    backgroundColor: "var(--surface-primary)",
-                    borderColor: "var(--border-primary)",
-                    color: "var(--text-primary)",
-                  }}
                 />
                 <Button
                   onClick={() => void handleSendMessage()}
                   disabled={!inputMessage.trim() || isTyping}
                   className="px-6"
-                  style={{
-                    backgroundColor: "var(--color-secondary-500)",
-                    color: "white",
-                    border: "none",
-                  }}
                   onMouseEnter={(e) => {
                     if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--color-secondary-600)";
+                      e.currentTarget.style.backgroundColor = "";
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor =
-                        "var(--color-secondary-500)";
+                      e.currentTarget.style.backgroundColor = "";
                     }
                   }}
                 >
@@ -664,18 +587,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {isStepCompleted && (
           <div
             className="border-t p-6"
-            style={{
-              backgroundColor: "var(--surface-secondary)",
-              borderColor: "var(--border-primary)",
-            }}
           >
             <div className="mx-auto max-w-4xl text-center">
               <div
                 className="rounded-lg px-4 py-3"
-                style={{
-                  backgroundColor: "var(--color-success-500)",
-                  color: "white",
-                }}
               >
                 <p className="text-sm font-medium">
                   ✓ Sessione {stepId} completata - La conversazione è in modalità sola lettura

@@ -18,19 +18,19 @@ function TherapySessionMetricsComponent({ inProgress, completed, averageProgress
   return (
     <div className="dashboard-metric-grid">
       <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+        <div className="dashboard-metric-card__value">
           {inProgress}
         </div>
         <div className="dashboard-metric-card__label">In Corso</div>
       </div>
       <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+        <div className="dashboard-metric-card__value">
           {completed}
         </div>
         <div className="dashboard-metric-card__label">Completate</div>
       </div>
       <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value" style={{ color: 'white' }}>
+        <div className="dashboard-metric-card__value">
           {averageProgress}%
         </div>
         <div className="dashboard-metric-card__label">Progresso Medio</div>

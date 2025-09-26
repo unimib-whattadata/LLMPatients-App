@@ -37,7 +37,7 @@ export function TypingIndicator({
   isVisible = true, 
   className = "",
   style,
-  dotColor = "var(--text-tertiary)",
+  dotColor = "",
   dotSize = 8
 }: TypingIndicatorProps) {
   if (!isVisible) return null;
@@ -53,7 +53,6 @@ export function TypingIndicator({
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            backgroundColor: dotColor,
             animationDelay: "0ms",
             animationDuration: "1.4s",
           }}
@@ -63,7 +62,6 @@ export function TypingIndicator({
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            backgroundColor: dotColor,
             animationDelay: "160ms",
             animationDuration: "1.4s",
           }}
@@ -73,7 +71,6 @@ export function TypingIndicator({
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            backgroundColor: dotColor,
             animationDelay: "320ms",
             animationDuration: "1.4s",
           }}
@@ -128,9 +125,6 @@ export function ChatTypingIndicator({
           ) : (
             <div
               className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
-              style={{
-                backgroundColor: avatarData?.backgroundColor || "var(--color-primary-500)",
-              }}
             >
               {avatarData?.initials || "P"}
             </div>
@@ -140,14 +134,9 @@ export function ChatTypingIndicator({
         {/* Typing bubble */}
         <div
           className="rounded-lg px-4 py-3"
-          style={{
-            backgroundColor: "var(--color-secondary-500)",
-            border: "1px solid var(--border-primary)",
-            boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-          }}
         >
           <TypingIndicator 
-            dotColor="var(--text-primary)"
+            dotColor=""
             dotSize={6}
           />
         </div>
