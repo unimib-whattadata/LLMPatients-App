@@ -18,10 +18,6 @@ interface LoadingSpinnerProps {
    */
   size?: "sm" | "md" | "lg" | "xl";
   
-  /**
-   * Color variant for the spinner
-   */
-  variant?: "primary" | "secondary" | "accent";
   
   /**
    * Whether to center the spinner in a full screen container
@@ -47,9 +43,9 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  primary: "border-primary",
-  secondary: "border-secondary-600", 
-  accent: "border-accent-600"
+  primary: "",
+  secondary: "", 
+  accent: ""
 };
 
 export function LoadingSpinner({
@@ -76,7 +72,7 @@ export function LoadingSpinner({
     <div className={containerClasses} role="status" aria-label={ariaLabel}>
       <div className={spinnerClasses}></div>
       {message && (
-        <p className="text-text-secondary mt-4 text-sm">
+        <p className="mt-4 text-sm">
           {message}
         </p>
       )}

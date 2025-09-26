@@ -69,7 +69,7 @@ export function LoadingButton({
       </span>
       {isLoading && (
         <div className="loading-spinner">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2"></div>
         </div>
       )}
       {isLoading && (

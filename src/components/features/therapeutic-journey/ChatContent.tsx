@@ -428,7 +428,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 variant="ghost"
                 size="sm"
                 onClick={goBack}
-                className="hover:bg-opacity-10"
+                className=""
                 onMouseEnter={(e) => {
                   e.currentTarget.style.color = "";
                   e.currentTarget.style.backgroundColor = "";
@@ -512,7 +512,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         />
                       ) : (
                         <div
-                          className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
+                          className="flex h-10 w-10 items-center justify-center rounded-full font-bold"
                         >
                           {patientAvatar?.initials}
                         </div>

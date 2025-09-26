@@ -61,8 +61,8 @@ function buildPlaceholder(name: string) {
 
   const svg = `
     <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
-      <rect width="192" height="192" fill="${background}" />
-      <text x="96" y="96" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" dominant-baseline="central" fill="white">${initials}</text>
+      <rect width="192" height="192" />
+      <text x="96" y="96" font-family="Arial, sans-serif" font-size="48" font-weight="bold" text-anchor="middle" dominant-baseline="central">${initials}</text>
     </svg>
   `.trim();
 

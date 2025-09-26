@@ -15,8 +15,6 @@ interface TypingIndicatorProps {
   className?: string;
   /** Custom style for the container */
   style?: React.CSSProperties;
-  /** Color of the dots */
-  dotColor?: string;
   /** Size of the dots */
   dotSize?: number;
 }
@@ -30,14 +28,12 @@ interface TypingIndicatorProps {
  * @param isVisible - Whether to show the typing indicator
  * @param className - Custom class name for styling
  * @param style - Custom style for the container
- * @param dotColor - Color of the dots
  * @param dotSize - Size of the dots in pixels
  */
 export function TypingIndicator({ 
   isVisible = true, 
   className = "",
   style,
-  dotColor = "",
   dotSize = 8
 }: TypingIndicatorProps) {
   if (!isVisible) return null;
@@ -136,7 +132,6 @@ export function ChatTypingIndicator({
           className="rounded-lg px-4 py-3"
         >
           <TypingIndicator 
-            dotColor=""
             dotSize={6}
           />
         </div>

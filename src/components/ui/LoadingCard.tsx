@@ -45,17 +45,17 @@ export function LoadingCard({
       {Array.from({ length: count }).map((_, index) => (
         <div key={index} className="loading-card">
           {showAvatar && (
-            <div className="loading-card-avatar bg-background-tertiary animate-pulse rounded-none" />
+            <div className="loading-card-avatar animate-pulse rounded-none" />
           )}
           
           <div className="loading-card-content">
-            <div className="loading-card-title bg-background-tertiary animate-pulse rounded-md h-6 w-3/4 mb-2" />
+            <div className="loading-card-title animate-pulse rounded-md h-6 w-3/4 mb-2" />
             <div className="space-y-3">
               {Array.from({ length: textLines }).map((_, lineIndex) => (
                 <div 
                   key={lineIndex}
                   className={cn(
-                    "loading-card-text bg-background-tertiary animate-pulse rounded-md h-4",
+                    "loading-card-text animate-pulse rounded-md h-4",
                     lineIndex === 0 && "w-full",
                     lineIndex === 1 && "w-5/6", 
                     lineIndex === 2 && "w-4/5"
@@ -64,7 +64,7 @@ export function LoadingCard({
               ))}
             </div>
             {showButton && (
-              <div className="loading-card-button bg-background-tertiary animate-pulse rounded-md h-10 w-full" />
+              <div className="loading-card-button animate-pulse rounded-md h-10 w-full" />
             )}
           </div>
         </div>
