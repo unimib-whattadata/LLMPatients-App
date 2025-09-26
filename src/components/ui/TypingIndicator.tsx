@@ -45,30 +45,24 @@ export function TypingIndicator({
     >
       <div className="flex space-x-1">
         <div
-          className="rounded-full animate-bounce"
+          className="rounded-full animate-bounce typing-dot"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            animationDelay: "0ms",
-            animationDuration: "1.4s",
           }}
         />
         <div
-          className="rounded-full animate-bounce"
+          className="rounded-full animate-bounce typing-dot typing-dot--delay-1"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            animationDelay: "160ms",
-            animationDuration: "1.4s",
           }}
         />
         <div
-          className="rounded-full animate-bounce"
+          className="rounded-full animate-bounce typing-dot typing-dot--delay-2"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
-            animationDelay: "320ms",
-            animationDuration: "1.4s",
           }}
         />
       </div>
@@ -115,8 +109,7 @@ export function ChatTypingIndicator({
             <img
               src={avatarUrl}
               alt={`Avatar di ${patientName}`}
-              className="rounded-full object-cover"
-              style={{ width: "40px", height: "40px" }}
+              className="rounded-full object-cover chat-avatar-fixed-size"
             />
           ) : (
             <div

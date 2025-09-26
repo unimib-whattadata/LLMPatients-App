@@ -234,7 +234,7 @@ function MySimulationsContentComponent() {
                   </div>
                   <div className="w-full bg-background-tertiary rounded-full h-2">
                     <div 
-                      className="bg-accent-600 h-2 rounded-full"
+                      className="bg-accent-600 h-2 rounded-full progress-bar-dynamic"
                       style={{ width: `${simulation.progress}%` }}
                     ></div>
                   </div>

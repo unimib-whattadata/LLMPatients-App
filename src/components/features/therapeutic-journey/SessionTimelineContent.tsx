@@ -268,14 +268,10 @@ const TimelineStep = memo(
         width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         fontSize: `${circleFontSize}px`,
-        opacity: isUnlocked ? 1 : 0.35,
-        filter: isUnlocked ? undefined : "grayscale(60%)",
       }}
-      className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full font-semibold transition-transform duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
-        isUnlocked
-          ? "cursor-pointer shadow-[0_18px_34px_rgba(0,0,0,0.45)] hover:scale-110 focus-visible:scale-110"
-          : "cursor-not-allowed shadow-none"
-      } ${isCurrent ? "ring-4 ring-white/70" : ""} ${isCompleted ? "ring-2 ring-green-400" : ""}`}
+      className={`timeline-step-positioned ${
+        !isUnlocked ? "timeline-step-positioned--locked" : ""
+      } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
       onClick={() => {
         if (!isUnlocked) return;
         onStepClick(step.id);

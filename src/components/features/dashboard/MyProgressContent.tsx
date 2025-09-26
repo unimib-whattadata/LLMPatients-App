@@ -132,7 +132,7 @@ export function MyProgressContent() {
           <div className="mt-4">
             <div className="w-full bg-background-tertiary rounded-full h-2">
               <div 
-                className="bg-accent-600 h-2 rounded-full"
+                className="bg-accent-600 h-2 rounded-full progress-bar-dynamic"
                 style={{ width: `${(completedSimulations / totalSimulations) * 100}%` }}
               ></div>
             </div>
@@ -198,7 +198,7 @@ export function MyProgressContent() {
                 </div>
                 <div className="w-full bg-background-tertiary rounded-full h-3">
                   <div 
-                    className="bg-accent-500 h-3 rounded-full"
+                    className="bg-accent-500 h-3 rounded-full progress-bar-dynamic"
                     style={{ width: `${(skill.current / skill.target) * 100}%` }}
                   ></div>
                 </div>
@@ -265,7 +265,7 @@ export function MyProgressContent() {
               <div className="mb-4">
                 <div className="w-full bg-background-tertiary rounded-lg h-32 flex flex-col justify-end p-2">
                   <div 
-                    className="bg-accent-600 rounded-md"
+                    className="bg-accent-600 rounded-md progress-bar-dynamic"
                     style={{ height: `${(week.avgScore / 100) * 100}%` }}
                   ></div>
                 </div>

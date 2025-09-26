@@ -75,12 +75,16 @@
   }
   
   .btn-primary:hover:not(:disabled) {
+    opacity: 0.9;
   }
   
   .btn-primary:active {
+    transform: translateY(1px);
   }
   
   .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .btn-secondary {
@@ -90,6 +94,7 @@
   }
   
   .btn-secondary:hover:not(:disabled) {
+    opacity: 0.9;
   }
 
   .btn-outline {
@@ -100,9 +105,12 @@
   }
   
   .btn-outline:hover:not(:disabled) {
+    opacity: 0.8;
   }
   
   .btn-outline:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .btn-success {
@@ -112,6 +120,7 @@
   }
   
   .btn-success:hover:not(:disabled) {
+    opacity: 0.9;
   }
 
   .btn-ghost {
@@ -122,6 +131,7 @@
   }
   
   .btn-ghost:hover:not(:disabled) {
+    opacity: 0.8;
   }
 
   .btn-danger {
@@ -131,6 +141,7 @@
   }
   
   .btn-danger:hover:not(:disabled) {
+    opacity: 0.9;
   }
 
   /* ===== BUTTON SIZES ===== */
@@ -167,6 +178,7 @@
   }
   
   .input-field::placeholder {
+    opacity: 0.6;
   }
   
   .input-field:focus {
@@ -175,6 +187,7 @@
   
   .input-field:disabled {
     cursor: not-allowed;
+    opacity: 0.6;
   }
 
   .input-field-error {
@@ -3105,6 +3118,192 @@
   .breadcrumb-link:focus {
     outline-offset: 2px;
     border-radius: 0.25rem;
+  }
+
+  /* ===== INLINE STYLES MOVED TO CSS CLASSES ===== */
+  
+  /* Chat Content Styles */
+  .chat-container {
+    height: calc(100vh - 5rem);
+    min-height: calc(100vh - 5rem);
+  }
+  
+  .chat-error-container {
+    height: calc(100vh - 5rem);
+    min-height: calc(100vh - 5rem);
+  }
+  
+  .chat-avatar-fixed-size {
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Typing Indicator Animation Styles */
+  .typing-dot {
+    animation-delay: 0ms;
+    animation-duration: 1.4s;
+  }
+  
+  .typing-dot--delay-1 {
+    animation-delay: 160ms;
+    animation-duration: 1.4s;
+  }
+  
+  .typing-dot--delay-2 {
+    animation-delay: 320ms;
+    animation-duration: 1.4s;
+  }
+  
+  /* Timeline Styles */
+  .timeline-step {
+    opacity: 1;
+    filter: none;
+  }
+  
+  .timeline-step--locked {
+    opacity: 0.35;
+    filter: grayscale(60%);
+  }
+  
+  .timeline-step-position {
+    font-size: 18px;
+  }
+  
+  /* Progress Bar Styles */
+  .progress-bar {
+    width: 100%;
+  }
+  
+  .progress-bar--25 {
+    width: 25%;
+  }
+  
+  .progress-bar--35 {
+    width: 35%;
+  }
+  
+  .progress-bar--10 {
+    width: 10%;
+  }
+  
+  .progress-bar--5 {
+    width: 5%;
+  }
+  
+  .progress-bar--dynamic {
+    transition: width 0.3s ease;
+  }
+  
+  /* Field Indentation Styles */
+  .field-indent-1 {
+    padding-left: 1.15rem;
+  }
+  
+  .field-indent-2 {
+    padding-left: 2.3rem;
+  }
+  
+  .field-indent-3 {
+    padding-left: 3.45rem;
+  }
+  
+  .field-indent-4 {
+    padding-left: 4.6rem;
+  }
+  
+  /* Chart Bar Styles */
+  .chart-bar {
+    height: 100%;
+  }
+  
+  .chart-bar--88 {
+    height: 88%;
+  }
+  
+  .chart-bar--82 {
+    height: 82%;
+  }
+  
+  .chart-bar--85 {
+    height: 85%;
+  }
+  
+  .chart-bar--75 {
+    height: 75%;
+  }
+  
+  /* Completion Progress Styles */
+  .completion-progress--80 {
+    width: 80%;
+  }
+  
+  .completion-progress--75 {
+    width: 75%;
+  }
+  
+  .completion-progress--68 {
+    width: 68%;
+  }
+  
+  .completion-progress--70 {
+    width: 70%;
+  }
+  
+  .completion-progress--85 {
+    width: 85%;
+  }
+  
+  .completion-progress--90 {
+    width: 90%;
+  }
+  
+  /* Dynamic Progress Utility - for JavaScript controlled widths */
+  .progress-bar-dynamic {
+    transition: width 0.3s ease;
+  }
+  
+  /* Timeline Positioning Utilities */
+  .timeline-step-positioned {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    font-weight: 600;
+    transition: transform 200ms;
+    cursor: pointer;
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
+  }
+  
+  .timeline-step-positioned:hover {
+    transform: translateX(-50%) translateY(-50%) scale(1.1);
+  }
+  
+  .timeline-step-positioned:focus-visible {
+    outline: 2px solid;
+    outline-offset: 4px;
+    outline-color: white;
+    transform: translateX(-50%) translateY(-50%) scale(1.1);
+  }
+  
+  .timeline-step-positioned--locked {
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.35;
+    filter: grayscale(60%);
+  }
+  
+  .timeline-step-positioned--locked:hover {
+    transform: translateX(-50%) translateY(-50%);
+  }
+  
+  .timeline-step-positioned--current {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7);
+  }
+  
+  .timeline-step-positioned--completed {
+    box-shadow: 0 0 0 2px rgb(34 197 94);
   }
 }
 

@@ -376,11 +376,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         layoutType="dashboard"
       >
         <div
-          className="flex items-center justify-center"
-          style={{ 
-            height: "calc(100vh - 5rem)",
-            minHeight: "calc(100vh - 5rem)"
-          }}
+          className="flex items-center justify-center chat-error-container"
         >
           <div className="text-center">
             <h2
@@ -412,11 +408,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       layoutType="dashboard"
     >
       <div
-        className="flex flex-col"
-        style={{ 
-          height: "calc(100vh - 5rem)", // Subtract the content padding
-          minHeight: "calc(100vh - 5rem)"
-        }}
+        className="flex flex-col chat-container"
       >
         {/* Header */}
         <div
@@ -507,8 +499,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           alt={`Avatar di ${selectedPatient.name}`}
                           width={40}
                           height={40}
-                          className="rounded-full object-cover"
-                          style={{ width: "40px", height: "40px" }}
+                          className="rounded-full object-cover chat-avatar-fixed-size"
                         />
                       ) : (
                         <div

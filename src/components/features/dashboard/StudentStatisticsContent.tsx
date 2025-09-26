@@ -118,7 +118,7 @@ export function StudentStatisticsContent() {
                   <span className="text-sm text-text-secondary">90-100</span>
                   <div className="flex items-center gap-2">
                     <div className="w-32 bg-background-tertiary rounded-full h-2">
-                      <div className="bg-success-500 h-2 rounded-full" style={{width: '25%'}}></div>
+                      <div className="bg-success-500 h-2 rounded-full progress-bar--25"></div>
                     </div>
                     <span className="text-sm font-medium">25%</span>
                   </div>
@@ -127,7 +127,7 @@ export function StudentStatisticsContent() {
                   <span className="text-sm text-text-secondary">80-89</span>
                   <div className="flex items-center gap-2">
                     <div className="w-32 bg-background-tertiary rounded-full h-2">
-                      <div className="bg-accent-500 h-2 rounded-full" style={{width: '35%'}}></div>
+                      <div className="bg-accent-500 h-2 rounded-full progress-bar--35"></div>
                     </div>
                     <span className="text-sm font-medium">35%</span>
                   </div>
@@ -136,7 +136,7 @@ export function StudentStatisticsContent() {
                   <span className="text-sm text-text-secondary">70-79</span>
                   <div className="flex items-center gap-2">
                     <div className="w-32 bg-background-tertiary rounded-full h-2">
-                      <div className="bg-warning-500 h-2 rounded-full" style={{width: '25%'}}></div>
+                      <div className="bg-warning-500 h-2 rounded-full progress-bar--25"></div>
                     </div>
                     <span className="text-sm font-medium">25%</span>
                   </div>
@@ -145,7 +145,7 @@ export function StudentStatisticsContent() {
                   <span className="text-sm text-text-secondary">60-69</span>
                   <div className="flex items-center gap-2">
                     <div className="w-32 bg-background-tertiary rounded-full h-2">
-                      <div className="bg-secondary-500 h-2 rounded-full" style={{width: '10%'}}></div>
+                      <div className="bg-secondary-500 h-2 rounded-full progress-bar--10"></div>
                     </div>
                     <span className="text-sm font-medium">10%</span>
                   </div>
@@ -154,7 +154,7 @@ export function StudentStatisticsContent() {
                   <span className="text-sm text-text-secondary">60</span>
                   <div className="flex items-center gap-2">
                     <div className="w-32 bg-background-tertiary rounded-full h-2">
-                      <div className="bg-error-500 h-2 rounded-full" style={{width: '5%'}}></div>
+                      <div className="bg-error-500 h-2 rounded-full progress-bar--5"></div>
                     </div>
                     <span className="text-sm font-medium">5%</span>
                   </div>

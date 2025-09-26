@@ -745,9 +745,28 @@ export function PatientDetailsContent() {
       fieldDef.properties && Object.keys(fieldDef.properties).length > 0;
     const hasEnumValues = fieldDef.enum && fieldDef.enum.length > 0;
     const isArray = fieldDef.type === "array";
-    const indentationStyle =
-      level > 0 ? { paddingLeft: `${level * 1.15}rem` } : undefined;
-    const enumIndentationStyle = { paddingLeft: `${(level + 1) * 1.15}rem` };
+    const getIndentationClass = (level: number) => {
+      switch (level) {
+        case 1: return "field-indent-1";
+        case 2: return "field-indent-2";
+        case 3: return "field-indent-3";
+        case 4: return "field-indent-4";
+        default: return "";
+      }
+    };
+    
+    const getEnumIndentationClass = (level: number) => {
+      switch (level + 1) {
+        case 1: return "field-indent-1";
+        case 2: return "field-indent-2";
+        case 3: return "field-indent-3";
+        case 4: return "field-indent-4";
+        default: return "";
+      }
+    };
+    
+    const indentationClass = level > 0 ? getIndentationClass(level) : "";
+    const enumIndentationClass = getEnumIndentationClass(level);
 
     const indicator = hasSubfields ? (
       <span className="border-border-primary text-text-secondary flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
@@ -792,22 +811,20 @@ export function PatientDetailsContent() {
             type="button"
             onClick={() => toggleSubsection(fieldKey)}
             aria-expanded={isExpanded}
-            style={indentationStyle}
-            className="hover:bg-background-secondary/60 focus-visible:ring-primary-500/40 flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none"
+            className={`hover:bg-background-secondary/60 focus-visible:ring-primary-500/40 flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none ${indentationClass}`}
           >
             {fieldContent}
           </button>
         ) : (
           <div
-            style={indentationStyle}
-            className="flex items-start gap-2 px-1 py-1.5"
+            className={`flex items-start gap-2 px-1 py-1.5 ${indentationClass}`}
           >
             {fieldContent}
           </div>
         )}
 
         {hasEnumValues && (
-          <div style={enumIndentationStyle} className="mt-1.5">
+          <div className={`mt-1.5 ${enumIndentationClass}`}>
             <div className="flex flex-wrap gap-1.5">
               {fieldDef.enum!.map((value) => (
                 <span key={value} className="pill pill--sm pill--accent">
