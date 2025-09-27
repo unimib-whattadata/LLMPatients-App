@@ -143,7 +143,7 @@ export const UserContent = React.memo(function UserContent() {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="dashboard-page">
       <Tabs value={selectedSection} onValueChange={(value) => setSelectedSection(value as "overview" | "profile" | "activities")}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">Panoramica</TabsTrigger>
@@ -151,287 +151,313 @@ export const UserContent = React.memo(function UserContent() {
           <TabsTrigger value="activities">Attività</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="overview" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Panoramica</CardTitle>
-              <CardDescription>
-                Qui trovi un riepilogo rapido del tuo profilo, delle attività
-                e delle simulazioni disponibili per continuare il tuo percorso
-                formativo.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-4 md:grid-cols-3">
-                <Card>
-                  <CardHeader className="pb-3">
-                    <Badge variant="secondary" className="w-fit bg-[#8B9769] text-white">
+        <TabsContent value="overview" className="dashboard-stack">
+          <section className="dashboard-section" aria-labelledby="user-overview">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="user-overview" className="dashboard-section__title">
+                  Panoramica
+                </h2>
+                <p className="dashboard-section__description">
+                  Qui trovi un riepilogo rapido del tuo profilo, delle attività
+                  e delle simulazioni disponibili per continuare il tuo percorso
+                  formativo.
+                </p>
+              </div>
+            </div>
+            
+            <div className="dashboard-action-grid">
+              <div className="dashboard-action-card">
+                <div className="dashboard-action-card-content">
+                  <div className="dashboard-action-card-main">
+                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-green)] text-white">
                       Profilo
-                    </Badge>
-                    <CardTitle className="text-lg">
+                    </div>
+                    <h3 className="dashboard-action-card__title">
                       Mantieni aggiornate le tue informazioni
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
+                    </h3>
+                    <p className="dashboard-action-card__description">
                       Modifica nome, email e preferenze per ricevere suggerimenti
                       più pertinenti.
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-3">
-                    <Badge variant="secondary" className="w-fit">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="dashboard-action-card">
+                <div className="dashboard-action-card-content">
+                  <div className="dashboard-action-card-main">
+                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-violet)] text-white">
                       Simulazioni
-                    </Badge>
-                    <CardTitle className="text-lg">
+                    </div>
+                    <h3 className="dashboard-action-card__title">
                       Accedi alle sessioni attive
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
+                    </h3>
+                    <p className="dashboard-action-card__description">
                       Prosegui con le simulazioni in corso o esplora nuovi scenari
                       clinici.
-                    </CardDescription>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardHeader className="pb-3">
-                    <Badge variant="secondary" className="w-fit bg-[#C69A39] text-white">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="dashboard-action-card">
+                <div className="dashboard-action-card-content">
+                  <div className="dashboard-action-card-main">
+                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-yellow)] text-white">
                       Progressi
-                    </Badge>
-                    <CardTitle className="text-lg">
+                    </div>
+                    <h3 className="dashboard-action-card__title">
                       Analizza la tua evoluzione
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription>
+                    </h3>
+                    <p className="dashboard-action-card__description">
                       Consulta le valutazioni ricevute e monitora la crescita delle
                       tue competenze.
-                    </CardDescription>
-                  </CardContent>
-                </Card>
+                    </p>
+                  </div>
+                </div>
               </div>
+            </div>
 
-              <div className="grid gap-4 md:grid-cols-3" aria-label="Indicatori rapidi">
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="text-2xl font-bold">{activities?.length ?? 0}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Attività registrate
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="text-2xl font-bold">{simulationsCompleted}</div>
-                    <p className="text-xs text-muted-foreground">
-                      Simulazioni completate
-                    </p>
-                  </CardContent>
-                </Card>
-                
-                <Card>
-                  <CardContent className="pt-6">
-                    <div className="text-2xl font-bold">
-                      {profile?.role === "admin" ? "Admin" : "Utente"}
-                    </div>
-                    <p className="text-xs text-muted-foreground">
-                      Ruolo account
-                    </p>
-                  </CardContent>
-                </Card>
+            <div className="dashboard-metric-grid" aria-label="Indicatori rapidi">
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{activities?.length ?? 0}</span>
+                <span className="dashboard-metric-card__label">
+                  Attività registrate
+                </span>
               </div>
-            </CardContent>
-          </Card>
+              
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">{simulationsCompleted}</span>
+                <span className="dashboard-metric-card__label">
+                  Simulazioni completate
+                </span>
+              </div>
+              
+              <div className="dashboard-metric-card">
+                <span className="dashboard-metric-card__value">
+                  {profile?.role === "admin" ? "Admin" : "Utente"}
+                </span>
+                <span className="dashboard-metric-card__label">
+                  Ruolo account
+                </span>
+              </div>
+            </div>
+          </section>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Attività Recenti</CardTitle>
-              <CardDescription>
-                Una selezione delle ultime azioni registrate mentre utilizzi
-                la piattaforma.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {activities && activities.length > 0 ? (
-                <div className="space-y-3">
-                  {activities.slice(0, 5).map((activity) => (
-                    <div
-                      key={activity.id}
-                      className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
-                    >
-                      <div>
-                        <p className="font-medium text-sm">
-                          {getActivityDisplayName(activity.type)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {formatDate(activity.createdAt)}
-                        </p>
+          <section className="dashboard-section" aria-labelledby="user-recent-activities">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="user-recent-activities" className="dashboard-section__title">
+                  Attività Recenti
+                </h2>
+                <p className="dashboard-section__description">
+                  Una selezione delle ultime azioni registrate mentre utilizzi
+                  la piattaforma.
+                </p>
+              </div>
+            </div>
+
+            {activities && activities.length > 0 ? (
+              <div className="dashboard-list" role="list">
+                {activities.slice(0, 5).map((activity) => (
+                  <div
+                    key={activity.id}
+                    className="dashboard-list__item"
+                    role="listitem"
+                  >
+                    <div>
+                      <div className="dashboard-activity-title">
+                        {getActivityDisplayName(activity.type)}
                       </div>
-                      <Badge variant="outline">
-                        {activity.type}
-                      </Badge>
+                      <div className="dashboard-activity-meta">
+                        {formatDate(activity.createdAt)}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    Le tue attività appariranno qui appena inizierai ad utilizzare
-                    la piattaforma.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    <span className="pill dashboard-chip" aria-hidden="true">
+                      {activity.type}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="dashboard-empty-state">
+                <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                <p>Le tue attività appariranno qui appena inizierai ad utilizzare
+                  la piattaforma.</p>
+              </div>
+            )}
+          </section>
         </TabsContent>
         
-        <TabsContent value="profile" className="space-y-6">
+        <TabsContent value="profile" className="dashboard-stack">
           {profileLoading ? (
-            <Card>
-              <CardHeader>
-                <Skeleton className="h-6 w-32" />
-                <Skeleton className="h-4 w-48" />
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-10 w-full" />
+            <section className="dashboard-section" aria-labelledby="user-profile-loading">
+              <div className="dashboard-section__header">
+                <div className="bg-background-tertiary h-6 w-32 animate-pulse rounded-md" />
+                <div className="bg-background-tertiary h-4 w-48 animate-pulse rounded-md mt-2" />
+              </div>
+              <div className="dashboard-panel">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
+                    <div className="bg-background-tertiary h-10 w-full animate-pulse rounded-md" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
+                    <div className="bg-background-tertiary h-10 w-full animate-pulse rounded-md" />
+                  </div>
+                  <div className="bg-background-tertiary h-10 w-20 animate-pulse rounded-md" />
                 </div>
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-16" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-                <Skeleton className="h-10 w-20" />
-              </CardContent>
-            </Card>
+              </div>
+            </section>
           ) : (
-            <Card>
-              <CardHeader>
-                <CardTitle>Profilo Utente</CardTitle>
-                <CardDescription>
-                  Gestisci le informazioni del tuo account
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
+            <section className="dashboard-section" aria-labelledby="user-profile">
+              <div className="dashboard-section__header">
+                <div>
+                  <h2 id="user-profile" className="dashboard-section__title">
+                    Profilo Utente
+                  </h2>
+                  <p className="dashboard-section__description">
+                    Gestisci le informazioni del tuo account
+                  </p>
+                </div>
+              </div>
+              <div className="dashboard-panel">
                 {isEditingProfile ? (
-                  <form onSubmit={handleProfileSubmit} className="space-y-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Nome</Label>
+                  <form onSubmit={handleProfileSubmit} className="form-container">
+                    <div className="form-group">
+                      <Label htmlFor="name" className="label">Nome</Label>
                       <Input
                         id="name"
+                        className="input-field"
                         value={profileForm.name}
                         onChange={(e) => setProfileForm(prev => ({...prev, name: e.target.value}))}
                       />
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email</Label>
+                    <div className="form-group">
+                      <Label htmlFor="email" className="label">Email</Label>
                       <Input
                         id="email"
                         type="email"
+                        className="input-field"
                         value={profileForm.email}
                         onChange={(e) => setProfileForm(prev => ({...prev, email: e.target.value}))}
                       />
                     </div>
-                    <div className="flex gap-2">
+                    <div className="form-actions">
                       <Button
                         type="submit"
+                        className="btn btn-primary"
                         disabled={updateProfile.isPending}
                       >
                         {updateProfile.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {updateProfile.isPending ? "Salvando..." : "Salva"}
                       </Button>
-                      <Button type="button" variant="outline" onClick={handleCancelEdit}>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="btn btn-outline"
+                        onClick={handleCancelEdit}
+                      >
                         Annulla
                       </Button>
                     </div>
                   </form>
                 ) : (
-                  <div className="space-y-4">
-                    <div>
-                      <Label>Nome</Label>
-                      <p className="text-sm text-muted-foreground">{profile?.name || "Non specificato"}</p>
+                  <div className="dashboard-panel-stack">
+                    <div className="dashboard-panel">
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="label">Nome</Label>
+                          <p className="text-sm text-muted-foreground">{profile?.name || "Non specificato"}</p>
+                        </div>
+                        <div>
+                          <Label className="label">Email</Label>
+                          <p className="text-sm text-muted-foreground">{profile?.email || "Non specificato"}</p>
+                        </div>
+                        <div>
+                          <Label className="label">Ruolo</Label>
+                          <span className="pill dashboard-chip">
+                            {profile?.role === "admin" ? "Admin" : "Utente"}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div>
-                      <Label>Email</Label>
-                      <p className="text-sm text-muted-foreground">{profile?.email || "Non specificato"}</p>
+                    <div className="form-actions">
+                      <Button 
+                        onClick={handleEditProfile}
+                        className="btn btn-primary"
+                      >
+                        Modifica Profilo
+                      </Button>
                     </div>
-                    <div>
-                      <Label>Ruolo</Label>
-                      <Badge variant="secondary">{profile?.role === "admin" ? "Admin" : "Utente"}</Badge>
-                    </div>
-                    <Button onClick={handleEditProfile}>
-                      Modifica Profilo
-                    </Button>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </section>
           )}
         </TabsContent>
         
-        <TabsContent value="activities" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Attività Recenti</CardTitle>
-              <CardDescription>
-                Cronologia delle tue attività sulla piattaforma
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {activitiesLoading ? (
-                <div className="space-y-4">
-                  {Array.from({ length: 3 }).map((_, index) => (
-                    <Card key={index} className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-2">
-                          <Skeleton className="h-4 w-32" />
-                          <Skeleton className="h-3 w-24" />
-                        </div>
-                        <Skeleton className="h-3 w-20" />
+        <TabsContent value="activities" className="dashboard-stack">
+          <section className="dashboard-section" aria-labelledby="user-activities">
+            <div className="dashboard-section__header">
+              <div>
+                <h2 id="user-activities" className="dashboard-section__title">
+                  Attività Recenti
+                </h2>
+                <p className="dashboard-section__description">
+                  Cronologia delle tue attività sulla piattaforma
+                </p>
+              </div>
+            </div>
+            {activitiesLoading ? (
+              <div className="dashboard-panel-stack">
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="dashboard-panel">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-2">
+                        <div className="bg-background-tertiary h-4 w-32 animate-pulse rounded-md" />
+                        <div className="bg-background-tertiary h-3 w-24 animate-pulse rounded-md" />
                       </div>
-                    </Card>
-                  ))}
-                </div>
-              ) : activities && activities.length > 0 ? (
-                <div className="space-y-4">
-                  {activities.map((activity) => (
-                    <Card key={activity.id} className="p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="font-medium">
-                            {getActivityDisplayName(activity.type)}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            Tipo: {activity.type}
-                          </p>
+                      <div className="bg-background-tertiary h-3 w-20 animate-pulse rounded-md" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : activities && activities.length > 0 ? (
+              <div className="dashboard-panel-stack">
+                {activities.map((activity) => (
+                  <div key={activity.id} className="dashboard-panel">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <div className="dashboard-activity-title">
+                          {getActivityDisplayName(activity.type)}
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          {formatDate(activity.createdAt)}
-                        </p>
+                        <div className="dashboard-activity-meta">
+                          Tipo: {activity.type}
+                        </div>
                       </div>
-                      {activity.metadata && (
-                        <div className="mt-2 p-2 bg-muted rounded text-xs">
-                          <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
-                        </div>
-                      )}
-                    </Card>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <p className="text-muted-foreground">
-                    Le tue attività verranno registrate automaticamente mentre
-                    utilizzi llmpatient.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                      <div className="dashboard-activity-meta">
+                        {formatDate(activity.createdAt)}
+                      </div>
+                    </div>
+                    {activity.metadata && (
+                      <div className="dashboard-activity-meta bg-background-secondary rounded-md p-3">
+                        <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="dashboard-empty-state">
+                <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
+                <p>Le tue attività verranno registrate automaticamente mentre
+                  utilizzi llmpatient.</p>
+              </div>
+            )}
+          </section>
         </TabsContent>
       </Tabs>
     </div>

@@ -11,6 +11,13 @@ export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 export { Progress } from "./progress";
 export { Separator } from "./separator";
 export { Skeleton } from "./skeleton";
+export { 
+  PatientCardSkeleton, 
+  PatientDetailSkeleton, 
+  DashboardCardSkeleton, 
+  TableRowSkeleton, 
+  ListItemSkeleton 
+} from "./skeleton-variants";
 export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "./accordion";
 export { HoverCard, HoverCardTrigger, HoverCardContent } from "./hover-card";
 export { Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "./sheet";

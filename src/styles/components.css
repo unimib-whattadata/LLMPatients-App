@@ -4047,6 +4047,107 @@
   .timeline-step-positioned--completed {
     box-shadow: 0 0 0 2px rgb(34 197 94);
   }
+
+  /* Timeline path styling for mobile */
+  .stroke-timeline-path {
+    background-color: #3d413b;
+  }
+
+  /* Timeline step colors - force with maximum specificity */
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="2"] {
+    background-color: #8B9769 !important;
+    background: #8B9769 !important;
+  }
+
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="3"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="4"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="5"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="6"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="7"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="8"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="9"],
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="10"] {
+    background-color: #C69A39 !important;
+    background: #C69A39 !important;
+  }
+
+  .timeline-step-positioned.timeline-desktop-step[data-step-id="11"] {
+    background-color: #9690B6 !important;
+    background: #9690B6 !important;
+  }
+
+  /* Force with even higher specificity */
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="2"] {
+    background-color: #8B9769 !important;
+    background: #8B9769 !important;
+  }
+
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="3"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="4"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="5"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="6"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="7"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="8"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="9"],
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="10"] {
+    background-color: #C69A39 !important;
+    background: #C69A39 !important;
+  }
+
+  div.timeline-step-positioned.timeline-desktop-step[data-step-id="11"] {
+    background-color: #9690B6 !important;
+    background: #9690B6 !important;
+  }
+
+  /* Mobile timeline colors */
+  .timeline-mobile-step[data-step-id="1"],
+  .timeline-mobile-step[data-step-id="2"] {
+    background-color: #8B9769 !important;
+    background: #8B9769 !important;
+  }
+
+  .timeline-mobile-step[data-step-id="3"],
+  .timeline-mobile-step[data-step-id="4"],
+  .timeline-mobile-step[data-step-id="5"],
+  .timeline-mobile-step[data-step-id="6"],
+  .timeline-mobile-step[data-step-id="7"],
+  .timeline-mobile-step[data-step-id="8"],
+  .timeline-mobile-step[data-step-id="9"],
+  .timeline-mobile-step[data-step-id="10"] {
+    background-color: #C69A39 !important;
+    background: #C69A39 !important;
+  }
+
+  .timeline-mobile-step[data-step-id="11"] {
+    background-color: #9690B6 !important;
+    background: #9690B6 !important;
+  }
+
+  /* Force timeline colors with maximum specificity - override everything */
+  div[data-step-id="1"],
+  div[data-step-id="2"] {
+    background-color: #8B9769 !important;
+    background: #8B9769 !important;
+  }
+
+  div[data-step-id="3"],
+  div[data-step-id="4"],
+  div[data-step-id="5"],
+  div[data-step-id="6"],
+  div[data-step-id="7"],
+  div[data-step-id="8"],
+  div[data-step-id="9"],
+  div[data-step-id="10"] {
+    background-color: #C69A39 !important;
+    background: #C69A39 !important;
+  }
+
+  div[data-step-id="11"] {
+    background-color: #9690B6 !important;
+    background: #9690B6 !important;
+  }
 }
 
 /* ===== REMOVED UNUSED UTILITY CLASSES ===== */

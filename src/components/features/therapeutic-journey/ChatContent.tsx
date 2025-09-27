@@ -369,10 +369,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="flex flex-col items-center space-y-4">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">Loading chat...</p>
+        <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
+          <div className="dashboard-section text-center">
+            <div className="flex flex-col items-center space-y-4">
+              <Loader2 className="h-8 w-8 animate-spin text-[var(--color-primary-green)]" />
+              <p className="text-sm text-[var(--color-text-primary)]/70">Caricamento chat...</p>
+            </div>
           </div>
         </div>
       </SharedLayout>
@@ -386,13 +388,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <div className="chat-error-container flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-heading-2 mb-4">Paziente non trovato</h2>
-            <p className="text-body-lg mb-6">
+        <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
+          <div className="dashboard-section text-center">
+            <h2 className="text-heading-2 mb-4 text-[var(--color-text-primary)]">Paziente non trovato</h2>
+            <p className="text-body-lg mb-6 text-[var(--color-text-primary)]/70">
               Il paziente richiesto non è disponibile.
             </p>
-            <Button onClick={goBack}>
+            <Button onClick={goBack} className="btn btn-primary">
               <ArrowLeftIcon className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
@@ -408,35 +410,51 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       impersonation={impersonation}
       layoutType="dashboard"
     >
-      <div className="chat-container flex flex-col">
+      <div className="chat-container flex flex-col h-[calc(100vh-4rem)] bg-[var(--color-page-background)]" role="main" aria-label="Chat con paziente virtuale">
         {/* Header */}
-        <div className="border-b px-6 py-4 shadow-sm">
+        <header className="dashboard-section bg-[var(--color-navbar-dark)] px-4 sm:px-6 py-4 flex-shrink-0" role="banner">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goBack}
-                className=""
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "";
-                  e.currentTarget.style.backgroundColor = "";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "";
-                  e.currentTarget.style.backgroundColor = "transparent";
-                }}
+                className="btn btn-ghost hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                aria-label="Torna alla timeline"
               >
                 <ArrowLeftIcon className="h-4 w-4" />
               </Button>
-              <div>
-                <h1 className="text-heading-3">
-                  Sessione {stepId} - {new Date().toLocaleDateString("it-IT")}
-                </h1>
+              <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+                <div className="therapy-session-avatar flex-shrink-0">
+                  {selectedPatient?.avatarUrl ? (
+                    <Image
+                      src={selectedPatient.avatarUrl}
+                      alt={`Avatar di ${selectedPatient.name}`}
+                      width={40}
+                      height={40}
+                      className="rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div 
+                      className="flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white"
+                      style={{ backgroundColor: patientAvatar?.backgroundColor || '#8B9769' }}
+                    >
+                      {patientAvatar?.initials}
+                    </div>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <h1 className="text-heading-3 text-[var(--color-text-primary)] truncate">
+                    <span className="hidden sm:inline">{selectedPatient?.name} - </span>Sessione {stepId}
+                  </h1>
+                  <p className="text-sm text-[var(--color-text-primary)]/70">
+                    {new Date().toLocaleDateString("it-IT")}
+                  </p>
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="rounded-lg px-3 py-1">
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+              <div className="pill bg-[var(--color-primary-green)]/20 text-[var(--color-primary-green)] px-2 sm:px-3 py-1">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -445,28 +463,24 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <Button
                   onClick={handleCompleteStep}
                   disabled={markStepDoneMutation.isPending}
-                  className="px-4 py-2"
-                  onMouseEnter={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = "";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = "";
-                    }
-                  }}
+                  className="btn btn-primary text-xs sm:text-sm px-2 sm:px-4"
+                  aria-label="Completa sessione"
                 >
-                  {markStepDoneMutation.isPending ? "Completando..." : "Fine"}
+                  <span className="hidden sm:inline">
+                    {markStepDoneMutation.isPending ? "Completando..." : "Fine"}
+                  </span>
+                  <span className="sm:hidden">
+                    {markStepDoneMutation.isPending ? "..." : "Fine"}
+                  </span>
                 </Button>
               )}
             </div>
           </div>
-        </div>
+        </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className="mx-auto max-w-4xl space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[var(--color-page-background)]" role="log" aria-label="Messaggi della conversazione" aria-live="polite">
+          <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6">
             {messages.map((message) => (
               <div
                 key={message.id}
@@ -481,56 +495,29 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       : "flex-row"
                   }`}
                 >
-                  {/* Avatar only for patient messages */}
-                  {message.sender === "patient" && (
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full">
-                      {selectedPatient.avatarUrl ? (
-                        <Image
-                          src={selectedPatient.avatarUrl}
-                          alt={`Avatar di ${selectedPatient.name}`}
-                          width={40}
-                          height={40}
-                          className="chat-avatar-fixed-size rounded-full object-cover"
-                          style={{ width: "auto !important", height: "auto !important" }}
-                        />
-                      ) : (
-                        <div className="flex h-10 w-10 items-center justify-center rounded-full font-bold">
-                          {patientAvatar?.initials}
-                        </div>
-                      )}
-                    </div>
-                  )}
 
                   {/* Message bubble */}
-                  <div className="rounded-lg px-4 py-3">
-                    <p className="text-body">{message.content}</p>
+                  <div 
+                    className={`rounded-lg px-3 sm:px-4 py-2 sm:py-3 max-w-xs sm:max-w-sm ${
+                      message.sender === "user" 
+                        ? "text-white" 
+                        : "text-white"
+                    }`}
+                    style={message.sender === "patient" ? { backgroundColor: "#453614" } : message.sender === "user" ? { backgroundColor: "#313525" } : {}}
+                  >
+                    <p className="text-body text-sm sm:text-base">{message.content}</p>
                   </div>
                 </div>
               </div>
             ))}
 
             {isTyping && (
-              <div className="flex items-start gap-3 mb-4">
-                <div className="flex-shrink-0">
-                  {selectedPatient?.avatarUrl ? (
-                    <Image
-                      src={selectedPatient.avatarUrl}
-                      alt={`${selectedPatient.name} avatar`}
-                      width={32}
-                      height={32}
-                      className="rounded-full"
-                    />
-                  ) : (
-                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
-                      {selectedPatient?.name?.charAt(0) || "P"}
-                    </div>
-                  )}
-                </div>
-                <div className="bg-muted rounded-lg px-4 py-3">
+              <div className="flex justify-start mb-4">
+                <div className="rounded-lg px-4 py-3" style={{ backgroundColor: "#453614" }}>
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
                   </div>
                 </div>
               </div>
@@ -542,31 +529,29 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Input - Only show if step is not completed */}
         {!isStepCompleted && (
-          <div className="border-t p-6">
+          <div className="p-4 sm:p-6 flex-shrink-0">
             <div className="mx-auto max-w-4xl">
-              <div className="flex space-x-3">
+              <div className="flex space-x-2 sm:space-x-3">
                 <Input
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   placeholder="Inizia la conversazione"
                   disabled={isTyping}
-                  className="flex-1"
+                  className="input-field flex-1 text-sm sm:text-base"
+                  aria-label="Messaggio da inviare"
                 />
                 <Button
                   onClick={() => void handleSendMessage()}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="px-6"
-                  onMouseEnter={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = "";
-                    }
+                  className="btn btn-primary"
+                  style={{ 
+                    minHeight: '48px',
+                    padding: '0.875rem 1rem',
+                    border: '2px solid transparent',
+                    borderRadius: '0.75rem'
                   }}
-                  onMouseLeave={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = "";
-                    }
-                  }}
+                  aria-label="Invia messaggio"
                 >
                   <PaperAirplaneIcon className="h-4 w-4" />
                 </Button>
@@ -577,9 +562,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Session completed message */}
         {isStepCompleted && (
-          <div className="border-t p-6">
+          <div className="bg-[var(--color-navbar-dark)] p-6 flex-shrink-0">
             <div className="mx-auto max-w-4xl text-center">
-              <div className="rounded-lg px-4 py-3">
+              <div className="pill bg-[var(--color-primary-green)]/20 text-[var(--color-primary-green)] px-4 py-3">
                 <p className="text-sm font-medium">
                   ✓ Sessione {stepId} completata - La conversazione è in
                   modalità sola lettura

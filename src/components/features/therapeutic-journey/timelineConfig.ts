@@ -24,17 +24,17 @@ export const TIMELINE_CONFIG = {
 } as const;
 
 const timelineSteps: TimelineStep[] = [
-  { id: 1, top: 150, left: 533, color: "" },
-  { id: 2, top: 340, left: 333, color: "" },
-  { id: 3, top: 460, left: 533, color: "" },
-  { id: 4, top: 560, left: 713, color: "" },
-  { id: 5, top: 680, left: 533, color: "" },
-  { id: 6, top: 780, left: 373, color: "" },
-  { id: 7, top: 900, left: 533, color: "" },
-  { id: 8, top: 1000, left: 713, color: "" },
-  { id: 9, top: 1120, left: 533, color: "" },
-  { id: 10, top: 1210, left: 353, color: "" },
-  { id: 11, top: 1400, left: 533, color: "" },
+  { id: 1, top: 150, left: 533, color: "#8B9769" }, // Green
+  { id: 2, top: 340, left: 333, color: "#8B9769" }, // Green
+  { id: 3, top: 460, left: 533, color: "#C69A39" }, // Yellow
+  { id: 4, top: 560, left: 713, color: "#C69A39" }, // Yellow
+  { id: 5, top: 680, left: 533, color: "#C69A39" }, // Yellow
+  { id: 6, top: 780, left: 373, color: "#C69A39" }, // Yellow
+  { id: 7, top: 900, left: 533, color: "#C69A39" }, // Yellow
+  { id: 8, top: 1000, left: 713, color: "#C69A39" }, // Yellow
+  { id: 9, top: 1120, left: 533, color: "#C69A39" }, // Yellow
+  { id: 10, top: 1210, left: 353, color: "#C69A39" }, // Yellow
+  { id: 11, top: 1400, left: 533, color: "#9690B6" }, // Purple
 ];
 
 const timelinePathPoints: PathPoint[] = [

@@ -41,17 +41,21 @@ const TimelineStep = memo(
     isUnlocked: boolean;
     isCurrent: boolean;
     isCompleted: boolean;
-  }) => (
+  }) => {
+    return (
     <div
       key={step.id}
+      data-step-id={step.id}
+      data-step-color={step.color}
       style={{
         top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
         height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
         fontSize: `${circleFontSize}px`,
+        color: 'white',
       }}
-      className={`timeline-step-positioned ${
+      className={`timeline-step-positioned timeline-desktop-step ${
         !isUnlocked ? "timeline-step-positioned--locked" : ""
       } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
       onClick={() => {
@@ -72,7 +76,8 @@ const TimelineStep = memo(
     >
       {isCompleted ? "✓" : step.id}
     </div>
-  ),
+    );
+  },
 );
 TimelineStep.displayName = "TimelineStep";
 
@@ -100,7 +105,12 @@ const MobileTimelineStep = memo(
         className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center"
         aria-hidden
       >
-        <span className="flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold">
+        <span 
+          data-step-id={step.id}
+          data-step-color={step.color}
+          className="timeline-mobile-step flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
+          style={{ color: 'white' }}
+        >
           {isCompleted ? "✓" : ""}
         </span>
       </span>
@@ -278,12 +288,14 @@ export function SessionTimelineContent({
 
   // Use original positions and sizes - CSS will handle scaling
   const stepPositions = useMemo(
-    () =>
-      TIMELINE_STEPS.map((step) => ({
+    () => {
+      const steps = TIMELINE_STEPS.map((step) => ({
         ...step,
         scaledTop: step.top,
         scaledLeft: step.left + TIMELINE_CONFIG.NODE_OFFSET_X,
-      })),
+      }));
+      return steps;
+    },
     [],
   );
 
@@ -513,7 +525,7 @@ export function SessionTimelineContent({
                   </defs>
                   <path
                     d={timelinePathD}
-                    stroke=""
+                    stroke="#3d413b"
                     strokeWidth="20"
                     strokeLinecap="round"
                     strokeLinejoin="round"

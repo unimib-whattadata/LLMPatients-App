@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 
 import { PatientAvatar } from "@/components/features/explore-patients";
 import { Breadcrumb } from "~/components/common/Breadcrumb";
-import { Skeleton } from "~/components/ui/skeleton";
+import { PatientDetailSkeleton } from "~/components/ui/skeleton-variants";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
@@ -86,38 +86,7 @@ export function PatientDetailContent() {
   });
 
   if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8 space-y-6">
-        <div className="space-y-2">
-          <Skeleton className="h-4 w-48" />
-          <Skeleton className="h-8 w-64" />
-        </div>
-        
-        <Card>
-          <CardHeader className="flex flex-row items-start space-y-0 pb-4">
-            <Skeleton className="h-16 w-16 rounded-full" />
-            <div className="flex-1 ml-4 space-y-2">
-              <Skeleton className="h-6 w-48" />
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-4 w-64" />
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-32" />
-                <Skeleton className="h-20 w-full" />
-              </div>
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-32" />
-                <Skeleton className="h-20 w-full" />
-              </div>
-            </div>
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <PatientDetailSkeleton />;
   }
 
   if (error || !patient) {
