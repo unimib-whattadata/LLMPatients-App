@@ -142,7 +142,7 @@ export function ShadcnNavbar({
         <span className="hidden max-w-32 truncate text-sm font-medium text-muted-foreground md:inline">
           {displayUser.name ?? displayUser.email}
         </span>
-        <Badge variant={displayUser.role === "admin" ? "default" : "secondary"}>
+        <Badge variant={displayUser.role === "admin" ? "admin" : "user"}>
           {displayUser.role === "admin" ? "Admin" : "User"}
         </Badge>
         <Button
@@ -233,7 +233,7 @@ export function ShadcnNavbar({
                     {displayUser.email}
                   </p>
                 </div>
-                <Badge variant={displayUser.role === "admin" ? "default" : "secondary"}>
+                <Badge variant={displayUser.role === "admin" ? "admin" : "user"}>
                   {displayUser.role === "admin" ? "Admin" : "User"}
                 </Badge>
               </div>
@@ -272,7 +272,7 @@ export function ShadcnNavbar({
       className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
       style={{ backgroundColor: 'var(--color-navbar-dark)' }}
     >
-      <div className="container flex h-16 items-center px-4">
+      <div className="flex h-16 items-center px-4 w-full">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center space-x-2">

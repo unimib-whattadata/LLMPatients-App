@@ -56,7 +56,7 @@ export default async function ExplorePatientsPage() {
             >
               <div className="section-container">
                 <header>
-                  <h1 id="patients-title">llmpatient</h1>
+                  <h1 id="patients-title">I pazienti</h1>
                   <p
                     id="patients-description"
                     aria-describedby="patients-title"

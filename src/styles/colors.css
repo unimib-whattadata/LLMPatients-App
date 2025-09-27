@@ -83,3 +83,38 @@ navbar: 131313
     --color-gray-800: #111827;
   }
 }
+
+/* Difficulty Dots Styling */
+.difficulty-dots {
+  font-size: 1.125rem;
+  line-height: 1;
+}
+
+.difficulty-easy {
+  color: var(--color-success) !important;
+}
+
+.difficulty-medium {
+  color: var(--color-warning) !important;
+}
+
+.difficulty-hard {
+  color: var(--color-error) !important;
+}
+
+/* Badge Styling */
+.badge-admin {
+  background-color: var(--color-primary-violet) !important;
+}
+
+.badge-admin:hover {
+  background-color: #7a6fa3 !important;
+}
+
+.badge-user {
+  background-color: var(--color-gray-500) !important;
+}
+
+.badge-user:hover {
+  background-color: var(--color-gray-600) !important;
+}

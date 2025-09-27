@@ -3,10 +3,12 @@
 import { useState } from "react";
 import {
   DIFFICULTY_LEVELS,
-  getDifficultyLabel,
   getDifficultyAccessibleText,
+  getDifficultyIconClass,
+  getDifficultyIcon,
 } from "~/lib/constants/difficulty";
 import { Button } from "~/components/ui/button";
+import { Progress } from "~/components/ui/progress";
 
 interface Evaluation {
   id: string;
@@ -98,31 +100,6 @@ export function MyEvaluationsContent() {
     return "pill pill--sm status-tag status-tag--needs-improvement";
   };
 
-  const getDifficultyClass = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case 2:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case 3:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
-      default:
-        return "patient-card-difficulty-icon";
-    }
-  };
-
-  const getDifficultyIcon = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  };
 
   const averageScore =
     evaluations.length > 0
@@ -195,16 +172,13 @@ export function MyEvaluationsContent() {
                     <div className="flex-1">
                       <div className="patient-card-difficulty mb-2">
                         <span
-                          className={getDifficultyClass(evaluation.difficulty)}
+                          className={getDifficultyIconClass(evaluation.difficulty)}
                           aria-label={getDifficultyAccessibleText(
                             evaluation.difficulty,
                           )}
                           role="img"
                         >
                           {getDifficultyIcon(evaluation.difficulty)}
-                        </span>
-                        <span className="text-sm font-medium">
-                          {getDifficultyLabel(evaluation.difficulty)}
                         </span>
                       </div>
                       <h3 className="dashboard-action-card__title mb-2">
@@ -236,14 +210,10 @@ export function MyEvaluationsContent() {
                           {evaluation.score}%
                         </span>
                       </div>
-                      <div className="bg-background-tertiary h-2 w-full rounded-full">
-                        <div
-                          className="bg-accent-600 progress-bar-dynamic h-2 rounded-full"
-                          style={{
-                            width: `${(evaluation.score / evaluation.maxScore) * 100}%`,
-                          }}
-                        ></div>
-                      </div>
+                      <Progress
+                        value={(evaluation.score / evaluation.maxScore) * 100}
+                        className="h-2 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]"
+                      />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">

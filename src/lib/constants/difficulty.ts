@@ -24,12 +24,9 @@ const DIFFICULTY_LABELS = {
 } as const;
 
 const DIFFICULTY_ICON_CLASSES = {
-  [DIFFICULTY_LEVELS.FACILE]:
-    "patient-card-difficulty-icon patient-card-difficulty-icon--easy",
-  [DIFFICULTY_LEVELS.MEDIO]:
-    "patient-card-difficulty-icon patient-card-difficulty-icon--medium",
-  [DIFFICULTY_LEVELS.DIFFICILE]:
-    "patient-card-difficulty-icon patient-card-difficulty-icon--hard",
+  [DIFFICULTY_LEVELS.FACILE]: "difficulty-dots difficulty-easy",
+  [DIFFICULTY_LEVELS.MEDIO]: "difficulty-dots difficulty-medium", 
+  [DIFFICULTY_LEVELS.DIFFICILE]: "difficulty-dots difficulty-hard",
 } as const;
 
 const DIFFICULTY_ACCESSIBLE_TEXT = {
@@ -62,6 +59,28 @@ export function getDifficultyLabel(difficulty: DifficultyLevel): string {
  */
 export function getDifficultyIconClass(difficulty: DifficultyLevel): string {
   return DIFFICULTY_ICON_CLASSES[difficulty] || "";
+}
+
+/**
+ * Get difficulty icon from internal value
+ *
+ * Returns the dot pattern for difficulty levels.
+ * Used for visual representation of difficulty in the UI.
+ *
+ * @param difficulty - The internal difficulty level (1, 2, or 3)
+ * @returns Dot pattern string for the difficulty level
+ */
+export function getDifficultyIcon(difficulty: DifficultyLevel): string {
+  switch (difficulty) {
+    case DIFFICULTY_LEVELS.FACILE:
+      return "•";
+    case DIFFICULTY_LEVELS.MEDIO:
+      return "••";
+    case DIFFICULTY_LEVELS.DIFFICILE:
+      return "•••";
+    default:
+      return "•";
+  }
 }
 
 /**

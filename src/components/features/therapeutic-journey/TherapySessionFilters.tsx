@@ -31,21 +31,36 @@ function TherapySessionFiltersComponent({
       role="tablist"
       aria-label="Filtri percorsi terapeutici"
     >
-      {FILTER_OPTIONS.map((tab) => (
-        <Button
-          key={tab.key}
-          onClick={() => onFilterChange(tab.key)}
-          role="tab"
-          aria-selected={activeFilter === tab.key}
-          variant={activeFilter === tab.key ? "primary" : "outline-primary"}
-          size="sm"
-          className={`pill pill--interactive dashboard-pill-nav__button ${
-            activeFilter === tab.key ? "is-active" : ""
-          }`}
-        >
-          {tab.label}
-        </Button>
-      ))}
+      {FILTER_OPTIONS.map((tab) => {
+        const getButtonClass = (key: string, isActive: boolean) => {
+          if (!isActive) return "filter-button-inactive";
+          
+          switch (key) {
+            case "started":
+              return "filter-button-started";
+            case "in-progress":
+              return "filter-button-in-progress";
+            case "completed":
+              return "filter-button-completed";
+            default:
+              return "filter-button-started";
+          }
+        };
+
+        return (
+          <Button
+            key={tab.key}
+            onClick={() => onFilterChange(tab.key)}
+            role="tab"
+            aria-selected={activeFilter === tab.key}
+            variant="default"
+            size="sm"
+            className={`pill pill--interactive dashboard-pill-nav__button ${getButtonClass(tab.key, activeFilter === tab.key)}`}
+          >
+            {tab.label}
+          </Button>
+        );
+      })}
     </div>
   );
 }

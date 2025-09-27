@@ -78,31 +78,31 @@ export function StudentStatisticsContent() {
               <span className="dashboard-metric-card__value">
                 {studentStats?.activeStudents ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#8B9769] text-white">
+              <span className="dashboard-metric-card__label">
                 Studenti Attivi
-              </Badge>
+              </span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.completionRate ?? 0}%
               </span>
-              <Badge variant="secondary" className="bg-[#C69A39] text-white">
+              <span className="dashboard-metric-card__label">
                 Tasso Completamento
-              </Badge>
+              </span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.averageScore ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#9690B6] text-white">Score Medio</Badge>
+              <span className="dashboard-metric-card__label">Score Medio</span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.totalSimulations ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#8B9769] text-white">
+              <span className="dashboard-metric-card__label">
                 Simulazioni Totali
-              </Badge>
+              </span>
             </div>
           </div>
         )}

@@ -3,12 +3,12 @@
 import { useState } from "react";
 import {
   DIFFICULTY_LEVELS,
-  getDifficultyLabel,
   getDifficultyAccessibleText,
+  getDifficultyIconClass,
+  getDifficultyIcon,
 } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
 
 interface Evaluation {
   id: string;
@@ -110,10 +110,10 @@ export function StudentEvaluationsContent() {
     if (status === "completed") {
       const statusClass =
         score >= 80
-          ? "pill pill--sm status-tag status-tag--excellent bg-[#8B9769] text-white"
+          ? "pill pill--sm status-tag status-tag--excellent bg-[var(--color-primary-violet)] text-white"
           : score >= 60
-            ? "pill pill--sm status-tag status-tag--good bg-[#C69A39] text-white"
-            : "pill pill--sm status-tag status-tag--needs-improvement bg-[#9690B6] text-white";
+            ? "pill pill--sm status-tag status-tag--good bg-[var(--color-primary-yellow)] text-white"
+            : "pill pill--sm status-tag status-tag--needs-improvement bg-[var(--color-primary-green)] text-white";
       return (
         <span className={statusClass}>
           {score >= 80 ? "Eccellente" : score >= 60 ? "Buono" : "Da migliorare"}
@@ -121,37 +121,12 @@ export function StudentEvaluationsContent() {
       );
     }
     return (
-      <span className="pill pill--sm status-tag status-tag--in-progress bg-[#8B9769] text-white">
+      <span className="pill pill--sm status-tag status-tag--in-progress bg-[var(--color-primary-yellow)] text-white">
         In corso
       </span>
     );
   };
 
-  const getDifficultyClass = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case 2:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case 3:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
-      default:
-        return "patient-card-difficulty-icon";
-    }
-  };
-
-  const getDifficultyIcon = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  };
 
   return (
     <div className="dashboard-panel-stack">
@@ -182,29 +157,29 @@ export function StudentEvaluationsContent() {
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.totalEvaluations ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#8B9769] text-white">
+              <span className="dashboard-metric-card__label">
                 Valutazioni Totali
-              </Badge>
+              </span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.completedEvaluations ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#C69A39] text-white">Completate</Badge>
+              <span className="dashboard-metric-card__label">Completate</span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.inProgressEvaluations ?? 0}
               </span>
-              <Badge variant="secondary" className="bg-[#8B9769] text-white">In Corso</Badge>
+              <span className="dashboard-metric-card__label">In Corso</span>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.successRate ?? 0}%
               </span>
-              <Badge variant="secondary" className="bg-[#9690B6] text-white">
+              <span className="dashboard-metric-card__label">
                 Tasso Successo
-              </Badge>
+              </span>
             </div>
           </div>
         )}
@@ -360,16 +335,13 @@ export function StudentEvaluationsContent() {
                     <div className="mb-4 flex items-center gap-4">
                       <div className="patient-card-difficulty">
                         <span
-                          className={getDifficultyClass(evaluation.difficulty)}
+                          className={getDifficultyIconClass(evaluation.difficulty)}
                           aria-label={getDifficultyAccessibleText(
                             evaluation.difficulty,
                           )}
                           role="img"
                         >
                           {getDifficultyIcon(evaluation.difficulty)}
-                        </span>
-                        <span className="text-sm font-medium">
-                          {getDifficultyLabel(evaluation.difficulty)}
                         </span>
                       </div>
                       <div

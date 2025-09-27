@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import Link from "next/link";
 import {
   TherapySessionCard,
@@ -45,6 +45,12 @@ type TherapySessionWithPatient = {
 export function TherapeuticJourneyContent() {
   // Current filter state for session status
   const [filter, setFilter] = useState<string>("all");
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure client-side rendering to avoid hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const {
     data: allTherapySessions,
@@ -131,13 +137,31 @@ export function TherapeuticJourneyContent() {
           </div>
         </div>
 
-        {allTherapySessions && allTherapySessions.length > 0 && (
+        {!isClient ? (
+          <div className="dashboard-metric-grid" aria-hidden="true">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="dashboard-metric-card">
+                <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
+                <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
+              </div>
+            ))}
+          </div>
+        ) : sessionsLoading ? (
+          <div className="dashboard-metric-grid" aria-hidden="true">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="dashboard-metric-card">
+                <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
+                <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
+              </div>
+            ))}
+          </div>
+        ) : allTherapySessions && allTherapySessions.length > 0 ? (
           <TherapySessionMetrics
             inProgress={metrics.inProgress}
             completed={metrics.completed}
             averageProgress={metrics.averageProgress}
           />
-        )}
+        ) : null}
       </section>
 
       {/* Therapy Sessions Grid Section */}
@@ -157,8 +181,52 @@ export function TherapeuticJourneyContent() {
           onFilterChange={handleFilterChange}
         />
 
-        {sessionsLoading ? (
-          <div className="dashboard-action-grid">
+        {!isClient ? (
+          <div className="dashboard-action-grid" aria-hidden="true">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="dashboard-action-card">
+                <div className="dashboard-action-card-content">
+                  <div className="dashboard-action-card-main">
+                    <div className="mb-4 flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="bg-background-tertiary mb-2 h-5 w-3/4 animate-pulse rounded-md" />
+                        <div className="bg-background-tertiary mb-1 h-4 w-1/2 animate-pulse rounded-md" />
+                      </div>
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="bg-background-tertiary h-6 w-20 animate-pulse rounded-full" />
+                        <div className="bg-background-tertiary h-3 w-16 animate-pulse rounded" />
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
+                        <div className="flex items-center gap-2">
+                          <div className="bg-background-tertiary h-4 w-4 animate-pulse rounded-full" />
+                          <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                        </div>
+                      </div>
+                      <div>
+                        <div className="mb-1 flex items-center justify-between">
+                          <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
+                          <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded" />
+                        </div>
+                        <div className="bg-background-tertiary h-2 w-full animate-pulse rounded-full" />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded" />
+                        <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                      </div>
+                    </div>
+                    <div className="mt-6">
+                      <div className="bg-background-tertiary h-10 w-full animate-pulse rounded" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : sessionsLoading ? (
+          <div className="dashboard-action-grid" aria-hidden="true">
             {Array.from({ length: 3 }).map((_, index) => (
               <div key={index} className="dashboard-action-card">
                 <div className="dashboard-action-card-content">

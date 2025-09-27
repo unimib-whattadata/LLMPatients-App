@@ -14,7 +14,6 @@ import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
 import {
   getDifficultyIconClass,
-  getDifficultyLabel,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
@@ -203,9 +202,6 @@ export function PatientDetailContent() {
                       role="img"
                     >
                       {getDifficultyIcon(patient.difficulty)}
-                    </span>
-                    <span className="text-sm">
-                      {getDifficultyLabel(patient.difficulty)}
                     </span>
                   </div>
                   <div className="patient-card-duration">

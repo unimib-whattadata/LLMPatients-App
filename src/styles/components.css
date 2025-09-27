@@ -1518,13 +1518,18 @@
     padding-top: 0;
   }
 
+  .main-container.dashboard-layout {
+    padding: 0;
+  }
+
   .sidebar-container {
     flex-shrink: 0;
     position: fixed;
-    top: 74px; /* Position below navbar */
+    top: 4rem; /* Position below navbar (h-16 = 4rem) */
     left: 0;
-    height: calc(100vh - 74px); /* Adjust height to account for navbar */
-    z-index: 30;
+    height: calc(100vh - 4rem); /* Adjust height to account for navbar */
+    z-index: 30; /* Below navbar (z-index: 40) */
+    background-color: #131313 !important;
   }
 
   .content-container {
@@ -1560,15 +1565,16 @@
 
   .dashboard-sidebar {
     width: 16rem;
-    height: calc(100vh - 74px); /* Adjust height to account for navbar */
+    height: calc(100vh - 4rem); /* Adjust height to account for navbar */
     position: fixed;
-    top: 74px; /* Position below navbar */
+    top: 4rem; /* Position below navbar */
     left: 0;
     display: flex;
     flex-direction: column;
-    padding: var(--space-md) 0;
-    z-index: 30;
+    padding: var(--space-md) 0; /* Restore normal padding */
+    z-index: 30; /* Below navbar (z-index: 40) */
     --sidebar-width: 16rem;
+    background-color: #131313 !important;
   }
 
 
@@ -1576,10 +1582,10 @@
   @media (max-width: 1024px) {
     .sidebar-container {
       position: fixed;
-      top: 74px; /* Position below navbar */
+      top: 4rem; /* Position below navbar */
       left: 0;
-      height: calc(100vh - 74px); /* Adjust height to account for navbar */
-      z-index: 50;
+      height: calc(100vh - 4rem); /* Adjust height to account for navbar */
+      z-index: 30; /* Below navbar (z-index: 40) */
       transform: translateX(-100%);
     }
 
@@ -1720,7 +1726,6 @@
   /* ===== DASHBOARD PAGE LAYOUT ===== */
   .dashboard-page {
     width: 100%;
-    max-width: 72rem;
     margin: 0 auto;
     padding: clamp(1.5rem, 2vw, 2.5rem) clamp(1rem, 3vw, 2.5rem) 3.5rem;
     display: flex;
@@ -1787,6 +1792,7 @@
     align-items: center;
     text-align: center;
     overflow: hidden;
+    background-color: #2E322B;
   }
 
   .dashboard-metric-card__value {
@@ -1860,6 +1866,7 @@
     height: 100%;
     min-height: 400px;
     overflow: hidden;
+    background-color: #2E322B;
   }
 
   .dashboard-action-card-content {
@@ -2673,6 +2680,32 @@
   .status-tag--good {
   }
 
+  /* Force status tag colors with !important */
+  .status-tag.bg-\[var\(--color-primary-green\)\] {
+    background-color: var(--color-primary-green) !important;
+  }
+  
+  .status-tag.bg-\[var\(--color-primary-yellow\)\] {
+    background-color: var(--color-primary-yellow) !important;
+  }
+  
+  .status-tag.bg-\[var\(--color-primary-violet\)\] {
+    background-color: var(--color-primary-violet) !important;
+  }
+
+  /* Force pill colors with !important */
+  .pill.bg-\[var\(--color-primary-green\)\] {
+    background-color: var(--color-primary-green) !important;
+  }
+  
+  .pill.bg-\[var\(--color-primary-yellow\)\] {
+    background-color: var(--color-primary-yellow) !important;
+  }
+  
+  .pill.bg-\[var\(--color-primary-violet\)\] {
+    background-color: var(--color-primary-violet) !important;
+  }
+
   .status-tag--needs-improvement {
   }
 
@@ -2952,6 +2985,68 @@
 
   .dashboard-empty-state-description {
     font-size: var(--font-size-sm);
+  }
+
+  /* ===== FILTER BUTTON STYLES ===== */
+  .filter-button-started {
+    background-color: var(--color-primary-green) !important;
+    color: white !important;
+    border: none !important;
+  }
+  
+  .filter-button-started:hover {
+    background-color: #7a8560 !important;
+    border: none !important;
+  }
+  
+  .filter-button-in-progress {
+    background-color: var(--color-primary-yellow) !important;
+    color: white !important;
+    border: none !important;
+  }
+  
+  .filter-button-in-progress:hover {
+    background-color: #b08832 !important;
+    border: none !important;
+  }
+  
+  .filter-button-completed {
+    background-color: var(--color-primary-violet) !important;
+    color: white !important;
+    border: none !important;
+  }
+  
+  .filter-button-completed:hover {
+    background-color: #857fa3 !important;
+    border: none !important;
+  }
+  
+  .filter-button-inactive {
+    background-color: #4b5563 !important;
+    color: #d1d5db !important;
+    border: none !important;
+  }
+  
+  .filter-button-inactive:hover {
+    background-color: #6b7280 !important;
+    border: none !important;
+  }
+  
+  /* Override all button styles for filter buttons */
+  .dashboard-pill-nav__button.filter-button-started,
+  .dashboard-pill-nav__button.filter-button-in-progress,
+  .dashboard-pill-nav__button.filter-button-completed,
+  .dashboard-pill-nav__button.filter-button-inactive {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Force remove borders from all filter buttons */
+  .dashboard-pill-nav__button[class*="filter-button"] {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
   }
 
   /* ===== TOAST NOTIFICATIONS ===== */

@@ -3,9 +3,7 @@ import type { Patient } from "~/types";
 import { PatientAvatar } from "./PatientAvatar";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import {
-  getDifficultyIconClass,
   getDifficultyAccessibleText,
-  getDifficultyLabel,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "~/components/ui/card";
@@ -81,26 +79,28 @@ export function PatientCard({ patient }: PatientCardProps) {
         />
         
         {/* Patient Name and Age */}
-        <div className="text-center">
-          <CardTitle
-            id={`patient-${patient.id}-title`}
-            className="text-xl mb-2"
-            itemProp="name"
-          >
-            {patient.name}
-          </CardTitle>
-          <Badge variant="secondary" itemProp="age" className="bg-[#8B9769] text-white">
-            {details.demographic_sociocultural_information?.age || "N/A"} anni
-          </Badge>
+        <div className="w-full">
+          <div className="flex items-center justify-between mb-2">
+            <CardTitle
+              id={`patient-${patient.id}-title`}
+              className="text-xl"
+              itemProp="name"
+            >
+              {patient.name}
+            </CardTitle>
+            <Badge variant="secondary" itemProp="age" className="bg-[#8B9769] text-white">
+              {details.demographic_sociocultural_information?.age || "N/A"} anni
+            </Badge>
+          </div>
+          
+          {/* Small Description under name */}
+          <CardDescription className="text-left" itemProp="description">
+            {patient.smallDescription}
+          </CardDescription>
         </div>
       </CardHeader>
 
       <CardContent className="flex-1 pt-0">
-        {/* Patient Description */}
-        <CardDescription className="text-center mb-4" itemProp="description">
-          {patient.smallDescription}
-        </CardDescription>
-
         {/* Background Description */}
         <p className="text-sm text-muted-foreground mb-4" itemProp="additionalProperty">
           {patient.background}
@@ -131,20 +131,22 @@ export function PatientCard({ patient }: PatientCardProps) {
         {/* Metadata */}
         <div className="flex items-center justify-between mt-4 pt-4">
           <div className="flex items-center space-x-2">
-            <Badge
-              variant="secondary"
-              className={`${getDifficultyIconClass(patient.difficulty)} ${
-                patient.difficulty === 1 
-                  ? 'bg-[#8B9769] text-white' 
-                  : patient.difficulty === 2 
-                    ? 'bg-[#C69A39] text-white' 
-                    : 'bg-[#9690B6] text-white'
-              }`}
+            <div
+              className="flex items-center"
               aria-label={getDifficultyAccessibleText(patient.difficulty)}
             >
-              <span className="mr-1">{getDifficultyIcon(patient.difficulty)}</span>
-              {getDifficultyLabel(patient.difficulty)}
-            </Badge>
+              <div 
+                className={`flex items-center space-x-1 difficulty-dots ${
+                  patient.difficulty === 1 
+                    ? 'difficulty-easy' 
+                    : patient.difficulty === 2 
+                      ? 'difficulty-medium' 
+                      : 'difficulty-hard'
+                }`}
+              >
+                {getDifficultyIcon(patient.difficulty)}
+              </div>
+            </div>
           </div>
           <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
             <ClockIcon className="h-4 w-4" aria-hidden="true" />
@@ -166,3 +168,4 @@ export function PatientCard({ patient }: PatientCardProps) {
     </Card>
   );
 }
+

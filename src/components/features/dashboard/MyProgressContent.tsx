@@ -8,6 +8,7 @@
 "use client";
 
 import { useState } from "react";
+import { Progress } from "~/components/ui/progress";
 
 interface Achievement {
   id: string;
@@ -154,14 +155,10 @@ export function MyProgressContent() {
             <div className="bg-accent-100 flex h-12 w-12 items-center justify-center rounded-lg"></div>
           </div>
           <div className="mt-4">
-            <div className="bg-background-tertiary h-2 w-full rounded-full">
-              <div
-                className="bg-accent-600 progress-bar-dynamic h-2 rounded-full"
-                style={{
-                  width: `${(completedSimulations / totalSimulations) * 100}%`,
-                }}
-              ></div>
-            </div>
+            <Progress
+              value={(completedSimulations / totalSimulations) * 100}
+              className="h-2 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]"
+            />
           </div>
         </div>
 
@@ -233,14 +230,10 @@ export function MyProgressContent() {
                     {skill.current}/{skill.target}
                   </span>
                 </div>
-                <div className="bg-background-tertiary h-3 w-full rounded-full">
-                  <div
-                    className="bg-accent-500 progress-bar-dynamic h-3 rounded-full"
-                    style={{
-                      width: `${(skill.current / skill.target) * 100}%`,
-                    }}
-                  ></div>
-                </div>
+                <Progress
+                  value={(skill.current / skill.target) * 100}
+                  className="h-3 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]"
+                />
               </div>
             ))}
           </div>
@@ -307,11 +300,11 @@ export function MyProgressContent() {
           {weeklyProgress.map((week, index) => (
             <div key={index} className="text-center">
               <div className="mb-4">
-                <div className="bg-background-tertiary flex h-32 w-full flex-col justify-end rounded-lg p-2">
-                  <div
-                    className="bg-accent-600 progress-bar-dynamic rounded-md"
-                    style={{ height: `${(week.avgScore / 100) * 100}%` }}
-                  ></div>
+                <div className="flex h-32 w-full flex-col justify-end rounded-lg p-2">
+                  <Progress 
+                    value={week.avgScore} 
+                    className="h-full w-full bg-gray-700 [&>div]:h-full [&>div]:rounded-md [&>div]:!bg-[var(--color-primary-green)]" 
+                  />
                 </div>
               </div>
               <div className="text-sm">

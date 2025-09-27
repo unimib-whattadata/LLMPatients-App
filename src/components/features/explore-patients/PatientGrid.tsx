@@ -64,7 +64,7 @@ export function PatientGrid({
 
   return (
     <div
-      className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+      className="grid gap-6 grid-cols-1 sm:grid-cols-2"
       aria-label={`Griglia di ${patients.length} pazienti virtuali`}
       role="list"
     >

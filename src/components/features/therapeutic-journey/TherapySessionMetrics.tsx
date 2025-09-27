@@ -24,15 +24,15 @@ function TherapySessionMetricsComponent({
     <div className="dashboard-metric-grid">
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{inProgress}</div>
-        <Badge variant="secondary" className="bg-[#8B9769] text-white">In Corso</Badge>
+        <div className="dashboard-metric-card__label">In Corso</div>
       </div>
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{completed}</div>
-        <Badge variant="secondary" className="bg-[#C69A39] text-white">Completate</Badge>
+        <div className="dashboard-metric-card__label">Completate</div>
       </div>
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{averageProgress}%</div>
-        <Badge variant="secondary" className="bg-[#9690B6] text-white">Progresso Medio</Badge>
+        <div className="dashboard-metric-card__label">Progresso Medio</div>
       </div>
     </div>
   );

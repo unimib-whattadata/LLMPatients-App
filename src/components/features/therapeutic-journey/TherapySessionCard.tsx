@@ -11,6 +11,13 @@ import { memo } from "react";
 import Link from "next/link";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { PatientAvatar } from "../explore-patients/PatientAvatar";
+import {
+  getDifficultyAccessibleText,
+  getDifficultyIconClass,
+  getDifficultyIcon,
+} from "~/lib/constants/difficulty";
+import { ClockIcon } from "@heroicons/react/24/outline";
+import { Progress } from "~/components/ui/progress";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -45,15 +52,15 @@ function TherapySessionCardComponent({
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       started: {
-        class: "pill pill--sm status-tag status-tag--available bg-[#8B9769] text-white",
+        class: "pill pill--sm status-tag status-tag--available bg-[var(--color-primary-green)] text-white",
         text: "Iniziato",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress bg-[#C69A39] text-white",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-[var(--color-primary-yellow)] text-white",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed bg-[#9690B6] text-white",
+        class: "pill pill--sm status-tag status-tag--completed bg-[var(--color-primary-violet)] text-white",
         text: "Completato",
       },
     };
@@ -62,44 +69,7 @@ function TherapySessionCardComponent({
     return <span className={config.class}>{config.text}</span>;
   };
 
-  const getDifficultyClass = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case 2:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case 3:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
-      default:
-        return "patient-card-difficulty-icon";
-    }
-  };
 
-  const getDifficultyIcon = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  };
-
-  const getDifficultyLabel = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "Facile";
-      case 2:
-        return "Medio";
-      case 3:
-        return "Difficile";
-      default:
-        return "Sconosciuto";
-    }
-  };
 
   const progressPercentage = therapySession.isCompleted
     ? 100
@@ -154,18 +124,15 @@ function TherapySessionCardComponent({
               <span className="text-text-secondary text-sm">Difficoltà:</span>
               <div className="patient-card-difficulty">
                 <span
-                  className={getDifficultyClass(
+                  className={getDifficultyIconClass(
                     therapySession.patient.difficulty,
                   )}
-                  aria-label={getDifficultyLabel(
+                  aria-label={getDifficultyAccessibleText(
                     therapySession.patient.difficulty,
                   )}
                   role="img"
                 >
                   {getDifficultyIcon(therapySession.patient.difficulty)}
-                </span>
-                <span className="text-sm font-medium">
-                  {getDifficultyLabel(therapySession.patient.difficulty)}
                 </span>
               </div>
             </div>
@@ -181,27 +148,15 @@ function TherapySessionCardComponent({
                     : `${progressPercentage}%`}
                 </span>
               </div>
-              <div
-                className="bg-background-tertiary h-2 w-full rounded-full"
-                role="progressbar"
-                aria-valuenow={progressPercentage}
-                aria-valuemin={0}
-                aria-valuemax={100}
+              <Progress
+                value={progressPercentage}
+                className="h-2 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]"
                 aria-label={
                   therapySession.isCompleted
                     ? "Sessione completata al 100%"
                     : `Progresso sessione: ${progressPercentage}%`
                 }
-              >
-                <div
-                  className={`progress-bar-dynamic h-2 rounded-full transition-all duration-300 ${
-                    therapySession.isCompleted
-                      ? "bg-green-500"
-                      : "bg-accent-600"
-                  }`}
-                  style={{ width: `${progressPercentage}%` }}
-                />
-              </div>
+              />
             </div>
 
             <div className="flex items-center justify-between">
@@ -210,13 +165,18 @@ function TherapySessionCardComponent({
                   ? "Completato il:"
                   : "Durata stimata:"}
               </span>
-              <span className="text-text-tertiary text-sm">
-                {therapySession.isCompleted
-                  ? new Date(
-                      therapySession.updatedAt || therapySession.createdAt,
-                    ).toLocaleDateString("it-IT")
-                  : `${therapySession.patient.estimatedDuration} min`}
-              </span>
+              <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+                {!therapySession.isCompleted && (
+                  <ClockIcon className="h-4 w-4" aria-hidden="true" />
+                )}
+                <span className="text-text-tertiary text-sm">
+                  {therapySession.isCompleted
+                    ? new Date(
+                        therapySession.updatedAt || therapySession.createdAt,
+                      ).toLocaleDateString("it-IT")
+                    : `${therapySession.patient.estimatedDuration} min`}
+                </span>
+              </div>
             </div>
           </div>
 

@@ -10,11 +10,12 @@
 import { useState, useMemo, useCallback, memo } from "react";
 import {
   DIFFICULTY_LEVELS,
-  getDifficultyLabel,
   getDifficultyAccessibleText,
+  getDifficultyIconClass,
+  getDifficultyIcon,
 } from "~/lib/constants/difficulty";
 import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
+import { Progress } from "~/components/ui/progress";
 
 interface Simulation {
   id: string;
@@ -73,15 +74,15 @@ function MySimulationsContentComponent() {
   const getStatusBadge = useCallback((status: string) => {
     const statusConfig = {
       available: {
-        class: "pill pill--sm status-tag status-tag--available bg-[#8B9769] text-white",
+        class: "pill pill--sm status-tag status-tag--available bg-[var(--color-primary-green)] text-white",
         text: "Disponibile",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress bg-[#C69A39] text-white",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-[var(--color-primary-yellow)] text-white",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed bg-[#9690B6] text-white",
+        class: "pill pill--sm status-tag status-tag--completed bg-[var(--color-primary-violet)] text-white",
         text: "Completata",
       },
     };
@@ -90,31 +91,6 @@ function MySimulationsContentComponent() {
     return <span className={config.class}>{config.text}</span>;
   }, []);
 
-  const getDifficultyClass = useCallback((difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--easy";
-      case 2:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--medium";
-      case 3:
-        return "patient-card-difficulty-icon patient-card-difficulty-icon--hard";
-      default:
-        return "patient-card-difficulty-icon";
-    }
-  }, []);
-
-  const getDifficultyIcon = useCallback((difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  }, []);
 
   // Memoized filtered simulations
   const filteredSimulations = useMemo(() => {
@@ -165,21 +141,21 @@ function MySimulationsContentComponent() {
             <div className="dashboard-metric-card__value">
               {metrics.completed}
             </div>
-            <Badge variant="secondary" className="bg-[#C69A39] text-white">
+            <div className="dashboard-metric-card__label">
               Simulazioni Completate
-            </Badge>
+            </div>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value">
               {metrics.inProgress}
             </div>
-            <Badge variant="secondary" className="bg-[#8B9769] text-white">In corso</Badge>
+            <div className="dashboard-metric-card__label">In corso</div>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value">
               {metrics.averageScore}
             </div>
-            <Badge variant="secondary" className="bg-[#9690B6] text-white">Score Medio</Badge>
+            <div className="dashboard-metric-card__label">Score Medio</div>
           </div>
         </div>
       </section>
@@ -206,19 +182,36 @@ function MySimulationsContentComponent() {
             { key: "available", label: "Disponibili" },
             { key: "in-progress", label: "In corso" },
             { key: "completed", label: "Completate" },
-          ].map((tab) => (
-            <Button
-              key={tab.key}
-              onClick={() => handleFilterChange(tab.key)}
-              role="tab"
-              aria-selected={filter === tab.key}
-              variant={filter === tab.key ? "primary" : "outline-primary"}
-              size="sm"
-              className={`pill pill--interactive dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
-            >
-              {tab.label}
-            </Button>
-          ))}
+          ].map((tab) => {
+            const getButtonClass = (key: string, isActive: boolean) => {
+              if (!isActive) return "filter-button-inactive";
+              
+              switch (key) {
+                case "available":
+                  return "filter-button-started";
+                case "in-progress":
+                  return "filter-button-in-progress";
+                case "completed":
+                  return "filter-button-completed";
+                default:
+                  return "filter-button-started";
+              }
+            };
+
+            return (
+              <Button
+                key={tab.key}
+                onClick={() => handleFilterChange(tab.key)}
+                role="tab"
+                aria-selected={filter === tab.key}
+                variant="default"
+                size="sm"
+                className={`pill pill--interactive dashboard-pill-nav__button ${getButtonClass(tab.key, filter === tab.key)}`}
+              >
+                {tab.label}
+              </Button>
+            );
+          })}
         </div>
 
         <div className="dashboard-action-grid">
@@ -245,16 +238,13 @@ function MySimulationsContentComponent() {
                       </span>
                       <div className="patient-card-difficulty">
                         <span
-                          className={getDifficultyClass(simulation.difficulty)}
+                          className={getDifficultyIconClass(simulation.difficulty)}
                           aria-label={getDifficultyAccessibleText(
                             simulation.difficulty,
                           )}
                           role="img"
                         >
                           {getDifficultyIcon(simulation.difficulty)}
-                        </span>
-                        <span className="text-sm font-medium">
-                          {getDifficultyLabel(simulation.difficulty)}
                         </span>
                       </div>
                     </div>
@@ -269,12 +259,10 @@ function MySimulationsContentComponent() {
                             {simulation.progress}%
                           </span>
                         </div>
-                        <div className="bg-background-tertiary h-2 w-full rounded-full">
-                          <div
-                            className="bg-accent-600 progress-bar-dynamic h-2 rounded-full"
-                            style={{ width: `${simulation.progress}%` }}
-                          ></div>
-                        </div>
+                        <Progress 
+                          value={simulation.progress} 
+                          className="h-2 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]" 
+                        />
                       </div>
                     )}
 
