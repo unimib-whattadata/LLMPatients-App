@@ -11,7 +11,7 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { ChatContent } from "@/components/features/therapeutic-journey/ChatContent";
+import { ChatContent } from "~/components/features/therapeutic-journey/ChatContent";
 
 /**
  * Chat Page Component

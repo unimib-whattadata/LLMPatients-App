@@ -13,12 +13,12 @@ import React, { useState, useEffect } from "react";
 const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development" || process.env.NODE_ENV === "development";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { UsersIcon } from "@heroicons/react/24/outline";
+import { Users } from "lucide-react";
 import { api } from "~/trpc/react";
 import Link from "next/link";
 import { Skeleton } from "~/components/ui/skeleton";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
 
 interface User {
   id: string;
@@ -434,12 +434,11 @@ export function ManageUsersContent() {
           {/* Filters */}
           <div className="mb-6 flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
-              <input
+              <Input
                 type="text"
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="auth-input"
               />
             </div>
             <div>
@@ -448,7 +447,7 @@ export function ManageUsersContent() {
                 onChange={(e) =>
                   setSelectedRole(e.target.value as "all" | "admin" | "user")
                 }
-                className="auth-input"
+                className="input-field"
               >
                 <option value="all">All Roles</option>
                 <option value="admin">Administrators</option>
@@ -530,7 +529,7 @@ export function ManageUsersContent() {
 
             {users.length === 0 && (
               <div className="dashboard-empty-state">
-                <UsersIcon className="text-text-tertiary mx-auto h-16 w-16" />
+                <Users className="text-text-tertiary mx-auto h-16 w-16" />
                 <div className="dashboard-empty-state-title">
                   No Users Found
                 </div>
@@ -561,7 +560,7 @@ export function ManageUsersContent() {
                   onChange={(e) =>
                     setCreateForm((prev) => ({ ...prev, name: e.target.value }))
                   }
-                  className="auth-input"
+                  className="input-field"
                   required
                 />
               </div>
@@ -576,7 +575,7 @@ export function ManageUsersContent() {
                       email: e.target.value,
                     }))
                   }
-                  className="auth-input"
+                  className="input-field"
                   required
                 />
               </div>
@@ -591,7 +590,7 @@ export function ManageUsersContent() {
                       password: e.target.value,
                     }))
                   }
-                  className="auth-input"
+                  className="input-field"
                   required
                 />
               </div>
@@ -605,7 +604,7 @@ export function ManageUsersContent() {
                       role: e.target.value as "admin" | "user",
                     }))
                   }
-                  className="auth-input"
+                  className="input-field"
                 >
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
@@ -652,7 +651,7 @@ export function ManageUsersContent() {
                   onChange={(e) =>
                     setEditForm((prev) => ({ ...prev, name: e.target.value }))
                   }
-                  className="auth-input"
+                  className="input-field"
                   required
                 />
               </div>
@@ -664,7 +663,7 @@ export function ManageUsersContent() {
                   onChange={(e) =>
                     setEditForm((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="auth-input"
+                  className="input-field"
                   required
                 />
               </div>

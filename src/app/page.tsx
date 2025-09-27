@@ -10,7 +10,7 @@
 
 import { HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "@/components/layout/SharedLayout";
+import { SharedLayout } from "~/components/layout/SharedLayout";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";

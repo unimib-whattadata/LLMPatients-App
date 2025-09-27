@@ -11,7 +11,7 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SessionTimelineContent } from "@/components/features/therapeutic-journey/SessionTimelineContent";
+import { SessionTimelineContent } from "~/components/features/therapeutic-journey/SessionTimelineContent";
 
 /**
  * Session Timeline Page Component

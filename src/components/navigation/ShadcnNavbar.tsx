@@ -6,10 +6,10 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
-  Bars3Icon,
-  ArrowRightOnRectangleIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/outline";
+  Menu,
+  LogOut,
+  Users,
+} from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -116,7 +116,7 @@ export function ShadcnNavbar({
 
   // Navigation items for home page
   const homeNavItems = [
-    { label: "Esplora pazienti", href: "/explore-patients", icon: UserGroupIcon },
+    { label: "Esplora pazienti", href: "/explore-patients", icon: Users },
   ];
 
   // Get current navigation items
@@ -140,7 +140,7 @@ export function ShadcnNavbar({
           onClick={handleLogout}
           title="Esci"
         >
-          <ArrowRightOnRectangleIcon className="h-4 w-4" />
+          <LogOut className="h-4 w-4" />
         </Button>
       </div>
     );
@@ -163,7 +163,7 @@ export function ShadcnNavbar({
     <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="sm" className="lg:hidden">
-          <Bars3Icon className="h-5 w-5" />
+          <Menu className="h-5 w-5" />
           <span className="sr-only">Apri menu</span>
         </Button>
       </SheetTrigger>
@@ -232,7 +232,7 @@ export function ShadcnNavbar({
                 onClick={handleLogout}
                 className="mt-3 w-full"
               >
-                <ArrowRightOnRectangleIcon className="mr-2 h-4 w-4" />
+                <LogOut className="mr-2 h-4 w-4" />
                 Esci
               </Button>
             </div>

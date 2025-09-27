@@ -11,8 +11,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "@/components/layout/SharedLayout";
-import { UserContent } from "@/components/features/dashboard/UserContent";
+import { SharedLayout } from "~/components/layout/SharedLayout";
+import { UserContent } from "~/components/features/dashboard/UserContent";
 
 /**
  * User Dashboard Page Component

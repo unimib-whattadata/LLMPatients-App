@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShadcnNavbar, getNavSections } from "@/components/navigation";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ShadcnNavbar, getNavSections } from "~/components/navigation";
+import { useMediaQuery } from "~/hooks/useMediaQuery";
 
 import type { User, ImpersonationContext, NavItem } from "~/types";
 

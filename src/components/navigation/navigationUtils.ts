@@ -5,17 +5,15 @@ import type {
   NavSection,
 } from "./Navbar";
 import {
-  UserPlusIcon,
-  MagnifyingGlassIcon,
-  HomeIcon,
-  ChartBarIcon,
-  UsersIcon,
-  ClipboardDocumentCheckIcon,
-  UserCircleIcon,
-  ClockIcon,
-  MapIcon,
-  DocumentTextIcon,
-} from "@heroicons/react/24/outline";
+  Search,
+  Home,
+  Users,
+  UserCircle,
+  Clock,
+  Map,
+  FileText,
+  UserPlus,
+} from "lucide-react";
 
 /**
  * Get navigation sections based on user role and impersonation status
@@ -50,17 +48,17 @@ export function getNavSections(
           {
             label: "Panoramica",
             href: "/dashboard/user?section=overview",
-            icon: HomeIcon,
+            icon: Home,
           },
           {
             label: "Il Mio Profilo",
             href: "/dashboard/user?section=profile",
-            icon: UserCircleIcon,
+            icon: UserCircle,
           },
           {
             label: "La Mia Attività",
             href: "/dashboard/user?section=activities",
-            icon: ClockIcon,
+            icon: Clock,
           },
         ],
       },
@@ -70,7 +68,7 @@ export function getNavSections(
           {
             label: "Gestione Utenti",
             href: "/admin/manage-users",
-            icon: UsersIcon,
+            icon: Users,
           },
         ],
       },
@@ -78,19 +76,24 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           {
+            label: "Crea Paziente",
+            href: "/dashboard/create-patient",
+            icon: UserPlus,
+          },
+          {
             label: "Esplora Pazienti",
             href: "/explore-patients",
-            icon: MagnifyingGlassIcon,
+            icon: Search,
           },
           {
             label: "Percorso Terapeutico",
             href: "/dashboard/therapeutic-journey",
-            icon: MapIcon,
+            icon: Map,
           },
           {
             label: "Schema Valutazione",
             href: "/dashboard/patient-attributes",
-            icon: DocumentTextIcon,
+            icon: FileText,
           },
         ],
       },
@@ -104,17 +107,17 @@ export function getNavSections(
           {
             label: "Panoramica",
             href: "/dashboard/user?section=overview",
-            icon: HomeIcon,
+            icon: Home,
           },
           {
             label: "Il Mio Profilo",
             href: "/dashboard/user?section=profile",
-            icon: UserCircleIcon,
+            icon: UserCircle,
           },
           {
             label: "La Mia Attività",
             href: "/dashboard/user?section=activities",
-            icon: ClockIcon,
+            icon: Clock,
           },
         ],
       },
@@ -124,17 +127,17 @@ export function getNavSections(
           {
             label: "Esplora Pazienti",
             href: "/explore-patients",
-            icon: MagnifyingGlassIcon,
+            icon: Search,
           },
           {
             label: "Percorso Terapeutico",
             href: "/dashboard/therapeutic-journey",
-            icon: MapIcon,
+            icon: Map,
           },
           {
             label: "Schema Valutazione",
             href: "/dashboard/patient-attributes",
-            icon: DocumentTextIcon,
+            icon: FileText,
           },
         ],
       },

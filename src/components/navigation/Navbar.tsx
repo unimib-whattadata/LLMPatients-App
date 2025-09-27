@@ -6,12 +6,12 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
-  Bars3Icon,
-  XMarkIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/outline";
+  Menu,
+  X,
+  LogOut,
+} from "lucide-react";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { Button } from "~/components/ui/button";
 
 /**
@@ -160,9 +160,9 @@ export function Navbar({
             >
               <span className="sr-only">Open main menu</span>
               {mobileMenuOpen ? (
-                <XMarkIcon className="h-5 w-5" />
+                <X className="h-5 w-5" />
               ) : (
-                <Bars3Icon className="h-5 w-5" />
+                <Menu className="h-5 w-5" />
               )}
             </Button>
 
@@ -221,7 +221,7 @@ export function Navbar({
                 size="sm"
                 title="Esci"
               >
-                <ArrowRightOnRectangleIcon className="h-4 w-4" />
+                <LogOut className="h-4 w-4" />
               </Button>
             )}
           </div>

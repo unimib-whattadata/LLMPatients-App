@@ -3,11 +3,11 @@
 import { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
-  CheckIcon,
-  XMarkIcon,
-  ExclamationTriangleIcon,
-  InformationCircleIcon,
-} from "@heroicons/react/24/outline";
+  Check,
+  X,
+  AlertTriangle,
+  Info,
+} from "lucide-react";
 import { Button } from "~/components/ui/button";
 
 export interface ToastMessage {
@@ -74,13 +74,13 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   const getIcon = () => {
     switch (toast.type) {
       case "success":
-        return <CheckIcon className="h-5 w-5" />;
+        return <Check className="h-5 w-5" />;
       case "error":
-        return <XMarkIcon className="h-5 w-5" />;
+        return <X className="h-5 w-5" />;
       case "warning":
-        return <ExclamationTriangleIcon className="h-5 w-5" />;
+        return <AlertTriangle className="h-5 w-5" />;
       case "info":
-        return <InformationCircleIcon className="h-5 w-5" />;
+        return <Info className="h-5 w-5" />;
       default:
         return null;
     }
@@ -107,7 +107,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
           className="message-dismiss"
           aria-label="Close notification"
         >
-          <XMarkIcon className="h-4 w-4" />
+          <X className="h-4 w-4" />
         </Button>
       </div>
     </div>

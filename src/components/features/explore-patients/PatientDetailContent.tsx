@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { Clock } from "lucide-react";
 import { useSession } from "next-auth/react";
 
-import { PatientAvatar } from "@/components/features/explore-patients";
+import { PatientAvatar } from "~/components/features/explore-patients";
 import { Breadcrumb } from "~/components/common/Breadcrumb";
 import { PatientDetailSkeleton } from "~/components/ui/skeleton-variants";
 import { api } from "~/trpc/react";
@@ -173,7 +173,7 @@ export function PatientDetailContent() {
                     </span>
                   </div>
                   <div className="patient-card-duration">
-                    <ClockIcon
+                    <Clock
                       className="patient-card-duration-icon h-4 w-4"
                       aria-hidden="true"
                     />

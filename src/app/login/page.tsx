@@ -15,8 +15,8 @@ import { signIn, useSession, getSession } from "next-auth/react";
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { useToast } from "@/components/common/ToastProvider";
+import { Check, Eye, X } from "lucide-react";
+import { useToast } from "~/components/common/ToastProvider";
 import { Loader2 } from "lucide-react";
 
 // Define the consolidated login state interface
@@ -332,7 +332,7 @@ function LoginPageComponent() {
             <div className="text-center">
               <div className="mb-6">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <CheckIcon className="h-8 w-8 text-green-600" />
+                  <Check className="h-8 w-8 text-green-600" />
                 </div>
                 <h2 className="unified-auth-form-title mb-2">
                   Login Successful!
@@ -371,7 +371,7 @@ function LoginPageComponent() {
                 {/* Global Error Message */}
                 {loginState.error && (
                   <div className="unified-form-error">
-                    <XMarkIcon className="unified-form-error-icon" />
+                    <X className="unified-form-error-icon" />
                     <div className="unified-form-error-text">{loginState.error}</div>
                   </div>
                 )}
@@ -409,7 +409,7 @@ function LoginPageComponent() {
                       className="unified-form-error"
                       role="alert"
                     >
-                      <XMarkIcon className="unified-form-error-icon" />
+                      <X className="unified-form-error-icon" />
                       <div className="unified-form-error-text">{loginState.emailError}</div>
                     </div>
                   )}
@@ -458,7 +458,7 @@ function LoginPageComponent() {
                         }
                       }}
                     >
-                      <EyeIcon className="h-4 w-4 text-muted-foreground" />
+                      <Eye className="h-4 w-4 text-muted-foreground" />
                     </button>
                   </div>
                   {loginState.passwordError && (
@@ -467,7 +467,7 @@ function LoginPageComponent() {
                       className="unified-form-error"
                       role="alert"
                     >
-                      <XMarkIcon className="unified-form-error-icon" />
+                      <X className="unified-form-error-icon" />
                       <div className="unified-form-error-text">{loginState.passwordError}</div>
                     </div>
                   )}

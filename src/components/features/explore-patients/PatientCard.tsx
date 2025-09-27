@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Patient } from "~/types";
 import { PatientAvatar } from "./PatientAvatar";
-import { ClockIcon } from "@heroicons/react/24/outline";
+import { Clock } from "lucide-react";
 import {
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
@@ -149,7 +149,7 @@ export function PatientCard({ patient }: PatientCardProps) {
             </div>
           </div>
           <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
-            <ClockIcon className="h-4 w-4" aria-hidden="true" />
+            <Clock className="h-4 w-4" aria-hidden="true" />
             <span>{patient.estimatedDuration} min</span>
           </div>
         </div>

@@ -11,8 +11,8 @@
 
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
-import { SharedLayout } from "@/components/layout/SharedLayout";
-import { TherapeuticJourneyContent } from "@/components/features/therapeutic-journey/TherapeuticJourneyContent";
+import { SharedLayout } from "~/components/layout/SharedLayout";
+import { TherapeuticJourneyContent } from "~/components/features/therapeutic-journey/TherapeuticJourneyContent";
 
 /**
  * Therapeutic Journey Page Component

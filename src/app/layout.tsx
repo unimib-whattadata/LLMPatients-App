@@ -5,8 +5,8 @@ import { Inter } from "next/font/google";
 import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { ToastProvider } from "@/components/common/ToastProvider";
-import SessionDebugWrapper from "@/components/debug/SessionDebugWrapper";
+import { ToastProvider } from "~/components/common/ToastProvider";
+import SessionDebugWrapper from "~/components/debug/SessionDebugWrapper";
 import { env } from "~/env";
 
 const isDev = env.NODE_ENV === "development";
@@ -99,17 +99,7 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth">
       <head>
-        {/* Preconnect to external domains for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-
-        {/* DNS prefetch for external resources */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        {/* Font optimization handled via Next.js - no external font loading needed */}
 
         {/* Preload critical resources */}
 

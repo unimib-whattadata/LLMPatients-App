@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { AlertTriangle } from "lucide-react";
 
 interface PatientAvatarProps {
   name: string;
@@ -97,7 +97,7 @@ export function PatientAvatar({
 
       {hasError && avatarUrl && (
         <div className="patient-avatar-error">
-          <ExclamationTriangleIcon className="mb-2 h-8 w-8" />
+          <AlertTriangle className="mb-2 h-8 w-8" />
           <span className="text-center text-xs">Immagine non disponibile</span>
         </div>
       )}

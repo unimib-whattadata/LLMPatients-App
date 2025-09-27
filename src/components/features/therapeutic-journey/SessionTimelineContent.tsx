@@ -1,10 +1,10 @@
 "use client";
 
-import { SharedLayout } from "@/components/layout/SharedLayout";
+import { SharedLayout } from "~/components/layout/SharedLayout";
 import { useCallback, useMemo, memo, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumb, SessionLoading } from "@/components/common";
+import { Breadcrumb, SessionLoading } from "~/components/common";
 
 import {
   TIMELINE_CONFIG,

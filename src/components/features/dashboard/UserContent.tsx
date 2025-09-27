@@ -141,7 +141,7 @@ export const UserContent = React.memo(function UserContent() {
   }, []);
 
   return (
-    <div className="dashboard-page">
+    <div className="dashboard-panel-stack">
       <Tabs value={selectedSection} onValueChange={(value) => setSelectedSection(value as "overview" | "profile" | "activities")}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">Panoramica</TabsTrigger>
@@ -149,7 +149,7 @@ export const UserContent = React.memo(function UserContent() {
           <TabsTrigger value="activities">Attività</TabsTrigger>
         </TabsList>
         
-        <TabsContent value="overview" className="dashboard-stack">
+        <TabsContent value="overview" className="space-y-6">
           <section className="dashboard-section" aria-labelledby="user-overview">
             <div className="dashboard-section__header">
               <div>
@@ -288,7 +288,7 @@ export const UserContent = React.memo(function UserContent() {
           </section>
         </TabsContent>
         
-        <TabsContent value="profile" className="dashboard-stack">
+        <TabsContent value="profile" className="space-y-6">
           {profileLoading ? (
             <section className="dashboard-section" aria-labelledby="user-profile-loading">
               <div className="dashboard-section__header">
@@ -397,7 +397,7 @@ export const UserContent = React.memo(function UserContent() {
           )}
         </TabsContent>
         
-        <TabsContent value="activities" className="dashboard-stack">
+        <TabsContent value="activities" className="space-y-6">
           <section className="dashboard-section" aria-labelledby="user-activities">
             <div className="dashboard-section__header">
               <div>

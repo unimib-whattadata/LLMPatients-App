@@ -106,7 +106,7 @@ export default auth((req) => {
 
     // Check admin role (considering impersonation)
     const userRole = session?.user?.role;
-    const effectiveRole = isImpersonating ? "user" : userRole; // Impersonated users have 'user' role in context
+    // const effectiveRole = isImpersonating ? "user" : userRole; // Impersonated users have 'user' role in context
     const actualAdminRole = isImpersonating ? "admin" : userRole; // Original user role for admin verification
 
     // For admin routes, we need the original user to be admin (not the impersonated user)

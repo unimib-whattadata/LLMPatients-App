@@ -10,8 +10,8 @@
  */
 
 import { auth } from "~/server/auth";
-import { SharedLayout } from "@/components/layout/SharedLayout";
-import { PatientDetailContent } from "@/components/features/explore-patients/PatientDetailContent";
+import { SharedLayout } from "~/components/layout/SharedLayout";
+import { PatientDetailContent } from "~/components/features/explore-patients/PatientDetailContent";
 
 /**
  * Patient Detail Page Component

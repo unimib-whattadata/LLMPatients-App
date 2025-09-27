@@ -4,14 +4,14 @@ import { useState, useRef, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { api } from "~/trpc/react";
-import { SharedLayout } from "@/components/layout/SharedLayout";
+import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Loader2 } from "lucide-react";
 import {
-  ArrowLeftIcon,
-  PaperAirplaneIcon,
-} from "@heroicons/react/24/outline";
+  ArrowLeft,
+  Send,
+} from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -395,7 +395,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               Il paziente richiesto non è disponibile.
             </p>
             <Button onClick={goBack} className="btn btn-primary">
-              <ArrowLeftIcon className="mr-2 h-4 w-4" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
           </div>
@@ -422,7 +422,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 className="btn btn-ghost hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
                 aria-label="Torna alla timeline"
               >
-                <ArrowLeftIcon className="h-4 w-4" />
+                <ArrowLeft className="h-4 w-4" />
               </Button>
               <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
                 <div className="therapy-session-avatar flex-shrink-0">
@@ -553,7 +553,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   }}
                   aria-label="Invia messaggio"
                 >
-                  <PaperAirplaneIcon className="h-4 w-4" />
+                  <Send className="h-4 w-4" />
                 </Button>
               </div>
             </div>

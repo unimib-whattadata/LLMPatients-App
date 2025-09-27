@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { X } from "lucide-react";
 
 /**
  * Register Page Component
@@ -197,7 +197,7 @@ export default function RegisterPage() {
             {/* Global Error Message */}
             {error && (
               <div className="unified-form-error">
-                <XMarkIcon className="unified-form-error-icon" />
+                <X className="unified-form-error-icon" />
                 <div className="unified-form-error-text">{error}</div>
               </div>
             )}
@@ -230,7 +230,7 @@ export default function RegisterPage() {
                   className="unified-form-error"
                   role="alert"
                 >
-                  <XMarkIcon className="unified-form-error-icon" />
+                  <X className="unified-form-error-icon" />
                   <div className="unified-form-error-text">{nameError}</div>
                 </div>
               )}
@@ -264,7 +264,7 @@ export default function RegisterPage() {
                   className="unified-form-error"
                   role="alert"
                 >
-                  <XMarkIcon className="unified-form-error-icon" />
+                  <X className="unified-form-error-icon" />
                   <div className="unified-form-error-text">{emailError}</div>
                 </div>
               )}
@@ -303,7 +303,7 @@ export default function RegisterPage() {
                   className="unified-form-error"
                   role="alert"
                 >
-                  <XMarkIcon className="unified-form-error-icon" />
+                  <X className="unified-form-error-icon" />
                   <div className="unified-form-error-text">{passwordError}</div>
                 </div>
               )}
@@ -340,7 +340,7 @@ export default function RegisterPage() {
                   className="unified-form-error"
                   role="alert"
                 >
-                  <XMarkIcon className="unified-form-error-icon" />
+                  <X className="unified-form-error-icon" />
                   <div className="unified-form-error-text">{confirmPasswordError}</div>
                 </div>
               )}
@@ -379,7 +379,7 @@ export default function RegisterPage() {
                   className="unified-form-error"
                   role="alert"
                 >
-                  <XMarkIcon className="unified-form-error-icon" />
+                  <X className="unified-form-error-icon" />
                   <div className="unified-form-error-text">{termsError}</div>
                 </div>
               )}
