@@ -1,245 +1,27 @@
 "use client";
 
 import { SharedLayout } from "@/components/layout/SharedLayout";
-import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
+import { useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Breadcrumb, SessionLoading } from "@/components/ui";
 
-type PathPoint = {
-  x: number;
-  y: number;
-};
-
-type TimelineStep = {
-  id: number;
-  top: number;
-  left: number;
-  color: string;
-  textColor?: string;
-};
+import {
+  TIMELINE_CONFIG,
+  TIMELINE_STEPS,
+  getStepDetails,
+  timelinePathD,
+  type StepDetails,
+  type TimelineStep as TimelineStepDefinition,
+} from "./timelineConfig";
 
 import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
-import { extractPatientIdFromSlug, createPatientSlug } from "~/lib/utils/slugify";
+import { createPatientSlug } from "~/lib/utils/slugify";
 
-type Session = {
-  user?: User;
-  impersonation?: ImpersonationContext | undefined;
-};
-
-const timelineSteps: TimelineStep[] = [
-  { id: 1, top: 150, left: 533, color: "" },
-  { id: 2, top: 340, left: 333, color: "" },
-  { id: 3, top: 460, left: 533, color: "" },
-  { id: 4, top: 560, left: 713, color: "" },
-  { id: 5, top: 680, left: 533, color: "" },
-  { id: 6, top: 780, left: 373, color: "" },
-  { id: 7, top: 900, left: 533, color: "" },
-  { id: 8, top: 1000, left: 713, color: "" },
-  { id: 9, top: 1120, left: 533, color: "" },
-  { id: 10, top: 1210, left: 353, color: "" },
-  { id: 11, top: 1400, left: 533, color: "" },
-];
-
-const timelinePathPoints: PathPoint[] = [
-  { x: 520, y: 100 },
-  { x: 520, y: 240 },
-  { x: 320, y: 240 },
-  { x: 320, y: 460 },
-  { x: 700, y: 460 },
-  { x: 700, y: 680 },
-  { x: 360, y: 680 },
-  { x: 360, y: 900 },
-  { x: 700, y: 900 },
-  { x: 700, y: 1120 },
-  { x: 340, y: 1120 },
-  { x: 340, y: 1300 },
-  { x: 520, y: 1300 },
-  { x: 520, y: 1460 },
-];
-
-// Timeline configuration constants
-const TIMELINE_CONFIG = {
-  BASE_WIDTH: 960,
-  BASE_HEIGHT: 1450,
-  TOOLTIP_OFFSET_X: 100,
-  NODE_OFFSET_X: -14,
-  PATH_RADIUS: 60,
-  MIN_CIRCLE_SIZE: 40,
-  MAX_CIRCLE_SIZE: 62,
-  MIN_FONT_SIZE: 14,
-  MAX_FONT_SIZE: 18,
-} as const;
-
-// Tips configuration
-const TIPS_CONFIG = {
-  KNOWLEDGE: [
-    "Ascolta attivamente il paziente senza interrompere.",
-    "Mantieni un atteggiamento empatico e non giudicante.",
-    "Fai domande aperte per approfondire la comprensione.",
-    "Osserva il linguaggio del corpo e le emozioni.",
-  ],
-  INTERVENTION: [
-    "Utilizza tecniche di riformulazione per chiarire i concetti.",
-    "Proponi strategie concrete e personalizzate per il paziente.",
-    "Mantieni un approccio collaborativo e coinvolgente.",
-    "Monitora i progressi e adatta l'intervento di conseguenza.",
-    "Fornisci feedback costruttivo e incoraggiante.",
-    "Documenta accuratamente le osservazioni e i progressi.",
-  ],
-  CONCLUSION: [
-    "Riassumi i punti chiave emersi durante il percorso.",
-    "Valuta l'efficacia delle strategie implementate.",
-    "Pianifica eventuali follow-up o approfondimenti.",
-    "Celebra i progressi e i successi ottenuti.",
-  ],
-} as const;
-
-const timelinePathD = buildRoundedOrthogonalPath(
-  timelinePathPoints,
-  TIMELINE_CONFIG.PATH_RADIUS,
-);
-
-type StepDetails = {
-  phaseTitle: string;
-  sessionLabel: string;
-  tips: readonly string[];
-  backgroundColor: string;
-  textColor: string;
-  accentColor: string;
-  bodyColor: string;
-};
-
-// Step details configuration
-const STEP_DETAILS_CONFIG = {
-  CONCLUSION: {
-    phaseTitle: "Conclusione",
-    sessionLabel: "Seduta 11",
-    tips: TIPS_CONFIG.CONCLUSION,
-    backgroundColor: "",
-    textColor: "",
-    accentColor: "",
-    bodyColor: "",
-  },
-  INTERVENTION: {
-    phaseTitle: "Fase di Intervento",
-    sessionLabel: "Sedute 3-10",
-    tips: TIPS_CONFIG.INTERVENTION,
-    backgroundColor: "",
-    textColor: "",
-    accentColor: "",
-    bodyColor: "",
-  },
-  KNOWLEDGE: {
-    phaseTitle: "Fase di Conoscenza",
-    sessionLabel: "Sedute 1-2",
-    tips: TIPS_CONFIG.KNOWLEDGE,
-    backgroundColor: "",
-    textColor: "",
-    accentColor: "",
-    bodyColor: "",
-  },
-} as const;
-
-const getStepDetails = (stepId: number): StepDetails => {
-  if (stepId === 11) return STEP_DETAILS_CONFIG.CONCLUSION;
-  if (stepId >= 3) return STEP_DETAILS_CONFIG.INTERVENTION;
-  return STEP_DETAILS_CONFIG.KNOWLEDGE;
-};
-
-function buildRoundedOrthogonalPath(
-  points: PathPoint[],
-  radius: number,
-): string {
-  if (points.length === 0) {
-    return "";
-  }
-
-  if (points.length === 1) {
-    const [point] = points;
-    if (!point) return "";
-    return `M ${point.x} ${point.y}`;
-  }
-
-  const firstPoint = points[0];
-  if (!firstPoint) return "";
-
-  const pathCommands: string[] = [`M ${firstPoint.x} ${firstPoint.y}`];
-  let currentX = firstPoint.x;
-  let currentY = firstPoint.y;
-
-  for (let index = 1; index < points.length; index += 1) {
-    const previous = points[index - 1];
-    const current = points[index];
-
-    if (!current || !previous) continue;
-
-    const deltaX = current.x - previous.x;
-    const deltaY = current.y - previous.y;
-
-    if (deltaX === 0 && deltaY === 0) {
-      continue;
-    }
-
-    const directionX = Math.sign(deltaX);
-    const directionY = Math.sign(deltaY);
-
-    let endX = current.x;
-    let endY = current.y;
-    let cornerRadius = 0;
-
-    if (index < points.length - 1) {
-      const next = points[index + 1];
-      if (!next) continue;
-
-      const nextDeltaX = next.x - current.x;
-      const nextDeltaY = next.y - current.y;
-      const nextDirectionX = Math.sign(nextDeltaX);
-      const nextDirectionY = Math.sign(nextDeltaY);
-      const isCorner =
-        directionX !== nextDirectionX || directionY !== nextDirectionY;
-
-      if (isCorner) {
-        const previousLength = Math.abs(deltaX !== 0 ? deltaX : deltaY);
-        const nextLength = Math.abs(nextDeltaX !== 0 ? nextDeltaX : nextDeltaY);
-        cornerRadius = Math.min(radius, previousLength / 2, nextLength / 2);
-        endX = current.x - directionX * cornerRadius;
-        endY = current.y - directionY * cornerRadius;
-      }
-    }
-
-    if (currentX !== endX || currentY !== endY) {
-      pathCommands.push(`L ${endX} ${endY}`);
-      currentX = endX;
-      currentY = endY;
-    }
-
-    if (cornerRadius > 0 && index < points.length - 1) {
-      const next = points[index + 1];
-      if (!next) continue;
-
-      const nextDeltaX = next.x - current.x;
-      const nextDeltaY = next.y - current.y;
-      const nextDirectionX = Math.sign(nextDeltaX);
-      const nextDirectionY = Math.sign(nextDeltaY);
-
-      const arcEndX = current.x + nextDirectionX * cornerRadius;
-      const arcEndY = current.y + nextDirectionY * cornerRadius;
-      const sweepFlag =
-        directionX * nextDirectionY - directionY * nextDirectionX > 0 ? 1 : 0;
-
-      pathCommands.push(
-        `A ${cornerRadius} ${cornerRadius} 0 0 ${sweepFlag} ${arcEndX} ${arcEndY}`,
-      );
-
-      currentX = arcEndX;
-      currentY = arcEndY;
-    }
-  }
-
-  return pathCommands.join(" ");
-}
+const STEP_IDS = TIMELINE_STEPS.map((step) => step.id);
+const FIRST_STEP_ID = STEP_IDS[0] ?? 1;
+const LAST_STEP_ID = STEP_IDS[STEP_IDS.length - 1] ?? FIRST_STEP_ID;
 
 // Timeline step component
 const TimelineStep = memo(
@@ -252,7 +34,7 @@ const TimelineStep = memo(
     isCurrent,
     isCompleted,
   }: {
-    step: TimelineStep & { scaledTop: number; scaledLeft: number };
+    step: TimelineStepDefinition & { scaledTop: number; scaledLeft: number };
     circleSize: number;
     circleFontSize: number;
     onStepClick: (stepId: number) => void;
@@ -301,16 +83,14 @@ const MobileTimelineStep = memo(
     details,
     isOpen,
     onStepClick,
-    onClose,
     isUnlocked,
     isCurrent,
     isCompleted,
   }: {
-    step: TimelineStep;
+    step: TimelineStepDefinition;
     details: StepDetails;
     isOpen: boolean;
     onStepClick: (stepId: number) => void;
-    onClose: () => void;
     isUnlocked: boolean;
     isCurrent: boolean;
     isCompleted: boolean;
@@ -321,7 +101,7 @@ const MobileTimelineStep = memo(
         aria-hidden
       >
         <span
-          className="block flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
+          className="flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
         >
           {isCompleted ? "✓" : ""}
         </span>
@@ -383,10 +163,6 @@ export function SessionTimelineContent({
   const router = useRouter();
   const sessionId = normalizeParam(params.sessionId);
 
-  const timelineContainerRef = useRef<HTMLDivElement>(null);
-
-  // Timeline scaling - removed JavaScript scaling in favor of CSS-based scaling
-
   const {
     data: therapySession,
     isLoading: therapySessionLoading,
@@ -412,20 +188,28 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
+  const utils = api.useUtils();
+
   const advanceSession = api.therapySessions.advanceSession.useMutation({
-    onSuccess: () => {
-      // Find the next unlocked step and navigate to its chat
-      const nextUnlockedStep = unlockedSteps.find(stepId => !isStepCompleted(stepId));
-      if (nextUnlockedStep && sessionId && selectedPatient) {
+    onSuccess: async (updatedSession) => {
+      if (!sessionId) return;
+
+      await Promise.allSettled([
+        utils.therapySessions.getByPatient.invalidate({ patientId: sessionId }),
+        utils.chat.getSessionChats.invalidate({ therapySessionId: updatedSession.id }),
+      ]);
+
+      const targetStep = Math.min(updatedSession.sessionNumber, LAST_STEP_ID);
+
+      if (selectedPatient) {
         const patientSlug = createPatientSlug(selectedPatient.name);
-        router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${nextUnlockedStep}`);
-      } else if (nextUnlockedStep && sessionId) {
-        // Fallback without patient name - this should not happen in normal flow
-        router.push(`/dashboard/therapeutic-journey`);
-      } else {
-        // If no unlocked step found, just reload to update the UI
-        window.location.reload();
+        router.push(
+          `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${targetStep}`,
+        );
+        return;
       }
+
+      router.push(`/dashboard/therapeutic-journey`);
     },
     onError: (error) => {
       console.error("Error advancing session:", error);
@@ -434,20 +218,19 @@ export function SessionTimelineContent({
 
   // Calculate which steps are unlocked based on completed steps
   const unlockedSteps = useMemo(() => {
-    if (!completedSteps) return [1]; // First step is always unlocked
+    if (!completedSteps) return [FIRST_STEP_ID];
 
     const completedStepNumbers = completedSteps
       .filter((step) => step.done)
       .map((step) => step.stepNumber)
       .sort((a, b) => a - b);
 
-    // Always include step 1
-    const unlocked = [1];
+    const unlocked = [FIRST_STEP_ID];
 
     // Add next step after each completed step
     completedStepNumbers.forEach((completedStep) => {
       const nextStep = completedStep + 1;
-      if (nextStep <= timelineSteps.length && !unlocked.includes(nextStep)) {
+      if (nextStep <= LAST_STEP_ID && !unlocked.includes(nextStep)) {
         unlocked.push(nextStep);
       }
     });
@@ -494,7 +277,7 @@ export function SessionTimelineContent({
   // Use original positions and sizes - CSS will handle scaling
   const stepPositions = useMemo(
     () =>
-      timelineSteps.map((step) => ({
+      TIMELINE_STEPS.map((step) => ({
         ...step,
         scaledTop: step.top,
         scaledLeft: step.left + TIMELINE_CONFIG.NODE_OFFSET_X,
@@ -646,10 +429,10 @@ export function SessionTimelineContent({
                   <div className="text-text-secondary text-sm">
                     Sessione corrente:{" "}
                     <span className="text-text-primary font-semibold">
-                      {therapySession.sessionNumber}/11
+                      {therapySession.sessionNumber}/{LAST_STEP_ID}
                     </span>
                   </div>
-                  {therapySession.sessionNumber < 11 && (
+                  {therapySession.sessionNumber < LAST_STEP_ID && (
                     <button
                       onClick={() => {
                         if (!sessionId) return;
@@ -670,7 +453,6 @@ export function SessionTimelineContent({
 
           <div className="hidden md:block">
             <div
-              ref={timelineContainerRef}
               className="relative mx-auto w-full"
               style={{ maxWidth: `${TIMELINE_CONFIG.BASE_WIDTH}px` }}
             >
@@ -744,7 +526,7 @@ export function SessionTimelineContent({
             <div className="relative pl-8">
               <span className="pointer-events-none absolute top-0 left-3 h-full w-px stroke-timeline-path" />
               <div className="space-y-5">
-                {timelineSteps.map((step) => {
+                {TIMELINE_STEPS.map((step) => {
                   const details = getStepDetails(step.id);
 
                   return (
@@ -754,7 +536,6 @@ export function SessionTimelineContent({
                       details={details}
                       isOpen={false}
                       onStepClick={handleStepClick}
-                      onClose={() => {}}
                       isUnlocked={isStepUnlocked(step.id)}
                       isCurrent={false}
                       isCompleted={isStepCompleted(step.id)}

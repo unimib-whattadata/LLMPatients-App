@@ -5,11 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Navbar, getNavSections } from "@/components/navigation";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import type {
   User,
   ImpersonationContext,
-  AdminViewMode,
   NavItem,
 } from "~/types";
 
@@ -62,24 +62,16 @@ export function SharedLayout({
   currentPage = "",
 }: SharedLayoutProps) {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const [adminViewMode, setAdminViewMode] = useState<AdminViewMode>("admin");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  // Handle responsive sidebar behavior
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth < 1024;
-      if (isMobile) {
-        setSidebarCollapsed(true);
-        setMobileSidebarOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (!isDesktop) {
+      setSidebarCollapsed(true);
+    }
+    setMobileSidebarOpen(false);
+  }, [isDesktop]);
 
   // Close mobile sidebar when clicking outside
   useEffect(() => {
@@ -329,12 +321,12 @@ export function SharedLayout({
         layoutType={layoutType}
         currentPage={currentPage}
         onSidebarToggle={() => {
-          const isMobile = window.innerWidth < 1024;
-          if (isMobile) {
-            setMobileSidebarOpen(!mobileSidebarOpen);
-          } else {
-            setSidebarCollapsed(!sidebarCollapsed);
+          if (!layoutConfig.showSidebar) return;
+          if (isDesktop) {
+            setSidebarCollapsed((prev) => !prev);
+            return;
           }
+          setMobileSidebarOpen((prev) => !prev);
         }}
         sidebarCollapsed={sidebarCollapsed}
         showSidebar={layoutConfig.showSidebar}

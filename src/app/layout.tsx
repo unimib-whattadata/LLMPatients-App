@@ -6,7 +6,9 @@ import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ToastProvider } from "@/components/ui/ToastProvider";
-import SessionDebug from "@/components/debug/SessionDebug";
+import SessionDebugWrapper from "@/components/debug/SessionDebugWrapper";
+
+const isDev = process.env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {
@@ -127,7 +129,7 @@ export default function RootLayout({
           <TRPCReactProvider>
             <ToastProvider>
               {children}
-              <SessionDebug enabled={process.env.NODE_ENV === "development"} />
+              {isDev ? <SessionDebugWrapper enabled /> : null}
             </ToastProvider>
           </TRPCReactProvider>
         </SessionProvider>

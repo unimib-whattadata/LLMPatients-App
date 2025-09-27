@@ -4,20 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import { api } from "~/trpc/react";
 import {
   Bars3Icon,
   XMarkIcon,
   Bars3BottomLeftIcon,
   ArrowRightOnRectangleIcon,
-  ChevronLeftIcon,
-  UserPlusIcon,
-  PlayIcon,
-  ClipboardDocumentListIcon,
-  MagnifyingGlassIcon,
-  HomeIcon,
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 /**
  * User interface for navigation context
@@ -108,20 +102,13 @@ export function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
+  const isDesktop = useMediaQuery("(min-width: 1024px)");
 
-  // Handle responsive behavior
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth < 1024;
-      if (isMobile) {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (isDesktop) {
+      setMobileMenuOpen(false);
+    }
+  }, [isDesktop]);
 
   // Close mobile menu when route changes
   useEffect(() => {
