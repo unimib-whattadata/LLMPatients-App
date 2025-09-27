@@ -34,7 +34,7 @@ const config = {
       "@trpc/react-query",
     ],
     // Enable modern JavaScript features
-    esmExternals: true,
+    esmExternals: "loose",
   },
 
   // Server external packages
@@ -125,28 +125,32 @@ const config = {
   webpack: (config, { dev, isServer }) => {
     // Optimize for production
     if (!dev) {
-      // Enable tree shaking
+      // Enable tree shaking but be more conservative
       config.optimization = {
         ...config.optimization,
         usedExports: true,
         sideEffects: false,
       };
 
-      // Optimize chunks
+      // More conservative chunk splitting to avoid module resolution issues
       config.optimization.splitChunks = {
         ...config.optimization.splitChunks,
         chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
         cacheGroups: {
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
             chunks: 'all',
+            priority: 10,
           },
           common: {
             name: 'common',
             minChunks: 2,
             chunks: 'all',
-            enforce: true,
+            priority: 5,
+            reuseExistingChunk: true,
           },
         },
       };
@@ -168,7 +172,7 @@ const config = {
       }
     }
     return config;
-  },
+  }
 };
 
 export default config;
