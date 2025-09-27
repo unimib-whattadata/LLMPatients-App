@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "6",
-      "when": 1758648583881,
-      "tag": "0000_dear_princess_powerful",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "6",
-      "when": 1758827211040,
-      "tag": "0001_brown_crusher_hogan",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "6",
-      "when": 1758827300000,
-      "tag": "0002_rename_tables_to_llmpatient",
+      "when": 1758976061851,
+      "tag": "0000_melted_diamondback",
       "breakpoints": true
     }
   ]

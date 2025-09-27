@@ -1,2 +1,0 @@
-ALTER TABLE `epatient_therapy_session` ADD `isCompleted` integer DEFAULT false NOT NULL;--> statement-breakpoint
-CREATE INDEX `therapy_session_completed_idx` ON `epatient_therapy_session` (`isCompleted`);

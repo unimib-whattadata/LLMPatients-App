@@ -90,7 +90,7 @@ const therapySessions = createTable(
   ],
 );
 
-const databaseUrl = process.env.DATABASE_URL ?? "file:./db.sqlite";
+const databaseUrl = process.env.DATABASE_URL ?? "file:./dev.db";
 const client = createClient({
   url: databaseUrl,
   authToken: process.env.DATABASE_AUTH_TOKEN,
@@ -103,14 +103,8 @@ const SALT_ROUNDS = 10;
 const SEED_USERS = [
   {
     name: "Administrator",
-    email: "admin",
+    email: "admin@example.com",
     password: "Qwerty123!",
-    role: "admin",
-  },
-  {
-    name: "Marco Cremaschi",
-    email: "marco.cremaschi@unimib.it",
-    password: "PassLLMPatients.25",
     role: "admin",
   },
   {

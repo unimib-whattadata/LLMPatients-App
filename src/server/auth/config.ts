@@ -49,7 +49,7 @@ declare module "next-auth" {
 }
 
 // Extend JWT token to include impersonation context
-declare module "@auth/core/jwt" {
+declare module "next-auth" {
   interface JWT {
     // Existing fields
     id?: string;
@@ -235,6 +235,45 @@ export const authConfig = {
   ],
 
   trustHost: true,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  
+  // CSRF protection configuration
+  useSecureCookies: process.env.NODE_ENV === "production",
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Secure-next-auth.session-token" 
+        : "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Secure-next-auth.callback-url" 
+        : "next-auth.callback-url",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === "production" 
+        ? "__Host-next-auth.csrf-token" 
+        : "next-auth.csrf-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
 
   // Note: Adapter is removed when using JWT strategy
   // adapter: DrizzleAdapter(db, {...}) - Only used with database strategy
@@ -251,46 +290,6 @@ export const authConfig = {
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
-  // Enhanced cookie configuration for better session persistence
-  cookies: {
-    sessionToken: {
-      name:
-        process.env.NODE_ENV === "production"
-          ? "__Secure-next-auth.session-token"
-          : "next-auth.session-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax" as const,
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 30 * 24 * 60 * 60, // 30 days
-      },
-    },
-    callbackUrl: {
-      name:
-        process.env.NODE_ENV === "production"
-          ? "__Secure-next-auth.callback-url"
-          : "next-auth.callback-url",
-      options: {
-        httpOnly: true,
-        sameSite: "lax" as const,
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-    csrfToken: {
-      name:
-        process.env.NODE_ENV === "production"
-          ? "__Host-next-auth.csrf-token"
-          : "next-auth.csrf-token",
-      options: {
-        httpOnly: true,
-        sameSite: "lax" as const,
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-  },
 
   // Enhanced pages configuration
   pages: {
@@ -345,7 +344,7 @@ export const authConfig = {
             id: token.id,
             email: token.email,
             role: token.role,
-            validated: new Date(token.lastValidated ?? Date.now()).toISOString(),
+            validated: new Date((token.lastValidated as number) ?? Date.now()).toISOString(),
           },
         );
       }
@@ -361,7 +360,7 @@ export const authConfig = {
         // Re-validate user data when account is linked
         if (token.id) {
           const validation = await validateUserById(
-            token.id,
+            token.id as string,
             createValidationConfig({ timeout: 3000 }),
           );
           if (validation.isValid && validation.user) {
@@ -386,7 +385,7 @@ export const authConfig = {
         const validationInterval = 5 * 60 * 1000; // 5 minutes
         const shouldValidate =
           trigger === "update" ||
-          currentTime - lastValidated > validationInterval;
+          (currentTime - ((lastValidated as number) ?? 0)) > validationInterval;
 
         if (shouldValidate) {
           if (process.env.NODE_ENV === "development") {
@@ -397,8 +396,8 @@ export const authConfig = {
 
           try {
             const validation = await comprehensiveUserValidation(
-              token.id,
-              token.role,
+              token.id as string,
+              token.role as string,
               createValidationConfig({
                 timeout: trigger === "update" ? 5000 : 3000,
                 retries: trigger === "update" ? 3 : 2,
@@ -457,7 +456,7 @@ export const authConfig = {
                 {
                   userId: token.id,
                   newRole: token.role,
-                  previousValidation: new Date(lastValidated).toISOString(),
+                  previousValidation: new Date((lastValidated as number) ?? 0).toISOString(),
                 },
               );
             } else {
@@ -504,7 +503,7 @@ export const authConfig = {
           isImpersonating: !!(token?.impersonation && typeof token.impersonation === 'object' && 'isActive' in token.impersonation && token.impersonation.isActive),
           impersonationTarget: (token?.impersonation && typeof token.impersonation === 'object' && 'targetUserEmail' in token.impersonation) ? token.impersonation.targetUserEmail : undefined,
           lastValidated: token?.lastValidated
-            ? new Date(token.lastValidated).toISOString()
+            ? new Date((token.lastValidated as number) ?? 0).toISOString()
             : "never",
         },
       );
@@ -522,7 +521,7 @@ export const authConfig = {
       // Check if token validation is recent enough
       const currentTime = Date.now();
       const lastValidated = token.lastValidated ?? 0;
-      const validationAge = currentTime - lastValidated;
+      const validationAge = currentTime - ((lastValidated as number) ?? 0);
       const maxValidationAge = 10 * 60 * 1000; // 10 minutes
 
       // Perform additional database validation for stale tokens or critical operations
@@ -535,7 +534,7 @@ export const authConfig = {
 
         try {
           const validation = await validateUserById(
-            token.id ?? "",
+            (token.id as string) ?? "",
             createValidationConfig({ timeout: 2000, retries: 1 }),
           );
 
