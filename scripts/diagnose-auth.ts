@@ -18,17 +18,130 @@
  *   - AUTH_SECRET or NEXTAUTH_SECRET
  *   - DATABASE_AUTH_TOKEN (if required)
  *   - NODE_ENV
+ * 
+ * Environment files are loaded in priority order:
+ *   1. .env.local (highest priority)
+ *   2. .env.production (for production settings)
+ *   3. .env (default)
+ *   4. production.env (fallback)
  */
 
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { eq } from "drizzle-orm";
 import { users } from "../src/server/db/schema";
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+import { config } from "dotenv";
+import { readFileSync, existsSync } from "fs";
+
+/**
+ * Get file location information
+ */
+function getFileLocation() {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const projectRoot = join(__dirname, "..");
+  
+  return {
+    scriptPath: __filename,
+    scriptDir: __dirname,
+    projectRoot: projectRoot,
+    workingDirectory: process.cwd()
+  };
+}
+
+/**
+ * Load environment variables from .env files
+ */
+function loadEnvironmentVariables() {
+  const location = getFileLocation();
+  const envFiles = [
+    { path: join(location.projectRoot, ".env.local"), priority: 1, name: ".env.local" },
+    { path: join(location.projectRoot, ".env.production"), priority: 2, name: ".env.production" },
+    { path: join(location.projectRoot, ".env"), priority: 3, name: ".env" },
+    { path: join(location.projectRoot, "production.env"), priority: 4, name: "production.env" }
+  ];
+
+  console.log("🔧 Loading environment variables...");
+  
+  let loadedFiles: string[] = [];
+  let primaryEnvFile: string | null = null;
+  
+  for (const envFile of envFiles) {
+    if (existsSync(envFile.path)) {
+      console.log(`   📄 Found: ${envFile.name} (${envFile.path})`);
+      config({ path: envFile.path });
+      loadedFiles.push(envFile.name);
+      
+      // The first file found (highest priority) becomes the primary
+      if (!primaryEnvFile) {
+        primaryEnvFile = envFile.name;
+      }
+    } else {
+      console.log(`   ❌ Not found: ${envFile.name}`);
+    }
+  }
+  
+  // Show which file is being used as primary
+  if (primaryEnvFile) {
+    console.log(`   ✅ Primary environment file: ${primaryEnvFile}`);
+    console.log(`   📋 Loaded from files: ${loadedFiles.join(", ")}`);
+    
+    // Show production recommendation
+    if (process.env.NODE_ENV === "production" && primaryEnvFile !== ".env.production") {
+      console.log(`   💡 Production tip: Consider using .env.production for production environment`);
+    }
+  } else {
+    console.log(`   ⚠️  No .env files found, using system environment variables only`);
+  }
+  
+  // Also try to load from process.env if already set
+  console.log(`   🌍 Current NODE_ENV: ${process.env.NODE_ENV || 'not set'}`);
+  
+  // Show environment file contents (without sensitive data)
+  if (primaryEnvFile) {
+    try {
+      const envFilePath = join(location.projectRoot, primaryEnvFile);
+      const envContent = readFileSync(envFilePath, 'utf8');
+      const lines = envContent.split('\n').filter(line => line.trim() && !line.startsWith('#'));
+      
+      console.log(`   📝 Environment variables in ${primaryEnvFile}:`);
+      lines.forEach(line => {
+        const [key, ...valueParts] = line.split('=');
+        const value = valueParts.join('=');
+        if (key && value) {
+          // Hide sensitive values
+          if (key.toLowerCase().includes('secret') || key.toLowerCase().includes('password') || key.toLowerCase().includes('token')) {
+            console.log(`     ${key}=***${value.slice(-4)}`);
+          } else {
+            console.log(`     ${key}=${value}`);
+          }
+        }
+      });
+    } catch (error) {
+      console.log(`   ⚠️  Could not read ${primaryEnvFile} contents`);
+    }
+  }
+}
 
 async function diagnoseAuth() {
   console.log("🔍 Starting authentication diagnostics...\n");
 
-  // 1. Check environment variables
+  // 0. Load environment variables
+  loadEnvironmentVariables();
+  console.log("");
+
+  // 1. Display file location information
+  console.log("📁 File Location Information:");
+  const location = getFileLocation();
+  console.log(`   Script path: ${location.scriptPath}`);
+  console.log(`   Script directory: ${location.scriptDir}`);
+  console.log(`   Project root: ${location.projectRoot}`);
+  console.log(`   Working directory: ${location.workingDirectory}`);
+  console.log("");
+
+  // 2. Check environment variables
   console.log("📋 Environment Variables Check:");
   const requiredEnvVars = [
     "DATABASE_URL",
@@ -63,7 +176,7 @@ async function diagnoseAuth() {
     console.log("\n✅ All required environment variables are set.\n");
   }
 
-  // 2. Test database connectivity
+  // 3. Test database connectivity
   console.log("🗄️  Database Connectivity Check:");
   try {
     const databaseUrl = process.env.DATABASE_URL;
@@ -145,7 +258,7 @@ async function diagnoseAuth() {
     return;
   }
 
-  // 3. Check NextAuth configuration
+  // 4. Check NextAuth configuration
   console.log("🔐 NextAuth Configuration Check:");
   
   const authSecret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
@@ -157,7 +270,7 @@ async function diagnoseAuth() {
     console.log("✅ AUTH_SECRET is properly configured");
   }
 
-  // 4. Check production-specific settings
+  // 5. Check production-specific settings
   console.log("\n🏭 Production Settings Check:");
   
   if (process.env.NODE_ENV === "production") {
@@ -176,7 +289,7 @@ async function diagnoseAuth() {
     console.log("ℹ️  Not in production mode (NODE_ENV != production)");
   }
 
-  // 5. Test user authentication
+  // 6. Test user authentication
   console.log("\n👤 User Authentication Test:");
   try {
     const client = createClient({
@@ -222,4 +335,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   });
 }
 
-export { diagnoseAuth };
+export { diagnoseAuth, getFileLocation };
