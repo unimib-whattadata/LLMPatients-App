@@ -453,6 +453,9 @@ export function Navbar({
             </ul>
           </nav>
 
+          {/* Spacer to push right content to the right */}
+          <div className="flex-1" />
+
           <div className="site-menu__right">{desktopActions}</div>
 
           <Button

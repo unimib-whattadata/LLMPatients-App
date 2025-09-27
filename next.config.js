@@ -47,6 +47,10 @@ const config = {
   ...(process.env.NODE_ENV === "development" && {
     // Enable fast refresh
     reactStrictMode: true,
+    // Optimize for hot reloading
+    experimental: {
+      optimizePackageImports: ['@radix-ui/react-icons'],
+    },
   }),
 
   // Image optimization
@@ -117,6 +121,35 @@ const config = {
 
   // Bundle analyzer and optimizations
   webpack: (config, { dev, isServer }) => {
+    // Development optimizations for hot reloading
+    if (dev) {
+      // Improve hot reloading for CSS files
+      config.watchOptions = {
+        poll: 1000,
+        aggregateTimeout: 300,
+      };
+      
+      // Optimize CSS hot reloading
+      config.module.rules.push({
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  require('tailwindcss'),
+                  require('autoprefixer'),
+                ],
+              },
+            },
+          },
+        ],
+      });
+    }
+    
     // Optimize only on the client build
     if (!dev && !isServer) {
       // Enable tree shaking but be more conservative

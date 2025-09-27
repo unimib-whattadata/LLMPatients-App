@@ -495,11 +495,11 @@ img {
 
 /* Global link color override */
 a {
-  color: var(--color-primary-yellow) !important;
+  color: var(--color-text-primary) !important;
 }
 
 a:hover {
-  color: var(--color-primary-yellow) !important;
+  color: var(--color-text-primary) !important;
   opacity: 0.8;
 }
 
@@ -512,6 +512,54 @@ html, body {
 button, .btn, [role="button"], input[type="button"], input[type="submit"] {
   background-color: var(--color-primary-green) !important;
   color: var(--color-text-primary) !important;
+}
+
+/* Remove sound effects from password toggle and other buttons */
+button, .btn, [role="button"], input[type="button"], input[type="submit"] {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Specifically target password toggle button to remove any sound */
+button[type="button"]:hover,
+button[type="button"]:active,
+button[type="button"]:focus {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Password toggle button specific styling to remove sound */
+.relative button[type="button"] {
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  outline: none !important;
+  border: none !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.relative button[type="button"]:hover,
+.relative button[type="button"]:active,
+.relative button[type="button"]:focus {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 /* Enhanced Form Field Styling */

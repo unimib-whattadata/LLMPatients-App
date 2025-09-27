@@ -272,7 +272,7 @@ export function ShadcnNavbar({
       className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
       style={{ backgroundColor: 'var(--color-navbar-dark)' }}
     >
-      <div className="container flex h-16 items-center justify-between px-4">
+      <div className="container flex h-16 items-center px-4">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center space-x-2">
@@ -289,6 +289,8 @@ export function ShadcnNavbar({
           </Link>
         </div>
 
+        {/* Spacer to push right content to the right */}
+        <div className="flex-1" />
 
         {/* Right side - User menu or Auth buttons */}
         <div className="flex items-center space-x-2">
