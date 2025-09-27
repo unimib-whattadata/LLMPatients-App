@@ -1,7 +1,7 @@
 "use client";
 
 import { SharedLayout } from "@/components/layout/SharedLayout";
-import { useCallback, useMemo, memo } from "react";
+import { useCallback, useMemo, memo, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Breadcrumb, SessionLoading } from "@/components/common";
@@ -10,7 +10,7 @@ import {
   TIMELINE_CONFIG,
   TIMELINE_STEPS,
   getStepDetails,
-  timelinePathD,
+  buildRoundedOrthogonalPath,
   type StepDetails,
   type TimelineStep as TimelineStepDefinition,
 } from "./timelineConfig";
@@ -170,6 +170,11 @@ export function SessionTimelineContent({
   const params = useParams();
   const router = useRouter();
   const sessionId = normalizeParam(params.sessionId);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const {
     data: therapySession,
@@ -301,6 +306,29 @@ export function SessionTimelineContent({
 
   const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
   const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
+
+  // Compute timeline path on client side to avoid hydration issues
+  const timelinePathD = useMemo(() => {
+    if (!isMounted) return "";
+    
+    const timelinePathPoints = [
+      { x: 520, y: 100 },
+      { x: 520, y: 240 },
+      { x: 320, y: 240 },
+      { x: 320, y: 460 },
+      { x: 700, y: 460 },
+      { x: 700, y: 680 },
+      { x: 360, y: 680 },
+      { x: 360, y: 900 },
+      { x: 700, y: 900 },
+      { x: 700, y: 1120 },
+      { x: 340, y: 1120 },
+      { x: 340, y: 1300 },
+      { x: 520, y: 1300 },
+      { x: 520, y: 1460 },
+    ];
+    return buildRoundedOrthogonalPath(timelinePathPoints, TIMELINE_CONFIG.PATH_RADIUS);
+  }, [isMounted]);
 
   if (!sessionId) {
     return (
@@ -524,11 +552,12 @@ export function SessionTimelineContent({
                     </filter>
                   </defs>
                   <path
-                    d={timelinePathD}
+                    d={timelinePathD || "M 520 100 L 520 1460"}
                     stroke="#3d413b"
                     strokeWidth="20"
                     strokeLinecap="round"
                     strokeLinejoin="round"
+                    fill="none"
                   />
                 </svg>
 

@@ -353,7 +353,7 @@ function LoginPageComponent() {
                     !loginState.isNavigating && navigate(callbackUrl)
                   }
                   disabled={loginState.isNavigating}
-                  className="unified-form-submit"
+                  className="unified-form-submit unified-form-submit--success"
                 >
                   {loginState.isNavigating && <div className="unified-form-spinner"></div>}
                   {loginState.isNavigating ? "Redirecting..." : "Go Now"}
