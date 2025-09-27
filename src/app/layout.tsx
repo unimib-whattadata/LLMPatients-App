@@ -12,8 +12,8 @@ const isDev = process.env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {
-    default: "ePatients - Piattaforma di Simulazione Medica",
-    template: "%s | ePatients",
+    default: "llmpatient - Piattaforma di Simulazione Medica",
+    template: "%s | llmpatient",
   },
   description:
     "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
@@ -34,16 +34,16 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://epatients.unimib.it"),
+  metadataBase: new URL("https://llmpatient.whattadata.it"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "it_IT",
-    url: "https://epatients.unimib.it",
-    siteName: "ePatients",
-    title: "ePatients - Piattaforma di Simulazione Medica",
+    url: "https://llmpatient.whattadata.it",
+    siteName: "llmpatient",
+    title: "llmpatient - Piattaforma di Simulazione Medica",
     description:
       "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
     images: [
@@ -51,13 +51,13 @@ export const metadata: Metadata = {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ePatients - Piattaforma di Simulazione Medica",
+        alt: "llmpatient - Piattaforma di Simulazione Medica",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ePatients - Piattaforma di Simulazione Medica",
+    title: "llmpatient - Piattaforma di Simulazione Medica",
     description:
       "Piattaforma avanzata di simulazione medica per la formazione sanitaria.",
     images: ["/images/twitter-image.png"],

@@ -8,7 +8,7 @@ import { type Config } from "drizzle-kit";
  * database connection, and migration settings.
  *
  * Uses SQLite database with file-based storage for development.
- * All tables are prefixed with 'epatient_' for multi-project support.
+ * All tables are prefixed with 'llmpatient_' for multi-project support.
  */
 export default {
   schema: "./src/server/db/schema.ts",
@@ -17,5 +17,5 @@ export default {
   dbCredentials: {
     url: process.env.DATABASE_URL ?? "file:./dev.db",
   },
-  tablesFilter: ["epatient_*"],
+  tablesFilter: ["llmpatient_*"],
 } satisfies Config;

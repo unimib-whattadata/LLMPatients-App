@@ -476,7 +476,7 @@ export const UserContent = React.memo(function UserContent() {
               <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
               <p>
                 Le tue attivita verranno registrate automaticamente mentre
-                utilizzi ePatient.
+                utilizzi llmpatient.
               </p>
             </div>
           )}

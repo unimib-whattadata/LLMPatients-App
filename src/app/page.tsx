@@ -1,7 +1,7 @@
 /**
  * Home Page
  *
- * Main landing page for the ePatients application.
+ * Main landing page for the llmpatient application.
  * Displays marketing content, features overview, and call-to-action sections.
  *
  * @description Server-side rendered page that handles authentication redirects
@@ -62,7 +62,7 @@ export default async function Home() {
             <div className="home-footer-brand">
               <Image
                 src="/images/logo.webp"
-                alt="ePatients Logo"
+                alt="llmpatient Logo"
                 className="home-footer-brand-logo"
                 itemProp="logo"
                 width={48}
@@ -72,7 +72,7 @@ export default async function Home() {
               />
               <div>
                 <p className="home-footer-brand-name" itemProp="name">
-                  ePatients
+                  llmpatient
                 </p>
                 <p className="home-footer-brand-caption" itemProp="description">
                   Un progetto dedicato alla formazione e alla valutazione delle

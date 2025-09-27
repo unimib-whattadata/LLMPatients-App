@@ -22,7 +22,7 @@ import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
 // Next.js automatically loads environment variables from .env files
 
-const createTable = sqliteTableCreator((name) => `epatient_${name}`);
+const createTable = sqliteTableCreator((name) => `llmpatient_${name}`);
 
 const users = createTable("user", (d) => ({
   id: d

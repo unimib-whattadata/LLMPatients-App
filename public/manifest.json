@@ -1,6 +1,6 @@
 {
-  "name": "ePatients - Piattaforma di Simulazione Medica",
-  "short_name": "ePatients",
+  "name": "llmpatient - Piattaforma di Simulazione Medica",
+  "short_name": "llmpatient",
   "description": "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
   "start_url": "/",
   "display": "standalone",

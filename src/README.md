@@ -1,6 +1,6 @@
-# ePatients - Optimized Project Structure
+# llmpatient - Optimized Project Structure
 
-This document outlines the optimized folder structure for the ePatients Next.js application, following Next.js 15 and React best practices.
+This document outlines the optimized folder structure for the llmpatient Next.js application, following Next.js 15 and React best practices.
 
 ## 📁 Directory Structure
 

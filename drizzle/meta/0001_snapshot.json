@@ -4,8 +4,8 @@
   "id": "788743db-3d30-4de3-ac5c-cfcac2443ba3",
   "prevId": "6ce500fb-d216-4cff-aa76-286ccc33a967",
   "tables": {
-    "epatient_account": {
-      "name": "epatient_account",
+    "llmpatient_account": {
+      "name": "llmpatient_account",
       "columns": {
         "userId": {
           "name": "userId",
@@ -95,10 +95,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_account_userId_epatient_user_id_fk": {
-          "name": "epatient_account_userId_epatient_user_id_fk",
-          "tableFrom": "epatient_account",
-          "tableTo": "epatient_user",
+        "llmpatient_account_userId_llmpatient_user_id_fk": {
+          "name": "llmpatient_account_userId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_account",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "userId"
           ],
@@ -110,19 +110,19 @@
         }
       },
       "compositePrimaryKeys": {
-        "epatient_account_provider_providerAccountId_pk": {
+        "llmpatient_account_provider_providerAccountId_pk": {
           "columns": [
             "provider",
             "providerAccountId"
           ],
-          "name": "epatient_account_provider_providerAccountId_pk"
+          "name": "llmpatient_account_provider_providerAccountId_pk"
         }
       },
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_chat": {
-      "name": "epatient_chat",
+    "llmpatient_chat": {
+      "name": "llmpatient_chat",
       "columns": {
         "id": {
           "name": "id",
@@ -208,10 +208,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_chat_therapySessionId_epatient_therapy_session_id_fk": {
-          "name": "epatient_chat_therapySessionId_epatient_therapy_session_id_fk",
-          "tableFrom": "epatient_chat",
-          "tableTo": "epatient_therapy_session",
+        "llmpatient_chat_therapySessionId_llmpatient_therapy_session_id_fk": {
+          "name": "llmpatient_chat_therapySessionId_llmpatient_therapy_session_id_fk",
+          "tableFrom": "llmpatient_chat",
+          "tableTo": "llmpatient_therapy_session",
           "columnsFrom": [
             "therapySessionId"
           ],
@@ -226,8 +226,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_impersonation_audit_log": {
-      "name": "epatient_impersonation_audit_log",
+    "llmpatient_impersonation_audit_log": {
+      "name": "llmpatient_impersonation_audit_log",
       "columns": {
         "id": {
           "name": "id",
@@ -318,10 +318,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_impersonation_audit_log_impersonationSessionId_epatient_impersonation_session_id_fk": {
-          "name": "epatient_impersonation_audit_log_impersonationSessionId_epatient_impersonation_session_id_fk",
-          "tableFrom": "epatient_impersonation_audit_log",
-          "tableTo": "epatient_impersonation_session",
+        "llmpatient_impersonation_audit_log_impersonationSessionId_llmpatient_impersonation_session_id_fk": {
+          "name": "llmpatient_impersonation_audit_log_impersonationSessionId_llmpatient_impersonation_session_id_fk",
+          "tableFrom": "llmpatient_impersonation_audit_log",
+          "tableTo": "llmpatient_impersonation_session",
           "columnsFrom": [
             "impersonationSessionId"
           ],
@@ -336,8 +336,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_impersonation_session": {
-      "name": "epatient_impersonation_session",
+    "llmpatient_impersonation_session": {
+      "name": "llmpatient_impersonation_session",
       "columns": {
         "id": {
           "name": "id",
@@ -443,10 +443,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_impersonation_session_adminUserId_epatient_user_id_fk": {
-          "name": "epatient_impersonation_session_adminUserId_epatient_user_id_fk",
-          "tableFrom": "epatient_impersonation_session",
-          "tableTo": "epatient_user",
+        "llmpatient_impersonation_session_adminUserId_llmpatient_user_id_fk": {
+          "name": "llmpatient_impersonation_session_adminUserId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_impersonation_session",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "adminUserId"
           ],
@@ -456,10 +456,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "epatient_impersonation_session_targetUserId_epatient_user_id_fk": {
-          "name": "epatient_impersonation_session_targetUserId_epatient_user_id_fk",
-          "tableFrom": "epatient_impersonation_session",
-          "tableTo": "epatient_user",
+        "llmpatient_impersonation_session_targetUserId_llmpatient_user_id_fk": {
+          "name": "llmpatient_impersonation_session_targetUserId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_impersonation_session",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "targetUserId"
           ],
@@ -474,8 +474,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_patient": {
-      "name": "epatient_patient",
+    "llmpatient_patient": {
+      "name": "llmpatient_patient",
       "columns": {
         "id": {
           "name": "id",
@@ -608,8 +608,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_session": {
-      "name": "epatient_session",
+    "llmpatient_session": {
+      "name": "llmpatient_session",
       "columns": {
         "sessionToken": {
           "name": "sessionToken",
@@ -643,10 +643,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_session_userId_epatient_user_id_fk": {
-          "name": "epatient_session_userId_epatient_user_id_fk",
-          "tableFrom": "epatient_session",
-          "tableTo": "epatient_user",
+        "llmpatient_session_userId_llmpatient_user_id_fk": {
+          "name": "llmpatient_session_userId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_session",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "userId"
           ],
@@ -661,8 +661,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_therapy_session": {
-      "name": "epatient_therapy_session",
+    "llmpatient_therapy_session": {
+      "name": "llmpatient_therapy_session",
       "columns": {
         "id": {
           "name": "id",
@@ -756,10 +756,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_therapy_session_userId_epatient_user_id_fk": {
-          "name": "epatient_therapy_session_userId_epatient_user_id_fk",
-          "tableFrom": "epatient_therapy_session",
-          "tableTo": "epatient_user",
+        "llmpatient_therapy_session_userId_llmpatient_user_id_fk": {
+          "name": "llmpatient_therapy_session_userId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_therapy_session",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "userId"
           ],
@@ -769,10 +769,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "epatient_therapy_session_patientId_epatient_patient_id_fk": {
-          "name": "epatient_therapy_session_patientId_epatient_patient_id_fk",
-          "tableFrom": "epatient_therapy_session",
-          "tableTo": "epatient_patient",
+        "llmpatient_therapy_session_patientId_llmpatient_patient_id_fk": {
+          "name": "llmpatient_therapy_session_patientId_llmpatient_patient_id_fk",
+          "tableFrom": "llmpatient_therapy_session",
+          "tableTo": "llmpatient_patient",
           "columnsFrom": [
             "patientId"
           ],
@@ -787,8 +787,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_user_activity": {
-      "name": "epatient_user_activity",
+    "llmpatient_user_activity": {
+      "name": "llmpatient_user_activity",
       "columns": {
         "id": {
           "name": "id",
@@ -844,10 +844,10 @@
         }
       },
       "foreignKeys": {
-        "epatient_user_activity_userId_epatient_user_id_fk": {
-          "name": "epatient_user_activity_userId_epatient_user_id_fk",
-          "tableFrom": "epatient_user_activity",
-          "tableTo": "epatient_user",
+        "llmpatient_user_activity_userId_llmpatient_user_id_fk": {
+          "name": "llmpatient_user_activity_userId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_user_activity",
+          "tableTo": "llmpatient_user",
           "columnsFrom": [
             "userId"
           ],
@@ -862,8 +862,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_user": {
-      "name": "epatient_user",
+    "llmpatient_user": {
+      "name": "llmpatient_user",
       "columns": {
         "id": {
           "name": "id",
@@ -945,8 +945,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "epatient_verification_token": {
-      "name": "epatient_verification_token",
+    "llmpatient_verification_token": {
+      "name": "llmpatient_verification_token",
       "columns": {
         "identifier": {
           "name": "identifier",
@@ -973,12 +973,12 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "epatient_verification_token_identifier_token_pk": {
+        "llmpatient_verification_token_identifier_token_pk": {
           "columns": [
             "identifier",
             "token"
           ],
-          "name": "epatient_verification_token_identifier_token_pk"
+          "name": "llmpatient_verification_token_identifier_token_pk"
         }
       },
       "uniqueConstraints": {},

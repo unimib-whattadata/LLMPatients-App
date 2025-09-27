@@ -31,12 +31,12 @@ type AdapterAccount = {
 /**
  * Table creator for multi-project schema support
  *
- * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'epatient_'.
+ * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'llmpatient_'.
  * This allows multiple projects to share the same database instance without conflicts.
  *
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
-export const createTable = sqliteTableCreator((name) => `epatient_${name}`);
+export const createTable = sqliteTableCreator((name) => `llmpatient_${name}`);
 
 /**
  * Users table for authentication and user management

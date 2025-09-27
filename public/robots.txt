@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://epatients.unimib.it/sitemap.xml
+Sitemap: https://llmpatient.whattadata.it/sitemap.xml
 
 # Crawl-delay for respectful crawling
 Crawl-delay: 1
