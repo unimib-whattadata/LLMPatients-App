@@ -11,8 +11,8 @@ export function SessionLoading() {
   return (
     <div className="container mx-auto px-4 py-8 space-y-6">
       <div className="space-y-2">
-        <Skeleton className="h-4 w-48" />
-        <Skeleton className="h-8 w-64" />
+        <Skeleton variant="text" className="h-4 w-48" />
+        <Skeleton variant="text" className="h-8 w-64" />
       </div>
       
       <div className="flex items-center justify-center min-h-[400px]">

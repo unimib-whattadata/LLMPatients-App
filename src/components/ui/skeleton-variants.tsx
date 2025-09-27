@@ -26,16 +26,16 @@ export function PatientCardSkeleton({
       {/* Patient Avatar */}
       {showAvatar && (
         <div className="flex flex-col items-center mb-4">
-          <Skeleton className="h-16 w-16 rounded-full" />
+          <Skeleton variant="avatar" className="h-16 w-16" />
         </div>
       )}
       
       {/* Patient Info */}
       <div className="text-center mb-4">
-        <Skeleton className="h-6 w-3/4 mx-auto mb-2" />
-        <Skeleton className="h-4 w-1/2 mx-auto mb-3" />
-        <Skeleton className="h-4 w-full mb-1" />
-        <Skeleton className="h-4 w-5/6 mx-auto" />
+        <Skeleton variant="text" className="h-6 w-3/4 mx-auto mb-2" />
+        <Skeleton variant="text" className="h-4 w-1/2 mx-auto mb-3" />
+        <Skeleton variant="text" className="h-4 w-full mb-1" />
+        <Skeleton variant="text" className="h-4 w-5/6 mx-auto" />
       </div>
 
       {/* Objectives */}
@@ -64,7 +64,7 @@ export function PatientCardSkeleton({
 
       {/* Button */}
       {showButton && (
-        <Skeleton className="h-10 w-full" />
+        <Skeleton variant="button" className="h-10 w-full" />
       )}
     </div>
   )
@@ -91,15 +91,15 @@ export function PatientDetailSkeleton() {
           <aside className="lg:col-span-1">
             <div className="bg-background-secondary overflow-hidden rounded-lg">
               <div className="flex flex-col items-center p-4 sm:p-6">
-                <Skeleton className="h-16 w-16 rounded-full" />
+                <Skeleton variant="avatar" className="h-16 w-16" />
                 <div className="mt-4 w-full space-y-2">
-                  <Skeleton className="h-6 w-3/4 mx-auto" />
-                  <Skeleton className="h-4 w-1/2 mx-auto" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton variant="text" className="h-6 w-3/4 mx-auto" />
+                  <Skeleton variant="text" className="h-4 w-1/2 mx-auto" />
+                  <Skeleton variant="text" className="h-4 w-full" />
+                  <Skeleton variant="text" className="h-4 w-5/6" />
                   <div className="flex items-center justify-center mt-4">
-                    <Skeleton className="h-4 w-4" />
-                    <Skeleton className="h-4 w-12 ml-2" />
+                    <Skeleton variant="text" className="h-4 w-4" />
+                    <Skeleton variant="text" className="h-4 w-12 ml-2" />
                   </div>
                 </div>
               </div>
@@ -140,13 +140,13 @@ export function PatientDetailSkeleton() {
 
             {/* Start simulation article skeleton */}
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
-              <Skeleton className="h-6 w-48 mb-4" />
+              <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-2 mb-6">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
+                <Skeleton variant="text" className="h-4 w-full" />
+                <Skeleton variant="text" className="h-4 w-full" />
+                <Skeleton variant="text" className="h-4 w-5/6" />
               </div>
-              <Skeleton className="h-10 w-full" />
+              <Skeleton variant="button" className="h-10 w-full" />
             </article>
           </section>
         </div>
@@ -174,22 +174,22 @@ export function DashboardCardSkeleton({
     <div className={cn("bg-background-secondary rounded-lg p-4 sm:p-6", className)}>
       {title && (
         <div className="mb-4">
-          <Skeleton className="h-6 w-32 mb-2" />
-          <Skeleton className="h-4 w-48" />
+          <Skeleton variant="text" className="h-6 w-32 mb-2" />
+          <Skeleton variant="text" className="h-4 w-48" />
         </div>
       )}
       
       {content && (
         <div className="space-y-3">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-4/5" />
+          <Skeleton variant="text" className="h-4 w-full" />
+          <Skeleton variant="text" className="h-4 w-5/6" />
+          <Skeleton variant="text" className="h-4 w-4/5" />
         </div>
       )}
       
       {footer && (
         <div className="mt-4 pt-4">
-          <Skeleton className="h-8 w-24" />
+          <Skeleton variant="button" className="h-8 w-24" />
         </div>
       )}
     </div>
@@ -211,7 +211,7 @@ export function TableRowSkeleton({
     <tr className={className}>
       {Array.from({ length: columns }).map((_, index) => (
         <td key={index} className="px-4 py-3">
-          <Skeleton className="h-4 w-full" />
+          <Skeleton variant="text" className="h-4 w-full" />
         </td>
       ))}
     </tr>
@@ -233,11 +233,11 @@ export function ListItemSkeleton({
 }) {
   return (
     <div className={cn("flex items-center space-x-3 p-3", className)}>
-      {showAvatar && <Skeleton className="h-8 w-8 rounded-full" />}
-      {showIcon && <Skeleton className="h-4 w-4" />}
+      {showAvatar && <Skeleton variant="avatar" className="h-8 w-8" />}
+      {showIcon && <Skeleton variant="text" className="h-4 w-4" />}
       <div className="flex-1 space-y-1">
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-3 w-1/2" />
+        <Skeleton variant="text" className="h-4 w-3/4" />
+        <Skeleton variant="text" className="h-3 w-1/2" />
       </div>
     </div>
   )

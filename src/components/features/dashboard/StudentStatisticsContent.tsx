@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
@@ -66,8 +67,8 @@ export function StudentStatisticsContent() {
           <div className="dashboard-metric-grid" aria-hidden="true">
             {[1, 2, 3, 4].map((i) => (
               <div key={i} className="dashboard-metric-card">
-                <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
+                <Skeleton variant="text" className="mb-2 h-4 w-20" />
+                <Skeleton variant="text" className="h-8 w-16" />
               </div>
             ))}
           </div>

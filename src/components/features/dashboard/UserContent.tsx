@@ -8,6 +8,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Loader2 } from "lucide-react";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
@@ -291,20 +292,20 @@ export const UserContent = React.memo(function UserContent() {
           {profileLoading ? (
             <section className="dashboard-section" aria-labelledby="user-profile-loading">
               <div className="dashboard-section__header">
-                <div className="bg-background-tertiary h-6 w-32 animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-4 w-48 animate-pulse rounded-md mt-2" />
+                <Skeleton variant="text" className="h-6 w-32" />
+                <Skeleton variant="text" className="h-4 w-48 mt-2" />
               </div>
               <div className="dashboard-panel">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
-                    <div className="bg-background-tertiary h-10 w-full animate-pulse rounded-md" />
+                    <Skeleton variant="text" className="h-4 w-16" />
+                    <Skeleton variant="text" className="h-10 w-full" />
                   </div>
                   <div className="space-y-2">
-                    <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
-                    <div className="bg-background-tertiary h-10 w-full animate-pulse rounded-md" />
+                    <Skeleton variant="text" className="h-4 w-16" />
+                    <Skeleton variant="text" className="h-10 w-full" />
                   </div>
-                  <div className="bg-background-tertiary h-10 w-20 animate-pulse rounded-md" />
+                  <Skeleton variant="button" className="h-10 w-20" />
                 </div>
               </div>
             </section>
@@ -414,10 +415,10 @@ export const UserContent = React.memo(function UserContent() {
                   <div key={index} className="dashboard-panel">
                     <div className="flex items-center justify-between">
                       <div className="space-y-2">
-                        <div className="bg-background-tertiary h-4 w-32 animate-pulse rounded-md" />
-                        <div className="bg-background-tertiary h-3 w-24 animate-pulse rounded-md" />
+                        <Skeleton variant="text" className="h-4 w-32" />
+                        <Skeleton variant="text" className="h-3 w-24" />
                       </div>
-                      <div className="bg-background-tertiary h-3 w-20 animate-pulse rounded-md" />
+                      <Skeleton variant="text" className="h-3 w-20" />
                     </div>
                   </div>
                 ))}

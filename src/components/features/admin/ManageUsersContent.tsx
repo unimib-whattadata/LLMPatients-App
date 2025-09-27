@@ -250,32 +250,82 @@ export function ManageUsersContent() {
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
     return (
-      <div className="container mx-auto px-4 py-8 space-y-6">
-        <div className="space-y-2">
-          <Skeleton className="h-8 w-64" />
-          <Skeleton className="h-4 w-96" />
-        </div>
-        
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-48" />
-            <Skeleton className="h-4 w-72" />
-          </CardHeader>
-          <CardContent className="space-y-4">
+      <div className="dashboard-panel-stack">
+        {/* Header skeleton */}
+        <section className="dashboard-section">
+          <div className="dashboard-section__header">
+            <div>
+              <Skeleton variant="text" className="h-8 w-64" />
+              <Skeleton variant="text" className="h-4 w-96 mt-2" />
+            </div>
+          </div>
+        </section>
+
+        {/* Statistics skeleton */}
+        <section className="dashboard-section">
+          <div className="dashboard-section__header">
+            <div>
+              <Skeleton variant="text" className="h-6 w-48" />
+              <Skeleton variant="text" className="h-4 w-72 mt-2" />
+            </div>
+          </div>
+          <div className="dashboard-metric-grid">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
-                <div className="space-y-2">
-                  <Skeleton className="h-4 w-32" />
-                  <Skeleton className="h-3 w-48" />
-                </div>
-                <div className="flex space-x-2">
-                  <Skeleton className="h-8 w-16" />
-                  <Skeleton className="h-8 w-20" />
-                </div>
+              <div key={index} className="dashboard-metric-card">
+                <Skeleton variant="text" className="h-8 w-12 mx-auto mb-2" />
+                <Skeleton variant="text" className="h-4 w-20 mx-auto" />
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </section>
+
+        {/* User Management skeleton */}
+        <section className="dashboard-section">
+          <div className="dashboard-section__header">
+            <div>
+              <Skeleton variant="text" className="h-6 w-48" />
+              <Skeleton variant="text" className="h-4 w-72 mt-2" />
+            </div>
+            <Skeleton variant="button" className="h-10 w-32" />
+          </div>
+          
+          <div className="dashboard-panel">
+            {/* Filters skeleton */}
+            <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+              <Skeleton variant="text" className="h-10 flex-1" />
+              <Skeleton variant="text" className="h-10 w-32" />
+            </div>
+            
+            {/* Table skeleton */}
+            <div className="overflow-x-auto">
+              <table className="dashboard-table">
+                <thead>
+                  <tr>
+                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
+                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
+                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
+                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={index}>
+                      <td><Skeleton variant="text" className="h-4 w-24" /></td>
+                      <td><Skeleton variant="text" className="h-4 w-32" /></td>
+                      <td><Skeleton variant="text" className="h-6 w-16 rounded-full" /></td>
+                      <td>
+                        <div className="flex space-x-2">
+                          <Skeleton variant="button" className="h-8 w-16" />
+                          <Skeleton variant="button" className="h-8 w-20" />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
       </div>
     );
   }

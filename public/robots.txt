@@ -10,7 +10,6 @@ Crawl-delay: 1
 # Disallow admin areas
 Disallow: /admin/
 Disallow: /api/
-Disallow: /dashboard/admin/
 
 # Allow public pages
 Allow: /explore-patients/

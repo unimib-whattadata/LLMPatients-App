@@ -47,10 +47,19 @@ export function getNavSections(
       {
         title: "Dashboard",
         items: [
-          { label: "Panoramica", href: "/dashboard/admin", icon: HomeIcon },
           {
-            label: "Registro Attività",
-            href: "/dashboard/admin?section=activities",
+            label: "Panoramica",
+            href: "/dashboard/user?section=overview",
+            icon: HomeIcon,
+          },
+          {
+            label: "Il Mio Profilo",
+            href: "/dashboard/user?section=profile",
+            icon: UserCircleIcon,
+          },
+          {
+            label: "La Mia Attività",
+            href: "/dashboard/user?section=activities",
             icon: ClockIcon,
           },
         ],
@@ -66,21 +75,6 @@ export function getNavSections(
         ],
       },
       {
-        title: "Gestione Studenti",
-        items: [
-          {
-            label: "Valutazioni Studenti",
-            href: "/dashboard/admin/student-evaluations",
-            icon: ClipboardDocumentCheckIcon,
-          },
-          {
-            label: "Statistiche Studenti",
-            href: "/dashboard/admin/student-statistics",
-            icon: ChartBarIcon,
-          },
-        ],
-      },
-      {
         title: "Gestione Pazienti",
         items: [
           {
@@ -92,11 +86,6 @@ export function getNavSections(
             label: "Percorso Terapeutico",
             href: "/dashboard/therapeutic-journey",
             icon: MapIcon,
-          },
-          {
-            label: "Crea nuovo paziente",
-            href: "/dashboard/admin/create-patient",
-            icon: UserPlusIcon,
           },
           {
             label: "Schema Valutazione",

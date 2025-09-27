@@ -1,5 +1,4 @@
 // Dashboard Feature Components
-export { AdminContent } from "./AdminContent";
 export { CreatePatientContent } from "./CreatePatientContent";
 export { PatientDetailsContent } from "./PatientDetailsContent";
 export { StudentEvaluationsContent } from "./StudentEvaluationsContent";

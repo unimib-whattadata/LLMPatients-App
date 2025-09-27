@@ -29,10 +29,7 @@ export default async function UserDashboardPage() {
     redirect("/login");
   }
 
-  // Redirect admin users to admin dashboard
-  if (session.user.role === "admin") {
-    redirect("/dashboard/admin");
-  }
+  // Admin users now use the same user dashboard
 
   return (
     <SharedLayout

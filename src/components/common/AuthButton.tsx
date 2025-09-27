@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useCallback } from "react";
 import { Button } from "~/components/ui/button";
+import { Skeleton } from "~/components/ui/skeleton";
 
 /**
  * Dynamic Authentication Button Component
@@ -50,7 +51,7 @@ export default function AuthButton() {
   if (status === "loading") {
     return (
       <Button variant="primary" size="default" disabled aria-hidden="true">
-        <div className="bg-text-primary/40 h-4 w-16 animate-pulse rounded"></div>
+        <Skeleton variant="text" className="h-4 w-16" />
       </Button>
     );
   }

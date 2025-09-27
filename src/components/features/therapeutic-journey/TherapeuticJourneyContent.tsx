@@ -8,6 +8,7 @@ import {
   TherapySessionMetrics,
 } from "./index";
 import { api } from "~/trpc/react";
+import { Skeleton } from "~/components/ui/skeleton";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -141,8 +142,8 @@ export function TherapeuticJourneyContent() {
           <div className="dashboard-metric-grid" aria-hidden="true">
             {[1, 2, 3].map((i) => (
               <div key={i} className="dashboard-metric-card">
-                <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
+                <Skeleton variant="text" className="mb-2 h-4 w-20" />
+                <Skeleton variant="text" className="h-8 w-16" />
               </div>
             ))}
           </div>
@@ -150,8 +151,8 @@ export function TherapeuticJourneyContent() {
           <div className="dashboard-metric-grid" aria-hidden="true">
             {[1, 2, 3].map((i) => (
               <div key={i} className="dashboard-metric-card">
-                <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
+                <Skeleton variant="text" className="mb-2 h-4 w-20" />
+                <Skeleton variant="text" className="h-8 w-16" />
               </div>
             ))}
           </div>
@@ -189,36 +190,36 @@ export function TherapeuticJourneyContent() {
                   <div className="dashboard-action-card-main">
                     <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="bg-background-tertiary mb-2 h-5 w-3/4 animate-pulse rounded-md" />
-                        <div className="bg-background-tertiary mb-1 h-4 w-1/2 animate-pulse rounded-md" />
+                        <Skeleton variant="text" className="mb-2 h-5 w-3/4" />
+                        <Skeleton variant="text" className="mb-1 h-4 w-1/2" />
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <div className="bg-background-tertiary h-6 w-20 animate-pulse rounded-full" />
-                        <div className="bg-background-tertiary h-3 w-16 animate-pulse rounded" />
+                        <Skeleton variant="avatar" className="h-6 w-20" />
+                        <Skeleton variant="text" className="h-3 w-16" />
                       </div>
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
+                        <Skeleton variant="text" className="h-4 w-16" />
                         <div className="flex items-center gap-2">
-                          <div className="bg-background-tertiary h-4 w-4 animate-pulse rounded-full" />
-                          <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                          <Skeleton variant="avatar" className="h-4 w-4" />
+                          <Skeleton variant="text" className="h-4 w-12" />
                         </div>
                       </div>
                       <div>
                         <div className="mb-1 flex items-center justify-between">
-                          <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
-                          <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded" />
+                          <Skeleton variant="text" className="h-4 w-16" />
+                          <Skeleton variant="text" className="h-4 w-8" />
                         </div>
-                        <div className="bg-background-tertiary h-2 w-full animate-pulse rounded-full" />
+                        <Skeleton variant="text" className="h-2 w-full" />
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded" />
-                        <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                        <Skeleton variant="text" className="h-4 w-20" />
+                        <Skeleton variant="text" className="h-4 w-12" />
                       </div>
                     </div>
                     <div className="mt-6">
-                      <div className="bg-background-tertiary h-10 w-full animate-pulse rounded" />
+                      <Skeleton variant="button" className="h-10 w-full" />
                     </div>
                   </div>
                 </div>
@@ -233,36 +234,36 @@ export function TherapeuticJourneyContent() {
                   <div className="dashboard-action-card-main">
                     <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="bg-background-tertiary mb-2 h-5 w-3/4 animate-pulse rounded-md" />
-                        <div className="bg-background-tertiary mb-1 h-4 w-1/2 animate-pulse rounded-md" />
+                        <Skeleton variant="text" className="mb-2 h-5 w-3/4" />
+                        <Skeleton variant="text" className="mb-1 h-4 w-1/2" />
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <div className="bg-background-tertiary h-6 w-20 animate-pulse rounded-full" />
-                        <div className="bg-background-tertiary h-3 w-16 animate-pulse rounded" />
+                        <Skeleton variant="avatar" className="h-6 w-20" />
+                        <Skeleton variant="text" className="h-3 w-16" />
                       </div>
                     </div>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
+                        <Skeleton variant="text" className="h-4 w-16" />
                         <div className="flex items-center gap-2">
-                          <div className="bg-background-tertiary h-4 w-4 animate-pulse rounded-full" />
-                          <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                          <Skeleton variant="avatar" className="h-4 w-4" />
+                          <Skeleton variant="text" className="h-4 w-12" />
                         </div>
                       </div>
                       <div>
                         <div className="mb-1 flex items-center justify-between">
-                          <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
-                          <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded" />
+                          <Skeleton variant="text" className="h-4 w-16" />
+                          <Skeleton variant="text" className="h-4 w-8" />
                         </div>
-                        <div className="bg-background-tertiary h-2 w-full animate-pulse rounded-full" />
+                        <Skeleton variant="text" className="h-2 w-full" />
                       </div>
                       <div className="flex items-center justify-between">
-                        <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded" />
-                        <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
+                        <Skeleton variant="text" className="h-4 w-20" />
+                        <Skeleton variant="text" className="h-4 w-12" />
                       </div>
                     </div>
                     <div className="mt-6">
-                      <div className="bg-background-tertiary h-10 w-full animate-pulse rounded" />
+                      <Skeleton variant="button" className="h-10 w-full" />
                     </div>
                   </div>
                 </div>

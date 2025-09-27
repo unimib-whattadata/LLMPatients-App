@@ -3,8 +3,7 @@
  *
  * This route serves as the entry point for the dashboard system.
  * It performs role-based routing to direct users to appropriate dashboards:
- * - Admin users -> /dashboard/admin
- * - Regular users -> /dashboard/user
+ * - All users -> /dashboard/user
  *
  * Includes authentication check and role verification with enhanced error handling.
  */
@@ -84,8 +83,8 @@ async function DashboardRouter() {
 
     // Role-based routing with enhanced logging
     if (userRole === "admin") {
-      console.log("Redirecting admin user to admin dashboard");
-      redirect("/dashboard/admin?auth=jwt");
+      console.log("Redirecting admin user to user dashboard");
+      redirect("/dashboard/user?auth=jwt");
     } else {
       console.log("Redirecting user to user dashboard");
       redirect("/dashboard/user?auth=jwt");

@@ -2,6 +2,10 @@
 
 import React, { useState, useMemo } from "react";
 import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
+import { Label } from "~/components/ui/label";
 
 // Import the patient details schema
 import patientDetailsSchema from "~/server/db/patient-details.json";
@@ -780,11 +784,11 @@ export function PatientDetailsContent() {
     const enumIndentationClass = getEnumIndentationClass(level);
 
     const indicator = hasSubfields ? (
-      <span className="border-border-primary text-text-secondary flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
+      <span className="flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
         {isExpanded ? "−" : "+"}
       </span>
     ) : (
-      <span className="text-text-tertiary flex h-6 w-6 items-center justify-center text-sm">
+      <span className="flex h-6 w-6 items-center justify-center text-sm text-muted-foreground">
         •
       </span>
     );
@@ -796,18 +800,18 @@ export function PatientDetailsContent() {
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h4 className="text-text-primary truncate text-sm font-medium">
+            <h4 className="truncate text-sm font-medium">
               {getFieldDisplayName(fieldKey)}
             </h4>
             {showFieldTypes && fieldDef.type && (
-              <span className="pill pill--sm pill--accent flex-shrink-0">
+              <Badge variant="outline" className="flex-shrink-0 text-xs">
                 {fieldDef.type}
                 {isArray && "[]"}
-              </span>
+              </Badge>
             )}
           </div>
           {fieldDef.description && (
-            <p className="text-text-secondary mt-1 line-clamp-2 text-xs">
+            <p className="text-muted-foreground mt-1 line-clamp-2 text-xs">
               {fieldDef.description}
             </p>
           )}
@@ -824,7 +828,7 @@ export function PatientDetailsContent() {
             aria-expanded={isExpanded}
             variant="ghost"
             size="sm"
-            className={`hover:bg-background-secondary/60 focus-visible:ring-primary-500/40 flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none ${indentationClass}`}
+            className={`flex w-full items-start gap-2 text-left ${indentationClass}`}
           >
             {fieldContent}
           </Button>
@@ -840,9 +844,9 @@ export function PatientDetailsContent() {
           <div className={`mt-1.5 ${enumIndentationClass}`}>
             <div className="flex flex-wrap gap-1.5">
               {fieldDef.enum!.map((value) => (
-                <span key={value} className="pill pill--sm pill--accent">
+                <Badge key={value} variant="secondary" className="text-xs">
                   {getEnumDisplayName(value)}
-                </span>
+                </Badge>
               ))}
             </div>
           </div>
@@ -900,75 +904,70 @@ export function PatientDetailsContent() {
     const elementCount = countElements(sectionDef);
 
     return (
-      <div
-        key={sectionKey}
-        className="dashboard-panel dashboard-panel--compact"
-      >
-        <Button
-          type="button"
-          onClick={() => toggleSection(sectionKey)}
-          aria-expanded={isExpanded}
-          variant="ghost"
-          size="default"
-          className={`focus-visible:ring-primary-500/40 flex w-full items-center justify-between rounded-lg px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:outline-none ${
-            isExpanded
-              ? "bg-background-secondary"
-              : "bg-background-tertiary hover:bg-background-secondary"
-          }`}
-        >
-          <div className="flex items-center gap-2">
-            <h3 className="text-text-primary text-sm font-semibold">
-              {getSectionDisplayName(sectionKey)}
-            </h3>
-            <span className="text-text-tertiary text-xs">
-              ({elementCount} elementi)
+      <Card key={sectionKey} className="mb-4">
+        <CardHeader className="pb-2">
+          <Button
+            type="button"
+            onClick={() => toggleSection(sectionKey)}
+            aria-expanded={isExpanded}
+            variant="ghost"
+            size="default"
+            className="flex w-full items-center justify-between p-0 h-auto"
+          >
+            <div className="flex items-center gap-2">
+              <h3 className="text-sm font-semibold">
+                {getSectionDisplayName(sectionKey)}
+              </h3>
+              <Badge variant="secondary" className="text-xs">
+                {elementCount} elementi
+              </Badge>
+            </div>
+            <span className="ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
+              {isExpanded ? "−" : "+"}
             </span>
-          </div>
-          <span className="border-border-primary text-text-secondary ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
-            {isExpanded ? "−" : "+"}
-          </span>
-        </Button>
+          </Button>
+        </CardHeader>
 
         {isExpanded && hasFields && (
-          <ul className="mt-2 space-y-1.5" role="group">
-            {Object.entries(sectionDef.properties!).map(
-              ([fieldKey, fieldDef]) => renderField(fieldKey, fieldDef),
-            )}
-          </ul>
+          <CardContent className="pt-0">
+            <ul className="space-y-1.5" role="group">
+              {Object.entries(sectionDef.properties!).map(
+                ([fieldKey, fieldDef]) => renderField(fieldKey, fieldDef),
+              )}
+            </ul>
+          </CardContent>
         )}
-      </div>
+      </Card>
     );
   };
 
   return (
-    <div className="dashboard-panel-stack">
-      <section className="dashboard-section">
-        <div className="dashboard-section__header">
-          <div>
-            <h2 className="dashboard-section__title">
-              Schema di Valutazione Psicologica Strutturata
-            </h2>
-            <p className="dashboard-section__description">
-              Visualizza tutti i campi disponibili per la valutazione
-              psicologica strutturata dei pazienti. Clicca sulle sezioni per
-              espandere e visualizzare i dettagli dei campi.
-            </p>
-          </div>
-        </div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-2xl font-semibold">
+            Schema di Valutazione Psicologica Strutturata
+          </CardTitle>
+          <p className="text-muted-foreground">
+            Visualizza tutti i campi disponibili per la valutazione
+            psicologica strutturata dei pazienti. Clicca sulle sezioni per
+            espandere e visualizzare i dettagli dei campi.
+          </p>
+        </CardHeader>
+        <CardContent>
 
         {/* Search Bar and Controls */}
         <div className="mb-4 space-y-3">
-          <div className="auth-input-group">
-            <label htmlFor="patient-schema-search" className="auth-label">
+          <div className="space-y-2">
+            <Label htmlFor="patient-schema-search">
               Cerca nello schema
-            </label>
-            <input
+            </Label>
+            <Input
               id="patient-schema-search"
               type="text"
               placeholder="Digita parola chiave..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="auth-input"
             />
           </div>
           <div className="text-text-tertiary flex flex-wrap items-center justify-between gap-2 text-xs">
@@ -1012,12 +1011,13 @@ export function PatientDetailsContent() {
 
         {filteredSections.length === 0 && searchTerm && (
           <div className="py-8 text-center">
-            <p className="text-text-tertiary">
+            <p className="text-muted-foreground">
               Nessuna sezione trovata per &quot;{searchTerm}&quot;
             </p>
           </div>
         )}
-      </section>
+        </CardContent>
+      </Card>
     </div>
   );
 }
