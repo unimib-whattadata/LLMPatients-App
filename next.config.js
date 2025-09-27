@@ -29,8 +29,16 @@ const config = {
       "@heroicons/react",
       "@radix-ui/react-label",
       "@radix-ui/react-slot",
+      "@tanstack/react-query",
+      "@trpc/client",
+      "@trpc/react-query",
     ],
+    // Enable modern JavaScript features
+    esmExternals: true,
   },
+
+  // Server external packages
+  serverExternalPackages: ["bcryptjs"],
 
   // Compiler optimizations
   compiler: {
@@ -38,6 +46,8 @@ const config = {
     removeConsole: process.env.NODE_ENV === "production" ? {
       exclude: ["error", "warn"],
     } : false,
+    // Enable SWC optimizations
+    styledComponents: true,
   },
 
   // Image optimization
@@ -111,8 +121,38 @@ const config = {
     ];
   },
 
-  // Bundle analyzer (optional)
-  webpack: (config) => {
+  // Bundle analyzer and optimizations
+  webpack: (config, { dev, isServer }) => {
+    // Optimize for production
+    if (!dev) {
+      // Enable tree shaking
+      config.optimization = {
+        ...config.optimization,
+        usedExports: true,
+        sideEffects: false,
+      };
+
+      // Optimize chunks
+      config.optimization.splitChunks = {
+        ...config.optimization.splitChunks,
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            chunks: 'all',
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            chunks: 'all',
+            enforce: true,
+          },
+        },
+      };
+    }
+
+    // Bundle analyzer (optional)
     if (process.env.ANALYZE === "true") {
       try {
         // Dynamic import to avoid type errors

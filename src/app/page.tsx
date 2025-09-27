@@ -61,7 +61,7 @@ export default async function Home() {
           <div className="home-footer-grid">
             <div className="home-footer-brand">
               <Image
-                src="/images/logo.png"
+                src="/images/logo.webp"
                 alt="ePatients Logo"
                 className="home-footer-brand-logo"
                 itemProp="logo"

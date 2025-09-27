@@ -2438,7 +2438,23 @@
     min-height: 640px;
     padding: 6rem 0;
     background: url('/images/home/hero.png') no-repeat center center / cover;
+    background: url('/images/home/hero.webp') no-repeat center center / cover;
     isolation: isolate;
+  }
+
+  /* Responsive image optimization */
+  @media (max-width: 768px) {
+    .home-hero {
+      min-height: 480px;
+      padding: 4rem 0;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .home-hero {
+      min-height: 400px;
+      padding: 3rem 0;
+    }
   }
 
   .home-hero::before {

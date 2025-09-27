@@ -89,15 +89,23 @@ export const authConfig = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          console.warn("Credentials authorize - Missing email or password");
+          if (process.env.NODE_ENV === "development") {
+            if (process.env.NODE_ENV === "development") {
+            console.warn("Credentials authorize - Missing email or password");
+          }
+          }
           return null;
         }
 
         try {
-          console.log(
-            "Credentials authorize - Validating user:",
-            credentials.email,
-          );
+          if (process.env.NODE_ENV === "development") {
+            if (process.env.NODE_ENV === "development") {
+            console.log(
+              "Credentials authorize - Validating user:",
+              credentials.email,
+            );
+          }
+          }
 
           // Use enhanced validation function
           const userValidation = await validateUserByEmail(
@@ -106,10 +114,14 @@ export const authConfig = {
           );
 
           if (!userValidation.isValid || !userValidation.user) {
+            if (process.env.NODE_ENV === "development") {
+              if (process.env.NODE_ENV === "development") {
             console.warn(
-              "Credentials authorize - User validation failed:",
-              userValidation.error,
-            );
+                "Credentials authorize - User validation failed:",
+                userValidation.error,
+              );
+          }
+            }
             return null;
           }
 
@@ -123,9 +135,13 @@ export const authConfig = {
             .limit(1);
 
           if (fullUserResults.length === 0) {
+            if (process.env.NODE_ENV === "development") {
+              if (process.env.NODE_ENV === "development") {
             console.warn(
-              "Credentials authorize - User not found in password verification query",
-            );
+                "Credentials authorize - User not found in password verification query",
+              );
+          }
+            }
             return null;
           }
 
@@ -133,7 +149,11 @@ export const authConfig = {
 
           // Verify password
           if (!fullUser.password) {
+            if (process.env.NODE_ENV === "development") {
+              if (process.env.NODE_ENV === "development") {
             console.warn("Credentials authorize - User has no password set");
+          }
+            }
             return null;
           }
 
@@ -143,10 +163,14 @@ export const authConfig = {
           );
 
           if (!isValidPassword) {
+            if (process.env.NODE_ENV === "development") {
+              if (process.env.NODE_ENV === "development") {
             console.warn(
-              "Credentials authorize - Invalid password for user:",
-              credentials.email,
-            );
+                "Credentials authorize - Invalid password for user:",
+                credentials.email,
+              );
+          }
+            }
             return null;
           }
 
@@ -161,18 +185,26 @@ export const authConfig = {
             !comprehensiveValidation.isValid ||
             !comprehensiveValidation.accountActive
           ) {
+            if (process.env.NODE_ENV === "development") {
+              if (process.env.NODE_ENV === "development") {
             console.error(
-              "Credentials authorize - Comprehensive validation failed:",
-              comprehensiveValidation.errors,
-            );
+                "Credentials authorize - Comprehensive validation failed:",
+                comprehensiveValidation.errors,
+              );
+          }
+            }
             return null;
           }
 
-          console.log("Credentials authorize - Authentication successful:", {
-            userId: user.id,
-            email: user.email,
-            role: user.role,
-          });
+          if (process.env.NODE_ENV === "development") {
+            if (process.env.NODE_ENV === "development") {
+            console.log("Credentials authorize - Authentication successful:", {
+              userId: user.id,
+              email: user.email,
+              role: user.role,
+            });
+          }
+          }
 
           // Return validated user object for session creation
           return {
@@ -183,7 +215,9 @@ export const authConfig = {
             role: user.role as "admin" | "user",
           };
         } catch (error) {
-          console.error("Credentials authorize - Unexpected error:", error);
+          if (process.env.NODE_ENV === "development") {
+            console.error("Credentials authorize - Unexpected error:", error);
+          }
           return null;
         }
       },
@@ -268,7 +302,8 @@ export const authConfig = {
   callbacks: {
     // Enhanced JWT callback with comprehensive database validation
     jwt: async ({ token, user, account, trigger }) => {
-      console.log(
+      if (process.env.NODE_ENV === "development") {
+            console.log(
         "JWT callback - Enhanced database validation - Trigger:",
         trigger,
         "User:",
@@ -276,6 +311,7 @@ export const authConfig = {
         "Token exists:",
         !!token,
       );
+          }
 
       // Initial sign in - populate token with validated user data
       if (user?.id) {
@@ -286,10 +322,12 @@ export const authConfig = {
         );
 
         if (!validation.isValid || !validation.user) {
-          console.error(
+          if (process.env.NODE_ENV === "development") {
+            console.error(
             "JWT callback - User validation failed during sign-in:",
             validation.error,
           );
+          }
           return null; // Reject token creation if user validation fails
         }
 
@@ -301,7 +339,7 @@ export const authConfig = {
         token.image = validation.user.image ?? undefined;
         token.lastValidated = Date.now(); // Track when we last validated against DB
 
-        console.log(
+        if (process.env.NODE_ENV === "development") console.log(
           "JWT callback - Initial sign in with DB validation successful:",
           {
             id: token.id,
@@ -316,7 +354,9 @@ export const authConfig = {
       if (account) {
         token.accessToken = account.access_token;
         token.provider = account.provider;
-        console.log("JWT callback - Account linked:", account.provider);
+        if (process.env.NODE_ENV === "development") {
+            console.log("JWT callback - Account linked:", account.provider);
+          }
 
         // Re-validate user data when account is linked
         if (token.id) {
@@ -330,9 +370,11 @@ export const authConfig = {
             token.name = validation.user.name ?? undefined;
             token.image = validation.user.image ?? undefined;
             token.lastValidated = Date.now();
+            if (process.env.NODE_ENV === "development") {
             console.log(
               "JWT callback - User data refreshed after account linking",
             );
+          }
           }
         }
       }
@@ -347,9 +389,11 @@ export const authConfig = {
           currentTime - lastValidated > validationInterval;
 
         if (shouldValidate) {
-          console.log(
+          if (process.env.NODE_ENV === "development") {
+            console.log(
             "JWT callback - Performing comprehensive database validation...",
           );
+          }
 
           try {
             const validation = await comprehensiveUserValidation(
@@ -362,23 +406,27 @@ export const authConfig = {
             );
 
             if (!validation.isValid || !validation.user) {
-              console.error(
+              if (process.env.NODE_ENV === "development") {
+            console.error(
                 "JWT callback - Comprehensive validation failed:",
                 validation.errors,
               );
+          }
 
               // Check if user was deleted
               if (
                 validation.errors.some((error) => error.includes("not found"))
               ) {
-                console.warn(
+                if (process.env.NODE_ENV === "development") {
+            console.warn(
                   "JWT callback - User no longer exists, invalidating token",
                 );
+          }
                 return null; // User was deleted, invalidate token
               }
 
               // For other errors, continue with existing token but log warning
-              console.warn(
+              if (process.env.NODE_ENV === "development") console.warn(
                 "JWT callback - Database validation errors (continuing with existing token):",
                 validation.errors,
               );
@@ -387,9 +435,11 @@ export const authConfig = {
 
             // Check for account deactivation
             if (!validation.accountActive) {
-              console.warn(
+              if (process.env.NODE_ENV === "development") {
+            console.warn(
                 "JWT callback - User account is not active, invalidating token",
               );
+          }
               return null;
             }
 
@@ -402,7 +452,7 @@ export const authConfig = {
             token.lastValidated = currentTime;
 
             if (wasRoleChanged) {
-              console.log(
+              if (process.env.NODE_ENV === "development") console.log(
                 "JWT callback - Role change detected and updated in token:",
                 {
                   userId: token.id,
@@ -411,7 +461,7 @@ export const authConfig = {
                 },
               );
             } else {
-              console.log(
+              if (process.env.NODE_ENV === "development") console.log(
                 "JWT callback - Token refreshed with current DB data:",
                 {
                   id: token.id,
@@ -422,16 +472,20 @@ export const authConfig = {
               );
             }
           } catch (error) {
+            if (process.env.NODE_ENV === "development") {
             console.error(
               "JWT callback - Error during comprehensive validation:",
               error,
             );
+          }
 
             // On database errors, continue with existing token but mark as needing validation
             token.lastValidated = currentTime - validationInterval / 2; // Retry sooner
+            if (process.env.NODE_ENV === "development") {
             console.warn(
               "JWT callback - Continuing with existing token due to database error",
             );
+          }
           }
         }
       }
@@ -441,7 +495,7 @@ export const authConfig = {
 
     // Enhanced session callback with database cross-validation and impersonation support
     session: async ({ session, token }) => {
-      console.log(
+      if (process.env.NODE_ENV === "development") console.log(
         "Session callback - Enhanced DB validation with impersonation - Creating session for token:",
         {
           tokenId: token?.id,
@@ -456,10 +510,12 @@ export const authConfig = {
       );
 
       if (!token || !session.user) {
-        console.warn("Session callback - Missing token or session.user:", {
+        if (process.env.NODE_ENV === "development") {
+            console.warn("Session callback - Missing token or session.user:", {
           hasToken: !!token,
           hasSessionUser: !!session.user,
         });
+          }
         return session;
       }
 
@@ -471,9 +527,11 @@ export const authConfig = {
 
       // Perform additional database validation for stale tokens or critical operations
       if (validationAge > maxValidationAge) {
-        console.log(
+        if (process.env.NODE_ENV === "development") {
+            console.log(
           "Session callback - Token validation is stale, performing fresh database check...",
         );
+          }
 
         try {
           const validation = await validateUserById(
@@ -482,16 +540,20 @@ export const authConfig = {
           );
 
           if (!validation.isValid || !validation.user) {
+            if (process.env.NODE_ENV === "development") {
             console.error(
               "Session callback - Fresh database validation failed:",
               validation.error,
             );
+          }
 
             // If user was deleted or deactivated, return empty session to force logout
             if (validation.error?.includes("not found")) {
-              console.warn(
+              if (process.env.NODE_ENV === "development") {
+            console.warn(
                 "Session callback - User no longer exists, invalidating session",
               );
+          }
               // Return session with empty user to trigger logout
               return {
                 ...session,
@@ -506,14 +568,18 @@ export const authConfig = {
             }
 
             // For other errors, log warning but continue with token data
+            if (process.env.NODE_ENV === "development") {
             console.warn(
               "Session callback - Database error during validation, using token data",
             );
+          }
           } else {
             // Use fresh database data for session
+            if (process.env.NODE_ENV === "development") {
             console.log(
               "Session callback - Using fresh database data for session",
             );
+          }
             session.user.id = validation.user.id;
             session.user.role =
               (validation.user.role as "admin" | "user") || "user";
@@ -521,6 +587,7 @@ export const authConfig = {
             session.user.name = validation.user.name ?? undefined;
             session.user.image = validation.user.image;
 
+            if (process.env.NODE_ENV === "development") {
             console.log(
               "Session callback - Session created with fresh DB data:",
               {
@@ -529,14 +596,17 @@ export const authConfig = {
                 role: session.user.role,
               },
             );
+          }
 
             // Continue to impersonation logic below
           }
         } catch (error) {
-          console.error(
+          if (process.env.NODE_ENV === "development") {
+            console.error(
             "Session callback - Error during fresh database validation:",
             error,
           );
+          }
           // Fall through to use token data
         }
       } else {
@@ -550,9 +620,11 @@ export const authConfig = {
 
       // Handle impersonation context
       if (token.impersonation && typeof token.impersonation === 'object' && 'isActive' in token.impersonation && token.impersonation.isActive) {
-        console.log(
+        if (process.env.NODE_ENV === "development") {
+            console.log(
           "Session callback - Active impersonation detected, setting up impersonated session",
         );
+          }
 
         // Override user details with impersonated user
         const impersonation = token.impersonation as Record<string, unknown>;
@@ -574,17 +646,19 @@ export const authConfig = {
           };
         }
 
-        console.log("Session callback - Impersonated session created:", {
+        if (process.env.NODE_ENV === "development") {
+            console.log("Session callback - Impersonated session created:", {
           originalAdminId: session.impersonation?.originalAdminId,
           impersonatedUserId: session.user.id,
           impersonatedUserEmail: session.user.email,
           sessionId: session.impersonation?.sessionId,
         });
+          }
       } else {
         // No impersonation active
         session.impersonation = undefined;
 
-        console.log("Session callback - Normal session created:", {
+        if (process.env.NODE_ENV === "development") console.log("Session callback - Normal session created:", {
           userId: session.user.id,
           email: session.user.email,
           role: session.user.role,
@@ -600,7 +674,7 @@ export const authConfig = {
 
     // Enhanced redirect callback with validation logging
     async redirect({ url, baseUrl }) {
-      console.log("NextAuth redirect callback (enhanced):", { url, baseUrl });
+      if (process.env.NODE_ENV === "development") console.log("NextAuth redirect callback (enhanced):", { url, baseUrl });
 
       // Allows relative callback URLs
       if (url.startsWith("/")) return `${baseUrl}${url}`;
@@ -611,12 +685,14 @@ export const authConfig = {
 
     // Enhanced signIn callback with database validation
     async signIn({ user, account, profile: _profile, email: _email, credentials }) {
-      console.log("SignIn callback - Enhanced validation:", {
+      if (process.env.NODE_ENV === "development") {
+            console.log("SignIn callback - Enhanced validation:", {
         userId: user?.id,
         userEmail: user?.email,
         accountProvider: account?.provider,
         hasCredentials: !!credentials,
       });
+          }
 
       // For credentials provider, additional validation is handled in authorize function
       if (account?.provider === "credentials") {
@@ -632,20 +708,26 @@ export const authConfig = {
           );
 
           if (!validation.isValid) {
+            if (process.env.NODE_ENV === "development") {
             console.error(
               "SignIn callback - User validation failed for OAuth:",
               validation.error,
             );
+          }
             return false;
           }
 
-          console.log("SignIn callback - OAuth user validation successful");
+          if (process.env.NODE_ENV === "development") {
+            console.log("SignIn callback - OAuth user validation successful");
+          }
           return true;
         } catch (error) {
-          console.error(
+          if (process.env.NODE_ENV === "development") {
+            console.error(
             "SignIn callback - Error validating OAuth user:",
             error,
           );
+          }
           return false;
         }
       }
@@ -657,7 +739,7 @@ export const authConfig = {
   // Enhanced events with database validation logging
   events: {
     async signIn(message) {
-      console.log("NextAuth signIn event (enhanced):", {
+      if (process.env.NODE_ENV === "development") console.log("NextAuth signIn event (enhanced):", {
         user: message.user.email,
         userId: message.user.id,
         account: message.account?.provider,
@@ -672,19 +754,23 @@ export const authConfig = {
             message.user.id,
             createValidationConfig({ timeout: 1000, retries: 1 }),
           );
-          console.log("SignIn event - DB validation status:", {
+          if (process.env.NODE_ENV === "development") {
+            console.log("SignIn event - DB validation status:", {
             isValid: validation.isValid,
             userRole: validation.user?.role,
             error: validation.error,
           });
+          }
         } catch (error) {
-          console.warn("SignIn event - Could not validate against DB:", error);
+          if (process.env.NODE_ENV === "development") {
+            console.warn("SignIn event - Could not validate against DB:", error);
+          }
         }
       }
     },
 
     async session(message) {
-      console.log("NextAuth session event (enhanced):", {
+      if (process.env.NODE_ENV === "development") console.log("NextAuth session event (enhanced):", {
         user: message.session?.user?.email,
         userId: message.session?.user?.id,
         role: (message.session?.user as { role?: string })?.role,
@@ -693,13 +779,13 @@ export const authConfig = {
     },
 
     async signOut(_message) {
-      console.log("NextAuth signOut event (enhanced):", {
+      if (process.env.NODE_ENV === "development") console.log("NextAuth signOut event (enhanced):", {
         timestamp: new Date().toISOString(),
       });
     },
 
     async updateUser(_message) {
-      console.log("NextAuth updateUser event:", {
+      if (process.env.NODE_ENV === "development") console.log("NextAuth updateUser event:", {
         timestamp: new Date().toISOString(),
       });
     },

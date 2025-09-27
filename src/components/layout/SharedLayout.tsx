@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Navbar, getNavSections } from "@/components/navigation";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ImagePreloader, CRITICAL_IMAGES } from "@/components/ui/ImagePreloader";
 
 import type { User, ImpersonationContext, NavItem } from "~/types";
 
@@ -213,6 +214,9 @@ export function SharedLayout({
 
   return (
     <div className={`layout-container ${layoutConfig.containerClass}`}>
+      {/* Image Preloader for LCP optimization */}
+      <ImagePreloader images={CRITICAL_IMAGES} />
+      
       {/* Skip Navigation Links */}
       <a
         href="#main-content"

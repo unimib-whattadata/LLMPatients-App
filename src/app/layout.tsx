@@ -113,9 +113,16 @@ export default function RootLayout({
         {/* Preload critical resources */}
         <link
           rel="preload"
-          href="/images/logo.png"
+          href="/images/logo.webp"
           as="image"
-          type="image/png"
+          type="image/webp"
+        />
+        <link
+          rel="preload"
+          href="/images/home/hero.webp"
+          as="image"
+          type="image/webp"
+          media="(min-width: 1px)"
         />
 
         {/* Theme color for mobile browsers */}
