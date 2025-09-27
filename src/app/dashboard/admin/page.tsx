@@ -3,7 +3,7 @@
  *
  * Main admin dashboard displaying system overview, user management,
  * and administrative tools. Accessible only to users with admin role.
- * 
+ *
  * @description Server-side rendered page that handles authentication,
  * role verification, and renders the admin dashboard interface.
  * Only accessible to authenticated users with 'admin' role.
@@ -16,7 +16,7 @@ import { AdminContent } from "@/components/features/dashboard/AdminContent";
 
 /**
  * Admin Dashboard Page Component
- * 
+ *
  * Handles authentication, role verification, and renders admin interface.
  * Redirects unauthenticated users to login page and non-admin users to user dashboard.
  */

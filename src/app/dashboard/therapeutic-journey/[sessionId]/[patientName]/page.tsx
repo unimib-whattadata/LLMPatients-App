@@ -3,7 +3,7 @@
  *
  * Interface for viewing therapy session timeline and session details.
  * Displays session history, progress, and interaction logs.
- * 
+ *
  * @description Server-side rendered page that handles authentication
  * and renders the session timeline interface for therapy session management.
  * Only accessible to authenticated users.
@@ -15,7 +15,7 @@ import { SessionTimelineContent } from "@/components/features/therapeutic-journe
 
 /**
  * Session Timeline Page Component
- * 
+ *
  * Handles authentication and renders session timeline interface.
  * Redirects unauthenticated users to login page.
  * Note: SessionTimelineContent handles its own layout internally.

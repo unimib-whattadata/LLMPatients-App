@@ -5,14 +5,15 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
+import { patients } from "~/server/db/schema";
 import {
-  patients,
-} from "~/server/db/schema";
-import { DIFFICULTY_LEVELS, type DifficultyLevel } from "~/lib/constants/difficulty";
+  DIFFICULTY_LEVELS,
+  type DifficultyLevel,
+} from "~/lib/constants/difficulty";
 
 /**
  * Patient interface representing a virtual patient in the system
- * 
+ *
  * Contains all necessary information for patient exploration and therapy sessions.
  * Includes demographic data, psychological profile, difficulty level, and metadata.
  */
@@ -32,38 +33,39 @@ export interface Patient {
   updatedAt: Date | null;
 }
 
-
 /**
  * Patients Router
- * 
+ *
  * Handles all patient exploration and management endpoints.
  * Provides functionality for browsing, filtering, and retrieving patient information.
  */
 export const patientsRouter = createTRPCRouter({
   /**
    * Get all active virtual patients for exploration page
-   * 
+   *
    * Public endpoint that returns paginated list of patients with optional filtering.
    * Supports filtering by difficulty level, tags, and search queries.
-   * 
+   *
    * @param input - Optional filtering and pagination parameters
    * @returns Array of patient objects with associated tags
    */
   getExplorationPatients: publicProcedure
     .input(
-      z.object({
-        difficulty: z.array(z.number().min(1).max(3)).optional(),
-        searchQuery: z.string().optional(),
-        limit: z.number().min(1).max(50).default(20),
-        offset: z.number().min(0).default(0),
-      }).optional()
+      z
+        .object({
+          difficulty: z.array(z.number().min(1).max(3)).optional(),
+          searchQuery: z.string().optional(),
+          limit: z.number().min(1).max(50).default(20),
+          offset: z.number().min(0).default(0),
+        })
+        .optional(),
     )
     .query(async ({ ctx, input }) => {
-      const { 
-        difficulty = [], 
-        searchQuery = "", 
-        limit = 20, 
-        offset = 0 
+      const {
+        difficulty = [],
+        searchQuery = "",
+        limit = 20,
+        offset = 0,
       } = input ?? {};
 
       // Build where conditions
@@ -72,14 +74,12 @@ export const patientsRouter = createTRPCRouter({
       if (difficulty.length > 0) {
         whereConditions.push(
           // Use IN operator for multiple difficulty values
-          eq(patients.difficulty, difficulty[0]!) // Simplified for now
+          eq(patients.difficulty, difficulty[0]!), // Simplified for now
         );
       }
 
       if (searchQuery.trim()) {
-        whereConditions.push(
-          like(patients.name, `%${searchQuery}%`)
-        );
+        whereConditions.push(like(patients.name, `%${searchQuery}%`));
       }
 
       // Get patients
@@ -118,10 +118,7 @@ export const patientsRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const patient = await ctx.db.query.patients.findFirst({
-        where: and(
-          eq(patients.id, input.id),
-          eq(patients.isActive, true)
-        ),
+        where: and(eq(patients.id, input.id), eq(patients.isActive, true)),
       });
 
       if (!patient) {
@@ -148,13 +145,12 @@ export const patientsRouter = createTRPCRouter({
       return transformedPatient;
     }),
 
-
   /**
    * Create a new virtual patient
-   * 
+   *
    * Protected endpoint for admin users to create new virtual patients.
    * Validates input data and creates patient with associated tags.
-   * 
+   *
    * @param input - Patient creation data including name, description, details, etc.
    * @returns Created patient object
    */
@@ -167,10 +163,12 @@ export const patientsRouter = createTRPCRouter({
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
-        avatarType: z.enum(["photo", "illustration", "avatar"]).default("illustration"),
+        avatarType: z
+          .enum(["photo", "illustration", "avatar"])
+          .default("illustration"),
         difficulty: z.number().min(1).max(3),
         estimatedDuration: z.number().min(5).max(180).default(30),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user is admin
@@ -197,7 +195,6 @@ export const patientsRouter = createTRPCRouter({
       return { id: newPatient?.id, success: true };
     }),
 
-
   /**
    * Update patient status (activate/deactivate)
    * Protected endpoint - admin only
@@ -207,7 +204,7 @@ export const patientsRouter = createTRPCRouter({
       z.object({
         id: z.string(),
         isActive: z.boolean(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user is admin

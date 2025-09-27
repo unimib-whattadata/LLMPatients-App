@@ -1,17 +1,29 @@
 /**
  * User Management tRPC Router
- * 
+ *
  * Provides API endpoints for admin user management operations including:
  * - List all users with pagination
- * - Create new users 
+ * - Create new users
  * - Update user roles and profiles
  * - Delete users
  * - User activity tracking
  */
 
 import { z } from "zod";
-import { createTRPCRouter, protectedProcedure, publicProcedure, adminProcedure } from "~/server/api/trpc";
-import { users, accounts, sessions, userActivities, impersonationSessions, impersonationAuditLog } from "~/server/db/schema";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+  adminProcedure,
+} from "~/server/api/trpc";
+import {
+  users,
+  accounts,
+  sessions,
+  userActivities,
+  impersonationSessions,
+  impersonationAuditLog,
+} from "~/server/db/schema";
 import { eq, desc, asc, and, or, like, count } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 
@@ -27,28 +39,26 @@ export const userManagementRouter = createTRPCRouter({
         offset: z.number().min(0).default(0),
         search: z.string().optional(),
         role: z.enum(["admin", "user"]).optional(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { limit, offset, search, role } = input;
 
       // Build where conditions
       const conditions = [];
-      
+
       if (search) {
         conditions.push(
-          or(
-            like(users.name, `%${search}%`),
-            like(users.email, `%${search}%`)
-          )
+          or(like(users.name, `%${search}%`), like(users.email, `%${search}%`)),
         );
       }
-      
+
       if (role) {
         conditions.push(eq(users.role, role));
       }
 
-      const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+      const whereClause =
+        conditions.length > 0 ? and(...conditions) : undefined;
 
       const userList = await ctx.db
         .select({
@@ -89,7 +99,7 @@ export const userManagementRouter = createTRPCRouter({
         email: z.string().email("Valid email is required"),
         password: z.string().min(6, "Password must be at least 6 characters"),
         role: z.enum(["admin", "user"]).default("user"),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const { name, email, password, role } = input;
@@ -146,7 +156,7 @@ export const userManagementRouter = createTRPCRouter({
       z.object({
         userId: z.string(),
         role: z.enum(["admin", "user"]),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       const { userId, role } = input;
@@ -159,7 +169,7 @@ export const userManagementRouter = createTRPCRouter({
       // Update user role
       const updatedUser = await ctx.db
         .update(users)
-        .set({ 
+        .set({
           role,
           // updatedAt: new Date(),
         })
@@ -189,7 +199,7 @@ export const userManagementRouter = createTRPCRouter({
         userId: z.string(),
         name: z.string().min(1, "Name is required"),
         email: z.string().email("Valid email is required"),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user is admin
@@ -222,7 +232,7 @@ export const userManagementRouter = createTRPCRouter({
       // Update user profile
       const updatedUser = await ctx.db
         .update(users)
-        .set({ 
+        .set({
           name,
           email,
           // updatedAt: new Date(),
@@ -251,7 +261,7 @@ export const userManagementRouter = createTRPCRouter({
     .input(
       z.object({
         userId: z.string(),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Check if user is admin
@@ -276,28 +286,40 @@ export const userManagementRouter = createTRPCRouter({
             .where(
               or(
                 eq(impersonationSessions.adminUserId, userId),
-                eq(impersonationSessions.targetUserId, userId)
-              )
+                eq(impersonationSessions.targetUserId, userId),
+              ),
             );
 
           // Delete impersonation audit logs (references impersonation sessions)
           if (userImpersonationSessions.length > 0) {
-            const sessionIds = userImpersonationSessions.map(session => session.id);
-            await tx.delete(impersonationAuditLog).where(
-              or(...sessionIds.map(id => eq(impersonationAuditLog.impersonationSessionId, id)))
+            const sessionIds = userImpersonationSessions.map(
+              (session) => session.id,
             );
+            await tx
+              .delete(impersonationAuditLog)
+              .where(
+                or(
+                  ...sessionIds.map((id) =>
+                    eq(impersonationAuditLog.impersonationSessionId, id),
+                  ),
+                ),
+              );
           }
 
           // Delete impersonation sessions (references users)
-          await tx.delete(impersonationSessions).where(
-            or(
-              eq(impersonationSessions.adminUserId, userId),
-              eq(impersonationSessions.targetUserId, userId)
-            )
-          );
+          await tx
+            .delete(impersonationSessions)
+            .where(
+              or(
+                eq(impersonationSessions.adminUserId, userId),
+                eq(impersonationSessions.targetUserId, userId),
+              ),
+            );
 
           // Delete user activities (references users)
-          await tx.delete(userActivities).where(eq(userActivities.userId, userId));
+          await tx
+            .delete(userActivities)
+            .where(eq(userActivities.userId, userId));
 
           // Delete sessions (references users)
           await tx.delete(sessions).where(eq(sessions.userId, userId));
@@ -324,7 +346,9 @@ export const userManagementRouter = createTRPCRouter({
         return { success: true, deletedUser: result };
       } catch (error) {
         console.error("Error deleting user:", error);
-        throw new Error(`Failed to delete user: ${error instanceof Error ? error.message : "Unknown error"}`);
+        throw new Error(
+          `Failed to delete user: ${error instanceof Error ? error.message : "Unknown error"}`,
+        );
       }
     }),
 
@@ -336,7 +360,7 @@ export const userManagementRouter = createTRPCRouter({
     .input(
       z.object({
         userId: z.string(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       // Check if user is admin
@@ -380,13 +404,13 @@ export const userManagementRouter = createTRPCRouter({
     const totalUsersResult = await ctx.db
       .select({ count: count() })
       .from(users);
-    
+
     // Get admin users count
     const adminUsersResult = await ctx.db
       .select({ count: count() })
       .from(users)
       .where(eq(users.role, "admin"));
-    
+
     // Get regular users count
     const regularUsersResult = await ctx.db
       .select({ count: count() })
@@ -409,11 +433,14 @@ export const userManagementRouter = createTRPCRouter({
       z.object({
         specialKey: z.string(),
         limit: z.number().min(1).max(100).default(50),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       // Only allow in development with special key
-      if (process.env.NODE_ENV !== "development" || input.specialKey !== "DavideIsTesting") {
+      if (
+        process.env.NODE_ENV !== "development" ||
+        input.specialKey !== "DavideIsTesting"
+      ) {
         throw new Error("Unauthorized: Development access only");
       }
 
@@ -444,11 +471,14 @@ export const userManagementRouter = createTRPCRouter({
         email: z.string().email(),
         password: z.string().min(6),
         role: z.enum(["admin", "user"]).default("user"),
-      })
+      }),
     )
     .mutation(async ({ ctx, input }) => {
       // Only allow in development with special key
-      if (process.env.NODE_ENV !== "development" || input.specialKey !== "DavideIsTesting") {
+      if (
+        process.env.NODE_ENV !== "development" ||
+        input.specialKey !== "DavideIsTesting"
+      ) {
         throw new Error("Unauthorized: Development access only");
       }
 

@@ -1,15 +1,15 @@
 /**
  * tRPC Server Configuration
- * 
+ *
  * This file configures the tRPC server with context, middleware, and error handling.
  * It provides type-safe API endpoints with authentication and database access.
- * 
+ *
  * Key components:
  * 1. Context creation with database and session access
  * 2. Middleware for authentication and authorization
  * 3. Error formatting and validation
  * 4. Procedure types (public, protected, admin)
- * 
+ *
  * You typically don't need to edit this file unless you want to:
  * - Modify request context (see Part 1)
  * - Create new middleware or procedure types (see Part 3)
@@ -145,9 +145,9 @@ export const protectedProcedure = t.procedure
  */
 export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.session.user.role !== "admin") {
-    throw new TRPCError({ 
-      code: "FORBIDDEN", 
-      message: "Admin access required to perform this action" 
+    throw new TRPCError({
+      code: "FORBIDDEN",
+      message: "Admin access required to perform this action",
     });
   }
   return next({ ctx });

@@ -348,14 +348,14 @@ export const UserContent = React.memo(function UserContent() {
             <div className="dashboard-section">
               <div className="dashboard-section__header">
                 <div>
-                  <div className="bg-background-tertiary animate-pulse rounded-md h-6 w-48 mb-2" />
-                  <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-96" />
+                  <div className="bg-background-tertiary mb-2 h-6 w-48 animate-pulse rounded-md" />
+                  <div className="bg-background-tertiary h-4 w-96 animate-pulse rounded-md" />
                 </div>
               </div>
               <div className="space-y-4">
-                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
-                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
-                <div className="bg-background-tertiary animate-pulse rounded-md h-20 w-full" />
+                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
+                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
+                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
               </div>
             </div>
           ) : isEditingProfile ? (
@@ -481,10 +481,10 @@ export const UserContent = React.memo(function UserContent() {
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="dashboard-list__item">
                   <div className="flex-1">
-                    <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-32 mb-2" />
-                    <div className="bg-background-tertiary animate-pulse rounded-md h-3 w-24" />
+                    <div className="bg-background-tertiary mb-2 h-4 w-32 animate-pulse rounded-md" />
+                    <div className="bg-background-tertiary h-3 w-24 animate-pulse rounded-md" />
                   </div>
-                  <div className="bg-background-tertiary animate-pulse rounded-full h-6 w-16" />
+                  <div className="bg-background-tertiary h-6 w-16 animate-pulse rounded-full" />
                 </div>
               ))}
             </div>

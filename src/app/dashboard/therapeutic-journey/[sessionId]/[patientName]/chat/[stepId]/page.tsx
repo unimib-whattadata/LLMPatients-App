@@ -3,7 +3,7 @@
  *
  * Interface for real-time chat interaction with virtual patients during therapy sessions.
  * Provides conversational interface for clinical simulation and training.
- * 
+ *
  * @description Server-side rendered page that handles authentication
  * and renders the chat interface for virtual patient interaction.
  * Only accessible to authenticated users.
@@ -15,7 +15,7 @@ import { ChatContent } from "@/components/features/therapeutic-journey/ChatConte
 
 /**
  * Chat Page Component
- * 
+ *
  * Handles authentication and renders chat interface for virtual patient interaction.
  * Redirects unauthenticated users to login page.
  * Note: ChatContent handles its own layout internally.

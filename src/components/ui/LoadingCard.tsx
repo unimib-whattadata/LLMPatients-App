@@ -1,6 +1,6 @@
 /**
  * Loading Card Component
- * 
+ *
  * Provides skeleton loading states for card-based content with consistent styling
  */
 
@@ -11,22 +11,22 @@ interface LoadingCardProps {
    * Number of skeleton cards to display
    */
   count?: number;
-  
+
   /**
    * Whether to show avatar placeholder
    */
   showAvatar?: boolean;
-  
+
   /**
    * Number of text lines to show
    */
   textLines?: number;
-  
+
   /**
    * Whether to show button placeholder
    */
   showButton?: boolean;
-  
+
   /**
    * Additional CSS classes
    */
@@ -38,38 +38,42 @@ export function LoadingCard({
   showAvatar = true,
   textLines = 3,
   showButton = true,
-  className
+  className,
 }: LoadingCardProps) {
   return (
-    <div className={cn("loading-grid", className)} role="status" aria-live="polite">
+    <div
+      className={cn("loading-grid", className)}
+      role="status"
+      aria-live="polite"
+    >
       {Array.from({ length: count }).map((_, index) => (
         <div key={index} className="loading-card">
           {showAvatar && (
             <div className="loading-card-avatar animate-pulse rounded-none" />
           )}
-          
+
           <div className="loading-card-content">
-            <div className="loading-card-title animate-pulse rounded-md h-6 w-3/4 mb-2" />
+            <div className="loading-card-title mb-2 h-6 w-3/4 animate-pulse rounded-md" />
             <div className="space-y-3">
               {Array.from({ length: textLines }).map((_, lineIndex) => (
-                <div 
+                <div
                   key={lineIndex}
                   className={cn(
-                    "loading-card-text animate-pulse rounded-md h-4",
+                    "loading-card-text h-4 animate-pulse rounded-md",
                     lineIndex === 0 && "w-full",
-                    lineIndex === 1 && "w-5/6", 
-                    lineIndex === 2 && "w-4/5"
+                    lineIndex === 1 && "w-5/6",
+                    lineIndex === 2 && "w-4/5",
                   )}
                 />
               ))}
             </div>
             {showButton && (
-              <div className="loading-card-button animate-pulse rounded-md h-10 w-full" />
+              <div className="loading-card-button h-10 w-full animate-pulse rounded-md" />
             )}
           </div>
         </div>
       ))}
-      
+
       <span className="sr-only">Loading content...</span>
     </div>
   );

@@ -330,8 +330,8 @@ export function AdminContent() {
               <div className="dashboard-metric-grid" aria-hidden="true">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="dashboard-metric-card">
-                    <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20 mb-2" />
-                    <div className="bg-background-tertiary animate-pulse rounded-md h-8 w-16" />
+                    <div className="bg-background-tertiary mb-2 h-4 w-20 animate-pulse rounded-md" />
+                    <div className="bg-background-tertiary h-8 w-16 animate-pulse rounded-md" />
                   </div>
                 ))}
               </div>
@@ -442,21 +442,41 @@ export function AdminContent() {
               <table className="dashboard-table">
                 <thead>
                   <tr>
-                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-8" /></th>
-                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-16" /></th>
-                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20" /></th>
-                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-12" /></th>
-                    <th><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-16" /></th>
+                    <th>
+                      <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded-md" />
+                    </th>
+                    <th>
+                      <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
+                    </th>
+                    <th>
+                      <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded-md" />
+                    </th>
+                    <th>
+                      <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded-md" />
+                    </th>
+                    <th>
+                      <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded-md" />
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {Array.from({ length: 3 }).map((_, i) => (
                     <tr key={i}>
-                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-8" /></td>
-                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-20" /></td>
-                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-24" /></td>
-                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-4 w-12" /></td>
-                      <td><div className="bg-background-tertiary animate-pulse rounded-md h-8 w-20" /></td>
+                      <td>
+                        <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded-md" />
+                      </td>
+                      <td>
+                        <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded-md" />
+                      </td>
+                      <td>
+                        <div className="bg-background-tertiary h-4 w-24 animate-pulse rounded-md" />
+                      </td>
+                      <td>
+                        <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded-md" />
+                      </td>
+                      <td>
+                        <div className="bg-background-tertiary h-8 w-20 animate-pulse rounded-md" />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

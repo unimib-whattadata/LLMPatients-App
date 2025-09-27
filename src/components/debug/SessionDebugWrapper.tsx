@@ -2,10 +2,10 @@
 
 import dynamic from "next/dynamic";
 
-const SessionDebug = dynamic(
-  () => import("@/components/debug/SessionDebug"),
-  { ssr: false, loading: () => null },
-);
+const SessionDebug = dynamic(() => import("@/components/debug/SessionDebug"), {
+  ssr: false,
+  loading: () => null,
+});
 
 interface SessionDebugWrapperProps {
   enabled?: boolean;
@@ -13,7 +13,7 @@ interface SessionDebugWrapperProps {
 
 export function SessionDebugWrapper({ enabled }: SessionDebugWrapperProps) {
   if (!enabled) return null;
-  
+
   return <SessionDebug enabled={enabled} />;
 }
 

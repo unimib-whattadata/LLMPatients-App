@@ -3,7 +3,7 @@
  *
  * Displays the structured psychological evaluation schema fields
  * from patient-details.json in a user-friendly format.
- * 
+ *
  * @description Server-side rendered page that handles authentication
  * and renders the patient attributes interface for viewing evaluation schemas.
  * Only accessible to authenticated users.
@@ -16,7 +16,7 @@ import { PatientDetailsContent } from "@/components/features/dashboard/PatientDe
 
 /**
  * Patient Attributes Page Component
- * 
+ *
  * Handles authentication and renders patient attributes interface.
  * Redirects unauthenticated users to login page.
  */

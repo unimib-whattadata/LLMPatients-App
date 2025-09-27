@@ -32,7 +32,6 @@ const COLOR_SWATCHES: ReadonlyArray<string> = [
   "", // Grey
 ];
 
-
 function initialsFromName(name: string) {
   return name
     .split(" ")
@@ -47,10 +46,10 @@ function colorIndexFor(name: string) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     const char = name.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32-bit integer
   }
-  
+
   // Use absolute value and ensure we get a good distribution
   return Math.abs(hash) % COLOR_SWATCHES.length;
 }
@@ -69,13 +68,20 @@ function buildPlaceholder(name: string) {
   return `data:image/svg+xml;base64,${btoa(svg)}`;
 }
 
-export function PatientAvatar({ name, avatarUrl, avatarType, isDetailPage = false }: PatientAvatarProps) {
+export function PatientAvatar({
+  name,
+  avatarUrl,
+  avatarType,
+  isDetailPage = false,
+}: PatientAvatarProps) {
   const [hasError, setHasError] = useState(false);
   const placeholder = useMemo(() => buildPlaceholder(name), [name]);
   const showPlaceholder = !avatarUrl || hasError;
 
   return (
-    <div className={`patient-avatar-container ${isDetailPage ? 'patient-avatar-container--detail' : ''}`}>
+    <div
+      className={`patient-avatar-container ${isDetailPage ? "patient-avatar-container--detail" : ""}`}
+    >
       <Image
         src={showPlaceholder ? placeholder : avatarUrl}
         alt={`Avatar di ${name}`}
@@ -90,11 +96,10 @@ export function PatientAvatar({ name, avatarUrl, avatarType, isDetailPage = fals
 
       {hasError && avatarUrl && (
         <div className="patient-avatar-error">
-          <ExclamationTriangleIcon className="w-8 h-8 mb-2" />
-          <span className="text-xs text-center">Immagine non disponibile</span>
+          <ExclamationTriangleIcon className="mb-2 h-8 w-8" />
+          <span className="text-center text-xs">Immagine non disponibile</span>
         </div>
       )}
-
     </div>
   );
 }

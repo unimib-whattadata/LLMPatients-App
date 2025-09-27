@@ -3,17 +3,17 @@ import { z } from "zod";
 
 /**
  * Environment variables configuration
- * 
+ *
  * Validates and provides type-safe access to environment variables.
  * Uses @t3-oss/env-nextjs for runtime validation and TypeScript support.
- * 
+ *
  * Server variables are validated at build time and runtime.
  * Client variables must be prefixed with NEXT_PUBLIC_ to be exposed to the browser.
  */
 export const env = createEnv({
   /**
    * Server-side environment variables schema
-   * 
+   *
    * These variables are only available on the server and are validated
    * to ensure the app isn't built with invalid configuration.
    */
@@ -32,7 +32,7 @@ export const env = createEnv({
 
   /**
    * Client-side environment variables schema
-   * 
+   *
    * Variables prefixed with NEXT_PUBLIC_ are exposed to the browser.
    * These are validated to ensure the app isn't built with invalid configuration.
    */

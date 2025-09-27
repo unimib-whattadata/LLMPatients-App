@@ -69,10 +69,10 @@ interface NavbarProps {
 
 /**
  * Navbar Component
- * 
+ *
  * Unified navigation component that handles all navigation across different page types.
  * Provides responsive navigation with mobile support, user authentication, and admin features.
- * 
+ *
  * Features:
  * - Responsive mobile navigation with hamburger menu
  * - User authentication state display
@@ -80,7 +80,7 @@ interface NavbarProps {
  * - Dynamic navigation items based on user role
  * - Sidebar toggle for dashboard layouts
  * - Breadcrumb navigation
- * 
+ *
  * @param user - Current user information
  * @param impersonation - Impersonation context for admin users
  * @param layoutType - Layout type ("dashboard" or "home")
@@ -163,7 +163,6 @@ export function Navbar({
                 <Bars3Icon className="h-5 w-5" />
               )}
             </button>
-
 
             {/* Logo */}
             <Link

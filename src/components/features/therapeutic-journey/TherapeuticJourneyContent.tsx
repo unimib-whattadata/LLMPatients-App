@@ -57,14 +57,17 @@ export function TherapeuticJourneyContent() {
    * @param therapySession - The therapy session object with isCompleted field
    * @returns Session status: "started", "in-progress", or "completed"
    */
-  const getSessionStatus = useCallback((therapySession: TherapySessionWithPatient) => {
-    // If the session is marked as completed in the database, it's completed
-    if (therapySession.isCompleted) return "completed";
-    
-    // Otherwise, determine status based on session number
-    if (therapySession.sessionNumber === 1) return "started";
-    return "in-progress";
-  }, []);
+  const getSessionStatus = useCallback(
+    (therapySession: TherapySessionWithPatient) => {
+      // If the session is marked as completed in the database, it's completed
+      if (therapySession.isCompleted) return "completed";
+
+      // Otherwise, determine status based on session number
+      if (therapySession.sessionNumber === 1) return "started";
+      return "in-progress";
+    },
+    [],
+  );
 
   /**
    * Filters therapy sessions based on the current filter state
@@ -160,38 +163,38 @@ export function TherapeuticJourneyContent() {
               <div key={index} className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
-                    <div className="flex justify-between items-start mb-4">
+                    <div className="mb-4 flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="bg-background-tertiary animate-pulse rounded-md h-5 w-3/4 mb-2" />
-                        <div className="bg-background-tertiary animate-pulse rounded-md h-4 w-1/2 mb-1" />
+                        <div className="bg-background-tertiary mb-2 h-5 w-3/4 animate-pulse rounded-md" />
+                        <div className="bg-background-tertiary mb-1 h-4 w-1/2 animate-pulse rounded-md" />
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <div className="bg-background-tertiary animate-pulse rounded-full h-6 w-20" />
-                        <div className="bg-background-tertiary animate-pulse rounded h-3 w-16" />
+                        <div className="bg-background-tertiary h-6 w-20 animate-pulse rounded-full" />
+                        <div className="bg-background-tertiary h-3 w-16 animate-pulse rounded" />
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <div className="bg-background-tertiary animate-pulse rounded h-4 w-16" />
+                      <div className="flex items-center justify-between">
+                        <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
                         <div className="flex items-center gap-2">
-                          <div className="bg-background-tertiary animate-pulse rounded-full h-4 w-4" />
-                          <div className="bg-background-tertiary animate-pulse rounded h-4 w-12" />
+                          <div className="bg-background-tertiary h-4 w-4 animate-pulse rounded-full" />
+                          <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
                         </div>
                       </div>
                       <div>
-                        <div className="flex justify-between items-center mb-1">
-                          <div className="bg-background-tertiary animate-pulse rounded h-4 w-16" />
-                          <div className="bg-background-tertiary animate-pulse rounded h-4 w-8" />
+                        <div className="mb-1 flex items-center justify-between">
+                          <div className="bg-background-tertiary h-4 w-16 animate-pulse rounded" />
+                          <div className="bg-background-tertiary h-4 w-8 animate-pulse rounded" />
                         </div>
-                        <div className="bg-background-tertiary animate-pulse rounded-full h-2 w-full" />
+                        <div className="bg-background-tertiary h-2 w-full animate-pulse rounded-full" />
                       </div>
-                      <div className="flex justify-between items-center">
-                        <div className="bg-background-tertiary animate-pulse rounded h-4 w-20" />
-                        <div className="bg-background-tertiary animate-pulse rounded h-4 w-12" />
+                      <div className="flex items-center justify-between">
+                        <div className="bg-background-tertiary h-4 w-20 animate-pulse rounded" />
+                        <div className="bg-background-tertiary h-4 w-12 animate-pulse rounded" />
                       </div>
                     </div>
                     <div className="mt-6">
-                      <div className="bg-background-tertiary animate-pulse rounded h-10 w-full" />
+                      <div className="bg-background-tertiary h-10 w-full animate-pulse rounded" />
                     </div>
                   </div>
                 </div>

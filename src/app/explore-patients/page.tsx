@@ -3,7 +3,7 @@
  *
  * Main public interface for exploring virtual patients and clinical scenarios.
  * Displays a catalog of available virtual patients for clinical training.
- * 
+ *
  * @description Server-side rendered page that handles optional authentication
  * and renders the patient exploration interface. Accessible to both
  * authenticated and unauthenticated users.
@@ -16,7 +16,7 @@ import { HydrateClient } from "~/trpc/server";
 
 /**
  * Explore Patients Page Component
- * 
+ *
  * Handles optional authentication and renders patient exploration interface.
  * Works for both authenticated and unauthenticated users.
  */
@@ -44,26 +44,33 @@ export default async function ExplorePatientsPage() {
         currentPage="/explore-patients"
       >
         <div className="patients-page">
-          <main className="patients-main" role="main" aria-label="Catalogo pazienti virtuali">
-            <section 
-              className="patients-hero" 
+          <main
+            className="patients-main"
+            role="main"
+            aria-label="Catalogo pazienti virtuali"
+          >
+            <section
+              className="patients-hero"
               role="banner"
               aria-labelledby="patients-title"
             >
               <div className="section-container">
                 <header>
                   <h1 id="patients-title">ePatients</h1>
-                  <p id="patients-description" aria-describedby="patients-title">
+                  <p
+                    id="patients-description"
+                    aria-describedby="patients-title"
+                  >
                     Un catalogo di pazienti virtuali progettato per allenare
-                    empatia clinica, gestione emotiva e decisioni terapeutiche in
-                    ambienti sicuri.
+                    empatia clinica, gestione emotiva e decisioni terapeutiche
+                    in ambienti sicuri.
                   </p>
                 </header>
               </div>
             </section>
 
-            <section 
-              className="patients-grid-section" 
+            <section
+              className="patients-grid-section"
               role="region"
               aria-labelledby="patients-title"
               aria-describedby="patients-description"

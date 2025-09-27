@@ -100,9 +100,7 @@ const MobileTimelineStep = memo(
         className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center"
         aria-hidden
       >
-        <span
-          className="flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
-        >
+        <span className="flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold">
           {isCompleted ? "✓" : ""}
         </span>
       </span>
@@ -196,7 +194,9 @@ export function SessionTimelineContent({
 
       await Promise.allSettled([
         utils.therapySessions.getByPatient.invalidate({ patientId: sessionId }),
-        utils.chat.getSessionChats.invalidate({ therapySessionId: updatedSession.id }),
+        utils.chat.getSessionChats.invalidate({
+          therapySessionId: updatedSession.id,
+        }),
       ]);
 
       const targetStep = Math.min(updatedSession.sessionNumber, LAST_STEP_ID);
@@ -263,7 +263,9 @@ export function SessionTimelineContent({
       // Navigate to chat page for the selected step with patient name
       if (selectedPatient) {
         const patientSlug = createPatientSlug(selectedPatient.name);
-        router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`);
+        router.push(
+          `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`,
+        );
       } else {
         // Fallback without patient name - this should not happen in normal flow
         router.push(`/dashboard/therapeutic-journey`);
@@ -300,14 +302,17 @@ export function SessionTimelineContent({
           <section className="dashboard-section">
             <div className="dashboard-section__header">
               <div>
-                <Breadcrumb 
+                <Breadcrumb
                   items={[
                     { label: "Dashboard", href: "/dashboard" },
-                    { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
+                    {
+                      label: "Percorso Terapeutico",
+                      href: "/dashboard/therapeutic-journey",
+                    },
                     { label: "Sessione non trovata", isActive: true },
-                  ]} 
+                  ]}
                 />
-                
+
                 <h1 className="dashboard-section__title">
                   Sessione non trovata
                 </h1>
@@ -355,14 +360,17 @@ export function SessionTimelineContent({
           <section className="dashboard-section">
             <div className="dashboard-section__header">
               <div>
-                <Breadcrumb 
+                <Breadcrumb
                   items={[
                     { label: "Dashboard", href: "/dashboard" },
-                    { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
+                    {
+                      label: "Percorso Terapeutico",
+                      href: "/dashboard/therapeutic-journey",
+                    },
                     { label: "Percorso non disponibile", isActive: true },
-                  ]} 
+                  ]}
                 />
-                
+
                 <h1 className="dashboard-section__title">
                   Percorso non disponibile
                 </h1>
@@ -401,14 +409,22 @@ export function SessionTimelineContent({
               <div className="flex items-center justify-between">
                 <div>
                   {/* Breadcrumb Navigation */}
-                  <Breadcrumb 
+                  <Breadcrumb
                     items={[
                       { label: "Dashboard", href: "/dashboard" },
-                      { label: "Percorso Terapeutico", href: "/dashboard/therapeutic-journey" },
-                      { label: selectedPatient ? selectedPatient.name : "Sessione", isActive: true },
-                    ]} 
+                      {
+                        label: "Percorso Terapeutico",
+                        href: "/dashboard/therapeutic-journey",
+                      },
+                      {
+                        label: selectedPatient
+                          ? selectedPatient.name
+                          : "Sessione",
+                        isActive: true,
+                      },
+                    ]}
                   />
-                  
+
                   <h1 className="dashboard-section__title">
                     {selectedPatient
                       ? `Il tuo percorso con ${selectedPatient.name}`
@@ -524,7 +540,7 @@ export function SessionTimelineContent({
 
           <div className="mt-10 md:hidden">
             <div className="relative pl-8">
-              <span className="pointer-events-none absolute top-0 left-3 h-full w-px stroke-timeline-path" />
+              <span className="stroke-timeline-path pointer-events-none absolute top-0 left-3 h-full w-px" />
               <div className="space-y-5">
                 {TIMELINE_STEPS.map((step) => {
                   const details = getStepDetails(step.id);

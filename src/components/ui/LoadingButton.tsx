@@ -1,6 +1,6 @@
 /**
  * Loading Button Component
- * 
+ *
  * Provides loading states for buttons with consistent styling and behavior
  */
 
@@ -11,32 +11,32 @@ interface LoadingButtonProps {
    * Whether the button is in loading state
    */
   isLoading?: boolean;
-  
+
   /**
    * Loading text to display when loading
    */
   loadingText?: string;
-  
+
   /**
    * Normal text to display when not loading
    */
   children: React.ReactNode;
-  
+
   /**
    * Additional CSS classes
    */
   className?: string;
-  
+
   /**
    * Whether the button is disabled
    */
   disabled?: boolean;
-  
+
   /**
    * Button type
    */
   type?: "button" | "submit" | "reset";
-  
+
   /**
    * Click handler
    */
@@ -50,18 +50,14 @@ export function LoadingButton({
   className,
   disabled = false,
   type = "button",
-  onClick
+  onClick,
 }: LoadingButtonProps) {
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled || isLoading}
-      className={cn(
-        "btn",
-        isLoading && "btn-loading",
-        className
-      )}
+      className={cn("btn", isLoading && "btn-loading", className)}
       aria-disabled={disabled || isLoading}
     >
       <span className={cn("btn-content", isLoading && "opacity-0")}>
@@ -69,12 +65,10 @@ export function LoadingButton({
       </span>
       {isLoading && (
         <div className="loading-spinner">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2"></div>
+          <div className="h-4 w-4 animate-spin rounded-full border-b-2"></div>
         </div>
       )}
-      {isLoading && (
-        <span className="sr-only">{loadingText}</span>
-      )}
+      {isLoading && <span className="sr-only">{loadingText}</span>}
     </button>
   );
 }

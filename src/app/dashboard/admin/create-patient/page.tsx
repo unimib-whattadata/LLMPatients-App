@@ -3,7 +3,7 @@
  *
  * Interface for creating new patient cases and medical scenarios
  * for student simulations. Accessible only to admin users.
- * 
+ *
  * @description Server-side rendered page that handles authentication,
  * role verification, and renders the patient creation interface.
  * Only accessible to authenticated users with 'admin' role.
@@ -16,7 +16,7 @@ import { CreatePatientContent } from "@/components/features/dashboard/CreatePati
 
 /**
  * Create Patient Page Component
- * 
+ *
  * Handles authentication, role verification, and renders patient creation interface.
  * Redirects unauthenticated users to login page and non-admin users to user dashboard.
  */

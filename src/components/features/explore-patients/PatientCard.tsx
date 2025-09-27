@@ -43,7 +43,7 @@ export function PatientCard({ patient }: PatientCardProps) {
   try {
     details = JSON.parse(patient.details) as typeof details;
   } catch (error) {
-    console.error('Failed to parse patient details:', error);
+    console.error("Failed to parse patient details:", error);
     // Fallback to empty object to prevent crashes
     details = {};
   }
@@ -157,7 +157,6 @@ export function PatientCard({ patient }: PatientCardProps) {
               <span>{patient.estimatedDuration} min</span>
             </div>
           </div>
-
         </div>
 
         {/* Action Button */}

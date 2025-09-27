@@ -3,7 +3,7 @@
  *
  * Interface for viewing and managing student evaluation results
  * across all clinical simulations. Accessible only to admin users.
- * 
+ *
  * @description Server-side rendered page that handles authentication,
  * role verification, and renders the student evaluations interface.
  * Only accessible to authenticated users with 'admin' role.
@@ -16,7 +16,7 @@ import { StudentEvaluationsContent } from "@/components/features/dashboard/Stude
 
 /**
  * Student Evaluations Page Component
- * 
+ *
  * Handles authentication, role verification, and renders student evaluations interface.
  * Redirects unauthenticated users to login page and non-admin users to user dashboard.
  */

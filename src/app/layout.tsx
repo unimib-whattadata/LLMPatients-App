@@ -13,17 +13,18 @@ const isDev = process.env.NODE_ENV === "development";
 export const metadata: Metadata = {
   title: {
     default: "ePatients - Piattaforma di Simulazione Medica",
-    template: "%s | ePatients"
+    template: "%s | ePatients",
   },
-  description: "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
+  description:
+    "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
   keywords: [
     "simulazione medica",
-    "formazione sanitaria", 
+    "formazione sanitaria",
     "psicoterapia",
     "pazienti virtuali",
     "educazione medica",
     "training clinico",
-    "simulazione psicologica"
+    "simulazione psicologica",
   ],
   authors: [{ name: "Marco Cremaschi", url: "https://unimib.it" }],
   creator: "Università degli Studi di Milano-Bicocca",
@@ -43,7 +44,8 @@ export const metadata: Metadata = {
     url: "https://epatients.unimib.it",
     siteName: "ePatients",
     title: "ePatients - Piattaforma di Simulazione Medica",
-    description: "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
+    description:
+      "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
     images: [
       {
         url: "/images/og-image.png",
@@ -56,7 +58,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "ePatients - Piattaforma di Simulazione Medica",
-    description: "Piattaforma avanzata di simulazione medica per la formazione sanitaria.",
+    description:
+      "Piattaforma avanzata di simulazione medica per la formazione sanitaria.",
     images: ["/images/twitter-image.png"],
   },
   robots: {
@@ -97,27 +100,39 @@ export default function RootLayout({
       <head>
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+
         {/* DNS prefetch for external resources */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-        
+
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/logo.png" as="image" type="image/png" />
-        
+        <link
+          rel="preload"
+          href="/images/logo.png"
+          as="image"
+          type="image/png"
+        />
+
         {/* Theme color for mobile browsers */}
         <meta name="theme-color" content="" />
         <meta name="msapplication-TileColor" content="" />
-        
+
         {/* Viewport optimization */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-        
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+
         {/* Security headers */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
-        
+
         {/* Performance hints */}
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />

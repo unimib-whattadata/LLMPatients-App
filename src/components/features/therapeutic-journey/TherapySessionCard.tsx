@@ -101,8 +101,8 @@ function TherapySessionCardComponent({
     }
   };
 
-  const progressPercentage = therapySession.isCompleted 
-    ? 100 
+  const progressPercentage = therapySession.isCompleted
+    ? 100
     : Math.round((therapySession.sessionNumber / 11) * 100);
 
   return (
@@ -125,7 +125,10 @@ function TherapySessionCardComponent({
                 />
               </div>
               <div>
-                <h3 className="dashboard-action-card__title mb-1" itemProp="name">
+                <h3
+                  className="dashboard-action-card__title mb-1"
+                  itemProp="name"
+                >
                   {therapySession.patient.name}
                 </h3>
                 <p
@@ -139,8 +142,8 @@ function TherapySessionCardComponent({
             <div className="flex flex-col items-end gap-2">
               {getStatusBadge(sessionStatus)}
               <span className="text-text-tertiary text-xs">
-                {therapySession.isCompleted 
-                  ? "Completato (11/11)" 
+                {therapySession.isCompleted
+                  ? "Completato (11/11)"
                   : `Sessione ${therapySession.sessionNumber}/11`}
               </span>
             </div>
@@ -173,7 +176,9 @@ function TherapySessionCardComponent({
                   {therapySession.isCompleted ? "Stato:" : "Progresso:"}
                 </span>
                 <span className="text-sm font-medium">
-                  {therapySession.isCompleted ? "Completato" : `${progressPercentage}%`}
+                  {therapySession.isCompleted
+                    ? "Completato"
+                    : `${progressPercentage}%`}
                 </span>
               </div>
               <div
@@ -182,14 +187,16 @@ function TherapySessionCardComponent({
                 aria-valuenow={progressPercentage}
                 aria-valuemin={0}
                 aria-valuemax={100}
-                aria-label={therapySession.isCompleted 
-                  ? "Sessione completata al 100%" 
-                  : `Progresso sessione: ${progressPercentage}%`}
+                aria-label={
+                  therapySession.isCompleted
+                    ? "Sessione completata al 100%"
+                    : `Progresso sessione: ${progressPercentage}%`
+                }
               >
                 <div
-                  className={`h-2 rounded-full transition-all duration-300 progress-bar-dynamic ${
-                    therapySession.isCompleted 
-                      ? "bg-green-500" 
+                  className={`progress-bar-dynamic h-2 rounded-full transition-all duration-300 ${
+                    therapySession.isCompleted
+                      ? "bg-green-500"
                       : "bg-accent-600"
                   }`}
                   style={{ width: `${progressPercentage}%` }}
@@ -199,11 +206,15 @@ function TherapySessionCardComponent({
 
             <div className="flex items-center justify-between">
               <span className="text-text-secondary text-sm">
-                {therapySession.isCompleted ? "Completato il:" : "Durata stimata:"}
+                {therapySession.isCompleted
+                  ? "Completato il:"
+                  : "Durata stimata:"}
               </span>
               <span className="text-text-tertiary text-sm">
-                {therapySession.isCompleted 
-                  ? new Date(therapySession.updatedAt || therapySession.createdAt).toLocaleDateString('it-IT')
+                {therapySession.isCompleted
+                  ? new Date(
+                      therapySession.updatedAt || therapySession.createdAt,
+                    ).toLocaleDateString("it-IT")
                   : `${therapySession.patient.estimatedDuration} min`}
               </span>
             </div>
@@ -217,8 +228,8 @@ function TherapySessionCardComponent({
               {therapySession.isCompleted
                 ? "Rivedi Percorso Completato"
                 : sessionStatus === "started"
-                ? "Inizia Sessione"
-                : "Continua Sessione"}
+                  ? "Inizia Sessione"
+                  : "Continua Sessione"}
             </Link>
           </div>
         </div>

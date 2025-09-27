@@ -1,6 +1,6 @@
 /**
  * Therapy Session Filters Component
- * 
+ *
  * Optimized filter component with memoization for therapy sessions
  */
 
@@ -17,12 +17,19 @@ const FILTER_OPTIONS = [
   { key: "all", label: "Tutti" },
   { key: "started", label: "Iniziato" },
   { key: "in-progress", label: "In corso" },
-  { key: "completed", label: "Completato" }
+  { key: "completed", label: "Completato" },
 ] as const;
 
-function TherapySessionFiltersComponent({ activeFilter, onFilterChange }: TherapySessionFiltersProps) {
+function TherapySessionFiltersComponent({
+  activeFilter,
+  onFilterChange,
+}: TherapySessionFiltersProps) {
   return (
-    <div className="dashboard-pill-nav mb-6" role="tablist" aria-label="Filtri percorsi terapeutici">
+    <div
+      className="dashboard-pill-nav mb-6"
+      role="tablist"
+      aria-label="Filtri percorsi terapeutici"
+    >
       {FILTER_OPTIONS.map((tab) => (
         <button
           key={tab.key}

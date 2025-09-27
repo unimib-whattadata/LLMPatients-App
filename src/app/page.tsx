@@ -3,7 +3,7 @@
  *
  * Main landing page for the ePatients application.
  * Displays marketing content, features overview, and call-to-action sections.
- * 
+ *
  * @description Server-side rendered page that handles authentication redirects
  * and renders the marketing homepage. Redirects authenticated users to dashboard.
  */
@@ -16,7 +16,7 @@ import { redirect } from "next/navigation";
 
 /**
  * Home Page Component
- * 
+ *
  * Handles authentication redirects and renders marketing homepage.
  * Redirects authenticated users to dashboard.
  */
@@ -81,15 +81,23 @@ export default async function Home() {
 
             <div className="home-footer-column">
               <h3 id="footer-contacts">Contatti</h3>
-              <address itemScope itemType="https://schema.org/Person" aria-labelledby="footer-contacts">
+              <address
+                itemScope
+                itemType="https://schema.org/Person"
+                aria-labelledby="footer-contacts"
+              >
                 <p>
-                  <span itemProp="name">Marco Cremaschi</span><br />
-                  <span itemProp="jobTitle">Ricercatore</span><br />
-                  <span itemProp="affiliation">Università degli Studi di Milano-Bicocca</span>
+                  <span itemProp="name">Marco Cremaschi</span>
+                  <br />
+                  <span itemProp="jobTitle">Ricercatore</span>
+                  <br />
+                  <span itemProp="affiliation">
+                    Università degli Studi di Milano-Bicocca
+                  </span>
                 </p>
                 <p>
-                  <a 
-                    href="mailto:llmpatient@unimib.it" 
+                  <a
+                    href="mailto:llmpatient@unimib.it"
                     itemProp="email"
                     aria-label="Invia email a Marco Cremaschi"
                   >
@@ -101,21 +109,19 @@ export default async function Home() {
           </div>
 
           <div className="home-footer-bottom">
-            <nav className="home-footer-links" role="navigation" aria-label="Link utili">
-              <Link 
-                href="/privacy" 
-                aria-label="Leggi la privacy policy"
-              >
+            <nav
+              className="home-footer-links"
+              role="navigation"
+              aria-label="Link utili"
+            >
+              <Link href="/privacy" aria-label="Leggi la privacy policy">
                 Privacy Policy
               </Link>
-              <Link 
-                href="/terms" 
-                aria-label="Leggi i termini e condizioni"
-              >
+              <Link href="/terms" aria-label="Leggi i termini e condizioni">
                 Termini e condizioni
               </Link>
-              <Link 
-                href="/cookies" 
+              <Link
+                href="/cookies"
                 aria-label="Gestisci le impostazioni cookie"
               >
                 Impostazioni cookie
@@ -143,17 +149,17 @@ export default async function Home() {
         aria-labelledby="hero-title"
       >
         <div className="home-hero-inner">
-          <h1 
+          <h1
             id="hero-title"
-            className="home-hero-title" 
+            className="home-hero-title"
             itemProp="name"
             aria-describedby="hero-description"
           >
             Simula. Valuta. Impara.
           </h1>
-          <p 
+          <p
             id="hero-description"
-            className="home-hero-subtitle" 
+            className="home-hero-subtitle"
             itemProp="description"
             role="complementary"
             aria-label="Descrizione della piattaforma"
@@ -161,16 +167,20 @@ export default async function Home() {
             Uno strumento per l&apos;addestramento alla psicoterapia, progettato
             per studenti universitari e tutor clinici.
           </p>
-          <div className="home-hero-actions" role="group" aria-label="Azioni principali">
-            <Link 
-              href="/register" 
+          <div
+            className="home-hero-actions"
+            role="group"
+            aria-label="Azioni principali"
+          >
+            <Link
+              href="/register"
               className="btn btn-primary"
               aria-describedby="hero-description"
             >
               Inizia subito
             </Link>
-            <Link 
-              href="/explore-patients" 
+            <Link
+              href="/explore-patients"
               className="btn btn-outline"
               aria-label="Esplora i pazienti virtuali disponibili"
             >
@@ -200,9 +210,9 @@ export default async function Home() {
       >
         <div className="section-container">
           <header>
-            <h2 
+            <h2
               id="process-heading"
-              className="section-heading" 
+              className="section-heading"
               itemProp="name"
               aria-describedby="process-description"
             >
@@ -214,10 +224,10 @@ export default async function Home() {
               content="Processo formativo per l'addestramento alla psicoterapia con pazienti virtuali"
             />
           </header>
-          
-          <ol 
-            className="home-process-list" 
-            role="list" 
+
+          <ol
+            className="home-process-list"
+            role="list"
             itemProp="step"
             aria-label="Passaggi del processo formativo"
           >
@@ -233,14 +243,14 @@ export default async function Home() {
                 aria-describedby={`step-${index + 1}-description`}
               >
                 <div className="home-process-text">
-                  <h3 
+                  <h3
                     id={`step-${index + 1}-title`}
                     itemProp="name"
                     aria-level={3}
                   >
                     {step.title}
                   </h3>
-                  <p 
+                  <p
                     id={`step-${index + 1}-description`}
                     itemProp="text"
                     role="complementary"
@@ -260,10 +270,10 @@ export default async function Home() {
               </li>
             ))}
           </ol>
-          
+
           <footer className="home-process-cta" role="complementary">
-            <Link 
-              href="/register" 
+            <Link
+              href="/register"
               className="btn btn-primary"
               aria-describedby="process-description"
             >

@@ -3,7 +3,7 @@
  *
  * Main interface for managing therapeutic journey sessions and patient interactions.
  * Displays session history, progress tracking, and session management tools.
- * 
+ *
  * @description Server-side rendered page that handles authentication
  * and renders the therapeutic journey interface for session management.
  * Only accessible to authenticated users.
@@ -16,7 +16,7 @@ import { TherapeuticJourneyContent } from "@/components/features/therapeutic-jou
 
 /**
  * Therapeutic Journey Page Component
- * 
+ *
  * Handles authentication and renders therapeutic journey interface.
  * Redirects unauthenticated users to login page.
  */

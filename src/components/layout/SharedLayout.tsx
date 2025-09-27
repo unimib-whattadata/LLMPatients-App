@@ -7,11 +7,7 @@ import { Navbar, getNavSections } from "@/components/navigation";
 import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
-import type {
-  User,
-  ImpersonationContext,
-  NavItem,
-} from "~/types";
+import type { User, ImpersonationContext, NavItem } from "~/types";
 
 /**
  * Configuration for layout behavior
@@ -36,17 +32,17 @@ interface SharedLayoutProps {
 
 /**
  * SharedLayout Component
- * 
+ *
  * Main layout wrapper that provides consistent structure across the application.
  * Adapts its appearance and behavior based on the layout type and user context.
- * 
+ *
  * Features:
  * - Responsive navigation with sidebar
  * - User authentication state handling
  * - Impersonation support for admin users
  * - Dynamic page titles and breadcrumbs
  * - Consistent styling across different page types
- * 
+ *
  * @param children - Page content to be rendered
  * @param user - Current user information
  * @param impersonation - Impersonation context for admin users
@@ -129,7 +125,7 @@ export function SharedLayout({
       >
         {/* Navigation */}
         <nav
-          className="flex-1 px-4 py-6 space-y-2"
+          className="flex-1 space-y-2 px-4 py-6"
           id="sidebar-navigation"
           role="navigation"
         >

@@ -3,7 +3,7 @@
  *
  * Main user dashboard for regular users displaying personal information,
  * progress tracking, and user-specific functionality.
- * 
+ *
  * @description Server-side rendered page that handles authentication,
  * role verification, and renders the user dashboard interface.
  * Only accessible to authenticated users with 'user' role.
@@ -16,7 +16,7 @@ import { UserContent } from "@/components/features/dashboard/UserContent";
 
 /**
  * User Dashboard Page Component
- * 
+ *
  * Handles authentication, role verification, and renders user interface.
  * Redirects unauthenticated users to login page.
  */

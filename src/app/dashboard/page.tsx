@@ -1,11 +1,11 @@
 /**
  * Main Dashboard Route
- * 
+ *
  * This route serves as the entry point for the dashboard system.
  * It performs role-based routing to direct users to appropriate dashboards:
  * - Admin users -> /dashboard/admin
  * - Regular users -> /dashboard/user
- * 
+ *
  * Includes authentication check and role verification with enhanced error handling.
  */
 
@@ -28,11 +28,11 @@ async function DashboardRouter() {
   try {
     // Enhanced session retrieval with retry mechanism for JWT tokens
     let session = await auth();
-    
+
     // Retry mechanism for session retrieval (important for JWT token validation)
-    if (!session && typeof window !== 'undefined') {
-      console.log('Dashboard: Initial session null, retrying...');
-      await new Promise(resolve => setTimeout(resolve, 100));
+    if (!session && typeof window !== "undefined") {
+      console.log("Dashboard: Initial session null, retrying...");
+      await new Promise((resolve) => setTimeout(resolve, 100));
       session = await auth();
     }
 
@@ -42,7 +42,7 @@ async function DashboardRouter() {
         hasSession: !!session,
         hasUserId: !!session?.user?.id,
         hasUserEmail: !!session?.user?.email,
-        sessionUser: session?.user
+        sessionUser: session?.user,
       });
       redirect("/login?error=session-invalid&from=dashboard");
     }
@@ -52,19 +52,23 @@ async function DashboardRouter() {
       userId: session.user.id,
       email: session.user.email,
       role: session.user.role,
-      sessionType: 'JWT',
-      timestamp: new Date().toISOString()
+      sessionType: "JWT",
+      timestamp: new Date().toISOString(),
     });
 
     // Get user role with proper type safety and fallback
     const userRole = session.user.role ?? "user";
-    
+
     // Enhanced logging for debugging
-    console.log(`Dashboard access: User ${session.user.email} (ID: ${session.user.id}) with role: ${userRole}`);
+    console.log(
+      `Dashboard access: User ${session.user.email} (ID: ${session.user.id}) with role: ${userRole}`,
+    );
 
     // Validate role value with comprehensive checking
     if (!userRole || (userRole !== "admin" && userRole !== "user")) {
-      console.warn(`Dashboard access: Invalid user role '${String(userRole)}', defaulting to 'user'`);
+      console.warn(
+        `Dashboard access: Invalid user role '${String(userRole)}', defaulting to 'user'`,
+      );
       redirect("/dashboard/user?role=default");
     }
 
@@ -82,15 +86,15 @@ async function DashboardRouter() {
       // This is a normal redirect - re-throw it to let Next.js handle it
       throw error;
     }
-    
+
     // Log actual errors (not redirects) with more detail
     console.error("Dashboard routing error:", {
       error: error,
-      message: error instanceof Error ? error.message : 'Unknown error',
+      message: error instanceof Error ? error.message : "Unknown error",
       stack: error instanceof Error ? error.stack : undefined,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
-    
+
     // For genuine errors, redirect to login with error parameter
     redirect("/login?error=session-error&from=dashboard");
   }
@@ -101,7 +105,7 @@ async function DashboardRouter() {
 
 /**
  * Dashboard page component with role-based routing
- * 
+ *
  * This component:
  * 1. Checks if user is authenticated
  * 2. Determines user role from session

@@ -3,7 +3,7 @@
  *
  * User registration interface for creating new accounts.
  * Provides comprehensive form validation and account creation.
- * 
+ *
  * @description Client-side rendered page that handles user registration,
  * form validation, and account creation. Includes comprehensive validation
  * for all registration fields and terms acceptance.
@@ -19,7 +19,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 
 /**
  * Register Page Component
- * 
+ *
  * Handles user registration with comprehensive validation.
  * Redirects authenticated users to home page.
  */

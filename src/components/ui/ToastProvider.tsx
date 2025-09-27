@@ -1,14 +1,30 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from 'react';
-import { ToastContainer, type ToastMessage } from './Toast';
+import { createContext, useContext, useState, type ReactNode } from "react";
+import { ToastContainer, type ToastMessage } from "./Toast";
 
 interface ToastContextValue {
-  showToast: (toast: Omit<ToastMessage, 'id'>) => void;
-  showSuccess: (title: string, message?: string, options?: Partial<ToastMessage>) => void;
-  showError: (title: string, message?: string, options?: Partial<ToastMessage>) => void;
-  showInfo: (title: string, message?: string, options?: Partial<ToastMessage>) => void;
-  showWarning: (title: string, message?: string, options?: Partial<ToastMessage>) => void;
+  showToast: (toast: Omit<ToastMessage, "id">) => void;
+  showSuccess: (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => void;
+  showError: (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => void;
+  showInfo: (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => void;
+  showWarning: (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => void;
   removeToast: (id: string) => void;
   clearAll: () => void;
 }
@@ -26,47 +42,63 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   };
 
-  const showToast = (toast: Omit<ToastMessage, 'id'>) => {
+  const showToast = (toast: Omit<ToastMessage, "id">) => {
     const newToast: ToastMessage = {
       id: generateId(),
       ...toast,
     };
-    
+
     setToasts((prev) => [...prev, newToast]);
   };
 
-  const showSuccess = (title: string, message?: string, options?: Partial<ToastMessage>) => {
+  const showSuccess = (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => {
     showToast({
-      type: 'success',
+      type: "success",
       title,
-      message: message || '',
+      message: message || "",
       ...options,
     });
   };
 
-  const showError = (title: string, message?: string, options?: Partial<ToastMessage>) => {
+  const showError = (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => {
     showToast({
-      type: 'error',
+      type: "error",
       title,
-      message: message || '',
+      message: message || "",
       ...options,
     });
   };
 
-  const showInfo = (title: string, message?: string, options?: Partial<ToastMessage>) => {
+  const showInfo = (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => {
     showToast({
-      type: 'info',
+      type: "info",
       title,
-      message: message || '',
+      message: message || "",
       ...options,
     });
   };
 
-  const showWarning = (title: string, message?: string, options?: Partial<ToastMessage>) => {
+  const showWarning = (
+    title: string,
+    message?: string,
+    options?: Partial<ToastMessage>,
+  ) => {
     showToast({
-      type: 'warning',
+      type: "warning",
       title,
-      message: message || '',
+      message: message || "",
       ...options,
     });
   };
@@ -100,7 +132,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
 export const useToast = (): ToastContextValue => {
   const context = useContext(ToastContext);
   if (!context) {
-    throw new Error('useToast must be used within a ToastProvider');
+    throw new Error("useToast must be used within a ToastProvider");
   }
   return context;
 };

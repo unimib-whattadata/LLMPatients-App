@@ -1,6 +1,6 @@
 /**
  * Typing Indicator Component
- * 
+ *
  * Animated typing indicator with bouncing dots to show when someone is typing
  */
 
@@ -21,45 +21,42 @@ interface TypingIndicatorProps {
 
 /**
  * TypingIndicator Component
- * 
+ *
  * Shows animated bouncing dots to indicate typing activity.
  * Perfect for chat interfaces where you need to show when someone is typing.
- * 
+ *
  * @param isVisible - Whether to show the typing indicator
  * @param className - Custom class name for styling
  * @param style - Custom style for the container
  * @param dotSize - Size of the dots in pixels
  */
-export function TypingIndicator({ 
-  isVisible = true, 
+export function TypingIndicator({
+  isVisible = true,
   className = "",
   style,
-  dotSize = 8
+  dotSize = 8,
 }: TypingIndicatorProps) {
   if (!isVisible) return null;
 
   return (
-    <div 
-      className={`flex items-center space-x-1 ${className}`}
-      style={style}
-    >
+    <div className={`flex items-center space-x-1 ${className}`} style={style}>
       <div className="flex space-x-1">
         <div
-          className="rounded-full animate-bounce typing-dot"
+          className="typing-dot animate-bounce rounded-full"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
           }}
         />
         <div
-          className="rounded-full animate-bounce typing-dot typing-dot--delay-1"
+          className="typing-dot typing-dot--delay-1 animate-bounce rounded-full"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
           }}
         />
         <div
-          className="rounded-full animate-bounce typing-dot typing-dot--delay-2"
+          className="typing-dot typing-dot--delay-2 animate-bounce rounded-full"
           style={{
             width: `${dotSize}px`,
             height: `${dotSize}px`,
@@ -72,7 +69,7 @@ export function TypingIndicator({
 
 /**
  * Chat Typing Indicator
- * 
+ *
  * Specialized typing indicator for chat messages with patient avatar
  */
 interface ChatTypingIndicatorProps {
@@ -96,37 +93,31 @@ export function ChatTypingIndicator({
   avatarUrl,
   patientName = "Patient",
   avatarData,
-  className = ""
+  className = "",
 }: ChatTypingIndicatorProps) {
   if (!isVisible) return null;
 
   return (
     <div className={`flex justify-start ${className}`}>
-      <div className="flex max-w-2xl space-x-3 flex-row">
+      <div className="flex max-w-2xl flex-row space-x-3">
         {/* Patient Avatar */}
-        <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full flex-shrink-0">
+        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full">
           {avatarUrl ? (
             <img
               src={avatarUrl}
               alt={`Avatar di ${patientName}`}
-              className="rounded-full object-cover chat-avatar-fixed-size"
+              className="chat-avatar-fixed-size rounded-full object-cover"
             />
           ) : (
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-full text-white font-bold"
-            >
+            <div className="flex h-10 w-10 items-center justify-center rounded-full font-bold text-white">
               {avatarData?.initials || "P"}
             </div>
           )}
         </div>
-        
+
         {/* Typing bubble */}
-        <div
-          className="rounded-lg px-4 py-3"
-        >
-          <TypingIndicator 
-            dotSize={6}
-          />
+        <div className="rounded-lg px-4 py-3">
+          <TypingIndicator dotSize={6} />
         </div>
       </div>
     </div>

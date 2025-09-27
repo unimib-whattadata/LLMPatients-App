@@ -8,7 +8,11 @@ import { PatientGrid } from "./PatientGrid";
  * Client component that handles data fetching for the PatientGrid
  */
 export function PatientGridWrapper() {
-  const { data: patients, isLoading, error } = api.patients.getExplorationPatients.useQuery();
+  const {
+    data: patients,
+    isLoading,
+    error,
+  } = api.patients.getExplorationPatients.useQuery();
 
   return (
     <PatientGrid

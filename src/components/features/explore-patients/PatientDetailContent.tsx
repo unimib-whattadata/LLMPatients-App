@@ -6,15 +6,18 @@ import { useState } from "react";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 
-import {
-  PatientAvatar,
-} from "@/components/features/explore-patients";
+import { PatientAvatar } from "@/components/features/explore-patients";
 import { Breadcrumb, PatientDetailLoading } from "@/components/ui";
 import { api } from "~/trpc/react";
-import { getDifficultyIconClass, getDifficultyLabel, getDifficultyAccessibleText } from "~/lib/constants/difficulty";
+import {
+  getDifficultyIconClass,
+  getDifficultyLabel,
+  getDifficultyAccessibleText,
+} from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
-const SECTION_WITH_OVERFLOW = "bg-background-secondary rounded-lg overflow-hidden";
+const SECTION_WITH_OVERFLOW =
+  "bg-background-secondary rounded-lg overflow-hidden";
 const SECTION = "bg-background-secondary rounded-lg p-6";
 
 function normalizeParam(value: unknown): string | null {
@@ -63,7 +66,9 @@ export function PatientDetailContent() {
       setActionError(null);
       if (startedSession && patient) {
         const patientSlug = createPatientSlug(patient.name);
-        router.push(`/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`);
+        router.push(
+          `/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`,
+        );
       }
     },
     onError: (mutationError) => {
@@ -115,14 +120,26 @@ export function PatientDetailContent() {
   try {
     details = JSON.parse(patient.details) as typeof details;
   } catch (error) {
-    console.error('Failed to parse patient details:', error);
+    console.error("Failed to parse patient details:", error);
     // Fallback to empty object to prevent crashes
     details = {};
   }
   const infoItems = [
-    { label: "Eta", value: `${details.demographic_sociocultural_information?.age || 'N/A'} anni` },
-    { label: "Genere", value: details.demographic_sociocultural_information?.gender || 'N/A', capitalize: true },
-    { label: "Condizione", value: details.psychological_profile_and_cognitive_functioning?.current_and_past_psychiatric_diagnoses || 'N/A' },
+    {
+      label: "Eta",
+      value: `${details.demographic_sociocultural_information?.age || "N/A"} anni`,
+    },
+    {
+      label: "Genere",
+      value: details.demographic_sociocultural_information?.gender || "N/A",
+      capitalize: true,
+    },
+    {
+      label: "Condizione",
+      value:
+        details.psychological_profile_and_cognitive_functioning
+          ?.current_and_past_psychiatric_diagnoses || "N/A",
+    },
     { label: "Durata stimata", value: `${patient.estimatedDuration} minuti` },
   ];
 
@@ -131,14 +148,13 @@ export function PatientDetailContent() {
       <header className="bg-background-secondary">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
           <Breadcrumb items={breadcrumbs} />
-
         </div>
       </header>
 
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
           <aside className="lg:col-span-1">
-            <div className="bg-background-secondary rounded-lg overflow-hidden">
+            <div className="bg-background-secondary overflow-hidden rounded-lg">
               <PatientAvatar
                 name={patient.name}
                 avatarUrl={patient.avatarUrl}
@@ -152,12 +168,14 @@ export function PatientDetailContent() {
                     {patient.name}
                   </h1>
                   <span className="patient-card-age text-sm sm:text-base">
-                    {details.demographic_sociocultural_information?.age || "N/A"} anni
+                    {details.demographic_sociocultural_information?.age ||
+                      "N/A"}{" "}
+                    anni
                   </span>
                 </header>
 
                 {/* Description */}
-                <p className="patient-card-condition text-sm sm:text-base mt-3">
+                <p className="patient-card-condition mt-3 text-sm sm:text-base">
                   {patient.smallDescription}
                 </p>
 
@@ -166,19 +184,25 @@ export function PatientDetailContent() {
                   <div className="patient-card-difficulty">
                     <span
                       className={getDifficultyIconClass(patient.difficulty)}
-                      aria-label={getDifficultyAccessibleText(patient.difficulty)}
+                      aria-label={getDifficultyAccessibleText(
+                        patient.difficulty,
+                      )}
                       role="img"
                     >
                       {getDifficultyIcon(patient.difficulty)}
                     </span>
-                    <span className="text-sm">{getDifficultyLabel(patient.difficulty)}</span>
+                    <span className="text-sm">
+                      {getDifficultyLabel(patient.difficulty)}
+                    </span>
                   </div>
                   <div className="patient-card-duration">
                     <ClockIcon
-                      className="patient-card-duration-icon w-4 h-4"
+                      className="patient-card-duration-icon h-4 w-4"
                       aria-hidden="true"
                     />
-                    <span className="text-sm">{patient.estimatedDuration} min</span>
+                    <span className="text-sm">
+                      {patient.estimatedDuration} min
+                    </span>
                   </div>
                 </div>
               </div>
@@ -187,14 +211,18 @@ export function PatientDetailContent() {
 
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Storia del paziente</h2>
-              <p className="patient-card-background text-sm sm:text-base leading-relaxed">
+              <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
+                Storia del paziente
+              </h2>
+              <p className="patient-card-background text-sm leading-relaxed sm:text-base">
                 {patient.background}
               </p>
             </article>
 
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Obiettivi di apprendimento</h2>
+              <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
+                Obiettivi di apprendimento
+              </h2>
               <div className="patient-card-objectives">
                 <ul className="patient-card-objective-list space-y-2">
                   {patient.objectives.map((objective, index) => (
@@ -210,22 +238,26 @@ export function PatientDetailContent() {
             </article>
 
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
-              <h2 className="text-lg sm:text-xl font-semibold text-text-primary mb-3 sm:mb-4">Inizia la simulazione</h2>
+              <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
+                Inizia la simulazione
+              </h2>
               {session ? (
                 <>
-                  <p className="text-text-secondary mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
-                    Sei pronto a iniziare l&apos;interazione con {patient.name}? La
-                    simulazione ti permette di mettere in pratica le tue competenze
-                    cliniche in un ambiente sicuro e controllato.
+                  <p className="text-text-secondary mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">
+                    Sei pronto a iniziare l&apos;interazione con {patient.name}?
+                    La simulazione ti permette di mettere in pratica le tue
+                    competenze cliniche in un ambiente sicuro e controllato.
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <button
                       type="button"
-                      className="patient-card-button w-full text-center py-3 sm:py-4 text-sm sm:text-base"
+                      className="patient-card-button w-full py-3 text-center text-sm sm:py-4 sm:text-base"
                       onClick={() => {
                         if (!patient) return;
                         setActionError(null);
-                        void startTherapySession.mutate({ patientId: patient.id });
+                        void startTherapySession.mutate({
+                          patientId: patient.id,
+                        });
                       }}
                       disabled={startTherapySession.isPending}
                       aria-disabled={startTherapySession.isPending}
@@ -236,27 +268,30 @@ export function PatientDetailContent() {
                     </button>
                   </div>
                   {actionError && (
-                    <p className="text-sm text-red-500 mt-3 sm:mt-4">{actionError}</p>
+                    <p className="mt-3 text-sm text-red-500 sm:mt-4">
+                      {actionError}
+                    </p>
                   )}
                 </>
               ) : (
                 <>
-                  <p className="text-text-secondary mb-4 sm:mb-6 text-sm sm:text-base leading-relaxed">
-                    Per iniziare l&apos;interazione con {patient.name} e accedere alla
-                    simulazione terapeutica, è necessario effettuare l&apos;accesso.
-                    La simulazione ti permetterà di mettere in pratica le tue competenze
-                    cliniche in un ambiente sicuro e controllato.
+                  <p className="text-text-secondary mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">
+                    Per iniziare l&apos;interazione con {patient.name} e
+                    accedere alla simulazione terapeutica, è necessario
+                    effettuare l&apos;accesso. La simulazione ti permetterà di
+                    mettere in pratica le tue competenze cliniche in un ambiente
+                    sicuro e controllato.
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <Link
                       href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}/${createPatientSlug(patient.name)}`)}`}
-                      className="patient-card-button text-center py-3 sm:py-4 text-sm sm:text-base"
+                      className="patient-card-button py-3 text-center text-sm sm:py-4 sm:text-base"
                     >
                       Accedi per iniziare la simulazione
                     </Link>
                     <Link
                       href="/register"
-                      className="patient-card-button text-center bg-background-tertiary text-text-primary hover:bg-background-quaternary py-3 sm:py-4 text-sm sm:text-base"
+                      className="patient-card-button bg-background-tertiary text-text-primary hover:bg-background-quaternary py-3 text-center text-sm sm:py-4 sm:text-base"
                     >
                       Registrati
                     </Link>
@@ -283,13 +318,12 @@ function NotFoundCard({
       <div className="bg-accent-900/40 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full" />
       <h1 className="text-text-primary mb-2 text-2xl font-bold">{title}</h1>
       <p className="text-text-tertiary mb-6">{description}</p>
-        <Link
-          href="/explore-patients"
-          className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
-        >
+      <Link
+        href="/explore-patients"
+        className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
+      >
         Torna all&apos;esplorazione
       </Link>
     </div>
   );
 }
-

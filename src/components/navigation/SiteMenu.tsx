@@ -82,7 +82,10 @@ export function SiteMenu({
   };
 
   const renderLinks = (isMobile = false) => (
-    <ul className={isMobile ? "site-menu__mobile-list" : "site-menu__nav-list"} role="list">
+    <ul
+      className={isMobile ? "site-menu__mobile-list" : "site-menu__nav-list"}
+      role="list"
+    >
       {resolvedLinks.map((link, index) => (
         <li key={`${link.href}-${index}`} role="listitem">
           <Link
@@ -102,7 +105,9 @@ export function SiteMenu({
   if (containerClassName) combinedContainerClasses.push(containerClassName);
 
   return (
-    <header className={`site-menu site-menu--${variant} ${mobileOpen ? "site-menu--open" : ""} ${className ?? ""}`}>
+    <header
+      className={`site-menu site-menu--${variant} ${mobileOpen ? "site-menu--open" : ""} ${className ?? ""}`}
+    >
       <div className={combinedContainerClasses.join(" ")}>
         <div className="site-menu__brand">{renderBrand()}</div>
 
@@ -119,7 +124,9 @@ export function SiteMenu({
           aria-label={mobileOpen ? "Chiudi il menu" : "Apri il menu"}
           onClick={() => setMobileOpen((prev) => !prev)}
         >
-          <span className="sr-only">{mobileOpen ? "Chiudi il menu" : "Apri il menu"}</span>
+          <span className="sr-only">
+            {mobileOpen ? "Chiudi il menu" : "Apri il menu"}
+          </span>
           <svg
             className="site-menu__mobile-icon"
             viewBox="0 0 24 24"
@@ -142,7 +149,9 @@ export function SiteMenu({
         <div className="section-container">
           {renderLinks(true)}
           {(mobileSlot ?? rightSlot) && (
-            <div className="site-menu__mobile-extra">{mobileSlot ?? rightSlot}</div>
+            <div className="site-menu__mobile-extra">
+              {mobileSlot ?? rightSlot}
+            </div>
           )}
         </div>
       </div>

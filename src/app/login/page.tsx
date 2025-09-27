@@ -3,7 +3,7 @@
  *
  * Authentication interface for user login with email and password.
  * Provides form validation, error handling, and session management.
- * 
+ *
  * @description Client-side rendered page that handles user authentication,
  * form validation, and redirects. Includes comprehensive error handling
  * and session verification with JWT token support.

@@ -238,7 +238,7 @@ export const chatRouter = createTRPCRouter({
         }
 
         console.log("Updated chat step successfully");
-        
+
         // Check if step 11 is completed and mark therapy session as completed
         if (input.stepNumber === 11) {
           await ctx.db
@@ -248,10 +248,10 @@ export const chatRouter = createTRPCRouter({
               updatedAt: new Date(),
             })
             .where(eq(therapySessions.id, input.therapySessionId));
-          
+
           console.log("Therapy session marked as completed (step 11 finished)");
         }
-        
+
         return {
           ...updatedChat,
           messages: JSON.parse(updatedChat.messages) as ChatMessage[],
@@ -275,7 +275,7 @@ export const chatRouter = createTRPCRouter({
         }
 
         console.log("Created new chat step successfully:", newChat.id);
-        
+
         // Check if step 11 is completed and mark therapy session as completed
         if (input.stepNumber === 11) {
           await ctx.db
@@ -285,10 +285,10 @@ export const chatRouter = createTRPCRouter({
               updatedAt: new Date(),
             })
             .where(eq(therapySessions.id, input.therapySessionId));
-          
+
           console.log("Therapy session marked as completed (step 11 finished)");
         }
-        
+
         return {
           ...newChat,
           messages: [] as ChatMessage[],

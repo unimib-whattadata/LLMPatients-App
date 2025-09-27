@@ -381,16 +381,16 @@ export function PatientDetailsContent() {
       "con debiti": "Con Debiti",
       "con sussidi": "Con Sussidi",
       "supporto familiare": "Supporto Familiare",
-      "sport": "Sport",
-      "arte": "Arte",
-      "musica": "Musica",
-      "lettura": "Lettura",
-      "videogiochi": "Videogiochi",
-      "natura": "Natura",
-      "volontariato": "Volontariato",
-      "televisione": "Televisione",
+      sport: "Sport",
+      arte: "Arte",
+      musica: "Musica",
+      lettura: "Lettura",
+      videogiochi: "Videogiochi",
+      natura: "Natura",
+      volontariato: "Volontariato",
+      televisione: "Televisione",
       "shopping online": "Shopping Online",
-      "numerose": "Numerose",
+      numerose: "Numerose",
       "poche ma stabili": "Poche ma Stabili",
       superficiali: "Superficiali",
       assenti: "Assenti",
@@ -747,24 +747,34 @@ export function PatientDetailsContent() {
     const isArray = fieldDef.type === "array";
     const getIndentationClass = (level: number) => {
       switch (level) {
-        case 1: return "field-indent-1";
-        case 2: return "field-indent-2";
-        case 3: return "field-indent-3";
-        case 4: return "field-indent-4";
-        default: return "";
+        case 1:
+          return "field-indent-1";
+        case 2:
+          return "field-indent-2";
+        case 3:
+          return "field-indent-3";
+        case 4:
+          return "field-indent-4";
+        default:
+          return "";
       }
     };
-    
+
     const getEnumIndentationClass = (level: number) => {
       switch (level + 1) {
-        case 1: return "field-indent-1";
-        case 2: return "field-indent-2";
-        case 3: return "field-indent-3";
-        case 4: return "field-indent-4";
-        default: return "";
+        case 1:
+          return "field-indent-1";
+        case 2:
+          return "field-indent-2";
+        case 3:
+          return "field-indent-3";
+        case 4:
+          return "field-indent-4";
+        default:
+          return "";
       }
     };
-    
+
     const indentationClass = level > 0 ? getIndentationClass(level) : "";
     const enumIndentationClass = getEnumIndentationClass(level);
 
@@ -852,17 +862,17 @@ export function PatientDetailsContent() {
    */
   const countElements = (sectionDef: SectionDefinition): number => {
     if (!sectionDef.properties) return 0;
-    
+
     let count = 0;
     const traverse = (fields: Record<string, FieldDefinition>) => {
-      Object.values(fields).forEach(field => {
+      Object.values(fields).forEach((field) => {
         count++;
         if (field.properties) {
           traverse(field.properties);
         }
       });
     };
-    
+
     traverse(sectionDef.properties);
     return count;
   };
@@ -958,9 +968,15 @@ export function PatientDetailsContent() {
           </div>
           <div className="text-text-tertiary flex flex-wrap items-center justify-between gap-2 text-xs">
             {searchTerm ? (
-              <p>{filteredSections.length} sezioni trovate ({countTotalElements()} elementi)</p>
+              <p>
+                {filteredSections.length} sezioni trovate (
+                {countTotalElements()} elementi)
+              </p>
             ) : (
-              <p>{filteredSections.length} sezioni totali ({countTotalElements()} elementi)</p>
+              <p>
+                {filteredSections.length} sezioni totali ({countTotalElements()}{" "}
+                elementi)
+              </p>
             )}
             <div className="flex items-center gap-2">
               <button

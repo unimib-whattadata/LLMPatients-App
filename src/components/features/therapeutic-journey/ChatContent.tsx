@@ -9,7 +9,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
 import { LoadingSpinner } from "@/components/ui";
-import { ArrowLeftIcon, PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  PaperAirplaneIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -43,7 +47,7 @@ function formatTimestamp(timestamp: Date | string): string {
 function formatSessionTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
 
 /**
@@ -55,33 +59,20 @@ function formatSessionTime(seconds: number): string {
  * @param name - The patient's name
  * @returns Object with background color and initials for the avatar
  */
-function generatePatientAvatar(name: string): { backgroundColor: string; initials: string } {
+function generatePatientAvatar(name: string): {
+  backgroundColor: string;
+  initials: string;
+} {
   const initials = name
     .split(" ")
     .map((word) => word.charAt(0))
     .join("")
     .toUpperCase()
     .slice(0, 2);
-  
+
   const finalInitials = initials.length > 0 ? initials : "P";
 
-  const colors = [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ];
+  const colors = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
 
   const colorIndex =
     name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
@@ -164,7 +155,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const utils = api.useUtils();
 
   // Generate patient avatar data once
-  const patientAvatar = selectedPatient ? generatePatientAvatar(selectedPatient.name) : { backgroundColor: "", initials: "P" };
+  const patientAvatar = selectedPatient
+    ? generatePatientAvatar(selectedPatient.name)
+    : { backgroundColor: "", initials: "P" };
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {
@@ -185,7 +178,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Timer effect
   useEffect(() => {
     const interval = setInterval(() => {
-      setSessionTime(prev => prev + 1);
+      setSessionTime((prev) => prev + 1);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -195,15 +188,18 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   useEffect(() => {
     if (existingChat && existingChat.messages.length > 0) {
       // Convert string timestamps to Date objects
-      const messagesWithDates = existingChat.messages.map(msg => ({
+      const messagesWithDates = existingChat.messages.map((msg) => ({
         ...msg,
-        timestamp: typeof msg.timestamp === 'string' ? new Date(msg.timestamp) : msg.timestamp
+        timestamp:
+          typeof msg.timestamp === "string"
+            ? new Date(msg.timestamp)
+            : msg.timestamp,
       }));
       setMessages(messagesWithDates);
     } else if (selectedPatient && !chatLoading && !existingChat) {
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
-        content: `Ciao! Sono ${selectedPatient.name || 'il tuo paziente'}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
+        content: `Ciao! Sono ${selectedPatient.name || "il tuo paziente"}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
         sender: "patient",
         timestamp: new Date(),
         stepId,
@@ -230,7 +226,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     // Add user message to chat immediately
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
-    
+
     // Force immediate scroll to show user message
     setTimeout(() => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -250,9 +246,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       await saveChatMutation.mutateAsync({
         therapySessionId: therapySession.id,
         stepNumber: stepId,
-        messages: updatedMessages.map(msg => ({
+        messages: updatedMessages.map((msg) => ({
           ...msg,
-          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
+          timestamp:
+            msg.timestamp instanceof Date
+              ? msg.timestamp
+              : new Date(msg.timestamp),
         })),
       });
     } catch (error) {
@@ -260,46 +259,53 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
 
     // Generate patient response after delay
-    setTimeout(() => {
-      const responses = [
-        "Interessante punto di vista. Puoi elaborare ulteriormente?",
-        "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
-        "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
-        "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
-        "Mi sembra che stai facendo progressi. Continua così!",
-      ];
+    setTimeout(
+      () => {
+        const responses = [
+          "Interessante punto di vista. Puoi elaborare ulteriormente?",
+          "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
+          "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
+          "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
+          "Mi sembra che stai facendo progressi. Continua così!",
+        ];
 
-      const randomResponse = responses[Math.floor(Math.random() * responses.length)] || 
-        "Mi dispiace, non riesco a rispondere in questo momento.";
+        const randomResponse =
+          responses[Math.floor(Math.random() * responses.length)] ||
+          "Mi dispiace, non riesco a rispondere in questo momento.";
 
-      const patientMessage: ChatMessage = {
-        id: `patient-${Date.now()}`,
-        content: randomResponse,
-        sender: "patient",
-        timestamp: new Date(),
-        stepId,
-      };
+        const patientMessage: ChatMessage = {
+          id: `patient-${Date.now()}`,
+          content: randomResponse,
+          sender: "patient",
+          timestamp: new Date(),
+          stepId,
+        };
 
-      // Add patient response
-      const finalMessages = [...updatedMessages, patientMessage];
-      setMessages(finalMessages);
-      setIsTyping(false);
-      
-      // Force scroll to show patient response
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+        // Add patient response
+        const finalMessages = [...updatedMessages, patientMessage];
+        setMessages(finalMessages);
+        setIsTyping(false);
 
-      // Save complete conversation
-      saveChatMutation.mutate({
-        therapySessionId: therapySession.id,
-        stepNumber: stepId,
-        messages: finalMessages.map(msg => ({
-          ...msg,
-          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp)
-        })),
-      });
-    }, 2000 + Math.random() * 2000); // 2-4 seconds delay
+        // Force scroll to show patient response
+        setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+
+        // Save complete conversation
+        saveChatMutation.mutate({
+          therapySessionId: therapySession.id,
+          stepNumber: stepId,
+          messages: finalMessages.map((msg) => ({
+            ...msg,
+            timestamp:
+              msg.timestamp instanceof Date
+                ? msg.timestamp
+                : new Date(msg.timestamp),
+          })),
+        });
+      },
+      2000 + Math.random() * 2000,
+    ); // 2-4 seconds delay
   };
 
   const handleKeyPress = async (e: React.KeyboardEvent) => {
@@ -356,7 +362,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   };
 
-  if (patientLoading || therapySessionLoading || chatLoading || completedStepsLoading) {
+  if (
+    patientLoading ||
+    therapySessionLoading ||
+    chatLoading ||
+    completedStepsLoading
+  ) {
     return (
       <SharedLayout
         user={user}
@@ -375,23 +386,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <div
-          className="flex items-center justify-center chat-error-container"
-        >
+        <div className="chat-error-container flex items-center justify-center">
           <div className="text-center">
-            <h2
-              className="text-heading-2 mb-4"
-            >
-              Paziente non trovato
-            </h2>
-            <p
-              className="text-body-lg mb-6"
-            >
+            <h2 className="text-heading-2 mb-4">Paziente non trovato</h2>
+            <p className="text-body-lg mb-6">
               Il paziente richiesto non è disponibile.
             </p>
-            <Button
-              onClick={goBack}
-            >
+            <Button onClick={goBack}>
               <ArrowLeftIcon className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
@@ -407,13 +408,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       impersonation={impersonation}
       layoutType="dashboard"
     >
-      <div
-        className="flex flex-col chat-container"
-      >
+      <div className="chat-container flex flex-col">
         {/* Header */}
-        <div
-          className="border-b px-6 py-4 shadow-sm"
-        >
+        <div className="border-b px-6 py-4 shadow-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
@@ -433,17 +430,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <ArrowLeftIcon className="h-4 w-4" />
               </Button>
               <div>
-                <h1
-                  className="text-heading-3"
-                >
-                  Sessione {stepId} - {new Date().toLocaleDateString('it-IT')}
+                <h1 className="text-heading-3">
+                  Sessione {stepId} - {new Date().toLocaleDateString("it-IT")}
                 </h1>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div
-                className="rounded-lg px-3 py-1"
-              >
+              <div className="rounded-lg px-3 py-1">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -472,9 +465,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </div>
 
         {/* Messages */}
-        <div
-          className="flex-1 overflow-y-auto p-6"
-        >
+        <div className="flex-1 overflow-y-auto p-6">
           <div className="mx-auto max-w-4xl space-y-6">
             {messages.map((message) => (
               <div
@@ -492,32 +483,26 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 >
                   {/* Avatar only for patient messages */}
                   {message.sender === "patient" && (
-                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full flex-shrink-0">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full">
                       {selectedPatient.avatarUrl ? (
                         <Image
                           src={selectedPatient.avatarUrl}
                           alt={`Avatar di ${selectedPatient.name}`}
                           width={40}
                           height={40}
-                          className="rounded-full object-cover chat-avatar-fixed-size"
+                          className="chat-avatar-fixed-size rounded-full object-cover"
                         />
                       ) : (
-                        <div
-                          className="flex h-10 w-10 items-center justify-center rounded-full font-bold"
-                        >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full font-bold">
                           {patientAvatar?.initials}
                         </div>
                       )}
                     </div>
                   )}
-                  
+
                   {/* Message bubble */}
-                  <div
-                    className="rounded-lg px-4 py-3"
-                  >
-                    <p className="text-body">
-                      {message.content}
-                    </p>
+                  <div className="rounded-lg px-4 py-3">
+                    <p className="text-body">{message.content}</p>
                   </div>
                 </div>
               </div>
@@ -532,16 +517,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               />
             )}
 
-
             <div ref={messagesEndRef} />
           </div>
         </div>
 
         {/* Input - Only show if step is not completed */}
         {!isStepCompleted && (
-          <div
-            className="border-t p-6"
-          >
+          <div className="border-t p-6">
             <div className="mx-auto max-w-4xl">
               <div className="flex space-x-3">
                 <Input
@@ -576,15 +558,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Session completed message */}
         {isStepCompleted && (
-          <div
-            className="border-t p-6"
-          >
+          <div className="border-t p-6">
             <div className="mx-auto max-w-4xl text-center">
-              <div
-                className="rounded-lg px-4 py-3"
-              >
+              <div className="rounded-lg px-4 py-3">
                 <p className="text-sm font-medium">
-                  ✓ Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                  ✓ Sessione {stepId} completata - La conversazione è in
+                  modalità sola lettura
                 </p>
               </div>
             </div>

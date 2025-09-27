@@ -1,6 +1,6 @@
 /**
  * Loading States Component
- * 
+ *
  * Provides common loading states for different page types and contexts
  */
 
@@ -12,7 +12,7 @@ interface PageLoadingProps {
    * Loading message
    */
   message?: string;
-  
+
   /**
    * Whether to use full screen layout
    */
@@ -22,12 +22,12 @@ interface PageLoadingProps {
 /**
  * Standard page loading state
  */
-export function PageLoading({ 
-  message = "Loading page...", 
-  fullScreen = true 
+export function PageLoading({
+  message = "Loading page...",
+  fullScreen = true,
 }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={fullScreen}
       size="lg"
@@ -39,11 +39,11 @@ export function PageLoading({
 /**
  * Dashboard loading state
  */
-export function DashboardLoading({ 
-  message = "Loading dashboard..." 
+export function DashboardLoading({
+  message = "Loading dashboard...",
 }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={true}
       size="lg"
@@ -56,17 +56,19 @@ export function DashboardLoading({
  * Patient grid loading state
  */
 export function PatientGridLoading() {
-  return <LoadingCard count={6} showAvatar={true} textLines={3} showButton={true} />;
+  return (
+    <LoadingCard count={6} showAvatar={true} textLines={3} showButton={true} />
+  );
 }
 
 /**
  * Patient detail loading state
  */
-export function PatientDetailLoading({ 
-  message = "Loading patient details..." 
+export function PatientDetailLoading({
+  message = "Loading patient details...",
 }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={true}
       size="lg"
@@ -78,11 +80,11 @@ export function PatientDetailLoading({
 /**
  * Session loading state
  */
-export function SessionLoading({ 
-  message = "Loading session timeline..." 
+export function SessionLoading({
+  message = "Loading session timeline...",
 }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={true}
       size="lg"
@@ -94,11 +96,9 @@ export function SessionLoading({
 /**
  * Authentication loading state
  */
-export function AuthLoading({ 
-  message = "Loading..." 
-}: PageLoadingProps) {
+export function AuthLoading({ message = "Loading..." }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={true}
       size="lg"
@@ -110,11 +110,9 @@ export function AuthLoading({
 /**
  * Admin content loading state
  */
-export function AdminLoading({ 
-  message = "Loading..." 
-}: PageLoadingProps) {
+export function AdminLoading({ message = "Loading..." }: PageLoadingProps) {
   return (
-    <LoadingSpinner 
+    <LoadingSpinner
       message={message}
       fullScreen={true}
       size="lg"

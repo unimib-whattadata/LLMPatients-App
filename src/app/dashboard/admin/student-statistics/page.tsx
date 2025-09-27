@@ -3,7 +3,7 @@
  *
  * Interface for viewing aggregate student performance statistics
  * and analytics across all clinical simulations. Accessible only to admin users.
- * 
+ *
  * @description Server-side rendered page that handles authentication,
  * role verification, and renders the student statistics interface.
  * Only accessible to authenticated users with 'admin' role.
@@ -16,7 +16,7 @@ import { StudentStatisticsContent } from "@/components/features/dashboard/Studen
 
 /**
  * Student Statistics Page Component
- * 
+ *
  * Handles authentication, role verification, and renders student statistics interface.
  * Redirects unauthenticated users to login page and non-admin users to user dashboard.
  */
