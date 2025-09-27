@@ -1,15 +1,53 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"
+import Link from "next/link"
 
 import { cn } from "~/lib/utils"
 
-const Breadcrumb = React.forwardRef<
-  HTMLElement,
-  React.ComponentPropsWithoutRef<"nav"> & {
-    separator?: React.ReactNode
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+  isActive?: boolean;
+}
+
+interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {
+  separator?: React.ReactNode;
+  items?: BreadcrumbItem[];
+}
+
+const Breadcrumb = React.forwardRef<HTMLElement, BreadcrumbProps>(
+  ({ items, separator, className, ...props }, ref) => {
+    if (items) {
+      return (
+        <nav ref={ref} aria-label="breadcrumb" className={className} {...props}>
+          <BreadcrumbList>
+            {items.map((item, index) => (
+              <React.Fragment key={index}>
+                <BreadcrumbItem>
+                  {item.isActive ? (
+                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                  ) : item.href ? (
+                    <BreadcrumbLink asChild>
+                      <Link href={item.href}>{item.label}</Link>
+                    </BreadcrumbLink>
+                  ) : (
+                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                  )}
+                </BreadcrumbItem>
+                {index < items.length - 1 && (
+                  <BreadcrumbSeparator>{separator}</BreadcrumbSeparator>
+                )}
+              </React.Fragment>
+            ))}
+          </BreadcrumbList>
+        </nav>
+      );
+    }
+
+    return <nav ref={ref} aria-label="breadcrumb" className={className} {...props} />;
   }
->(({ ...props }, ref) => <nav ref={ref} aria-label="breadcrumb" {...props} />)
+);
 Breadcrumb.displayName = "Breadcrumb"
 
 const BreadcrumbList = React.forwardRef<

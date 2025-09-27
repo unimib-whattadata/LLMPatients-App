@@ -7,20 +7,9 @@ import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   Bars3Icon,
-  XMarkIcon,
   ArrowRightOnRectangleIcon,
   UserGroupIcon,
-  ChartBarIcon,
-  CogIcon,
 } from "@heroicons/react/24/outline";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "~/components/ui/navigation-menu";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -171,7 +160,7 @@ export function ShadcnNavbar({
 
   // Render mobile menu
   const renderMobileMenu = () => (
-    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen} id="mobile-navigation-sheet">
+    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="sm" className="lg:hidden">
           <Bars3Icon className="h-5 w-5" />

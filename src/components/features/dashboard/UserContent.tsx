@@ -3,13 +3,10 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useSearchParams } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { Skeleton } from "~/components/ui/skeleton";
 import { Loader2 } from "lucide-react";
 
 export const UserContent = React.memo(function UserContent() {

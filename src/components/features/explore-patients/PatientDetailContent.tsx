@@ -9,7 +9,6 @@ import { useSession } from "next-auth/react";
 import { PatientAvatar } from "@/components/features/explore-patients";
 import { Breadcrumb } from "~/components/common/Breadcrumb";
 import { PatientDetailSkeleton } from "~/components/ui/skeleton-variants";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
 import {

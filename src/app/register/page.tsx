@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Button } from "~/components/ui/button";
 
 /**
  * Register Page Component

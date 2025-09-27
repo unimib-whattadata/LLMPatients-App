@@ -15,6 +15,7 @@ import {
   getDifficultyAccessibleText,
   getDifficultyIconClass,
   getDifficultyIcon,
+  type DifficultyLevel,
 } from "~/lib/constants/difficulty";
 import { ClockIcon } from "@heroicons/react/24/outline";
 import { Progress } from "~/components/ui/progress";
@@ -125,14 +126,14 @@ function TherapySessionCardComponent({
               <div className="patient-card-difficulty">
                 <span
                   className={getDifficultyIconClass(
-                    therapySession.patient.difficulty,
+                    therapySession.patient.difficulty as DifficultyLevel,
                   )}
                   aria-label={getDifficultyAccessibleText(
-                    therapySession.patient.difficulty,
+                    therapySession.patient.difficulty as DifficultyLevel,
                   )}
                   role="img"
                 >
-                  {getDifficultyIcon(therapySession.patient.difficulty)}
+                  {getDifficultyIcon(therapySession.patient.difficulty as DifficultyLevel)}
                 </span>
               </div>
             </div>

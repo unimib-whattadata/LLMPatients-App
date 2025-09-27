@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { api } from "~/trpc/react";
-import { Badge } from "~/components/ui/badge";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
