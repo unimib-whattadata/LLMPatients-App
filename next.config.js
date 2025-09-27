@@ -33,8 +33,6 @@ const config = {
       "@trpc/client",
       "@trpc/react-query",
     ],
-    // Enable modern JavaScript features
-    esmExternals: "loose",
   },
 
   // Server external packages
@@ -123,8 +121,8 @@ const config = {
 
   // Bundle analyzer and optimizations
   webpack: (config, { dev, isServer }) => {
-    // Optimize for production
-    if (!dev) {
+    // Optimize only on the client build
+    if (!dev && !isServer) {
       // Enable tree shaking but be more conservative
       config.optimization = {
         ...config.optimization,
