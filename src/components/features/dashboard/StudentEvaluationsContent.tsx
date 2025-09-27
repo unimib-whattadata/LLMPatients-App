@@ -8,6 +8,7 @@ import {
 } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
+import { Badge } from "~/components/ui/badge";
 
 interface Evaluation {
   id: string;
@@ -109,10 +110,10 @@ export function StudentEvaluationsContent() {
     if (status === "completed") {
       const statusClass =
         score >= 80
-          ? "pill pill--sm status-tag status-tag--excellent"
+          ? "pill pill--sm status-tag status-tag--excellent bg-[#8B9769] text-white"
           : score >= 60
-            ? "pill pill--sm status-tag status-tag--good"
-            : "pill pill--sm status-tag status-tag--needs-improvement";
+            ? "pill pill--sm status-tag status-tag--good bg-[#C69A39] text-white"
+            : "pill pill--sm status-tag status-tag--needs-improvement bg-[#9690B6] text-white";
       return (
         <span className={statusClass}>
           {score >= 80 ? "Eccellente" : score >= 60 ? "Buono" : "Da migliorare"}
@@ -120,7 +121,7 @@ export function StudentEvaluationsContent() {
       );
     }
     return (
-      <span className="pill pill--sm status-tag status-tag--in-progress">
+      <span className="pill pill--sm status-tag status-tag--in-progress bg-[#8B9769] text-white">
         In corso
       </span>
     );
@@ -181,29 +182,29 @@ export function StudentEvaluationsContent() {
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.totalEvaluations ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">
+              <Badge variant="secondary" className="bg-[#8B9769] text-white">
                 Valutazioni Totali
-              </span>
+              </Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.completedEvaluations ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">Completate</span>
+              <Badge variant="secondary" className="bg-[#C69A39] text-white">Completate</Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.inProgressEvaluations ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">In Corso</span>
+              <Badge variant="secondary" className="bg-[#8B9769] text-white">In Corso</Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {evaluationStats?.successRate ?? 0}%
               </span>
-              <span className="dashboard-metric-card__label">
+              <Badge variant="secondary" className="bg-[#9690B6] text-white">
                 Tasso Successo
-              </span>
+              </Badge>
             </div>
           </div>
         )}

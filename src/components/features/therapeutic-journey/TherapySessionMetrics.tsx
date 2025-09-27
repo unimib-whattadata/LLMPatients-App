@@ -7,6 +7,7 @@
 "use client";
 
 import { memo } from "react";
+import { Badge } from "~/components/ui/badge";
 
 interface TherapySessionMetricsProps {
   inProgress: number;
@@ -23,15 +24,15 @@ function TherapySessionMetricsComponent({
     <div className="dashboard-metric-grid">
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{inProgress}</div>
-        <div className="dashboard-metric-card__label">In Corso</div>
+        <Badge variant="secondary" className="bg-[#8B9769] text-white">In Corso</Badge>
       </div>
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{completed}</div>
-        <div className="dashboard-metric-card__label">Completate</div>
+        <Badge variant="secondary" className="bg-[#C69A39] text-white">Completate</Badge>
       </div>
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{averageProgress}%</div>
-        <div className="dashboard-metric-card__label">Progresso Medio</div>
+        <Badge variant="secondary" className="bg-[#9690B6] text-white">Progresso Medio</Badge>
       </div>
     </div>
   );

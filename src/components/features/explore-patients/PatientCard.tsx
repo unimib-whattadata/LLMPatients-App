@@ -67,39 +67,40 @@ export function PatientCard({ patient }: PatientCardProps) {
   return (
     <Card
       className="h-full flex flex-col"
+      style={{ backgroundColor: '#2E322B' }}
       role="listitem"
       itemScope
       itemType="https://schema.org/Person"
     >
-      <CardHeader className="flex flex-row items-start space-y-0 pb-4">
-        {/* Patient Avatar */}
+      {/* Patient Avatar at the top */}
+      <CardHeader className="flex flex-col items-center space-y-4 pb-4">
         <PatientAvatar
           name={patient.name}
           avatarUrl={patient.avatarUrl}
           avatarType={patient.avatarType}
         />
         
-        <div className="flex-1 ml-4">
-          <div className="flex items-center justify-between">
-            <CardTitle
-              id={`patient-${patient.id}-title`}
-              className="text-lg"
-              itemProp="name"
-            >
-              {patient.name}
-            </CardTitle>
-            <Badge variant="secondary" itemProp="age">
-              {details.demographic_sociocultural_information?.age || "N/A"} anni
-            </Badge>
-          </div>
-          
-          <CardDescription className="mt-1" itemProp="description">
-            {patient.smallDescription}
-          </CardDescription>
+        {/* Patient Name and Age */}
+        <div className="text-center">
+          <CardTitle
+            id={`patient-${patient.id}-title`}
+            className="text-xl mb-2"
+            itemProp="name"
+          >
+            {patient.name}
+          </CardTitle>
+          <Badge variant="secondary" itemProp="age" className="bg-[#8B9769] text-white">
+            {details.demographic_sociocultural_information?.age || "N/A"} anni
+          </Badge>
         </div>
       </CardHeader>
 
       <CardContent className="flex-1 pt-0">
+        {/* Patient Description */}
+        <CardDescription className="text-center mb-4" itemProp="description">
+          {patient.smallDescription}
+        </CardDescription>
+
         {/* Background Description */}
         <p className="text-sm text-muted-foreground mb-4" itemProp="additionalProperty">
           {patient.background}
@@ -107,7 +108,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
         {/* Objectives */}
         <div className="space-y-2">
-          <p className="text-sm font-medium">Obiettivi:</p>
+          <p className="text-sm font-medium text-[#8B9769]">Obiettivi:</p>
           <ul className="space-y-1" role="list">
             {patient.objectives.slice(0, 2).map((objective, index) => (
               <li
@@ -120,7 +121,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               </li>
             ))}
             {patient.objectives.length > 2 && (
-              <li className="text-sm text-muted-foreground" role="listitem">
+              <li className="text-xs text-gray-800" role="listitem">
                 +{patient.objectives.length - 2} altri obiettivi
               </li>
             )}
@@ -128,18 +129,24 @@ export function PatientCard({ patient }: PatientCardProps) {
         </div>
 
         {/* Metadata */}
-        <div className="flex items-center justify-between mt-4 pt-4 border-t">
+        <div className="flex items-center justify-between mt-4 pt-4">
           <div className="flex items-center space-x-2">
             <Badge
-              variant="outline"
-              className={getDifficultyIconClass(patient.difficulty)}
+              variant="secondary"
+              className={`${getDifficultyIconClass(patient.difficulty)} ${
+                patient.difficulty === 1 
+                  ? 'bg-[#8B9769] text-white' 
+                  : patient.difficulty === 2 
+                    ? 'bg-[#C69A39] text-white' 
+                    : 'bg-[#9690B6] text-white'
+              }`}
               aria-label={getDifficultyAccessibleText(patient.difficulty)}
             >
               <span className="mr-1">{getDifficultyIcon(patient.difficulty)}</span>
               {getDifficultyLabel(patient.difficulty)}
             </Badge>
           </div>
-          <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+          <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
             <ClockIcon className="h-4 w-4" aria-hidden="true" />
             <span>{patient.estimatedDuration} min</span>
           </div>

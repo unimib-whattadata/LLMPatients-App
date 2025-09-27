@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { api } from "~/trpc/react";
+import { Badge } from "~/components/ui/badge";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
@@ -77,31 +78,31 @@ export function StudentStatisticsContent() {
               <span className="dashboard-metric-card__value">
                 {studentStats?.activeStudents ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">
+              <Badge variant="secondary" className="bg-[#8B9769] text-white">
                 Studenti Attivi
-              </span>
+              </Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.completionRate ?? 0}%
               </span>
-              <span className="dashboard-metric-card__label">
+              <Badge variant="secondary" className="bg-[#C69A39] text-white">
                 Tasso Completamento
-              </span>
+              </Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.averageScore ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">Score Medio</span>
+              <Badge variant="secondary" className="bg-[#9690B6] text-white">Score Medio</Badge>
             </div>
             <div className="dashboard-metric-card">
               <span className="dashboard-metric-card__value">
                 {studentStats?.totalSimulations ?? 0}
               </span>
-              <span className="dashboard-metric-card__label">
+              <Badge variant="secondary" className="bg-[#8B9769] text-white">
                 Simulazioni Totali
-              </span>
+              </Badge>
             </div>
           </div>
         )}

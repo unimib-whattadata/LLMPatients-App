@@ -14,6 +14,7 @@ import {
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { Button } from "~/components/ui/button";
+import { Badge } from "~/components/ui/badge";
 
 interface Simulation {
   id: string;
@@ -72,15 +73,15 @@ function MySimulationsContentComponent() {
   const getStatusBadge = useCallback((status: string) => {
     const statusConfig = {
       available: {
-        class: "pill pill--sm status-tag status-tag--available",
+        class: "pill pill--sm status-tag status-tag--available bg-[#8B9769] text-white",
         text: "Disponibile",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-[#C69A39] text-white",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed",
+        class: "pill pill--sm status-tag status-tag--completed bg-[#9690B6] text-white",
         text: "Completata",
       },
     };
@@ -164,21 +165,21 @@ function MySimulationsContentComponent() {
             <div className="dashboard-metric-card__value">
               {metrics.completed}
             </div>
-            <div className="dashboard-metric-card__label">
+            <Badge variant="secondary" className="bg-[#C69A39] text-white">
               Simulazioni Completate
-            </div>
+            </Badge>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value">
               {metrics.inProgress}
             </div>
-            <div className="dashboard-metric-card__label">In corso</div>
+            <Badge variant="secondary" className="bg-[#8B9769] text-white">In corso</Badge>
           </div>
           <div className="dashboard-metric-card">
             <div className="dashboard-metric-card__value">
               {metrics.averageScore}
             </div>
-            <div className="dashboard-metric-card__label">Score Medio</div>
+            <Badge variant="secondary" className="bg-[#9690B6] text-white">Score Medio</Badge>
           </div>
         </div>
       </section>

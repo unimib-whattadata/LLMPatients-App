@@ -45,15 +45,15 @@ function TherapySessionCardComponent({
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       started: {
-        class: "pill pill--sm status-tag status-tag--available",
+        class: "pill pill--sm status-tag status-tag--available bg-[#8B9769] text-white",
         text: "Iniziato",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-[#C69A39] text-white",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed",
+        class: "pill pill--sm status-tag status-tag--completed bg-[#9690B6] text-white",
         text: "Completato",
       },
     };

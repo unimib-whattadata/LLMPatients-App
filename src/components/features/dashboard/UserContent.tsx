@@ -165,7 +165,7 @@ export const UserContent = React.memo(function UserContent() {
               <div className="grid gap-4 md:grid-cols-3">
                 <Card>
                   <CardHeader className="pb-3">
-                    <Badge variant="secondary" className="w-fit">
+                    <Badge variant="secondary" className="w-fit bg-[#8B9769] text-white">
                       Profilo
                     </Badge>
                     <CardTitle className="text-lg">
@@ -199,7 +199,7 @@ export const UserContent = React.memo(function UserContent() {
                 
                 <Card>
                   <CardHeader className="pb-3">
-                    <Badge variant="secondary" className="w-fit">
+                    <Badge variant="secondary" className="w-fit bg-[#C69A39] text-white">
                       Progressi
                     </Badge>
                     <CardTitle className="text-lg">

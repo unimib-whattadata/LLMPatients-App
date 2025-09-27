@@ -49,19 +49,21 @@ export function LoadingCard({
       aria-live="polite"
     >
       {Array.from({ length: count }).map((_, index) => (
-        <Card key={index} className="h-full flex flex-col">
-          <CardHeader className="flex flex-row items-start space-y-0 pb-4">
+        <Card key={index} className="h-full flex flex-col" style={{ backgroundColor: '#2E322B' }}>
+          {/* Avatar at the top - matching patient card layout */}
+          <CardHeader className="flex flex-col items-center space-y-4 pb-4">
             {showAvatar && (
               <Skeleton className="h-16 w-16 rounded-full" />
             )}
             
-            <div className="flex-1 ml-4 space-y-2">
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
+            <div className="text-center space-y-2">
+              <Skeleton className="h-6 w-3/4 mx-auto" />
+              <Skeleton className="h-6 w-20 mx-auto" />
             </div>
           </CardHeader>
 
           <CardContent className="flex-1 pt-0 space-y-3">
+            <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-full" />
             {Array.from({ length: textLines }).map((_, lineIndex) => (
               <Skeleton
@@ -75,7 +77,7 @@ export function LoadingCard({
               />
             ))}
             
-            <div className="flex items-center justify-between mt-4 pt-4 border-t">
+            <div className="flex items-center justify-between mt-4 pt-4">
               <Skeleton className="h-6 w-20" />
               <Skeleton className="h-4 w-16" />
             </div>
