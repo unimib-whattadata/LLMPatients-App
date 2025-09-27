@@ -282,15 +282,23 @@
 
   /* Message Types */
   .message-error {
+    background-color: var(--color-error);
+    color: white;
   }
 
   .message-success {
+    background-color: var(--color-success);
+    color: white;
   }
 
   .message-warning {
+    background-color: var(--color-warning);
+    color: white;
   }
 
   .message-info {
+    background-color: var(--color-info);
+    color: white;
   }
 
 

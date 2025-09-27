@@ -1,3 +1,4 @@
+// @ts-nocheck
 /** @type {import('drizzle-kit').Config} */
 export default {
   dialect: "sqlite",

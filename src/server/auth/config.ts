@@ -49,7 +49,7 @@ declare module "next-auth" {
 }
 
 // Extend JWT token to include impersonation context
-declare module "next-auth/jwt" {
+declare module "@auth/core/jwt" {
   interface JWT {
     // Existing fields
     id?: string;
@@ -307,7 +307,7 @@ export const authConfig = {
             id: token.id,
             email: token.email,
             role: token.role,
-            validated: new Date(token.lastValidated).toISOString(),
+            validated: new Date(token.lastValidated ?? Date.now()).toISOString(),
           },
         );
       }
@@ -448,7 +448,7 @@ export const authConfig = {
           tokenEmail: token?.email,
           tokenRole: token?.role,
           isImpersonating: !!(token?.impersonation && typeof token.impersonation === 'object' && 'isActive' in token.impersonation && token.impersonation.isActive),
-          impersonationTarget: (token?.impersonation && typeof token.impersonation === 'object' && 'targetUserEmail' in token.impersonation) ? token.impersonation.targetUserEmail as string : undefined,
+          impersonationTarget: (token?.impersonation && typeof token.impersonation === 'object' && 'targetUserEmail' in token.impersonation) ? token.impersonation.targetUserEmail : undefined,
           lastValidated: token?.lastValidated
             ? new Date(token.lastValidated).toISOString()
             : "never",
@@ -541,11 +541,11 @@ export const authConfig = {
         }
       } else {
         // Use token data for session (validation was recent)
-        session.user.id = token.id!;
+        session.user.id = (token.id as string) ?? "";
         session.user.role = (token.role as "admin" | "user") || "user";
-        session.user.email = token.email!;
-        session.user.name = token.name!;
-        session.user.image = token.image!;
+        session.user.email = (token.email as string) ?? "";
+        session.user.name = (token.name as string) ?? "";
+        session.user.image = (token.image as string) ?? "";
       }
 
       // Handle impersonation context

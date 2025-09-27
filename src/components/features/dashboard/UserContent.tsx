@@ -140,8 +140,6 @@ export const UserContent = React.memo(function UserContent() {
     [activities],
   );
 
-
-
   // Memoize profile edit handlers
   const handleEditProfile = useCallback(() => {
     setIsEditingProfile(true);

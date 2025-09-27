@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "check": "next lint && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -18,10 +19,11 @@
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "audit:performance": "npm run build && npm run start & sleep 5 && npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html && pkill -f 'next start'",
+    "clean": "rm -rf .next && rm -rf out && rm -rf dist"
   },
   "dependencies": {
-    "@auth/drizzle-adapter": "^1.10.0",
     "@heroicons/react": "^2.2.0",
     "@libsql/client": "^0.15.15",
     "@radix-ui/react-label": "^2.1.7",
@@ -61,7 +63,8 @@
     "tailwindcss": "^4.1.13",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
-    "typescript-eslint": "^8.44.0"
+    "typescript-eslint": "^8.44.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "ct3aMetadata": {
     "initVersion": "7.39.3"

@@ -14,6 +14,9 @@ import { auth } from "~/server/auth";
 import { Suspense } from "react";
 import { DashboardLoading } from "~/components/ui";
 
+// Force dynamic rendering since we use auth() which requires headers
+export const dynamic = 'force-dynamic';
+
 /**
  * Loading component for dashboard routing
  */

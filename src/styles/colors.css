@@ -10,43 +10,44 @@ navbar: 131313
 
 
 @theme {
-  /* Enhanced Color System - Updated Palette */
-
-  /* Secondary Colors */
-
-  /* Accent Colors */
-
-  /* Role-based Color Tokens */
-
-
+  /* Enhanced Color System - Application Palette */
+  
+  /* Primary Brand Colors */
+  --color-primary-green: #8B9769;
+  --color-primary-yellow: #C69A39;
+  --color-primary-violet: #9690B6;
+  
+  /* Background Colors */
+  --color-background-dark: #1E1E1E;
+  --color-navbar-dark: #131313;
+  
   /* Semantic Colors */
-
-  /* Enhanced Neutral Gray Palette */
-
-  /* Background Colors - Updated Palette */
-
-  /* Avatar Color Palette - Centralized from hardcoded values - REMOVED UNUSED COLORS */
-
-  /* Timeline and Phase colors - REMOVED UNUSED */
-
-  /* UI Component Colors - Keep only used ones */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+  
+  /* Neutral Colors */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
 }
 
 /* Enhanced Theme System */
 :root {
-  /* Dark Theme Tokens */
-
-
-
+  /* Border Radius System */
   --radius: 0.625rem;
-}
-
-/* Home page specific colors */
-:root {
-}
-
-/* Dark theme overrides */
-.dark {
+  
+  /* Component Spacing */
+  --component-padding: 1rem;
+  --component-margin: 0.5rem;
 }
 
 /* Theme inline overrides */
@@ -60,5 +61,8 @@ navbar: 131313
 /* High Contrast Mode Support */
 @media (prefers-contrast: high) {
   :root {
+    --color-gray-400: #6b7280;
+    --color-gray-600: #374151;
+    --color-gray-800: #111827;
   }
 }

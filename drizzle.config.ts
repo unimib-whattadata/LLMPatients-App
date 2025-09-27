@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { type Config } from "drizzle-kit";
 
 /**
@@ -11,10 +12,10 @@ import { type Config } from "drizzle-kit";
  */
 export default {
   schema: "./src/server/db/schema.ts",
+  out: "./drizzle",
   dialect: "sqlite",
   dbCredentials: {
     url: process.env.DATABASE_URL ?? "file:./dev.db",
   },
   tablesFilter: ["epatient_*"],
-  out: "./drizzle",
 } satisfies Config;

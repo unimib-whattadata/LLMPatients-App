@@ -190,7 +190,7 @@ export function SessionTimelineContent({
 
   const advanceSession = api.therapySessions.advanceSession.useMutation({
     onSuccess: async (updatedSession) => {
-      if (!sessionId) return;
+      if (!sessionId || !updatedSession) return;
 
       await Promise.allSettled([
         utils.therapySessions.getByPatient.invalidate({ patientId: sessionId }),

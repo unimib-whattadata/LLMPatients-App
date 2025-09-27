@@ -175,10 +175,14 @@ body {
 @media (prefers-contrast: high) {
   .admin-nav-item,
   .user-nav-item {
+    border: 2px solid currentColor;
   }
 
   .dashboard-card,
   .patient-card {
+    border: 2px solid currentColor;
+    background: Canvas;
+    color: CanvasText;
   }
 }
 
@@ -214,17 +218,7 @@ body {
 
 
 
-@layer base {
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    font-feature-settings: "rlig" 1, "calt" 1;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-}
+/* Base layer styles are already defined above - removing duplicate */
 /* ===== ENHANCED RESPONSIVE DESIGN ===== */
 
 /* Enhanced Responsive Grid System */
