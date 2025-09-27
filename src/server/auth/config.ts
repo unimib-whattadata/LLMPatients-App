@@ -99,12 +99,10 @@ export const authConfig = {
 
         try {
           if (process.env.NODE_ENV === "development") {
-            if (process.env.NODE_ENV === "development") {
             console.log(
               "Credentials authorize - Validating user:",
               credentials.email,
             );
-          }
           }
 
           // Use enhanced validation function
@@ -236,6 +234,14 @@ export const authConfig = {
 
   trustHost: true,
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
+  
+  // Production-specific configuration
+  ...(process.env.NODE_ENV === "production" && {
+    // Ensure proper URL handling in production
+    basePath: "/api/auth",
+    // Force HTTPS in production
+    useSecureCookies: true,
+  }),
   
   // CSRF protection configuration
   useSecureCookies: process.env.NODE_ENV === "production",
