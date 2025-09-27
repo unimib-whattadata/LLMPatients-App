@@ -1,11 +1,6 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const SessionDebug = dynamic(() => import("@/components/debug/SessionDebug"), {
-  ssr: false,
-  loading: () => null,
-});
+import SessionDebug from "./SessionDebug";
 
 interface SessionDebugWrapperProps {
   enabled?: boolean;

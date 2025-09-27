@@ -6,7 +6,7 @@
   "tailwind": {
     "config": "tailwind.config.ts",
     "css": "src/styles/globals.css",
-    "baseColor": "neutral",
+    "baseColor": "stone",
     "cssVariables": true,
     "prefix": ""
   },
@@ -16,10 +16,7 @@
     "utils": "~/lib/utils",
     "ui": "~/components/ui",
     "lib": "~/lib",
-    "hooks": "~/hooks",
-    "shared": "~/shared",
-    "config": "~/config",
-    "server": "~/server"
+    "hooks": "~/hooks"
   },
   "registries": {}
 }

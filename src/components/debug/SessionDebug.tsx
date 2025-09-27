@@ -15,7 +15,7 @@ interface SessionDebugInfo {
   userAgent: string;
 }
 
-export function SessionDebug({ enabled = false }: SessionDebugProps) {
+function SessionDebug({ enabled = false }: SessionDebugProps) {
   const { data: session, status, update } = useSession();
   const [debugInfo, setDebugInfo] = useState<SessionDebugInfo | null>(null);
   const [isVisible, setIsVisible] = useState(false);

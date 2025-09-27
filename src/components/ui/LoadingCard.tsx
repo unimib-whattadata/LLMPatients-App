@@ -5,6 +5,8 @@
  */
 
 import { cn } from "~/lib/utils/cn";
+import { Card, CardContent, CardHeader, CardFooter } from "./card";
+import { Skeleton } from "./skeleton";
 
 interface LoadingCardProps {
   /**
@@ -42,36 +44,49 @@ export function LoadingCard({
 }: LoadingCardProps) {
   return (
     <div
-      className={cn("loading-grid", className)}
+      className={cn("grid gap-6 sm:grid-cols-2 lg:grid-cols-3", className)}
       role="status"
       aria-live="polite"
     >
       {Array.from({ length: count }).map((_, index) => (
-        <div key={index} className="loading-card">
-          {showAvatar && (
-            <div className="loading-card-avatar animate-pulse rounded-none" />
-          )}
-
-          <div className="loading-card-content">
-            <div className="loading-card-title mb-2 h-6 w-3/4 animate-pulse rounded-md" />
-            <div className="space-y-3">
-              {Array.from({ length: textLines }).map((_, lineIndex) => (
-                <div
-                  key={lineIndex}
-                  className={cn(
-                    "loading-card-text h-4 animate-pulse rounded-md",
-                    lineIndex === 0 && "w-full",
-                    lineIndex === 1 && "w-5/6",
-                    lineIndex === 2 && "w-4/5",
-                  )}
-                />
-              ))}
-            </div>
-            {showButton && (
-              <div className="loading-card-button h-10 w-full animate-pulse rounded-md" />
+        <Card key={index} className="h-full flex flex-col">
+          <CardHeader className="flex flex-row items-start space-y-0 pb-4">
+            {showAvatar && (
+              <Skeleton className="h-16 w-16 rounded-full" />
             )}
-          </div>
-        </div>
+            
+            <div className="flex-1 ml-4 space-y-2">
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-4 w-1/2" />
+            </div>
+          </CardHeader>
+
+          <CardContent className="flex-1 pt-0 space-y-3">
+            <Skeleton className="h-4 w-full" />
+            {Array.from({ length: textLines }).map((_, lineIndex) => (
+              <Skeleton
+                key={lineIndex}
+                className={cn(
+                  "h-4",
+                  lineIndex === 0 && "w-full",
+                  lineIndex === 1 && "w-5/6",
+                  lineIndex === 2 && "w-4/5",
+                )}
+              />
+            ))}
+            
+            <div className="flex items-center justify-between mt-4 pt-4 border-t">
+              <Skeleton className="h-6 w-20" />
+              <Skeleton className="h-4 w-16" />
+            </div>
+          </CardContent>
+
+          {showButton && (
+            <CardFooter className="pt-0">
+              <Skeleton className="h-10 w-full" />
+            </CardFooter>
+          )}
+        </Card>
       ))}
 
       <span className="sr-only">Loading content...</span>

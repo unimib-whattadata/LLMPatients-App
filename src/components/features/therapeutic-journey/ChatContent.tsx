@@ -5,10 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { api } from "~/trpc/react";
 import { SharedLayout } from "@/components/layout/SharedLayout";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
-import { LoadingSpinner } from "@/components/ui";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Loader2 } from "lucide-react";
 import {
   ArrowLeftIcon,
   PaperAirplaneIcon,
@@ -370,7 +369,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
       >
-        <LoadingSpinner message="Loading chat..." fullScreen={true} />
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Loading chat...</p>
+          </div>
+        </div>
       </SharedLayout>
     );
   }
@@ -506,12 +510,30 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             ))}
 
             {isTyping && (
-              <ChatTypingIndicator
-                isVisible={true}
-                avatarUrl={selectedPatient?.avatarUrl || undefined}
-                patientName={selectedPatient?.name}
-                avatarData={patientAvatar}
-              />
+              <div className="flex items-start gap-3 mb-4">
+                <div className="flex-shrink-0">
+                  {selectedPatient?.avatarUrl ? (
+                    <Image
+                      src={selectedPatient.avatarUrl}
+                      alt={`${selectedPatient.name} avatar`}
+                      width={32}
+                      height={32}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-medium">
+                      {selectedPatient?.name?.charAt(0) || "P"}
+                    </div>
+                  )}
+                </div>
+                <div className="bg-muted rounded-lg px-4 py-3">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                    <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                  </div>
+                </div>
+              </div>
             )}
 
             <div ref={messagesEndRef} />

@@ -1,3 +1,6 @@
-// Re-export utilities from the utils directory
-export * from "./utils/cn";
-export * from "./utils/slugify";
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}

@@ -12,7 +12,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { Suspense } from "react";
-import { DashboardLoading } from "~/components/ui";
+import { Loader2 } from "lucide-react";
 
 // Force dynamic rendering since we use auth() which requires headers
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,14 @@ export const dynamic = 'force-dynamic';
  * Loading component for dashboard routing
  */
 function DashboardLoadingComponent() {
-  return <DashboardLoading />;
+  return (
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="flex flex-col items-center space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        <p className="text-sm text-muted-foreground">Caricamento dashboard...</p>
+      </div>
+    </div>
+  );
 }
 
 /**

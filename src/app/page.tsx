@@ -14,6 +14,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
+import { Button } from "~/components/ui/button";
 
 /**
  * Home Page Component
@@ -170,24 +171,26 @@ export default async function Home() {
             per studenti universitari e tutor clinici.
           </p>
           <div
-            className="home-hero-actions"
+            className="flex flex-col sm:flex-row gap-4 mt-8"
             role="group"
             aria-label="Azioni principali"
           >
-            <Link
-              href="/register"
-              className="btn btn-primary"
-              aria-describedby="hero-description"
-            >
-              Inizia subito
-            </Link>
-            <Link
-              href="/explore-patients"
-              className="btn btn-outline"
-              aria-label="Esplora i pazienti virtuali disponibili"
-            >
-              Esplora pazienti
-            </Link>
+            <Button asChild size="lg">
+              <Link
+                href="/register"
+                aria-describedby="hero-description"
+              >
+                Inizia subito
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg">
+              <Link
+                href="/explore-patients"
+                aria-label="Esplora i pazienti virtuali disponibili"
+              >
+                Esplora pazienti
+              </Link>
+            </Button>
           </div>
           <meta
             itemProp="applicationCategory"
@@ -260,7 +263,6 @@ export default async function Home() {
                     {step.description}
                   </p>
                 </div>
-
                 <div
                   className={`home-process-number home-process-number--${index + 1}`}
                   itemProp="position"
@@ -274,13 +276,14 @@ export default async function Home() {
           </ol>
 
           <footer className="home-process-cta" role="complementary">
-            <Link
-              href="/register"
-              className="btn btn-primary"
-              aria-describedby="process-description"
-            >
-              Inizia subito
-            </Link>
+            <Button asChild size="lg">
+              <Link
+                href="/register"
+                aria-describedby="process-description"
+              >
+                Inizia subito
+              </Link>
+            </Button>
           </footer>
         </div>
       </section>

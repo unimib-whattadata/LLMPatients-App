@@ -8,6 +8,9 @@ import {
   getDifficultyLabel,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 
 interface PatientCardProps {
   patient: Patient;
@@ -62,112 +65,97 @@ export function PatientCard({ patient }: PatientCardProps) {
   };
 
   return (
-    <article
-      className="patient-card"
-      aria-labelledby={`patient-${patient.id}-title`}
+    <Card
+      className="h-full flex flex-col"
       role="listitem"
       itemScope
       itemType="https://schema.org/Person"
     >
-      {/* Patient Avatar */}
-      <PatientAvatar
-        name={patient.name}
-        avatarUrl={patient.avatarUrl}
-        avatarType={patient.avatarType}
-      />
-
-      {/* Card Content */}
-      <div className="patient-card-content">
-        {/* Patient Info */}
-        <div className="patient-card-main-content">
-          {/* Name and Age */}
-          <header className="patient-card-header">
-            <h3
+      <CardHeader className="flex flex-row items-start space-y-0 pb-4">
+        {/* Patient Avatar */}
+        <PatientAvatar
+          name={patient.name}
+          avatarUrl={patient.avatarUrl}
+          avatarType={patient.avatarType}
+        />
+        
+        <div className="flex-1 ml-4">
+          <div className="flex items-center justify-between">
+            <CardTitle
               id={`patient-${patient.id}-title`}
-              className="patient-card-title"
+              className="text-lg"
               itemProp="name"
             >
               {patient.name}
-            </h3>
-            <span
-              className="patient-card-age"
-              aria-label={`${details.demographic_sociocultural_information?.age || "N/A"} anni di eta`}
-              itemProp="age"
-            >
+            </CardTitle>
+            <Badge variant="secondary" itemProp="age">
               {details.demographic_sociocultural_information?.age || "N/A"} anni
-            </span>
-          </header>
-
-          {/* Description */}
-          <p className="patient-card-condition" itemProp="description">
+            </Badge>
+          </div>
+          
+          <CardDescription className="mt-1" itemProp="description">
             {patient.smallDescription}
-          </p>
+          </CardDescription>
+        </div>
+      </CardHeader>
 
-          {/* Background Description */}
-          <p className="patient-card-background" itemProp="additionalProperty">
-            {patient.background}
-          </p>
+      <CardContent className="flex-1 pt-0">
+        {/* Background Description */}
+        <p className="text-sm text-muted-foreground mb-4" itemProp="additionalProperty">
+          {patient.background}
+        </p>
 
-          {/* Objectives */}
-          <div className="patient-card-objectives">
-            <p className="patient-card-objectives-title">Obiettivi:</p>
-            <ul className="patient-card-objective-list" role="list">
-              {patient.objectives.slice(0, 2).map((objective, index) => (
-                <li
-                  key={index}
-                  className="patient-card-objective-item"
-                  role="listitem"
-                >
-                  <span
-                    className="patient-card-objective-bullet"
-                    aria-hidden="true"
-                  >
-                    -
-                  </span>
-                  <span className="patient-card-objective-text">
-                    {objective}
-                  </span>
-                </li>
-              ))}
-              {patient.objectives.length > 2 && (
-                <li className="patient-card-objective-more" role="listitem">
-                  +{patient.objectives.length - 2} altri obiettivi
-                </li>
-              )}
-            </ul>
-          </div>
-
-          {/* Metadata */}
-          <div className="patient-card-metadata">
-            <div className="patient-card-difficulty">
-              <span
-                className={getDifficultyIconClass(patient.difficulty)}
-                aria-label={getDifficultyAccessibleText(patient.difficulty)}
-                role="img"
+        {/* Objectives */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium">Obiettivi:</p>
+          <ul className="space-y-1" role="list">
+            {patient.objectives.slice(0, 2).map((objective, index) => (
+              <li
+                key={index}
+                className="text-sm text-muted-foreground flex items-start"
+                role="listitem"
               >
-                {getDifficultyIcon(patient.difficulty)}
-              </span>
-              <span>{getDifficultyLabel(patient.difficulty)}</span>
-            </div>
-            <div className="patient-card-duration">
-              <ClockIcon
-                className="patient-card-duration-icon"
-                aria-hidden="true"
-              />
-              <span>{patient.estimatedDuration} min</span>
-            </div>
-          </div>
+                <span className="mr-2 mt-1 h-1 w-1 rounded-full bg-muted-foreground flex-shrink-0" />
+                <span>{objective}</span>
+              </li>
+            ))}
+            {patient.objectives.length > 2 && (
+              <li className="text-sm text-muted-foreground" role="listitem">
+                +{patient.objectives.length - 2} altri obiettivi
+              </li>
+            )}
+          </ul>
         </div>
 
-        {/* Action Button */}
-        <Link
-          href={`/explore-patients/${patient.id}/${createPatientSlug(patient.name)}`}
-          className="patient-card-button"
-          aria-label={`Inizia simulazione con ${patient.name}`}
-        >
-          Continua con {patient.name}
-        </Link>
-      </div>
-    </article>
+        {/* Metadata */}
+        <div className="flex items-center justify-between mt-4 pt-4 border-t">
+          <div className="flex items-center space-x-2">
+            <Badge
+              variant="outline"
+              className={getDifficultyIconClass(patient.difficulty)}
+              aria-label={getDifficultyAccessibleText(patient.difficulty)}
+            >
+              <span className="mr-1">{getDifficultyIcon(patient.difficulty)}</span>
+              {getDifficultyLabel(patient.difficulty)}
+            </Badge>
+          </div>
+          <div className="flex items-center space-x-1 text-sm text-muted-foreground">
+            <ClockIcon className="h-4 w-4" aria-hidden="true" />
+            <span>{patient.estimatedDuration} min</span>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-0">
+        <Button asChild className="w-full">
+          <Link
+            href={`/explore-patients/${patient.id}/${createPatientSlug(patient.name)}`}
+            aria-label={`Inizia simulazione con ${patient.name}`}
+          >
+            Continua con {patient.name}
+          </Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

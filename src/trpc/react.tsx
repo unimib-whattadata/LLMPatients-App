@@ -9,6 +9,9 @@ import SuperJSON from "superjson";
 import { type AppRouter } from "~/server/api/root";
 import { createQueryClient } from "./query-client";
 
+// Get environment variables for client-side usage
+const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development" || process.env.NODE_ENV === "development";
+
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
   if (typeof window === "undefined") {
@@ -31,7 +34,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
       links: [
         loggerLink({
           enabled: (op) =>
-            process.env.NODE_ENV === "development" ||
+            isDevelopment ||
             (op.direction === "down" && op.result instanceof Error),
         }),
         httpBatchStreamLink({
@@ -58,6 +61,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return window.location.origin;
+  // For server-side rendering, we can still access process.env
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL;
   return `http://localhost:${process.env.PORT ?? 3000}`;

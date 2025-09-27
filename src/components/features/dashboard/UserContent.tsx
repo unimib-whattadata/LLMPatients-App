@@ -3,6 +3,14 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useSearchParams } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { Skeleton } from "~/components/ui/skeleton";
+import { Loader2 } from "lucide-react";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
@@ -72,8 +80,6 @@ export const UserContent = React.memo(function UserContent() {
   const handleProfileSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      if (!profileForm.name.trim() || !profileForm.email.trim()) return;
-
       try {
         await updateProfile.mutateAsync({
           name: profileForm.name.trim(),
@@ -137,351 +143,297 @@ export const UserContent = React.memo(function UserContent() {
   }, []);
 
   return (
-    <div className="dashboard-panel-stack">
-      {selectedSection === "overview" && (
-        <div className="dashboard-panel-stack">
-          <section className="dashboard-section">
-            <div className="dashboard-section__header">
-              <div>
-                <h2 className="dashboard-section__title">Panoramica</h2>
-                <p className="dashboard-section__description">
-                  Qui trovi un riepilogo rapido del tuo profilo, delle attivita
-                  e delle simulazioni disponibili per continuare il tuo percorso
-                  formativo.
-                </p>
+    <div className="space-y-6">
+      <Tabs value={selectedSection} onValueChange={(value) => setSelectedSection(value as "overview" | "profile" | "activities")}>
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="overview">Panoramica</TabsTrigger>
+          <TabsTrigger value="profile">Profilo</TabsTrigger>
+          <TabsTrigger value="activities">Attività</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Panoramica</CardTitle>
+              <CardDescription>
+                Qui trovi un riepilogo rapido del tuo profilo, delle attività
+                e delle simulazioni disponibili per continuare il tuo percorso
+                formativo.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid gap-4 md:grid-cols-3">
+                <Card>
+                  <CardHeader className="pb-3">
+                    <Badge variant="secondary" className="w-fit">
+                      Profilo
+                    </Badge>
+                    <CardTitle className="text-lg">
+                      Mantieni aggiornate le tue informazioni
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Modifica nome, email e preferenze per ricevere suggerimenti
+                      più pertinenti.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="pb-3">
+                    <Badge variant="secondary" className="w-fit">
+                      Simulazioni
+                    </Badge>
+                    <CardTitle className="text-lg">
+                      Accedi alle sessioni attive
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Prosegui con le simulazioni in corso o esplora nuovi scenari
+                      clinici.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardHeader className="pb-3">
+                    <Badge variant="secondary" className="w-fit">
+                      Progressi
+                    </Badge>
+                    <CardTitle className="text-lg">
+                      Analizza la tua evoluzione
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>
+                      Consulta le valutazioni ricevute e monitora la crescita delle
+                      tue competenze.
+                    </CardDescription>
+                  </CardContent>
+                </Card>
               </div>
-            </div>
 
-            <div className="dashboard-action-grid">
-              <div className="dashboard-action-card">
-                <span className="pill pill--sm dashboard-action-card__badge">
-                  Profilo
-                </span>
-                <p className="dashboard-action-card__title">
-                  Mantieni aggiornate le tue informazioni
-                </p>
-                <p className="dashboard-action-card__description">
-                  Modifica nome, email e preferenze per ricevere suggerimenti
-                  piu pertinenti.
-                </p>
-              </div>
-              <div className="dashboard-action-card">
-                <span className="pill pill--sm dashboard-action-card__badge">
-                  Simulazioni
-                </span>
-                <p className="dashboard-action-card__title">
-                  Accedi alle sessioni attive
-                </p>
-                <p className="dashboard-action-card__description">
-                  Prosegui con le simulazioni in corso o esplora nuovi scenari
-                  clinici.
-                </p>
-              </div>
-              <div className="dashboard-action-card">
-                <span className="pill pill--sm dashboard-action-card__badge">
-                  Progressi
-                </span>
-                <p className="dashboard-action-card__title">
-                  Analizza la tua evoluzione
-                </p>
-                <p className="dashboard-action-card__description">
-                  Consulta le valutazioni ricevute e monitora la crescita delle
-                  tue competenze.
-                </p>
-              </div>
-            </div>
-
-            <div
-              className="dashboard-metric-grid"
-              aria-label="Indicatori rapidi"
-            >
-              <div className="dashboard-metric-card">
-                <span className="dashboard-metric-card__label">
-                  Attivita registrate
-                </span>
-                <span className="dashboard-metric-card__value">
-                  {activities?.length ?? 0}
-                </span>
-              </div>
-              <div className="dashboard-metric-card">
-                <span className="dashboard-metric-card__label">
-                  Simulazioni completate
-                </span>
-                <span className="dashboard-metric-card__value">
-                  {simulationsCompleted}
-                </span>
-              </div>
-              <div className="dashboard-metric-card">
-                <span className="dashboard-metric-card__label">
-                  Ruolo account
-                </span>
-                <span className="dashboard-metric-card__value">
-                  {profile?.role === "admin" ? "Admin" : "Utente"}
-                </span>
-              </div>
-            </div>
-          </section>
-
-          <section
-            className="dashboard-section"
-            aria-labelledby="dashboard-recent-activity"
-          >
-            <div className="dashboard-section__header">
-              <div>
-                <h2
-                  id="dashboard-recent-activity"
-                  className="dashboard-section__title"
-                >
-                  Attivita recenti
-                </h2>
-                <p className="dashboard-section__description">
-                  Una selezione delle ultime azioni registrate mentre utilizzi
-                  la piattaforma.
-                </p>
-              </div>
-            </div>
-
-            {activities && activities.length > 0 ? (
-              <div className="dashboard-list" role="list">
-                {activities.slice(0, 5).map((activity) => (
-                  <div
-                    key={activity.id}
-                    className="dashboard-list__item"
-                    role="listitem"
-                  >
-                    <div>
-                      <div className="dashboard-activity-title">
-                        {getActivityDisplayName(activity.type)}
-                      </div>
-                      <div className="dashboard-activity-meta">
-                        {formatDate(activity.createdAt)}
-                      </div>
+              <div className="grid gap-4 md:grid-cols-3" aria-label="Indicatori rapidi">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-2xl font-bold">{activities?.length ?? 0}</div>
+                    <p className="text-xs text-muted-foreground">
+                      Attività registrate
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-2xl font-bold">{simulationsCompleted}</div>
+                    <p className="text-xs text-muted-foreground">
+                      Simulazioni completate
+                    </p>
+                  </CardContent>
+                </Card>
+                
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-2xl font-bold">
+                      {profile?.role === "admin" ? "Admin" : "Utente"}
                     </div>
-                    <span className="pill dashboard-chip" aria-hidden="true">
-                      {activity.type}
-                    </span>
-                  </div>
-                ))}
+                    <p className="text-xs text-muted-foreground">
+                      Ruolo account
+                    </p>
+                  </CardContent>
+                </Card>
               </div>
-            ) : (
-              <div className="dashboard-empty-state">
-                <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
-                <p>
-                  Le tue attivita appariranno qui appena inizierai ad utilizzare
-                  la piattaforma.
-                </p>
-              </div>
-            )}
-          </section>
-        </div>
-      )}
+            </CardContent>
+          </Card>
 
-      {selectedSection === "profile" && (
-        <section
-          className="dashboard-section"
-          aria-labelledby="dashboard-profile"
-        >
-          <div className="dashboard-section__header">
-            <div>
-              <h2 id="dashboard-profile" className="dashboard-section__title">
-                Il mio profilo
-              </h2>
-              <p className="dashboard-section__description">
-                Gestisci le informazioni principali del tuo account per
-                mantenere aggiornati i dati di contatto e le preferenze.
-              </p>
-            </div>
-            {!isEditingProfile && (
-              <button
-                type="button"
-                onClick={handleEditProfile}
-                className="btn btn-outline btn-sm"
-              >
-                Modifica
-              </button>
-            )}
-          </div>
-
+          <Card>
+            <CardHeader>
+              <CardTitle>Attività Recenti</CardTitle>
+              <CardDescription>
+                Una selezione delle ultime azioni registrate mentre utilizzi
+                la piattaforma.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {activities && activities.length > 0 ? (
+                <div className="space-y-3">
+                  {activities.slice(0, 5).map((activity) => (
+                    <div
+                      key={activity.id}
+                      className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"
+                    >
+                      <div>
+                        <p className="font-medium text-sm">
+                          {getActivityDisplayName(activity.type)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {formatDate(activity.createdAt)}
+                        </p>
+                      </div>
+                      <Badge variant="outline">
+                        {activity.type}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">
+                    Le tue attività appariranno qui appena inizierai ad utilizzare
+                    la piattaforma.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="profile" className="space-y-6">
           {profileLoading ? (
-            <div className="dashboard-section">
-              <div className="dashboard-section__header">
-                <div>
-                  <div className="bg-background-tertiary mb-2 h-6 w-48 animate-pulse rounded-md" />
-                  <div className="bg-background-tertiary h-4 w-96 animate-pulse rounded-md" />
+            <Card>
+              <CardHeader>
+                <Skeleton className="h-6 w-32" />
+                <Skeleton className="h-4 w-48" />
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-10 w-full" />
                 </div>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
-                <div className="bg-background-tertiary h-20 w-full animate-pulse rounded-md" />
-              </div>
-            </div>
-          ) : isEditingProfile ? (
-            <form
-              onSubmit={handleProfileSubmit}
-              className="dashboard-panel"
-              aria-live="polite"
-            >
-              <div className="auth-input-group">
-                <label className="auth-label" htmlFor="profile-name">
-                  Nome
-                </label>
-                <input
-                  id="profile-name"
-                  type="text"
-                  value={profileForm.name}
-                  onChange={(e) =>
-                    setProfileForm((prev) => ({
-                      ...prev,
-                      name: e.target.value,
-                    }))
-                  }
-                  className="auth-input"
-                  placeholder="Il tuo nome"
-                  required
-                />
-              </div>
-
-              <div className="auth-input-group">
-                <label className="auth-label" htmlFor="profile-email">
-                  Email
-                </label>
-                <input
-                  id="profile-email"
-                  type="email"
-                  value={profileForm.email}
-                  onChange={(e) =>
-                    setProfileForm((prev) => ({
-                      ...prev,
-                      email: e.target.value,
-                    }))
-                  }
-                  className="auth-input"
-                  placeholder="La tua email"
-                  required
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <button
-                  type="submit"
-                  disabled={updateProfile.isPending}
-                  className="auth-submit-btn"
-                >
-                  {updateProfile.isPending ? "Salvando..." : "[SAVE] Salva"}
-                </button>
-                <button
-                  type="button"
-                  onClick={handleCancelEdit}
-                  className="btn btn-ghost btn-sm"
-                >
-                  [CANCEL] Annulla
-                </button>
-              </div>
-            </form>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-16" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+                <Skeleton className="h-10 w-20" />
+              </CardContent>
+            </Card>
           ) : (
-            <div className="dashboard-panel">
-              <div>
-                <label className="label">Nome</label>
-                <div className="bg-background-secondary rounded-md p-3">
-                  {profile?.name || "Nome non disponibile"}
-                </div>
-              </div>
-
-              <div>
-                <label className="label">Email</label>
-                <div className="bg-background-secondary rounded-md p-3">
-                  {profile?.email || "Email non disponibile"}
-                </div>
-              </div>
-
-              <div>
-                <label className="label">Ruolo</label>
-                <div className="bg-background-secondary rounded-md p-3">
-                  <span
-                    className={`pill pill--sm dashboard-badge ${
-                      profile?.role === "admin"
-                        ? "dashboard-badge-admin"
-                        : "dashboard-badge-user"
-                    }`}
-                  >
-                    {profile?.role === "admin" ? "Amministratore" : "Utente"}
-                  </span>
-                </div>
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-
-      {selectedSection === "activities" && (
-        <section
-          className="dashboard-section"
-          aria-labelledby="dashboard-activity-log"
-        >
-          <div className="dashboard-section__header">
-            <div>
-              <h2
-                id="dashboard-activity-log"
-                className="dashboard-section__title"
-              >
-                Cronologia attivita
-              </h2>
-              <p className="dashboard-section__description">
-                Tutte le azioni registrate recentemente sul tuo account, incluse
-                simulazioni e modifiche al profilo.
-              </p>
-            </div>
-          </div>
-
-          {activitiesLoading ? (
-            <div className="space-y-4" aria-hidden="true">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="dashboard-list__item">
-                  <div className="flex-1">
-                    <div className="bg-background-tertiary mb-2 h-4 w-32 animate-pulse rounded-md" />
-                    <div className="bg-background-tertiary h-3 w-24 animate-pulse rounded-md" />
-                  </div>
-                  <div className="bg-background-tertiary h-6 w-16 animate-pulse rounded-full" />
-                </div>
-              ))}
-            </div>
-          ) : activities && activities.length > 0 ? (
-            <div className="dashboard-panel-stack">
-              {activities.map((activity) => (
-                <div key={activity.id} className="dashboard-panel">
-                  <div className="flex items-center justify-between gap-3">
+            <Card>
+              <CardHeader>
+                <CardTitle>Profilo Utente</CardTitle>
+                <CardDescription>
+                  Gestisci le informazioni del tuo account
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {isEditingProfile ? (
+                  <form onSubmit={handleProfileSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Nome</Label>
+                      <Input
+                        id="name"
+                        value={profileForm.name}
+                        onChange={(e) => setProfileForm(prev => ({...prev, name: e.target.value}))}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={profileForm.email}
+                        onChange={(e) => setProfileForm(prev => ({...prev, email: e.target.value}))}
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        type="submit"
+                        disabled={updateProfile.isPending}
+                      >
+                        {updateProfile.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {updateProfile.isPending ? "Salvando..." : "Salva"}
+                      </Button>
+                      <Button type="button" variant="outline" onClick={handleCancelEdit}>
+                        Annulla
+                      </Button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="space-y-4">
                     <div>
-                      <div className="dashboard-activity-title">
-                        {getActivityDisplayName(activity.type)}
-                      </div>
-                      <div className="dashboard-activity-meta">
-                        Tipo: {activity.type}
-                      </div>
+                      <Label>Nome</Label>
+                      <p className="text-sm text-muted-foreground">{profile?.name || "Non specificato"}</p>
                     </div>
-                    <div className="dashboard-activity-meta">
-                      {formatDate(activity.createdAt)}
+                    <div>
+                      <Label>Email</Label>
+                      <p className="text-sm text-muted-foreground">{profile?.email || "Non specificato"}</p>
                     </div>
+                    <div>
+                      <Label>Ruolo</Label>
+                      <Badge variant="secondary">{profile?.role === "admin" ? "Admin" : "Utente"}</Badge>
+                    </div>
+                    <Button onClick={handleEditProfile}>
+                      Modifica Profilo
+                    </Button>
                   </div>
-                  {activity.metadata && (
-                    <div className="dashboard-activity-meta bg-background-secondary rounded-md p-3">
-                      <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="dashboard-empty-state">
-              <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
-              <p>
-                Le tue attivita verranno registrate automaticamente mentre
-                utilizzi llmpatient.
-              </p>
-            </div>
+                )}
+              </CardContent>
+            </Card>
           )}
-        </section>
-      )}
+        </TabsContent>
+        
+        <TabsContent value="activities" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Attività Recenti</CardTitle>
+              <CardDescription>
+                Cronologia delle tue attività sulla piattaforma
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {activitiesLoading ? (
+                <div className="space-y-4">
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <Card key={index} className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="space-y-2">
+                          <Skeleton className="h-4 w-32" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                        <Skeleton className="h-3 w-20" />
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              ) : activities && activities.length > 0 ? (
+                <div className="space-y-4">
+                  {activities.map((activity) => (
+                    <Card key={activity.id} className="p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-medium">
+                            {getActivityDisplayName(activity.type)}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Tipo: {activity.type}
+                          </p>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {formatDate(activity.createdAt)}
+                        </p>
+                      </div>
+                      {activity.metadata && (
+                        <div className="mt-2 p-2 bg-muted rounded text-xs">
+                          <pre>{JSON.stringify(activity.metadata, null, 2)}</pre>
+                        </div>
+                      )}
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">
+                    Le tue attività verranno registrate automaticamente mentre
+                    utilizzi llmpatient.
+                  </p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 });

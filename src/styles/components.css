@@ -2520,6 +2520,8 @@
     top: 0;
     bottom: -3.5rem;
     width: 8px;
+    background: linear-gradient(to bottom, hsl(220 70% 50%), hsl(142 76% 36%));
+    border-radius: 4px;
     transform: translateX(-50%);
     z-index: 1;
   }
@@ -2557,10 +2559,19 @@
     flex-shrink: 0;
   }
 
-  .home-process-item:nth-child(2) .home-process-number {
+  .home-process-number--1 {
+    background: var(--primary);
+    color: var(--primary-foreground);
   }
 
-  .home-process-item:nth-child(3) .home-process-number {
+  .home-process-number--2 {
+    background: hsl(220 70% 50%);
+    color: white;
+  }
+
+  .home-process-number--3 {
+    background: hsl(142 76% 36%);
+    color: white;
   }
 
 

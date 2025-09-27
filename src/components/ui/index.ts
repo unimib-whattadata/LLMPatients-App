@@ -6,10 +6,19 @@ export { ErrorBoundary } from "./ErrorBoundary";
 export { Breadcrumb } from "./Breadcrumb";
 
 // Loading Components
-export { LoadingSpinner } from "./LoadingSpinner";
 export { LoadingCard } from "./LoadingCard";
-export { LoadingButton } from "./LoadingButton";
-export * from "./LoadingStates";
+export { SessionLoading } from "./SessionLoading";
 
-// Typing Components
-export * from "./TypingIndicator";
+// Shadcn Components
+export { Button } from "./button";
+export { Input } from "./input";
+export { Label } from "./label";
+export { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "./card";
+export { Badge } from "./badge";
+export { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+export { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./dialog";
+export { Alert, AlertDescription, AlertTitle } from "./alert";
+export { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
+export { Progress } from "./progress";
+export { Separator } from "./separator";
+export { Skeleton } from "./skeleton";

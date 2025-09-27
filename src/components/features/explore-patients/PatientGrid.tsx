@@ -1,6 +1,8 @@
 import type { Patient } from "~/server/api/routers/patients";
 import { PatientCard } from "./PatientCard";
-import { PatientGridLoading } from "~/components/ui";
+import { LoadingCard } from "~/components/ui/LoadingCard";
+import { Alert, AlertDescription } from "~/components/ui/alert";
+import { Button } from "~/components/ui/button";
 
 interface PatientGridProps {
   patients: Patient[];
@@ -20,37 +22,39 @@ export function PatientGrid({
   // Error state
   if (error) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
-        <div className="patients-feedback" role="alert">
-          <div className="patients-feedback-icon" aria-hidden="true"></div>
-          <h3 className="patients-feedback-title">Errore nel caricamento</h3>
-          <p className="patients-feedback-text">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="patient-card-button patients-feedback-button"
-          >
-            Riprova
-          </button>
-        </div>
+      <div className="flex min-h-[400px] items-center justify-center p-4">
+        <Alert variant="destructive" className="max-w-md">
+          <AlertDescription className="space-y-4">
+            <div>
+              <h3 className="font-semibold">Errore nel caricamento</h3>
+              <p>{error}</p>
+            </div>
+            <Button
+              onClick={() => window.location.reload()}
+              variant="outline"
+              size="sm"
+            >
+              Riprova
+            </Button>
+          </AlertDescription>
+        </Alert>
       </div>
     );
   }
 
   // Loading state
   if (isLoading) {
-    return <PatientGridLoading />;
+    return <LoadingCard count={6} />;
   }
 
   // Empty state
   if (patients.length === 0) {
     return (
-      <div className="flex min-h-[400px] items-center justify-center">
-        <div className="patients-feedback" role="status">
-          <div className="patients-feedback-icon" aria-hidden="true">
-            [SEARCH]
-          </div>
-          <h3 className="patients-feedback-title">Nessun paziente trovato</h3>
-          <p className="patients-feedback-text">
+      <div className="flex min-h-[400px] items-center justify-center p-4">
+        <div className="text-center space-y-4">
+          <div className="text-6xl">🔍</div>
+          <h3 className="text-lg font-semibold">Nessun paziente trovato</h3>
+          <p className="text-muted-foreground">
             Non ci sono pazienti virtuali disponibili al momento.
           </p>
         </div>
@@ -60,7 +64,7 @@ export function PatientGrid({
 
   return (
     <div
-      className="patient-grid"
+      className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
       aria-label={`Griglia di ${patients.length} pazienti virtuali`}
       role="list"
     >

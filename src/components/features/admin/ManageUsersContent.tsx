@@ -8,12 +8,16 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
+// Get environment variables for client-side usage
+const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development" || process.env.NODE_ENV === "development";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import { api } from "~/trpc/react";
 import Link from "next/link";
-import { AdminLoading } from "~/components/ui";
+import { Skeleton } from "~/components/ui/skeleton";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
 
 interface User {
   id: string;
@@ -68,7 +72,7 @@ export function ManageUsersContent() {
   const hasAccess = React.useMemo(() => {
     // Development bypass
     if (
-      process.env.NODE_ENV === "development" &&
+      isDevelopment &&
       specialKey === "DavideIsTesting"
     ) {
       return true;
@@ -79,7 +83,7 @@ export function ManageUsersContent() {
 
   // API queries and mutations
   const isDevelopmentAccess =
-    process.env.NODE_ENV === "development" && specialKey === "DavideIsTesting";
+    isDevelopment && specialKey === "DavideIsTesting";
 
   const {
     data: usersData,
@@ -244,7 +248,35 @@ export function ManageUsersContent() {
 
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
-    return <AdminLoading />;
+    return (
+      <div className="container mx-auto px-4 py-8 space-y-6">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-64" />
+          <Skeleton className="h-4 w-96" />
+        </div>
+        
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-6 w-48" />
+            <Skeleton className="h-4 w-72" />
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-32" />
+                  <Skeleton className="h-3 w-48" />
+                </div>
+                <div className="flex space-x-2">
+                  <Skeleton className="h-8 w-16" />
+                  <Skeleton className="h-8 w-20" />
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   // Access denied

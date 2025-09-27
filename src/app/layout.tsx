@@ -7,8 +7,9 @@ import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "~/trpc/react";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 import SessionDebugWrapper from "@/components/debug/SessionDebugWrapper";
+import { env } from "~/env";
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {

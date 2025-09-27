@@ -17,7 +17,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckIcon, EyeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useToast } from "@/components/ui/ToastProvider";
-import { AuthLoading } from "~/components/ui";
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
+import { Alert, AlertDescription } from "~/components/ui/alert";
+import { Separator } from "~/components/ui/separator";
+import { Loader2 } from "lucide-react";
 
 // Define the consolidated login state interface
 interface LoginState {
@@ -342,64 +348,63 @@ function LoginPageComponent() {
           {/* Success State - Show redirect countdown */}
           {loginState.phase === "success" ||
           loginState.phase === "redirecting" ? (
-            <div className="auth-form-card text-center">
-              <div className="mb-6">
-                <div className="bg-accent-success mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                  <CheckIcon className="text-text-primary h-8 w-8" />
-                </div>
-                <h2 className="text-text-primary mb-2 text-2xl font-bold">
-                  Login Successful!
-                </h2>
-                <p className="text-text-secondary mb-6">
-                  Welcome back! You&apos;re being redirected to your dashboard.
-                </p>
-
-                <div className="message message-success message-large mb-6">
-                  <div className="message-icon">
-                    <div className="border-accent-success h-5 w-5 rounded-full border-b-2"></div>
+            <Card className="w-full max-w-md mx-auto">
+              <CardContent className="text-center pt-6">
+                <div className="mb-6">
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                    <CheckIcon className="h-8 w-8 text-green-600" />
                   </div>
-                  <div className="message-content">
-                    <div className="message-text">
+                  <CardTitle className="mb-2 text-2xl">
+                    Login Successful!
+                  </CardTitle>
+                  <CardDescription className="mb-6">
+                    Welcome back! You&apos;re being redirected to your dashboard.
+                  </CardDescription>
+
+                  <Alert className="mb-6">
+                    <AlertDescription>
                       Redirecting in {loginState.redirectCountdown} second
                       {loginState.redirectCountdown !== 1 ? "s" : ""}...
-                    </div>
-                  </div>
-                </div>
+                    </AlertDescription>
+                  </Alert>
 
-                <button
-                  onClick={() =>
-                    !loginState.isNavigating && navigate(callbackUrl)
-                  }
-                  disabled={loginState.isNavigating}
-                  className="btn btn-primary btn-sm"
-                >
-                  {loginState.isNavigating ? "Redirecting..." : "Go Now"}
-                </button>
-              </div>
-            </div>
+                  <Button
+                    onClick={() =>
+                      !loginState.isNavigating && navigate(callbackUrl)
+                    }
+                    disabled={loginState.isNavigating}
+                    size="sm"
+                  >
+                    {loginState.isNavigating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {loginState.isNavigating ? "Redirecting..." : "Go Now"}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
           ) : (
             /* Normal Login Form */
-            <div className="auth-form-card">
-              <h2 className="auth-form-title">Login</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
+            <Card className="w-full max-w-md mx-auto">
+              <CardHeader>
+                <CardTitle>Login</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Global Error Message */}
                 {loginState.error && (
-                  <div className="message message-error message-large">
-                    <div className="message-icon">
-                      <XMarkIcon className="h-5 w-5" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{loginState.error}</div>
-                    </div>
-                  </div>
+                  <Alert variant="destructive">
+                    <XMarkIcon className="h-4 w-4" />
+                    <AlertDescription>
+                      {loginState.error}
+                    </AlertDescription>
+                  </Alert>
                 )}
 
                 {/* Email Field */}
-                <div className="auth-input-group">
-                  <label htmlFor="email" className="auth-label">
+                <div className="space-y-2">
+                  <Label htmlFor="email">
                     E-mail
-                  </label>
-                  <input
+                  </Label>
+                  <Input
                     id="email"
                     name="email"
                     type="email"
@@ -414,40 +419,30 @@ function LoginPageComponent() {
                       if (loginState.emailError) validateEmail(e.target.value);
                     }}
                     onBlur={() => validateEmail(loginState.email)}
-                    className={`auth-input ${
-                      loginState.emailError ? "auth-input-error" : ""
-                    }`}
                     placeholder="La tua e-mail"
                     aria-describedby={
                       loginState.emailError ? "email-error" : undefined
                     }
                     aria-invalid={!!loginState.emailError}
+                    className={loginState.emailError ? "border-destructive" : ""}
                   />
                   {loginState.emailError && (
-                    <div
-                      id="email-error"
-                      className="message message-error message-inline"
-                      role="alert"
-                    >
-                      <div className="message-icon">
-                        <XMarkIcon className="h-4 w-4" />
-                      </div>
-                      <div className="message-content">
-                        <div className="message-text">
-                          {loginState.emailError}
-                        </div>
-                      </div>
-                    </div>
+                    <Alert variant="destructive" className="py-2">
+                      <XMarkIcon className="h-4 w-4" />
+                      <AlertDescription className="text-sm">
+                        {loginState.emailError}
+                      </AlertDescription>
+                    </Alert>
                   )}
                 </div>
 
                 {/* Password Field */}
-                <div className="auth-input-group">
-                  <label htmlFor="password" className="auth-label">
+                <div className="space-y-2">
+                  <Label htmlFor="password">
                     Password
-                  </label>
+                  </Label>
                   <div className="relative">
-                    <input
+                    <Input
                       id="password"
                       name="password"
                       type="password"
@@ -463,18 +458,18 @@ function LoginPageComponent() {
                           validatePassword(e.target.value);
                       }}
                       onBlur={() => validatePassword(loginState.password)}
-                      className={`auth-input ${
-                        loginState.passwordError ? "auth-input-error" : ""
-                      } pr-12`}
                       placeholder="La tua password"
                       aria-describedby={
                         loginState.passwordError ? "password-error" : undefined
                       }
                       aria-invalid={!!loginState.passwordError}
+                      className={`pr-12 ${loginState.passwordError ? "border-destructive" : ""}`}
                     />
-                    <button
+                    <Button
                       type="button"
-                      className="absolute inset-y-0 right-0 flex items-center pr-3"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute inset-y-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => {
                         const input = document.getElementById(
                           "password",
@@ -486,24 +481,16 @@ function LoginPageComponent() {
                         }
                       }}
                     >
-                      <EyeIcon className="text-text-tertiary h-5 w-5" />
-                    </button>
+                      <EyeIcon className="h-4 w-4 text-muted-foreground" />
+                    </Button>
                   </div>
                   {loginState.passwordError && (
-                    <div
-                      id="password-error"
-                      className="message message-error message-inline"
-                      role="alert"
-                    >
-                      <div className="message-icon">
-                        <XMarkIcon className="h-4 w-4" />
-                      </div>
-                      <div className="message-content">
-                        <div className="message-text">
-                          {loginState.passwordError}
-                        </div>
-                      </div>
-                    </div>
+                    <Alert variant="destructive" className="py-2">
+                      <XMarkIcon className="h-4 w-4" />
+                      <AlertDescription className="text-sm">
+                        {loginState.passwordError}
+                      </AlertDescription>
+                    </Alert>
                   )}
                 </div>
 
@@ -531,54 +518,52 @@ function LoginPageComponent() {
                 </div>
 
                 {/* Submit Button */}
-                <button
+                <Button
                   type="submit"
                   disabled={
                     ["authenticating", "redirecting"].includes(
                       loginState.phase,
                     ) || loginState.isNavigating
                   }
-                  className="auth-submit-btn"
+                  className="w-full"
                   aria-label="Accedi al tuo account"
                 >
-                  {loginState.phase === "authenticating" ? (
-                    <>
-                      <div className="auth-spinner"></div>
-                      Accesso in corso...
-                    </>
-                  ) : loginState.isNavigating ||
-                    ["redirecting"].includes(loginState.phase) ? (
-                    <>
-                      <div className="auth-spinner"></div>
-                      Reindirizzamento...
-                    </>
-                  ) : (
-                    "Accedi"
-                  )}
-                </button>
+                  {(["authenticating", "redirecting"].includes(loginState.phase) || loginState.isNavigating) && 
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  }
+                  {(() => {
+                    const phase = loginState.phase as LoginState["phase"];
+                    if (phase === "authenticating") return "Accesso in corso...";
+                    if (loginState.isNavigating) return "Reindirizzamento...";
+                    if (phase === "redirecting") return "Reindirizzamento...";
+                    return "Accedi";
+                  })()}
+                </Button>
 
                 {/* Register Link */}
-                <div className="mt-4 text-center">
-                  <span className="auth-text-muted text-sm">o </span>
-                  <Link href="/register" className="auth-link text-sm">
-                    registrati
-                  </Link>
-                  <span className="auth-text-muted text-sm"> subito</span>
+                <div className="text-center">
+                  <span className="text-muted-foreground text-sm">o </span>
+                  <Button asChild variant="link" className="p-0 h-auto text-sm">
+                    <Link href="/register">
+                      registrati
+                    </Link>
+                  </Button>
+                  <span className="text-muted-foreground text-sm"> subito</span>
                 </div>
 
-                <div className="auth-divider"></div>
+                <Separator />
 
                 {/* Forgot Password */}
                 <div className="text-center">
-                  <Link
-                    href="/forgot-password"
-                    className="auth-text-muted hover:text-text-secondary text-sm"
-                  >
-                    Hai dimenticato la password?
-                  </Link>
+                  <Button asChild variant="link" className="text-sm">
+                    <Link href="/forgot-password">
+                      Hai dimenticato la password?
+                    </Link>
+                  </Button>
                 </div>
               </form>
-            </div>
+            </CardContent>
+          </Card>
           )}
         </div>
       </div>
@@ -588,7 +573,14 @@ function LoginPageComponent() {
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<AuthLoading />}>
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Caricamento...</p>
+        </div>
+      </div>
+    }>
       <LoginPageComponent />
     </Suspense>
   );
