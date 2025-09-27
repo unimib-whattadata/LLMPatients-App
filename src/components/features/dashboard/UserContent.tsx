@@ -54,9 +54,6 @@ export const UserContent = React.memo(function UserContent() {
     },
   });
 
-  // Record activity mutation
-  const recordActivity = api.dashboard.recordActivity.useMutation();
-
   /**
    * Initialize profile form when profile data loads
    */
@@ -88,16 +85,6 @@ export const UserContent = React.memo(function UserContent() {
     },
     [profileForm.name, profileForm.email, updateProfile],
   );
-
-  /**
-   * Record dashboard view activity
-   */
-  React.useEffect(() => {
-    void recordActivity.mutateAsync({
-      activityType: "dashboard_view",
-      metadata: { section: selectedSection },
-    });
-  }, [selectedSection, recordActivity]);
 
   /**
    * Format date for display

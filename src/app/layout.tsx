@@ -96,7 +96,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${inter.variable}`}>
+    <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth">
       <head>
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -111,23 +111,10 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
 
         {/* Preload critical resources */}
-        <link
-          rel="preload"
-          href="/images/logo.webp"
-          as="image"
-          type="image/webp"
-        />
-        <link
-          rel="preload"
-          href="/images/home/hero.webp"
-          as="image"
-          type="image/webp"
-          media="(min-width: 1px)"
-        />
 
         {/* Theme color for mobile browsers */}
-        <meta name="theme-color" content="" />
-        <meta name="msapplication-TileColor" content="" />
+        <meta name="theme-color" content="#8B9769" />
+        <meta name="msapplication-TileColor" content="#8B9769" />
 
         {/* Viewport optimization */}
         <meta
@@ -135,9 +122,8 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
 
-        {/* Security headers */}
+        {/* Security headers - X-Frame-Options should be set via HTTP headers, not meta tags */}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-        <meta httpEquiv="X-Frame-Options" content="DENY" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
 
         {/* Performance hints */}

@@ -110,6 +110,7 @@ export function ChatTypingIndicator({
               className="chat-avatar-fixed-size rounded-full object-cover"
               width={40}
               height={40}
+              style={{ width: "auto !important", height: "auto !important" }}
               priority={false}
             />
           ) : (

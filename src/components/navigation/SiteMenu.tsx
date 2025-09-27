@@ -61,6 +61,7 @@ export function SiteMenu({
           className="site-menu__brand-logo"
           width={32}
           height={32}
+          style={{ width: "auto !important", height: "auto !important" }}
           priority={true}
         />
       ) : (

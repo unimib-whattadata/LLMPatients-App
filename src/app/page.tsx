@@ -67,6 +67,7 @@ export default async function Home() {
                 itemProp="logo"
                 width={48}
                 height={48}
+                style={{ width: "auto !important", height: "auto !important" }}
                 priority={false}
               />
               <div>

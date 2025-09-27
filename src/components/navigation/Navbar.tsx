@@ -171,9 +171,10 @@ export function Navbar({
               <Image
                 src="/images/logo.png"
                 alt="LLMPatient Logo"
-                className="h-8 w-8 rounded-lg"
+                className="rounded-lg"
                 width={32}
                 height={32}
+                style={{ width: "auto !important", height: "auto !important" }}
                 priority={true}
               />
               <span className="text-text-primary ml-2 hidden text-lg font-bold sm:inline">
@@ -413,6 +414,7 @@ export function Navbar({
                 className="site-menu__brand-logo"
                 width={32}
                 height={32}
+                style={{ width: "auto !important", height: "auto !important" }}
                 priority={true}
               />
               <span className="site-menu__brand-name">LLMPatient</span>

@@ -88,6 +88,7 @@ export function PatientAvatar({
         width={400}
         height={400}
         className="patient-avatar-image"
+        style={{ width: "auto !important", height: "auto !important" }}
         onLoad={() => setHasError(false)}
         onError={() => setHasError(true)}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

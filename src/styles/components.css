@@ -1252,8 +1252,10 @@
 
   .site-menu__brand-logo,
   .site-menu__brand-mark {
-    width: 42px;
-    height: 42px;
+    width: auto;
+    height: auto;
+    max-width: 42px;
+    max-height: 42px;
     border-radius: 12px;
     object-fit: cover;
     flex-shrink: 0;
@@ -2775,7 +2777,6 @@
     object-fit: contain;
     flex-shrink: 0;
     display: block;
-    overflow: visible;
     max-width: none;
     max-height: none;
   }

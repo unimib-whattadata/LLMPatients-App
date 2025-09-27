@@ -487,6 +487,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           width={40}
                           height={40}
                           className="chat-avatar-fixed-size rounded-full object-cover"
+                          style={{ width: "auto !important", height: "auto !important" }}
                         />
                       ) : (
                         <div className="flex h-10 w-10 items-center justify-center rounded-full font-bold">

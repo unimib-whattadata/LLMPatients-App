@@ -13,49 +13,27 @@
   "icons": [
     {
       "src": "/favicon-16x16.png",
-      "sizes": "16x16",
+      "sizes": "235x258",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/favicon-32x32.png",
-      "sizes": "32x32",
+      "sizes": "235x258",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/apple-touch-icon.png",
-      "sizes": "180x180",
+      "sizes": "235x258",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/images/logo.png",
-      "sizes": "192x192",
+      "sizes": "235x258",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/images/logo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/images/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Desktop view of ePatients platform"
-    },
-    {
-      "src": "/images/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Mobile view of ePatients platform"
+      "purpose": "any"
     }
   ],
   "shortcuts": [
@@ -67,7 +45,7 @@
       "icons": [
         {
           "src": "/images/logo.png",
-          "sizes": "192x192"
+          "sizes": "235x258"
         }
       ]
     },
@@ -79,7 +57,7 @@
       "icons": [
         {
           "src": "/images/logo.png",
-          "sizes": "192x192"
+          "sizes": "235x258"
         }
       ]
     }
