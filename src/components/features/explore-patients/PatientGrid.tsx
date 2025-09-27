@@ -1,6 +1,6 @@
 import type { Patient } from "~/server/api/routers/patients";
 import { PatientCard } from "./PatientCard";
-import { LoadingCard } from "~/components/ui/LoadingCard";
+import { LoadingCard } from "~/components/common/LoadingCard";
 import { Alert, AlertDescription } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 

@@ -4,7 +4,7 @@ import { SharedLayout } from "@/components/layout/SharedLayout";
 import { useCallback, useMemo, memo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumb, SessionLoading } from "@/components/ui";
+import { Breadcrumb, SessionLoading } from "@/components/common";
 
 import {
   TIMELINE_CONFIG,

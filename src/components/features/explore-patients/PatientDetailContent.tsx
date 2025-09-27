@@ -7,7 +7,7 @@ import { ClockIcon } from "@heroicons/react/24/outline";
 import { useSession } from "next-auth/react";
 
 import { PatientAvatar } from "@/components/features/explore-patients";
-import { Breadcrumb } from "~/components/ui/Breadcrumb";
+import { Breadcrumb } from "~/components/common/Breadcrumb";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/trpc/react";

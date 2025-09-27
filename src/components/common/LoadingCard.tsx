@@ -4,9 +4,9 @@
  * Provides skeleton loading states for card-based content with consistent styling
  */
 
-import { cn } from "~/lib/utils/cn";
-import { Card, CardContent, CardHeader, CardFooter } from "./card";
-import { Skeleton } from "./skeleton";
+import { cn } from "~/lib/utils";
+import { Card, CardContent, CardHeader, CardFooter } from "~/components/ui/card";
+import { Skeleton } from "~/components/ui/skeleton";
 
 interface LoadingCardProps {
   /**

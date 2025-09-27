@@ -5,7 +5,7 @@
  */
 
 import { Loader2 } from "lucide-react";
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "~/components/ui/skeleton";
 
 export function SessionLoading() {
   return (
