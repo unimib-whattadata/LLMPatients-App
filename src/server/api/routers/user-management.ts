@@ -24,8 +24,7 @@ import {
   impersonationSessions,
   impersonationAuditLog,
 } from "~/server/db/schema";
-import { eq, desc, asc, and, or, like, count } from "drizzle-orm";
-import bcrypt from "bcryptjs";
+import { eq, asc, and, or, like, count } from "drizzle-orm";
 
 export const userManagementRouter = createTRPCRouter({
   /**
@@ -102,7 +101,7 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const { name, email, password, role } = input;
+      const { name, email, role } = input;
 
       // Check if user with email already exists
       const existingUser = await ctx.db
@@ -114,9 +113,6 @@ export const userManagementRouter = createTRPCRouter({
       if (existingUser.length > 0) {
         throw new Error("User with this email already exists");
       }
-
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 12);
 
       // Create user
       const newUser = await ctx.db
@@ -482,7 +478,7 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("Unauthorized: Development access only");
       }
 
-      const { name, email, password, role } = input;
+      const { name, email, role } = input;
 
       // Check if user exists
       const existingUser = await ctx.db
@@ -494,9 +490,6 @@ export const userManagementRouter = createTRPCRouter({
       if (existingUser.length > 0) {
         throw new Error("User with this email already exists");
       }
-
-      // Hash password
-      const hashedPassword = await bcrypt.hash(password, 12);
 
       // Create user
       const newUser = await ctx.db

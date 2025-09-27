@@ -11,7 +11,6 @@ import { useState, useMemo, useCallback, memo } from "react";
 import {
   DIFFICULTY_LEVELS,
   getDifficultyLabel,
-  getDifficultyIconClass,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 
@@ -30,7 +29,7 @@ function MySimulationsContentComponent() {
   const [filter, setFilter] = useState<string>("all");
 
   // Mock data - in real app this would come from API
-  const simulations: Simulation[] = [
+  const simulations: Simulation[] = useMemo(() => [
     {
       id: "1",
       title: "Gestione Ipertensione Acuta",
@@ -66,7 +65,7 @@ function MySimulationsContentComponent() {
       status: "available",
       progress: 0,
     },
-  ];
+  ], []);
 
   // Memoized functions
   const getStatusBadge = useCallback((status: string) => {

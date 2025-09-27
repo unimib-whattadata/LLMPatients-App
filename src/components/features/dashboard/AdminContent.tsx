@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { UsersIcon } from "@heroicons/react/24/outline";
 
 interface ImpersonationModalProps {
   user: {
@@ -256,20 +255,6 @@ export function AdminContent() {
     setImpersonationModal({ isOpen: false, user: null });
   };
 
-  /**
-   * Format date for display
-   */
-  const formatDate = (timestamp: Date | number) => {
-    const date =
-      typeof timestamp === "number" ? new Date(timestamp * 1000) : timestamp;
-    return date.toLocaleDateString("it-IT", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   // Memoize expensive calculations
   const recentActivities = useMemo(
@@ -277,31 +262,7 @@ export function AdminContent() {
     [stats?.recentActivities],
   );
 
-  const navItems = useMemo(
-    () => [
-      { key: "overview" as const, label: "Panoramica" },
-      { key: "users" as const, label: "[USERS] Gestione Utenti" },
-      { key: "activities" as const, label: "[ACTIVITY] Registro Attivita" },
-    ],
-    [],
-  );
 
-  // Memoize section change handler
-  const handleSectionChange = useCallback(
-    (section: typeof selectedSection) => {
-      setSelectedSection(section);
-      // Update URL with section parameter
-      const params = new URLSearchParams(searchParams.toString());
-      if (section === "overview") {
-        params.delete("section");
-      } else {
-        params.set("section", section);
-      }
-      const newUrl = params.toString() ? `?${params.toString()}` : "";
-      router.replace(`/dashboard/admin${newUrl}`, { scroll: false });
-    },
-    [searchParams, router],
-  );
 
   return (
     <div className="dashboard-panel-stack">

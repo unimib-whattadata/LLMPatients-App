@@ -2,6 +2,7 @@
 
 import { useState, useMemo, type ReactNode } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 interface SiteMenuLink {
@@ -54,10 +55,13 @@ export function SiteMenu({
   const brandContent = (
     <>
       {brand.logoSrc ? (
-        <img
+        <Image
           src={brand.logoSrc}
           alt={brand.logoAlt ?? brand.name}
           className="site-menu__brand-logo"
+          width={32}
+          height={32}
+          priority={true}
         />
       ) : (
         <div className="site-menu__brand-mark" aria-hidden="true" />

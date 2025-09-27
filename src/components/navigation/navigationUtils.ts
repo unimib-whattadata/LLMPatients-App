@@ -3,17 +3,13 @@ import type {
   ImpersonationContext,
   NavItem,
   NavSection,
-  AdminViewMode,
 } from "./Navbar";
 import {
   UserPlusIcon,
-  PlayIcon,
-  ClipboardDocumentListIcon,
   MagnifyingGlassIcon,
   HomeIcon,
   ChartBarIcon,
   UsersIcon,
-  AcademicCapIcon,
   ClipboardDocumentCheckIcon,
   UserCircleIcon,
   ClockIcon,

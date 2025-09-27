@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import {
   CheckIcon,
@@ -36,6 +36,13 @@ const Toast = ({ toast, onClose }: ToastProps) => {
     return () => clearTimeout(timer);
   }, []);
 
+  const handleClose = useCallback(() => {
+    setIsExiting(true);
+    setTimeout(() => {
+      onClose(toast.id);
+    }, 300); // Match animation duration
+  }, [onClose, toast.id]);
+
   useEffect(() => {
     if (!autoClose) return;
 
@@ -44,14 +51,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration, autoClose]);
-
-  const handleClose = () => {
-    setIsExiting(true);
-    setTimeout(() => {
-      onClose(toast.id);
-    }, 300); // Match animation duration
-  };
+  }, [duration, autoClose, handleClose]);
 
   const getToastStyles = () => {
     const baseStyles = "message message-large max-w-md w-full";

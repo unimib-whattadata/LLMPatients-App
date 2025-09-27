@@ -16,9 +16,6 @@ import {
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
-const SECTION_WITH_OVERFLOW =
-  "bg-background-secondary rounded-lg overflow-hidden";
-const SECTION = "bg-background-secondary rounded-lg p-6";
 
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
@@ -124,24 +121,6 @@ export function PatientDetailContent() {
     // Fallback to empty object to prevent crashes
     details = {};
   }
-  const infoItems = [
-    {
-      label: "Eta",
-      value: `${details.demographic_sociocultural_information?.age || "N/A"} anni`,
-    },
-    {
-      label: "Genere",
-      value: details.demographic_sociocultural_information?.gender || "N/A",
-      capitalize: true,
-    },
-    {
-      label: "Condizione",
-      value:
-        details.psychological_profile_and_cognitive_functioning
-          ?.current_and_past_psychiatric_diagnoses || "N/A",
-    },
-    { label: "Durata stimata", value: `${patient.estimatedDuration} minuti` },
-  ];
 
   return (
     <div className="bg-background-primary min-h-screen">

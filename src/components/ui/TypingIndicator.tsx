@@ -7,6 +7,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 
 interface TypingIndicatorProps {
   /** Whether to show the typing indicator */
@@ -103,10 +104,13 @@ export function ChatTypingIndicator({
         {/* Patient Avatar */}
         <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full">
           {avatarUrl ? (
-            <img
+            <Image
               src={avatarUrl}
               alt={`Avatar di ${patientName}`}
               className="chat-avatar-fixed-size rounded-full object-cover"
+              width={40}
+              height={40}
+              priority={false}
             />
           ) : (
             <div className="flex h-10 w-10 items-center justify-center rounded-full font-bold text-white">

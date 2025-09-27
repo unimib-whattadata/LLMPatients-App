@@ -12,6 +12,7 @@ import { HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
 import { SharedLayout } from "@/components/layout/SharedLayout";
 import Link from "next/link";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 
 /**
@@ -59,14 +60,14 @@ export default async function Home() {
         <div className="section-container">
           <div className="home-footer-grid">
             <div className="home-footer-brand">
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="ePatients Logo"
                 className="home-footer-brand-logo"
                 itemProp="logo"
-                width="48"
-                height="48"
-                loading="lazy"
+                width={48}
+                height={48}
+                priority={false}
               />
               <div>
                 <p className="home-footer-brand-name" itemProp="name">

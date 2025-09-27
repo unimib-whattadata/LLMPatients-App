@@ -12,7 +12,6 @@ import { LoadingSpinner } from "@/components/ui";
 import {
   ArrowLeftIcon,
   PaperAirplaneIcon,
-  UserIcon,
 } from "@heroicons/react/24/outline";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
@@ -35,9 +34,6 @@ interface ChatMessage {
  * @param timestamp - Date object or string timestamp
  * @returns Formatted time string
  */
-function formatTimestamp(timestamp: Date | string): string {
-  return new Date(timestamp).toLocaleTimeString();
-}
 
 /**
  * Formats session time in MM:SS format

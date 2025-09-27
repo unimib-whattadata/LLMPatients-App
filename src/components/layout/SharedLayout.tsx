@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Navbar, getNavSections } from "@/components/navigation";
-import { ChevronLeftIcon } from "@heroicons/react/24/outline";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import type { User, ImpersonationContext, NavItem } from "~/types";

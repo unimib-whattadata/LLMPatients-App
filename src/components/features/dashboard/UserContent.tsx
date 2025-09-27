@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { api } from "~/trpc/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
@@ -11,7 +11,6 @@ export const UserContent = React.memo(function UserContent() {
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [profileForm, setProfileForm] = useState({ name: "", email: "" });
 
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   // Handle URL parameter for section
@@ -98,7 +97,7 @@ export const UserContent = React.memo(function UserContent() {
       activityType: "dashboard_view",
       metadata: { section: selectedSection },
     });
-  }, [selectedSection]);
+  }, [selectedSection, recordActivity]);
 
   /**
    * Format date for display
@@ -134,7 +133,6 @@ export const UserContent = React.memo(function UserContent() {
   };
 
   // Memoize expensive calculations
-  const lastActivity = useMemo(() => activities?.[0], [activities]);
   const simulationsCompleted = useMemo(
     () =>
       activities?.filter((activity) => activity.type === "simulation").length ??
@@ -142,32 +140,7 @@ export const UserContent = React.memo(function UserContent() {
     [activities],
   );
 
-  // Memoize navigation items
-  const navItems = useMemo(
-    () => [
-      { key: "overview" as const, label: "[HOME] Panoramica" },
-      { key: "profile" as const, label: "Il Mio Profilo" },
-      { key: "activities" as const, label: "[ACTIVITY] La Mia Attivita" },
-    ],
-    [],
-  );
 
-  // Memoize section change handler
-  const handleSectionChange = useCallback(
-    (section: typeof selectedSection) => {
-      setSelectedSection(section);
-      // Update URL with section parameter
-      const params = new URLSearchParams(searchParams.toString());
-      if (section === "overview") {
-        params.delete("section");
-      } else {
-        params.set("section", section);
-      }
-      const newUrl = params.toString() ? `?${params.toString()}` : "";
-      router.replace(`/dashboard/user${newUrl}`, { scroll: false });
-    },
-    [searchParams, router],
-  );
 
   // Memoize profile edit handlers
   const handleEditProfile = useCallback(() => {

@@ -43,7 +43,7 @@ export const dashboardRouter = createTRPCRouter({
         .orderBy(desc(users.name));
 
       return allUsers;
-    } catch (error) {
+    } catch {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to fetch users",
@@ -174,7 +174,7 @@ export const dashboardRouter = createTRPCRouter({
             : null,
         })),
       };
-    } catch (error) {
+    } catch {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to fetch system statistics",
@@ -330,7 +330,7 @@ export const dashboardRouter = createTRPCRouter({
             ? (JSON.parse(activity.metadata) as Record<string, unknown>)
             : null,
         }));
-      } catch (error) {
+      } catch {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to fetch user activities",
@@ -370,7 +370,7 @@ export const dashboardRouter = createTRPCRouter({
           });
 
         return activity[0]!;
-      } catch (error) {
+      } catch {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to record activity",
@@ -444,7 +444,7 @@ export const dashboardRouter = createTRPCRouter({
         averageScore: averageScore,
         totalSimulations: simulationActivities.length * 2, // Mock: 2 simulations per active student
       };
-    } catch (error) {
+    } catch {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to fetch student statistics",
@@ -458,12 +458,6 @@ export const dashboardRouter = createTRPCRouter({
    */
   getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      // Get total students count
-      const totalStudentsResult = await ctx.db
-        .select({ count: count() })
-        .from(users)
-        .where(eq(users.role, "user"));
-
       // Get students with simulation activity (as proxy for evaluations)
       const studentsWithSimulations = await ctx.db
         .select({ userId: userActivities.userId })
@@ -491,7 +485,7 @@ export const dashboardRouter = createTRPCRouter({
         successRate:
           Math.round((successRate / completedEvaluations) * 100) || 0,
       };
-    } catch (error) {
+    } catch {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to fetch student evaluation statistics",

@@ -110,14 +110,6 @@ export function MyProgressContent() {
     { week: "Sett 4", simulations: 4, avgScore: 85 },
   ];
 
-  const getCategoryIcon = (category: string) => {
-    const icons = {
-      communication: "[COMMUNICATION]",
-      emergency: "[EMERGENCY]",
-      academic: "[STUDY]",
-    };
-    return icons[category as keyof typeof icons] || "[TROPHY]";
-  };
 
   const filteredAchievements =
     selectedCategory === "all"

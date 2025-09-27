@@ -1,6 +1,4 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
-import { type JWT } from "next-auth/jwt";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
@@ -8,18 +6,13 @@ import { eq } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import {
-  accounts,
-  sessions,
   users,
-  verificationTokens,
 } from "~/server/db/schema";
-import { env } from "~/env";
 import {
   validateUserById,
   validateUserByEmail,
   comprehensiveUserValidation,
   createValidationConfig,
-  type UserValidationResult,
 } from "~/server/auth/user-validation";
 
 /**
@@ -454,8 +447,8 @@ export const authConfig = {
           tokenId: token?.id,
           tokenEmail: token?.email,
           tokenRole: token?.role,
-          isImpersonating: !!token?.impersonation?.isActive,
-          impersonationTarget: token?.impersonation?.targetUserEmail,
+          isImpersonating: !!(token?.impersonation && typeof token.impersonation === 'object' && 'isActive' in token.impersonation && token.impersonation.isActive),
+          impersonationTarget: (token?.impersonation && typeof token.impersonation === 'object' && 'targetUserEmail' in token.impersonation) ? token.impersonation.targetUserEmail as string : undefined,
           lastValidated: token?.lastValidated
             ? new Date(token.lastValidated).toISOString()
             : "never",
@@ -556,34 +549,36 @@ export const authConfig = {
       }
 
       // Handle impersonation context
-      if (token.impersonation?.isActive) {
+      if (token.impersonation && typeof token.impersonation === 'object' && 'isActive' in token.impersonation && token.impersonation.isActive) {
         console.log(
           "Session callback - Active impersonation detected, setting up impersonated session",
         );
 
         // Override user details with impersonated user
-        const impersonation = token.impersonation;
-        session.user.id = impersonation.targetUserId;
-        session.user.email = impersonation.targetUserEmail;
-        session.user.name = impersonation.targetUserName;
-        session.user.role = "user"; // Impersonated sessions always have user role
+        const impersonation = token.impersonation as Record<string, unknown>;
+        if (impersonation && typeof impersonation === 'object') {
+          session.user.id = (impersonation.targetUserId as string) || '';
+          session.user.email = (impersonation.targetUserEmail as string) || '';
+          session.user.name = (impersonation.targetUserName as string) || '';
+          session.user.role = "user"; // Impersonated sessions always have user role
 
-        // Add impersonation context to session
-        session.impersonation = {
-          isImpersonating: true,
-          originalAdminId: impersonation.originalAdminId,
-          targetUserId: impersonation.targetUserId,
-          targetUserEmail: impersonation.targetUserEmail,
-          targetUserName: impersonation.targetUserName,
-          startedAt: new Date(impersonation.startedAt),
-          sessionId: impersonation.sessionId,
-        };
+          // Add impersonation context to session
+          session.impersonation = {
+            isImpersonating: true,
+            originalAdminId: (impersonation.originalAdminId as string) || '',
+            targetUserId: (impersonation.targetUserId as string) || '',
+            targetUserEmail: (impersonation.targetUserEmail as string) || '',
+            targetUserName: (impersonation.targetUserName as string) || '',
+            startedAt: new Date((impersonation.startedAt as string) || new Date()),
+            sessionId: (impersonation.sessionId as string) || '',
+          };
+        }
 
         console.log("Session callback - Impersonated session created:", {
-          originalAdminId: session.impersonation.originalAdminId,
+          originalAdminId: session.impersonation?.originalAdminId,
           impersonatedUserId: session.user.id,
           impersonatedUserEmail: session.user.email,
-          sessionId: session.impersonation.sessionId,
+          sessionId: session.impersonation?.sessionId,
         });
       } else {
         // No impersonation active
@@ -615,7 +610,7 @@ export const authConfig = {
     },
 
     // Enhanced signIn callback with database validation
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn({ user, account, profile: _profile, email: _email, credentials }) {
       console.log("SignIn callback - Enhanced validation:", {
         userId: user?.id,
         userEmail: user?.email,
@@ -697,16 +692,14 @@ export const authConfig = {
       });
     },
 
-    async signOut(message) {
+    async signOut(_message) {
       console.log("NextAuth signOut event (enhanced):", {
         timestamp: new Date().toISOString(),
       });
     },
 
-    async updateUser(message) {
+    async updateUser(_message) {
       console.log("NextAuth updateUser event:", {
-        userId: message.user.id,
-        userEmail: message.user.email,
         timestamp: new Date().toISOString(),
       });
     },

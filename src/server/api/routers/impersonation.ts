@@ -370,7 +370,7 @@ export const impersonationRouter = createTRPCRouter({
         targetUserId: z.string().optional(),
       }),
     )
-    .query(async ({ ctx, input }) => {
+    .query(async ({ ctx: _ctx, input }) => {
       const { page, limit, adminUserId, targetUserId } = input;
       const offset = (page - 1) * limit;
 

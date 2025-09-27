@@ -881,7 +881,7 @@ export function PatientDetailsContent() {
    * Count total elements across all sections
    */
   const countTotalElements = (): number => {
-    return filteredSections.reduce((total, [sectionKey, sectionDef]) => {
+    return filteredSections.reduce((total, [, sectionDef]) => {
       if (!sectionDef) return total;
       return total + countElements(sectionDef);
     }, 0);

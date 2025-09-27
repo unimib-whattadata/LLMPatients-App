@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   DIFFICULTY_LEVELS,
   getDifficultyLabel,
-  getDifficultyIconClass,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";

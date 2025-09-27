@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { eq, asc, desc, and, like } from "drizzle-orm";
+import { eq, asc, and, like } from "drizzle-orm";
 import {
   createTRPCRouter,
   publicProcedure,
@@ -7,7 +7,6 @@ import {
 } from "~/server/api/trpc";
 import { patients } from "~/server/db/schema";
 import {
-  DIFFICULTY_LEVELS,
   type DifficultyLevel,
 } from "~/lib/constants/difficulty";
 

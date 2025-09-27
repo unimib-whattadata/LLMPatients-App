@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { UsersIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import { api } from "~/trpc/react";
 
 export function StudentStatisticsContent() {

@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   Bars3Icon,
   XMarkIcon,
-  Bars3BottomLeftIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
@@ -95,12 +95,11 @@ export function Navbar({
   impersonation,
   layoutType,
   currentPage = "",
-  onSidebarToggle,
-  sidebarCollapsed = false,
-  showSidebar = false,
+  onSidebarToggle: _onSidebarToggle,
+  sidebarCollapsed: _sidebarCollapsed = false,
+  showSidebar: _showSidebar = false,
 }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const router = useRouter();
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
@@ -169,10 +168,13 @@ export function Navbar({
               href="/"
               className="focus:ring-text-primary/20 flex items-center rounded-md focus:ring-2 focus:outline-none"
             >
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="LLMPatient Logo"
                 className="h-8 w-8 rounded-lg"
+                width={32}
+                height={32}
+                priority={true}
               />
               <span className="text-text-primary ml-2 hidden text-lg font-bold sm:inline">
                 LLMPatient
@@ -241,7 +243,7 @@ export function Navbar({
               aria-label="Mobile navigation"
             >
               <div className="space-y-1" role="list">
-                {navItems.map((item, index) => {
+                {navItems.map((item, _index) => {
                   const isActive =
                     currentPage === item.href || pathname === item.href;
                   return (
@@ -405,10 +407,13 @@ export function Navbar({
               className="site-menu__brand-link"
               onClick={() => setMobileMenuOpen(false)}
             >
-              <img
+              <Image
                 src="/images/logo.png"
                 alt="LLMPatient"
                 className="site-menu__brand-logo"
+                width={32}
+                height={32}
+                priority={true}
               />
               <span className="site-menu__brand-name">LLMPatient</span>
             </Link>

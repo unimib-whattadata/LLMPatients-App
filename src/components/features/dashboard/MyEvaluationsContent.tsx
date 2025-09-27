@@ -4,10 +4,8 @@ import { useState } from "react";
 import {
   DIFFICULTY_LEVELS,
   getDifficultyLabel,
-  getDifficultyIconClass,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
-import { ClipboardDocumentIcon } from "@heroicons/react/24/outline";
 
 interface Evaluation {
   id: string;

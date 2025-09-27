@@ -241,16 +241,6 @@ export function ManageUsersContent() {
     }
   };
 
-  // Format date for display
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("it-IT", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
 
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {

@@ -299,7 +299,7 @@ export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
 }));
 
-export const usersRelations = relations(users, ({ many }) => ({}));
+export const usersRelations = relations(users, ({ many: _many }) => ({}));
 export const therapySessions = createTable(
   "therapy_session",
   (d) => ({

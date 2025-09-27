@@ -19,6 +19,11 @@ interface LoadingSpinnerProps {
   size?: "sm" | "md" | "lg" | "xl";
 
   /**
+   * Color variant for the spinner
+   */
+  variant?: "primary" | "secondary" | "accent";
+
+  /**
    * Whether to center the spinner in a full screen container
    */
   fullScreen?: boolean;
@@ -42,9 +47,9 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  primary: "",
-  secondary: "",
-  accent: "",
+  primary: "border-primary-600",
+  secondary: "border-secondary-600", 
+  accent: "border-accent-600",
 };
 
 export function LoadingSpinner({
