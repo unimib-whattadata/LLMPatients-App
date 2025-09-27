@@ -20,19 +20,14 @@ const config = {
         as: "*.js",
       },
     },
-  },
-
-  // Performance optimizations
-  experimental: {
-    // Enable optimized package imports
-    optimizePackageImports: [
-      "@heroicons/react",
-      "@radix-ui/react-label",
-      "@radix-ui/react-slot",
-      "@tanstack/react-query",
-      "@trpc/client",
-      "@trpc/react-query",
-    ],
+    // Optimize for hot reloading in development
+    ...(process.env.NODE_ENV === "development" && {
+      resolveAlias: {
+        // Ensure proper module resolution
+        "~": "./src",
+        "@": "./src",
+      },
+    }),
   },
 
   // Server external packages
@@ -47,6 +42,12 @@ const config = {
     // Enable SWC optimizations
     styledComponents: true,
   },
+
+  // Development optimizations for hot reloading
+  ...(process.env.NODE_ENV === "development" && {
+    // Enable fast refresh
+    reactStrictMode: true,
+  }),
 
   // Image optimization
   images: {
@@ -90,11 +91,6 @@ const config = {
           {
             key: "Referrer-Policy",
             value: "origin-when-cross-origin",
-          },
-          // Performance headers
-          {
-            key: "X-DNS-Prefetch-Control",
-            value: "on",
           },
         ],
       },

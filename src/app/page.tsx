@@ -52,6 +52,7 @@ export default async function Home() {
   const marketingFooter = (
     <footer
       className="home-footer"
+      style={{ backgroundColor: 'var(--color-navbar-dark)' }}
       itemScope
       itemType="https://schema.org/Organization"
       role="contentinfo"
@@ -84,30 +85,14 @@ export default async function Home() {
 
             <div className="home-footer-column">
               <h3 id="footer-contacts">Contatti</h3>
-              <address
-                itemScope
-                itemType="https://schema.org/Person"
-                aria-labelledby="footer-contacts"
-              >
-                <p>
-                  <span itemProp="name">Marco Cremaschi</span>
-                  <br />
-                  <span itemProp="jobTitle">Ricercatore</span>
-                  <br />
-                  <span itemProp="affiliation">
-                    Università degli Studi di Milano-Bicocca
-                  </span>
-                </p>
-                <p>
-                  <a
-                    href="mailto:llmpatient@unimib.it"
-                    itemProp="email"
-                    aria-label="Invia email a Marco Cremaschi"
-                  >
-                    llmpatient@unimib.it
-                  </a>
-                </p>
-              </address>
+              <p>
+                <a
+                  href="mailto:llmpatient@unimib.it"
+                  aria-label="Invia email"
+                >
+                  llmpatient@unimib.it
+                </a>
+              </p>
             </div>
           </div>
 

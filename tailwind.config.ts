@@ -14,6 +14,18 @@ export default {
           "system-ui",
           "sans-serif",
         ],
+        mono: [
+          "Inter",
+          "var(--font-inter)",
+          "ui-monospace",
+          "monospace",
+        ],
+        serif: [
+          "Inter",
+          "var(--font-inter)",
+          "ui-serif",
+          "serif",
+        ],
       },
     },
   },

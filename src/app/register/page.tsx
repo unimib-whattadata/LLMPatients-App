@@ -188,270 +188,233 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="auth-container">
-      {/* Left Side - Branding */}
-      <div className="auth-brand-section">
-        <div className="auth-brand-content">
-          <h1 className="auth-brand-title">LLMPatient</h1>
-          <p className="auth-brand-subtitle">
-            Unisciti alla nostra piattaforma di allenamento con pazienti
-            virtuali. Inizia la tua esperienza qui.
-          </p>
-        </div>
-      </div>
+    <div className="unified-auth-container">
+      <div className="unified-auth-form-wrapper">
+        <h2 className="unified-auth-form-title">Registrazione</h2>
+        <p className="unified-auth-form-subtitle">
+          Unisciti alla nostra piattaforma di allenamento con pazienti virtuali
+        </p>
+          <form onSubmit={handleSubmit}>
+            {/* Global Error Message */}
+            {error && (
+              <div className="unified-form-error">
+                <XMarkIcon className="unified-form-error-icon" />
+                <div className="unified-form-error-text">{error}</div>
+              </div>
+            )}
 
-      {/* Right Side - Registration Form */}
-      <div className="auth-form-section">
-        <div className="auth-form-container">
-          <div className="auth-form-card">
-            <h2 className="auth-form-title">Registrazione</h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Global Error Message */}
-              {error && (
-                <div className="message message-error message-large">
-                  <div className="message-icon">
-                    <XMarkIcon className="h-5 w-5" />
-                  </div>
-                  <div className="message-content">
-                    <div className="message-text">{error}</div>
-                  </div>
+            {/* Name Field */}
+            <div className="unified-form-group">
+              <label htmlFor="name" className="unified-form-label">
+                Nome completo
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                autoComplete="name"
+                required
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  if (nameError) validateName(e.target.value);
+                }}
+                onBlur={() => validateName(name)}
+                className={`unified-form-input ${nameError ? "unified-form-input-error" : ""}`}
+                placeholder="Il tuo nome completo"
+                aria-describedby={nameError ? "name-error" : undefined}
+                aria-invalid={!!nameError}
+              />
+              {nameError && (
+                <div
+                  id="name-error"
+                  className="unified-form-error"
+                  role="alert"
+                >
+                  <XMarkIcon className="unified-form-error-icon" />
+                  <div className="unified-form-error-text">{nameError}</div>
                 </div>
               )}
+            </div>
 
-              {/* Name Field */}
-              <div className="auth-input-group">
-                <label htmlFor="name" className="auth-label">
-                  Nome completo
-                </label>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    if (nameError) validateName(e.target.value);
-                  }}
-                  onBlur={() => validateName(name)}
-                  className={`auth-input ${nameError ? "auth-input-error" : ""}`}
-                  placeholder="Il tuo nome completo"
-                  aria-describedby={nameError ? "name-error" : undefined}
-                  aria-invalid={!!nameError}
-                />
-                {nameError && (
-                  <div
-                    id="name-error"
-                    className="message message-error message-inline"
-                    role="alert"
-                  >
-                    <div className="message-icon">
-                      <XMarkIcon className="h-4 w-4" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{nameError}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Email Field */}
-              <div className="auth-input-group">
-                <label htmlFor="email" className="auth-label">
-                  E-mail
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    if (emailError) validateEmail(e.target.value);
-                  }}
-                  onBlur={() => validateEmail(email)}
-                  className={`auth-input ${emailError ? "auth-input-error" : ""}`}
-                  placeholder="La tua e-mail"
-                  aria-describedby={emailError ? "email-error" : undefined}
-                  aria-invalid={!!emailError}
-                />
-                {emailError && (
-                  <div
-                    id="email-error"
-                    className="message message-error message-inline"
-                    role="alert"
-                  >
-                    <div className="message-icon">
-                      <XMarkIcon className="h-4 w-4" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{emailError}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Password Field */}
-              <div className="auth-input-group">
-                <label htmlFor="password" className="auth-label">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (passwordError) validatePassword(e.target.value);
-                    if (confirmPassword && confirmPasswordError) {
-                      validateConfirmPassword(confirmPassword);
-                    }
-                  }}
-                  onBlur={() => validatePassword(password)}
-                  className={`auth-input ${passwordError ? "auth-input-error" : ""}`}
-                  placeholder="La tua password"
-                  aria-describedby={
-                    passwordError ? "password-error" : undefined
-                  }
-                  aria-invalid={!!passwordError}
-                />
-                {passwordError && (
-                  <div
-                    id="password-error"
-                    className="message message-error message-inline"
-                    role="alert"
-                  >
-                    <div className="message-icon">
-                      <XMarkIcon className="h-4 w-4" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{passwordError}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Confirm Password Field */}
-              <div className="auth-input-group">
-                <label htmlFor="confirmPassword" className="auth-label">
-                  Conferma password
-                </label>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value);
-                    if (confirmPasswordError)
-                      validateConfirmPassword(e.target.value);
-                  }}
-                  onBlur={() => validateConfirmPassword(confirmPassword)}
-                  className={`auth-input ${confirmPasswordError ? "auth-input-error" : ""}`}
-                  placeholder="Conferma la tua password"
-                  aria-describedby={
-                    confirmPasswordError ? "confirm-password-error" : undefined
-                  }
-                  aria-invalid={!!confirmPasswordError}
-                />
-                {confirmPasswordError && (
-                  <div
-                    id="confirm-password-error"
-                    className="message message-error message-inline"
-                    role="alert"
-                  >
-                    <div className="message-icon">
-                      <XMarkIcon className="h-4 w-4" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{confirmPasswordError}</div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Terms and Conditions */}
-              <div className="auth-input-group">
-                <div className="flex items-start">
-                  <input
-                    id="accept-terms"
-                    name="accept-terms"
-                    type="checkbox"
-                    checked={acceptTerms}
-                    onChange={(e) => {
-                      setAcceptTerms(e.target.checked);
-                      if (termsError) validateTerms(e.target.checked);
-                    }}
-                    className="auth-checkbox mt-1"
-                  />
-                  <label
-                    htmlFor="accept-terms"
-                    className="text-text-secondary ml-2 text-sm"
-                  >
-                    Accetto i{" "}
-                    <Link href="/terms" className="auth-link">
-                      termini e condizioni
-                    </Link>{" "}
-                    e la{" "}
-                    <Link href="/privacy" className="auth-link">
-                      privacy policy
-                    </Link>
-                  </label>
+            {/* Email Field */}
+            <div className="unified-form-group">
+              <label htmlFor="email" className="unified-form-label">
+                E-mail
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  if (emailError) validateEmail(e.target.value);
+                }}
+                onBlur={() => validateEmail(email)}
+                className={`unified-form-input ${emailError ? "unified-form-input-error" : ""}`}
+                placeholder="La tua e-mail"
+                aria-describedby={emailError ? "email-error" : undefined}
+                aria-invalid={!!emailError}
+              />
+              {emailError && (
+                <div
+                  id="email-error"
+                  className="unified-form-error"
+                  role="alert"
+                >
+                  <XMarkIcon className="unified-form-error-icon" />
+                  <div className="unified-form-error-text">{emailError}</div>
                 </div>
-                {termsError && (
-                  <div
-                    className="message message-error message-inline"
-                    role="alert"
-                  >
-                    <div className="message-icon">
-                      <XMarkIcon className="h-4 w-4" />
-                    </div>
-                    <div className="message-content">
-                      <div className="message-text">{termsError}</div>
-                    </div>
-                  </div>
-                )}
+              )}
+            </div>
+
+            {/* Password Field */}
+            <div className="unified-form-group">
+              <label htmlFor="password" className="unified-form-label">
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  if (passwordError) validatePassword(e.target.value);
+                  if (confirmPassword && confirmPasswordError) {
+                    validateConfirmPassword(confirmPassword);
+                  }
+                }}
+                onBlur={() => validatePassword(password)}
+                className={`unified-form-input ${passwordError ? "unified-form-input-error" : ""}`}
+                placeholder="La tua password"
+                aria-describedby={
+                  passwordError ? "password-error" : undefined
+                }
+                aria-invalid={!!passwordError}
+              />
+              {passwordError && (
+                <div
+                  id="password-error"
+                  className="unified-form-error"
+                  role="alert"
+                >
+                  <XMarkIcon className="unified-form-error-icon" />
+                  <div className="unified-form-error-text">{passwordError}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Confirm Password Field */}
+            <div className="unified-form-group">
+              <label htmlFor="confirmPassword" className="unified-form-label">
+                Conferma password
+              </label>
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                autoComplete="new-password"
+                required
+                value={confirmPassword}
+                onChange={(e) => {
+                  setConfirmPassword(e.target.value);
+                  if (confirmPasswordError)
+                    validateConfirmPassword(e.target.value);
+                }}
+                onBlur={() => validateConfirmPassword(confirmPassword)}
+                className={`unified-form-input ${confirmPasswordError ? "unified-form-input-error" : ""}`}
+                placeholder="Conferma la tua password"
+                aria-describedby={
+                  confirmPasswordError ? "confirm-password-error" : undefined
+                }
+                aria-invalid={!!confirmPasswordError}
+              />
+              {confirmPasswordError && (
+                <div
+                  id="confirm-password-error"
+                  className="unified-form-error"
+                  role="alert"
+                >
+                  <XMarkIcon className="unified-form-error-icon" />
+                  <div className="unified-form-error-text">{confirmPasswordError}</div>
+                </div>
+              )}
+            </div>
+
+            {/* Terms and Conditions */}
+            <div className="unified-form-group">
+              <div className="flex items-start">
+                <input
+                  id="accept-terms"
+                  name="accept-terms"
+                  type="checkbox"
+                  checked={acceptTerms}
+                  onChange={(e) => {
+                    setAcceptTerms(e.target.checked);
+                    if (termsError) validateTerms(e.target.checked);
+                  }}
+                  className="unified-form-checkbox mt-1"
+                />
+                <label
+                  htmlFor="accept-terms"
+                  className="unified-form-text-muted ml-2 text-sm"
+                >
+                  Accetto i{" "}
+                  <Link href="/terms" className="unified-form-link">
+                    termini e condizioni
+                  </Link>{" "}
+                  e la{" "}
+                  <Link href="/privacy" className="unified-form-link">
+                    privacy policy
+                  </Link>
+                </label>
               </div>
+              {termsError && (
+                <div
+                  className="unified-form-error"
+                  role="alert"
+                >
+                  <XMarkIcon className="unified-form-error-icon" />
+                  <div className="unified-form-error-text">{termsError}</div>
+                </div>
+              )}
+            </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isLoading}
-                variant="primary"
-                size="default"
-                className="auth-submit-btn"
-                aria-label="Registra il tuo account"
-              >
-                {isLoading ? (
-                  <>
-                    <div className="auth-spinner"></div>
-                    Registrazione in corso...
-                  </>
-                ) : (
-                  "Registrati"
-                )}
-              </Button>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="unified-form-submit"
+              aria-label="Registra il tuo account"
+            >
+              {isLoading ? (
+                <>
+                  <div className="unified-form-spinner"></div>
+                  Registrazione in corso...
+                </>
+              ) : (
+                "Registrati"
+              )}
+            </button>
 
-              {/* Login Link */}
-              <div className="mt-4 text-center">
-                <span className="auth-text-muted text-sm">
+            {/* Login Link */}
+            <div className="unified-form-actions unified-form-actions-center">
+              <div className="unified-form-actions-row">
+                <span className="unified-form-text-muted text-sm">
                   Hai gia un account?{" "}
                 </span>
-                <Link href="/login" className="auth-link text-sm">
+                <Link href="/login" className="unified-form-link text-sm">
                   Accedi qui
                 </Link>
               </div>
-            </form>
-          </div>
-        </div>
+            </div>
+          </form>
       </div>
     </div>
   );

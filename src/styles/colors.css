@@ -52,6 +52,19 @@ navbar: 131313
   /* Component Spacing */
   --component-padding: 1rem;
   --component-margin: 0.5rem;
+  
+  /* Primary Brand Colors */
+  --color-primary-green: #8B9769;
+  --color-primary-yellow: #C69A39;
+  --color-primary-violet: #9690B6;
+  
+  /* Background Colors */
+  --color-background-dark: #1E1E1E;
+  --color-navbar-dark: #131313;
+  --color-page-background: #232723;
+  
+  /* Text Colors */
+  --color-text-primary: #ECECEC;
 }
 
 /* Theme inline overrides */

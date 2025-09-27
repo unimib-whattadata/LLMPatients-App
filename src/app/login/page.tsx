@@ -330,81 +330,64 @@ function LoginPageComponent() {
   };
 
   return (
-    <div className="auth-container">
-      {/* Left Side - Branding */}
-      <div className="auth-brand-section">
-        <div className="auth-brand-content">
-          <h1 className="auth-brand-title">LLMPatient</h1>
-          <p className="auth-brand-subtitle">
-            Un ambiente sicuro per allenarti con pazienti virtuali. Inizia da
-            qui.
-          </p>
-        </div>
-      </div>
-
-      {/* Right Side - Login Form */}
-      <div className="auth-form-section">
-        <div className="auth-form-container">
+    <div className="unified-auth-container">
+      <div className="unified-auth-form-wrapper">
           {/* Success State - Show redirect countdown */}
           {loginState.phase === "success" ||
           loginState.phase === "redirecting" ? (
-            <Card className="w-full max-w-md mx-auto">
-              <CardContent className="text-center pt-6">
-                <div className="mb-6">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                    <CheckIcon className="h-8 w-8 text-green-600" />
-                  </div>
-                  <CardTitle className="mb-2 text-2xl">
-                    Login Successful!
-                  </CardTitle>
-                  <CardDescription className="mb-6">
-                    Welcome back! You&apos;re being redirected to your dashboard.
-                  </CardDescription>
-
-                  <Alert className="mb-6">
-                    <AlertDescription>
-                      Redirecting in {loginState.redirectCountdown} second
-                      {loginState.redirectCountdown !== 1 ? "s" : ""}...
-                    </AlertDescription>
-                  </Alert>
-
-                  <Button
-                    onClick={() =>
-                      !loginState.isNavigating && navigate(callbackUrl)
-                    }
-                    disabled={loginState.isNavigating}
-                    size="sm"
-                  >
-                    {loginState.isNavigating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {loginState.isNavigating ? "Redirecting..." : "Go Now"}
-                  </Button>
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                  <CheckIcon className="h-8 w-8 text-green-600" />
                 </div>
-              </CardContent>
-            </Card>
+                <h2 className="unified-auth-form-title mb-2">
+                  Login Successful!
+                </h2>
+                <p className="unified-auth-form-subtitle mb-6">
+                  Welcome back! You&apos;re being redirected to your dashboard.
+                </p>
+
+                <div className="unified-form-error mb-6">
+                  <div className="unified-form-error-text">
+                    Redirecting in {loginState.redirectCountdown} second
+                    {loginState.redirectCountdown !== 1 ? "s" : ""}...
+                  </div>
+                </div>
+
+                <button
+                  onClick={() =>
+                    !loginState.isNavigating && navigate(callbackUrl)
+                  }
+                  disabled={loginState.isNavigating}
+                  className="unified-form-submit"
+                >
+                  {loginState.isNavigating && <div className="unified-form-spinner"></div>}
+                  {loginState.isNavigating ? "Redirecting..." : "Go Now"}
+                </button>
+              </div>
+            </div>
           ) : (
             /* Normal Login Form */
-            <Card className="w-full max-w-md mx-auto">
-              <CardHeader>
-                <CardTitle>Login</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <h2 className="unified-auth-form-title">Login</h2>
+              <p className="unified-auth-form-subtitle">
+                Accedi al tuo account per continuare
+              </p>
+              <form onSubmit={handleSubmit}>
                 {/* Global Error Message */}
                 {loginState.error && (
-                  <Alert variant="destructive">
-                    <XMarkIcon className="h-4 w-4" />
-                    <AlertDescription>
-                      {loginState.error}
-                    </AlertDescription>
-                  </Alert>
+                  <div className="unified-form-error">
+                    <XMarkIcon className="unified-form-error-icon" />
+                    <div className="unified-form-error-text">{loginState.error}</div>
+                  </div>
                 )}
 
                 {/* Email Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="email">
+                <div className="unified-form-group">
+                  <label htmlFor="email" className="unified-form-label">
                     E-mail
-                  </Label>
-                  <Input
+                  </label>
+                  <input
                     id="email"
                     name="email"
                     type="email"
@@ -424,25 +407,27 @@ function LoginPageComponent() {
                       loginState.emailError ? "email-error" : undefined
                     }
                     aria-invalid={!!loginState.emailError}
-                    className={loginState.emailError ? "border-destructive" : ""}
+                    className={`unified-form-input ${loginState.emailError ? "unified-form-input-error" : ""}`}
                   />
                   {loginState.emailError && (
-                    <Alert variant="destructive" className="py-2">
-                      <XMarkIcon className="h-4 w-4" />
-                      <AlertDescription className="text-sm">
-                        {loginState.emailError}
-                      </AlertDescription>
-                    </Alert>
+                    <div
+                      id="email-error"
+                      className="unified-form-error"
+                      role="alert"
+                    >
+                      <XMarkIcon className="unified-form-error-icon" />
+                      <div className="unified-form-error-text">{loginState.emailError}</div>
+                    </div>
                   )}
                 </div>
 
                 {/* Password Field */}
-                <div className="space-y-2">
-                  <Label htmlFor="password">
+                <div className="unified-form-group">
+                  <label htmlFor="password" className="unified-form-label">
                     Password
-                  </Label>
+                  </label>
                   <div className="relative">
-                    <Input
+                    <input
                       id="password"
                       name="password"
                       type="password"
@@ -463,12 +448,10 @@ function LoginPageComponent() {
                         loginState.passwordError ? "password-error" : undefined
                       }
                       aria-invalid={!!loginState.passwordError}
-                      className={`pr-12 ${loginState.passwordError ? "border-destructive" : ""}`}
+                      className={`unified-form-input pr-12 ${loginState.passwordError ? "unified-form-input-error" : ""}`}
                     />
-                    <Button
+                    <button
                       type="button"
-                      variant="ghost"
-                      size="icon"
                       className="absolute inset-y-0 right-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => {
                         const input = document.getElementById(
@@ -482,15 +465,17 @@ function LoginPageComponent() {
                       }}
                     >
                       <EyeIcon className="h-4 w-4 text-muted-foreground" />
-                    </Button>
+                    </button>
                   </div>
                   {loginState.passwordError && (
-                    <Alert variant="destructive" className="py-2">
-                      <XMarkIcon className="h-4 w-4" />
-                      <AlertDescription className="text-sm">
-                        {loginState.passwordError}
-                      </AlertDescription>
-                    </Alert>
+                    <div
+                      id="password-error"
+                      className="unified-form-error"
+                      role="alert"
+                    >
+                      <XMarkIcon className="unified-form-error-icon" />
+                      <div className="unified-form-error-text">{loginState.passwordError}</div>
+                    </div>
                   )}
                 </div>
 
@@ -507,29 +492,29 @@ function LoginPageComponent() {
                         rememberMe: e.target.checked,
                       }))
                     }
-                    className="auth-checkbox"
+                    className="unified-form-checkbox"
                   />
                   <label
                     htmlFor="remember-me"
-                    className="text-text-secondary ml-2 text-sm"
+                    className="unified-form-text-muted ml-2 text-sm"
                   >
                     Ricordami al prossimo accesso
                   </label>
                 </div>
 
                 {/* Submit Button */}
-                <Button
+                <button
                   type="submit"
                   disabled={
                     ["authenticating", "redirecting"].includes(
                       loginState.phase,
                     ) || loginState.isNavigating
                   }
-                  className="w-full"
+                  className="unified-form-submit"
                   aria-label="Accedi al tuo account"
                 >
                   {(["authenticating", "redirecting"].includes(loginState.phase) || loginState.isNavigating) && 
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <div className="unified-form-spinner"></div>
                   }
                   {(() => {
                     const phase = loginState.phase as LoginState["phase"];
@@ -538,34 +523,30 @@ function LoginPageComponent() {
                     if (phase === "redirecting") return "Reindirizzamento...";
                     return "Accedi";
                   })()}
-                </Button>
+                </button>
 
                 {/* Register Link */}
-                <div className="text-center">
-                  <span className="text-muted-foreground text-sm">o </span>
-                  <Button asChild variant="link" className="p-0 h-auto text-sm">
-                    <Link href="/register">
+                <div className="unified-form-actions unified-form-actions-center">
+                  <div className="unified-form-actions-row">
+                    <span className="unified-form-text-muted text-sm">o </span>
+                    <Link href="/register" className="unified-form-link text-sm">
                       registrati
                     </Link>
-                  </Button>
-                  <span className="text-muted-foreground text-sm"> subito</span>
+                    <span className="unified-form-text-muted text-sm"> subito</span>
+                  </div>
                 </div>
 
-                <Separator />
+                <hr className="unified-form-divider" />
 
                 {/* Forgot Password */}
-                <div className="text-center">
-                  <Button asChild variant="link" className="text-sm">
-                    <Link href="/forgot-password">
-                      Hai dimenticato la password?
-                    </Link>
-                  </Button>
+                <div className="unified-form-actions unified-form-actions-center">
+                  <Link href="/forgot-password" className="unified-form-link text-sm">
+                    Hai dimenticato la password?
+                  </Link>
                 </div>
               </form>
-            </CardContent>
-          </Card>
+            </div>
           )}
-        </div>
       </div>
     </div>
   );
