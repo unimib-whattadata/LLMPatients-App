@@ -7,7 +7,7 @@
  * by checking environment variables, database connectivity, and auth configuration.
  * 
  * Usage:
- *   pnpm run diagnose-auth
+ *   pnpm run auth:diagnose
  *   or
  *   npx tsx scripts/diagnose-auth.ts
  *   or
