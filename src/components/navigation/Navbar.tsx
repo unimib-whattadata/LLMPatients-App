@@ -164,16 +164,6 @@ export function Navbar({
               )}
             </button>
 
-            {/* Desktop sidebar toggle */}
-            {showSidebar && (
-              <button
-                onClick={onSidebarToggle}
-                className="text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 focus:ring-text-primary/20 hidden rounded-md p-2 focus:ring-2 focus:outline-none lg:block"
-                aria-label="Toggle sidebar"
-              >
-                <Bars3BottomLeftIcon className="h-5 w-5" />
-              </button>
-            )}
 
             {/* Logo */}
             <Link

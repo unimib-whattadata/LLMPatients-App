@@ -828,9 +828,9 @@
   .sidebar-container {
     flex-shrink: 0;
     position: fixed;
-    top: 0;
+    top: 74px; /* Position below navbar */
     left: 0;
-    height: 100vh;
+    height: calc(100vh - 74px); /* Adjust height to account for navbar */
     z-index: 30;
   }
 
@@ -867,9 +867,9 @@
 
   .dashboard-sidebar {
     width: 16rem;
-    height: 100vh;
+    height: calc(100vh - 74px); /* Adjust height to account for navbar */
     position: fixed;
-    top: 0;
+    top: 74px; /* Position below navbar */
     left: 0;
     display: flex;
     flex-direction: column;
@@ -878,84 +878,14 @@
     --sidebar-width: 16rem;
   }
 
-  .dashboard-sidebar.collapsed {
-    width: 4rem;
-    padding: var(--space-md) 0;
-    --sidebar-width: 4rem;
-  }
-
-  .dashboard-sidebar.collapsed .nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-sm);
-    margin: 0 var(--space-sm);
-    min-height: 2.5rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 0.5rem;
-  }
-
-  .dashboard-sidebar.collapsed .nav-item .w-5 {
-    margin-right: 0 !important;
-    width: 1.25rem;
-    height: 1.25rem;
-  }
-
-  .dashboard-sidebar.collapsed .nav-item:hover {
-  }
-
-  .dashboard-sidebar.collapsed .nav-item.active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .dashboard-sidebar.collapsed .nav-item.active:hover {
-  }
-
-  /* Collapsed sidebar toggle button */
-  .dashboard-sidebar.collapsed .p-2 {
-    padding: 0.5rem;
-  }
-
-  .dashboard-sidebar.collapsed button[aria-label*="sidebar"] {
-  }
-
-  .dashboard-sidebar.collapsed button[aria-label*="sidebar"]:hover {
-  }
-
-  /* Ensure proper spacing and visibility in collapsed sidebar */
-  .dashboard-sidebar.collapsed .nav-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .dashboard-sidebar.collapsed .nav-list li {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Improve icon visibility */
-  .dashboard-sidebar.collapsed .nav-item svg {
-    color: inherit;
-    opacity: 1;
-  }
-
-  .dashboard-sidebar.collapsed .nav-item:hover svg {
-  }
-
-  .dashboard-sidebar.collapsed .nav-item.active svg {
-  }
 
   /* Mobile sidebar behavior */
   @media (max-width: 1024px) {
     .sidebar-container {
       position: fixed;
-      top: 0;
+      top: 74px; /* Position below navbar */
       left: 0;
-      height: 100vh;
+      height: calc(100vh - 74px); /* Adjust height to account for navbar */
       z-index: 50;
       transform: translateX(-100%);
     }
@@ -976,11 +906,7 @@
 
     .dashboard-sidebar {
       position: relative;
-      width: 16rem; /* Keep full width on mobile even when "collapsed" */
-    }
-
-    .dashboard-sidebar.collapsed {
-      width: 16rem; /* Keep full width on mobile even when "collapsed" */
+      width: 16rem;
     }
 
     .content-container.with-sidebar {

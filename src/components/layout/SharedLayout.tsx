@@ -61,15 +61,11 @@ export function SharedLayout({
   layoutType,
   currentPage = "",
 }: SharedLayoutProps) {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   useEffect(() => {
-    if (!isDesktop) {
-      setSidebarCollapsed(true);
-    }
     setMobileSidebarOpen(false);
   }, [isDesktop]);
 
@@ -127,51 +123,18 @@ export function SharedLayout({
 
     return (
       <aside
-        className={`dashboard-sidebar ${sidebarCollapsed ? "collapsed" : ""}`}
+        className="dashboard-sidebar"
         role="complementary"
         aria-label="Dashboard navigation"
       >
-        {/* Sidebar Header */}
-        <div className={`${sidebarCollapsed ? "p-2" : "p-4"}`}>
-          <div className="flex items-center justify-between">
-            {!sidebarCollapsed && (
-              <h2
-                className="text-text-primary text-lg font-semibold"
-                id="sidebar-heading"
-              >
-                {impersonation?.isImpersonating
-                  ? "Area Personale"
-                  : user?.role === "admin"
-                    ? "Amministrazione"
-                    : "Area Personale"}
-              </h2>
-            )}
-            <button
-              onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-              className={`${sidebarCollapsed ? "bg-background-tertiary border-border-primary border p-2" : "p-1.5"} text-text-tertiary hover:text-text-primary hover:bg-background-tertiary focus:ring-primary-500 hidden rounded-md focus:ring-2 focus:outline-none lg:block`}
-              aria-label={
-                sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"
-              }
-              aria-expanded={!sidebarCollapsed}
-              aria-controls="sidebar-navigation"
-            >
-              <ChevronLeftIcon
-                className={`h-4 w-4 ${sidebarCollapsed ? "rotate-180" : ""}`}
-                aria-hidden="true"
-              />
-            </button>
-          </div>
-        </div>
-
         {/* Navigation */}
         <nav
-          className={`flex-1 ${sidebarCollapsed ? "px-2 py-4" : "px-4 py-6"} space-y-2`}
+          className="flex-1 px-4 py-6 space-y-2"
           id="sidebar-navigation"
-          aria-labelledby="sidebar-heading"
           role="navigation"
         >
           {/* Navigation Section Label */}
-          {!sidebarCollapsed && impersonation?.isImpersonating && (
+          {impersonation?.isImpersonating && (
             <p
               className="text-text-tertiary mb-4 text-xs font-semibold tracking-wider uppercase"
               role="heading"
@@ -184,59 +147,30 @@ export function SharedLayout({
           {/* Navigation Sections */}
           {navSections.map((section, sectionIndex) => (
             <div key={section.title} className={sectionIndex > 0 ? "mt-6" : ""}>
-              {!sidebarCollapsed && (
-                <h3
-                  className="text-text-tertiary mb-3 px-3 text-xs font-semibold tracking-wider uppercase"
-                  role="heading"
-                  aria-level={3}
-                >
-                  {section.title}
-                </h3>
-              )}
+              <h3
+                className="text-text-tertiary mb-3 px-3 text-xs font-semibold tracking-wider uppercase"
+                role="heading"
+                aria-level={3}
+              >
+                {section.title}
+              </h3>
               <ul className="nav-list" role="list">
-                {section.items.map((item: NavItem, itemIndex: number) => {
+                {section.items.map((item: NavItem) => {
                   const isActive =
                     currentPage === item.href || pathname === item.href;
-                  const globalIndex =
-                    navSections
-                      .slice(0, sectionIndex)
-                      .reduce((acc, s) => acc + s.items.length, 0) + itemIndex;
                   return (
                     <li key={item.href} role="listitem">
-                      <div className="group relative">
-                        <Link
-                          href={item.href}
-                          className={`nav-item ${isActive ? "active" : ""}`}
-                          title={sidebarCollapsed ? item.label : undefined}
-                          aria-current={isActive ? "page" : undefined}
-                          aria-describedby={
-                            sidebarCollapsed
-                              ? `tooltip-${globalIndex}`
-                              : undefined
-                          }
-                        >
-                          <item.icon
-                            className="mr-3 h-5 w-5 flex-shrink-0"
-                            aria-hidden="true"
-                          />
-                          {!sidebarCollapsed && (
-                            <span className="truncate">{item.label}</span>
-                          )}
-                        </Link>
-
-                        {/* Tooltip for collapsed state */}
-                        {sidebarCollapsed && (
-                          <div
-                            id={`tooltip-${globalIndex}`}
-                            className="bg-background-primary pointer-events-none absolute top-1/2 left-16 z-50 -translate-y-1/2 transform rounded-lg px-3 py-2 text-sm whitespace-nowrap text-white opacity-0 shadow-lg group-hover:opacity-100"
-                            role="tooltip"
-                            aria-hidden="true"
-                          >
-                            {item.label}
-                            <div className="bg-background-primary absolute top-1/2 left-0 h-2 w-2 -translate-x-1 -translate-y-1/2 rotate-45 transform"></div>
-                          </div>
-                        )}
-                      </div>
+                      <Link
+                        href={item.href}
+                        className={`nav-item ${isActive ? "active" : ""}`}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        <item.icon
+                          className="mr-3 h-5 w-5 flex-shrink-0"
+                          aria-hidden="true"
+                        />
+                        <span className="truncate">{item.label}</span>
+                      </Link>
                     </li>
                   );
                 })}
@@ -246,40 +180,38 @@ export function SharedLayout({
         </nav>
 
         {/* User Info Footer */}
-        {!sidebarCollapsed && (
-          <div
-            className="bg-background-secondary p-4"
-            role="contentinfo"
-            aria-label="User information"
-          >
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div
-                  className="bg-background-tertiary flex h-8 w-8 items-center justify-center rounded-full"
-                  role="img"
-                  aria-label={`${displayUser?.name ?? "User"} avatar`}
+        <div
+          className="bg-background-secondary p-4"
+          role="contentinfo"
+          aria-label="User information"
+        >
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <div
+                className="bg-background-tertiary flex h-8 w-8 items-center justify-center rounded-full"
+                role="img"
+                aria-label={`${displayUser?.name ?? "User"} avatar`}
+              >
+                <span
+                  className="text-text-primary text-sm font-medium"
+                  aria-hidden="true"
                 >
-                  <span
-                    className="text-text-primary text-sm font-medium"
-                    aria-hidden="true"
-                  >
-                    {(displayUser?.name ?? displayUser?.email ?? "U")
-                      .charAt(0)
-                      .toUpperCase()}
-                  </span>
-                </div>
-              </div>
-              <div className="ml-3 min-w-0 flex-1">
-                <p className="text-text-primary truncate text-sm font-medium">
-                  {displayUser?.name ?? "User"}
-                </p>
-                <p className="text-text-tertiary truncate text-xs">
-                  {displayUser?.email}
-                </p>
+                  {(displayUser?.name ?? displayUser?.email ?? "U")
+                    .charAt(0)
+                    .toUpperCase()}
+                </span>
               </div>
             </div>
+            <div className="ml-3 min-w-0 flex-1">
+              <p className="text-text-primary truncate text-sm font-medium">
+                {displayUser?.name ?? "User"}
+              </p>
+              <p className="text-text-tertiary truncate text-xs">
+                {displayUser?.email}
+              </p>
+            </div>
           </div>
-        )}
+        </div>
       </aside>
     );
   };
@@ -322,13 +254,9 @@ export function SharedLayout({
         currentPage={currentPage}
         onSidebarToggle={() => {
           if (!layoutConfig.showSidebar) return;
-          if (isDesktop) {
-            setSidebarCollapsed((prev) => !prev);
-            return;
-          }
           setMobileSidebarOpen((prev) => !prev);
         }}
-        sidebarCollapsed={sidebarCollapsed}
+        sidebarCollapsed={false}
         showSidebar={layoutConfig.showSidebar}
       />
 
@@ -341,9 +269,7 @@ export function SharedLayout({
           <div
             className={`sidebar-container ${mobileSidebarOpen ? "mobile-open" : ""}`}
           >
-            <nav role="navigation" aria-label="Main navigation">
-              {renderSidebar()}
-            </nav>
+            {renderSidebar()}
           </div>
         )}
 
