@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatTypingIndicator } from "@/components/ui/TypingIndicator";
 import { LoadingSpinner } from "@/components/ui";
-import { ArrowLeft, Send, User as UserIcon } from "lucide-react";
+import { ArrowLeftIcon, PaperAirplaneIcon, UserIcon } from "@heroicons/react/24/outline";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -392,7 +392,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             <Button
               onClick={goBack}
             >
-              <ArrowLeft className="mr-2 h-4 w-4" />
+              <ArrowLeftIcon className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
           </div>
@@ -430,7 +430,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   e.currentTarget.style.backgroundColor = "transparent";
                 }}
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeftIcon className="h-4 w-4" />
               </Button>
               <div>
                 <h1
@@ -567,7 +567,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     }
                   }}
                 >
-                  <Send className="h-4 w-4" />
+                  <PaperAirplaneIcon className="h-4 w-4" />
                 </Button>
               </div>
             </div>
