@@ -7,6 +7,7 @@
 "use client";
 
 import { memo } from "react";
+import { Button } from "~/components/ui/button";
 
 interface TherapySessionFiltersProps {
   activeFilter: string;
@@ -31,17 +32,19 @@ function TherapySessionFiltersComponent({
       aria-label="Filtri percorsi terapeutici"
     >
       {FILTER_OPTIONS.map((tab) => (
-        <button
+        <Button
           key={tab.key}
           onClick={() => onFilterChange(tab.key)}
           role="tab"
           aria-selected={activeFilter === tab.key}
+          variant={activeFilter === tab.key ? "primary" : "outline-primary"}
+          size="sm"
           className={`pill pill--interactive dashboard-pill-nav__button ${
             activeFilter === tab.key ? "is-active" : ""
           }`}
         >
           {tab.label}
-        </button>
+        </Button>
       ))}
     </div>
   );

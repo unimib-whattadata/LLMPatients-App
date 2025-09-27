@@ -13,6 +13,7 @@ import {
   getDifficultyLabel,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
+import { Button } from "~/components/ui/button";
 
 interface Simulation {
   id: string;
@@ -205,15 +206,17 @@ function MySimulationsContentComponent() {
             { key: "in-progress", label: "In corso" },
             { key: "completed", label: "Completate" },
           ].map((tab) => (
-            <button
+            <Button
               key={tab.key}
               onClick={() => handleFilterChange(tab.key)}
               role="tab"
               aria-selected={filter === tab.key}
+              variant={filter === tab.key ? "primary" : "outline-primary"}
+              size="sm"
               className={`pill pill--interactive dashboard-pill-nav__button ${filter === tab.key ? "is-active" : ""}`}
             >
               {tab.label}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -299,23 +302,23 @@ function MySimulationsContentComponent() {
 
                   <div className="mt-6">
                     {simulation.status === "available" && (
-                      <button className="btn btn-primary w-full">
+                      <Button variant="primary" size="default" className="w-full">
                         Inizia Simulazione
-                      </button>
+                      </Button>
                     )}
                     {simulation.status === "in-progress" && (
-                      <button className="btn btn-secondary w-full">
+                      <Button variant="secondary" size="default" className="w-full">
                         Continua
-                      </button>
+                      </Button>
                     )}
                     {simulation.status === "completed" && (
                       <div className="flex gap-2">
-                        <button className="btn btn-outline flex-1">
+                        <Button variant="outline" size="default" className="flex-1">
                           Rivedi
-                        </button>
-                        <button className="btn btn-success flex-1">
+                        </Button>
+                        <Button variant="primary" size="default" className="flex-1">
                           Ripeti
-                        </button>
+                        </Button>
                       </div>
                     )}
                   </div>

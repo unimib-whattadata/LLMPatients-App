@@ -483,3 +483,18 @@ img {
     @apply bg-background text-foreground;
   }
 }
+
+/* Global text color override */
+* {
+  color: var(--color-text-primary) !important;
+}
+
+/* Global background color override */
+html, body {
+  background-color: var(--color-page-background) !important;
+}
+
+/* Global button background color override */
+button, .btn, [role="button"], input[type="button"], input[type="submit"] {
+  background-color: var(--color-primary-green) !important;
+}

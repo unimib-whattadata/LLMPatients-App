@@ -6,6 +6,7 @@ import {
   getDifficultyLabel,
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
+import { Button } from "~/components/ui/button";
 
 interface Evaluation {
   id: string;
@@ -267,12 +268,14 @@ export function MyEvaluationsContent() {
                 </div>
 
                 <div className="mt-auto">
-                  <button
-                    className="btn btn-primary w-full"
+                  <Button
+                    variant="primary"
+                    size="default"
+                    className="w-full"
                     onClick={() => setSelectedEvaluation(evaluation.id)}
                   >
                     Visualizza Dettagli
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
@@ -309,12 +312,14 @@ export function MyEvaluationsContent() {
                         <span>{evaluation.completedAt}</span>
                       </div>
                     </div>
-                    <button
+                    <Button
                       onClick={() => setSelectedEvaluation(null)}
+                      variant="ghost"
+                      size="icon"
                       className="text-text-tertiary hover:text-text-primary"
                     >
                       ✕
-                    </button>
+                    </Button>
                   </div>
 
                   <div className="mb-6">
@@ -359,15 +364,17 @@ export function MyEvaluationsContent() {
                   </div>
 
                   <div className="flex gap-2 pt-4">
-                    <button className="btn btn-outline flex-1">
+                    <Button variant="outline-primary" size="default" className="flex-1">
                       Ripeti Simulazione
-                    </button>
-                    <button
-                      className="btn btn-primary flex-1"
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="default"
+                      className="flex-1"
                       onClick={() => setSelectedEvaluation(null)}
                     >
                       Chiudi
-                    </button>
+                    </Button>
                   </div>
                 </>
               );

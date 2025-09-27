@@ -8,6 +8,7 @@ import {
   ExclamationTriangleIcon,
   InformationCircleIcon,
 } from "@heroicons/react/24/outline";
+import { Button } from "~/components/ui/button";
 
 export interface ToastMessage {
   id: string;
@@ -99,13 +100,15 @@ const Toast = ({ toast, onClose }: ToastProps) => {
           {toast.message && <div className="message-text">{toast.message}</div>}
         </div>
 
-        <button
+        <Button
           onClick={handleClose}
+          variant="ghost"
+          size="icon"
           className="message-dismiss"
           aria-label="Close notification"
         >
           <XMarkIcon className="h-4 w-4" />
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { Button } from "~/components/ui/button";
 
 /**
  * Register Page Component
@@ -421,9 +422,11 @@ export default function RegisterPage() {
               </div>
 
               {/* Submit Button */}
-              <button
+              <Button
                 type="submit"
                 disabled={isLoading}
+                variant="primary"
+                size="default"
                 className="auth-submit-btn"
                 aria-label="Registra il tuo account"
               >
@@ -435,7 +438,7 @@ export default function RegisterPage() {
                 ) : (
                   "Registrati"
                 )}
-              </button>
+              </Button>
 
               {/* Login Link */}
               <div className="mt-4 text-center">

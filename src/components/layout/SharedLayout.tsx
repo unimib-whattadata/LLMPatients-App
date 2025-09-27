@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Navbar, getNavSections } from "@/components/navigation";
+import { ShadcnNavbar, getNavSections } from "@/components/navigation";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 import type { User, ImpersonationContext, NavItem } from "~/types";
@@ -242,18 +242,12 @@ export function SharedLayout({
         Vai al menu principale
       </a>
 
-      {/* Unified Navbar */}
-      <Navbar
+      {/* Shadcn Navbar */}
+      <ShadcnNavbar
         user={user}
         impersonation={impersonation}
         layoutType={layoutType}
         currentPage={currentPage}
-        onSidebarToggle={() => {
-          if (!layoutConfig.showSidebar) return;
-          setMobileSidebarOpen((prev) => !prev);
-        }}
-        sidebarCollapsed={false}
-        showSidebar={layoutConfig.showSidebar}
       />
 
       {/* Main Layout */}

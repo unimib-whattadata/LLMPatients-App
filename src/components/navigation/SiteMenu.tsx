@@ -4,6 +4,7 @@ import { useState, useMemo, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { Button } from "~/components/ui/button";
 
 interface SiteMenuLink {
   label: string;
@@ -122,8 +123,10 @@ export function SiteMenu({
 
         <div className="site-menu__right">{rightSlot}</div>
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           className="site-menu__mobile-toggle"
           aria-expanded={mobileOpen}
           aria-label={mobileOpen ? "Chiudi il menu" : "Apri il menu"}
@@ -147,7 +150,7 @@ export function SiteMenu({
               <path d="M3 6h18M3 12h18M3 18h18" />
             )}
           </svg>
-        </button>
+        </Button>
       </div>
 
       <div className="site-menu__mobile" hidden={!mobileOpen}>

@@ -2520,7 +2520,7 @@
     top: 0;
     bottom: -3.5rem;
     width: 8px;
-    background: linear-gradient(to bottom, hsl(220 70% 50%), hsl(142 76% 36%));
+    background: #3D413B;
     border-radius: 4px;
     transform: translateX(-50%);
     z-index: 1;

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useCallback } from "react";
+import { Button } from "~/components/ui/button";
 
 /**
  * Dynamic Authentication Button Component
@@ -48,9 +49,9 @@ export default function AuthButton() {
   // Show loading state while session is being fetched
   if (status === "loading") {
     return (
-      <div className="btn btn-primary btn-md" aria-hidden="true">
+      <Button variant="primary" size="default" disabled aria-hidden="true">
         <div className="bg-text-primary/40 h-4 w-16 animate-pulse rounded"></div>
-      </div>
+      </Button>
     );
   }
 
@@ -58,24 +59,29 @@ export default function AuthButton() {
   if (isAuthenticated()) {
     return (
       <div className="flex items-center space-x-2">
-        <Link href="/dashboard" className="btn btn-primary btn-md">
-          Area Personale
-        </Link>
-        <button
+        <Button asChild variant="primary" size="default">
+          <Link href="/dashboard">
+            Area Personale
+          </Link>
+        </Button>
+        <Button
           onClick={handleLogout}
-          className="btn btn-ghost btn-md"
+          variant="ghost"
+          size="default"
           title="Logout"
         >
           Esci
-        </button>
+        </Button>
       </div>
     );
   }
 
   // Show login button if not authenticated
   return (
-    <Link href="/login" className="btn btn-primary btn-md">
-      Accedi
-    </Link>
+    <Button asChild variant="primary" size="default">
+      <Link href="/login">
+        Accedi
+      </Link>
+    </Button>
   );
 }

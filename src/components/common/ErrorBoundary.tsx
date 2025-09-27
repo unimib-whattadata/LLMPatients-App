@@ -8,6 +8,7 @@
 
 import { Component } from "react";
 import type { ReactNode } from "react";
+import { Button } from "~/components/ui/button";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -47,14 +48,15 @@ export class ErrorBoundary extends Component<
             <p className="text-text-secondary mb-4">
               Si è verificato un errore imprevisto. Riprova più tardi.
             </p>
-            <button
+            <Button
               onClick={() =>
                 this.setState({ hasError: false, error: undefined })
               }
-              className="btn btn-primary"
+              variant="primary"
+              size="default"
             >
               Riprova
-            </button>
+            </Button>
           </div>
         )
       );

@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Button } from "~/components/ui/button";
 
 /**
  * User interface for navigation context
@@ -150,9 +151,11 @@ export function Navbar({
           {/* Left section: Menu toggle + Logo */}
           <div className="flex items-center space-x-4">
             {/* Mobile menu toggle */}
-            <button
+            <Button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 focus:ring-text-primary/20 rounded-md p-2 focus:ring-2 focus:outline-none lg:hidden"
+              variant="ghost"
+              size="icon"
+              className="text-text-primary hover:text-text-primary/80 hover:bg-text-primary/10 focus:ring-text-primary/20 lg:hidden"
               aria-label="Toggle mobile menu"
             >
               <span className="sr-only">Open main menu</span>
@@ -161,7 +164,7 @@ export function Navbar({
               ) : (
                 <Bars3Icon className="h-5 w-5" />
               )}
-            </button>
+            </Button>
 
             {/* Logo */}
             <Link
@@ -212,13 +215,14 @@ export function Navbar({
 
             {/* Logout button */}
             {displayUser && (
-              <button
+              <Button
                 onClick={handleLogout}
-                className="btn btn-ghost btn-sm"
+                variant="ghost"
+                size="sm"
                 title="Esci"
               >
                 <ArrowRightOnRectangleIcon className="h-4 w-4" />
-              </button>
+              </Button>
             )}
           </div>
         </div>
@@ -330,33 +334,32 @@ export function Navbar({
         <span className={`${badgeClass} hidden md:inline-flex`}>
           {roleLabel}
         </span>
-        <Link
-          href="/dashboard"
-          className="btn btn-primary btn-sm hidden md:inline-flex"
-        >
-          Area personale
-        </Link>
-        <button
+        <Button asChild variant="primary" size="sm" className="hidden md:inline-flex">
+          <Link href="/dashboard">
+            Area personale
+          </Link>
+        </Button>
+        <Button
           onClick={handleLogout}
+          variant="ghost"
+          size="sm"
           className="site-menu__logout-btn hidden md:inline-flex"
         >
           Esci
-        </button>
+        </Button>
       </div>
     ) : (
       <div className="site-menu__auth-block">
-        <Link
-          href="/login"
-          className="btn btn-outline btn-sm hidden md:inline-flex"
-        >
-          Accedi
-        </Link>
-        <Link
-          href="/register"
-          className="btn btn-primary btn-sm hidden md:inline-flex"
-        >
-          Registrati
-        </Link>
+        <Button asChild variant="outline-primary" size="sm" className="hidden md:inline-flex">
+          <Link href="/login">
+            Accedi
+          </Link>
+        </Button>
+        <Button asChild variant="primary" size="sm" className="hidden md:inline-flex">
+          <Link href="/register">
+            Registrati
+          </Link>
+        </Button>
       </div>
     );
 
@@ -375,25 +378,33 @@ export function Navbar({
         </div>
         <span className={badgeClass}>{roleLabel}</span>
         <div className="site-menu__mobile-buttons">
-          <Link href="/dashboard" className="btn btn-primary btn-sm">
-            Area personale
-          </Link>
-          <button
+          <Button asChild variant="primary" size="sm">
+            <Link href="/dashboard">
+              Area personale
+            </Link>
+          </Button>
+          <Button
             onClick={handleLogout}
+            variant="ghost"
+            size="sm"
             className="site-menu__logout-btn site-menu__logout-btn--block"
           >
             Esci
-          </button>
+          </Button>
         </div>
       </div>
     ) : (
       <div className="site-menu__mobile-buttons">
-        <Link href="/login" className="btn btn-outline btn-sm">
-          Accedi
-        </Link>
-        <Link href="/register" className="btn btn-primary btn-sm">
-          Registrati
-        </Link>
+        <Button asChild variant="outline-primary" size="sm">
+          <Link href="/login">
+            Accedi
+          </Link>
+        </Button>
+        <Button asChild variant="primary" size="sm">
+          <Link href="/register">
+            Registrati
+          </Link>
+        </Button>
       </div>
     );
 
@@ -444,8 +455,10 @@ export function Navbar({
 
           <div className="site-menu__right">{desktopActions}</div>
 
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             className="site-menu__mobile-toggle"
             aria-expanded={mobileMenuOpen}
             aria-label={mobileMenuOpen ? "Chiudi il menu" : "Apri il menu"}
@@ -469,7 +482,7 @@ export function Navbar({
                 <path d="M3 6h18M3 12h18M3 18h18" />
               )}
             </svg>
-          </button>
+          </Button>
         </div>
 
         <div className="site-menu__mobile" hidden={!mobileMenuOpen}>

@@ -11,6 +11,7 @@ import { Breadcrumb } from "~/components/common/Breadcrumb";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
 import {
   getDifficultyIconClass,
   getDifficultyLabel,
@@ -261,8 +262,10 @@ export function PatientDetailContent() {
                     competenze cliniche in un ambiente sicuro e controllato.
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
-                    <button
+                    <Button
                       type="button"
+                      variant="primary"
+                      size="default"
                       className="patient-card-button w-full py-3 text-center text-sm sm:py-4 sm:text-base"
                       onClick={() => {
                         if (!patient) return;
@@ -277,7 +280,7 @@ export function PatientDetailContent() {
                       {startTherapySession.isPending
                         ? "Avvio in corso..."
                         : "Inizia simulazione"}
-                    </button>
+                    </Button>
                   </div>
                   {actionError && (
                     <p className="mt-3 text-sm text-red-500 sm:mt-4">

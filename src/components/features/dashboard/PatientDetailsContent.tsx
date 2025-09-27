@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { Button } from "~/components/ui/button";
 
 // Import the patient details schema
 import patientDetailsSchema from "~/server/db/patient-details.json";
@@ -817,14 +818,16 @@ export function PatientDetailsContent() {
     return (
       <li key={fieldKey} className="list-none space-y-1">
         {hasSubfields ? (
-          <button
+          <Button
             type="button"
             onClick={() => toggleSubsection(fieldKey)}
             aria-expanded={isExpanded}
+            variant="ghost"
+            size="sm"
             className={`hover:bg-background-secondary/60 focus-visible:ring-primary-500/40 flex w-full items-start gap-2 rounded-md px-1 py-1.5 text-left transition-colors focus-visible:ring-2 focus-visible:outline-none ${indentationClass}`}
           >
             {fieldContent}
-          </button>
+          </Button>
         ) : (
           <div
             className={`flex items-start gap-2 px-1 py-1.5 ${indentationClass}`}
@@ -901,10 +904,12 @@ export function PatientDetailsContent() {
         key={sectionKey}
         className="dashboard-panel dashboard-panel--compact"
       >
-        <button
+        <Button
           type="button"
           onClick={() => toggleSection(sectionKey)}
           aria-expanded={isExpanded}
+          variant="ghost"
+          size="default"
           className={`focus-visible:ring-primary-500/40 flex w-full items-center justify-between rounded-lg px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:outline-none ${
             isExpanded
               ? "bg-background-secondary"
@@ -922,7 +927,7 @@ export function PatientDetailsContent() {
           <span className="border-border-primary text-text-secondary ml-3 inline-flex h-6 w-6 items-center justify-center rounded-md border text-xs font-semibold">
             {isExpanded ? "−" : "+"}
           </span>
-        </button>
+        </Button>
 
         {isExpanded && hasFields && (
           <ul className="mt-2 space-y-1.5" role="group">
@@ -979,20 +984,22 @@ export function PatientDetailsContent() {
               </p>
             )}
             <div className="flex items-center gap-2">
-              <button
+              <Button
                 type="button"
-                className="btn btn-sm btn-outline"
+                variant="outline"
+                size="sm"
                 onClick={() => setShowFieldTypes((prev) => !prev)}
               >
                 {showFieldTypes ? "Nascondi tipi campo" : "Mostra tipi campo"}
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={toggleAllSections}
                 type="button"
-                className="btn btn-sm btn-ghost"
+                variant="ghost"
+                size="sm"
               >
                 {allExpanded ? "Contrai tutto" : "Espandi tutto"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

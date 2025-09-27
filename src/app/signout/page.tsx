@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
+import { Button } from "~/components/ui/button";
 
 /**
  * Custom Signout Page
@@ -155,12 +156,14 @@ export default function SignoutPage() {
 
           {/* Manual redirect button */}
           <div className="mt-8 pt-6">
-            <button
+            <Button
               onClick={() => router.push("/")}
-              className="btn btn-primary btn-md w-full"
+              variant="primary"
+              size="default"
+              className="w-full"
             >
               Vai alla Homepage
-            </button>
+            </Button>
           </div>
         </div>
       </div>

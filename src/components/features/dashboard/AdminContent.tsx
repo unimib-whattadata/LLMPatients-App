@@ -3,6 +3,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { api } from "~/trpc/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "~/components/ui/button";
 
 interface ImpersonationModalProps {
   user: {
@@ -106,20 +107,24 @@ function ImpersonationModal({
         </div>
 
         <div className="flex space-x-3">
-          <button
+          <Button
             onClick={onClose}
             disabled={isLoading}
-            className="text-text-secondary bg-background-tertiary hover:bg-background-secondary focus:ring-border-hover flex-1 rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            variant="outline"
+            size="default"
+            className="flex-1"
           >
             Annulla
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleConfirm}
             disabled={isLoading}
-            className="text-text-primary bg-secondary-600 hover:bg-secondary-700 focus:ring-secondary-500 flex-1 rounded-md px-4 py-2 text-sm font-medium focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            variant="primary"
+            size="default"
+            className="flex-1"
           >
             {isLoading ? "Impersonificando..." : "Conferma Impersonificazione"}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
@@ -479,18 +484,15 @@ export function AdminContent() {
                       </td>
                       <td>
                         <div className="flex gap-2">
-                          <button
+                          <Button
                             type="button"
                             onClick={() => handleImpersonateUser(user)}
                             disabled={
                               user.role === "admin" ||
                               startImpersonation.isPending
                             }
-                            className={`btn btn-sm ${
-                              user.role === "admin"
-                                ? "btn-ghost cursor-not-allowed opacity-60"
-                                : "btn-secondary"
-                            }`}
+                            variant={user.role === "admin" ? "ghost" : "secondary"}
+                            size="sm"
                             title={
                               user.role === "admin"
                                 ? "Non e possibile impersonificare un admin"
@@ -500,7 +502,7 @@ export function AdminContent() {
                             {startImpersonation.isPending
                               ? "..."
                               : "Impersonifica"}
-                          </button>
+                          </Button>
                         </div>
                       </td>
                     </tr>

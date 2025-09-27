@@ -18,6 +18,7 @@ import { api } from "~/trpc/react";
 import Link from "next/link";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Button } from "~/components/ui/button";
 
 interface User {
   id: string;
@@ -370,12 +371,13 @@ export function ManageUsersContent() {
               Manage user accounts, roles, and permissions
             </p>
           </div>
-          <button
+          <Button
             onClick={() => setShowCreateForm(true)}
-            className="btn btn-primary"
+            variant="primary"
+            size="default"
           >
             + Create User
-          </button>
+          </Button>
         </div>
 
         <div className="dashboard-panel">
@@ -451,21 +453,23 @@ export function ManageUsersContent() {
                     </td>
                     <td>
                       <div className="flex space-x-2">
-                        <button
+                        <Button
                           onClick={() => setEditingUser(user as User)}
-                          className="btn btn-outline btn-xs"
+                          variant="outline-primary"
+                          size="sm"
                         >
                           Edit
-                        </button>
+                        </Button>
                         {!isDevelopmentAccess &&
                           session?.user?.id !== user.id && (
-                            <button
+                            <Button
                               onClick={() => handleDeleteUser(user.id)}
-                              className="btn btn-danger btn-xs"
+                              variant="destructive"
+                              size="sm"
                               disabled={deleteUserMutation.isPending}
                             >
                               Delete
-                            </button>
+                            </Button>
                           )}
                       </div>
                     </td>
@@ -558,20 +562,24 @@ export function ManageUsersContent() {
                 </select>
               </div>
               <div className="flex space-x-4 pt-4">
-                <button
+                <Button
                   type="submit"
                   disabled={createUserMutation.isPending}
-                  className="auth-submit-btn flex-1"
+                  variant="primary"
+                  size="default"
+                  className="flex-1"
                 >
                   {createUserMutation.isPending ? "Creating..." : "Create User"}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => setShowCreateForm(false)}
-                  className="btn btn-outline flex-1"
+                  variant="outline-primary"
+                  size="default"
+                  className="flex-1"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -611,20 +619,24 @@ export function ManageUsersContent() {
                 />
               </div>
               <div className="flex space-x-4 pt-4">
-                <button
+                <Button
                   type="submit"
                   disabled={updateUserMutation.isPending}
-                  className="auth-submit-btn flex-1"
+                  variant="primary"
+                  size="default"
+                  className="flex-1"
                 >
                   {updateUserMutation.isPending ? "Updating..." : "Update User"}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={() => setEditingUser(null)}
-                  className="btn btn-outline flex-1"
+                  variant="outline-primary"
+                  size="default"
+                  className="flex-1"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </form>
           </div>

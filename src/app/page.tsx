@@ -175,7 +175,7 @@ export default async function Home() {
             role="group"
             aria-label="Azioni principali"
           >
-            <Button asChild size="lg">
+            <Button asChild variant="primary" size="lg">
               <Link
                 href="/register"
                 aria-describedby="hero-description"
@@ -183,7 +183,7 @@ export default async function Home() {
                 Inizia subito
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="outline-primary" size="lg">
               <Link
                 href="/explore-patients"
                 aria-label="Esplora i pazienti virtuali disponibili"
@@ -276,7 +276,7 @@ export default async function Home() {
           </ol>
 
           <footer className="home-process-cta" role="complementary">
-            <Button asChild size="lg">
+            <Button asChild variant="primary" size="lg">
               <Link
                 href="/register"
                 aria-describedby="process-description"

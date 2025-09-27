@@ -8,6 +8,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "~/components/ui/button";
 
 export function CreatePatientContent() {
   const [patientData, setPatientData] = useState({
@@ -85,12 +86,12 @@ export function CreatePatientContent() {
             </div>
 
             <div className="flex gap-4 pt-4">
-              <button type="submit" className="auth-submit-btn">
+              <Button type="submit" variant="primary" size="default">
                 Salva Paziente
-              </button>
-              <button type="button" className="btn btn-ghost">
+              </Button>
+              <Button type="button" variant="ghost" size="default">
                 Annulla
-              </button>
+              </Button>
             </div>
           </form>
         </div>
@@ -116,7 +117,7 @@ export function CreatePatientContent() {
                 Età: 45 - Ipertensione
               </div>
             </div>
-            <button className="btn btn-sm btn-outline">Modifica</button>
+            <Button variant="outline-primary" size="sm">Modifica</Button>
           </div>
           <div className="dashboard-list__item" role="listitem">
             <div>
@@ -125,7 +126,7 @@ export function CreatePatientContent() {
                 Età: 32 - Diabete Tipo 1
               </div>
             </div>
-            <button className="btn btn-sm btn-outline">Modifica</button>
+            <Button variant="outline-primary" size="sm">Modifica</Button>
           </div>
         </div>
       </section>

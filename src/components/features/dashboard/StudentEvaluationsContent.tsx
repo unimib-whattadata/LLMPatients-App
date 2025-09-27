@@ -7,6 +7,7 @@ import {
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { api } from "~/trpc/react";
+import { Button } from "~/components/ui/button";
 
 interface Evaluation {
   id: string;
@@ -295,13 +296,14 @@ export function StudentEvaluationsContent() {
                     </td>
                     <td>
                       <div className="flex gap-2">
-                        <button
-                          className="btn btn-sm btn-outline"
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
                           onClick={() => setSelectedEvaluation(evaluation.id)}
                         >
                           Visualizza
-                        </button>
-                        <button className="btn btn-sm btn-ghost">Report</button>
+                        </Button>
+                        <Button variant="ghost" size="sm">Report</Button>
                       </div>
                     </td>
                   </tr>
@@ -343,12 +345,14 @@ export function StudentEvaluationsContent() {
                         <span>{evaluation.duration} min</span>
                       </div>
                     </div>
-                    <button
+                    <Button
                       onClick={() => setSelectedEvaluation(null)}
+                      variant="ghost"
+                      size="icon"
                       className="text-text-tertiary hover:text-text-primary"
                     >
                       ✕
-                    </button>
+                    </Button>
                   </div>
 
                   <div className="mb-6">
@@ -424,15 +428,17 @@ export function StudentEvaluationsContent() {
                   </div>
 
                   <div className="flex gap-2 pt-4">
-                    <button className="btn btn-outline flex-1">
+                    <Button variant="outline-primary" size="default" className="flex-1">
                       Genera Report
-                    </button>
-                    <button
-                      className="btn btn-primary flex-1"
+                    </Button>
+                    <Button
+                      variant="primary"
+                      size="default"
+                      className="flex-1"
                       onClick={() => setSelectedEvaluation(null)}
                     >
                       Chiudi
-                    </button>
+                    </Button>
                   </div>
                 </>
               );
