@@ -1,6 +1,14 @@
-/* ===== BASE BUTTON FOUNDATION ===== */
+/* ===== OPTIMIZED COMPONENT SYSTEM ===== */
 @layer components {
   /* ===== ENHANCED TYPOGRAPHY CLASSES ===== */
+  /* Consolidated typography system with improved consistency */
+
+  .text-heading-1 {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-4xl);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-tight);
+  }
 
   .text-heading-2 {
     font-size: var(--font-size-3xl);
@@ -16,32 +24,61 @@
     letter-spacing: var(--letter-spacing-tight);
   }
 
-
-
   .text-body {
     font-size: var(--font-size-base);
     line-height: var(--line-height-base);
     font-weight: var(--font-weight-normal);
   }
 
+  .text-body-large {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-lg);
+    font-weight: var(--font-weight-normal);
+  }
+
+  .text-body-small {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-sm);
+    font-weight: var(--font-weight-normal);
+  }
 
 
+
+  /* ===== OPTIMIZED BUTTON SYSTEM ===== */
+  /* Consolidated button foundation with modern features */
+  
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-weight: 500;
     user-select: none;
+    border: 2px solid transparent;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
   }
   
   .btn:focus {
-    outline: 2px solid transparent;
+    outline: 2px solid var(--color-primary-green);
     outline-offset: 2px;
   }
   
   .btn:disabled {
     cursor: not-allowed;
     opacity: 0.6;
+    transform: none;
+  }
+  
+  .btn:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+  
+  .btn:not(:disabled):active {
+    transform: translateY(0);
   }
 
   /* ===== PILL SYSTEM ===== */
@@ -168,32 +205,47 @@
 
 
 
-  /* ===== ENHANCED FORM COMPONENTS ===== */
+  /* ===== OPTIMIZED FORM COMPONENTS ===== */
+  /* Consolidated form system with improved accessibility */
   
-  /* Form Container */
+  /* Form Layout System */
   .form-container {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--space-lg);
     width: 100%;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--space-sm);
     width: 100%;
   }
 
   .form-row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: var(--space-md);
+    container-type: inline-size;
+  }
+
+  /* Responsive form layouts with container queries */
+  @container (min-width: 640px) {
+    .form-row--two-cols {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   @media (min-width: 640px) {
     .form-row--two-cols {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .form-row--three-cols {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -711,8 +763,10 @@
 
 
 
-  /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
-  /* Screen Reader Only Content */
+  /* ===== ENHANCED ACCESSIBILITY SYSTEM ===== */
+  /* Comprehensive accessibility features with modern standards */
+  
+  /* Screen Reader Only Content - Enhanced */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -722,6 +776,43 @@
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
+    border: 0;
+  }
+
+  /* Focus visible only for keyboard navigation */
+  .sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0.5rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background: var(--color-primary-green);
+    color: white;
+    border-radius: 0.25rem;
+  }
+
+  /* Skip links for better keyboard navigation */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+    background: var(--color-primary-green);
+    color: white;
+    transition: top 0.2s ease;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+    outline-offset: 2px;
   }
 
   /* Skip Link Styles */
@@ -850,18 +941,40 @@
     }
   }
 
-  /* ===== ENHANCED RESPONSIVE IMPROVEMENTS ===== */
+  /* ===== OPTIMIZED RESPONSIVE DESIGN ===== */
+  /* Mobile-first responsive system with container queries */
   
-  /* Responsive Patient Grid - Consolidated */
+  /* Responsive Patient Grid - Enhanced with container queries */
   .patient-grid {
     display: grid;
     gap: clamp(1rem, 2.5vw, 2.5rem);
     grid-template-columns: 1fr;
+    container-type: inline-size;
   }
 
+  /* Container query support for better responsive behavior */
+  @container (min-width: 640px) {
+    .patient-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @container (min-width: 1024px) {
+    .patient-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Fallback media queries for older browsers */
   @media (min-width: 641px) {
     .patient-grid {
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .patient-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
@@ -2229,7 +2342,9 @@
   }
 
 
-  /* ===== SKELETON ANIMATIONS ===== */
+  /* ===== OPTIMIZED PERFORMANCE ANIMATIONS ===== */
+  /* Lightweight animations with better performance */
+  
   @keyframes pulse {
     0%, 100% {
       opacity: 1;
@@ -2239,8 +2354,38 @@
     }
   }
 
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
   .animate-pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* Optimized shimmer effect for loading states */
+  .skeleton-shimmer {
+    background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Performance optimizations */
+  .animate-pulse,
+  .skeleton-shimmer {
+    will-change: opacity, background-position;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pulse,
+    .skeleton-shimmer {
+      animation: none;
+    }
   }
 
   .loading-grid {
@@ -3547,6 +3692,69 @@
     background-color: var(--color-navbar-dark) !important;
   }
 
+  /* ===== NAVBAR BACKGROUND STYLES ===== */
+  .navbar-background {
+    background-color: var(--color-navbar-dark) !important;
+  }
+
+  /* Force navbar background on all navbar elements */
+  header.navbar-background,
+  .site-menu.navbar-background,
+  .dashboard-header.navbar-background {
+    background-color: var(--color-navbar-dark) !important;
+  }
+
+  /* ===== PAGE BACKGROUND STYLES ===== */
+  .page-background {
+    background-color: var(--color-page-background) !important;
+  }
+
+  /* ===== PRIMARY COLOR BACKGROUNDS ===== */
+  .bg-primary-green {
+    background-color: var(--color-primary-green) !important;
+  }
+
+  .bg-primary-green-20 {
+    background-color: var(--color-primary-green) !important;
+    opacity: 0.2;
+  }
+
+  .bg-primary-yellow {
+    background-color: var(--color-primary-yellow) !important;
+  }
+
+  .bg-primary-violet {
+    background-color: var(--color-primary-violet) !important;
+  }
+
+  /* ===== HOVER STATES ===== */
+  .hover-bg-primary-green-10:hover {
+    background-color: var(--color-primary-green) !important;
+    opacity: 0.1;
+  }
+
+  /* ===== TEXT COLORS ===== */
+  .text-primary-green {
+    color: var(--color-primary-green) !important;
+  }
+
+  .text-primary-yellow {
+    color: var(--color-primary-yellow) !important;
+  }
+
+  .text-primary-violet {
+    color: var(--color-primary-violet) !important;
+  }
+
+  /* ===== PROGRESS BAR STYLES ===== */
+  .progress-bar-primary-green {
+    background-color: var(--color-primary-green) !important;
+  }
+
+  .progress-bar-primary-green > div {
+    background-color: var(--color-primary-green) !important;
+  }
+
   /* Image auto size utility class */
   .image-auto-size {
     width: auto !important;
@@ -3866,6 +4074,38 @@
   .home-footer-links a:hover {
   }
 
+  /* Additional mobile footer centering for broader coverage */
+  @media (max-width: 768px) {
+    .home-footer-links {
+      justify-content: center !important;
+    }
+    
+    .home-footer-column {
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+    
+    /* Centra hero su tablet e mobile */
+    .home-hero-inner {
+      text-align: center !important;
+    }
+    
+    .home-hero-title {
+      text-align: center !important;
+    }
+    
+    .home-hero-subtitle {
+      text-align: center !important;
+    }
+    
+    .home-hero-inner .flex {
+      justify-content: center !important;
+      align-items: center !important;
+    }
+  }
+
 
   @media (min-width: 768px) {
     .home-nav {
@@ -3926,29 +4166,39 @@
       margin-left: 0;
       max-width: 100%;
       padding: 0 1rem;
+      text-align: center !important;
     }
 
     .home-hero-title {
       font-size: 2.25rem;
       line-height: 1.1;
       margin-bottom: 1rem;
+      text-align: center !important;
     }
 
     .home-hero-subtitle {
       font-size: 1rem;
       line-height: 1.6;
       margin-bottom: 2rem;
+      text-align: center !important;
     }
 
     .home-hero-actions {
       flex-direction: column;
       gap: 0.75rem;
-      align-items: stretch;
+      align-items: center !important;
+      justify-content: center !important;
     }
 
     .home-hero-actions .btn {
       width: 100%;
       text-align: center;
+    }
+    
+    /* Centra anche i bottoni con classi Tailwind */
+    .home-hero-inner .flex {
+      justify-content: center !important;
+      align-items: center !important;
     }
 
     .home-process-list::before {
@@ -4018,8 +4268,15 @@
     }
 
     .home-footer-links {
-      justify-content: center;
+      justify-content: center !important;
       flex-wrap: wrap;
+    }
+    
+    .home-footer-column {
+      text-align: center !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
     }
   }
 

@@ -1,3 +1,4 @@
+/* ===== CSS OPTIMIZATION & MODERNIZATION ===== */
 /* Font loading handled via Next.js font optimization */
 
 @plugin 'tailwindcss-animate';
@@ -60,16 +61,38 @@
   --letter-spacing-widest: 0.1em;
 }
 
-/* Enhanced Theme System */
+/* ===== MODERN CSS FEATURES & CUSTOM PROPERTIES ===== */
+/* Enhanced theme system with modern CSS features */
+
 :root {
-  /* Spacing Scale System */
+  /* Spacing Scale System - Improved with logical properties */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Border Radius System */
   --radius: 0.625rem;
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.5rem);
+  
+  /* Modern spacing with logical properties */
+  --spacing-block-xs: var(--space-xs);
+  --spacing-block-sm: var(--space-sm);
+  --spacing-block-md: var(--space-md);
+  --spacing-block-lg: var(--space-lg);
+  --spacing-block-xl: var(--space-xl);
+  
+  --spacing-inline-xs: var(--space-xs);
+  --spacing-inline-sm: var(--space-sm);
+  --spacing-inline-md: var(--space-md);
+  --spacing-inline-lg: var(--space-lg);
+  --spacing-inline-xl: var(--space-xl);
   --background: oklch(1 0 0);
   --foreground: oklch(0.147 0.004 49.25);
   --card: oklch(1 0 0);
@@ -144,7 +167,9 @@ body {
   text-size-adjust: 100%;
 }
 
-/* Enhanced Focus Styles */
+/* ===== ENHANCED ACCESSIBILITY & FOCUS MANAGEMENT ===== */
+/* Modern focus management with improved accessibility */
+
 *:focus {
   outline-offset: 2px;
 }
@@ -154,7 +179,36 @@ body {
 }
 
 *:focus-visible {
+  outline: 2px solid var(--color-primary-green);
   outline-offset: 2px;
+  border-radius: 0.25rem;
+}
+
+/* Enhanced focus for interactive elements */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--color-primary-green);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(139, 151, 105, 0.2);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  *:focus-visible {
+    outline: 3px solid;
+    outline-offset: 1px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *:focus-visible {
+    transition: none;
+  }
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -182,7 +236,9 @@ body {
   top: 6px;
 }
 
-/* Motion Accessibility */
+/* ===== PERFORMANCE OPTIMIZATION ===== */
+/* Optimized motion accessibility with better performance */
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -193,13 +249,37 @@ body {
     scroll-behavior: auto !important;
   }
 
-  /* Still allow some transitions for critical UI feedback */
+  /* Preserve essential transitions for UX */
   *:focus,
   *:hover,
   button:hover,
   a:hover {
     transition-duration: 0.15s !important;
   }
+}
+
+/* Optimize animations for better performance */
+@supports (will-change: transform) {
+  .patient-card,
+  .patient-avatar-image,
+  .btn {
+    will-change: transform;
+  }
+}
+
+/* Use transform instead of changing layout properties */
+.patient-card:hover {
+  transform: translateY(-2px);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Optimize repaints with contain property */
+.patient-card,
+.dashboard-card {
+  contain: layout style paint;
 }
 
 /* ===== ANIMATIONS REMOVED ===== */
@@ -252,21 +332,30 @@ body {
 
 /* Base layer styles are already defined above - removing duplicate */
 /* ===== ENHANCED RESPONSIVE DESIGN ===== */
+/* Mobile-first responsive grid system with improved performance */
 
-/* Enhanced Responsive Grid System */
 .grid-responsive {
   display: grid;
   gap: clamp(var(--space-md), 3vw, var(--space-2xl));
   grid-template-columns: 1fr;
+  container-type: inline-size;
 }
 
 .patient-grid {
   display: grid;
   gap: clamp(1rem, 2.5vw, 2.5rem);
   grid-template-columns: 1fr;
+  container-type: inline-size;
 }
 
-/* Responsive breakpoints */
+/* Enhanced responsive breakpoints with container queries support */
+@container (min-width: 640px) {
+  .grid-responsive,
+  .patient-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (min-width: 641px) {
   .grid-responsive,
   .patient-grid {
@@ -276,7 +365,21 @@ body {
 
 @media (min-width: 1024px) {
   .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .patient-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .grid-responsive {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .patient-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

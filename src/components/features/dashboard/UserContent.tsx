@@ -168,7 +168,7 @@ export const UserContent = React.memo(function UserContent() {
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
-                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-green)] text-white">
+                    <div className="dashboard-action-card__badge pill bg-primary-green text-white">
                       Profilo
                     </div>
                     <h3 className="dashboard-action-card__title">
@@ -185,7 +185,7 @@ export const UserContent = React.memo(function UserContent() {
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
-                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-violet)] text-white">
+                    <div className="dashboard-action-card__badge pill bg-primary-violet text-white">
                       Simulazioni
                     </div>
                     <h3 className="dashboard-action-card__title">
@@ -202,7 +202,7 @@ export const UserContent = React.memo(function UserContent() {
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
-                    <div className="dashboard-action-card__badge pill bg-[var(--color-primary-yellow)] text-white">
+                    <div className="dashboard-action-card__badge pill bg-primary-yellow text-white">
                       Progressi
                     </div>
                     <h3 className="dashboard-action-card__title">

@@ -145,7 +145,7 @@ export function Navbar({
 
   // Render dashboard header
   const renderDashboardHeader = () => (
-    <header className="dashboard-header">
+    <header className="dashboard-header navbar-background">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Left section: Menu toggle + Logo */}
@@ -409,7 +409,7 @@ export function Navbar({
 
     return (
       <header
-        className={`site-menu site-menu--light ${mobileMenuOpen ? "site-menu--open" : ""}`}
+        className={`site-menu site-menu--light navbar-background ${mobileMenuOpen ? "site-menu--open" : ""}`}
       >
         <div className="site-menu__inner w-full px-4 sm:px-6 lg:px-8">
           <div className="site-menu__brand">

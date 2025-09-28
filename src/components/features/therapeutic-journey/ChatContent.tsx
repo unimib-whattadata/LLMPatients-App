@@ -426,16 +426,16 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       impersonation={impersonation}
       layoutType="dashboard"
     >
-      <div className="chat-container flex flex-col h-[calc(100vh-4rem)] bg-[var(--color-page-background)]" role="main" aria-label="Chat con paziente virtuale">
+      <div className="chat-container flex flex-col h-[calc(100vh-4rem)] page-background" role="main" aria-label="Chat con paziente virtuale">
         {/* Header */}
-        <header className="dashboard-section bg-[var(--color-navbar-dark)] px-4 sm:px-6 py-4 flex-shrink-0" role="banner">
+        <header className="dashboard-section navbar-background px-4 sm:px-6 py-4 flex-shrink-0" role="banner">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={goBack}
-                className="btn btn-ghost hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                className="btn btn-ghost hover-bg-primary-green-10 flex-shrink-0"
                 aria-label="Torna alla timeline"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -469,7 +469,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
-              <div className="pill bg-[var(--color-primary-green)]/20 text-[var(--color-primary-green)] px-2 sm:px-3 py-1">
+              <div className="pill bg-primary-green-20 text-primary-green px-2 sm:px-3 py-1">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -494,7 +494,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[var(--color-page-background)]" role="log" aria-label="Messaggi della conversazione" aria-live="polite">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 page-background" role="log" aria-label="Messaggi della conversazione" aria-live="polite">
           <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6">
             {messages.map((message) => (
               <div
@@ -572,9 +572,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Session completed message */}
         {isStepCompleted && (
-          <div className="bg-[var(--color-navbar-dark)] p-6 flex-shrink-0">
+          <div className="navbar-background p-6 flex-shrink-0">
             <div className="mx-auto max-w-4xl text-center">
-              <div className="pill bg-[var(--color-primary-green)]/20 text-[var(--color-primary-green)] px-4 py-3">
+              <div className="pill bg-primary-green-20 text-primary-green px-4 py-3">
                 <p className="text-sm font-medium">
                   ✓ Sessione {stepId} completata - La conversazione è in
                   modalità sola lettura

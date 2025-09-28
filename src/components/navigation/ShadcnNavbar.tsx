@@ -1,21 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
-  Menu,
   LogOut,
   Users,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "~/lib/utils";
 
 /**
@@ -72,20 +69,7 @@ export function ShadcnNavbar({
   layoutType,
   currentPage = "",
 }: ShadcnNavbarProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isDesktop = useMediaQuery("(min-width: 1024px)");
-
-  useEffect(() => {
-    if (isDesktop) {
-      setMobileMenuOpen(false);
-    }
-  }, [isDesktop]);
-
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   // Get navigation items based on user role and impersonation status
   const navItems = user ? getNavigationItems(user, impersonation) : [];
@@ -158,107 +142,10 @@ export function ShadcnNavbar({
     </div>
   );
 
-  // Render mobile menu
-  const renderMobileMenu = () => (
-    <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-      <SheetTrigger asChild>
-        <Button variant="ghost" size="sm" className="lg:hidden">
-          <Menu className="h-5 w-5" />
-          <span className="sr-only">Apri menu</span>
-        </Button>
-      </SheetTrigger>
-      <SheetContent side="right" className="w-80">
-        <div className="flex flex-col space-y-4">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <Image
-              src="/images/logo.png"
-              alt="LLMPatient"
-              width={32}
-              height={32}
-              className="rounded-lg"
-            />
-            <span className="text-lg font-bold">LLMPatient</span>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="flex flex-col space-y-2">
-            {currentNavItems.map((item) => {
-              const isActive = currentPage === item.href || pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center space-x-2 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-accent hover:text-accent-foreground"
-                  )}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <item.icon className="h-4 w-4" />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* User Info */}
-          {displayUser && (
-            <div className="border-t pt-4">
-              <div className="flex items-center space-x-3">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={displayUser.image || ""} />
-                  <AvatarFallback>
-                    {(displayUser.name ?? displayUser.email).charAt(0).toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 flex-col">
-                  <p className="text-sm font-medium">
-                    {displayUser.name ?? "User"}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {displayUser.email}
-                  </p>
-                </div>
-                <Badge variant={displayUser.role === "admin" ? "admin" : "user"}>
-                  {displayUser.role === "admin" ? "Admin" : "User"}
-                </Badge>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleLogout}
-                className="mt-3 w-full"
-              >
-                <LogOut className="mr-2 h-4 w-4" />
-                Esci
-              </Button>
-            </div>
-          )}
-
-          {/* Auth Buttons for non-authenticated users */}
-          {!displayUser && (
-            <div className="border-t pt-4">
-              <div className="flex flex-col space-y-2">
-                <Button variant="outline" asChild>
-                  <Link href="/login">Accedi</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/register">Registrati</Link>
-                </Button>
-              </div>
-            </div>
-          )}
-        </div>
-      </SheetContent>
-    </Sheet>
-  );
 
   return (
     <header 
-      className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
+      className="navbar-background sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
     >
       <div className="flex h-16 items-center px-4 w-full">
         {/* Logo */}
@@ -283,7 +170,6 @@ export function ShadcnNavbar({
         {/* Right side - User menu or Auth buttons */}
         <div className="flex items-center space-x-2">
           {displayUser ? renderUserMenu() : renderAuthButtons()}
-          {renderMobileMenu()}
         </div>
       </div>
     </header>

@@ -53,15 +53,15 @@ function TherapySessionCardComponent({
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       started: {
-        class: "pill pill--sm status-tag status-tag--available bg-[var(--color-primary-green)] text-white",
+        class: "pill pill--sm status-tag status-tag--available bg-primary-green text-white",
         text: "Iniziato",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress bg-[var(--color-primary-yellow)] text-white",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-primary-yellow text-white",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed bg-[var(--color-primary-violet)] text-white",
+        class: "pill pill--sm status-tag status-tag--completed bg-primary-violet text-white",
         text: "Completato",
       },
     };
@@ -151,7 +151,7 @@ function TherapySessionCardComponent({
               </div>
               <Progress
                 value={progressPercentage}
-                className="h-2 bg-gray-700 [&>div]:!bg-[var(--color-primary-green)]"
+                className="h-2 bg-gray-700 progress-bar-primary-green"
                 aria-label={
                   therapySession.isCompleted
                     ? "Sessione completata al 100%"
