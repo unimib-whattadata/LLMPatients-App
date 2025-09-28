@@ -665,7 +665,7 @@
    * 
    * Usage examples:
    * <div class="message message-error">
-   *   <div class="message-icon">⚠️</div>
+   *   <div class="message-icon"><AlertTriangle /></div>
    *   <div class="message-content">
    *     <div class="message-title">Error</div>
    *     <div class="message-text">Something went wrong</div>
