@@ -81,32 +81,53 @@ export const patientsRouter = createTRPCRouter({
         whereConditions.push(like(patients.name, `%${searchQuery}%`));
       }
 
-      // Get patients
-      const patientsData = await ctx.db.query.patients.findMany({
-        where: and(...whereConditions),
-        orderBy: [asc(patients.difficulty), asc(patients.name)],
-        limit,
-        offset,
-      });
+      try {
+        // Get patients with error handling
+        const patientsData = await ctx.db.query.patients.findMany({
+          where: and(...whereConditions),
+          orderBy: [asc(patients.difficulty), asc(patients.name)],
+          limit,
+          offset,
+        });
 
-      // Transform the data and parse objectives
-      const transformedPatients: Patient[] = patientsData.map((patient) => ({
-        id: patient.id,
-        name: patient.name,
-        smallDescription: patient.smallDescription,
-        details: patient.details,
-        background: patient.background,
-        objectives: JSON.parse(patient.objectives) as string[],
-        avatarUrl: patient.avatarUrl,
-        avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
-        difficulty: patient.difficulty as DifficultyLevel,
-        estimatedDuration: patient.estimatedDuration,
-        isActive: patient.isActive,
-        createdAt: patient.createdAt,
-        updatedAt: patient.updatedAt,
-      }));
+        // Transform the data and parse objectives
+        const transformedPatients: Patient[] = patientsData.map((patient) => ({
+          id: patient.id,
+          name: patient.name,
+          smallDescription: patient.smallDescription,
+          details: patient.details,
+          background: patient.background,
+          objectives: JSON.parse(patient.objectives) as string[],
+          avatarUrl: patient.avatarUrl,
+          avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
+          difficulty: patient.difficulty as DifficultyLevel,
+          estimatedDuration: patient.estimatedDuration,
+          isActive: patient.isActive,
+          createdAt: patient.createdAt,
+          updatedAt: patient.updatedAt,
+        }));
 
-      return transformedPatients;
+        return transformedPatients;
+      } catch (error) {
+        // Log detailed error information for debugging
+        console.error("Database query failed in getExplorationPatients:", {
+          error: error instanceof Error ? error.message : String(error),
+          stack: error instanceof Error ? error.stack : undefined,
+          input: { difficulty, searchQuery, limit, offset },
+          environment: process.env.NODE_ENV,
+          databaseUrl: process.env.DATABASE_URL ? "SET" : "NOT_SET",
+        });
+        
+        // In production, return empty array instead of throwing error
+        // This prevents the entire page from crashing
+        if (process.env.NODE_ENV === "production") {
+          console.warn("Returning empty patients array due to database error");
+          return [];
+        }
+        
+        // Re-throw with more context in development
+        throw new Error(`Failed to fetch patients: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }),
 
   /**

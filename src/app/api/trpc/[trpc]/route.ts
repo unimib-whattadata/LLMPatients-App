@@ -21,14 +21,19 @@ const handler = (req: NextRequest) =>
     req,
     router: appRouter,
     createContext: () => createContext(req),
-    onError:
-      env.NODE_ENV === "development"
-        ? ({ path, error }) => {
-            console.error(
-              `[tRPC ERROR] Failed on ${path ?? "<no-path>"}: ${error.message}`,
-            );
-          }
-        : undefined,
+    onError: ({ path, error }) => {
+      // Log errors in both development and production
+      console.error(
+        `[tRPC ERROR] Failed on ${path ?? "<no-path>"}: ${error.message}`,
+        {
+          path,
+          error: error.message,
+          stack: error.stack,
+          environment: env.NODE_ENV,
+          timestamp: new Date().toISOString(),
+        }
+      );
+    },
   });
 
 export { handler as GET, handler as POST };
