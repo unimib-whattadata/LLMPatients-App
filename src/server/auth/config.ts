@@ -58,6 +58,8 @@ declare module "next-auth" {
     lastValidated?: number;
     accessToken?: string;
     provider?: string;
+    maxAge?: number; // Dynamic session duration based on rememberMe
+    rememberMe?: boolean; // Remember me flag
 
     // Impersonation fields
     impersonation?: {
@@ -84,6 +86,7 @@ export const authConfig = {
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
+        rememberMe: { label: "Remember Me", type: "boolean" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -214,6 +217,7 @@ export const authConfig = {
             name: user.name,
             image: user.image,
             role: user.role as "admin" | "user",
+            rememberMe: credentials.rememberMe === "true" || credentials.rememberMe === true,
           };
         } catch (error) {
           if (process.env.NODE_ENV === "development") {
@@ -293,13 +297,13 @@ export const authConfig = {
   // Enhanced session configuration with JWT strategy
   session: {
     strategy: "jwt" as const, // Primary strategy: JWT
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days (default, can be overridden by rememberMe)
     updateAge: 24 * 60 * 60, // 24 hours - update session every 24 hours
   },
 
-  // JWT configuration for NextAuth v5
+  // JWT configuration for NextAuth v5 with dynamic maxAge support
   jwt: {
-    maxAge: 30 * 24 * 60 * 60, // 30 days
+    maxAge: 30 * 24 * 60 * 60, // 30 days (default, can be overridden by rememberMe)
   },
 
   // Enhanced pages configuration
@@ -348,6 +352,17 @@ export const authConfig = {
         token.name = validation.user.name ?? undefined;
         token.image = validation.user.image ?? undefined;
         token.lastValidated = Date.now(); // Track when we last validated against DB
+        
+        // Handle rememberMe functionality - set session duration
+        const rememberMe = (user as any)?.rememberMe ?? false;
+        token.rememberMe = rememberMe;
+        if (rememberMe) {
+          // Extended session for "remember me" - 30 days
+          token.maxAge = 30 * 24 * 60 * 60; // 30 days
+        } else {
+          // Standard session - 1 day
+          token.maxAge = 24 * 60 * 60; // 1 day
+        }
 
         if (process.env.NODE_ENV === "development")
           console.log(

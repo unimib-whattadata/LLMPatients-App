@@ -215,14 +215,6 @@ export function SharedLayout({
     <div className={`layout-container ${layoutConfig.containerClass}`}>
       
       {/* Skip Navigation Links */}
-      <a
-        href="#main-content"
-        className="skip-link"
-        onFocus={(e) => (e.currentTarget.style.top = "6px")}
-        onBlur={(e) => (e.currentTarget.style.top = "-40px")}
-      >
-        Vai al contenuto principale
-      </a>
       {layoutConfig.showSidebar && (
         <a
           href="#sidebar-navigation"

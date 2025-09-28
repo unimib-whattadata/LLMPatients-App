@@ -226,6 +226,7 @@ function LoginPageComponent() {
       const result = await signIn("credentials", {
         email: loginState.email,
         password: loginState.password,
+        rememberMe: loginState.rememberMe,
         redirect: false,
         callbackUrl,
       });
