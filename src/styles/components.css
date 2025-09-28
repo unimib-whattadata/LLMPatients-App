@@ -3414,8 +3414,7 @@
     align-items: center;
     min-height: 640px;
     padding: 6rem 0;
-    background: url('/images/home/hero.png') no-repeat center center / cover;
-    background: url('/images/home/hero.webp') no-repeat center center / cover;
+    background: url('/images/home/hero2.png') no-repeat center center / cover;
     isolation: isolate;
   }
 
@@ -3438,7 +3437,8 @@
     content: "";
     position: absolute;
     inset: 0;
-    z-index: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
   }
 
   .home-hero-inner {

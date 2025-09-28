@@ -67,8 +67,7 @@ export function ImagePreloader({ images }: ImagePreloaderProps) {
  */
 export const CRITICAL_IMAGES = [
   {
-    src: '/images/home/hero.png',
-    webpSrc: '/images/home/hero.webp',
+    src: '/images/home/hero2.png',
     sizes: '(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1440px',
     media: '(min-width: 1px)',
   },
