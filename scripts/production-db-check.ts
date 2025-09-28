@@ -9,6 +9,7 @@
 
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
+import { asc, eq, and } from "drizzle-orm";
 import { patients } from "../src/server/db/schema";
 
 async function checkDatabaseConnection() {
@@ -59,10 +60,10 @@ async function checkDatabaseConnection() {
     console.log("\n🧪 Testing Specific Query...");
     
     const specificQuery = await db.query.patients.findMany({
-      where: (patients, { eq, and, asc }) => and(
+      where: and(
         eq(patients.isActive, true)
       ),
-      orderBy: (patients, { asc }) => [
+      orderBy: [
         asc(patients.difficulty),
         asc(patients.name)
       ],
