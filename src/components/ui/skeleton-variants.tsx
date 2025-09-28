@@ -40,25 +40,25 @@ export function PatientCardSkeleton({
 
       {/* Objectives */}
       <div className="flex-1 mb-4">
-        <Skeleton className="h-4 w-20 mb-2" />
+        <Skeleton variant="text" className="h-4 w-20 mb-2" />
         <div className="space-y-2">
           <div className="flex items-start">
-            <Skeleton className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
-            <Skeleton className="h-4 w-4/5" />
+            <Skeleton variant="text" className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
+            <Skeleton variant="text" className="h-4 w-4/5" />
           </div>
           <div className="flex items-start">
-            <Skeleton className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
-            <Skeleton className="h-4 w-3/4" />
+            <Skeleton variant="text" className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
+            <Skeleton variant="text" className="h-4 w-3/4" />
           </div>
         </div>
       </div>
 
       {/* Metadata */}
       <div className="flex items-center justify-between mb-4">
-        <Skeleton className="h-6 w-20" />
+        <Skeleton variant="text" className="h-6 w-20" />
         <div className="flex items-center space-x-1">
-          <Skeleton className="h-4 w-4" />
-          <Skeleton className="h-4 w-12" />
+          <Skeleton variant="text" className="h-4 w-4" />
+          <Skeleton variant="text" className="h-4 w-12" />
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export function PatientDetailSkeleton() {
       {/* Header skeleton */}
       <header className="bg-[var(--color-surface-secondary)]">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
-          <Skeleton className="h-4 w-48" />
+          <Skeleton variant="text" className="h-4 w-48" />
         </div>
       </header>
 
@@ -110,30 +110,30 @@ export function PatientDetailSkeleton() {
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
             {/* Patient history article skeleton */}
             <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
-              <Skeleton className="h-6 w-48 mb-4" />
+              <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
-                <Skeleton className="h-4 w-4/5" />
+                <Skeleton variant="text" className="h-4 w-full" />
+                <Skeleton variant="text" className="h-4 w-full" />
+                <Skeleton variant="text" className="h-4 w-5/6" />
+                <Skeleton variant="text" className="h-4 w-4/5" />
               </div>
             </article>
 
             {/* Learning objectives article skeleton */}
             <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
-              <Skeleton className="h-6 w-48 mb-4" />
+              <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-3">
                 <div className="flex items-start">
-                  <Skeleton className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
-                  <Skeleton className="h-4 w-4/5" />
+                  <Skeleton variant="text" className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
+                  <Skeleton variant="text" className="h-4 w-4/5" />
                 </div>
                 <div className="flex items-start">
-                  <Skeleton className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
-                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton variant="text" className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
+                  <Skeleton variant="text" className="h-4 w-3/4" />
                 </div>
                 <div className="flex items-start">
-                  <Skeleton className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
-                  <Skeleton className="h-4 w-5/6" />
+                  <Skeleton variant="text" className="h-1 w-1 rounded-full mt-1 mr-2 flex-shrink-0" />
+                  <Skeleton variant="text" className="h-4 w-5/6" />
                 </div>
               </div>
             </article>
