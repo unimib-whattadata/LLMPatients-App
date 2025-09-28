@@ -22,6 +22,8 @@ const buttonVariants = cva(
         ghost:
           "[color:var(--color-text-primary)] hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "[color:var(--color-text-primary)] underline-offset-4 hover:underline",
+        green: "[background-color:var(--color-primary-green)] [color:var(--color-text-primary)] hover:opacity-90",
+        "dark-yellow-border": "[background-color:var(--color-navbar-dark)] [color:var(--color-text-primary)] [border:2px_solid_var(--color-primary-yellow)] hover:[background-color:var(--color-primary-yellow)] hover:[color:var(--color-text-inverse)]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

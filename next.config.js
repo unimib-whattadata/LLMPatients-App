@@ -9,6 +9,11 @@
  */
 import "./src/env.js";
 
+const isDev = process.env.NODE_ENV === "development";
+const assetCacheControl = isDev
+  ? "public, max-age=0, must-revalidate"
+  : "public, max-age=31536000, immutable";
+
 /** @type {import("next").NextConfig} */
 const config = {
   // Set the workspace root to silence turbopack warnings
@@ -103,7 +108,7 @@ const config = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: assetCacheControl,
           },
         ],
       },
@@ -112,7 +117,7 @@ const config = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
+            value: assetCacheControl,
           },
         ],
       },

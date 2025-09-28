@@ -349,7 +349,7 @@ export function Navbar({
       </div>
     ) : (
       <div className="site-menu__auth-block">
-        <Button asChild variant="outline-primary" size="sm" className="hidden md:inline-flex">
+        <Button asChild variant="dark-yellow-border" size="sm" className="hidden md:inline-flex">
           <Link href="/login">
             Accedi
           </Link>
@@ -394,7 +394,7 @@ export function Navbar({
       </div>
     ) : (
       <div className="site-menu__mobile-buttons">
-        <Button asChild variant="outline-primary" size="sm">
+        <Button asChild variant="dark-yellow-border" size="sm">
           <Link href="/login">
             Accedi
           </Link>

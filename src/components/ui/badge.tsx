@@ -9,29 +9,29 @@ const badgeVariants = cva(
     variants: {
       variant: {
         default:
-          "border-transparent bg-primary text-primary-foreground shadow-sm hover:bg-primary/90 hover:shadow-md",
+          "border-transparent bg-primary text-primary-foreground shadow-sm",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/90",
+          "border-transparent bg-secondary text-secondary-foreground",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+          "border-transparent bg-destructive text-destructive-foreground shadow-sm",
         outline: 
-          "border-border text-foreground hover:bg-accent hover:text-accent-foreground",
+          "border-border text-foreground",
         admin:
-          "border-transparent text-white shadow-sm hover:shadow-md badge-admin",
+          "border-transparent text-white shadow-sm badge-admin",
         user:
-          "border-transparent text-white shadow-sm hover:shadow-md badge-user",
+          "border-transparent text-white shadow-sm badge-user",
         success:
-          "border-transparent bg-green-500 text-white shadow-sm hover:bg-green-600",
+          "border-transparent bg-green-500 text-white shadow-sm",
         warning:
-          "border-transparent bg-yellow-500 text-white shadow-sm hover:bg-yellow-600",
+          "border-transparent bg-yellow-500 text-white shadow-sm",
         info:
-          "border-transparent bg-blue-500 text-white shadow-sm hover:bg-blue-600",
+          "border-transparent bg-blue-500 text-white shadow-sm",
         started:
-          "border-transparent bg-[var(--color-primary-green)] text-white shadow-sm hover:bg-[#7a8560]",
+          "border-transparent bg-[var(--color-primary-green)] text-white shadow-sm",
         "in-progress":
-          "border-transparent bg-[var(--color-primary-yellow)] text-white shadow-sm hover:bg-[#b08832]",
+          "border-transparent bg-[var(--color-primary-yellow)] text-white shadow-sm",
         completed:
-          "border-transparent bg-[var(--color-primary-violet)] text-white shadow-sm hover:bg-[#857fa3]",
+          "border-transparent bg-[var(--color-primary-violet)] text-white shadow-sm",
       },
     },
     defaultVariants: {

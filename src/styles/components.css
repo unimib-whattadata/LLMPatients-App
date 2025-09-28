@@ -124,6 +124,57 @@
     cursor: not-allowed;
   }
 
+  /* Green button style */
+  .btn-green {
+    background-color: var(--color-primary-green);
+    color: var(--color-text-primary);
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-green:hover:not(:disabled) {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+  
+  .btn-green:active {
+    transform: translateY(0);
+  }
+  
+  .btn-green:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Dark button with yellow border */
+  .btn-dark-yellow-border {
+    background-color: var(--color-navbar-dark) !important;
+    color: var(--color-text-primary) !important;
+    border: 2px solid var(--color-primary-yellow) !important;
+    border-radius: 0.75rem;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-dark-yellow-border:hover:not(:disabled) {
+    background-color: var(--color-primary-yellow) !important;
+    color: var(--color-text-inverse) !important;
+    transform: translateY(-1px);
+  }
+  
+  .btn-dark-yellow-border:active {
+    transform: translateY(0);
+  }
+  
+  .btn-dark-yellow-border:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   .btn-secondary {
     border-radius: 0.75rem;
     padding: 0.85rem 1rem;
@@ -2828,8 +2879,6 @@
     cursor: pointer;
   }
 
-  .patient-card-button:hover {
-  }
 
   .patient-tag {
     font-size: 0.75rem;

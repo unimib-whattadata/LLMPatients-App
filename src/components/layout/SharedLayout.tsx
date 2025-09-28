@@ -214,25 +214,6 @@ export function SharedLayout({
   return (
     <div className={`layout-container ${layoutConfig.containerClass}`}>
       
-      {/* Skip Navigation Links */}
-      {layoutConfig.showSidebar && (
-        <a
-          href="#sidebar-navigation"
-          className="skip-link"
-          onFocus={(e) => (e.currentTarget.style.top = "6px")}
-          onBlur={(e) => (e.currentTarget.style.top = "-40px")}
-        >
-          Vai alla navigazione laterale
-        </a>
-      )}
-      <a
-        href="#site-navigation"
-        className="skip-link"
-        onFocus={(e) => (e.currentTarget.style.top = "6px")}
-        onBlur={(e) => (e.currentTarget.style.top = "-40px")}
-      >
-        Vai al menu principale
-      </a>
 
       {/* Shadcn Navbar */}
       <ShadcnNavbar

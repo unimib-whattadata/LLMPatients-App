@@ -79,7 +79,12 @@ export default function AuthButton() {
 
   // Show login button if not authenticated
   return (
-    <Button asChild variant="primary" size="default">
+    <Button
+      asChild
+      variant="dark-yellow-border"
+      size="default"
+      className="btn btn-dark-yellow-border"
+    >
       <Link href="/login">
         Accedi
       </Link>

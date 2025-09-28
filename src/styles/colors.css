@@ -159,14 +159,7 @@
   background-color: var(--color-primary-violet) !important;
 }
 
-.badge-admin:hover {
-  background-color: #7a6fa3 !important;
-}
 
 .badge-user {
   background-color: var(--color-gray-500) !important;
-}
-
-.badge-user:hover {
-  background-color: var(--color-gray-600) !important;
 }
