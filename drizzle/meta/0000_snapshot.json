@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a5eb18c8-8e02-496e-aa7c-62f9d12a1ded",
+  "id": "402ce36c-c310-469e-a749-e769788a0374",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "llmpatient_account": {
