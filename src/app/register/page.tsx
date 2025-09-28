@@ -187,24 +187,48 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="unified-auth-container">
-      <div className="unified-auth-form-wrapper">
-        <h2 className="unified-auth-form-title">Registrazione</h2>
-        <p className="unified-auth-form-subtitle">
-          Unisciti alla nostra piattaforma di allenamento con pazienti virtuali
-        </p>
+    <div className="min-h-screen flex">
+      {/* Left Section - Welcome Message */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
+        <div className="max-w-md text-center">
+          <h1 className="text-4xl font-bold text-primary-green mb-6">
+            Unisciti a LLMPatient
+          </h1>
+          <p className="text-xl text-text-secondary leading-relaxed">
+            Inizia il tuo percorso di apprendimento medico con simulazioni interattive e pazienti virtuali intelligenti.
+          </p>
+          <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
+            <span>•</span>
+            <span>Formazione avanzata</span>
+            <span>•</span>
+            <span>Simulazioni realistiche</span>
+            <span>•</span>
+            <span>Progressi tracciati</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section - Registration Form with Navbar Color */}
+      <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
+          <h2 className="text-2xl font-bold text-white mb-2">Registrazione</h2>
+          <p className="text-text-secondary mb-8">
+            Unisciti alla nostra piattaforma di allenamento con pazienti virtuali
+          </p>
           <form onSubmit={handleSubmit}>
             {/* Global Error Message */}
             {error && (
-              <div className="unified-form-error">
-                <X className="unified-form-error-icon" />
-                <div className="unified-form-error-text">{error}</div>
+              <div className="bg-error/20 border border-error/30 rounded-lg p-4 mb-6">
+                <div className="flex items-center">
+                  <X className="h-4 w-4 text-error mr-2" />
+                  <div className="text-error">{error}</div>
+                </div>
               </div>
             )}
 
             {/* Name Field */}
-            <div className="unified-form-group">
-              <label htmlFor="name" className="unified-form-label">
+            <div className="mb-6">
+              <label htmlFor="name" className="block text-sm font-medium text-text-primary mb-2">
                 Nome completo
               </label>
               <input
@@ -219,7 +243,11 @@ export default function RegisterPage() {
                   if (nameError) validateName(e.target.value);
                 }}
                 onBlur={() => validateName(name)}
-                className={`unified-form-input ${nameError ? "unified-form-input-error" : ""}`}
+                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                  nameError 
+                    ? "border-error" 
+                    : "border-border-primary hover:border-border-focus"
+                }`}
                 placeholder="Il tuo nome completo"
                 aria-describedby={nameError ? "name-error" : undefined}
                 aria-invalid={!!nameError}
@@ -227,18 +255,18 @@ export default function RegisterPage() {
               {nameError && (
                 <div
                   id="name-error"
-                  className="unified-form-error"
+                  className="mt-2 flex items-center text-error text-sm"
                   role="alert"
                 >
-                  <X className="unified-form-error-icon" />
-                  <div className="unified-form-error-text">{nameError}</div>
+                  <X className="h-4 w-4 mr-1" />
+                  {nameError}
                 </div>
               )}
             </div>
 
             {/* Email Field */}
-            <div className="unified-form-group">
-              <label htmlFor="email" className="unified-form-label">
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
                 E-mail
               </label>
               <input
@@ -253,7 +281,11 @@ export default function RegisterPage() {
                   if (emailError) validateEmail(e.target.value);
                 }}
                 onBlur={() => validateEmail(email)}
-                className={`unified-form-input ${emailError ? "unified-form-input-error" : ""}`}
+                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                  emailError 
+                    ? "border-error" 
+                    : "border-border-primary hover:border-border-focus"
+                }`}
                 placeholder="La tua e-mail"
                 aria-describedby={emailError ? "email-error" : undefined}
                 aria-invalid={!!emailError}
@@ -261,18 +293,18 @@ export default function RegisterPage() {
               {emailError && (
                 <div
                   id="email-error"
-                  className="unified-form-error"
+                  className="mt-2 flex items-center text-error text-sm"
                   role="alert"
                 >
-                  <X className="unified-form-error-icon" />
-                  <div className="unified-form-error-text">{emailError}</div>
+                  <X className="h-4 w-4 mr-1" />
+                  {emailError}
                 </div>
               )}
             </div>
 
             {/* Password Field */}
-            <div className="unified-form-group">
-              <label htmlFor="password" className="unified-form-label">
+            <div className="mb-6">
+              <label htmlFor="password" className="block text-sm font-medium text-text-primary mb-2">
                 Password
               </label>
               <input
@@ -290,7 +322,11 @@ export default function RegisterPage() {
                   }
                 }}
                 onBlur={() => validatePassword(password)}
-                className={`unified-form-input ${passwordError ? "unified-form-input-error" : ""}`}
+                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                  passwordError 
+                    ? "border-error" 
+                    : "border-border-primary hover:border-border-focus"
+                }`}
                 placeholder="La tua password"
                 aria-describedby={
                   passwordError ? "password-error" : undefined
@@ -300,18 +336,18 @@ export default function RegisterPage() {
               {passwordError && (
                 <div
                   id="password-error"
-                  className="unified-form-error"
+                  className="mt-2 flex items-center text-error text-sm"
                   role="alert"
                 >
-                  <X className="unified-form-error-icon" />
-                  <div className="unified-form-error-text">{passwordError}</div>
+                  <X className="h-4 w-4 mr-1" />
+                  {passwordError}
                 </div>
               )}
             </div>
 
             {/* Confirm Password Field */}
-            <div className="unified-form-group">
-              <label htmlFor="confirmPassword" className="unified-form-label">
+            <div className="mb-6">
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-text-primary mb-2">
                 Conferma password
               </label>
               <input
@@ -327,7 +363,11 @@ export default function RegisterPage() {
                     validateConfirmPassword(e.target.value);
                 }}
                 onBlur={() => validateConfirmPassword(confirmPassword)}
-                className={`unified-form-input ${confirmPasswordError ? "unified-form-input-error" : ""}`}
+                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                  confirmPasswordError 
+                    ? "border-error" 
+                    : "border-border-primary hover:border-border-focus"
+                }`}
                 placeholder="Conferma la tua password"
                 aria-describedby={
                   confirmPasswordError ? "confirm-password-error" : undefined
@@ -337,17 +377,17 @@ export default function RegisterPage() {
               {confirmPasswordError && (
                 <div
                   id="confirm-password-error"
-                  className="unified-form-error"
+                  className="mt-2 flex items-center text-error text-sm"
                   role="alert"
                 >
-                  <X className="unified-form-error-icon" />
-                  <div className="unified-form-error-text">{confirmPasswordError}</div>
+                  <X className="h-4 w-4 mr-1" />
+                  {confirmPasswordError}
                 </div>
               )}
             </div>
 
             {/* Terms and Conditions */}
-            <div className="unified-form-group">
+            <div className="mb-6">
               <div className="flex items-start">
                 <input
                   id="accept-terms"
@@ -358,29 +398,29 @@ export default function RegisterPage() {
                     setAcceptTerms(e.target.checked);
                     if (termsError) validateTerms(e.target.checked);
                   }}
-                  className="unified-form-checkbox mt-1"
+                  className="h-4 w-4 text-primary-green bg-surface-primary border-border-primary rounded focus:ring-primary-green focus:ring-2 mt-1"
                 />
                 <label
                   htmlFor="accept-terms"
-                  className="unified-form-text-muted ml-2 text-sm"
+                  className="ml-2 text-sm text-text-secondary"
                 >
                   Accetto i{" "}
-                  <Link href="/terms" className="unified-form-link">
+                  <Link href="/terms" className="text-primary-green hover:text-primary-green/80 transition-colors">
                     termini e condizioni
                   </Link>{" "}
                   e la{" "}
-                  <Link href="/privacy" className="unified-form-link">
+                  <Link href="/privacy" className="text-primary-green hover:text-primary-green/80 transition-colors">
                     privacy policy
                   </Link>
                 </label>
               </div>
               {termsError && (
                 <div
-                  className="unified-form-error"
+                  className="mt-2 flex items-center text-error text-sm"
                   role="alert"
                 >
-                  <X className="unified-form-error-icon" />
-                  <div className="unified-form-error-text">{termsError}</div>
+                  <X className="h-4 w-4 mr-1" />
+                  {termsError}
                 </div>
               )}
             </div>
@@ -389,31 +429,24 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="unified-form-submit"
+              className="w-full bg-primary-green hover:bg-primary-green/90 disabled:bg-primary-green/50 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
               aria-label="Registra il tuo account"
             >
-              {isLoading ? (
-                <>
-                  <div className="unified-form-spinner"></div>
-                  Registrazione in corso...
-                </>
-              ) : (
-                "Registrati"
-              )}
+              {isLoading && <div className="unified-form-spinner mr-2"></div>}
+              {isLoading ? "Registrazione in corso..." : "Registrati"}
             </button>
 
             {/* Login Link */}
-            <div className="unified-form-actions unified-form-actions-center">
-              <div className="unified-form-actions-row">
-                <span className="unified-form-text-muted text-sm">
-                  Hai gia un account?{" "}
-                </span>
-                <Link href="/login" className="unified-form-link text-sm">
+            <div className="mt-6 text-center">
+              <div className="text-sm text-text-secondary">
+                <span>Hai già un account? </span>
+                <Link href="/login" className="text-primary-green hover:text-primary-green/80 transition-colors">
                   Accedi qui
                 </Link>
               </div>
             </div>
           </form>
+        </div>
       </div>
     </div>
   );

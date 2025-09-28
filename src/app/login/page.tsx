@@ -324,8 +324,30 @@ function LoginPageComponent() {
   };
 
   return (
-    <div className="unified-auth-container">
-      <div className="unified-auth-form-wrapper">
+    <div className="min-h-screen flex">
+      {/* Left Section - Inspirational Message */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
+        <div className="max-w-md text-center">
+          <h1 className="text-4xl font-bold text-primary-green mb-6">
+            Benvenuto in LLMPatient
+          </h1>
+          <p className="text-xl text-text-secondary leading-relaxed">
+            La piattaforma che rivoluziona l'apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti.
+          </p>
+          <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
+            <span>•</span>
+            <span>Simulazioni realistiche</span>
+            <span>•</span>
+            <span>Apprendimento personalizzato</span>
+            <span>•</span>
+            <span>Feedback immediato</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Section - Login Form with Navbar Color */}
+      <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
           {/* Success State - Show redirect countdown */}
           {loginState.phase === "success" ||
           loginState.phase === "redirecting" ? (
@@ -334,15 +356,15 @@ function LoginPageComponent() {
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
                   <Check className="h-8 w-8 text-green-600" />
                 </div>
-                <h2 className="unified-auth-form-title mb-2">
+                <h2 className="text-2xl font-bold text-white mb-2">
                   Login Successful!
                 </h2>
-                <p className="unified-auth-form-subtitle mb-6">
+                <p className="text-text-secondary mb-6">
                   Welcome back! You&apos;re being redirected to your dashboard.
                 </p>
 
-                <div className="unified-form-error mb-6">
-                  <div className="unified-form-error-text">
+                <div className="bg-primary-green/20 border border-primary-green/30 rounded-lg p-4 mb-6">
+                  <div className="text-primary-green">
                     Redirecting in {loginState.redirectCountdown} second
                     {loginState.redirectCountdown !== 1 ? "s" : ""}...
                   </div>
@@ -353,7 +375,7 @@ function LoginPageComponent() {
                     !loginState.isNavigating && navigate(callbackUrl)
                   }
                   disabled={loginState.isNavigating}
-                  className="unified-form-submit unified-form-submit--success"
+                  className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
                 >
                   {loginState.isNavigating && <div className="unified-form-spinner"></div>}
                   {loginState.isNavigating ? "Redirecting..." : "Go Now"}
@@ -363,22 +385,24 @@ function LoginPageComponent() {
           ) : (
             /* Normal Login Form */
             <div>
-              <h2 className="unified-auth-form-title">Login</h2>
-              <p className="unified-auth-form-subtitle">
+              <h2 className="text-2xl font-bold text-white mb-2">Login</h2>
+              <p className="text-text-secondary mb-8">
                 Accedi al tuo account per continuare
               </p>
               <form onSubmit={handleSubmit}>
                 {/* Global Error Message */}
                 {loginState.error && (
-                  <div className="unified-form-error">
-                    <X className="unified-form-error-icon" />
-                    <div className="unified-form-error-text">{loginState.error}</div>
+                  <div className="bg-error/20 border border-error/30 rounded-lg p-4 mb-6">
+                    <div className="flex items-center">
+                      <X className="h-4 w-4 text-error mr-2" />
+                      <div className="text-error">{loginState.error}</div>
+                    </div>
                   </div>
                 )}
 
                 {/* Email Field */}
-                <div className="unified-form-group">
-                  <label htmlFor="email" className="unified-form-label">
+                <div className="mb-6">
+                  <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
                     E-mail
                   </label>
                   <input
@@ -401,23 +425,27 @@ function LoginPageComponent() {
                       loginState.emailError ? "email-error" : undefined
                     }
                     aria-invalid={!!loginState.emailError}
-                    className={`unified-form-input ${loginState.emailError ? "unified-form-input-error" : ""}`}
+                    className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                      loginState.emailError 
+                        ? "border-error" 
+                        : "border-border-primary hover:border-border-focus"
+                    }`}
                   />
                   {loginState.emailError && (
                     <div
                       id="email-error"
-                      className="unified-form-error"
+                      className="mt-2 flex items-center text-error text-sm"
                       role="alert"
                     >
-                      <X className="unified-form-error-icon" />
-                      <div className="unified-form-error-text">{loginState.emailError}</div>
+                      <X className="h-4 w-4 mr-1" />
+                      {loginState.emailError}
                     </div>
                   )}
                 </div>
 
                 {/* Password Field */}
-                <div className="unified-form-group">
-                  <label htmlFor="password" className="unified-form-label">
+                <div className="mb-6">
+                  <label htmlFor="password" className="block text-sm font-medium text-text-primary mb-2">
                     Password
                   </label>
                   <div className="relative">
@@ -442,7 +470,11 @@ function LoginPageComponent() {
                         loginState.passwordError ? "password-error" : undefined
                       }
                       aria-invalid={!!loginState.passwordError}
-                      className={`unified-form-input pr-12 ${loginState.passwordError ? "unified-form-input-error" : ""}`}
+                      className={`w-full px-4 py-3 pr-12 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
+                        loginState.passwordError 
+                          ? "border-error" 
+                          : "border-border-primary hover:border-border-focus"
+                      }`}
                     />
                     <button
                       type="button"
@@ -458,23 +490,23 @@ function LoginPageComponent() {
                         }
                       }}
                     >
-                      <Eye className="h-4 w-4 text-muted-foreground" />
+                      <Eye className="h-4 w-4 text-text-tertiary" />
                     </button>
                   </div>
                   {loginState.passwordError && (
                     <div
                       id="password-error"
-                      className="unified-form-error"
+                      className="mt-2 flex items-center text-error text-sm"
                       role="alert"
                     >
-                      <X className="unified-form-error-icon" />
-                      <div className="unified-form-error-text">{loginState.passwordError}</div>
+                      <X className="h-4 w-4 mr-1" />
+                      {loginState.passwordError}
                     </div>
                   )}
                 </div>
 
                 {/* Remember Me */}
-                <div className="flex items-center">
+                <div className="flex items-center mb-6">
                   <input
                     id="remember-me"
                     name="remember-me"
@@ -486,11 +518,11 @@ function LoginPageComponent() {
                         rememberMe: e.target.checked,
                       }))
                     }
-                    className="unified-form-checkbox"
+                    className="h-4 w-4 text-primary-green bg-surface-primary border-border-primary rounded focus:ring-primary-green focus:ring-2"
                   />
                   <label
                     htmlFor="remember-me"
-                    className="unified-form-text-muted ml-2 text-sm"
+                    className="ml-2 text-sm text-text-secondary"
                   >
                     Ricordami al prossimo accesso
                   </label>
@@ -504,11 +536,11 @@ function LoginPageComponent() {
                       loginState.phase,
                     ) || loginState.isNavigating
                   }
-                  className="unified-form-submit"
+                  className="w-full bg-primary-green hover:bg-primary-green/90 disabled:bg-primary-green/50 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
                   aria-label="Accedi al tuo account"
                 >
                   {(["authenticating", "redirecting"].includes(loginState.phase) || loginState.isNavigating) && 
-                    <div className="unified-form-spinner"></div>
+                    <div className="unified-form-spinner mr-2"></div>
                   }
                   {(() => {
                     const phase = loginState.phase as LoginState["phase"];
@@ -520,27 +552,28 @@ function LoginPageComponent() {
                 </button>
 
                 {/* Register Link */}
-                <div className="unified-form-actions unified-form-actions-center">
-                  <div className="unified-form-actions-row">
-                    <span className="unified-form-text-muted text-sm">o </span>
-                    <Link href="/register" className="unified-form-link text-sm">
+                <div className="mt-6 text-center">
+                  <div className="text-sm text-text-secondary">
+                    <span>o </span>
+                    <Link href="/register" className="text-primary-green hover:text-primary-green/80 transition-colors">
                       registrati
                     </Link>
-                    <span className="unified-form-text-muted text-sm"> subito</span>
+                    <span> subito</span>
                   </div>
                 </div>
 
-                <hr className="unified-form-divider" />
+                <hr className="my-6 border-border-primary" />
 
                 {/* Forgot Password */}
-                <div className="unified-form-actions unified-form-actions-center">
-                  <Link href="/forgot-password" className="unified-form-link text-sm">
+                <div className="text-center">
+                  <Link href="/forgot-password" className="text-sm text-primary-green hover:text-primary-green/80 transition-colors">
                     Hai dimenticato la password?
                   </Link>
                 </div>
               </form>
             </div>
           )}
+        </div>
       </div>
     </div>
   );
