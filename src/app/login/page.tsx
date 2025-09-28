@@ -562,14 +562,6 @@ function LoginPageComponent() {
                   </div>
                 </div>
 
-                <hr className="my-6 border-border-primary" />
-
-                {/* Forgot Password */}
-                <div className="text-center">
-                  <Link href="/forgot-password" className="text-sm text-primary-green hover:text-primary-green/80 transition-colors">
-                    Hai dimenticato la password?
-                  </Link>
-                </div>
               </form>
             </div>
           )}

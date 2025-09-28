@@ -180,7 +180,7 @@ export default function SignoutPage() {
             <div className="mt-8 pt-6">
               <Button
                 onClick={() => router.push("/")}
-                className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200"
+                className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
               >
                 Vai alla Homepage
               </Button>
