@@ -69,10 +69,10 @@ export const chatRouter = createTRPCRouter({
         return null;
       }
 
-      const chatData = chatStep[0]!;
+      const chatData = chatStep[0];
       return {
         ...chatData,
-        messages: JSON.parse(chatData.messages) as ChatMessage[],
+        messages: JSON.parse(chatData!.messages) as ChatMessage[],
       };
     }),
 
@@ -326,10 +326,12 @@ export const chatRouter = createTRPCRouter({
         .where(eq(chat.therapySessionId, input.therapySessionId))
         .orderBy(chat.stepNumber);
 
-      return chatSteps.map((step) => ({
-        ...step,
-        messages: JSON.parse(step.messages) as ChatMessage[],
-      }));
+      return chatSteps.map((step) => {
+        return {
+          ...step,
+          messages: JSON.parse(step.messages) as ChatMessage[],
+        };
+      });
     }),
 
   // Check if a step is completed

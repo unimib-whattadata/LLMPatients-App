@@ -59,6 +59,11 @@ export function TherapeuticJourneyContent() {
     error: sessionsError,
   } = api.therapySessions.getAllForUser.useQuery();
 
+  // Type assertion for API response
+  const typedAllTherapySessions = allTherapySessions as
+    | TherapySessionWithPatient[]
+    | undefined;
+
   /**
    * Determines the status of a therapy session based on completion status and session number
    * @param therapySession - The therapy session object with isCompleted field
@@ -81,38 +86,38 @@ export function TherapeuticJourneyContent() {
    * @returns Array of filtered therapy sessions
    */
   const filteredSessions = useMemo(() => {
-    if (!allTherapySessions) return [];
-    if (filter === "all") return allTherapySessions;
+    if (!typedAllTherapySessions) return [];
+    if (filter === "all") return typedAllTherapySessions;
 
-    return allTherapySessions.filter((session) => {
+    return typedAllTherapySessions.filter((session) => {
       const status = getSessionStatus(session);
       return status === filter;
     });
-  }, [allTherapySessions, filter, getSessionStatus]);
+  }, [typedAllTherapySessions, filter, getSessionStatus]);
 
   /**
    * Calculates session metrics for display in the metrics component
    * @returns Object containing inProgress count, completed count, and average progress percentage
    */
   const metrics = useMemo(() => {
-    if (!allTherapySessions)
+    if (!typedAllTherapySessions)
       return { inProgress: 0, completed: 0, averageProgress: 0 };
 
-    const inProgress = allTherapySessions.filter(
+    const inProgress = typedAllTherapySessions.filter(
       (s) => getSessionStatus(s) === "in-progress",
     ).length;
-    const completed = allTherapySessions.filter(
+    const completed = typedAllTherapySessions.filter(
       (s) => getSessionStatus(s) === "completed",
     ).length;
     const averageProgress = Math.round(
-      allTherapySessions.reduce(
+      typedAllTherapySessions.reduce(
         (acc, session) => acc + (session.sessionNumber / 11) * 100,
         0,
-      ) / allTherapySessions.length,
+      ) / typedAllTherapySessions.length,
     );
 
     return { inProgress, completed, averageProgress };
-  }, [allTherapySessions, getSessionStatus]);
+  }, [typedAllTherapySessions, getSessionStatus]);
 
   /**
    * Handles filter changes from the filter component
@@ -156,7 +161,7 @@ export function TherapeuticJourneyContent() {
               </div>
             ))}
           </div>
-        ) : allTherapySessions && allTherapySessions.length > 0 ? (
+        ) : typedAllTherapySessions && typedAllTherapySessions.length > 0 ? (
           <TherapySessionMetrics
             inProgress={metrics.inProgress}
             completed={metrics.completed}
@@ -279,7 +284,7 @@ export function TherapeuticJourneyContent() {
               Non è stato possibile caricare le tue sessioni terapeutiche.
             </p>
           </div>
-        ) : !allTherapySessions || allTherapySessions.length === 0 ? (
+        ) : !typedAllTherapySessions || typedAllTherapySessions.length === 0 ? (
           <div className="dashboard-empty-state">
             <h3 className="text-text-primary mb-2 text-lg font-medium">
               Nessuna sessione avviata
@@ -311,8 +316,8 @@ export function TherapeuticJourneyContent() {
         )}
 
         {filteredSessions.length === 0 &&
-          allTherapySessions &&
-          allTherapySessions.length > 0 && (
+          typedAllTherapySessions &&
+          typedAllTherapySessions.length > 0 && (
             <div className="dashboard-empty-state">
               <h3 className="text-text-primary mb-2 text-lg font-medium">
                 Nessuna sessione trovata

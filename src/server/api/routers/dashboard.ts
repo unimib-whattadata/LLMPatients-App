@@ -236,7 +236,6 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        // Check if email is already taken by another user
         const existingUser = await ctx.db
           .select({ id: users.id })
           .from(users)
@@ -277,7 +276,6 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        // Log profile update activity
         await ctx.db.insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "profile_update",
@@ -384,7 +382,6 @@ export const dashboardRouter = createTRPCRouter({
    */
   getStudentStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      // Calculate date 30 days ago for active students metric
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
@@ -438,7 +435,7 @@ export const dashboardRouter = createTRPCRouter({
           : 0;
 
       return {
-        totalStudents: totalStudentsResult[0]?.count ?? 0,
+        totalStudents: totalStudentsCount,
         activeStudents: activeStudentsQuery.length,
         completionRate: Math.min(completionRate, 100), // Cap at 100%
         averageScore: averageScore,
@@ -458,7 +455,6 @@ export const dashboardRouter = createTRPCRouter({
    */
   getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      // Get students with simulation activity (as proxy for evaluations)
       const studentsWithSimulations = await ctx.db
         .select({ userId: userActivities.userId })
         .from(userActivities)

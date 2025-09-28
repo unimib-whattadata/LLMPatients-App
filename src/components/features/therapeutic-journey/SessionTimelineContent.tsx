@@ -19,6 +19,49 @@ import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
+// API Response Types
+type PatientData = {
+  id: string;
+  name: string;
+  smallDescription: string;
+  details: string;
+  background: string;
+  objectives: string[];
+  avatarUrl: string | null;
+  avatarType: string;
+  difficulty: number;
+  estimatedDuration: number;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type TherapySessionData = {
+  id: string;
+  userId: string;
+  patientId: string;
+  sessionNumber: number;
+  isCompleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type CompletedStepData = {
+  id: string;
+  therapySessionId: string;
+  stepNumber: number;
+  messages: {
+    id: string;
+    content: string;
+    sender: "user" | "patient";
+    timestamp: Date | string;
+    stepId: number;
+  }[];
+  done: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 const STEP_IDS = TIMELINE_STEPS.map((step) => step.id);
 const FIRST_STEP_ID = STEP_IDS[0] ?? 1;
 const LAST_STEP_ID = STEP_IDS[STEP_IDS.length - 1] ?? FIRST_STEP_ID;
@@ -43,39 +86,39 @@ const TimelineStep = memo(
     isCompleted: boolean;
   }) => {
     return (
-    <div
-      key={step.id}
-      data-step-id={step.id}
-      data-step-color={step.color}
-      style={{
-        top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
-        left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
-        width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
-        height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
-        fontSize: `${circleFontSize}px`,
-        color: 'white',
-      }}
-      className={`timeline-step-positioned timeline-desktop-step ${
-        !isUnlocked ? "timeline-step-positioned--locked" : ""
-      } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
-      onClick={() => {
-        if (!isUnlocked) return;
-        onStepClick(step.id);
-      }}
-      onKeyDown={(event) => {
-        if (!isUnlocked) return;
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
+      <div
+        key={step.id}
+        data-step-id={step.id}
+        data-step-color={step.color}
+        style={{
+          top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
+          left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
+          width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
+          height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
+          fontSize: `${circleFontSize}px`,
+          color: "white",
+        }}
+        className={`timeline-step-positioned timeline-desktop-step ${
+          !isUnlocked ? "timeline-step-positioned--locked" : ""
+        } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
+        onClick={() => {
+          if (!isUnlocked) return;
           onStepClick(step.id);
-        }
-      }}
-      role="button"
-      tabIndex={isUnlocked ? 0 : -1}
-      aria-disabled={!isUnlocked}
-      aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
-    >
-      {isCompleted ? "✓" : step.id}
-    </div>
+        }}
+        onKeyDown={(event) => {
+          if (!isUnlocked) return;
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            onStepClick(step.id);
+          }
+        }}
+        role="button"
+        tabIndex={isUnlocked ? 0 : -1}
+        aria-disabled={!isUnlocked}
+        aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
+      >
+        {isCompleted ? "✓" : step.id}
+      </div>
     );
   },
 );
@@ -105,11 +148,11 @@ const MobileTimelineStep = memo(
         className="absolute top-4 -left-6.5 flex h-3 w-3 items-center justify-center"
         aria-hidden
       >
-        <span 
+        <span
           data-step-id={step.id}
           data-step-color={step.color}
           className="timeline-mobile-step flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
-          style={{ color: 'white' }}
+          style={{ color: "white" }}
         >
           {isCompleted ? "✓" : ""}
         </span>
@@ -201,6 +244,11 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
+  // Type assertions for API responses
+  const typedTherapySession = therapySession as TherapySessionData | undefined;
+  const typedCompletedSteps = completedSteps as CompletedStepData[] | undefined;
+  const typedSelectedPatient = selectedPatient as PatientData | undefined;
+
   const utils = api.useUtils();
 
   const advanceSession = api.therapySessions.advanceSession.useMutation({
@@ -216,8 +264,8 @@ export function SessionTimelineContent({
 
       const targetStep = Math.min(updatedSession.sessionNumber, LAST_STEP_ID);
 
-      if (selectedPatient) {
-        const patientSlug = createPatientSlug(selectedPatient.name);
+      if (typedSelectedPatient) {
+        const patientSlug = createPatientSlug(typedSelectedPatient.name);
         router.push(
           `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${targetStep}`,
         );
@@ -233,9 +281,9 @@ export function SessionTimelineContent({
 
   // Calculate which steps are unlocked based on completed steps
   const unlockedSteps = useMemo(() => {
-    if (!completedSteps) return [FIRST_STEP_ID];
+    if (!typedCompletedSteps) return [FIRST_STEP_ID];
 
-    const completedStepNumbers = completedSteps
+    const completedStepNumbers = typedCompletedSteps
       .filter((step) => step.done)
       .map((step) => step.stepNumber)
       .sort((a, b) => a - b);
@@ -251,7 +299,7 @@ export function SessionTimelineContent({
     });
 
     return unlocked.sort((a, b) => a - b);
-  }, [completedSteps]);
+  }, [typedCompletedSteps]);
 
   const isStepUnlocked = useCallback(
     (stepId: number) => {
@@ -262,12 +310,12 @@ export function SessionTimelineContent({
 
   const isStepCompleted = useCallback(
     (stepId: number) => {
-      if (!completedSteps) return false;
-      return completedSteps.some(
+      if (!typedCompletedSteps) return false;
+      return typedCompletedSteps.some(
         (step) => step.stepNumber === stepId && step.done,
       );
     },
-    [completedSteps],
+    [typedCompletedSteps],
   );
 
   // Event handlers - must be before early return to maintain hook order
@@ -276,8 +324,8 @@ export function SessionTimelineContent({
       if (!isStepUnlocked(stepId)) return;
 
       // Navigate to chat page for the selected step with patient name
-      if (selectedPatient) {
-        const patientSlug = createPatientSlug(selectedPatient.name);
+      if (typedSelectedPatient) {
+        const patientSlug = createPatientSlug(typedSelectedPatient.name);
         router.push(
           `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`,
         );
@@ -286,23 +334,20 @@ export function SessionTimelineContent({
         router.push(`/dashboard/therapeutic-journey`);
       }
     },
-    [isStepUnlocked, router, sessionId, selectedPatient],
+    [isStepUnlocked, router, sessionId, typedSelectedPatient],
   );
 
   // Computed values - must be before early return to maintain hook order
 
   // Use original positions and sizes - CSS will handle scaling
-  const stepPositions = useMemo(
-    () => {
-      const steps = TIMELINE_STEPS.map((step) => ({
-        ...step,
-        scaledTop: step.top,
-        scaledLeft: step.left + TIMELINE_CONFIG.NODE_OFFSET_X,
-      }));
-      return steps;
-    },
-    [],
-  );
+  const stepPositions = useMemo(() => {
+    const steps = TIMELINE_STEPS.map((step) => ({
+      ...step,
+      scaledTop: step.top,
+      scaledLeft: step.left + TIMELINE_CONFIG.NODE_OFFSET_X,
+    }));
+    return steps;
+  }, []);
 
   const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
   const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
@@ -310,7 +355,7 @@ export function SessionTimelineContent({
   // Compute timeline path on client side to avoid hydration issues
   const timelinePathD = useMemo(() => {
     if (!isMounted) return "";
-    
+
     const timelinePathPoints = [
       { x: 520, y: 100 },
       { x: 520, y: 240 },
@@ -327,7 +372,10 @@ export function SessionTimelineContent({
       { x: 520, y: 1300 },
       { x: 520, y: 1460 },
     ];
-    return buildRoundedOrthogonalPath(timelinePathPoints, TIMELINE_CONFIG.PATH_RADIUS);
+    return buildRoundedOrthogonalPath(
+      timelinePathPoints,
+      TIMELINE_CONFIG.PATH_RADIUS,
+    );
   }, [isMounted]);
 
   if (!sessionId) {
@@ -457,8 +505,8 @@ export function SessionTimelineContent({
                         href: "/dashboard/therapeutic-journey",
                       },
                       {
-                        label: selectedPatient
-                          ? selectedPatient.name
+                        label: typedSelectedPatient
+                          ? typedSelectedPatient.name
                           : "Sessione",
                         isActive: true,
                       },
@@ -466,8 +514,8 @@ export function SessionTimelineContent({
                   />
 
                   <h1 className="dashboard-section__title">
-                    {selectedPatient
-                      ? `Il tuo percorso con ${selectedPatient.name}`
+                    {typedSelectedPatient
+                      ? `Il tuo percorso con ${typedSelectedPatient.name}`
                       : "Il tuo percorso terapeutico"}
                   </h1>
                 </div>
@@ -480,15 +528,15 @@ export function SessionTimelineContent({
                 più sicura nel tuo ruolo. Proprio come in un viaggio, ogni punto
                 è un piccolo traguardo. Sei pronto? Iniziamo!
               </p>
-              {therapySession && (
+              {typedTherapySession && (
                 <div className="mt-4 flex items-center gap-4">
                   <div className="text-text-secondary text-sm">
                     Sessione corrente:{" "}
                     <span className="text-text-primary font-semibold">
-                      {therapySession.sessionNumber}/{LAST_STEP_ID}
+                      {typedTherapySession.sessionNumber}/{LAST_STEP_ID}
                     </span>
                   </div>
-                  {therapySession.sessionNumber < LAST_STEP_ID && (
+                  {typedTherapySession.sessionNumber < LAST_STEP_ID && (
                     <button
                       onClick={() => {
                         if (!sessionId) return;

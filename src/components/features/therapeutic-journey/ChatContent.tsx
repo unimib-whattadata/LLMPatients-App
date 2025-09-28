@@ -8,12 +8,56 @@ import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Loader2 } from "lucide-react";
-import {
-  ArrowLeft,
-  Send,
-} from "lucide-react";
+import { ArrowLeft, Send } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
+
+// API Response Types
+type PatientData = {
+  id: string;
+  name: string;
+  smallDescription: string;
+  details: string;
+  background: string;
+  objectives: string[];
+  avatarUrl: string | null;
+  avatarType: string;
+  difficulty: number;
+  estimatedDuration: number;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type TherapySessionData = {
+  id: string;
+  userId: string;
+  patientId: string;
+  sessionNumber: number;
+  isCompleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ChatStepData = {
+  id: string;
+  therapySessionId: string;
+  stepNumber: number;
+  messages: ChatMessage[];
+  done: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type CompletedStepData = {
+  id: string;
+  therapySessionId: string;
+  stepNumber: number;
+  messages: ChatMessage[];
+  done: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
 interface ChatContentProps {
   user: User;
@@ -69,7 +113,7 @@ function generatePatientAvatar(name: string): {
 
   const colorClasses = [
     "avatar-color-olive",
-    "avatar-color-mustard", 
+    "avatar-color-mustard",
     "avatar-color-violet",
     "avatar-color-teal",
     "avatar-color-coral",
@@ -82,7 +126,7 @@ function generatePatientAvatar(name: string): {
     "avatar-color-lime",
     "avatar-color-purple",
     "avatar-color-pink",
-    "avatar-color-orange"
+    "avatar-color-orange",
   ];
 
   const colorIndex =
@@ -158,6 +202,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       { enabled: Boolean(therapySession?.id) },
     );
 
+  // Type assertions for API responses
+  const typedSelectedPatient = selectedPatient as PatientData | undefined;
+  const typedTherapySession = therapySession as TherapySessionData | undefined;
+  const typedExistingChat = existingChat as ChatStepData | undefined;
+  const typedCompletedSteps = completedSteps as CompletedStepData[] | undefined;
+
   // Mutations for chat operations
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
@@ -166,17 +216,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const utils = api.useUtils();
 
   // Generate patient avatar data once
-  const patientAvatar = selectedPatient
-    ? generatePatientAvatar(selectedPatient.name)
+  const patientAvatar = typedSelectedPatient
+    ? generatePatientAvatar(typedSelectedPatient.name)
     : { colorClass: "avatar-color-default", initials: "P" };
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {
-    if (!completedSteps) return false;
-    return completedSteps.some(
+    if (!typedCompletedSteps) return false;
+    return typedCompletedSteps.some(
       (step) => step.stepNumber === stepId && step.done,
     );
-  }, [completedSteps, stepId]);
+  }, [typedCompletedSteps, stepId]);
 
   // Auto-scroll to bottom when new messages arrive or typing state changes
   useEffect(() => {
@@ -197,9 +247,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
   // Initialize chat with existing data or welcome message
   useEffect(() => {
-    if (existingChat && existingChat.messages.length > 0) {
+    if (typedExistingChat && typedExistingChat.messages.length > 0) {
       // Convert string timestamps to Date objects
-      const messagesWithDates = existingChat.messages.map((msg) => ({
+      const messagesWithDates = typedExistingChat.messages.map((msg) => ({
         ...msg,
         timestamp:
           typeof msg.timestamp === "string"
@@ -207,20 +257,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             : msg.timestamp,
       }));
       setMessages(messagesWithDates);
-    } else if (selectedPatient && !chatLoading && !existingChat) {
+    } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
-        content: `Ciao! Sono ${selectedPatient.name || "il tuo paziente"}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
+        content: `Ciao! Sono ${typedSelectedPatient.name || "il tuo paziente"}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
         sender: "patient",
         timestamp: new Date(),
         stepId,
       };
       setMessages([welcomeMessage]);
     }
-  }, [existingChat, selectedPatient, stepId, chatLoading]);
+  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
 
   const handleSendMessage = async () => {
-    if (!inputMessage.trim() || isTyping || !therapySession) return;
+    if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
 
     const messageText = inputMessage.trim();
     setInputMessage(""); // Clear input immediately
@@ -255,7 +305,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     // Save user message to database
     try {
       await saveChatMutation.mutateAsync({
-        therapySessionId: therapySession.id,
+        therapySessionId: typedTherapySession.id,
         stepNumber: stepId,
         messages: updatedMessages.map((msg) => ({
           ...msg,
@@ -304,7 +354,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         // Save complete conversation
         saveChatMutation.mutate({
-          therapySessionId: therapySession.id,
+          therapySessionId: typedTherapySession.id,
           stepNumber: stepId,
           messages: finalMessages.map((msg) => ({
             ...msg,
@@ -327,8 +377,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   };
 
   const goBack = () => {
-    if (selectedPatient) {
-      const patientSlug = createPatientSlug(selectedPatient.name);
+    if (typedSelectedPatient) {
+      const patientSlug = createPatientSlug(typedSelectedPatient.name);
       router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}`);
     } else {
       router.push(`/dashboard/therapeutic-journey`);
@@ -336,17 +386,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   };
 
   const handleCompleteStep = async () => {
-    if (!therapySession) return;
+    if (!typedTherapySession) return;
 
     try {
       await markStepDoneMutation.mutateAsync({
-        therapySessionId: therapySession.id,
+        therapySessionId: typedTherapySession.id,
         stepNumber: stepId,
       });
 
       // Invalidate queries to refresh the timeline
       await utils.chat.getSessionChats.invalidate({
-        therapySessionId: therapySession.id,
+        therapySessionId: typedTherapySession.id,
       });
 
       // Show success message or redirect
@@ -389,7 +439,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="dashboard-section text-center">
             <div className="flex flex-col items-center space-y-4">
               <Loader2 className="h-8 w-8 animate-spin text-[var(--color-primary-green)]" />
-              <p className="text-sm text-[var(--color-text-primary)]/70">Caricamento chat...</p>
+              <p className="text-sm text-[var(--color-text-primary)]/70">
+                Caricamento chat...
+              </p>
             </div>
           </div>
         </div>
@@ -397,7 +449,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }
 
-  if (patientError || !selectedPatient) {
+  if (patientError || !typedSelectedPatient) {
     return (
       <SharedLayout
         user={user}
@@ -406,7 +458,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       >
         <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
           <div className="dashboard-section text-center">
-            <h2 className="text-heading-2 mb-4 text-[var(--color-text-primary)]">Paziente non trovato</h2>
+            <h2 className="text-heading-2 mb-4 text-[var(--color-text-primary)]">
+              Paziente non trovato
+            </h2>
             <p className="text-body-lg mb-6 text-[var(--color-text-primary)]/70">
               Il paziente richiesto non è disponibile.
             </p>
@@ -426,11 +480,18 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       impersonation={impersonation}
       layoutType="dashboard"
     >
-      <div className="chat-container flex flex-col h-[calc(100vh-4rem)] page-background" role="main" aria-label="Chat con paziente virtuale">
+      <div
+        className="chat-container page-background flex h-[calc(100vh-4rem)] flex-col"
+        role="main"
+        aria-label="Chat con paziente virtuale"
+      >
         {/* Header */}
-        <header className="dashboard-section navbar-background px-4 sm:px-6 py-4 flex-shrink-0" role="banner">
+        <header
+          className="dashboard-section navbar-background flex-shrink-0 px-4 py-4 sm:px-6"
+          role="banner"
+        >
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2 sm:space-x-4 min-w-0 flex-1">
+            <div className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4">
               <Button
                 variant="ghost"
                 size="sm"
@@ -440,27 +501,30 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <div className="flex items-center space-x-2 sm:space-x-3 min-w-0">
+              <div className="flex min-w-0 items-center space-x-2 sm:space-x-3">
                 <div className="therapy-session-avatar flex-shrink-0">
-                  {selectedPatient?.avatarUrl ? (
+                  {typedSelectedPatient?.avatarUrl ? (
                     <Image
-                      src={selectedPatient.avatarUrl}
-                      alt={`Avatar di ${selectedPatient.name}`}
+                      src={typedSelectedPatient.avatarUrl}
+                      alt={`Avatar di ${typedSelectedPatient.name}`}
                       width={40}
                       height={40}
                       className="rounded-lg object-cover"
                     />
                   ) : (
-                    <div 
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white ${patientAvatar?.colorClass || 'avatar-color-default'}`}
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white ${patientAvatar?.colorClass || "avatar-color-default"}`}
                     >
                       {patientAvatar?.initials}
                     </div>
                   )}
                 </div>
                 <div className="min-w-0">
-                  <h1 className="text-heading-3 text-[var(--color-text-primary)] truncate">
-                    <span className="hidden sm:inline">{selectedPatient?.name} - </span>Sessione {stepId}
+                  <h1 className="text-heading-3 truncate text-[var(--color-text-primary)]">
+                    <span className="hidden sm:inline">
+                      {typedSelectedPatient?.name} -{" "}
+                    </span>
+                    Sessione {stepId}
                   </h1>
                   <p className="text-sm text-[var(--color-text-primary)]/70">
                     {new Date().toLocaleDateString("it-IT")}
@@ -468,8 +532,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 </div>
               </div>
             </div>
-            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
-              <div className="pill bg-primary-green-20 text-primary-green px-2 sm:px-3 py-1">
+            <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
+              <div className="pill bg-primary-green-20 text-primary-green px-2 py-1 sm:px-3">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -478,7 +542,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <Button
                   onClick={handleCompleteStep}
                   disabled={markStepDoneMutation.isPending}
-                  className="btn btn-primary text-xs sm:text-sm px-2 sm:px-4"
+                  className="btn btn-primary px-2 text-xs sm:px-4 sm:text-sm"
                   aria-label="Completa sessione"
                 >
                   <span className="hidden sm:inline">
@@ -494,7 +558,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 page-background" role="log" aria-label="Messaggi della conversazione" aria-live="polite">
+        <div
+          className="page-background flex-1 overflow-y-auto p-4 sm:p-6"
+          role="log"
+          aria-label="Messaggi della conversazione"
+          aria-live="polite"
+        >
           <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6">
             {messages.map((message) => (
               <div
@@ -510,30 +579,31 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       : "flex-row"
                   }`}
                 >
-
                   {/* Message bubble */}
-                  <div 
-                    className={`rounded-lg px-3 sm:px-4 py-2 sm:py-3 max-w-xs sm:max-w-sm text-white ${
-                      message.sender === "patient" 
-                        ? "chat-bubble--patient" 
-                        : message.sender === "user" 
-                        ? "chat-bubble--user" 
-                        : ""
+                  <div
+                    className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
+                      message.sender === "patient"
+                        ? "chat-bubble--patient"
+                        : message.sender === "user"
+                          ? "chat-bubble--user"
+                          : ""
                     }`}
                   >
-                    <p className="text-body text-sm sm:text-base">{message.content}</p>
+                    <p className="text-body text-sm sm:text-base">
+                      {message.content}
+                    </p>
                   </div>
                 </div>
               </div>
             ))}
 
             {isTyping && (
-              <div className="flex justify-start mb-4">
-                <div className="rounded-lg px-4 py-3 chat-typing-indicator">
+              <div className="mb-4 flex justify-start">
+                <div className="chat-typing-indicator rounded-lg px-4 py-3">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot"></div>
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot--delay-1"></div>
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot--delay-2"></div>
+                    <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                    <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                    <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
                   </div>
                 </div>
               </div>
@@ -545,7 +615,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Input - Only show if step is not completed */}
         {!isStepCompleted && (
-          <div className="p-4 sm:p-6 flex-shrink-0">
+          <div className="flex-shrink-0 p-4 sm:p-6">
             <div className="mx-auto max-w-4xl">
               <div className="flex space-x-2 sm:space-x-3">
                 <Input
@@ -572,7 +642,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Session completed message */}
         {isStepCompleted && (
-          <div className="navbar-background p-6 flex-shrink-0">
+          <div className="navbar-background flex-shrink-0 p-6">
             <div className="mx-auto max-w-4xl text-center">
               <div className="pill bg-primary-green-20 text-primary-green px-4 py-3">
                 <p className="text-sm font-medium">

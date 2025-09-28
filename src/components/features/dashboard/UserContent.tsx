@@ -10,6 +10,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import { Loader2 } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
 
+type UserProfile = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  role: string;
+  emailVerified: Date | null;
+  image: string | null;
+};
+
+type UserActivity = {
+  id: number;
+  type: string;
+  createdAt: Date;
+  metadata: Record<string, unknown> | null;
+};
+
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
     "overview" | "profile" | "activities"
@@ -52,6 +68,10 @@ export const UserContent = React.memo(function UserContent() {
       },
     );
 
+  // Type assertions for API responses
+  const typedProfile = profile as UserProfile | undefined;
+  const typedActivities = activities as UserActivity[] | undefined;
+
   // Profile update mutation
   const updateProfile = api.dashboard.updateProfile.useMutation({
     onSuccess: () => {
@@ -64,13 +84,13 @@ export const UserContent = React.memo(function UserContent() {
    * Initialize profile form when profile data loads
    */
   React.useEffect(() => {
-    if (profile && !isEditingProfile) {
+    if (typedProfile && !isEditingProfile) {
       setProfileForm({
-        name: profile.name || "",
-        email: profile.email || "",
+        name: typedProfile.name || "",
+        email: typedProfile.email || "",
       });
     }
-  }, [profile, isEditingProfile]);
+  }, [typedProfile, isEditingProfile]);
 
   /**
    * Handle profile form submission
@@ -126,9 +146,9 @@ export const UserContent = React.memo(function UserContent() {
   // Memoize expensive calculations
   const simulationsCompleted = useMemo(
     () =>
-      activities?.filter((activity) => activity.type === "simulation").length ??
-      0,
-    [activities],
+      typedActivities?.filter((activity) => activity.type === "simulation")
+        .length ?? 0,
+    [typedActivities],
   );
 
   // Memoize profile edit handlers
@@ -142,15 +162,23 @@ export const UserContent = React.memo(function UserContent() {
 
   return (
     <div className="dashboard-panel-stack">
-      <Tabs value={selectedSection} onValueChange={(value) => setSelectedSection(value as "overview" | "profile" | "activities")}>
+      <Tabs
+        value={selectedSection}
+        onValueChange={(value) =>
+          setSelectedSection(value as "overview" | "profile" | "activities")
+        }
+      >
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="overview">Panoramica</TabsTrigger>
           <TabsTrigger value="profile">Profilo</TabsTrigger>
           <TabsTrigger value="activities">Attività</TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="overview" className="space-y-6">
-          <section className="dashboard-section" aria-labelledby="user-overview">
+          <section
+            className="dashboard-section"
+            aria-labelledby="user-overview"
+          >
             <div className="dashboard-section__header">
               <div>
                 <h2 id="user-overview" className="dashboard-section__title">
@@ -163,7 +191,7 @@ export const UserContent = React.memo(function UserContent() {
                 </p>
               </div>
             </div>
-            
+
             <div className="dashboard-action-grid">
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
@@ -175,13 +203,13 @@ export const UserContent = React.memo(function UserContent() {
                       Mantieni aggiornate le tue informazioni
                     </h3>
                     <p className="dashboard-action-card__description">
-                      Modifica nome, email e preferenze per ricevere suggerimenti
-                      più pertinenti.
+                      Modifica nome, email e preferenze per ricevere
+                      suggerimenti più pertinenti.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
@@ -192,13 +220,13 @@ export const UserContent = React.memo(function UserContent() {
                       Accedi alle sessioni attive
                     </h3>
                     <p className="dashboard-action-card__description">
-                      Prosegui con le simulazioni in corso o esplora nuovi scenari
-                      clinici.
+                      Prosegui con le simulazioni in corso o esplora nuovi
+                      scenari clinici.
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="dashboard-action-card">
                 <div className="dashboard-action-card-content">
                   <div className="dashboard-action-card-main">
@@ -209,32 +237,39 @@ export const UserContent = React.memo(function UserContent() {
                       Analizza la tua evoluzione
                     </h3>
                     <p className="dashboard-action-card__description">
-                      Consulta le valutazioni ricevute e monitora la crescita delle
-                      tue competenze.
+                      Consulta le valutazioni ricevute e monitora la crescita
+                      delle tue competenze.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="dashboard-metric-grid" aria-label="Indicatori rapidi">
+            <div
+              className="dashboard-metric-grid"
+              aria-label="Indicatori rapidi"
+            >
               <div className="dashboard-metric-card">
-                <span className="dashboard-metric-card__value">{activities?.length ?? 0}</span>
+                <span className="dashboard-metric-card__value">
+                  {typedActivities?.length ?? 0}
+                </span>
                 <span className="dashboard-metric-card__label">
                   Attività registrate
                 </span>
               </div>
-              
+
               <div className="dashboard-metric-card">
-                <span className="dashboard-metric-card__value">{simulationsCompleted}</span>
+                <span className="dashboard-metric-card__value">
+                  {simulationsCompleted}
+                </span>
                 <span className="dashboard-metric-card__label">
                   Simulazioni completate
                 </span>
               </div>
-              
+
               <div className="dashboard-metric-card">
                 <span className="dashboard-metric-card__value">
-                  {profile?.role === "admin" ? "Admin" : "Utente"}
+                  {typedProfile?.role === "admin" ? "Admin" : "Utente"}
                 </span>
                 <span className="dashboard-metric-card__label">
                   Ruolo account
@@ -243,10 +278,16 @@ export const UserContent = React.memo(function UserContent() {
             </div>
           </section>
 
-          <section className="dashboard-section" aria-labelledby="user-recent-activities">
+          <section
+            className="dashboard-section"
+            aria-labelledby="user-recent-activities"
+          >
             <div className="dashboard-section__header">
               <div>
-                <h2 id="user-recent-activities" className="dashboard-section__title">
+                <h2
+                  id="user-recent-activities"
+                  className="dashboard-section__title"
+                >
                   Attività Recenti
                 </h2>
                 <p className="dashboard-section__description">
@@ -256,9 +297,9 @@ export const UserContent = React.memo(function UserContent() {
               </div>
             </div>
 
-            {activities && activities.length > 0 ? (
+            {typedActivities && typedActivities.length > 0 ? (
               <div className="dashboard-list" role="list">
-                {activities.slice(0, 5).map((activity) => (
+                {typedActivities.slice(0, 5).map((activity) => (
                   <div
                     key={activity.id}
                     className="dashboard-list__item"
@@ -281,19 +322,24 @@ export const UserContent = React.memo(function UserContent() {
             ) : (
               <div className="dashboard-empty-state">
                 <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
-                <p>Le tue attività appariranno qui appena inizierai ad utilizzare
-                  la piattaforma.</p>
+                <p>
+                  Le tue attività appariranno qui appena inizierai ad utilizzare
+                  la piattaforma.
+                </p>
               </div>
             )}
           </section>
         </TabsContent>
-        
+
         <TabsContent value="profile" className="space-y-6">
           {profileLoading ? (
-            <section className="dashboard-section" aria-labelledby="user-profile-loading">
+            <section
+              className="dashboard-section"
+              aria-labelledby="user-profile-loading"
+            >
               <div className="dashboard-section__header">
                 <Skeleton variant="text" className="h-6 w-32" />
-                <Skeleton variant="text" className="h-4 w-48 mt-2" />
+                <Skeleton variant="text" className="mt-2 h-4 w-48" />
               </div>
               <div className="dashboard-panel">
                 <div className="space-y-4">
@@ -310,7 +356,10 @@ export const UserContent = React.memo(function UserContent() {
               </div>
             </section>
           ) : (
-            <section className="dashboard-section" aria-labelledby="user-profile">
+            <section
+              className="dashboard-section"
+              aria-labelledby="user-profile"
+            >
               <div className="dashboard-section__header">
                 <div>
                   <h2 id="user-profile" className="dashboard-section__title">
@@ -323,24 +372,41 @@ export const UserContent = React.memo(function UserContent() {
               </div>
               <div className="dashboard-panel">
                 {isEditingProfile ? (
-                  <form onSubmit={handleProfileSubmit} className="form-container">
+                  <form
+                    onSubmit={handleProfileSubmit}
+                    className="form-container"
+                  >
                     <div className="form-group">
-                      <Label htmlFor="name" className="label">Nome</Label>
+                      <Label htmlFor="name" className="label">
+                        Nome
+                      </Label>
                       <Input
                         id="name"
                         className="input-field"
                         value={profileForm.name}
-                        onChange={(e) => setProfileForm(prev => ({...prev, name: e.target.value}))}
+                        onChange={(e) =>
+                          setProfileForm((prev) => ({
+                            ...prev,
+                            name: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                     <div className="form-group">
-                      <Label htmlFor="email" className="label">Email</Label>
+                      <Label htmlFor="email" className="label">
+                        Email
+                      </Label>
                       <Input
                         id="email"
                         type="email"
                         className="input-field"
                         value={profileForm.email}
-                        onChange={(e) => setProfileForm(prev => ({...prev, email: e.target.value}))}
+                        onChange={(e) =>
+                          setProfileForm((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }))
+                        }
                       />
                     </div>
                     <div className="form-actions">
@@ -349,12 +415,14 @@ export const UserContent = React.memo(function UserContent() {
                         className="btn btn-primary"
                         disabled={updateProfile.isPending}
                       >
-                        {updateProfile.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {updateProfile.isPending && (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
                         {updateProfile.isPending ? "Salvando..." : "Salva"}
                       </Button>
-                      <Button 
-                        type="button" 
-                        variant="outline" 
+                      <Button
+                        type="button"
+                        variant="outline"
                         className="btn btn-outline"
                         onClick={handleCancelEdit}
                       >
@@ -368,22 +436,28 @@ export const UserContent = React.memo(function UserContent() {
                       <div className="space-y-4">
                         <div>
                           <Label className="label">Nome</Label>
-                          <p className="text-sm text-muted-foreground">{profile?.name || "Non specificato"}</p>
+                          <p className="text-muted-foreground text-sm">
+                            {typedProfile?.name || "Non specificato"}
+                          </p>
                         </div>
                         <div>
                           <Label className="label">Email</Label>
-                          <p className="text-sm text-muted-foreground">{profile?.email || "Non specificato"}</p>
+                          <p className="text-muted-foreground text-sm">
+                            {typedProfile?.email || "Non specificato"}
+                          </p>
                         </div>
                         <div>
                           <Label className="label">Ruolo</Label>
                           <span className="pill dashboard-chip">
-                            {profile?.role === "admin" ? "Admin" : "Utente"}
+                            {typedProfile?.role === "admin"
+                              ? "Admin"
+                              : "Utente"}
                           </span>
                         </div>
                       </div>
                     </div>
                     <div className="form-actions">
-                      <Button 
+                      <Button
                         onClick={handleEditProfile}
                         className="btn btn-primary"
                       >
@@ -396,9 +470,12 @@ export const UserContent = React.memo(function UserContent() {
             </section>
           )}
         </TabsContent>
-        
+
         <TabsContent value="activities" className="space-y-6">
-          <section className="dashboard-section" aria-labelledby="user-activities">
+          <section
+            className="dashboard-section"
+            aria-labelledby="user-activities"
+          >
             <div className="dashboard-section__header">
               <div>
                 <h2 id="user-activities" className="dashboard-section__title">
@@ -423,9 +500,9 @@ export const UserContent = React.memo(function UserContent() {
                   </div>
                 ))}
               </div>
-            ) : activities && activities.length > 0 ? (
+            ) : typedActivities && typedActivities.length > 0 ? (
               <div className="dashboard-panel-stack">
-                {activities.map((activity) => (
+                {typedActivities.map((activity) => (
                   <div key={activity.id} className="dashboard-panel">
                     <div className="flex items-center justify-between gap-3">
                       <div>
@@ -451,8 +528,10 @@ export const UserContent = React.memo(function UserContent() {
             ) : (
               <div className="dashboard-empty-state">
                 <div className="dashboard-empty-state__icon">[ACTIVITY]</div>
-                <p>Le tue attività verranno registrate automaticamente mentre
-                  utilizzi llmpatient.</p>
+                <p>
+                  Le tue attività verranno registrate automaticamente mentre
+                  utilizzi llmpatient.
+                </p>
               </div>
             )}
           </section>

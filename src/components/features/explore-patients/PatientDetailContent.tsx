@@ -17,7 +17,6 @@ import {
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
-
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
     return value;
