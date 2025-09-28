@@ -1,19 +1,13 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import {
   LogOut,
-  Users,
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { getNavItems as getNavigationItems } from "./navigationUtils";
-import { cn } from "~/lib/utils";
 
 /**
  * User interface for navigation context
@@ -66,13 +60,10 @@ interface ShadcnNavbarProps {
 export function ShadcnNavbar({
   user,
   impersonation,
-  layoutType,
-  currentPage = "",
+  layoutType: _layoutType,
+  currentPage: _currentPage = "",
 }: ShadcnNavbarProps) {
-  const pathname = usePathname();
 
-  // Get navigation items based on user role and impersonation status
-  const navItems = user ? getNavigationItems(user, impersonation) : [];
 
   // Determine display user (impersonated or actual)
   const displayUser = impersonation?.isImpersonating
@@ -98,13 +89,7 @@ export function ShadcnNavbar({
     }
   };
 
-  // Navigation items for home page
-  const homeNavItems = [
-    { label: "Esplora pazienti", href: "/explore-patients", icon: Users },
-  ];
 
-  // Get current navigation items
-  const currentNavItems = layoutType === "dashboard" ? navItems : homeNavItems;
 
   // Render user menu
   const renderUserMenu = () => {

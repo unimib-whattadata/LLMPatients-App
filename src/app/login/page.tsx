@@ -332,7 +332,7 @@ function LoginPageComponent() {
             Benvenuto in LLMPatient
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed">
-            La piattaforma che rivoluziona l'apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti.
+            La piattaforma che rivoluziona l&apos;apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti.
           </p>
           <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
             <span>•</span>
