@@ -2533,6 +2533,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    background-color: #2E322B;
   }
 
   .patient-card-content {
@@ -3544,6 +3545,176 @@
 
   .home-footer {
     background-color: var(--color-navbar-dark) !important;
+  }
+
+  /* Image auto size utility class */
+  .image-auto-size {
+    width: auto !important;
+    height: auto !important;
+  }
+
+  /* Skeleton shimmer effect */
+  .skeleton--shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .skeleton--shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Sidebar provider classes */
+  .sidebar-provider {
+    --sidebar-width: 16rem;
+    --sidebar-width-icon: 3rem;
+    --sidebar-width-mobile: 18rem;
+  }
+
+  .sidebar-mobile-sheet {
+    --sidebar-width: 18rem;
+  }
+
+  /* Sidebar menu skeleton width classes */
+  .sidebar-menu-skeleton-text--w-50 {
+    --skeleton-width: 50%;
+  }
+
+  .sidebar-menu-skeleton-text--w-60 {
+    --skeleton-width: 60%;
+  }
+
+  .sidebar-menu-skeleton-text--w-70 {
+    --skeleton-width: 70%;
+  }
+
+  .sidebar-menu-skeleton-text--w-80 {
+    --skeleton-width: 80%;
+  }
+
+  .sidebar-menu-skeleton-text--w-90 {
+    --skeleton-width: 90%;
+  }
+
+  /* Progress indicator class */
+  .progress-indicator {
+    transform: translateX(calc(-100% + var(--radix-progress-value, 0) * 1%));
+  }
+
+  /* Chat bubble styles */
+  .chat-bubble--patient {
+    background-color: #453614;
+  }
+
+  .chat-bubble--user {
+    background-color: #313525;
+  }
+
+  .chat-typing-indicator {
+    background-color: #453614;
+  }
+
+  .chat-typing-dot {
+    animation-delay: 0ms;
+    animation-duration: 1.4s;
+  }
+
+  .chat-typing-dot--delay-1 {
+    animation-delay: 160ms;
+    animation-duration: 1.4s;
+  }
+
+  .chat-typing-dot--delay-2 {
+    animation-delay: 320ms;
+    animation-duration: 1.4s;
+  }
+
+  .chat-send-button {
+    min-height: 48px;
+    padding: 0.875rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+  }
+
+  /* Avatar color classes */
+  .avatar-color-olive {
+    background-color: #8B9769;
+  }
+
+  .avatar-color-mustard {
+    background-color: #C69A39;
+  }
+
+  .avatar-color-violet {
+    background-color: #9690B6;
+  }
+
+  .avatar-color-teal {
+    background-color: #4A9B8E;
+  }
+
+  .avatar-color-coral {
+    background-color: #E07A5F;
+  }
+
+  .avatar-color-slate {
+    background-color: #6B7280;
+  }
+
+  .avatar-color-amber {
+    background-color: #F59E0B;
+  }
+
+  .avatar-color-emerald {
+    background-color: #10B981;
+  }
+
+  .avatar-color-indigo {
+    background-color: #6366F1;
+  }
+
+  .avatar-color-rose {
+    background-color: #F43F5E;
+  }
+
+  .avatar-color-cyan {
+    background-color: #06B6D4;
+  }
+
+  .avatar-color-lime {
+    background-color: #84CC16;
+  }
+
+  .avatar-color-purple {
+    background-color: #8B5CF6;
+  }
+
+  .avatar-color-pink {
+    background-color: #EC4899;
+  }
+
+  .avatar-color-orange {
+    background-color: #F97316;
+  }
+
+  .avatar-color-default {
+    background-color: #8B9769;
   }
 
   .home-footer-newsletter {

@@ -27,9 +27,6 @@ import {
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "16rem"
-const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3rem"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 type SidebarContextProps = {
@@ -139,15 +136,9 @@ const SidebarProvider = React.forwardRef<
       <SidebarContext.Provider value={contextValue}>
         <TooltipProvider delayDuration={0}>
           <div
-            style={
-              {
-                "--sidebar-width": SIDEBAR_WIDTH,
-                "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
-                ...style,
-              } as React.CSSProperties
-            }
+            style={style}
             className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar sidebar-provider",
               className
             )}
             ref={ref}
@@ -204,12 +195,7 @@ const Sidebar = React.forwardRef<
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
-            style={
-              {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
-              } as React.CSSProperties
-            }
+            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden sidebar-mobile-sheet"
             side={side}
           >
             <SheetHeader className="sr-only">
@@ -662,8 +648,11 @@ const SidebarMenuSkeleton = React.forwardRef<
 >(({ className, showIcon = false, ...props }, ref) => {
   // Random width between 50 to 90%.
   const width = React.useMemo(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`
+    const widths = ["50", "60", "70", "80", "90"]
+    return widths[Math.floor(Math.random() * widths.length)]!
   }, [])
+
+  const widthClass = `sidebar-menu-skeleton-text--w-${width}`
 
   return (
     <div
@@ -679,13 +668,8 @@ const SidebarMenuSkeleton = React.forwardRef<
         />
       )}
       <Skeleton
-        className="h-4 max-w-[--skeleton-width] flex-1"
+        className={cn("h-4 max-w-[--skeleton-width] flex-1", widthClass)}
         data-sidebar="menu-skeleton-text"
-        style={
-          {
-            "--skeleton-width": width,
-          } as React.CSSProperties
-        }
       />
     </div>
   )

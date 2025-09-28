@@ -55,7 +55,7 @@ function formatSessionTime(seconds: number): string {
  * @returns Object with background color and initials for the avatar
  */
 function generatePatientAvatar(name: string): {
-  backgroundColor: string;
+  colorClass: string;
   initials: string;
 } {
   const initials = name
@@ -67,14 +67,30 @@ function generatePatientAvatar(name: string): {
 
   const finalInitials = initials.length > 0 ? initials : "P";
 
-  const colors = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+  const colorClasses = [
+    "avatar-color-olive",
+    "avatar-color-mustard", 
+    "avatar-color-violet",
+    "avatar-color-teal",
+    "avatar-color-coral",
+    "avatar-color-slate",
+    "avatar-color-amber",
+    "avatar-color-emerald",
+    "avatar-color-indigo",
+    "avatar-color-rose",
+    "avatar-color-cyan",
+    "avatar-color-lime",
+    "avatar-color-purple",
+    "avatar-color-pink",
+    "avatar-color-orange"
+  ];
 
   const colorIndex =
     name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    colors.length;
-  const backgroundColor = colors[colorIndex] ?? colors[0] ?? "";
+    colorClasses.length;
+  const colorClass = colorClasses[colorIndex] ?? "avatar-color-default";
 
-  return { backgroundColor, initials: finalInitials };
+  return { colorClass, initials: finalInitials };
 }
 
 /**
@@ -152,7 +168,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Generate patient avatar data once
   const patientAvatar = selectedPatient
     ? generatePatientAvatar(selectedPatient.name)
-    : { backgroundColor: "", initials: "P" };
+    : { colorClass: "avatar-color-default", initials: "P" };
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {
@@ -436,8 +452,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     />
                   ) : (
                     <div 
-                      className="flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white"
-                      style={{ backgroundColor: patientAvatar?.backgroundColor || '#8B9769' }}
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white ${patientAvatar?.colorClass || 'avatar-color-default'}`}
                     >
                       {patientAvatar?.initials}
                     </div>
@@ -498,12 +513,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
                   {/* Message bubble */}
                   <div 
-                    className={`rounded-lg px-3 sm:px-4 py-2 sm:py-3 max-w-xs sm:max-w-sm ${
-                      message.sender === "user" 
-                        ? "text-white" 
-                        : "text-white"
+                    className={`rounded-lg px-3 sm:px-4 py-2 sm:py-3 max-w-xs sm:max-w-sm text-white ${
+                      message.sender === "patient" 
+                        ? "chat-bubble--patient" 
+                        : message.sender === "user" 
+                        ? "chat-bubble--user" 
+                        : ""
                     }`}
-                    style={message.sender === "patient" ? { backgroundColor: "#453614" } : message.sender === "user" ? { backgroundColor: "#313525" } : {}}
                   >
                     <p className="text-body text-sm sm:text-base">{message.content}</p>
                   </div>
@@ -513,11 +529,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
             {isTyping && (
               <div className="flex justify-start mb-4">
-                <div className="rounded-lg px-4 py-3" style={{ backgroundColor: "#453614" }}>
+                <div className="rounded-lg px-4 py-3 chat-typing-indicator">
                   <div className="flex space-x-1">
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot"></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot--delay-1"></div>
+                    <div className="w-2 h-2 bg-white/80 rounded-full animate-bounce chat-typing-dot--delay-2"></div>
                   </div>
                 </div>
               </div>
@@ -544,13 +560,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <Button
                   onClick={() => void handleSendMessage()}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="btn btn-primary"
-                  style={{ 
-                    minHeight: '48px',
-                    padding: '0.875rem 1rem',
-                    border: '2px solid transparent',
-                    borderRadius: '0.75rem'
-                  }}
+                  className="btn btn-primary chat-send-button"
                   aria-label="Invia messaggio"
                 >
                   <Send className="h-4 w-4" />

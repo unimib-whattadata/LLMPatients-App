@@ -59,10 +59,9 @@ export function SiteMenu({
         <Image
           src={brand.logoSrc}
           alt={brand.logoAlt ?? brand.name}
-          className="site-menu__brand-logo"
+          className="site-menu__brand-logo image-auto-size"
           width={32}
           height={32}
-          style={{ width: "auto !important", height: "auto !important" }}
           priority={true}
         />
       ) : (

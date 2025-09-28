@@ -64,8 +64,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
   return (
     <Card
-      className="h-full flex flex-col"
-      style={{ backgroundColor: '#2E322B' }}
+      className="h-full flex flex-col patient-card"
       role="listitem"
       itemScope
       itemType="https://schema.org/Person"

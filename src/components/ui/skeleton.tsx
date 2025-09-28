@@ -45,7 +45,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       button: 'bg-muted rounded-md'
     }
 
-    const shimmerClasses = shimmer ? 'relative overflow-hidden' : ''
+    const shimmerClasses = shimmer ? 'skeleton--shimmer' : ''
 
     return (
       <div
@@ -57,13 +57,6 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
           variantClasses[variant],
           className
         )}
-        style={{ 
-          ...(shimmer && {
-            background: 'linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%)',
-            backgroundSize: '200% 100%',
-            animation: 'shimmer 1.5s infinite'
-          })
-        }}
         {...props}
       />
     )

@@ -259,7 +259,6 @@ export function ShadcnNavbar({
   return (
     <header 
       className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
-      style={{ backgroundColor: 'var(--color-navbar-dark)' }}
     >
       <div className="flex h-16 items-center px-4 w-full">
         {/* Logo */}

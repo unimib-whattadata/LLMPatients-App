@@ -52,7 +52,6 @@ export default async function Home() {
   const marketingFooter = (
     <footer
       className="home-footer"
-      style={{ backgroundColor: 'var(--color-navbar-dark)' }}
       itemScope
       itemType="https://schema.org/Organization"
       role="contentinfo"
@@ -65,11 +64,10 @@ export default async function Home() {
               <Image
                 src="/images/logo.webp"
                 alt="llmpatient Logo"
-                className="home-footer-brand-logo"
+                className="home-footer-brand-logo image-auto-size"
                 itemProp="logo"
                 width={48}
                 height={48}
-                style={{ width: "auto !important", height: "auto !important" }}
                 priority={false}
               />
               <div>
