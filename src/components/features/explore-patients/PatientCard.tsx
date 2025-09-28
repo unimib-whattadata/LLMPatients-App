@@ -64,7 +64,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
   return (
     <Card
-      className="h-full flex flex-col patient-card"
+      className="h-full flex flex-col patient-card !bg-[#2E322B]"
       role="listitem"
       itemScope
       itemType="https://schema.org/Person"
@@ -82,7 +82,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           <div className="flex items-center justify-between mb-2">
             <CardTitle
               id={`patient-${patient.id}-title`}
-              className="text-xl"
+              className="text-xl text-white"
               itemProp="name"
             >
               {patient.name}
@@ -93,7 +93,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           </div>
           
           {/* Small Description under name */}
-          <CardDescription className="text-left" itemProp="description">
+          <CardDescription className="text-left text-gray-300" itemProp="description">
             {patient.smallDescription}
           </CardDescription>
         </div>
@@ -101,7 +101,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
       <CardContent className="flex-1 pt-0">
         {/* Background Description */}
-        <p className="text-sm text-muted-foreground mb-4" itemProp="additionalProperty">
+        <p className="text-sm text-gray-300 mb-4" itemProp="additionalProperty">
           {patient.background}
         </p>
 
@@ -112,15 +112,15 @@ export function PatientCard({ patient }: PatientCardProps) {
             {patient.objectives.slice(0, 2).map((objective, index) => (
               <li
                 key={index}
-                className="text-sm text-muted-foreground flex items-start"
+                className="text-sm text-gray-300 flex items-start"
                 role="listitem"
               >
-                <span className="mr-2 mt-1 h-1 w-1 rounded-full bg-muted-foreground flex-shrink-0" />
+                <span className="mr-2 mt-1 h-1 w-1 rounded-full bg-gray-400 flex-shrink-0" />
                 <span>{objective}</span>
               </li>
             ))}
             {patient.objectives.length > 2 && (
-              <li className="text-xs text-gray-800" role="listitem">
+              <li className="text-xs text-gray-400" role="listitem">
                 +{patient.objectives.length - 2} altri obiettivi
               </li>
             )}
