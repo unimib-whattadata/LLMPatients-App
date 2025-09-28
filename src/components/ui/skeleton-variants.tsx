@@ -22,7 +22,7 @@ export function PatientCardSkeleton({
   className?: string 
 }) {
   return (
-    <div className={cn("bg-background-secondary rounded-lg p-4 sm:p-6 h-full flex flex-col", className)}>
+    <div className={cn("bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6 h-full flex flex-col", className)}>
       {/* Patient Avatar */}
       {showAvatar && (
         <div className="flex flex-col items-center mb-4">
@@ -76,9 +76,9 @@ export function PatientCardSkeleton({
  */
 export function PatientDetailSkeleton() {
   return (
-    <div className="bg-background-primary min-h-screen">
+    <div className="bg-[var(--color-page-background)] min-h-screen">
       {/* Header skeleton */}
-      <header className="bg-background-secondary">
+      <header className="bg-[var(--color-surface-secondary)]">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
           <Skeleton className="h-4 w-48" />
         </div>
@@ -89,7 +89,7 @@ export function PatientDetailSkeleton() {
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
           {/* Aside skeleton */}
           <aside className="lg:col-span-1">
-            <div className="bg-background-secondary overflow-hidden rounded-lg">
+            <div className="bg-[var(--color-surface-secondary)] overflow-hidden rounded-lg">
               <div className="flex flex-col items-center p-4 sm:p-6">
                 <Skeleton variant="avatar" className="h-16 w-16" />
                 <div className="mt-4 w-full space-y-2">
@@ -109,7 +109,7 @@ export function PatientDetailSkeleton() {
           {/* Main section skeleton */}
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
             {/* Patient history article skeleton */}
-            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+            <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton className="h-6 w-48 mb-4" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-full" />
@@ -120,7 +120,7 @@ export function PatientDetailSkeleton() {
             </article>
 
             {/* Learning objectives article skeleton */}
-            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+            <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton className="h-6 w-48 mb-4" />
               <div className="space-y-3">
                 <div className="flex items-start">
@@ -139,7 +139,7 @@ export function PatientDetailSkeleton() {
             </article>
 
             {/* Start simulation article skeleton */}
-            <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
+            <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-2 mb-6">
                 <Skeleton variant="text" className="h-4 w-full" />
@@ -171,7 +171,7 @@ export function DashboardCardSkeleton({
   className?: string 
 }) {
   return (
-    <div className={cn("bg-background-secondary rounded-lg p-4 sm:p-6", className)}>
+    <div className={cn("bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6", className)}>
       {title && (
         <div className="mb-4">
           <Skeleton variant="text" className="h-6 w-32 mb-2" />

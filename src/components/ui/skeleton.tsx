@@ -7,10 +7,6 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   visible?: boolean
   /**
-   * Animation speed - 'slow', 'normal', or 'fast'
-   */
-  speed?: 'slow' | 'normal' | 'fast'
-  /**
    * Whether to show a shimmer effect
    */
   shimmer?: boolean
@@ -24,25 +20,18 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
   ({ 
     className, 
     visible = true, 
-    speed = 'normal', 
     shimmer = true, 
     variant = 'default',
     ...props 
   }, ref) => {
     if (!visible) return null
 
-    const speedClasses = {
-      slow: 'animate-pulse',
-      normal: 'animate-pulse',
-      fast: 'animate-pulse'
-    }
-
     const variantClasses = {
-      default: 'bg-muted',
-      card: 'bg-background-secondary',
-      text: 'bg-muted-foreground/20',
-      avatar: 'bg-muted rounded-full',
-      button: 'bg-muted rounded-md'
+      default: 'bg-[var(--color-surface-secondary)]',
+      card: 'bg-[var(--color-surface-secondary)]',
+      text: 'bg-[#6B7A4A]', // Darker green for text elements
+      avatar: 'bg-[#6B7A4A] rounded-full', // Darker green for avatar
+      button: 'bg-[#6B7A4A] rounded-md' // Darker green for button
     }
 
     const shimmerClasses = shimmer ? 'skeleton--shimmer' : ''
@@ -51,8 +40,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-md",
-          speedClasses[speed],
+          "rounded-md animate-pulse",
           shimmerClasses,
           variantClasses[variant],
           className
