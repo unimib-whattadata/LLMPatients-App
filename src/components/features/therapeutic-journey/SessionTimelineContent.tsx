@@ -174,7 +174,7 @@ const MobileTimelineStep = memo(
         }}
         aria-expanded={isOpen}
         disabled={!isUnlocked}
-        className={`w-full rounded-2xl border border-white/5 p-4 text-left shadow-[0_12px_28px_rgba(0,0,0,0.35)] transition-colors duration-200 focus:ring-2 focus:outline-none ${
+        className={`w-full rounded-2xl border border-white/5 p-4 text-left transition-colors duration-200 focus:outline-none ${
           isUnlocked ? "" : "cursor-not-allowed opacity-40"
         } ${isCurrent ? "ring-2 ring-white/70" : ""}`}
       >

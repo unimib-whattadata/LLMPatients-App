@@ -5,15 +5,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "~/lib/utils"
 
 const textareaVariants = cva(
-  "block w-full rounded-[var(--radius-lg)] border-2 border-transparent bg-[color:var(--color-input-background)] px-4 py-3 text-base text-[var(--color-text-primary)] shadow-[var(--shadow-xs)] transition-[background-color,border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-standard)] placeholder:text-[color:var(--color-text-placeholder)] focus-visible:border-[var(--color-primary-green)] focus-visible:bg-[color:var(--color-input-background-focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] hover:bg-[color:var(--color-input-background-hover)] disabled:cursor-not-allowed disabled:border-transparent disabled:bg-[color:var(--color-input-background-disabled)] disabled:opacity-50",
+  "block w-full rounded-[var(--radius-lg)] border-2 border-transparent bg-[color:var(--color-input-background)] px-4 py-3 text-base text-[var(--color-text-primary)] transition-[background-color,border-color] duration-[var(--duration-fast)] ease-[var(--ease-standard)] placeholder:text-[color:var(--color-text-placeholder)] focus-visible:border-[var(--color-primary-green)] focus-visible:bg-[color:var(--color-input-background-focus)] focus-visible:outline-none    focus-visible: hover:bg-[color:var(--color-input-background-hover)] disabled:cursor-not-allowed disabled:border-transparent disabled:bg-[color:var(--color-input-background-disabled)] disabled:opacity-50",
   {
     variants: {
       state: {
         default: "",
         error:
-          "border-[var(--color-error)] bg-[color:rgba(239,68,68,0.05)] focus-visible:border-[var(--color-error)] focus-visible:ring-[var(--color-error)]",
+          "border-[var(--color-error)] bg-[color:rgba(239,68,68,0.05)] focus-visible:border-[var(--color-error)] ",
         success:
-          "border-[var(--color-success)] bg-[color:rgba(16,185,129,0.05)] focus-visible:border-[var(--color-success)] focus-visible:ring-[var(--color-success)]",
+          "border-[var(--color-success)] bg-[color:rgba(16,185,129,0.05)] focus-visible:border-[var(--color-success)] ",
       },
       size: {
         sm: "min-h-[96px] px-3 py-2 text-sm",

@@ -29,6 +29,7 @@ type TherapySessionWithPatient = {
   isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date | null;
+  completedStepsCount: number;
   patient: {
     id: string;
     name: string;
@@ -75,7 +76,15 @@ function TherapySessionCardComponent({
 
   const progressPercentage = therapySession.isCompleted
     ? 100
-    : Math.round((therapySession.sessionNumber / 11) * 100);
+    : Math.max(0, Math.min(100, Math.round((therapySession.completedStepsCount / 11) * 100)));
+
+  // Debug logging - remove after testing
+  console.log('Progress Debug:', {
+    patientName: therapySession.patient.name,
+    completedSteps: therapySession.completedStepsCount,
+    progressPercentage,
+    isCompleted: therapySession.isCompleted
+  });
 
   return (
     <article
@@ -116,7 +125,7 @@ function TherapySessionCardComponent({
               <span className="text-text-tertiary text-xs">
                 {therapySession.isCompleted
                   ? "Completato (11/11)"
-                  : `Sessione ${therapySession.sessionNumber}/11`}
+                  : `${therapySession.completedStepsCount}/11 sessioni completate`}
               </span>
             </div>
           </div>
@@ -152,11 +161,11 @@ function TherapySessionCardComponent({
               </div>
               <Progress
                 value={progressPercentage}
-                className="h-2 bg-gray-700 progress-bar-primary-green"
+                className="h-2 bg-gray-700"
                 aria-label={
                   therapySession.isCompleted
                     ? "Sessione completata al 100%"
-                    : `Progresso sessione: ${progressPercentage}%`
+                    : `Progresso sessione: ${therapySession.completedStepsCount} di 11 sessioni completate (${progressPercentage}%)`
                 }
               />
             </div>

@@ -1,0 +1,670 @@
+/* ===== FORM STYLES ===== */
+/* Comprehensive form styling system for consistent form display across the application */
+
+@layer components {
+  /* ===== ENHANCED LABELS ===== */
+  .label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+    color: var(--color-text-primary);
+    transition: color 0.2s ease;
+  }
+
+  .label-required::after {
+    content: '*';
+    margin-left: 0.25rem;
+    color: var(--color-error);
+    font-weight: 700;
+  }
+
+  .label-optional::after {
+    content: '(optional)';
+    margin-left: 0.5rem;
+    font-weight: 400;
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+
+  /* ===== FORM FIELD HELP TEXT ===== */
+  .field-help {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+    line-height: 1.4;
+  }
+
+  /* ===== ENHANCED FORM VALIDATION ===== */
+  .form-validation {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-error);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .form-error-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .form-success {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-success);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .form-success-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .form-warning {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-warning);
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .form-warning-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* ===== FORM FIELD CHARACTER COUNT ===== */
+  .field-character-count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.25rem;
+  }
+
+  .field-character-count--warning {
+    color: var(--color-warning);
+  }
+
+  .field-character-count--error {
+    color: var(--color-error);
+  }
+
+  /* ===== FORM LOADING STATES ===== */
+  .form-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  .form-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid transparent;
+    border-top: 2px solid var(--color-primary-green);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: translateY(-50%) rotate(0deg); }
+    100% { transform: translateY(-50%) rotate(360deg); }
+  }
+
+  /* ===== FORM FIELD GROUPS ===== */
+  .form-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-field-group--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .form-field-group--inline .label {
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  /* ===== FORM ACTIONS ===== */
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .form-actions--center {
+    justify-content: center;
+  }
+
+  .form-actions--space-between {
+    justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .form-actions {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .form-actions button {
+      width: 100%;
+    }
+  }
+
+  /* ===== FORM PROGRESS INDICATOR ===== */
+  .form-progress {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .form-progress-bar {
+    flex: 1;
+    height: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .form-progress-fill {
+    height: 100%;
+    background-color: var(--color-primary-green);
+    border-radius: 999px;
+    transition: width 0.3s ease;
+  }
+
+  .form-progress-text {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+  }
+
+  /* ===== UNIFIED AUTHENTICATION FORM STYLES ===== */
+  .unified-auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1.5rem;
+  }
+
+  .unified-auth-form-wrapper {
+    width: 100%;
+    max-width: 28rem;
+    margin: 0;
+  }
+
+  .unified-auth-form-card {
+    padding: 2rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .unified-auth-form-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-text-primary);
+  }
+
+  .unified-auth-form-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ===== DARK THEME AUTHENTICATION PAGES ===== */
+  .auth-container {
+    min-height: 100vh;
+    display: flex;
+  }
+
+  .auth-brand-section {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .auth-brand-section {
+      display: flex;
+      width: 50%;
+    }
+  }
+
+  .auth-brand-content {
+    max-width: 32rem;
+  }
+
+  .auth-brand-title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: 2rem;
+  }
+
+  .auth-brand-subtitle {
+    font-size: var(--font-size-xl);
+    line-height: 1.75;
+  }
+
+  .auth-form-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+  }
+  
+  @media (min-width: 1024px) {
+    .auth-form-section {
+      width: 50%;
+    }
+  }
+
+  .auth-form-container {
+    width: 100%;
+    max-width: 28rem;
+  }
+
+  .auth-form-card {
+    border-radius: 0.5rem;
+    padding: 2rem;
+  }
+
+  .auth-form-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .auth-input-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .auth-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    font-size: var(--font-size-base);
+  }
+  
+  .auth-input::placeholder {
+    color: var(--color-text-placeholder);
+  }
+  
+  .auth-input:focus {
+    outline: none;
+    border-color: var(--color-border-focus);
+    box-shadow: none;
+  }
+
+  .auth-input-error {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    font-size: var(--font-size-base);
+    border-color: var(--color-border-error);
+  }
+  
+  .auth-input-error:focus {
+    outline: none;
+    border-color: var(--color-border-error);
+    box-shadow: none;
+  }
+
+  .auth-submit-btn {
+    width: 100%;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary-green);
+    color: white;
+    border: none;
+    transition: all 0.2s ease;
+  }
+  
+  .auth-submit-btn:hover:not(:disabled) {
+    background-color: color-mix(in srgb, var(--color-primary-green) 85%, black);
+  }
+  
+  .auth-submit-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+
+  .auth-checkbox {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    accent-color: var(--color-primary-green);
+  }
+  
+  .auth-checkbox:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .auth-link {
+    font-weight: 500;
+    color: var(--color-primary-green);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .auth-link:hover {
+    color: color-mix(in srgb, var(--color-primary-green) 85%, black);
+    text-decoration: underline;
+  }
+
+  .auth-text-muted {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+  }
+
+  .auth-divider {
+    margin: 1.5rem 0;
+    border: none;
+    height: 1px;
+    background-color: var(--color-border-secondary);
+  }
+
+  .auth-spinner {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    margin-right: 0.75rem;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    animation: spin 1s linear infinite;
+  }
+
+  /* ===== RESPONSIVE FORM ADJUSTMENTS ===== */
+  @media (max-width: 640px) {
+    .unified-auth-container {
+      padding: 1rem;
+    }
+
+    .unified-auth-form-card {
+      padding: 1.5rem;
+    }
+
+    .unified-auth-form-title {
+      font-size: 1.5rem;
+    }
+
+    .auth-container {
+      flex-direction: column;
+    }
+
+    .auth-brand-section {
+      display: none;
+    }
+
+    .auth-form-section {
+      width: 100%;
+      padding: 1rem;
+    }
+
+    .auth-form-card {
+      padding: 1.5rem;
+    }
+
+    .auth-form-title {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* ===== FORM FIELD INDENTATION ===== */
+  .field-indent-1 {
+    padding-left: 1.15rem;
+  }
+  
+  .field-indent-2 {
+    padding-left: 2.3rem;
+  }
+  
+  .field-indent-3 {
+    padding-left: 3.45rem;
+  }
+  
+  .field-indent-4 {
+    padding-left: 4.6rem;
+  }
+
+  /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+  @media (prefers-reduced-motion: reduce) {
+    .form-loading::after,
+    .auth-spinner {
+      animation: none;
+    }
+  }
+
+
+  /* ===== HIGH CONTRAST MODE ===== */
+  @media (prefers-contrast: high) {
+    .auth-input,
+    .auth-input-error {
+      border-width: 2px;
+    }
+    
+    .auth-submit-btn {
+      border: 2px solid currentColor;
+    }
+  }
+
+  /* ===== FORM ELEMENT STYLES ===== */
+  /* Global button background color override */
+  button, [role="button"], input[type="button"], input[type="submit"] {
+    background-color: var(--color-primary-green) !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  /* Remove sound effects from password toggle and other buttons */
+  button, [role="button"], input[type="button"], input[type="submit"] {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Specifically target password toggle button to remove any sound */
+  button[type="button"]:hover,
+  button[type="button"]:active,
+  button[type="button"]:focus {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Password toggle button specific styling to remove sound */
+  .relative button[type="button"] {
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    outline: none !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .relative button[type="button"]:hover,
+  .relative button[type="button"]:active,
+  .relative button[type="button"]:focus {
+    -webkit-tap-highlight-color: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* Enhanced Form Field Styling */
+  input[type="text"], 
+  input[type="email"], 
+  input[type="password"], 
+  input[type="number"], 
+  input[type="tel"], 
+  input[type="url"], 
+  input[type="search"], 
+  textarea, 
+  select {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border: 2px solid transparent !important;
+    border-radius: 0.75rem !important;
+    padding: 0.875rem 1rem !important;
+    color: var(--color-text-primary) !important;
+    font-size: 1rem !important;
+    transition: all 0.2s ease !important;
+    box-shadow: none !important;
+  }
+
+  input[type="text"]:focus, 
+  input[type="email"]:focus, 
+  input[type="password"]:focus, 
+  input[type="number"]:focus, 
+  input[type="tel"]:focus, 
+  input[type="url"]:focus, 
+  input[type="search"]:focus, 
+  textarea:focus, 
+  select:focus {
+    outline: none !important;
+    border-color: var(--color-primary-green) !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
+  }
+
+  input[type="text"]:hover:not(:focus):not(:disabled), 
+  input[type="email"]:hover:not(:focus):not(:disabled), 
+  input[type="password"]:hover:not(:focus):not(:disabled), 
+  input[type="number"]:hover:not(:focus):not(:disabled), 
+  input[type="tel"]:hover:not(:focus):not(:disabled), 
+  input[type="url"]:hover:not(:focus):not(:disabled), 
+  input[type="search"]:hover:not(:focus):not(:disabled), 
+  textarea:hover:not(:focus):not(:disabled), 
+  select:hover:not(:focus):not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.07) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  input[type="text"]::placeholder, 
+  input[type="email"]::placeholder, 
+  input[type="password"]::placeholder, 
+  input[type="number"]::placeholder, 
+  input[type="tel"]::placeholder, 
+  input[type="url"]::placeholder, 
+  input[type="search"]::placeholder, 
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+    font-weight: 400 !important;
+  }
+
+  /* Form field disabled state */
+  input[type="text"]:disabled, 
+  input[type="email"]:disabled, 
+  input[type="password"]:disabled, 
+  input[type="number"]:disabled, 
+  input[type="tel"]:disabled, 
+  input[type="url"]:disabled, 
+  input[type="search"]:disabled, 
+  textarea:disabled, 
+  select:disabled {
+    cursor: not-allowed !important;
+    opacity: 0.5 !important;
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  /* Checkbox and Radio Button Styling */
+  input[type="checkbox"], 
+  input[type="radio"] {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    border-radius: 0.375rem !important;
+    border: 2px solid rgba(255, 255, 255, 0.2) !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    margin: 0 !important;
+  }
+
+  input[type="checkbox"]:checked, 
+  input[type="radio"]:checked {
+    background-color: var(--color-primary-green) !important;
+    border-color: var(--color-primary-green) !important;
+  }
+
+  input[type="checkbox"]:focus, 
+  input[type="radio"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+
+  /* Preserve essential transitions for UX */
+  button:hover {
+    transition-duration: 0.15s !important;
+  }
+}

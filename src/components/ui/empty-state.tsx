@@ -20,7 +20,7 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center justify-center gap-4 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border-secondary)] bg-[color:var(--color-surface-secondary)] px-6 py-12 text-center text-[var(--color-text-primary)] shadow-[var(--shadow-xs)]",
+        "flex w-full flex-col items-center justify-center gap-4 rounded-[var(--radius-lg)] border border-dashed border-[var(--color-border-secondary)] bg-[color:var(--color-surface-secondary)] px-6 py-12 text-center text-[var(--color-text-primary)]",
         className,
       )}
       role="status"

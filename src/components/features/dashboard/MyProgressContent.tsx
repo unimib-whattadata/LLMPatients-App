@@ -248,7 +248,7 @@ export function MyProgressContent() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="focus:ring-primary-500 rounded-md px-3 py-1 text-sm focus:ring-2 focus:outline-none"
+              className="rounded-md px-3 py-1 text-sm focus:outline-none"
             >
               <option value="all">Tutti</option>
               <option value="clinical">Clinici</option>

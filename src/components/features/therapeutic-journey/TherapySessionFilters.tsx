@@ -22,7 +22,7 @@ const FILTER_OPTIONS = [
 ] as const;
 
 const triggerBase =
-  "min-w-[100px] rounded-full border border-transparent px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:bg-transparent";
+  "min-w-[100px] rounded-full border border-transparent px-4 py-2 text-sm font-semibold transition-colors focus-visible:outline-none data-[state=inactive]:text-[var(--color-text-secondary)] data-[state=inactive]:bg-transparent";
 
 const triggerVariants: Record<(typeof FILTER_OPTIONS)[number]["key"], string> = {
   all:
@@ -45,7 +45,7 @@ function TherapySessionFiltersComponent({
       onValueChange={onFilterChange}
       className="mb-6"
     >
-      <TabsList className="grid grid-cols-2 gap-2 md:flex md:gap-3" aria-label="Filtri percorsi terapeutici">
+      <TabsList className="grid grid-cols-2 gap-2 md:flex md:gap-3 !bg-transparent !p-0" aria-label="Filtri percorsi terapeutici">
         {FILTER_OPTIONS.map((tab) => (
           <TabsTrigger
             key={tab.key}

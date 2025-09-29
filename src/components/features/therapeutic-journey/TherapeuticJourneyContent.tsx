@@ -19,6 +19,7 @@ type TherapySessionWithPatient = {
   isCompleted: boolean;
   createdAt: Date;
   updatedAt: Date | null;
+  completedStepsCount: number;
   patient: {
     id: string;
     name: string;
@@ -98,26 +99,29 @@ export function TherapeuticJourneyContent() {
 
   /**
    * Calculates session metrics for display in the metrics component
-   * @returns Object containing inProgress count, completed count, and average progress percentage
+   * @returns Object containing startedOrInProgress count, completed count, and average progress percentage
    */
   const metrics = useMemo(() => {
     if (!typedAllTherapySessions)
-      return { inProgress: 0, completed: 0, averageProgress: 0 };
+      return { startedOrInProgress: 0, completed: 0, averageProgress: 0 };
 
-    const inProgress = typedAllTherapySessions.filter(
-      (s) => getSessionStatus(s) === "in-progress",
+    const startedOrInProgress = typedAllTherapySessions.filter(
+      (s) => {
+        const status = getSessionStatus(s);
+        return status === "started" || status === "in-progress";
+      },
     ).length;
     const completed = typedAllTherapySessions.filter(
       (s) => getSessionStatus(s) === "completed",
     ).length;
-    const averageProgress = Math.round(
+    const averageProgress = Math.max(0, Math.min(100, Math.round(
       typedAllTherapySessions.reduce(
-        (acc, session) => acc + (session.sessionNumber / 11) * 100,
+        (acc, session) => acc + (session.completedStepsCount / 11) * 100,
         0,
       ) / typedAllTherapySessions.length,
-    );
+    )));
 
-    return { inProgress, completed, averageProgress };
+    return { startedOrInProgress, completed, averageProgress };
   }, [typedAllTherapySessions, getSessionStatus]);
 
   /**
@@ -164,7 +168,7 @@ export function TherapeuticJourneyContent() {
           </div>
         ) : typedAllTherapySessions && typedAllTherapySessions.length > 0 ? (
           <TherapySessionMetrics
-            inProgress={metrics.inProgress}
+            startedOrInProgress={metrics.startedOrInProgress}
             completed={metrics.completed}
             averageProgress={metrics.averageProgress}
           />

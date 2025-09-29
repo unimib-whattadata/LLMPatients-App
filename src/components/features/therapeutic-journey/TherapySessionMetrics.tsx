@@ -9,21 +9,21 @@
 import { memo } from "react";
 
 interface TherapySessionMetricsProps {
-  inProgress: number;
+  startedOrInProgress: number;
   completed: number;
   averageProgress: number;
 }
 
 function TherapySessionMetricsComponent({
-  inProgress,
+  startedOrInProgress,
   completed,
   averageProgress,
 }: TherapySessionMetricsProps) {
   return (
     <div className="dashboard-metric-grid">
       <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value">{inProgress}</div>
-        <div className="dashboard-metric-card__label">In Corso</div>
+        <div className="dashboard-metric-card__value">{startedOrInProgress}</div>
+        <div className="dashboard-metric-card__label">Iniziate o In corso</div>
       </div>
       <div className="dashboard-metric-card">
         <div className="dashboard-metric-card__value">{completed}</div>

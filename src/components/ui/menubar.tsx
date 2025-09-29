@@ -13,7 +13,7 @@ const Menubar = React.forwardRef<
   <MenubarPrimitive.Root
     ref={ref}
     className={cn(
-      "flex h-10 items-center space-x-1 rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)] shadow-[var(--shadow-xs)]",
+      "flex h-10 items-center space-x-1 rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)]",
       className,
     )}
     {...props}
@@ -48,7 +48,7 @@ const MenubarContent = React.forwardRef<
     alignOffset={alignOffset}
     sideOffset={sideOffset}
     className={cn(
-      "z-50 min-w-[12rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)] shadow-[var(--shadow-lg)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "z-50 min-w-[12rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className,
     )}
     {...props}
@@ -172,7 +172,7 @@ const MenubarSubContent = React.forwardRef<
   <MenubarPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)] shadow-[var(--shadow-lg)]",
+      "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)]",
       className,
     )}
     {...props}

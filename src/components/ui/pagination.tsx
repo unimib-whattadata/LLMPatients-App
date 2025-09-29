@@ -32,7 +32,7 @@ const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li"
 PaginationItem.displayName = "PaginationItem"
 
 const paginationLinkStyles =
-  "inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] px-3 py-2 text-sm font-medium text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-primary-green)]/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] disabled:pointer-events-none disabled:opacity-50"
+  "inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-[var(--radius-md)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] px-3 py-2 text-sm font-medium text-[var(--color-text-primary)] transition-colors hover:bg-[var(--color-primary-green)]/15 focus-visible:outline-none    focus-visible: disabled:pointer-events-none disabled:opacity-50"
 
 const PaginationLink = React.forwardRef<
   HTMLAnchorElement,

@@ -165,7 +165,7 @@ export function Navbar({
             {/* Logo */}
             <Link
               href="/"
-              className="focus:ring-text-primary/20 flex items-center rounded-md focus:ring-2 focus:outline-none"
+              className="flex items-center rounded-md focus:outline-none"
             >
               <Image
                 src="/images/logo.png"
@@ -250,7 +250,7 @@ export function Navbar({
                     <Link
                       key={item.href}
                       href={item.href}
-                      className={`focus:ring-text-primary/20 flex items-center rounded-md px-3 py-3 text-base font-medium focus:ring-2 focus:outline-none ${
+                      className={`flex items-center rounded-md px-3 py-3 text-base font-medium focus:outline-none ${
                         isActive
                           ? "bg-accent-600 text-text-primary"
                           : "text-text-secondary hover:bg-background-tertiary hover:text-text-primary"

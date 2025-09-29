@@ -56,228 +56,15 @@
     line-height: 1.1;
     text-transform: var(--pill-case, none);
     border: var(--pill-border, 1px solid transparent);
-    box-shadow: var(--pill-shadow, none);
+    box-shadow: none;
     white-space: nowrap;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
       transform 0.2s ease;
   }
 
 
 
 
-  /* Enhanced Labels */
-  .label {
-    display: block;
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.01em;
-    color: var(--color-text-primary);
-    transition: color 0.2s ease;
-  }
-
-  .label-required::after {
-    content: '*';
-    margin-left: 0.25rem;
-    color: var(--color-error);
-    font-weight: 700;
-  }
-
-  .label-optional::after {
-    content: '(optional)';
-    margin-left: 0.5rem;
-    font-weight: 400;
-    opacity: 0.7;
-    font-size: 0.8rem;
-  }
-
-  /* Form Field Help Text */
-  .field-help {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
-    margin-top: 0.25rem;
-    line-height: 1.4;
-  }
-
-  /* Enhanced Form Validation */
-  .form-validation {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    margin-top: 0.5rem;
-  }
-
-  .form-error {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--color-error);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .form-error-icon {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
-  .form-success {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--color-success);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .form-success-icon {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
-  .form-warning {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--color-warning);
-    font-weight: 500;
-    line-height: 1.4;
-  }
-
-  .form-warning-icon {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
-  /* Form Field Character Count */
-  .field-character-count {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin-top: 0.25rem;
-  }
-
-  .field-character-count--warning {
-    color: var(--color-warning);
-  }
-
-  .field-character-count--error {
-    color: var(--color-error);
-  }
-
-  /* Form Loading States */
-  .form-loading {
-    position: relative;
-    pointer-events: none;
-    opacity: 0.7;
-  }
-
-  .form-loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    width: 1rem;
-    height: 1rem;
-    border: 2px solid transparent;
-    border-top: 2px solid var(--color-primary-green);
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: translateY(-50%) rotate(0deg); }
-    100% { transform: translateY(-50%) rotate(360deg); }
-  }
-
-  /* Form Field Groups */
-  .form-field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .form-field-group--inline {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .form-field-group--inline .label {
-    margin-bottom: 0;
-    white-space: nowrap;
-  }
-
-  /* Form Actions */
-  .form-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .form-actions--center {
-    justify-content: center;
-  }
-
-  .form-actions--space-between {
-    justify-content: space-between;
-  }
-
-  @media (max-width: 640px) {
-    .form-actions {
-      flex-direction: column;
-      gap: 0.75rem;
-    }
-    
-    .form-actions button {
-      width: 100%;
-    }
-  }
-
-  /* Form Progress Indicator */
-  .form-progress {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 0.75rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .form-progress-bar {
-    flex: 1;
-    height: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 999px;
-    overflow: hidden;
-  }
-
-  .form-progress-fill {
-    height: 100%;
-    background-color: var(--color-primary-green);
-    border-radius: 999px;
-    transition: width 0.3s ease;
-  }
-
-  .form-progress-text {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
-    white-space: nowrap;
-  }
 
   /* ===== UNIFIED MESSAGE SYSTEM ===== */
   /* 
@@ -383,7 +170,6 @@
   .message-dismiss:hover {
     background-color: rgba(255, 255, 255, 0.3) !important;
     border-color: rgba(255, 255, 255, 0.5) !important;
-    transform: scale(1.05) !important;
   }
 
   .message-dismiss:focus {
@@ -391,11 +177,6 @@
     outline-offset: 2px !important;
   }
 
-  /* Legacy support - these classes now inherit from .message */
-  .error-message {
-    font-size: var(--font-size-sm);
-    margin-top: var(--space-xs);
-  }
 
 
 
@@ -482,8 +263,7 @@
 
   /* High Contrast Focus Indicators */
   @media (prefers-contrast: high) {
-    *:focus,
-    *:focus-visible {
+    *:focus {
       outline-offset: 2px;
     }
   }
@@ -494,7 +274,7 @@
   }
 
   /* Hide mouse focus when using keyboard */
-  .mouse-navigation *:focus:not(:focus-visible) {
+  .mouse-navigation *:focus {
     outline: none;
   }
 
@@ -688,26 +468,6 @@
   }
 
   @media (max-width: 640px) {
-    .auth-container {
-      flex-direction: column;
-    }
-    
-    .auth-brand-section {
-      display: none;
-    }
-    
-    .auth-form-section {
-      width: 100%;
-      padding: 1rem;
-    }
-    
-    .auth-form-card {
-      padding: 1.5rem;
-    }
-    
-    .auth-form-title {
-      font-size: 1.5rem;
-    }
     
     .text-heading-1 {
       font-size: 2rem;
@@ -775,10 +535,6 @@
       display: none !important;
     }
     
-    *:focus-visible {
-      outline-width: 3px;
-      outline-offset: 3px;
-    }
   }
 
   @media (min-width: 641px) {
@@ -788,219 +544,7 @@
   }
 
 
-  /* ===== UNIFIED AUTHENTICATION FORM STYLES ===== */
-  /* Unified form container for consistent styling across login and registration */
-  .unified-auth-container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 1.5rem;
-  }
 
-  .unified-auth-form-wrapper {
-    width: 100%;
-    max-width: 28rem;
-    margin: 0;
-  }
-
-  .unified-auth-form-card {
-    padding: 2rem;
-    background: transparent;
-    border: none;
-    box-shadow: none;
-  }
-
-  .unified-auth-form-title {
-    font-size: 1.75rem;
-    font-weight: 700;
-    text-align: center;
-    color: var(--color-text-primary);
-  }
-
-  .unified-auth-form-subtitle {
-    font-size: 0.95rem;
-    color: var(--color-text-secondary);
-    text-align: center;
-    line-height: 1.6;
-  }
-
-  /* Unified form field styling */
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 640px) {
-    .unified-auth-container {
-      padding: 1rem;
-    }
-
-    .unified-auth-form-card {
-      padding: 1.5rem;
-    }
-
-    .unified-auth-form-title {
-      font-size: 1.5rem;
-    }
-  }
-
-  /* ===== DARK THEME AUTHENTICATION PAGES ===== */
-  .auth-container {
-    min-height: 100vh;
-    display: flex;
-  }
-
-  .auth-brand-section {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    padding: 3rem;
-  }
-  
-  @media (min-width: 1024px) {
-    .auth-brand-section {
-      display: flex;
-      width: 50%;
-    }
-  }
-
-  .auth-brand-content {
-    max-width: 32rem;
-  }
-
-  .auth-brand-title {
-    font-size: var(--font-size-4xl);
-    font-weight: 700;
-    margin-bottom: 2rem;
-  }
-
-  .auth-brand-subtitle {
-    font-size: var(--font-size-xl);
-    line-height: 1.75;
-  }
-
-  .auth-form-section {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem 2rem;
-  }
-  
-  @media (min-width: 1024px) {
-    .auth-form-section {
-      width: 50%;
-    }
-  }
-
-  .auth-form-container {
-    width: 100%;
-    max-width: 28rem;
-  }
-
-  .auth-form-card {
-    border-radius: 0.5rem;
-    padding: 2rem;
-  }
-
-  .auth-form-title {
-    font-size: var(--font-size-2xl);
-    font-weight: 700;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .auth-input-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .auth-label {
-    display: block;
-    font-size: var(--font-size-sm);
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
-
-  .auth-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.375rem;
-    font-size: var(--font-size-base);
-  }
-  
-  .auth-input::placeholder {
-  }
-  
-  .auth-input:focus {
-    outline: none;
-  }
-
-  .auth-input-error {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 0.375rem;
-    font-size: var(--font-size-base);
-  }
-  
-  .auth-input-error:focus {
-    outline: none;
-  }
-
-
-  .auth-submit-btn {
-    width: 100%;
-    border-radius: 0.375rem;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    font-size: var(--font-size-base);
-    cursor: pointer;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .auth-submit-btn:hover:not(:disabled) {
-  }
-  
-  .auth-submit-btn:disabled {
-    opacity: 0.5;
-    cursor: wait;
-  }
-
-  .auth-checkbox {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 0.25rem;
-  }
-  
-  .auth-checkbox:focus {
-    outline: none;
-  }
-
-  .auth-link {
-    font-weight: 500;
-  }
-  
-  .auth-link:hover {
-  }
-
-  .auth-text-muted {
-  }
-
-
-  .auth-divider {
-    margin: 1.5rem 0;
-  }
-
-  .auth-spinner {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-  }
 
   /* ===== ENHANCED DASHBOARD COMPONENTS ===== */
   /* Layout Container Classes */
@@ -1267,7 +811,7 @@
   .dashboard-section {
     border-radius: 0;
     padding: clamp(1.5rem, 2.5vw, 2.25rem);
-    box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.45);
+    box-shadow: none;
   }
 
   .dashboard-section__header {
@@ -1521,10 +1065,6 @@
     color: inherit;
   }
 
-  .site-menu__mobile-toggle:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 2px;
-  }
 
   .site-menu__mobile-icon {
     width: 22px;
@@ -3001,9 +2541,7 @@
     background-color: var(--color-primary-green) !important;
   }
 
-  .progress-bar-primary-green > div {
-    background-color: var(--color-primary-green) !important;
-  }
+  /* Removed problematic child selector that was overriding progress indicator */
 
   /* Image auto size utility class */
   .image-auto-size {
@@ -3061,10 +2599,7 @@
     --skeleton-width: 90%;
   }
 
-  /* Progress indicator class */
-  .progress-indicator {
-    transform: translateX(calc(-100% + var(--radix-progress-value, 0) * 1%));
-  }
+  /* Progress indicator class - removed as it was conflicting with Radix UI behavior */
 
   /* Chat bubble styles */
   .chat-bubble--patient {
@@ -3634,22 +3169,6 @@
     transition: width 0.3s ease;
   }
   
-  /* Field Indentation Styles */
-  .field-indent-1 {
-    padding-left: 1.15rem;
-  }
-  
-  .field-indent-2 {
-    padding-left: 2.3rem;
-  }
-  
-  .field-indent-3 {
-    padding-left: 3.45rem;
-  }
-  
-  .field-indent-4 {
-    padding-left: 4.6rem;
-  }
   
   /* Chart Bar Styles */
   .chart-bar {
@@ -3713,19 +3232,13 @@
     font-weight: 600;
     transition: transform 200ms;
     cursor: pointer;
-    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.45);
+    box-shadow: none;
   }
   
   .timeline-step-positioned:hover {
-    transform: translateX(-50%) translateY(-50%) scale(1.1);
+    transform: translateX(-50%) translateY(-50%);
   }
   
-  .timeline-step-positioned:focus-visible {
-    outline: 2px solid;
-    outline-offset: 4px;
-    outline-color: white;
-    transform: translateX(-50%) translateY(-50%) scale(1.1);
-  }
   
   .timeline-step-positioned--locked {
     cursor: not-allowed;
@@ -3739,11 +3252,11 @@
   }
   
   .timeline-step-positioned--current {
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.7);
+    box-shadow: none;
   }
   
   .timeline-step-positioned--completed {
-    box-shadow: 0 0 0 2px rgb(34 197 94);
+    box-shadow: none;
   }
 
   /* Timeline path styling for mobile */

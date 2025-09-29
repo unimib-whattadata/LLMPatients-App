@@ -19,7 +19,7 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
 
 const sharedContentClasses =
-  "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)] shadow-[var(--shadow-lg)]"
+  "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-1 text-sm text-[var(--color-text-primary)]"
 
 const DropdownMenuContent = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
