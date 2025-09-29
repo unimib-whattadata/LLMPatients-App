@@ -11,11 +11,61 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSession } from "next-auth/react";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { Eye, X } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { Button } from "~/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Checkbox } from "~/components/ui/checkbox";
+
+const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(2, "Il nome deve avere almeno 2 caratteri")
+      .max(50, "Il nome deve avere meno di 50 caratteri"),
+    email: z
+      .string()
+      .trim()
+      .email("Inserisci un'email valida"),
+    password: z
+      .string()
+      .min(8, "La password deve contenere almeno 8 caratteri")
+      .regex(/[A-Z]/, "La password deve contenere una lettera maiuscola")
+      .regex(/[a-z]/, "La password deve contenere una lettera minuscola")
+      .regex(/\d/, "La password deve contenere un numero")
+      .regex(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        "La password deve contenere un carattere speciale",
+      ),
+    confirmPassword: z.string().min(1, "Conferma password obbligatoria"),
+    acceptTerms: z
+      .boolean()
+      .refine((value) => value === true, {
+        message: "Devi accettare i termini e le condizioni",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Le password non corrispondono",
+  });
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 /**
  * Register Page Component
@@ -24,19 +74,20 @@ import { X } from "lucide-react";
  * Redirects authenticated users to home page.
  */
 export default function RegisterPage() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [acceptTerms, setAcceptTerms] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [nameError, setNameError] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  const [termsError, setTermsError] = useState("");
+  const [serverError, setServerError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const router = useRouter();
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      acceptTerms: false,
+    },
+  });
 
   // Check if user is already authenticated
   useEffect(() => {
@@ -48,114 +99,10 @@ export default function RegisterPage() {
     };
     void checkAuth();
   }, [router]);
+  const isSubmitting = form.formState.isSubmitting;
 
-  // Name validation
-  const validateName = (name: string): boolean => {
-    if (!name.trim()) {
-      setNameError("Name is required");
-      return false;
-    }
-    if (name.trim().length < 2) {
-      setNameError("Name must be at least 2 characters");
-      return false;
-    }
-    if (name.trim().length > 50) {
-      setNameError("Name must be less than 50 characters");
-      return false;
-    }
-    setNameError("");
-    return true;
-  };
-
-  // Email validation
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) {
-      setEmailError("Email is required");
-      return false;
-    }
-    if (!emailRegex.test(email)) {
-      setEmailError("Please enter a valid email address");
-      return false;
-    }
-    setEmailError("");
-    return true;
-  };
-
-  // Password validation
-  const validatePassword = (password: string): boolean => {
-    if (!password) {
-      setPasswordError("Password is required");
-      return false;
-    }
-    if (password.length < 8) {
-      setPasswordError("Password must be at least 8 characters");
-      return false;
-    }
-
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumbers = /\d/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-    if (!hasUpperCase || !hasLowerCase || !hasNumbers || !hasSpecialChar) {
-      setPasswordError(
-        "Password must contain uppercase, lowercase, number, and special character",
-      );
-      return false;
-    }
-
-    setPasswordError("");
-    return true;
-  };
-
-  // Confirm password validation
-  const validateConfirmPassword = (confirmPassword: string): boolean => {
-    if (!confirmPassword) {
-      setConfirmPasswordError("Please confirm your password");
-      return false;
-    }
-    if (confirmPassword !== password) {
-      setConfirmPasswordError("Passwords do not match");
-      return false;
-    }
-    setConfirmPasswordError("");
-    return true;
-  };
-
-  // Terms validation
-  const validateTerms = (accepted: boolean): boolean => {
-    if (!accepted) {
-      setTermsError("You must accept the terms and conditions");
-      return false;
-    }
-    setTermsError("");
-    return true;
-  };
-
-  // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    // Validate all inputs
-    const isNameValid = validateName(name);
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-    const isConfirmPasswordValid = validateConfirmPassword(confirmPassword);
-    const isTermsValid = validateTerms(acceptTerms);
-
-    if (
-      !isNameValid ||
-      !isEmailValid ||
-      !isPasswordValid ||
-      !isConfirmPasswordValid ||
-      !isTermsValid
-    ) {
-      return;
-    }
-
-    setIsLoading(true);
+  const handleSubmit = form.handleSubmit(async (values) => {
+    setServerError("");
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -164,27 +111,28 @@ export default function RegisterPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: name.trim(),
-          email: email.trim(),
-          password,
+          name: values.name.trim(),
+          email: values.email.trim(),
+          password: values.password,
         }),
       });
 
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        setError(data?.error || "Registration failed. Please try again.");
+        setServerError(
+          data?.error || "Registrazione fallita. Riprova più tardi.",
+        );
         return;
       }
 
-      // Registration successful, redirect to login
-      router.push("/login?message=Registration successful! Please log in.");
+      router.push("/login?message=Registrazione avvenuta con successo! Accedi.");
     } catch {
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
+      setServerError(
+        "Si è verificato un errore inatteso. Riprova più tardi.",
+      );
     }
-  };
+  });
 
   return (
     <div className="min-h-screen flex">
@@ -215,237 +163,185 @@ export default function RegisterPage() {
           <p className="text-text-secondary mb-8">
             Unisciti alla nostra piattaforma di allenamento con pazienti virtuali
           </p>
-          <form onSubmit={handleSubmit}>
-            {/* Global Error Message */}
-            {error && (
-              <div className="bg-error/20 border border-error/30 rounded-lg p-4 mb-6">
-                <div className="flex items-center">
-                  <X className="h-4 w-4 text-error mr-2" />
-                  <div className="text-error">{error}</div>
+          <Form {...form}>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {serverError && (
+                <div className="bg-error/20 border border-error/30 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <X className="h-4 w-4 text-error mr-2" />
+                    <div className="text-error">{serverError}</div>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            {/* Name Field */}
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-medium text-text-primary mb-2">
-                Nome completo
-              </label>
-              <input
-                id="name"
+              <FormField
+                control={form.control}
                 name="name"
-                type="text"
-                autoComplete="name"
-                required
-                value={name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                  if (nameError) validateName(e.target.value);
-                }}
-                onBlur={() => validateName(name)}
-                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                  nameError 
-                    ? "border-error" 
-                    : "border-border-primary hover:border-border-focus"
-                }`}
-                placeholder="Il tuo nome completo"
-                aria-describedby={nameError ? "name-error" : undefined}
-                aria-invalid={!!nameError}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="name">Nome completo</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="name"
+                        autoComplete="name"
+                        placeholder="Il tuo nome completo"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {nameError && (
-                <div
-                  id="name-error"
-                  className="mt-2 flex items-center text-error text-sm"
-                  role="alert"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {nameError}
-                </div>
-              )}
-            </div>
 
-            {/* Email Field */}
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
-                E-mail
-              </label>
-              <input
-                id="email"
+              <FormField
+                control={form.control}
                 name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (emailError) validateEmail(e.target.value);
-                }}
-                onBlur={() => validateEmail(email)}
-                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                  emailError 
-                    ? "border-error" 
-                    : "border-border-primary hover:border-border-focus"
-                }`}
-                placeholder="La tua e-mail"
-                aria-describedby={emailError ? "email-error" : undefined}
-                aria-invalid={!!emailError}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">E-mail</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="La tua e-mail"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {emailError && (
-                <div
-                  id="email-error"
-                  className="mt-2 flex items-center text-error text-sm"
-                  role="alert"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {emailError}
-                </div>
-              )}
-            </div>
 
-            {/* Password Field */}
-            <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-text-primary mb-2">
-                Password
-              </label>
-              <input
-                id="password"
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (passwordError) validatePassword(e.target.value);
-                  if (confirmPassword && confirmPasswordError) {
-                    validateConfirmPassword(confirmPassword);
-                  }
-                }}
-                onBlur={() => validatePassword(password)}
-                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                  passwordError 
-                    ? "border-error" 
-                    : "border-border-primary hover:border-border-focus"
-                }`}
-                placeholder="La tua password"
-                aria-describedby={
-                  passwordError ? "password-error" : undefined
-                }
-                aria-invalid={!!passwordError}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          autoComplete="new-password"
+                          placeholder="Crea una password sicura"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {passwordError && (
-                <div
-                  id="password-error"
-                  className="mt-2 flex items-center text-error text-sm"
-                  role="alert"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {passwordError}
-                </div>
-              )}
-            </div>
 
-            {/* Confirm Password Field */}
-            <div className="mb-6">
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-text-primary mb-2">
-                Conferma password
-              </label>
-              <input
-                id="confirmPassword"
+              <FormField
+                control={form.control}
                 name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                  if (confirmPasswordError)
-                    validateConfirmPassword(e.target.value);
-                }}
-                onBlur={() => validateConfirmPassword(confirmPassword)}
-                className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                  confirmPasswordError 
-                    ? "border-error" 
-                    : "border-border-primary hover:border-border-focus"
-                }`}
-                placeholder="Conferma la tua password"
-                aria-describedby={
-                  confirmPasswordError ? "confirm-password-error" : undefined
-                }
-                aria-invalid={!!confirmPasswordError}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="confirm-password">Conferma password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          id="confirm-password"
+                          type={showConfirmPassword ? "text" : "password"}
+                          autoComplete="new-password"
+                          placeholder="Conferma la tua password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary"
+                          onClick={() => setShowConfirmPassword((prev) => !prev)}
+                          aria-label={
+                            showConfirmPassword
+                              ? "Nascondi conferma password"
+                              : "Mostra conferma password"
+                          }
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {confirmPasswordError && (
-                <div
-                  id="confirm-password-error"
-                  className="mt-2 flex items-center text-error text-sm"
-                  role="alert"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {confirmPasswordError}
-                </div>
-              )}
-            </div>
 
-            {/* Terms and Conditions */}
-            <div className="mb-6">
-              <div className="flex items-start">
-                <input
-                  id="accept-terms"
-                  name="accept-terms"
-                  type="checkbox"
-                  checked={acceptTerms}
-                  onChange={(e) => {
-                    setAcceptTerms(e.target.checked);
-                    if (termsError) validateTerms(e.target.checked);
-                  }}
-                  className="h-4 w-4 text-primary-green bg-surface-primary border-border-primary rounded focus:ring-primary-green focus:ring-2 mt-1"
-                />
-                <label
-                  htmlFor="accept-terms"
-                  className="ml-2 text-sm text-text-secondary"
-                >
-                  Accetto i{" "}
-                  <Link href="/terms" className="text-primary-green hover:text-primary-green/80 transition-colors">
-                    termini e condizioni
-                  </Link>{" "}
-                  e la{" "}
-                  <Link href="/privacy" className="text-primary-green hover:text-primary-green/80 transition-colors">
-                    privacy policy
-                  </Link>
-                </label>
-              </div>
-              {termsError && (
-                <div
-                  className="mt-2 flex items-center text-error text-sm"
-                  role="alert"
-                >
-                  <X className="h-4 w-4 mr-1" />
-                  {termsError}
-                </div>
-              )}
-            </div>
+              <FormField
+                control={form.control}
+                name="acceptTerms"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-start gap-3">
+                      <FormControl>
+                        <Checkbox
+                          id="terms"
+                          checked={field.value}
+                          onCheckedChange={(checked) => field.onChange(checked === true)}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        htmlFor="terms"
+                        className="text-sm font-normal text-text-secondary"
+                      >
+                        Accetto i
+                        <a
+                          href="/terms"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-primary-green hover:text-primary-green/80 transition-colors mx-1"
+                        >
+                          termini e condizioni
+                        </a>
+                        della piattaforma e la
+                        <Link
+                          href="/privacy"
+                          className="text-primary-green hover:text-primary-green/80 transition-colors ml-1"
+                        >
+                          privacy policy
+                        </Link>
+                      </FormLabel>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary-green hover:bg-primary-green/90 disabled:bg-primary-green/50 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-              aria-label="Registra il tuo account"
-            >
-              {isLoading && <div className="unified-form-spinner mr-2"></div>}
-              {isLoading ? "Registrazione in corso..." : "Registrati"}
-            </button>
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isSubmitting}
+                isLoading={isSubmitting}
+                aria-label="Registra il tuo account"
+              >
+                {isSubmitting ? "Registrazione in corso..." : "Registrati"}
+              </Button>
 
-            {/* Login Link */}
-            <div className="mt-6 text-center">
-              <div className="text-sm text-text-secondary">
-                <span>Hai già un account? </span>
-                <Link href="/login" className="text-primary-green hover:text-primary-green/80 transition-colors">
+              <div className="text-center text-sm text-text-secondary">
+                Hai già un account?
+                <Link
+                  href="/login"
+                  className="text-primary-green hover:text-primary-green/80 transition-colors ml-1"
+                >
                   Accedi qui
                 </Link>
               </div>
-            </div>
-          </form>
+            </form>
+          </Form>
         </div>
       </div>
     </div>

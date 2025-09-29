@@ -8,55 +8,139 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "~/components/ui/button";
-import { api } from "~/trpc/react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
-interface PatientFormData {
-  name: string;
-  smallDescription: string;
-  background: string;
-  objectives: string[];
-  avatarUrl: string;
-  avatarType: "photo" | "illustration" | "avatar";
-  difficulty: number;
-  estimatedDuration: number;
-  details: string;
-}
+import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import { Slider } from "~/components/ui/slider";
+import { api } from "~/trpc/react";
 
-export function CreatePatientContent() {
-  const [patientData, setPatientData] = useState<PatientFormData>({
-    name: "",
-    smallDescription: "",
-    background: "",
-    objectives: [""],
-    avatarUrl: "",
-    avatarType: "illustration",
-    difficulty: 1,
-    estimatedDuration: 30,
-    details: "",
+const objectiveSchema = z
+  .string()
+  .trim()
+  .min(1, "L'obiettivo non può essere vuoto");
+
+const detailsSchema = z
+  .string()
+  .min(1, "I dettagli JSON sono obbligatori")
+  .superRefine((value, ctx) => {
+    try {
+      const parsed = JSON.parse(value) as unknown;
+      if (typeof parsed !== "object" || parsed === null) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "I dettagli devono essere un oggetto JSON valido",
+        });
+        return;
+      }
+
+      const parsedKeys = Object.keys(parsed as Record<string, unknown>);
+      if (parsedKeys.length <= 0) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "Il JSON deve contenere almeno una chiave",
+        });
+      }
+    } catch {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "I dettagli JSON non sono in formato valido",
+      });
+    }
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [newObjective, setNewObjective] = useState("");
+const createPatientSchema = z.object({
+  name: z.string().trim().min(1, "Il nome del paziente è obbligatorio"),
+  smallDescription: z
+    .string()
+    .trim()
+    .min(1, "La descrizione breve è obbligatoria")
+    .max(500, "Massimo 500 caratteri"),
+  background: z
+    .string()
+    .trim()
+    .min(1, "La storia clinica è obbligatoria")
+    .max(2000, "Massimo 2000 caratteri"),
+  objectives: z
+    .array(objectiveSchema)
+    .min(1, "Almeno un obiettivo terapeutico è obbligatorio"),
+  avatarUrl: z.string().trim().optional().or(z.literal("")),
+  avatarType: z.enum(["photo", "illustration", "avatar"]),
+  difficulty: z
+    .number()
+    .min(1, "Difficoltà minima 1")
+    .max(5, "Difficoltà massima 5"),
+  estimatedDuration: z
+    .number()
+    .min(15, "Durata minima 15 minuti")
+    .max(240, "Durata massima 240 minuti"),
+  details: detailsSchema,
+});
+
+type CreatePatientValues = z.infer<typeof createPatientSchema>;
+
+export function CreatePatientContent() {
   const [showJsonTemplate, setShowJsonTemplate] = useState(false);
+
+  const form = useForm<CreatePatientValues>({
+    resolver: zodResolver(createPatientSchema),
+    defaultValues: {
+      name: "",
+      smallDescription: "",
+      background: "",
+      objectives: [""],
+      avatarUrl: "",
+      avatarType: "illustration",
+      difficulty: 1,
+      estimatedDuration: 30,
+      details: "",
+    },
+  });
+
+  const objectives = form.watch("objectives") ?? [""];
+
+  const handleObjectiveRemove = (index: number) => {
+    if (objectives.length <= 1) {
+      return;
+    }
+    const next = objectives.filter((_, i) => i !== index);
+    form.setValue("objectives", next.length ? next : [""], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
+
+  const handleObjectiveAdd = () => {
+    form.setValue("objectives", [...objectives, ""], {
+      shouldDirty: true,
+      shouldValidate: true,
+    });
+  };
 
   const createPatientMutation = api.patients.createPatient.useMutation({
     onSuccess: () => {
       toast.success("Paziente creato con successo!");
-      // Reset form
-      setPatientData({
-        name: "",
-        smallDescription: "",
-        background: "",
-        objectives: [""],
-        avatarUrl: "",
-        avatarType: "illustration",
-        difficulty: 1,
-        estimatedDuration: 30,
-        details: "",
-      });
-      setNewObjective("");
+      form.reset();
       setShowJsonTemplate(false);
     },
     onError: (error) => {
@@ -64,57 +148,7 @@ export function CreatePatientContent() {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Validate form
-    const validationErrors = validateForm();
-    if (validationErrors.length > 0) {
-      validationErrors.forEach(error => toast.error(error));
-      return;
-    }
-    
-    setIsSubmitting(true);
-
-    try {
-      // Filter out empty objectives
-      const filteredObjectives = patientData.objectives.filter(obj => obj.trim() !== "");
-      
-      await createPatientMutation.mutateAsync({
-        ...patientData,
-        objectives: filteredObjectives,
-      });
-    } catch (error) {
-      console.error("Error creating patient:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const addObjective = () => {
-    if (newObjective.trim()) {
-      setPatientData({
-        ...patientData,
-        objectives: [...patientData.objectives, newObjective.trim()],
-      });
-      setNewObjective("");
-    }
-  };
-
-  const removeObjective = (index: number) => {
-    setPatientData({
-      ...patientData,
-      objectives: patientData.objectives.filter((_, i) => i !== index),
-    });
-  };
-
-  const updateObjective = (index: number, value: string) => {
-    const newObjectives = [...patientData.objectives];
-    newObjectives[index] = value;
-    setPatientData({ ...patientData, objectives: newObjectives });
-  };
-
-  const jsonTemplate = {
+  const jsonTemplate: Record<string, unknown> = {
     demographic_sociocultural_information: {
       age: "28",
       gender: "Maschio",
@@ -135,47 +169,15 @@ export function CreatePatientContent() {
       main_symptoms: "Sintomi principali",
       emotional_reactions_and_mood: "Reazioni emotive e umore",
       self_perception_and_identity: "Percezione di sé e identità"
-    }
+    },
   };
 
   const loadJsonTemplate = () => {
-    setPatientData({
-      ...patientData,
-      details: JSON.stringify(jsonTemplate, null, 2)
+    form.setValue("details", JSON.stringify(jsonTemplate, null, 2), {
+      shouldDirty: true,
+      shouldValidate: true,
     });
     setShowJsonTemplate(false);
-  };
-
-  const validateForm = () => {
-    const errors: string[] = [];
-    
-    if (!patientData.name.trim()) {
-      errors.push("Il nome del paziente è obbligatorio");
-    }
-    
-    if (!patientData.smallDescription.trim()) {
-      errors.push("La descrizione breve è obbligatoria");
-    }
-    
-    if (!patientData.background.trim()) {
-      errors.push("La storia clinica è obbligatoria");
-    }
-    
-    if (patientData.objectives.filter(obj => obj.trim() !== "").length === 0) {
-      errors.push("Almeno un obiettivo terapeutico è obbligatorio");
-    }
-    
-    if (!patientData.details.trim()) {
-      errors.push("I dettagli JSON sono obbligatori");
-    } else {
-      try {
-        JSON.parse(patientData.details);
-      } catch {
-        errors.push("I dettagli JSON non sono in formato valido");
-      }
-    }
-    
-    return errors;
   };
 
   return (
@@ -196,288 +198,314 @@ export function CreatePatientContent() {
         </div>
 
         <div className="dashboard-panel">
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(async (values) => {
+                try {
+                  await createPatientMutation.mutateAsync(values);
+                } catch (error) {
+                  console.error("Error creating patient:", error);
+                }
+              })}
+              className="space-y-8"
+            >
             {/* Basic Information */}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Informazioni Base</h3>
               <p className="text-sm text-gray-400 mb-6">Dati essenziali del paziente</p>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="unified-form-group">
-                  <label htmlFor="patient-name" className="unified-form-label label-required">
-                    Nome Paziente
-                  </label>
-                  <input
-                    id="patient-name"
-                    type="text"
-                    value={patientData.name}
-                    onChange={(e) =>
-                      setPatientData({ ...patientData, name: e.target.value })
-                    }
-                    className="unified-form-input"
-                    placeholder="Inserisci il nome del paziente"
-                    required
-                  />
-                </div>
-                
-                <div className="unified-form-group">
-                  <label htmlFor="small-description" className="unified-form-label label-required">
-                    Descrizione Breve
-                  </label>
-                  <input
-                    id="small-description"
-                    type="text"
-                    value={patientData.smallDescription}
-                    onChange={(e) =>
-                      setPatientData({ ...patientData, smallDescription: e.target.value })
-                    }
-                    className="unified-form-input"
-                    placeholder="Es. Disturbo d'Ansia"
-                    maxLength={500}
-                    required
-                  />
-                  <p className="field-help">
-                    {patientData.smallDescription.length}/500 caratteri
-                  </p>
-                </div>
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="label-required">Nome Paziente</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Inserisci il nome del paziente"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="smallDescription"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="label-required">Descrizione Breve</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Es. Disturbo d'Ansia"
+                          maxLength={500}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        {field.value.length}/500 caratteri
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <div className="unified-form-group">
-                <label htmlFor="background" className="unified-form-label label-required">
-                  Storia Clinica
-                </label>
-                <textarea
-                  id="background"
-                  value={patientData.background}
-                  onChange={(e) =>
-                    setPatientData({ ...patientData, background: e.target.value })
-                  }
-                  rows={4}
-                  className="unified-form-input"
-                  placeholder="Background medico e storia del paziente..."
-                  maxLength={2000}
-                  required
-                />
-                <p className="field-help">
-                  {patientData.background.length}/2000 caratteri
-                </p>
-              </div>
+              <FormField
+                control={form.control}
+                name="background"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="label-required">Storia Clinica</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Background medico e storia del paziente..."
+                        rows={4}
+                        maxLength={2000}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {field.value.length}/2000 caratteri
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Objectives */}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Obiettivi Terapeutici</h3>
               <p className="text-sm text-gray-400 mb-6">Definisci gli obiettivi del trattamento</p>
-              
-              {patientData.objectives.map((objective, index) => (
-                <div key={index} className="unified-form-group">
-                  <div className="flex items-center gap-3">
-                    <input
-                      value={objective}
-                      onChange={(e) => updateObjective(index, e.target.value)}
-                      className="unified-form-input flex-1"
-                      placeholder="Inserisci un obiettivo terapeutico"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => removeObjective(index)}
-                      disabled={patientData.objectives.length === 1}
-                      className="shrink-0"
-                    >
-                      Rimuovi
-                    </Button>
-                  </div>
-                </div>
-              ))}
-              
-              <div className="unified-form-group">
-                <div className="flex items-center gap-3">
-                  <input
-                    value={newObjective}
-                    onChange={(e) => setNewObjective(e.target.value)}
-                    className="unified-form-input flex-1"
-                    placeholder="Aggiungi nuovo obiettivo"
+
+              <div className="space-y-4">
+                {objectives.map((_, index) => (
+                  <FormField
+                    key={`objective-${index}`}
+                    control={form.control}
+                    name={`objectives.${index}`}
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <FormControl>
+                            <Input
+                              placeholder="Inserisci un obiettivo terapeutico"
+                              {...field}
+                            />
+                          </FormControl>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleObjectiveRemove(index)}
+                            disabled={objectives.length === 1}
+                            className="shrink-0"
+                          >
+                            Rimuovi
+                          </Button>
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={addObjective}
-                    disabled={!newObjective.trim()}
-                    className="shrink-0"
-                  >
-                    Aggiungi
-                  </Button>
-                </div>
+                ))}
               </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-4"
+                onClick={handleObjectiveAdd}
+              >
+                Aggiungi Obiettivo
+              </Button>
             </div>
 
             {/* Configuration */}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Configurazione Caso</h3>
               <p className="text-sm text-gray-400 mb-6">Impostazioni per la simulazione</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="unified-form-group">
-                  <label htmlFor="difficulty" className="unified-form-label label-required">
-                    Difficoltà
-                  </label>
-                  <select
-                    id="difficulty"
-                    value={patientData.difficulty}
-                    onChange={(e) =>
-                      setPatientData({ ...patientData, difficulty: parseInt(e.target.value) })
-                    }
-                    className="unified-form-input"
-                    required
-                  >
-                    <option value={1}>Facile</option>
-                    <option value={2}>Medio</option>
-                    <option value={3}>Difficile</option>
-                  </select>
-                </div>
-                
-                <div className="unified-form-group">
-                  <label htmlFor="estimated-duration" className="unified-form-label label-required">
-                    Durata Stimata (min)
-                  </label>
-                  <input
-                    id="estimated-duration"
-                    type="number"
-                    min="5"
-                    max="180"
-                    value={patientData.estimatedDuration}
-                    onChange={(e) =>
-                      setPatientData({ ...patientData, estimatedDuration: parseInt(e.target.value) })
-                    }
-                    className="unified-form-input"
-                    required
-                  />
-                </div>
-                
-                <div className="unified-form-group">
-                  <label htmlFor="avatar-type" className="unified-form-label">
-                    Tipo Avatar
-                  </label>
-                  <select
-                    id="avatar-type"
-                    value={patientData.avatarType}
-                    onChange={(e) =>
-                      setPatientData({ ...patientData, avatarType: e.target.value as "photo" | "illustration" | "avatar" })
-                    }
-                    className="unified-form-input"
-                  >
-                    <option value="illustration">Illustrazione</option>
-                    <option value="photo">Foto</option>
-                    <option value="avatar">Avatar</option>
-                  </select>
-                </div>
-              </div>
 
-              <div className="unified-form-group">
-                <label htmlFor="avatar-url" className="unified-form-label">
-                  URL Avatar
-                </label>
-                <input
-                  id="avatar-url"
-                  type="url"
-                  value={patientData.avatarUrl}
-                  onChange={(e) =>
-                    setPatientData({ ...patientData, avatarUrl: e.target.value })
-                  }
-                  className="unified-form-input"
-                  placeholder="https://example.com/avatar.jpg"
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <FormField
+                  control={form.control}
+                  name="difficulty"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="label-required">
+                        Difficoltà <span className="text-xs text-gray-400">( {field.value}/5 )</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Slider
+                          min={1}
+                          max={5}
+                          step={1}
+                          value={[field.value]}
+                          onValueChange={(value) => field.onChange(value[0])}
+                          aria-label="Livello di difficoltà"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Seleziona il livello di complessità del caso clinico.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="estimatedDuration"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="label-required">
+                        Durata Stimata (min) <span className="text-xs text-gray-400">( {field.value} min )</span>
+                      </FormLabel>
+                      <FormControl>
+                        <Slider
+                          min={15}
+                          max={240}
+                          step={5}
+                          value={[field.value]}
+                          onValueChange={(value) => field.onChange(value[0])}
+                          aria-label="Durata stimata in minuti"
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Durata prevista della simulazione (15–240 minuti).
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="avatarType"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>Tipo Avatar</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Seleziona il tipo di avatar" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="illustration">Illustrazione</SelectItem>
+                          <SelectItem value="photo">Foto</SelectItem>
+                          <SelectItem value="avatar">Avatar</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
               </div>
+
+              <FormField
+                control={form.control}
+                name="avatarUrl"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>URL Avatar</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="url"
+                        placeholder="https://example.com/avatar.jpg"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
             {/* Patient Details (JSON) */}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Dettagli Paziente (JSON)</h3>
               <p className="text-sm text-gray-400 mb-6">Informazioni strutturate del paziente in formato JSON</p>
-              
-              <div className="unified-form-group">
-                <div className="flex items-center justify-between mb-4">
-                  <label htmlFor="patient-details" className="unified-form-label label-required">
-                    Dettagli JSON
-                  </label>
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setShowJsonTemplate(!showJsonTemplate)}
-                    >
-                      {showJsonTemplate ? "Nascondi" : "Mostra"} Template
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      onClick={loadJsonTemplate}
-                    >
-                      Carica Template
-                    </Button>
-                  </div>
-                </div>
-                
-                {showJsonTemplate && (
-                  <div className="p-4 bg-gray-800 rounded-lg mb-4">
-                    <h4 className="font-medium mb-2 text-white">Template JSON:</h4>
-                    <pre className="text-xs text-gray-300 whitespace-pre-wrap">
-                      {JSON.stringify(jsonTemplate, null, 2)}
-                    </pre>
-                  </div>
+
+              <FormField
+                control={form.control}
+                name="details"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <div className="flex items-center justify-between mb-4">
+                      <FormLabel className="label-required">Dettagli JSON</FormLabel>
+                      <div className="flex gap-2">
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setShowJsonTemplate(!showJsonTemplate)}
+                        >
+                          {showJsonTemplate ? "Nascondi" : "Mostra"} Template
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={loadJsonTemplate}
+                        >
+                          Carica Template
+                        </Button>
+                      </div>
+                    </div>
+
+                    {showJsonTemplate ? (
+                      <div className="p-4 bg-gray-800 rounded-lg mb-4">
+                        <h4 className="font-medium mb-2 text-white">Template JSON:</h4>
+                        <pre className="text-xs text-gray-300 whitespace-pre-wrap">
+                          {JSON.stringify(jsonTemplate, null, 2)}
+                        </pre>
+                      </div>
+                    ) : null}
+
+                    <FormControl>
+                      <Textarea
+                        rows={12}
+                        className="font-mono text-sm"
+                        placeholder='{"demographic_sociocultural_information": {"age": "28", "gender": "Maschio", ...}}'
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Inserisci i dettagli strutturati del paziente in formato JSON valido.
+                      Usa il template come riferimento per la struttura.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
                 )}
-                
-                <textarea
-                  id="patient-details"
-                  value={patientData.details}
-                  onChange={(e) =>
-                    setPatientData({ ...patientData, details: e.target.value })
-                  }
-                  rows={12}
-                  className="unified-form-input font-mono text-sm"
-                  placeholder='{"demographic_sociocultural_information": {"age": "28", "gender": "Maschio", ...}}'
-                  required
-                />
-                <p className="field-help">
-                  Inserisci i dettagli strutturati del paziente in formato JSON valido. 
-                  Usa il template come riferimento per la struttura.
-                </p>
-              </div>
+              />
             </div>
 
             <div className="flex gap-4 pt-6">
-              <Button 
-                type="submit" 
-                variant="default" 
-                size="default"
-                disabled={isSubmitting}
+              <Button
+                type="submit"
                 className="min-w-[140px]"
+                isLoading={createPatientMutation.isPending}
+                disabled={createPatientMutation.isPending}
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                    Creazione...
-                  </>
-                ) : (
-                  "Crea Paziente"
-                )}
+                {createPatientMutation.isPending ? "Creazione..." : "Crea Paziente"}
               </Button>
-              <Button 
-                type="button" 
-                variant="outline" 
-                size="default"
+              <Button
+                type="button"
+                variant="outline"
                 onClick={() => window.history.back()}
-                disabled={isSubmitting}
+                disabled={createPatientMutation.isPending}
               >
                 Annulla
               </Button>
             </div>
           </form>
+        </Form>
         </div>
       </section>
     </div>

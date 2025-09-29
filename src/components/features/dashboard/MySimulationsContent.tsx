@@ -291,21 +291,21 @@ function MySimulationsContentComponent() {
 
                   <div className="mt-6">
                     {simulation.status === "available" && (
-                      <Button variant="primary" size="default" className="w-full">
+                      <Button className="w-full">
                         Inizia Simulazione
                       </Button>
                     )}
                     {simulation.status === "in-progress" && (
-                      <Button variant="secondary" size="default" className="w-full">
+                      <Button variant="secondary" className="w-full">
                         Continua
                       </Button>
                     )}
                     {simulation.status === "completed" && (
                       <div className="flex gap-2">
-                        <Button variant="outline" size="default" className="flex-1">
+                        <Button variant="outline" className="flex-1">
                           Rivedi
                         </Button>
-                        <Button variant="primary" size="default" className="flex-1">
+                        <Button className="flex-1">
                           Ripeti
                         </Button>
                       </div>

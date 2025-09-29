@@ -52,8 +52,6 @@ export class ErrorBoundary extends Component<
               onClick={() =>
                 this.setState({ hasError: false, error: undefined })
               }
-              variant="primary"
-              size="default"
             >
               Riprova
             </Button>

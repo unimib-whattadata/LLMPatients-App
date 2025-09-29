@@ -5,11 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
-import {
-  Menu,
-  X,
-  LogOut,
-} from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { Button } from "~/components/ui/button";
@@ -333,7 +329,7 @@ export function Navbar({
         <span className={`${badgeClass} hidden md:inline-flex`}>
           {roleLabel}
         </span>
-        <Button asChild variant="primary" size="sm" className="hidden md:inline-flex">
+        <Button asChild size="sm" className="hidden md:inline-flex">
           <Link href="/dashboard">
             Area personale
           </Link>
@@ -342,19 +338,24 @@ export function Navbar({
           onClick={handleLogout}
           variant="ghost"
           size="sm"
-          className="site-menu__logout-btn hidden md:inline-flex"
+          className="hidden md:inline-flex"
         >
           Esci
         </Button>
       </div>
     ) : (
       <div className="site-menu__auth-block">
-        <Button asChild variant="dark-yellow-border" size="sm" className="hidden md:inline-flex">
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="hidden md:inline-flex border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)]"
+        >
           <Link href="/login">
             Accedi
           </Link>
         </Button>
-        <Button asChild variant="primary" size="sm" className="hidden md:inline-flex">
+        <Button asChild size="sm" className="hidden md:inline-flex">
           <Link href="/register">
             Registrati
           </Link>
@@ -377,7 +378,7 @@ export function Navbar({
         </div>
         <span className={badgeClass}>{roleLabel}</span>
         <div className="site-menu__mobile-buttons">
-          <Button asChild variant="primary" size="sm">
+          <Button asChild size="sm">
             <Link href="/dashboard">
               Area personale
             </Link>
@@ -386,7 +387,7 @@ export function Navbar({
             onClick={handleLogout}
             variant="ghost"
             size="sm"
-            className="site-menu__logout-btn site-menu__logout-btn--block"
+            className="w-full justify-center"
           >
             Esci
           </Button>
@@ -394,12 +395,17 @@ export function Navbar({
       </div>
     ) : (
       <div className="site-menu__mobile-buttons">
-        <Button asChild variant="dark-yellow-border" size="sm">
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)]"
+        >
           <Link href="/login">
             Accedi
           </Link>
         </Button>
-        <Button asChild variant="primary" size="sm">
+        <Button asChild size="sm">
           <Link href="/register">
             Registrati
           </Link>
@@ -468,21 +474,11 @@ export function Navbar({
             <span className="sr-only">
               {mobileMenuOpen ? "Chiudi il menu" : "Apri il menu"}
             </span>
-            <svg
-              className="site-menu__mobile-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {mobileMenuOpen ? (
-                <path d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              )}
-            </svg>
+            {mobileMenuOpen ? (
+              <X className="site-menu__mobile-icon" aria-hidden="true" />
+            ) : (
+              <Menu className="site-menu__mobile-icon" aria-hidden="true" />
+            )}
           </Button>
         </div>
 

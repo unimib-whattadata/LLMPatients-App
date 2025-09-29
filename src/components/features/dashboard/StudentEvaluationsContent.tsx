@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   DIFFICULTY_LEVELS,
   getDifficultyAccessibleText,
@@ -10,6 +10,34 @@ import {
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Button } from "~/components/ui/button";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "~/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "~/components/ui/dialog";
+import { Badge } from "~/components/ui/badge";
+import { EmptyState } from "~/components/ui/empty-state";
+import { Check, AlertTriangle, Users } from "lucide-react";
 
 interface Evaluation {
   id: string;
@@ -25,9 +53,80 @@ interface Evaluation {
   duration: number; // in minutes
 }
 
+const MOCK_EVALUATIONS: Evaluation[] = [
+  {
+    id: "1",
+    studentName: "Giovanni Verdi",
+    patientCase: "Mario Rossi - Ipertensione",
+    score: 85,
+    completedAt: "2024-09-03",
+    status: "completed",
+    feedback:
+      "Buona gestione del caso clinico. Lo studente ha dimostrato competenze solide nella diagnosi e nel trattamento dell'ipertensione.",
+    strengths: [
+      "Anamnesi dettagliata e sistematica",
+      "Corretta interpretazione dei parametri vitali",
+      "Scelta terapeutica appropriata",
+      "Comunicazione efficace con il paziente",
+    ],
+    improvements: [
+      "Velocità nella gestione dell'emergenza",
+      "Documentazione clinica più dettagliata",
+    ],
+    difficulty: DIFFICULTY_LEVELS.MEDIO,
+    duration: 45,
+  },
+  {
+    id: "2",
+    studentName: "Maria Neri",
+    patientCase: "Laura Bianchi - Diabete",
+    score: 92,
+    completedAt: "2024-09-02",
+    status: "completed",
+    feedback:
+      "Eccellente performance. La studentessa ha gestito il caso con sicurezza e competenza, dimostrando una comprensione approfondita del diabete.",
+    strengths: [
+      "Diagnosi rapida e precisa",
+      "Protocollo terapeutico seguito correttamente",
+      "Monitoraggio continuo del paziente",
+      "Comunicazione empatica e professionale",
+      "Gestione delle complicanze acute",
+    ],
+    improvements: ["Documentazione clinica più dettagliata"],
+    difficulty: DIFFICULTY_LEVELS.FACILE,
+    duration: 38,
+  },
+  {
+    id: "3",
+    studentName: "Paolo Blu",
+    patientCase: "Giuseppe Verde - Asma",
+    score: 78,
+    completedAt: "2024-09-01",
+    status: "completed",
+    feedback:
+      "Performance soddisfacente con alcuni aspetti da migliorare nella gestione dell'asma acuto.",
+    strengths: [
+      "Riconoscimento dei sintomi respiratori",
+      "Uso corretto dei dispositivi di somministrazione",
+      "Monitoraggio della saturazione",
+    ],
+    improvements: [
+      "Gestione delle vie aeree",
+      "Protocolli di emergenza",
+      "Comunicazione con il paziente in crisi",
+      "Velocità di intervento",
+    ],
+    difficulty: DIFFICULTY_LEVELS.DIFFICILE,
+    duration: 52,
+  },
+];
+
 export function StudentEvaluationsContent() {
-  const [filter, setFilter] = useState<string>("all");
-  const [selectedEvaluation, setSelectedEvaluation] = useState<string | null>(
+  const [filter, setFilter] = useState<"all" | "completed" | "in-progress" | "failed">(
+    "all",
+  );
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedEvaluation, setSelectedEvaluation] = useState<Evaluation | null>(
     null,
   );
 
@@ -39,93 +138,42 @@ export function StudentEvaluationsContent() {
     });
 
   // Mock data - in real app this would come from API
-  const evaluations: Evaluation[] = [
-    {
-      id: "1",
-      studentName: "Giovanni Verdi",
-      patientCase: "Mario Rossi - Ipertensione",
-      score: 85,
-      completedAt: "2024-09-03",
-      status: "completed",
-      feedback:
-        "Buona gestione del caso clinico. Lo studente ha dimostrato competenze solide nella diagnosi e nel trattamento dell'ipertensione.",
-      strengths: [
-        "Anamnesi dettagliata e sistematica",
-        "Corretta interpretazione dei parametri vitali",
-        "Scelta terapeutica appropriata",
-        "Comunicazione efficace con il paziente",
-      ],
-      improvements: [
-        "Velocità nella gestione dell'emergenza",
-        "Documentazione clinica più dettagliata",
-      ],
-      difficulty: DIFFICULTY_LEVELS.MEDIO,
-      duration: 45,
-    },
-    {
-      id: "2",
-      studentName: "Maria Neri",
-      patientCase: "Laura Bianchi - Diabete",
-      score: 92,
-      completedAt: "2024-09-02",
-      status: "completed",
-      feedback:
-        "Eccellente performance. La studentessa ha gestito il caso con sicurezza e competenza, dimostrando una comprensione approfondita del diabete.",
-      strengths: [
-        "Diagnosi rapida e precisa",
-        "Protocollo terapeutico seguito correttamente",
-        "Monitoraggio continuo del paziente",
-        "Comunicazione empatica e professionale",
-        "Gestione delle complicanze acute",
-      ],
-      improvements: ["Documentazione clinica più dettagliata"],
-      difficulty: DIFFICULTY_LEVELS.FACILE,
-      duration: 38,
-    },
-    {
-      id: "3",
-      studentName: "Paolo Blu",
-      patientCase: "Giuseppe Verde - Asma",
-      score: 78,
-      completedAt: "2024-09-01",
-      status: "completed",
-      feedback:
-        "Performance soddisfacente con alcuni aspetti da migliorare nella gestione dell'asma acuto.",
-      strengths: [
-        "Riconoscimento dei sintomi respiratori",
-        "Uso corretto dei dispositivi di somministrazione",
-        "Monitoraggio della saturazione",
-      ],
-      improvements: [
-        "Gestione delle vie aeree",
-        "Protocolli di emergenza",
-        "Comunicazione con il paziente in crisi",
-        "Velocità di intervento",
-      ],
-      difficulty: DIFFICULTY_LEVELS.DIFFICILE,
-      duration: 52,
-    },
-  ];
+  const evaluations = MOCK_EVALUATIONS;
+
+  const filteredEvaluations = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase();
+
+    return evaluations.filter((evaluation) => {
+      const matchesStatus =
+        filter === "all" ? true : evaluation.status === filter;
+      const matchesSearch =
+        normalizedSearch.length === 0
+          ? true
+          : evaluation.studentName.toLowerCase().includes(normalizedSearch) ||
+            evaluation.patientCase.toLowerCase().includes(normalizedSearch);
+
+      return matchesStatus && matchesSearch;
+    });
+  }, [evaluations, filter, searchTerm]);
 
   const getStatusBadge = (status: string, score: number) => {
     if (status === "completed") {
-      const statusClass =
-        score >= 80
-          ? "pill pill--sm status-tag status-tag--excellent bg-[var(--color-primary-violet)] text-white"
-          : score >= 60
-            ? "pill pill--sm status-tag status-tag--good bg-[var(--color-primary-yellow)] text-white"
-            : "pill pill--sm status-tag status-tag--needs-improvement bg-[var(--color-primary-green)] text-white";
-      return (
-        <span className={statusClass}>
-          {score >= 80 ? "Eccellente" : score >= 60 ? "Buono" : "Da migliorare"}
-        </span>
-      );
+      if (score >= 80) {
+        return <Badge variant="completed">Eccellente</Badge>;
+      }
+
+      if (score >= 60) {
+        return <Badge variant="in-progress">Buono</Badge>;
+      }
+
+      return <Badge variant="started">Da migliorare</Badge>;
     }
-    return (
-      <span className="pill pill--sm status-tag status-tag--in-progress bg-[var(--color-primary-yellow)] text-white">
-        In corso
-      </span>
-    );
+
+    if (status === "failed") {
+      return <Badge variant="destructive">Fallita</Badge>;
+    }
+
+    return <Badge variant="in-progress">In corso</Badge>;
   };
 
 
@@ -203,31 +251,33 @@ export function StudentEvaluationsContent() {
 
         <div className="dashboard-panel">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="auth-input-group">
-              <label className="auth-label" htmlFor="status-filter">
-                Filtra per stato
-              </label>
-              <select
-                id="status-filter"
+            <div className="space-y-2">
+              <Label htmlFor="status-filter">Filtra per stato</Label>
+              <Select
                 value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="auth-input"
+                onValueChange={(value) =>
+                  setFilter(value as "all" | "completed" | "in-progress" | "failed")
+                }
               >
-                <option value="all">Tutti</option>
-                <option value="completed">Completate</option>
-                <option value="in-progress">In corso</option>
-                <option value="failed">Fallite</option>
-              </select>
+                <SelectTrigger id="status-filter" className="w-full">
+                  <SelectValue placeholder="Seleziona stato" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tutti</SelectItem>
+                  <SelectItem value="completed">Completate</SelectItem>
+                  <SelectItem value="in-progress">In corso</SelectItem>
+                  <SelectItem value="failed">Fallite</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-            <div className="auth-input-group">
-              <label className="auth-label" htmlFor="student-search">
-                Cerca studente
-              </label>
-              <input
+            <div className="space-y-2">
+              <Label htmlFor="student-search">Cerca studente</Label>
+              <Input
                 id="student-search"
                 type="text"
-                placeholder="Nome studente..."
-                className="auth-input"
+                placeholder="Nome o caso clinico..."
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
               />
             </div>
           </div>
@@ -246,180 +296,157 @@ export function StudentEvaluationsContent() {
           </div>
         </div>
 
-        <div className="overflow-hidden rounded-xl">
-          <div className="overflow-x-auto">
-            <table className="dashboard-table">
-              <thead>
-                <tr>
-                  <th>Studente</th>
-                  <th>Caso Clinico</th>
-                  <th>Punteggio</th>
-                  <th>Stato</th>
-                  <th>Data</th>
-                  <th>Azioni</th>
-                </tr>
-              </thead>
-              <tbody>
-                {evaluations.map((evaluation) => (
-                  <tr key={evaluation.id}>
-                    <td className="font-medium">{evaluation.studentName}</td>
-                    <td>{evaluation.patientCase}</td>
-                    <td className="font-semibold">{evaluation.score}/100</td>
-                    <td>
+        <div className="rounded-xl">
+          {filteredEvaluations.length === 0 ? (
+            <EmptyState
+              icon={<Users className="h-12 w-12" aria-hidden="true" />}
+              title="Nessuna valutazione trovata"
+              description="Modifica i filtri o prova una ricerca diversa."
+              className="bg-[var(--color-surface-secondary)]"
+            />
+          ) : (
+            <Table className="dashboard-table">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Studente</TableHead>
+                  <TableHead>Caso Clinico</TableHead>
+                  <TableHead>Punteggio</TableHead>
+                  <TableHead>Stato</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead className="text-right">Azioni</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredEvaluations.map((evaluation) => (
+                  <TableRow key={evaluation.id}>
+                    <TableCell className="font-medium">
+                      {evaluation.studentName}
+                    </TableCell>
+                    <TableCell>{evaluation.patientCase}</TableCell>
+                    <TableCell className="font-semibold">
+                      {evaluation.score}/100
+                    </TableCell>
+                    <TableCell>
                       {getStatusBadge(evaluation.status, evaluation.score)}
-                    </td>
-                    <td className="text-text-tertiary">
+                    </TableCell>
+                    <TableCell className="text-text-tertiary">
                       {evaluation.completedAt}
-                    </td>
-                    <td>
-                      <div className="flex gap-2">
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex justify-end gap-2">
                         <Button
-                          variant="outline-primary"
+                          variant="outline"
                           size="sm"
-                          onClick={() => setSelectedEvaluation(evaluation.id)}
+                          onClick={() => setSelectedEvaluation(evaluation)}
                         >
                           Visualizza
                         </Button>
-                        <Button variant="ghost" size="sm">Report</Button>
+                        <Button variant="ghost" size="sm">
+                          Report
+                        </Button>
                       </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+          )}
         </div>
       </section>
 
       {/* Detailed View Modal */}
-      {selectedEvaluation && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedEvaluation(null)}
-        >
-          <div
-            className="bg-background-tertiary pointer-events-auto max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-lg p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {(() => {
-              const evaluation = evaluations.find(
-                (e) => e.id === selectedEvaluation,
-              );
-              if (!evaluation) return null;
+      <Dialog
+        open={Boolean(selectedEvaluation)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedEvaluation(null);
+          }
+        }}
+      >
+        <DialogContent className="max-h-[80vh] w-full max-w-2xl overflow-y-auto bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)]">
+          {selectedEvaluation ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedEvaluation.patientCase}</DialogTitle>
+                <DialogDescription>
+                  Studente: {selectedEvaluation.studentName} • {selectedEvaluation.completedAt} • {selectedEvaluation.duration} min
+                </DialogDescription>
+              </DialogHeader>
 
-              return (
-                <>
-                  <div className="mb-6 flex items-start justify-between">
-                    <div>
-                      <h3 className="text-text-primary mb-2 text-xl font-semibold">
-                        {evaluation.patientCase}
-                      </h3>
-                      <div className="text-text-secondary flex items-center gap-4 text-sm">
-                        <span>Studente: {evaluation.studentName}</span>
-                        <span>•</span>
-                        <span>{evaluation.completedAt}</span>
-                        <span>•</span>
-                        <span>{evaluation.duration} min</span>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => setSelectedEvaluation(null)}
-                      variant="ghost"
-                      size="icon"
-                      className="text-text-tertiary hover:text-text-primary"
+              <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div className="patient-card-difficulty">
+                  <span
+                    className={getDifficultyIconClass(selectedEvaluation.difficulty)}
+                    aria-label={getDifficultyAccessibleText(selectedEvaluation.difficulty)}
+                    role="img"
+                  >
+                    {getDifficultyIcon(selectedEvaluation.difficulty)}
+                  </span>
+                </div>
+                <Badge
+                  variant={
+                    selectedEvaluation.score >= 80
+                      ? "completed"
+                      : selectedEvaluation.score >= 60
+                        ? "in-progress"
+                        : "started"
+                  }
+                  className="text-base font-semibold"
+                >
+                  {selectedEvaluation.score}/100
+                </Badge>
+                {getStatusBadge(selectedEvaluation.status, selectedEvaluation.score)}
+              </div>
+
+              <div className="mb-6 space-y-2">
+                <h4 className="text-lg font-semibold">Feedback Generale</h4>
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                  {selectedEvaluation.feedback}
+                </p>
+              </div>
+
+              <div className="mb-6 space-y-3">
+                <h4 className="text-lg font-semibold">Punti di Forza</h4>
+                <ul className="space-y-2">
+                  {selectedEvaluation.strengths.map((strength, index) => (
+                    <li
+                      key={`strength-${index}`}
+                      className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)]"
                     >
-                      ✕
-                    </Button>
-                  </div>
+                      <Check className="mt-0.5 h-4 w-4 text-success-500" aria-hidden="true" />
+                      <span>{strength}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  <div className="mb-6">
-                    <div className="mb-4 flex items-center gap-4">
-                      <div className="patient-card-difficulty">
-                        <span
-                          className={getDifficultyIconClass(evaluation.difficulty)}
-                          aria-label={getDifficultyAccessibleText(
-                            evaluation.difficulty,
-                          )}
-                          role="img"
-                        >
-                          {getDifficultyIcon(evaluation.difficulty)}
-                        </span>
-                      </div>
-                      <div
-                        className={`pill pill--sm status-tag text-sm font-bold ${
-                          evaluation.score >= 80
-                            ? "status-tag--excellent"
-                            : evaluation.score >= 60
-                              ? "status-tag--good"
-                              : "status-tag--needs-improvement"
-                        }`}
-                      >
-                        {evaluation.score}/100
-                      </div>
-                      {getStatusBadge(evaluation.status, evaluation.score)}
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-2 font-semibold">
-                      Feedback Generale
-                    </h4>
-                    <p className="text-text-secondary leading-relaxed">
-                      {evaluation.feedback}
-                    </p>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-3 font-semibold">
-                      Punti di Forza
-                    </h4>
-                    <ul className="space-y-2">
-                      {evaluation.strengths.map((strength, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-success-500 mt-1">✓</span>
-                          <span className="text-text-secondary">
-                            {strength}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-3 font-semibold">
-                      Aree di Miglioramento
-                    </h4>
-                    <ul className="space-y-2">
-                      {evaluation.improvements.map((improvement, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-warning-500 mt-1">!</span>
-                          <span className="text-text-secondary">
-                            {improvement}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex gap-2 pt-4">
-                    <Button variant="outline-primary" size="default" className="flex-1">
-                      Genera Report
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="default"
-                      className="flex-1"
-                      onClick={() => setSelectedEvaluation(null)}
+              <div className="mb-6 space-y-3">
+                <h4 className="text-lg font-semibold">Aree di Miglioramento</h4>
+                <ul className="space-y-2">
+                  {selectedEvaluation.improvements.map((improvement, index) => (
+                    <li
+                      key={`improvement-${index}`}
+                      className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)]"
                     >
-                      Chiudi
-                    </Button>
-                  </div>
-                </>
-              );
-            })()}
-          </div>
-        </div>
-      )}
+                      <AlertTriangle className="mt-0.5 h-4 w-4 text-warning-500" aria-hidden="true" />
+                      <span>{improvement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <DialogFooter className="flex flex-col gap-3 pt-4 sm:flex-row sm:gap-4">
+                <Button variant="outline" className="flex-1">
+                  Genera Report
+                </Button>
+                <Button className="flex-1" onClick={() => setSelectedEvaluation(null)}>
+                  Chiudi
+                </Button>
+              </DialogFooter>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

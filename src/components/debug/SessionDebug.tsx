@@ -2,6 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { Bug, X } from "lucide-react";
 
 interface SessionDebugProps {
   enabled?: boolean;
@@ -60,7 +61,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
         className="bg-accent-600 text-text-primary hover:bg-accent-700 fixed bottom-4 left-4 z-50 rounded-full p-3"
         title="Toggle Session Debug Info"
       >
-        🐛
+        <Bug className="h-5 w-5" aria-hidden="true" />
       </button>
 
       {/* Debug panel */}
@@ -72,7 +73,8 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
               onClick={() => setIsVisible(false)}
               className="text-text-tertiary hover:text-text-primary"
             >
-              ✕
+              <X className="h-4 w-4" aria-hidden="true" />
+              <span className="sr-only">Chiudi pannello</span>
             </button>
           </div>
 

@@ -27,11 +27,11 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     if (!visible) return null
 
     const variantClasses = {
-      default: 'bg-[var(--color-surface-secondary)]',
-      card: 'bg-[var(--color-surface-secondary)]',
-      text: 'bg-[#6B7A4A]', // Darker green for text elements
-      avatar: 'bg-[#6B7A4A] rounded-full', // Darker green for avatar
-      button: 'bg-[#6B7A4A] rounded-md' // Darker green for button
+      default: 'bg-[color:var(--color-skeleton-base)]',
+      card: 'bg-[color:var(--color-skeleton-base)]',
+      text: 'bg-[color:var(--color-skeleton-accent)]',
+      avatar: 'bg-[color:var(--color-skeleton-accent)] rounded-full',
+      button: 'bg-[color:var(--color-skeleton-accent)] rounded-md'
     }
 
     const shimmerClasses = shimmer ? 'skeleton--shimmer' : ''

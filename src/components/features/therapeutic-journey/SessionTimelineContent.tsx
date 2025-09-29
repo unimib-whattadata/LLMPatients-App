@@ -2,9 +2,11 @@
 
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { useCallback, useMemo, memo, useEffect, useState } from "react";
+import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumb, SessionLoading } from "~/components/common";
+import { SessionLoading } from "~/components/common";
+import { Breadcrumb } from "~/components/ui";
 
 import {
   TIMELINE_CONFIG,
@@ -117,7 +119,11 @@ const TimelineStep = memo(
         aria-disabled={!isUnlocked}
         aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
       >
-        {isCompleted ? "✓" : step.id}
+        {isCompleted ? (
+          <Check className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          step.id
+        )}
       </div>
     );
   },
@@ -154,7 +160,9 @@ const MobileTimelineStep = memo(
           className="timeline-mobile-step flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
           style={{ color: "white" }}
         >
-          {isCompleted ? "✓" : ""}
+          {isCompleted ? (
+            <Check className="h-2 w-2" aria-hidden="true" />
+          ) : null}
         </span>
       </span>
 
@@ -173,7 +181,10 @@ const MobileTimelineStep = memo(
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.32em] text-white/70 uppercase">
-              Sessione {step.id} {isCompleted && "✓"}
+              Sessione {step.id}
+              {isCompleted ? (
+                <Check className="ml-1 inline h-3 w-3 align-text-top" aria-hidden="true" />
+              ) : null}
             </p>
             <h2 className="mt-2 text-base font-semibold text-white">
               {details.phaseTitle}

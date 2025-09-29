@@ -9,6 +9,7 @@ import {
 } from "./index";
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/components/ui/skeleton";
+import { Button } from "~/components/ui/button";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -294,9 +295,9 @@ export function TherapeuticJourneyContent() {
               pagina &quot;Esplora Pazienti&quot; per iniziare.
             </p>
             <div className="mt-6">
-              <Link href="/explore-patients" className="btn btn-primary">
-                Esplora Pazienti
-              </Link>
+              <Button asChild size="lg">
+                <Link href="/explore-patients">Esplora Pazienti</Link>
+              </Button>
             </div>
           </div>
         ) : (

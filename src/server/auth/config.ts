@@ -13,6 +13,21 @@ import {
   createValidationConfig,
 } from "~/server/auth/user-validation";
 
+const extractRememberMe = (candidate: unknown): boolean => {
+  if (
+    typeof candidate === "object" &&
+    candidate !== null &&
+    "rememberMe" in candidate
+  ) {
+    const value = (candidate as { rememberMe?: unknown }).rememberMe;
+    if (typeof value === "boolean") {
+      return value;
+    }
+  }
+
+  return false;
+};
+
 /**
  * Module augmentation for `next-auth` types
  *
@@ -354,7 +369,7 @@ export const authConfig = {
         token.lastValidated = Date.now(); // Track when we last validated against DB
         
         // Handle rememberMe functionality - set session duration
-        const rememberMe = (user as any)?.rememberMe ?? false;
+        const rememberMe = extractRememberMe(user);
         token.rememberMe = rememberMe;
         if (rememberMe) {
           // Extended session for "remember me" - 30 days

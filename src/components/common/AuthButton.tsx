@@ -50,7 +50,7 @@ export default function AuthButton() {
   // Show loading state while session is being fetched
   if (status === "loading") {
     return (
-      <Button variant="primary" size="default" disabled aria-hidden="true">
+      <Button disabled aria-hidden="true">
         <Skeleton variant="text" className="h-4 w-16" />
       </Button>
     );
@@ -60,7 +60,7 @@ export default function AuthButton() {
   if (isAuthenticated()) {
     return (
       <div className="flex items-center space-x-2">
-        <Button asChild variant="primary" size="default">
+        <Button asChild>
           <Link href="/dashboard">
             Area Personale
           </Link>
@@ -68,7 +68,6 @@ export default function AuthButton() {
         <Button
           onClick={handleLogout}
           variant="ghost"
-          size="default"
           title="Logout"
         >
           Esci
@@ -81,9 +80,8 @@ export default function AuthButton() {
   return (
     <Button
       asChild
-      variant="dark-yellow-border"
-      size="default"
-      className="btn btn-dark-yellow-border"
+      variant="outline"
+      className="border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)]"
     >
       <Link href="/login">
         Accedi

@@ -9,6 +9,15 @@ import {
 } from "~/lib/constants/difficulty";
 import { Button } from "~/components/ui/button";
 import { Progress } from "~/components/ui/progress";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
+import { AlertTriangle, Check } from "lucide-react";
 
 interface Evaluation {
   id: string;
@@ -24,7 +33,7 @@ interface Evaluation {
 }
 
 export function MyEvaluationsContent() {
-  const [selectedEvaluation, setSelectedEvaluation] = useState<string | null>(
+  const [selectedEvaluation, setSelectedEvaluation] = useState<Evaluation | null>(
     null,
   );
 
@@ -239,10 +248,8 @@ export function MyEvaluationsContent() {
 
                 <div className="mt-auto">
                   <Button
-                    variant="primary"
-                    size="default"
                     className="w-full"
-                    onClick={() => setSelectedEvaluation(evaluation.id)}
+                    onClick={() => setSelectedEvaluation(evaluation)}
                   >
                     Visualizza Dettagli
                   </Button>
@@ -254,104 +261,90 @@ export function MyEvaluationsContent() {
       </section>
 
       {/* Detailed View Modal */}
-      {selectedEvaluation && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedEvaluation(null)}
-        >
-          <div
-            className="bg-background-tertiary pointer-events-auto max-h-[80vh] w-full max-w-2xl overflow-y-auto rounded-lg p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {(() => {
-              const evaluation = evaluations.find(
-                (e) => e.id === selectedEvaluation,
-              );
-              if (!evaluation) return null;
+      <Dialog
+        open={Boolean(selectedEvaluation)}
+        onOpenChange={(open) => {
+          if (!open) {
+            setSelectedEvaluation(null);
+          }
+        }}
+      >
+        <DialogContent className="max-h-[80vh] w-full max-w-2xl overflow-y-auto bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)]">
+          {selectedEvaluation ? (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedEvaluation.simulationTitle}</DialogTitle>
+                <DialogDescription>
+                  Paziente: {selectedEvaluation.patientName} • {selectedEvaluation.completedAt}
+                </DialogDescription>
+              </DialogHeader>
 
-              return (
-                <>
-                  <div className="mb-6 flex items-start justify-between">
-                    <div>
-                      <h3 className="text-text-primary mb-2 text-xl font-semibold">
-                        {evaluation.simulationTitle}
-                      </h3>
-                      <div className="text-text-secondary flex items-center gap-4 text-sm">
-                        <span>Paziente: {evaluation.patientName}</span>
-                        <span>•</span>
-                        <span>{evaluation.completedAt}</span>
-                      </div>
-                    </div>
-                    <Button
-                      onClick={() => setSelectedEvaluation(null)}
-                      variant="ghost"
-                      size="icon"
-                      className="text-text-tertiary hover:text-text-primary"
+              <div className="mb-6 flex flex-wrap items-center gap-4">
+                <div
+                  className={`${getScoreColor(selectedEvaluation.score, selectedEvaluation.maxScore)} text-sm font-semibold`}
+                >
+                  {selectedEvaluation.score}/{selectedEvaluation.maxScore}
+                </div>
+                <div className="patient-card-difficulty">
+                  <span
+                    className={getDifficultyIconClass(selectedEvaluation.difficulty)}
+                    aria-label={getDifficultyAccessibleText(selectedEvaluation.difficulty)}
+                    role="img"
+                  >
+                    {getDifficultyIcon(selectedEvaluation.difficulty)}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mb-6 space-y-2">
+                <h4 className="text-lg font-semibold">Feedback Generale</h4>
+                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                  {selectedEvaluation.feedback}
+                </p>
+              </div>
+
+              <div className="mb-6 space-y-3">
+                <h4 className="text-lg font-semibold">Punti di Forza</h4>
+                <ul className="space-y-2">
+                  {selectedEvaluation.strengths.map((strength, index) => (
+                    <li
+                      key={`personal-strength-${index}`}
+                      className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)]"
                     >
-                      ✕
-                    </Button>
-                  </div>
+                      <Check className="mt-0.5 h-4 w-4 text-success-500" aria-hidden="true" />
+                      <span>{strength}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-2 font-semibold">
-                      Feedback Generale
-                    </h4>
-                    <p className="text-text-secondary leading-relaxed">
-                      {evaluation.feedback}
-                    </p>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-3 font-semibold">
-                      Punti di Forza
-                    </h4>
-                    <ul className="space-y-2">
-                      {evaluation.strengths.map((strength, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-success-500 mt-1">✓</span>
-                          <span className="text-text-secondary">
-                            {strength}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="text-text-primary mb-3 font-semibold">
-                      Aree di Miglioramento
-                    </h4>
-                    <ul className="space-y-2">
-                      {evaluation.improvements.map((improvement, index) => (
-                        <li key={index} className="flex items-start gap-2">
-                          <span className="text-warning-500 mt-1">!</span>
-                          <span className="text-text-secondary">
-                            {improvement}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="flex gap-2 pt-4">
-                    <Button variant="outline-primary" size="default" className="flex-1">
-                      Ripeti Simulazione
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="default"
-                      className="flex-1"
-                      onClick={() => setSelectedEvaluation(null)}
+              <div className="mb-6 space-y-3">
+                <h4 className="text-lg font-semibold">Aree di Miglioramento</h4>
+                <ul className="space-y-2">
+                  {selectedEvaluation.improvements.map((improvement, index) => (
+                    <li
+                      key={`personal-improvement-${index}`}
+                      className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)]"
                     >
-                      Chiudi
-                    </Button>
-                  </div>
-                </>
-              );
-            })()}
-          </div>
-        </div>
-      )}
+                      <AlertTriangle className="mt-0.5 h-4 w-4 text-warning-500" aria-hidden="true" />
+                      <span>{improvement}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <DialogFooter className="flex flex-col gap-3 pt-4 sm:flex-row sm:gap-4">
+                <Button variant="outline" className="flex-1">
+                  Ripeti Simulazione
+                </Button>
+                <Button className="flex-1" onClick={() => setSelectedEvaluation(null)}>
+                  Chiudi
+                </Button>
+              </DialogFooter>
+            </>
+          ) : null}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

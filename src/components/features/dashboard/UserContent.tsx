@@ -7,8 +7,18 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { Loader2 } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
 
 type UserProfile = {
   id: string;
@@ -26,12 +36,32 @@ type UserActivity = {
   metadata: Record<string, unknown> | null;
 };
 
+const profileSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(2, "Il nome deve contenere almeno 2 caratteri")
+    .max(50, "Il nome deve contenere meno di 50 caratteri"),
+  email: z
+    .string()
+    .trim()
+    .email("Inserisci un'email valida"),
+});
+
+type ProfileFormValues = z.infer<typeof profileSchema>;
+
 export const UserContent = React.memo(function UserContent() {
   const [selectedSection, setSelectedSection] = useState<
     "overview" | "profile" | "activities"
   >("overview");
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [profileForm, setProfileForm] = useState({ name: "", email: "" });
+  const profileForm = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+    },
+  });
 
   const searchParams = useSearchParams();
 
@@ -85,30 +115,27 @@ export const UserContent = React.memo(function UserContent() {
    */
   React.useEffect(() => {
     if (typedProfile && !isEditingProfile) {
-      setProfileForm({
-        name: typedProfile.name || "",
-        email: typedProfile.email || "",
+      profileForm.reset({
+        name: typedProfile.name ?? "",
+        email: typedProfile.email ?? "",
       });
     }
-  }, [typedProfile, isEditingProfile]);
+  }, [typedProfile, isEditingProfile, profileForm]);
 
   /**
    * Handle profile form submission
    */
-  const handleProfileSubmit = useCallback(
-    async (e: React.FormEvent) => {
-      e.preventDefault();
-      try {
-        await updateProfile.mutateAsync({
-          name: profileForm.name.trim(),
-          email: profileForm.email.trim(),
-        });
-      } catch (error) {
-        console.error("Failed to update profile:", error);
-      }
-    },
-    [profileForm.name, profileForm.email, updateProfile],
-  );
+  const handleProfileSubmit = profileForm.handleSubmit(async (values) => {
+    try {
+      await updateProfile.mutateAsync({
+        name: values.name.trim(),
+        email: values.email.trim(),
+      });
+      setIsEditingProfile(false);
+    } catch (error) {
+      console.error("Failed to update profile:", error);
+    }
+  });
 
   /**
    * Format date for display
@@ -372,82 +399,79 @@ export const UserContent = React.memo(function UserContent() {
               </div>
               <div className="dashboard-panel">
                 {isEditingProfile ? (
-                  <form
-                    onSubmit={handleProfileSubmit}
-                    className="form-container"
-                  >
-                    <div className="form-group">
-                      <Label htmlFor="name" className="label">
-                        Nome
-                      </Label>
-                      <Input
-                        id="name"
-                        className="input-field"
-                        value={profileForm.name}
-                        onChange={(e) =>
-                          setProfileForm((prev) => ({
-                            ...prev,
-                            name: e.target.value,
-                          }))
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <Label htmlFor="email" className="label">
-                        Email
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        className="input-field"
-                        value={profileForm.email}
-                        onChange={(e) =>
-                          setProfileForm((prev) => ({
-                            ...prev,
-                            email: e.target.value,
-                          }))
-                        }
-                      />
-                    </div>
-                    <div className="form-actions">
-                      <Button
-                        type="submit"
-                        className="btn btn-primary"
-                        disabled={updateProfile.isPending}
-                      >
-                        {updateProfile.isPending && (
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Form {...profileForm}>
+                    <form
+                      onSubmit={handleProfileSubmit}
+                      className="space-y-4"
+                    >
+                      <FormField
+                        control={profileForm.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Nome</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
                         )}
-                        {updateProfile.isPending ? "Salvando..." : "Salva"}
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="btn btn-outline"
-                        onClick={handleCancelEdit}
-                      >
-                        Annulla
-                      </Button>
-                    </div>
-                  </form>
+                      />
+                      <FormField
+                        control={profileForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Email</FormLabel>
+                            <FormControl>
+                              <Input type="email" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex gap-2">
+                        <Button
+                          type="submit"
+                          isLoading={updateProfile.isPending}
+                          disabled={updateProfile.isPending}
+                        >
+                          {updateProfile.isPending ? "Salvando..." : "Salva"}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleCancelEdit}
+                        >
+                          Annulla
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
                 ) : (
                   <div className="dashboard-panel-stack">
                     <div className="dashboard-panel">
                       <div className="space-y-4">
                         <div>
-                          <Label className="label">Nome</Label>
+                          <Label className="mb-2 block text-sm font-semibold text-[var(--color-text-primary)]">
+                            Nome
+                          </Label>
                           <p className="text-muted-foreground text-sm">
                             {typedProfile?.name || "Non specificato"}
                           </p>
                         </div>
                         <div>
-                          <Label className="label">Email</Label>
+                          <Label className="mb-2 block text-sm font-semibold text-[var(--color-text-primary)]">
+                            Email
+                          </Label>
                           <p className="text-muted-foreground text-sm">
                             {typedProfile?.email || "Non specificato"}
                           </p>
                         </div>
                         <div>
-                          <Label className="label">Ruolo</Label>
+                          <Label className="mb-2 block text-sm font-semibold text-[var(--color-text-primary)]">
+                            Ruolo
+                          </Label>
                           <span className="pill dashboard-chip">
                             {typedProfile?.role === "admin"
                               ? "Admin"
@@ -457,10 +481,7 @@ export const UserContent = React.memo(function UserContent() {
                       </div>
                     </div>
                     <div className="form-actions">
-                      <Button
-                        onClick={handleEditProfile}
-                        className="btn btn-primary"
-                      >
+                      <Button onClick={handleEditProfile}>
                         Modifica Profilo
                       </Button>
                     </div>

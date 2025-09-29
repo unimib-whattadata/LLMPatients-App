@@ -42,45 +42,6 @@
     font-weight: var(--font-weight-normal);
   }
 
-
-
-  /* ===== OPTIMIZED BUTTON SYSTEM ===== */
-  /* Consolidated button foundation with modern features */
-  
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    user-select: none;
-    border: 2px solid transparent;
-    border-radius: var(--radius);
-    transition: all 0.2s ease;
-    cursor: pointer;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .btn:focus {
-    outline: 2px solid var(--color-primary-green);
-    outline-offset: 2px;
-  }
-  
-  .btn:disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
-    transform: none;
-  }
-  
-  .btn:not(:disabled):hover {
-    transform: translateY(-1px);
-  }
-  
-  .btn:not(:disabled):active {
-    transform: translateY(0);
-  }
-
   /* ===== PILL SYSTEM ===== */
   .pill {
     display: inline-flex;
@@ -103,202 +64,6 @@
 
 
 
-
-  /* ===== BUTTON VARIANTS ===== */
-  .btn-primary {
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-  }
-  
-  .btn-primary:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-  
-  .btn-primary:active {
-    transform: translateY(1px);
-  }
-  
-  .btn-primary:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /* Green button style */
-  .btn-green {
-    background-color: var(--color-primary-green);
-    color: var(--color-text-primary);
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-    border: 2px solid transparent;
-    transition: all 0.2s ease;
-  }
-  
-  .btn-green:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-  
-  .btn-green:active {
-    transform: translateY(0);
-  }
-  
-  .btn-green:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  /* Dark button with yellow border */
-  .btn-dark-yellow-border {
-    background-color: var(--color-navbar-dark) !important;
-    color: var(--color-text-primary) !important;
-    border: 2px solid var(--color-primary-yellow) !important;
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-  }
-  
-  .btn-dark-yellow-border:hover:not(:disabled) {
-    background-color: var(--color-primary-yellow) !important;
-    color: var(--color-text-inverse) !important;
-    transform: translateY(-1px);
-  }
-  
-  .btn-dark-yellow-border:active {
-    transform: translateY(0);
-  }
-  
-  .btn-dark-yellow-border:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .btn-secondary {
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-  }
-  
-  .btn-secondary:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-
-  .btn-outline {
-    background: transparent;
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-  }
-  
-  .btn-outline:hover:not(:disabled) {
-    opacity: 0.8;
-  }
-  
-  .btn-outline:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .btn-success {
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-  }
-  
-  .btn-success:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-
-  .btn-ghost {
-    background-color: transparent;
-    border-radius: 0.75rem;
-    padding: 0.85rem 1rem;
-    font-weight: 600;
-  }
-  
-  .btn-ghost:hover:not(:disabled) {
-    opacity: 0.8;
-  }
-
-  .btn-danger {
-    border-radius: 0.375rem;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-  }
-  
-  .btn-danger:hover:not(:disabled) {
-    opacity: 0.9;
-  }
-
-  /* ===== BUTTON SIZES ===== */
-  .btn-xs {
-    padding: var(--space-xs) var(--space-sm);
-    font-size: 0.75rem;
-    min-height: 28px;
-    border-radius: 0.25rem;
-  }
-
-  .btn-sm {
-    padding: var(--space-sm) calc(var(--space-sm) + var(--space-xs));
-    font-size: 0.875rem;
-    min-height: 36px;
-    border-radius: 0.375rem;
-  }
-
-  .btn-md {
-    padding: calc(var(--space-sm) + var(--space-xs)) var(--space-md);
-    font-size: 1rem;
-    min-height: 44px;
-    border-radius: 0.375rem;
-  }
-
-
-
-  /* ===== OPTIMIZED FORM COMPONENTS ===== */
-  /* Consolidated form system with improved accessibility */
-  
-  /* Form Layout System */
-  .form-container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    width: 100%;
-  }
-
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    width: 100%;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-md);
-    container-type: inline-size;
-  }
-
-  /* Responsive form layouts with container queries */
-  @container (min-width: 640px) {
-    .form-row--two-cols {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 640px) {
-    .form-row--two-cols {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .form-row--three-cols {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
 
   /* Enhanced Labels */
   .label {
@@ -326,190 +91,12 @@
     font-size: 0.8rem;
   }
 
-  /* Enhanced Input Fields */
-  .input-field {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: var(--font-size-base);
-    min-height: 48px;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .input-field::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 400;
-  }
-  
-  .input-field:focus {
-    outline: none;
-    border-color: var(--color-primary-green);
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);
-  }
-  
-  .input-field:hover:not(:focus):not(:disabled) {
-    background-color: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .input-field:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    background-color: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.05);
-  }
-
-  /* Input Field Error State */
-  .input-field-error {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: var(--font-size-base);
-    min-height: 48px;
-    border: 2px solid var(--color-error);
-    background-color: rgba(239, 68, 68, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-  }
-  
-  .input-field-error:focus {
-    outline: none;
-    border-color: var(--color-error);
-    background-color: rgba(239, 68, 68, 0.08);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Input Field Success State */
-  .input-field-success {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: var(--font-size-base);
-    min-height: 48px;
-    border: 2px solid var(--color-success);
-    background-color: rgba(16, 185, 129, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-  }
-  
-  .input-field-success:focus {
-    outline: none;
-    border-color: var(--color-success);
-    background-color: rgba(16, 185, 129, 0.08);
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Textarea Styling */
-  .textarea-field {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: var(--font-size-base);
-    min-height: 120px;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    resize: vertical;
-    font-family: inherit;
-  }
-  
-  .textarea-field::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 400;
-  }
-  
-  .textarea-field:focus {
-    outline: none;
-    border-color: var(--color-primary-green);
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Select Field Styling */
-  .select-field {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: var(--font-size-base);
-    min-height: 48px;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-  }
-  
-  .select-field:focus {
-    outline: none;
-    border-color: var(--color-primary-green);
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-  }
-
-  /* Checkbox and Radio Styling */
-  .checkbox-field,
-  .radio-field {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 0.375rem;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .checkbox-field:checked,
-  .radio-field:checked {
-    background-color: var(--color-primary-green);
-    border-color: var(--color-primary-green);
-  }
-  
-  .checkbox-field:focus,
-  .radio-field:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.3);
-  }
-
   /* Form Field Help Text */
   .field-help {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 0.25rem;
     line-height: 1.4;
-  }
-
-  /* Form Field Icons */
-  .input-with-icon {
-    position: relative;
-  }
-
-  .input-icon {
-    position: absolute;
-    left: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1.25rem;
-    height: 1.25rem;
-    color: rgba(255, 255, 255, 0.5);
-    pointer-events: none;
-    transition: color 0.2s ease;
-  }
-
-  .input-with-icon .input-field {
-    padding-left: 3rem;
-  }
-
-  .input-with-icon:focus-within .input-icon {
-    color: var(--color-primary-green);
   }
 
   /* Enhanced Form Validation */
@@ -913,19 +500,15 @@
 
   /* Enhanced Touch Targets */
   @media (hover: none) and (pointer: coarse) {
-    .btn,
+    [data-slot="button"],
     .admin-nav-item,
     .user-nav-item,
-    .input-field,
     button,
+    input,
+    textarea,
     a {
       min-height: 44px;
       min-width: 44px;
-    }
-    
-    .btn-xs {
-      min-height: 44px;
-      padding: var(--space-sm) var(--space-md);
     }
   }
 
@@ -1166,15 +749,11 @@
       margin-bottom: 1rem;
     }
     
-    .btn, .btn-sm, .btn-xs {
+    [data-slot="button"] {
       min-height: 44px;
       min-width: 44px;
     }
-    
-    .btn-sm, .btn-xs {
-      padding: var(--space-sm) var(--space-md);
-    }
-    
+
     .patient-card-button {
       min-height: 48px;
       font-size: 0.9rem;
@@ -1247,285 +826,6 @@
   }
 
   /* Unified form field styling */
-  .unified-form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Uniform spacing for all form elements */
-  .unified-auth-form-title {
-    margin-bottom: 1rem;
-  }
-
-  .unified-auth-form-subtitle {
-    margin-bottom: 2rem;
-  }
-
-  /* Consistent spacing for form inputs */
-  .unified-form-input {
-    margin-bottom: 0;
-  }
-
-  /* Consistent spacing for error messages */
-  .unified-form-error {
-    margin-top: 0.5rem;
-    margin-bottom: 0;
-  }
-
-  /* Consistent spacing for checkbox groups */
-  .unified-form-group:has(.unified-form-checkbox) {
-    margin-bottom: 2rem;
-  }
-
-  /* Additional spacing for checkbox groups before submit button */
-  .unified-form-group:has(.unified-form-checkbox) + .unified-form-submit {
-    margin-top: 2rem;
-  }
-
-  /* Spacing for checkbox div in login form */
-  .flex.items-center:has(.unified-form-checkbox) {
-    margin-bottom: 2rem;
-  }
-
-  /* Additional spacing when checkbox div is followed by submit button */
-  .flex.items-center:has(.unified-form-checkbox) + .unified-form-submit {
-    margin-top: 2rem;
-  }
-
-
-  /* Consistent spacing for form actions */
-  .unified-form-actions {
-    margin-top: 1rem;
-    margin-bottom: 0;
-  }
-
-  /* Consistent spacing for dividers */
-  .unified-form-divider {
-    margin: 1.5rem 0;
-  }
-
-  .unified-form-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text-primary);
-  }
-
-  .unified-form-input {
-    width: 100%;
-    padding: 0.875rem 1rem;
-    border-radius: 0.75rem;
-    font-size: 1rem;
-    min-height: 48px;
-    border: 2px solid transparent;
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-primary);
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-
-  .unified-form-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 400;
-  }
-
-  .unified-form-input:focus {
-    outline: none;
-    border-color: var(--color-primary-green);
-    background-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15);
-    transform: translateY(-1px);
-  }
-
-  .unified-form-input:hover:not(:focus):not(:disabled) {
-    background-color: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .unified-form-input:disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
-    background-color: rgba(255, 255, 255, 0.02);
-    border-color: rgba(255, 255, 255, 0.05);
-  }
-
-  /* Error state for inputs */
-  .unified-form-input-error {
-    border-color: var(--color-error) !important;
-    background-color: rgba(239, 68, 68, 0.05) !important;
-  }
-
-  .unified-form-input-error:focus {
-    border-color: var(--color-error) !important;
-    background-color: rgba(239, 68, 68, 0.08) !important;
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15) !important;
-  }
-
-  /* Unified error message styling */
-  .unified-form-error {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-top: 0.5rem;
-    background-color: var(--color-error);
-    color: white;
-  }
-
-  .unified-form-error-icon {
-    flex-shrink: 0;
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.125rem;
-  }
-
-  .unified-form-error-text {
-    flex: 1;
-    min-width: 0;
-  }
-
-  /* Unified checkbox styling */
-  .unified-form-checkbox {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 0.375rem;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    margin: 0;
-  }
-
-  .unified-form-checkbox:checked {
-    background-color: var(--color-primary-green);
-    border-color: var(--color-primary-green);
-  }
-
-  .unified-form-checkbox:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(139, 151, 105, 0.3);
-  }
-
-  /* Unified submit button */
-  .unified-form-submit {
-    width: 100%;
-    border-radius: 0.75rem;
-    padding: 0.875rem 1rem;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-primary-green);
-    color: var(--color-background-dark) !important;
-    border: none;
-    transition: all 0.2s ease;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .unified-form-submit:hover:not(:disabled) {
-    opacity: 0.9;
-    transform: translateY(-1px);
-  }
-
-  .unified-form-submit:active {
-    transform: translateY(0);
-  }
-
-  .unified-form-submit:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* Success context button - white button on green background */
-  .unified-form-submit--success {
-    background-color: white !important;
-    color: var(--color-primary-green) !important;
-    border: 2px solid var(--color-primary-green) !important;
-  }
-
-  .unified-form-submit--success:hover:not(:disabled) {
-    background-color: var(--color-primary-green) !important;
-    color: white !important;
-    border-color: var(--color-primary-green) !important;
-  }
-
-  /* Error context button - white button on red background */
-  .unified-form-submit--error {
-    background-color: white !important;
-    color: var(--color-error) !important;
-    border: 2px solid var(--color-error) !important;
-  }
-
-  .unified-form-submit--error:hover:not(:disabled) {
-    background-color: var(--color-error) !important;
-    color: white !important;
-    border-color: var(--color-error) !important;
-  }
-
-  /* Unified form links */
-  .unified-form-link {
-    color: var(--color-primary-green);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .unified-form-link:hover {
-    color: var(--color-primary-green);
-    text-decoration: underline;
-  }
-
-  .unified-form-text-muted {
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-  }
-
-  /* Unified form actions */
-  .unified-form-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .unified-form-actions-center {
-    text-align: center;
-  }
-
-  .unified-form-actions-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  /* Unified form divider */
-  .unified-form-divider {
-    border: none;
-    height: 1px;
-    background-color: var(--color-border);
-  }
-
-  /* Loading spinner for submit button */
-  .unified-form-spinner {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-radius: 50%;
-    margin-right: 0.75rem;
-    border: 2px solid transparent;
-    border-top: 2px solid currentColor;
-    animation: spin 1s linear infinite;
-  }
-
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -2251,7 +1551,7 @@
     gap: 1rem;
   }
 
-  .site-menu__mobile-extra .btn {
+  .site-menu__mobile-extra [data-slot="button"] {
     width: 100%;
     justify-content: center;
   }
@@ -2290,27 +1590,6 @@
   .site-menu__mobile-buttons {
     display: grid;
     gap: 0.75rem;
-  }
-
-  .site-menu__mobile-buttons .btn + .site-menu__logout-btn {
-    margin-top: 0;
-  }
-
-  .site-menu__logout-btn {
-    background: transparent;
-    font-size: 0.85rem;
-    padding: 0.45rem 0.75rem;
-    border-radius: 0.65rem;
-    cursor: pointer;
-    font-weight: 500;
-  }
-
-  .site-menu__logout-btn--block {
-    width: 100%;
-    text-align: center;
-  }
-
-  .site-menu__logout-btn:hover {
   }
 
   .site-menu__auth-block {
@@ -3233,60 +2512,6 @@
   }
 
   /* ===== FILTER BUTTON STYLES ===== */
-  .filter-button-started {
-    background-color: var(--color-primary-green) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .filter-button-started:hover {
-    background-color: #7a8560 !important;
-    border: none !important;
-  }
-  
-  .filter-button-in-progress {
-    background-color: var(--color-primary-yellow) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .filter-button-in-progress:hover {
-    background-color: #b08832 !important;
-    border: none !important;
-  }
-  
-  .filter-button-completed {
-    background-color: var(--color-primary-violet) !important;
-    color: white !important;
-    border: none !important;
-  }
-  
-  .filter-button-completed:hover {
-    background-color: #857fa3 !important;
-    border: none !important;
-  }
-  
-  .filter-button-inactive {
-    background-color: #4b5563 !important;
-    color: #d1d5db !important;
-    border: none !important;
-  }
-  
-  .filter-button-inactive:hover {
-    background-color: #6b7280 !important;
-    border: none !important;
-  }
-  
-  /* Override all button styles for filter buttons */
-  .dashboard-pill-nav__button.filter-button-started,
-  .dashboard-pill-nav__button.filter-button-in-progress,
-  .dashboard-pill-nav__button.filter-button-completed,
-  .dashboard-pill-nav__button.filter-button-inactive {
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-  }
-
   /* Force remove borders from all filter buttons */
   .dashboard-pill-nav__button[class*="filter-button"] {
     border: none !important;
@@ -3431,30 +2656,6 @@
   .home-nav-actions {
     display: flex;
     align-items: center;
-  }
-
-  .home-landing .btn-primary,
-  .home-page .btn-primary {
-    font-weight: var(--font-weight-semibold);
-  }
-
-  .home-landing .btn-primary:hover,
-  .home-page .btn-primary:hover {
-  }
-
-  .home-landing .btn-outline,
-  .home-page .btn-outline {
-    background: transparent;
-  }
-
-  .home-landing .btn-outline:hover,
-  .home-page .btn-outline:hover {
-    background: rgba(143, 157, 86, 0.12);
-  }
-
-  .home-landing .btn-sm,
-  .home-page .btn-sm {
-    padding: 0.55rem 1.2rem;
   }
 
   .home-hero {
@@ -3639,7 +2840,7 @@
     text-align: center;
   }
 
-  .home-process-cta .btn-primary {
+  .home-process-cta [data-slot="button"] {
     min-width: 180px;
   }
 
@@ -4230,7 +3431,7 @@
       justify-content: center !important;
     }
 
-    .home-hero-actions .btn {
+    .home-hero-actions [data-slot="button"] {
       width: 100%;
       text-align: center;
     }
@@ -4321,27 +3522,6 @@
   }
 
   /* ===== PILL NAVIGATION STYLES ===== */
-  .dashboard-pill-nav {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.4rem;
-    border-radius: 0.75rem;
-  }
-  
-  .dashboard-pill-nav__button {
-    position: relative;
-    font-size: 0.8rem;
-    --pill-bg: transparent;
-    --pill-border: none;
-  }
-  
-  .dashboard-pill-nav__button:hover {
-  }
-  
-  .dashboard-pill-nav__button.is-active {
-  }
-
   /* Therapy session avatar - small and square */
   .therapy-session-avatar {
     width: 3rem;
@@ -4669,4 +3849,3 @@
 }
 
 /* ===== REMOVED UNUSED UTILITY CLASSES ===== */
-

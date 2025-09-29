@@ -158,12 +158,7 @@ export default async function Home() {
             role="group"
             aria-label="Azioni principali"
           >
-            <Button
-              asChild
-              variant="green"
-              size="lg"
-              className="btn btn-green"
-            >
+            <Button asChild size="lg" className="font-semibold">
               <Link
                 href="/register"
                 aria-describedby="hero-description"
@@ -173,9 +168,9 @@ export default async function Home() {
             </Button>
             <Button
               asChild
-              variant="dark-yellow-border"
+              variant="outline"
               size="lg"
-              className="btn btn-dark-yellow-border"
+              className="border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] transition-[background-color,color,border-color] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)] font-semibold"
             >
               <Link
                 href="/explore-patients"
@@ -269,12 +264,7 @@ export default async function Home() {
           </ol>
 
           <footer className="home-process-cta" role="complementary">
-            <Button
-              asChild
-              variant="green"
-              size="lg"
-              className="btn btn-green"
-            >
+            <Button asChild size="lg" className="font-semibold">
               <Link
                 href="/register"
                 aria-describedby="process-description"

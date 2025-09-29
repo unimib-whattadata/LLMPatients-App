@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Button } from "~/components/ui/button";
+import { Menu, X } from "lucide-react";
 
 interface SiteMenuLink {
   label: string;
@@ -134,21 +135,11 @@ export function SiteMenu({
           <span className="sr-only">
             {mobileOpen ? "Chiudi il menu" : "Apri il menu"}
           </span>
-          <svg
-            className="site-menu__mobile-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            {mobileOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M3 6h18M3 12h18M3 18h18" />
-            )}
-          </svg>
+          {mobileOpen ? (
+            <X className="site-menu__mobile-icon" aria-hidden="true" />
+          ) : (
+            <Menu className="site-menu__mobile-icon" aria-hidden="true" />
+          )}
         </Button>
       </div>
 

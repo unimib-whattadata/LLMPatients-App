@@ -19,6 +19,7 @@ import {
 } from "~/lib/constants/difficulty";
 import { Clock } from "lucide-react";
 import { Progress } from "~/components/ui/progress";
+import { Button } from "~/components/ui/button";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -182,16 +183,21 @@ function TherapySessionCardComponent({
           </div>
 
           <div className="mt-6">
-            <Link
-              href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
-              className="btn btn-primary w-full"
+            <Button
+              asChild
+              className="w-full"
+              size="lg"
             >
-              {therapySession.isCompleted
-                ? "Rivedi Percorso Completato"
-                : sessionStatus === "started"
-                  ? "Inizia Sessione"
-                  : "Continua Sessione"}
-            </Link>
+              <Link
+                href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
+              >
+                {therapySession.isCompleted
+                  ? "Rivedi Percorso Completato"
+                  : sessionStatus === "started"
+                    ? "Inizia Sessione"
+                    : "Continua Sessione"}
+              </Link>
+            </Button>
           </div>
         </div>
       </div>

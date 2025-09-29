@@ -118,7 +118,12 @@ export function ShadcnNavbar({
   // Render auth buttons for non-authenticated users
   const renderAuthButtons = () => (
     <div className="flex items-center space-x-2">
-      <Button variant="dark-yellow-border" size="sm" asChild>
+      <Button
+        variant="outline"
+        size="sm"
+        asChild
+        className="border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)]"
+      >
         <Link href="/login">Accedi</Link>
       </Button>
       <Button size="sm" asChild>

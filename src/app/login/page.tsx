@@ -18,35 +18,61 @@ import Link from "next/link";
 import { Check, Eye, X } from "lucide-react";
 import { useToast } from "~/components/common/ToastProvider";
 import { Loader2 } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "~/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Checkbox } from "~/components/ui/checkbox";
 
 // Define the consolidated login state interface
 interface LoginState {
   phase: "loading" | "login" | "authenticating" | "success" | "redirecting";
-  email: string;
-  password: string;
-  rememberMe: boolean;
   error: string;
-  emailError: string;
-  passwordError: string;
   redirectCountdown: number;
   isNavigating: boolean;
   sessionRetries: number;
 }
 
+const loginSchema = z.object({
+  email: z
+    .string()
+    .min(1, "L'email è obbligatoria")
+    .email("Inserisci un'email valida"),
+  password: z
+    .string()
+    .min(6, "La password deve contenere almeno 6 caratteri"),
+  rememberMe: z.boolean(),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
 function LoginPageComponent() {
   // Consolidated state management with JWT session tracking
   const [loginState, setLoginState] = useState<LoginState>({
     phase: "loading",
-    email: "",
-    password: "",
-    rememberMe: false,
     error: "",
-    emailError: "",
-    passwordError: "",
     redirectCountdown: 3,
     isNavigating: false,
     sessionRetries: 0,
   });
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      rememberMe: false,
+    },
+  });
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -161,72 +187,25 @@ function LoginPageComponent() {
     loginState.redirectCountdown,
   ]);
 
-  // Email validation with state update
-  const validateEmail = (email: string): boolean => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
-      setLoginState((prev) => ({ ...prev, emailError: "Email is required" }));
-      return false;
-    }
-    if (!emailRegex.test(email)) {
-      setLoginState((prev) => ({
-        ...prev,
-        emailError: "Please enter a valid email address",
-      }));
-      return false;
-    }
-    setLoginState((prev) => ({ ...prev, emailError: "" }));
-    return true;
-  };
-
-  // Password validation with state update
-  const validatePassword = (password: string): boolean => {
-    if (!password) {
-      setLoginState((prev) => ({
-        ...prev,
-        passwordError: "Password is required",
-      }));
-      return false;
-    }
-    if (password.length < 6) {
-      setLoginState((prev) => ({
-        ...prev,
-        passwordError: "Password must be at least 6 characters",
-      }));
-      return false;
-    }
-    setLoginState((prev) => ({ ...prev, passwordError: "" }));
-    return true;
-  };
-
-  // Handle form submission with enhanced JWT session verification
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Prevent submission if already navigating
+  const handleLoginSubmit = async (values: LoginFormValues) => {
     if (loginState.isNavigating || loginState.phase === "redirecting") {
       return;
     }
 
-    setLoginState((prev) => ({ ...prev, error: "", sessionRetries: 0 }));
-
-    // Validate inputs
-    const isEmailValid = validateEmail(loginState.email);
-    const isPasswordValid = validatePassword(loginState.password);
-
-    if (!isEmailValid || !isPasswordValid) {
-      return;
-    }
-
-    setLoginState((prev) => ({ ...prev, phase: "authenticating" }));
+    setLoginState((prev) => ({
+      ...prev,
+      error: "",
+      sessionRetries: 0,
+      phase: "authenticating",
+    }));
 
     try {
       console.log("Login: Attempting authentication with credentials...");
 
       const result = await signIn("credentials", {
-        email: loginState.email,
-        password: loginState.password,
-        rememberMe: loginState.rememberMe,
+        email: values.email,
+        password: values.password,
+        rememberMe: values.rememberMe,
         redirect: false,
         callbackUrl,
       });
@@ -234,6 +213,7 @@ function LoginPageComponent() {
       if (result?.error) {
         console.error("Login: Authentication failed:", result.error);
         const errorMsg = "Invalid email or password. Please try again.";
+        form.setError("password", { message: errorMsg });
         setLoginState((prev) => ({ ...prev, phase: "login", error: errorMsg }));
         showError(
           "Login Failed",
@@ -268,9 +248,10 @@ function LoginPageComponent() {
               console.log("Login: JWT session successfully established");
 
               // Show success message and start countdown
+              const redirectSeconds = 3;
               showSuccess(
                 "Login Successful!",
-                `Welcome back! Redirecting you to your dashboard in ${loginState.redirectCountdown} seconds...`,
+                `Welcome back! Redirecting you to your dashboard in ${redirectSeconds} seconds...`,
                 { duration: 3000 },
               );
 
@@ -324,6 +305,18 @@ function LoginPageComponent() {
     }
   };
 
+  const isProcessing =
+    loginState.phase === "authenticating" ||
+    loginState.phase === "redirecting" ||
+    loginState.isNavigating;
+
+  const submitLabel =
+    loginState.phase === "authenticating"
+      ? "Accesso in corso..."
+      : loginState.isNavigating || loginState.phase === "redirecting"
+        ? "Reindirizzamento..."
+        : "Accedi";
+
   return (
     <div className="min-h-screen flex">
       {/* Left Section - Inspirational Message */}
@@ -371,16 +364,16 @@ function LoginPageComponent() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() =>
-                    !loginState.isNavigating && navigate(callbackUrl)
-                  }
+                <Button
+                  className="w-full"
                   disabled={loginState.isNavigating}
-                  className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                  isLoading={loginState.isNavigating}
+                  onClick={() => {
+                    if (!loginState.isNavigating) navigate(callbackUrl);
+                  }}
                 >
-                  {loginState.isNavigating && <div className="unified-form-spinner"></div>}
                   {loginState.isNavigating ? "Redirecting..." : "Go Now"}
-                </button>
+                </Button>
               </div>
             </div>
           ) : (
@@ -390,180 +383,118 @@ function LoginPageComponent() {
               <p className="text-text-secondary mb-8">
                 Accedi al tuo account per continuare
               </p>
-              <form onSubmit={handleSubmit}>
-                {/* Global Error Message */}
-                {loginState.error && (
-                  <div className="bg-error/20 border border-error/30 rounded-lg p-4 mb-6">
-                    <div className="flex items-center">
-                      <X className="h-4 w-4 text-error mr-2" />
-                      <div className="text-error">{loginState.error}</div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Email Field */}
-                <div className="mb-6">
-                  <label htmlFor="email" className="block text-sm font-medium text-text-primary mb-2">
-                    E-mail
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={loginState.email}
-                    onChange={(e) => {
-                      setLoginState((prev) => ({
-                        ...prev,
-                        email: e.target.value,
-                      }));
-                      if (loginState.emailError) validateEmail(e.target.value);
-                    }}
-                    onBlur={() => validateEmail(loginState.email)}
-                    placeholder="La tua e-mail"
-                    aria-describedby={
-                      loginState.emailError ? "email-error" : undefined
-                    }
-                    aria-invalid={!!loginState.emailError}
-                    className={`w-full px-4 py-3 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                      loginState.emailError 
-                        ? "border-error" 
-                        : "border-border-primary hover:border-border-focus"
-                    }`}
-                  />
-                  {loginState.emailError && (
-                    <div
-                      id="email-error"
-                      className="mt-2 flex items-center text-error text-sm"
-                      role="alert"
-                    >
-                      <X className="h-4 w-4 mr-1" />
-                      {loginState.emailError}
-                    </div>
-                  )}
-                </div>
-
-                {/* Password Field */}
-                <div className="mb-6">
-                  <label htmlFor="password" className="block text-sm font-medium text-text-primary mb-2">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      id="password"
-                      name="password"
-                      type="password"
-                      autoComplete="current-password"
-                      required
-                      value={loginState.password}
-                      onChange={(e) => {
-                        setLoginState((prev) => ({
-                          ...prev,
-                          password: e.target.value,
-                        }));
-                        if (loginState.passwordError)
-                          validatePassword(e.target.value);
-                      }}
-                      onBlur={() => validatePassword(loginState.password)}
-                      placeholder="La tua password"
-                      aria-describedby={
-                        loginState.passwordError ? "password-error" : undefined
-                      }
-                      aria-invalid={!!loginState.passwordError}
-                      className={`w-full px-4 py-3 pr-12 bg-surface-primary border rounded-lg text-text-primary placeholder-text-tertiary focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent transition-colors ${
-                        loginState.passwordError 
-                          ? "border-error" 
-                          : "border-border-primary hover:border-border-focus"
-                      }`}
-                    />
-                    <button
-                      type="button"
-                      className="absolute inset-y-0 right-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => {
-                        const input = document.getElementById(
-                          "password",
-                        ) as HTMLInputElement;
-                        if (input.type === "password") {
-                          input.type = "text";
-                        } else {
-                          input.type = "password";
-                        }
-                      }}
-                    >
-                      <Eye className="h-4 w-4 text-text-tertiary" />
-                    </button>
-                  </div>
-                  {loginState.passwordError && (
-                    <div
-                      id="password-error"
-                      className="mt-2 flex items-center text-error text-sm"
-                      role="alert"
-                    >
-                      <X className="h-4 w-4 mr-1" />
-                      {loginState.passwordError}
-                    </div>
-                  )}
-                </div>
-
-                {/* Remember Me */}
-                <div className="flex items-center mb-6">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    checked={loginState.rememberMe}
-                    onChange={(e) =>
-                      setLoginState((prev) => ({
-                        ...prev,
-                        rememberMe: e.target.checked,
-                      }))
-                    }
-                    className="h-4 w-4 text-primary-green bg-surface-primary border-border-primary rounded focus:ring-primary-green focus:ring-2"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 text-sm text-text-secondary"
-                  >
-                    Ricordami al prossimo accesso
-                  </label>
-                </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={
-                    ["authenticating", "redirecting"].includes(
-                      loginState.phase,
-                    ) || loginState.isNavigating
-                  }
-                  className="w-full bg-primary-green hover:bg-primary-green/90 disabled:bg-primary-green/50 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
-                  aria-label="Accedi al tuo account"
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(handleLoginSubmit)}
+                  className="space-y-6"
                 >
-                  {(["authenticating", "redirecting"].includes(loginState.phase) || loginState.isNavigating) && 
-                    <div className="unified-form-spinner mr-2"></div>
-                  }
-                  {(() => {
-                    const phase = loginState.phase as LoginState["phase"];
-                    if (phase === "authenticating") return "Accesso in corso...";
-                    if (loginState.isNavigating) return "Reindirizzamento...";
-                    if (phase === "redirecting") return "Reindirizzamento...";
-                    return "Accedi";
-                  })()}
-                </button>
+                  {loginState.error && (
+                    <div className="bg-error/20 border border-error/30 rounded-lg p-4">
+                      <div className="flex items-center">
+                        <X className="h-4 w-4 text-error mr-2" />
+                        <div className="text-error">{loginState.error}</div>
+                      </div>
+                    </div>
+                  )}
 
-                {/* Register Link */}
-                <div className="mt-6 text-center">
-                  <div className="text-sm text-text-secondary">
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="email">E-mail</FormLabel>
+                        <FormControl>
+                          <Input
+                            id="email"
+                            type="email"
+                            autoComplete="email"
+                            placeholder="La tua e-mail"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel htmlFor="password">Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              autoComplete="current-password"
+                              placeholder="La tua password"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary"
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="rememberMe"
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="flex items-center gap-2">
+                          <FormControl>
+                            <Checkbox
+                              id="remember-me"
+                              checked={field.value}
+                              onCheckedChange={(checked) => field.onChange(checked === true)}
+                            />
+                          </FormControl>
+                          <FormLabel
+                            htmlFor="remember-me"
+                            className="text-sm text-text-secondary font-normal"
+                          >
+                            Ricordami al prossimo accesso
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={isProcessing}
+                    isLoading={isProcessing}
+                    aria-label="Accedi al tuo account"
+                  >
+                    {submitLabel}
+                  </Button>
+
+                  <div className="text-center text-sm text-text-secondary">
                     <span>o </span>
-                    <Link href="/register" className="text-primary-green hover:text-primary-green/80 transition-colors">
+                    <Link
+                      href="/register"
+                      className="text-primary-green hover:text-primary-green/80 transition-colors"
+                    >
                       registrati
                     </Link>
                     <span> subito</span>
                   </div>
-                </div>
-
-              </form>
+                </form>
+              </Form>
             </div>
           )}
         </div>

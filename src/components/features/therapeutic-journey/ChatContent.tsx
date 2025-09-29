@@ -7,8 +7,7 @@ import { api } from "~/trpc/react";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { Loader2 } from "lucide-react";
-import { ArrowLeft, Send } from "lucide-react";
+import { ArrowLeft, Check, Loader2, Send } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -464,7 +463,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             <p className="text-body-lg mb-6 text-[var(--color-text-primary)]/70">
               Il paziente richiesto non è disponibile.
             </p>
-            <Button onClick={goBack} className="btn btn-primary">
+            <Button onClick={goBack} size="lg" className="gap-2">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
@@ -496,7 +495,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 variant="ghost"
                 size="sm"
                 onClick={goBack}
-                className="btn btn-ghost hover-bg-primary-green-10 flex-shrink-0"
+                className="flex-shrink-0 hover:bg-[var(--color-primary-green)]/15"
                 aria-label="Torna alla timeline"
               >
                 <ArrowLeft className="h-4 w-4" />
@@ -542,7 +541,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <Button
                   onClick={handleCompleteStep}
                   disabled={markStepDoneMutation.isPending}
-                  className="btn btn-primary px-2 text-xs sm:px-4 sm:text-sm"
+                  isLoading={markStepDoneMutation.isPending}
+                  size="sm"
+                  className="px-2 text-xs sm:px-4 sm:text-sm"
                   aria-label="Completa sessione"
                 >
                   <span className="hidden sm:inline">
@@ -624,13 +625,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   onKeyPress={handleKeyPress}
                   placeholder="Inizia la conversazione"
                   disabled={isTyping}
-                  className="input-field flex-1 text-sm sm:text-base"
+                  className="flex-1 text-sm sm:text-base"
                   aria-label="Messaggio da inviare"
                 />
                 <Button
                   onClick={() => void handleSendMessage()}
                   disabled={!inputMessage.trim() || isTyping}
-                  className="btn btn-primary chat-send-button"
+                  className="chat-send-button" size="icon"
                   aria-label="Invia messaggio"
                 >
                   <Send className="h-4 w-4" />
@@ -645,9 +646,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="navbar-background flex-shrink-0 p-6">
             <div className="mx-auto max-w-4xl text-center">
               <div className="pill bg-primary-green-20 text-primary-green px-4 py-3">
-                <p className="text-sm font-medium">
-                  ✓ Sessione {stepId} completata - La conversazione è in
-                  modalità sola lettura
+                <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                  <Check className="h-4 w-4" aria-hidden="true" />
+                  <span>
+                    Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                  </span>
                 </p>
               </div>
             </div>

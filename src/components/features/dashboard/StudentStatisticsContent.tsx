@@ -3,6 +3,13 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/components/ui/skeleton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "~/components/ui/select";
 
 export function StudentStatisticsContent() {
   const [timeRange, setTimeRange] = useState<string>("month");
@@ -36,17 +43,20 @@ export function StudentStatisticsContent() {
             <label className="text-sm font-medium" htmlFor="time-range-select">
               Periodo di riferimento
             </label>
-            <select
-              id="time-range-select"
+            <Select
               value={timeRange}
-              onChange={(e) => setTimeRange(e.target.value)}
-              className="input-field"
+              onValueChange={(value) => setTimeRange(value)}
             >
-              <option value="week">Ultima settimana</option>
-              <option value="month">Ultimo mese</option>
-              <option value="quarter">Ultimo trimestre</option>
-              <option value="year">Ultimo anno</option>
-            </select>
+              <SelectTrigger className="max-w-xs">
+                <SelectValue placeholder="Seleziona periodo" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="week">Ultima settimana</SelectItem>
+                <SelectItem value="month">Ultimo mese</SelectItem>
+                <SelectItem value="quarter">Ultimo trimestre</SelectItem>
+                <SelectItem value="year">Ultimo anno</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </section>

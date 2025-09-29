@@ -7,7 +7,7 @@ import { Clock } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { PatientAvatar } from "~/components/features/explore-patients";
-import { Breadcrumb } from "~/components/common/Breadcrumb";
+import { Breadcrumb } from "~/components/ui";
 import { PatientDetailSkeleton } from "~/components/ui/skeleton-variants";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
@@ -227,8 +227,6 @@ export function PatientDetailContent() {
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <Button
                       type="button"
-                      variant="primary"
-                      size="default"
                       className="patient-card-button w-full py-3 text-center text-sm sm:py-4 sm:text-base"
                       onClick={() => {
                         if (!patient) return;
@@ -239,10 +237,9 @@ export function PatientDetailContent() {
                       }}
                       disabled={startTherapySession.isPending}
                       aria-disabled={startTherapySession.isPending}
+                      isLoading={startTherapySession.isPending}
                     >
-                      {startTherapySession.isPending
-                        ? "Avvio in corso..."
-                        : "Inizia simulazione"}
+                      Inizia simulazione
                     </Button>
                   </div>
                   {actionError && (

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Button } from "~/components/ui/button";
+import { Check, Loader2, LogOut, XCircle } from "lucide-react";
 
 /**
  * Custom Signout Page
@@ -81,19 +82,7 @@ export default function SignoutPage() {
             {/* Logo/Brand */}
             <div className="mb-6">
               <div className="bg-primary-green/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                <svg
-                  className="text-primary-green h-8 w-8"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
+                <LogOut className="h-8 w-8 text-primary-green" aria-hidden="true" />
               </div>
               <h1 className="text-2xl font-bold text-white mb-2">
                 Logout in corso
@@ -108,7 +97,7 @@ export default function SignoutPage() {
               {status === "loading" && (
                 <div className="space-y-4">
                   <div className="flex justify-center">
-                    <div className="border-primary-green h-8 w-8 rounded-full border-b-2 animate-spin"></div>
+                    <Loader2 className="h-8 w-8 animate-spin text-primary-green" aria-hidden="true" />
                   </div>
                   <p className="text-text-secondary">
                     Disconnessione in corso...
@@ -120,19 +109,7 @@ export default function SignoutPage() {
                 <div className="space-y-4">
                   <div className="flex justify-center">
                     <div className="bg-primary-green/20 flex h-8 w-8 items-center justify-center rounded-full">
-                      <svg
-                        className="text-primary-green h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
+                      <Check className="h-5 w-5 text-primary-green" aria-hidden="true" />
                     </div>
                   </div>
                   <p className="text-white font-medium">
@@ -148,19 +125,7 @@ export default function SignoutPage() {
                 <div className="space-y-4">
                   <div className="flex justify-center">
                     <div className="bg-error/20 flex h-8 w-8 items-center justify-center rounded-full">
-                      <svg
-                        className="text-error h-5 w-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
+                      <XCircle className="h-5 w-5 text-error" aria-hidden="true" />
                     </div>
                   </div>
                   <p className="text-white font-medium">
