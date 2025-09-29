@@ -132,12 +132,12 @@ export default auth((req) => {
     return NextResponse.next();
   }
 
-  // If user is authenticated and trying to access auth routes, redirect to dashboard
+  // If user is authenticated and trying to access auth routes, redirect to therapeutic journey
   if (isAuthenticated && isAuthRoute) {
     console.log(
-      "Middleware - Redirecting authenticated user from auth route to dashboard",
+      "Middleware - Redirecting authenticated user from auth route to therapeutic journey",
     );
-    const dashboardUrl = new URL("/dashboard", req.url);
+    const dashboardUrl = new URL("/dashboard/therapeutic-journey", req.url);
     return NextResponse.redirect(dashboardUrl);
   }
 

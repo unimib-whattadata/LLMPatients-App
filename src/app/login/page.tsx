@@ -78,7 +78,7 @@ function LoginPageComponent() {
   const { data: session, status } = useSession();
   const { showSuccess, showError } = useToast();
 
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard/therapeutic-journey";
 
   // Deferred navigation function to prevent router updates during render
   const navigate = useCallback(

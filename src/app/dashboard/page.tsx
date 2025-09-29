@@ -78,16 +78,16 @@ async function DashboardRouter() {
       console.warn(
         `Dashboard access: Invalid user role '${String(userRole)}', defaulting to 'user'`,
       );
-      redirect("/dashboard/user?role=default");
+      redirect("/dashboard/therapeutic-journey?role=default");
     }
 
     // Role-based routing with enhanced logging
     if (userRole === "admin") {
-      console.log("Redirecting admin user to user dashboard");
-      redirect("/dashboard/user?auth=jwt");
+      console.log("Redirecting admin user to therapeutic journey");
+      redirect("/dashboard/therapeutic-journey?auth=jwt");
     } else {
-      console.log("Redirecting user to user dashboard");
-      redirect("/dashboard/user?auth=jwt");
+      console.log("Redirecting user to therapeutic journey");
+      redirect("/dashboard/therapeutic-journey?auth=jwt");
     }
   } catch (error) {
     // Handle redirect errors (normal flow) vs actual errors
