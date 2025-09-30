@@ -833,97 +833,150 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         </header>
 
-        {/* Messages - 3 column layout with scroll on column 3 */}
-        <div 
-          ref={messagesContainerRef}
-          className="page-background flex-1 min-h-0 overflow-y-auto chat-scrollbar"
-          dir="ltr"
-          style={{
-            paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
-          }}
-        >
-          <div className="flex min-h-full">
-            {/* Column 1: Patient Avatar - Fixed position within scroll */}
-            <div className="hidden lg:flex flex-col items-start justify-start w-48 flex-shrink-0 p-4">
-              <div className="flex flex-col items-center w-full sticky top-4 space-y-3">
-                <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
-                  {typedSelectedPatient ? (
-                    <div className="relative w-full h-full">
-                      {/* Show static image when no transition is pending */}
+        {/* 3 Column Layout */}
+        <div className="flex-1 flex min-h-0">
+          {/* Column 1: Patient Avatar - Fixed, no scroll */}
+          <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
+            <div className="flex flex-col items-center w-full space-y-3 pt-4">
+              <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
+                {typedSelectedPatient ? (
+                  <div className="relative w-full h-full">
+                    {/* Show static image when no transition is pending */}
+                    <Image
+                      key={`current-${currentEmotion}`}
+                      src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                      alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                      width={100}
+                      height={100}
+                      className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                      style={{
+                        opacity:
+                          nextEmotion && nextEmotion !== currentEmotion
+                            ? isAvatarTransitioning
+                              ? 0
+                              : 1
+                            : 1,
+                        transition: `opacity ${transitionDurationMs}ms ease-in-out`,
+                      }}
+                    />
+                    {nextEmotion && nextEmotion !== currentEmotion && (
                       <Image
-                        key={`current-${currentEmotion}`}
-                        src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
-                        alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                        key={`next-${nextEmotion}`}
+                        src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
+                        alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
                         width={100}
                         height={100}
-                        className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                        className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
                         style={{
-                          opacity:
-                            nextEmotion && nextEmotion !== currentEmotion
-                              ? isAvatarTransitioning
-                                ? 0
-                                : 1
-                              : 1,
+                          opacity: isAvatarTransitioning ? 1 : 0,
                           transition: `opacity ${transitionDurationMs}ms ease-in-out`,
                         }}
+                        onLoad={() => {
+                          if (!nextEmotion) return;
+
+                          if (avatarTransitionTimeoutRef.current) {
+                            clearTimeout(avatarTransitionTimeoutRef.current);
+                            avatarTransitionTimeoutRef.current = null;
+                          }
+
+                          const targetEmotion = nextEmotion;
+
+                          startAvatarTransition(targetEmotion);
+                        }}
                       />
-                      {nextEmotion && nextEmotion !== currentEmotion && (
-                        <Image
-                          key={`next-${nextEmotion}`}
-                          src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
-                          alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
-                          width={100}
-                          height={100}
-                          className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
-                          style={{
-                            opacity: isAvatarTransitioning ? 1 : 0,
-                            transition: `opacity ${transitionDurationMs}ms ease-in-out`,
-                          }}
-                          onLoad={() => {
-                            if (!nextEmotion) return;
-
-                            if (avatarTransitionTimeoutRef.current) {
-                              clearTimeout(avatarTransitionTimeoutRef.current);
-                              avatarTransitionTimeoutRef.current = null;
-                            }
-
-                            const targetEmotion = nextEmotion;
-
-                            startAvatarTransition(targetEmotion);
-                          }}
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <div
-                      className={`flex h-25 w-25 items-center justify-center rounded-[1.1rem] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
-                    >
-                      {patientAvatar?.initials}
-                    </div>
-                  )}
-                  {/* Expand icon */}
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsAvatarExpanded(true)}
-                    className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
-                    style={{ zIndex: 3 }}
-                    aria-label="Espandi avatar"
+                    )}
+                  </div>
+                ) : (
+                  <div
+                    className={`flex h-25 w-25 items-center justify-center rounded-[1.1rem] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
                   >
-                    <Maximize2 className="h-3 w-3 text-white" />
-                  </Button>
-                </div>
-                <div className="text-center">
-                  <span className="text-sm font-medium text-[var(--color-text-primary)]">
-                    {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
-                  </span>
-                </div>
+                    {patientAvatar?.initials}
+                  </div>
+                )}
+                {/* Expand icon */}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsAvatarExpanded(true)}
+                  className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
+                  style={{ zIndex: 3 }}
+                  aria-label="Espandi avatar"
+                >
+                  <Maximize2 className="h-3 w-3 text-white" />
+                </Button>
+              </div>
+              <div className="text-center">
+                <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                  {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
+                </span>
               </div>
             </div>
+          </div>
 
-            {/* Column 2: Messages area (center) */}
-            <div className="flex-1 p-4 sm:p-6">
-              <div className="w-full lg:max-w-4xl mx-auto">
+          {/* Column 2: Chat + Input area */}
+          <div className="flex-1 flex flex-col min-h-0 page-background relative">
+            {/* Audio Player - fixed position above input */}
+            {isAudioPlayerOpen && (
+              <div className="absolute bottom-20 left-0 right-0 z-10 p-4 sm:p-6 bg-transparent">
+                <div className="mx-auto max-w-4xl">
+                  <div className="flex space-x-2 sm:space-x-3">
+                    <div className="flex-1 flex items-center bg-transparent rounded-lg px-3 py-2">
+                      {/* Audio Waveform Visualization */}
+                      <div className="flex items-center justify-between flex-1 space-x-1 h-20">
+                        {Array.from({ length: 80 }, (_, i) => {
+                          // Create more dynamic wave patterns
+                          const baseHeight = 4; // Flat when not animating
+                          const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
+                          
+                          return (
+                            <div
+                              key={i}
+                              className="w-1 rounded-full transition-all duration-300"
+                              style={{
+                                height: isAudioAnimating
+                                  ? `${animatedHeight}px`
+                                  : `${baseHeight}px`,
+                                background: isAudioAnimating
+                                  ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
+                                  : "rgba(236, 236, 236, 0.2)",
+                                animation: isAudioAnimating
+                                  ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
+                                  : "none",
+                                transformOrigin: "center",
+                              }}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsAudioPlayerOpen(false)}
+                      className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                      aria-label="Chiudi audio player"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Messages area with scroll - extends under input */}
+            <div 
+              ref={messagesContainerRef}
+              className="absolute inset-0 overflow-y-auto chat-scrollbar p-4 sm:p-6"
+              style={{
+                paddingBottom: isAudioPlayerOpen 
+                  ? "16rem" 
+                  : isStepCompleted 
+                    ? "5rem" 
+                    : "7rem",
+              }}
+            >
+              <div className="w-full max-w-4xl mx-auto">
                 <div className="space-y-4 sm:space-y-6">
                   {messages.map((message) => (
                     <div
@@ -974,116 +1027,68 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
 
-            {/* Column 3: Empty space where scrollbar appears (same width as column 1) */}
-            <div className="hidden lg:block w-48 flex-shrink-0" aria-hidden="true"></div>
-
-          </div>
-        </div>
-
-        {/* Input - Only show if step is not completed */}
-        {!isStepCompleted && (
-          <div className="flex-shrink-0 p-4 sm:p-6">
-            <div className="mx-auto max-w-4xl">
-              <div className="relative">
-                {/* Audio Player - appears above input */}
-                {isAudioPlayerOpen && (
-                  <div className="absolute bottom-full left-0 right-0 mb-3 rounded-lg bg-[var(--color-card-background)] p-4 shadow-lg border border-[var(--color-border)]">
-                    <div className="flex items-center justify-end mb-3">
+            {/* Input area - transparent background - fixed at bottom */}
+            {!isStepCompleted && (
+              <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
+                <div className="mx-auto max-w-4xl bg-transparent">
+                  <div className="flex space-x-2 sm:space-x-3 bg-transparent">
+                    <div className="relative flex-1">
+                      <Input
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Inizia la conversazione"
+                        disabled={isTyping}
+                        className="flex-1 text-sm sm:text-base pr-10 h-11"
+                        aria-label="Messaggio da inviare"
+                      />
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setIsAudioPlayerOpen(false)}
-                        className="h-6 w-6 p-0 hover:bg-[var(--color-primary-green)]/10"
-                        aria-label="Chiudi audio player"
+                        onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
+                        className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
+                          isAudioPlayerOpen 
+                            ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
+                            : "hover:bg-[var(--color-primary-green)]/10"
+                        }`}
+                        aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
                       >
-                        <X className="h-4 w-4" />
+                        <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
                       </Button>
                     </div>
-                    
-                    {/* Audio Waveform Visualization */}
-                    <div className="flex items-center justify-between w-full space-x-1 h-20 px-4">
-                      {Array.from({ length: 80 }, (_, i) => {
-                        // Create more dynamic wave patterns
-                        const baseHeight = 4; // Flat when not animating
-                        const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
-                        
-                        return (
-                          <div
-                            key={i}
-                            className="w-1 rounded-full transition-all duration-300"
-                            style={{
-                              height: isAudioAnimating
-                                ? `${animatedHeight}px`
-                                : `${baseHeight}px`,
-                              background: isAudioAnimating
-                                ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
-                                : "rgba(236, 236, 236, 0.2)",
-                              animation: isAudioAnimating
-                                ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
-                                : "none",
-                              transformOrigin: "center",
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-
-                <div className="flex space-x-2 sm:space-x-3">
-                  <div className="relative flex-1">
-                    <Input
-                      value={inputMessage}
-                      onChange={(e) => setInputMessage(e.target.value)}
-                      onKeyPress={handleKeyPress}
-                      placeholder="Inizia la conversazione"
-                      disabled={isTyping}
-                      className="flex-1 text-sm sm:text-base pr-10 h-11"
-                      aria-label="Messaggio da inviare"
-                    />
                     <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
-                      className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
-                        isAudioPlayerOpen 
-                          ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
-                          : "hover:bg-[var(--color-primary-green)]/10"
-                      }`}
-                      aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
+                      onClick={() => void handleSendMessage()}
+                      disabled={!inputMessage.trim() || isTyping}
+                      className="chat-send-button h-11 w-11"
+                      aria-label="Invia messaggio"
                     >
-                      <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
+                      <Send className="h-4 w-4" />
                     </Button>
                   </div>
-                  <Button
-                    onClick={() => void handleSendMessage()}
-                    disabled={!inputMessage.trim() || isTyping}
-                    className="chat-send-button h-11 w-11"
-                    aria-label="Invia messaggio"
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            )}
 
-        {/* Session completed message */}
-        {isStepCompleted && (
-          <div className="navbar-background flex-shrink-0 p-6">
-            <div className="mx-auto max-w-4xl text-center">
-              <div className="pill bg-primary-green text-white px-4 py-3">
-                <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                  <Check className="h-4 w-4" aria-hidden="true" />
-                  <span>
-                    Sessione {stepId} completata - La conversazione è in modalità sola lettura
-                  </span>
-                </p>
+            {/* Session completed message - fixed at bottom */}
+            {isStepCompleted && (
+              <div className="absolute bottom-0 left-0 right-0 z-20 navbar-background p-6">
+                <div className="mx-auto max-w-4xl text-center">
+                  <div className="pill bg-primary-green text-white px-4 py-3">
+                    <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                      <Check className="h-4 w-4" aria-hidden="true" />
+                      <span>
+                        Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                      </span>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
-        )}
+
+          {/* Column 3: Scroll area (same width as column 1) */}
+          <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
+        </div>
       </div>
 
       {/* Success Dialog */}
