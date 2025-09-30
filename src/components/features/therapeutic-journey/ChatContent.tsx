@@ -289,7 +289,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const avatarFallbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const avatarAnimationFrameRef = useRef<number | null>(null);
 
   // Fetch patient data
   const {
@@ -512,17 +512,26 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         avatarTransitionTimeoutRef.current = null;
       }
 
-      if (avatarFallbackTimeoutRef.current) {
-        clearTimeout(avatarFallbackTimeoutRef.current);
-        avatarFallbackTimeoutRef.current = null;
-      }
-
       setNextEmotion(emotion);
-      setIsAvatarTransitioning(false);
+      setIsAvatarTransitioning(true);
 
-      startAvatarTransition(emotion);
+      avatarAnimationFrameRef.current = requestAnimationFrame(() => {
+        if (avatarAnimationFrameRef.current) {
+          cancelAnimationFrame(avatarAnimationFrameRef.current);
+          avatarAnimationFrameRef.current = null;
+        }
+
+        setIsAvatarTransitioning(false);
+
+        avatarTransitionTimeoutRef.current = setTimeout(() => {
+          setCurrentEmotion(emotion);
+          setNextEmotion(null);
+          setIsAvatarTransitioning(false);
+          avatarTransitionTimeoutRef.current = null;
+        }, transitionDurationMs);
+      });
     },
-    [currentEmotion, nextEmotion, startAvatarTransition],
+    [currentEmotion, nextEmotion, transitionDurationMs],
   );
 
   useEffect(() => {
