@@ -89,12 +89,6 @@ interface ChatMessage {
 }
 
 /**
- * Safely formats a timestamp to locale time string
- * @param timestamp - Date object or string timestamp
- * @returns Formatted time string
- */
-
-/**
  * Formats session time in MM:SS format
  * @param seconds - Number of seconds
  * @returns Formatted time string
@@ -160,6 +154,17 @@ const EMOTION_LABELS: Record<PatientEmotion, string> = {
   surprise: "Sorpresa",
   trust: "Fiducia",
   base: "Neutro",
+};
+
+const EMOTION_COLORS: Record<PatientEmotion, string> = {
+  joy: "rgb(250 204 21)", // yellow-400
+  anger: "rgb(239 68 68)", // red-500
+  sadness: "rgb(59 130 246)", // blue-500
+  disgust: "rgb(132 204 22)", // lime-500
+  trust: "rgb(16 185 129)", // emerald-500
+  anticipation: "rgb(251 146 60)", // orange-400
+  surprise: "rgb(192 132 252)", // purple-400
+  base: "rgb(156 163 175)", // gray-400
 };
 
 /**
@@ -285,11 +290,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
   const [nextEmotion, setNextEmotion] = useState<PatientEmotion | null>(null);
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
-  const transitionDurationMs = 2000;
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const transitionDurationMs = 800;
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const avatarAnimationFrameRef = useRef<number | null>(null);
 
   // Fetch patient data
   const {
@@ -355,10 +358,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }, [typedCompletedSteps, stepId]);
 
-  // Removed auto-scroll to prevent avatar from jumping
-  // Manual scroll is handled in handleSendMessage and other places
-
-  // Scroll to bottom helper function (smooth scroll to avoid avatar jumping)
+  // Scroll to bottom helper function
   const scrollToBottom = useCallback((delay = 100) => {
     setTimeout(() => {
       const container = messagesContainerRef.current;
@@ -371,36 +371,18 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }, delay);
   }, []);
 
-  // Animate audio only when patient message arrives (not during typing)
+  // Animate audio waveform when patient message arrives
   useEffect(() => {
     if (!isAudioPlayerOpen || messages.length === 0) return;
     
-    // Get the last message
     const lastMessage = messages[messages.length - 1];
     
-    // Only animate if the last message is from the patient
     if (lastMessage && lastMessage.sender === "patient") {
       setIsAudioAnimating(true);
-      
-      // Stop animation after 3 seconds
-      const timer = setTimeout(() => {
-        setIsAudioAnimating(false);
-      }, 3000);
-      
+      const timer = setTimeout(() => setIsAudioAnimating(false), 3000);
       return () => clearTimeout(timer);
     }
   }, [messages, isAudioPlayerOpen]);
-
-  // Scroll chat when audio player opens to avoid overlaps
-  useEffect(() => {
-    if (isAudioPlayerOpen) {
-      // Wait for the audio player to render, then scroll
-      setTimeout(() => {
-        // Use the helper to ensure we scroll only the messages container
-        scrollToBottom(100);
-      }, 100);
-    }
-  }, [isAudioPlayerOpen, scrollToBottom]);
 
   // Timer effect
   useEffect(() => {
@@ -473,63 +455,33 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [],
   );
 
-  const startAvatarTransition = useCallback(
-    (targetEmotion: PatientEmotion) => {
-      if (avatarTransitionTimeoutRef.current) {
-        clearTimeout(avatarTransitionTimeoutRef.current);
-      }
-
-      setIsAvatarTransitioning(true);
-
-      avatarTransitionTimeoutRef.current = setTimeout(() => {
-        setCurrentEmotion(targetEmotion);
-        setNextEmotion(null);
-        setIsAvatarTransitioning(false);
-        avatarTransitionTimeoutRef.current = null;
-      }, transitionDurationMs);
-    },
-    [transitionDurationMs],
-  );
-
+  // Trigger smooth avatar emotion transition
   const triggerAvatarEmotionChange = useCallback(
     (emotion: PatientEmotion) => {
-      if (emotion === currentEmotion) {
-        setNextEmotion(null);
-        setIsAvatarTransitioning(false);
-        return;
-      }
-
-      if (emotion === nextEmotion) {
-        return;
-      }
+      if (emotion === currentEmotion || emotion === nextEmotion) return;
 
       if (avatarTransitionTimeoutRef.current) {
         clearTimeout(avatarTransitionTimeoutRef.current);
-        avatarTransitionTimeoutRef.current = null;
       }
 
       setNextEmotion(emotion);
-      setIsAvatarTransitioning(true);
-
-      avatarAnimationFrameRef.current = requestAnimationFrame(() => {
-        if (avatarAnimationFrameRef.current) {
-          cancelAnimationFrame(avatarAnimationFrameRef.current);
-          avatarAnimationFrameRef.current = null;
-        }
-
-        setIsAvatarTransitioning(false);
-
+      
+      // Start transition immediately
+      requestAnimationFrame(() => {
+        setIsAvatarTransitioning(true);
+        
+        // Complete transition after duration
         avatarTransitionTimeoutRef.current = setTimeout(() => {
           setCurrentEmotion(emotion);
           setNextEmotion(null);
           setIsAvatarTransitioning(false);
-          avatarTransitionTimeoutRef.current = null;
         }, transitionDurationMs);
       });
     },
     [currentEmotion, nextEmotion, transitionDurationMs],
   );
 
+  // Update avatar emotion based on last patient message
   useEffect(() => {
     if (!messages.length) {
       setCurrentEmotion("base");
@@ -539,8 +491,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
 
     const lastMessage = messages[messages.length - 1];
-
-    if (lastMessage && lastMessage.sender === "patient" && lastMessage.emotion) {
+    if (lastMessage?.sender === "patient" && lastMessage.emotion) {
       triggerAvatarEmotionChange(lastMessage.emotion);
     }
   }, [messages, triggerAvatarEmotionChange]);
@@ -596,8 +547,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const patientName = typedSelectedPatient?.name || "";
         const patientResponse = getPatientResponse(patientName);
 
-        // Update current emotion with smooth crossfade transition
-          triggerAvatarEmotionChange(patientResponse.emotion);
+        triggerAvatarEmotionChange(patientResponse.emotion);
 
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
@@ -833,149 +783,152 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         </header>
 
-        {/* 3 Column Layout */}
-        <div className="flex-1 flex min-h-0">
+        {/* 3 Column Layout with scroll in column 3 */}
+        <div className="flex-1 flex min-h-0 overflow-hidden">
           {/* Column 1: Patient Avatar - Fixed, no scroll */}
           <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
             <div className="flex flex-col items-center w-full space-y-3 pt-4">
-              <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
-                {typedSelectedPatient ? (
-                  <div className="relative w-full h-full">
-                    {/* Show static image when no transition is pending */}
-                    <Image
-                      key={`current-${currentEmotion}`}
-                      src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
-                      alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
-                      width={100}
-                      height={100}
-                      className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
-                      style={{
-                        opacity:
-                          nextEmotion && nextEmotion !== currentEmotion
-                            ? isAvatarTransitioning
-                              ? 0
-                              : 1
-                            : 1,
-                        transition: `opacity ${transitionDurationMs}ms ease-in-out`,
-                      }}
-                    />
-                    {nextEmotion && nextEmotion !== currentEmotion && (
+              <div 
+                className="relative rounded-[1.1rem] p-[3px]"
+                style={{
+                  background: EMOTION_COLORS[nextEmotion ?? currentEmotion],
+                  boxShadow: `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
+                  transition: `background ${transitionDurationMs}ms ease-in-out, box-shadow ${transitionDurationMs}ms ease-in-out`,
+                }}
+              >
+                <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
+                  {typedSelectedPatient ? (
+                    <div className="relative w-full h-full">
+                      {/* Show static image when no transition is pending */}
                       <Image
-                        key={`next-${nextEmotion}`}
-                        src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
-                        alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
+                        key={`current-${currentEmotion}`}
+                        src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                        alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
                         width={100}
                         height={100}
-                        className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
+                        className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full"
                         style={{
-                          opacity: isAvatarTransitioning ? 1 : 0,
-                          transition: `opacity ${transitionDurationMs}ms ease-in-out`,
-                        }}
-                        onLoad={() => {
-                          if (!nextEmotion) return;
-
-                          if (avatarTransitionTimeoutRef.current) {
-                            clearTimeout(avatarTransitionTimeoutRef.current);
-                            avatarTransitionTimeoutRef.current = null;
-                          }
-
-                          const targetEmotion = nextEmotion;
-
-                          startAvatarTransition(targetEmotion);
+                          opacity:
+                            nextEmotion && nextEmotion !== currentEmotion
+                              ? isAvatarTransitioning
+                                ? 0
+                                : 1
+                              : 1,
+                          transition: `opacity ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
                         }}
                       />
-                    )}
-                  </div>
-                ) : (
-                  <div
-                    className={`flex h-25 w-25 items-center justify-center rounded-[1.1rem] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
+                      {nextEmotion && nextEmotion !== currentEmotion && (
+                        <Image
+                          key={`next-${nextEmotion}`}
+                          src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
+                          alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
+                          width={100}
+                          height={100}
+                          className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full absolute inset-0"
+                          style={{
+                            opacity: isAvatarTransitioning ? 1 : 0,
+                            transition: `opacity ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+                          }}
+                          priority
+                        />
+                      )}
+                    </div>
+                  ) : (
+                    <div
+                      className={`flex h-25 w-25 items-center justify-center rounded-[calc(1.1rem-3px)] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
+                    >
+                      {patientAvatar?.initials}
+                    </div>
+                  )}
+                  {/* Expand icon */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsAvatarExpanded(true)}
+                    className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
+                    style={{ zIndex: 3 }}
+                    aria-label="Espandi avatar"
                   >
-                    {patientAvatar?.initials}
-                  </div>
-                )}
-                {/* Expand icon */}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setIsAvatarExpanded(true)}
-                  className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
-                  style={{ zIndex: 3 }}
-                  aria-label="Espandi avatar"
-                >
-                  <Maximize2 className="h-3 w-3 text-white" />
-                </Button>
+                    <Maximize2 className="h-3 w-3 text-white" />
+                  </Button>
+                </div>
               </div>
+              {/* Emotion label - hidden
               <div className="text-center">
-                <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                <span 
+                  className="text-sm font-medium px-3 py-1 rounded-full"
+                  style={{
+                    color: EMOTION_COLORS[nextEmotion ?? currentEmotion],
+                    backgroundColor: `${EMOTION_COLORS[nextEmotion ?? currentEmotion]}20`,
+                    border: `1px solid ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
+                  }}
+                >
                   {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
                 </span>
               </div>
+              */}
             </div>
           </div>
 
-          {/* Column 2: Chat + Input area */}
-          <div className="flex-1 flex flex-col min-h-0 page-background relative">
-            {/* Audio Player - fixed position above input */}
-            {isAudioPlayerOpen && (
-              <div className="absolute bottom-20 left-0 right-0 z-10 p-4 sm:p-6 bg-transparent">
-                <div className="mx-auto max-w-4xl">
-                  <div className="flex space-x-2 sm:space-x-3">
-                    <div className="flex-1 flex items-center bg-transparent rounded-lg px-3 py-2">
-                      {/* Audio Waveform Visualization */}
-                      <div className="flex items-center justify-between flex-1 space-x-1 h-20">
-                        {Array.from({ length: 80 }, (_, i) => {
-                          // Create more dynamic wave patterns
-                          const baseHeight = 4; // Flat when not animating
-                          const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
-                          
-                          return (
-                            <div
-                              key={i}
-                              className="w-1 rounded-full transition-all duration-300"
-                              style={{
-                                height: isAudioAnimating
-                                  ? `${animatedHeight}px`
-                                  : `${baseHeight}px`,
-                                background: isAudioAnimating
-                                  ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
-                                  : "rgba(236, 236, 236, 0.2)",
-                                animation: isAudioAnimating
-                                  ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
-                                  : "none",
-                                transformOrigin: "center",
-                              }}
-                            />
-                          );
-                        })}
+          {/* Scrollable container for columns 2 & 3 */}
+          <div 
+            ref={messagesContainerRef}
+            className="flex-1 flex overflow-y-auto chat-scrollbar"
+          >
+            <div className="flex flex-1 min-h-full">
+              {/* Column 2: Chat + Input area */}
+              <div className="flex-1 flex flex-col page-background relative">
+                {/* Audio Player - fixed position above input */}
+                {isAudioPlayerOpen && (
+                  <div className="sticky bottom-20 left-0 right-0 z-10 p-4 sm:p-6 bg-transparent">
+                    <div className="mx-auto max-w-4xl">
+                      <div className="flex space-x-2 sm:space-x-3">
+                        <div className="flex-1 flex items-center bg-transparent rounded-lg px-3 py-2">
+                          {/* Audio Waveform Visualization */}
+                          <div className="flex items-center justify-between flex-1 space-x-1 h-20">
+                            {Array.from({ length: 80 }, (_, i) => {
+                              // Create more dynamic wave patterns
+                              const baseHeight = 4; // Flat when not animating
+                              const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
+                              
+                              return (
+                                <div
+                                  key={i}
+                                  className="w-1 rounded-full transition-all duration-300"
+                                  style={{
+                                    height: isAudioAnimating
+                                      ? `${animatedHeight}px`
+                                      : `${baseHeight}px`,
+                                    background: isAudioAnimating
+                                      ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
+                                      : "rgba(236, 236, 236, 0.2)",
+                                    animation: isAudioAnimating
+                                      ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
+                                      : "none",
+                                    transformOrigin: "center",
+                                  }}
+                                />
+                              );
+                            })}
+                          </div>
+                        </div>
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setIsAudioPlayerOpen(false)}
+                          className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                          aria-label="Chiudi audio player"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
                       </div>
                     </div>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => setIsAudioPlayerOpen(false)}
-                      className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                      aria-label="Chiudi audio player"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            {/* Messages area with scroll - extends under input */}
-            <div 
-              ref={messagesContainerRef}
-              className="absolute inset-0 overflow-y-auto chat-scrollbar p-4 sm:p-6"
-              style={{
-                paddingBottom: isAudioPlayerOpen 
-                  ? "16rem" 
-                  : isStepCompleted 
-                    ? "5rem" 
-                    : "7rem",
-              }}
-            >
+                {/* Messages area - extends under input */}
+                <div className="flex-1 p-4 sm:p-6 pb-24">
               <div className="w-full max-w-4xl mx-auto">
                 <div className="space-y-4 sm:space-y-6">
                   {messages.map((message) => (
@@ -1021,73 +974,73 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       </div>
                     </div>
                   )}
-
-                  <div ref={messagesEndRef} />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Input area - transparent background - fixed at bottom */}
-            {!isStepCompleted && (
-              <div className="absolute bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
-                <div className="mx-auto max-w-4xl bg-transparent">
-                  <div className="flex space-x-2 sm:space-x-3 bg-transparent">
-                    <div className="relative flex-1">
-                      <Input
-                        value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
-                        onKeyPress={handleKeyPress}
-                        placeholder="Inizia la conversazione"
-                        disabled={isTyping}
-                        className="flex-1 text-sm sm:text-base pr-10 h-11"
-                        aria-label="Messaggio da inviare"
-                      />
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
-                        className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
-                          isAudioPlayerOpen 
-                            ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
-                            : "hover:bg-[var(--color-primary-green)]/10"
-                        }`}
-                        aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
-                      >
-                        <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
-                      </Button>
+                {/* Input area - transparent background - sticky at bottom */}
+                {!isStepCompleted && (
+                  <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
+                    <div className="mx-auto max-w-4xl bg-transparent">
+                      <div className="flex space-x-2 sm:space-x-3 bg-transparent">
+                        <div className="relative flex-1">
+                          <Input
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Inizia la conversazione"
+                            disabled={isTyping}
+                            className="flex-1 text-sm sm:text-base pr-10 h-11"
+                            aria-label="Messaggio da inviare"
+                          />
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
+                            className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
+                              isAudioPlayerOpen 
+                                ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
+                                : "hover:bg-[var(--color-primary-green)]/10"
+                            }`}
+                            aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
+                          >
+                            <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
+                          </Button>
+                        </div>
+                        <Button
+                          onClick={() => void handleSendMessage()}
+                          disabled={!inputMessage.trim() || isTyping}
+                          className="chat-send-button h-11 w-11"
+                          aria-label="Invia messaggio"
+                        >
+                          <Send className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
-                    <Button
-                      onClick={() => void handleSendMessage()}
-                      disabled={!inputMessage.trim() || isTyping}
-                      className="chat-send-button h-11 w-11"
-                      aria-label="Invia messaggio"
-                    >
-                      <Send className="h-4 w-4" />
-                    </Button>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            {/* Session completed message - fixed at bottom */}
-            {isStepCompleted && (
-              <div className="absolute bottom-0 left-0 right-0 z-20 navbar-background p-6">
-                <div className="mx-auto max-w-4xl text-center">
-                  <div className="pill bg-primary-green text-white px-4 py-3">
-                    <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                      <Check className="h-4 w-4" aria-hidden="true" />
-                      <span>
-                        Sessione {stepId} completata - La conversazione è in modalità sola lettura
-                      </span>
-                    </p>
+                {/* Session completed message - sticky at bottom */}
+                {isStepCompleted && (
+                  <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
+                    <div className="mx-auto max-w-4xl text-center">
+                      <div className="pill bg-primary-green text-white px-4 py-3">
+                        <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                          <Check className="h-4 w-4" aria-hidden="true" />
+                          <span>
+                            Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                          </span>
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
-            )}
+
+              {/* Column 3: Empty space for visual balance (same width as column 1) */}
+              <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
+            </div>
           </div>
-
-          {/* Column 3: Scroll area (same width as column 1) */}
-          <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
         </div>
       </div>
 
