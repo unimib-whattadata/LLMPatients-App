@@ -151,6 +151,17 @@ const WELCOME_MESSAGES: Record<string, string> = {
   Todd: "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
 };
 
+const EMOTION_LABELS: Record<PatientEmotion, string> = {
+  anger: "Rabbia",
+  anticipation: "Attesa",
+  disgust: "Disgusto",
+  joy: "Gioia",
+  sadness: "Tristezza",
+  surprise: "Sorpresa",
+  trust: "Fiducia",
+  base: "Neutro",
+};
+
 /**
  * Generic fallback responses for patients not in the predefined list
  */
@@ -272,10 +283,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
-  const [previousEmotion, setPreviousEmotion] = useState<PatientEmotion>("base");
+  const [nextEmotion, setNextEmotion] = useState<PatientEmotion | null>(null);
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
-  const [isCurrentAvatarLoaded, setIsCurrentAvatarLoaded] = useState(true);
-  const transitionDurationMs = 700;
+  const transitionDurationMs = 2000;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -418,6 +428,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       
       if (lastPatientMessage?.emotion) {
         setCurrentEmotion(lastPatientMessage.emotion);
+        setNextEmotion(null);
+        setIsAvatarTransitioning(false);
       }
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
       const patientName = typedSelectedPatient.name || "";
@@ -435,6 +447,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       };
       setMessages([welcomeMessage]);
       setCurrentEmotion("base");
+      setNextEmotion(null);
+      setIsAvatarTransitioning(false);
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
 
@@ -462,6 +476,69 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     },
     [],
   );
+
+  const startAvatarTransition = useCallback(
+    (targetEmotion: PatientEmotion) => {
+      if (avatarTransitionTimeoutRef.current) {
+        clearTimeout(avatarTransitionTimeoutRef.current);
+      }
+
+      setIsAvatarTransitioning(true);
+
+      avatarTransitionTimeoutRef.current = setTimeout(() => {
+        setCurrentEmotion(targetEmotion);
+        setNextEmotion(null);
+        setIsAvatarTransitioning(false);
+        avatarTransitionTimeoutRef.current = null;
+      }, transitionDurationMs);
+    },
+    [transitionDurationMs],
+  );
+
+  const triggerAvatarEmotionChange = useCallback(
+    (emotion: PatientEmotion) => {
+      if (emotion === currentEmotion) {
+        setNextEmotion(null);
+        setIsAvatarTransitioning(false);
+        return;
+      }
+
+      if (emotion === nextEmotion) {
+        return;
+      }
+
+      if (avatarTransitionTimeoutRef.current) {
+        clearTimeout(avatarTransitionTimeoutRef.current);
+        avatarTransitionTimeoutRef.current = null;
+      }
+
+      if (avatarFallbackTimeoutRef.current) {
+        clearTimeout(avatarFallbackTimeoutRef.current);
+        avatarFallbackTimeoutRef.current = null;
+      }
+
+      setNextEmotion(emotion);
+      setIsAvatarTransitioning(false);
+
+      startAvatarTransition(emotion);
+    },
+    [currentEmotion, nextEmotion, startAvatarTransition],
+  );
+
+  useEffect(() => {
+    if (!messages.length) {
+      setCurrentEmotion("base");
+      setNextEmotion(null);
+      setIsAvatarTransitioning(false);
+      return;
+    }
+
+    const lastMessage = messages[messages.length - 1];
+
+    if (lastMessage.sender === "patient" && lastMessage.emotion) {
+      triggerAvatarEmotionChange(lastMessage.emotion);
+    }
+  }, [messages, triggerAvatarEmotionChange]);
 
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
@@ -515,34 +592,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const patientResponse = getPatientResponse(patientName);
 
         // Update current emotion with smooth crossfade transition
-        if (patientResponse.emotion !== currentEmotion) {
-          // Save current emotion as previous and set next
-          setPreviousEmotion(currentEmotion);
-          setCurrentEmotion(patientResponse.emotion);
-
-          // Start transition only after the new image has loaded to avoid flicker
-          setIsCurrentAvatarLoaded(false);
-
-          // Clear previous timers
-          if (avatarTransitionTimeoutRef.current) {
-            clearTimeout(avatarTransitionTimeoutRef.current);
-          }
-          if (avatarFallbackTimeoutRef.current) {
-            clearTimeout(avatarFallbackTimeoutRef.current);
-          }
-
-          // Fallback: if onLoad doesn't fire quickly, still transition after a delay
-          avatarFallbackTimeoutRef.current = setTimeout(() => {
-            setIsAvatarTransitioning(true);
-            avatarTransitionTimeoutRef.current = setTimeout(() => {
-              setPreviousEmotion(patientResponse.emotion);
-              setIsAvatarTransitioning(false);
-            }, transitionDurationMs + 50);
-          }, 150);
-
-          // onLoad handler (attached below) will clear this fallback and run
-          // the same transition with precise timing
-        }
+          triggerAvatarEmotionChange(patientResponse.emotion);
 
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
@@ -783,68 +833,53 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="flex h-full min-h-0 justify-center lg:justify-start lg:gap-6">
             {/* Patient Avatar - Left area */}
             <div className="hidden lg:flex flex-col items-start justify-start w-48 flex-shrink-0 pt-4">
-              <div className="flex items-center justify-center w-full sticky top-4">
+              <div className="flex flex-col items-center w-full sticky top-4 space-y-3">
                 <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
                   {typedSelectedPatient ? (
                     <div className="relative w-full h-full">
-                      {/* Show only one image when emotions are the same (normal state) */}
-                      {previousEmotion === currentEmotion ? (
-                          <Image
-                          src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
-                          alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                      {/* Show static image when no transition is pending */}
+                      <Image
+                        key={`current-${currentEmotion}`}
+                        src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                        alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                        width={100}
+                        height={100}
+                        className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                        style={{
+                          opacity:
+                            nextEmotion && nextEmotion !== currentEmotion
+                              ? isAvatarTransitioning
+                                ? 0
+                                : 1
+                              : 1,
+                          transition: `opacity ${transitionDurationMs}ms ease-in-out`,
+                        }}
+                      />
+                      {nextEmotion && nextEmotion !== currentEmotion && (
+                        <Image
+                          key={`next-${nextEmotion}`}
+                          src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
+                          alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
                           width={100}
                           height={100}
-                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                          className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
+                          style={{
+                            opacity: isAvatarTransitioning ? 1 : 0,
+                            transition: `opacity ${transitionDurationMs}ms ease-in-out`,
+                          }}
+                          onLoad={() => {
+                            if (!nextEmotion) return;
+
+                            if (avatarTransitionTimeoutRef.current) {
+                              clearTimeout(avatarTransitionTimeoutRef.current);
+                              avatarTransitionTimeoutRef.current = null;
+                            }
+
+                            const targetEmotion = nextEmotion;
+
+                            startAvatarTransition(targetEmotion);
+                          }}
                         />
-                      ) : (
-                        <>
-                          {/* Previous emotion image (visible at start, then fades out) */}
-                          <Image
-                            src={getPatientAvatarPath(typedSelectedPatient.name, previousEmotion)}
-                            alt={`Avatar precedente di ${typedSelectedPatient.name}`}
-                            width={100}
-                            height={100}
-                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
-                            style={{ 
-                              zIndex: 1,
-                              opacity: isAvatarTransitioning ? 0 : 1,
-                              transition: `opacity ${transitionDurationMs}ms ease-in-out`
-                            }}
-                          />
-                          {/* Current emotion image (invisible at start, then fades in) */}
-                          <Image
-                            src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
-                            alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
-                            width={100}
-                            height={100}
-                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
-                            style={{ 
-                              zIndex: 2,
-                              opacity: isAvatarTransitioning ? 1 : 0,
-                              transition: `opacity ${transitionDurationMs}ms ease-in-out`
-                            }}
-                            onLoad={() => {
-                              // Start transition when image is ready
-                              if (!isCurrentAvatarLoaded) {
-                                setIsCurrentAvatarLoaded(true);
-                                setIsAvatarTransitioning(true);
-                                if (avatarFallbackTimeoutRef.current) {
-                                  clearTimeout(avatarFallbackTimeoutRef.current);
-                                  avatarFallbackTimeoutRef.current = null;
-                                }
-
-                                if (avatarTransitionTimeoutRef.current) {
-                                  clearTimeout(avatarTransitionTimeoutRef.current);
-                                }
-
-                                avatarTransitionTimeoutRef.current = setTimeout(() => {
-                                  setPreviousEmotion(currentEmotion);
-                                  setIsAvatarTransitioning(false);
-                                }, transitionDurationMs + 50);
-                              }
-                            }}
-                          />
-                        </>
                       )}
                     </div>
                   ) : (
@@ -865,6 +900,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   >
                     <Maximize2 className="h-3 w-3 text-white" />
                   </Button>
+                </div>
+                <div className="text-center">
+                  <span className="text-sm font-medium text-[var(--color-text-primary)]">
+                    {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
+                  </span>
                 </div>
               </div>
             </div>
