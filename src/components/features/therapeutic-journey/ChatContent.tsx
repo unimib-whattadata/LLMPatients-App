@@ -789,11 +789,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
             <div className="flex flex-col items-center w-full space-y-3 pt-4">
               <div 
-                className="relative rounded-[1.1rem] p-[3px]"
+                className="relative rounded-[1.1rem]"
                 style={{
+                  padding: isAvatarTransitioning ? '4px' : '3px',
                   background: EMOTION_COLORS[nextEmotion ?? currentEmotion],
-                  boxShadow: `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
-                  transition: `background ${transitionDurationMs}ms ease-in-out, box-shadow ${transitionDurationMs}ms ease-in-out`,
+                  boxShadow: isAvatarTransitioning 
+                    ? `0 0 35px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}90, 0 0 70px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}50`
+                    : `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
+                  transition: `all ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
                 }}
               >
                 <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
