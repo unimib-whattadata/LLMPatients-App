@@ -293,6 +293,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const transitionDurationMs = 800;
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Fetch patient data
   const {
@@ -565,6 +566,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         // Force scroll to show patient response
         scrollToBottom(100);
+
+        // Return focus to input after patient responds
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 300);
 
         // Save complete conversation
         saveChatMutation.mutate({
@@ -988,6 +994,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       <div className="flex space-x-2 sm:space-x-3 bg-transparent">
                         <div className="relative flex-1">
                           <Input
+                            ref={inputRef}
                             value={inputMessage}
                             onChange={(e) => setInputMessage(e.target.value)}
                             onKeyPress={handleKeyPress}
