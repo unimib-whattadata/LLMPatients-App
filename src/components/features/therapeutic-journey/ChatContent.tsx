@@ -358,6 +358,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Removed auto-scroll to prevent avatar from jumping
   // Manual scroll is handled in handleSendMessage and other places
 
+  // Scroll to bottom helper function (smooth scroll to avoid avatar jumping)
+  const scrollToBottom = useCallback((delay = 100) => {
+    setTimeout(() => {
+      const container = messagesContainerRef.current;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
+    }, delay);
+  }, []);
+
   // Animate audio only when patient message arrives (not during typing)
   useEffect(() => {
     if (!isAudioPlayerOpen || messages.length === 0) return;
@@ -387,7 +400,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         scrollToBottom(100);
       }, 100);
     }
-  }, [isAudioPlayerOpen]);
+  }, [isAudioPlayerOpen, scrollToBottom]);
 
   // Timer effect
   useEffect(() => {
@@ -400,10 +413,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       if (avatarTransitionTimeoutRef.current) {
         clearTimeout(avatarTransitionTimeoutRef.current);
         avatarTransitionTimeoutRef.current = null;
-      }
-      if (avatarFallbackTimeoutRef.current) {
-        clearTimeout(avatarFallbackTimeoutRef.current);
-        avatarFallbackTimeoutRef.current = null;
       }
     };
   }, []);
@@ -451,19 +460,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       setIsAvatarTransitioning(false);
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
-
-  // Scroll to bottom helper function (smooth scroll to avoid avatar jumping)
-  const scrollToBottom = useCallback((delay = 100) => {
-    setTimeout(() => {
-      const container = messagesContainerRef.current;
-      if (container) {
-        container.scrollTo({
-          top: container.scrollHeight,
-          behavior: 'smooth',
-        });
-      }
-    }, delay);
-  }, []);
 
   // Generate random patient response with emotion
   const getPatientResponse = useCallback(
@@ -544,7 +540,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
     const lastMessage = messages[messages.length - 1];
 
-    if (lastMessage.sender === "patient" && lastMessage.emotion) {
+    if (lastMessage && lastMessage.sender === "patient" && lastMessage.emotion) {
       triggerAvatarEmotionChange(lastMessage.emotion);
     }
   }, [messages, triggerAvatarEmotionChange]);
@@ -645,7 +641,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     getPatientResponse,
     typedSelectedPatient,
     saveChatMutation,
-    currentEmotion,
+    triggerAvatarEmotionChange,
   ]);
 
   const goBack = useCallback(() => {
@@ -837,11 +833,18 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         </header>
 
-        {/* Messages */}
-        <div className="page-background flex-1 min-h-0 overflow-hidden">
-          <div className="flex h-full min-h-0 justify-center lg:justify-start lg:gap-6">
-            {/* Patient Avatar - Left area */}
-            <div className="hidden lg:flex flex-col items-start justify-start w-48 flex-shrink-0 pt-4">
+        {/* Messages - 3 column layout with scroll on column 3 */}
+        <div 
+          ref={messagesContainerRef}
+          className="page-background flex-1 min-h-0 overflow-y-auto chat-scrollbar"
+          dir="ltr"
+          style={{
+            paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
+          }}
+        >
+          <div className="flex min-h-full">
+            {/* Column 1: Patient Avatar - Fixed position within scroll */}
+            <div className="hidden lg:flex flex-col items-start justify-start w-48 flex-shrink-0 p-4">
               <div className="flex flex-col items-center w-full sticky top-4 space-y-3">
                 <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
                   {typedSelectedPatient ? (
@@ -918,62 +921,61 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
 
-            {/* Messages area (scrollable) */}
-            <div 
-              ref={messagesContainerRef}
-              className="flex-1 w-full lg:max-w-4xl p-4 sm:p-6 overflow-y-auto min-h-0 chat-scrollbar"
-              style={{
-                paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
-              }}
-            >
-              <div className="space-y-4 sm:space-y-6">
-                {messages.map((message) => (
-                  <div
-                    key={message.id}
-                    className={`flex ${
-                      message.sender === "user" ? "justify-end" : "justify-start"
-                    }`}
-                  >
+            {/* Column 2: Messages area (center) */}
+            <div className="flex-1 p-4 sm:p-6">
+              <div className="w-full lg:max-w-4xl mx-auto">
+                <div className="space-y-4 sm:space-y-6">
+                  {messages.map((message) => (
                     <div
-                      className={`flex max-w-2xl space-x-3 ${
-                        message.sender === "user"
-                          ? "flex-row-reverse space-x-reverse"
-                          : "flex-row"
+                      key={message.id}
+                      className={`flex ${
+                        message.sender === "user" ? "justify-end" : "justify-start"
                       }`}
                     >
-                      {/* Message bubble */}
                       <div
-                        className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
-                          message.sender === "patient"
-                            ? "chat-bubble--patient"
-                            : message.sender === "user"
-                              ? "chat-bubble--user"
-                              : ""
+                        className={`flex max-w-2xl space-x-3 ${
+                          message.sender === "user"
+                            ? "flex-row-reverse space-x-reverse"
+                            : "flex-row"
                         }`}
                       >
-                        <p className="text-body text-sm sm:text-base">
-                          {message.content}
-                        </p>
+                        {/* Message bubble */}
+                        <div
+                          className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
+                            message.sender === "patient"
+                              ? "chat-bubble--patient"
+                              : message.sender === "user"
+                                ? "chat-bubble--user"
+                                : ""
+                          }`}
+                        >
+                          <p className="text-body text-sm sm:text-base">
+                            {message.content}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
 
-                {isTyping && (
-                  <div className="mb-4 flex justify-start">
-                    <div className="chat-typing-indicator rounded-lg px-4 py-3">
-                      <div className="flex space-x-1">
-                        <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                        <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                        <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                  {isTyping && (
+                    <div className="mb-4 flex justify-start">
+                      <div className="chat-typing-indicator rounded-lg px-4 py-3">
+                        <div className="flex space-x-1">
+                          <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                          <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                          <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                <div ref={messagesEndRef} />
+                  <div ref={messagesEndRef} />
+                </div>
               </div>
             </div>
+
+            {/* Column 3: Empty space where scrollbar appears (same width as column 1) */}
+            <div className="hidden lg:block w-48 flex-shrink-0" aria-hidden="true"></div>
 
           </div>
         </div>
@@ -1000,7 +1002,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     
                     {/* Audio Waveform Visualization */}
                     <div className="flex items-center justify-between w-full space-x-1 h-20 px-4">
-                      {[...Array(80)].map((_, i) => {
+                      {Array.from({ length: 80 }, (_, i) => {
                         // Create more dynamic wave patterns
                         const baseHeight = 4; // Flat when not animating
                         const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);

@@ -6,10 +6,7 @@ import type {
 } from "./Navbar";
 import {
   Search,
-  Home,
   Users,
-  UserCircle,
-  Clock,
   Map,
   FileText,
   UserPlus,
