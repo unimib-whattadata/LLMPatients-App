@@ -5,7 +5,7 @@
   "background": "Un uomo single di 28 anni con disturbo d'ansia generalizzato, che sta vivendo ritiro sociale, comportamenti di evitamento e difficoltà nel gestire le attività quotidiane dal trauma infantile.",
   "objectives": ["Ridurre l'ansia pervasiva", "Ripristinare il funzionamento quotidiano e la cura di sé", "Migliorare il sonno", "Espandere l'impegno sociale"],
   "tags": ["Ansia", "Ritiro Sociale", "Evitamento"],
-  "avatarUrl": "/images/patients/todd.png",
+  "avatarUrl": "/images/patients/todd/base.png",
   "avatarType": "illustration",
   "difficulty": "Medio",
   "estimatedDuration": 45,

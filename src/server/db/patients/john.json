@@ -2,7 +2,7 @@
   "name": "John",
   "background": "Un uomo di 58 anni sposato che lotta con depressione e disturbo da alimentazione incontrollata, che sta vivendo stress finanziario e disfunzione sessuale legata ai farmaci che sta mettendo a dura prova il suo matrimonio.",
   "small_description": "Disturbo dell'Adattamento",
-  "avatarUrl": "/images/patients/john.png",
+  "avatarUrl": "/images/patients/john/base.png",
   "avatarType": "illustration",
   "difficulty": "Difficile",
   "estimatedDuration": 60,

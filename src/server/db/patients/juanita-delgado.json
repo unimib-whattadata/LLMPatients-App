@@ -1,6 +1,6 @@
 {
   "id": "juanita-delgado",
-  "name": "Juanita Delgado",
+  "name": "Juanita",
   "small_description": "Disturbo di Personalità",
   "details": {
     "demographic_sociocultural_information": {
@@ -119,7 +119,7 @@
   },
   "background": "Una donna ispanica di 33 anni con un profilo psicologico complesso che presenta disturbo borderline di personalità e disturbo depressivo maggiore. Ha una storia di multiple tentativi di trattamento, comportamenti autolesionistici e isolamento sociale. Il suo background include una famiglia di immigrati della classe medio-alta che enfatizzava il successo professionale, contribuendo alle sue attuali lotte con identità, relazioni e stabilità di carriera.",
   "objectives": ["Stabilizzare l'umore e ridurre i sintomi depressivi", "Sviluppare meccanismi di coping sani", "Migliorare le relazioni interpersonali e il funzionamento sociale", "Affrontare i comportamenti autolesionistici e l'ideazione suicidaria", "Costruire routine quotidiane sostenibili e abitudini lavorative", "Migliorare la consapevolezza di sé e la regolazione emotiva"],
-  "avatarUrl": "/images/patients/juanita.png",
+  "avatarUrl": "/images/patients/juanita/base.png",
   "avatarType": "illustration",
   "difficulty": "Difficile",
   "estimatedDuration": 45,

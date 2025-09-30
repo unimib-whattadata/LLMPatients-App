@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2 } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -232,6 +232,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
   const [isAudioAnimating, setIsAudioAnimating] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
+  const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch patient data
@@ -637,35 +638,16 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <div className="flex min-w-0 items-center space-x-2 sm:space-x-3">
-                <div className="therapy-session-avatar flex-shrink-0">
-                  {typedSelectedPatient?.avatarUrl ? (
-                    <Image
-                      src={typedSelectedPatient.avatarUrl}
-                      alt={`Avatar di ${typedSelectedPatient.name}`}
-                      width={40}
-                      height={40}
-                      className="rounded-lg object-cover"
-                    />
-                  ) : (
-                    <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg font-bold text-white ${patientAvatar?.colorClass || "avatar-color-default"}`}
-                    >
-                      {patientAvatar?.initials}
-                    </div>
-                  )}
-                </div>
-                <div className="min-w-0">
-                  <h1 className="text-heading-3 truncate text-[var(--color-text-primary)]">
-                    <span className="hidden sm:inline">
-                      {typedSelectedPatient?.name} -{" "}
-                    </span>
-                    Sessione {stepId}
-                  </h1>
-                  <p className="text-sm text-[var(--color-text-primary)]/70">
-                    {currentDateString}
-                  </p>
-                </div>
+              <div className="min-w-0">
+                <h1 className="text-heading-3 truncate text-[var(--color-text-primary)]">
+                  <span className="hidden sm:inline">
+                    {typedSelectedPatient?.name} -{" "}
+                  </span>
+                  Sessione {stepId}
+                </h1>
+                <p className="text-sm text-[var(--color-text-primary)]/70">
+                  {currentDateString}
+                </p>
               </div>
             </div>
             <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
@@ -697,60 +679,103 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         {/* Messages */}
         <div
-          className="page-background flex-1 overflow-y-auto p-4 sm:p-6"
+          className="page-background flex-1 overflow-y-auto"
           role="log"
           aria-label="Messaggi della conversazione"
           aria-live="polite"
-          style={{
-            paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
-          }}
         >
-          <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${
-                  message.sender === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                <div
-                  className={`flex max-w-2xl space-x-3 ${
-                    message.sender === "user"
-                      ? "flex-row-reverse space-x-reverse"
-                      : "flex-row"
-                  }`}
-                >
-                  {/* Message bubble */}
+          <div className="flex h-full justify-center">
+            {/* Patient Avatar - Left area */}
+            <div className="hidden lg:flex flex-col items-center justify-center w-48 flex-shrink-0">
+              <div className="flex items-center justify-center w-full">
+                <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
+                  {typedSelectedPatient?.avatarUrl ? (
+                    <Image
+                      src={typedSelectedPatient.avatarUrl}
+                      alt={`Avatar di ${typedSelectedPatient.name}`}
+                      width={100}
+                      height={100}
+                      className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                    />
+                  ) : (
+                    <div
+                      className={`flex h-25 w-25 items-center justify-center rounded-[1.1rem] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
+                    >
+                      {patientAvatar?.initials}
+                    </div>
+                  )}
+                  {/* Expand icon */}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setIsAvatarExpanded(true)}
+                    className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
+                    aria-label="Espandi avatar"
+                  >
+                    <Maximize2 className="h-3 w-3 text-white" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Messages area */}
+            <div 
+              className="flex-1 max-w-4xl p-4 sm:p-6"
+              style={{
+                paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
+              }}
+            >
+              <div className="space-y-4 sm:space-y-6">
+                {messages.map((message) => (
                   <div
-                    className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
-                      message.sender === "patient"
-                        ? "chat-bubble--patient"
-                        : message.sender === "user"
-                          ? "chat-bubble--user"
-                          : ""
+                    key={message.id}
+                    className={`flex ${
+                      message.sender === "user" ? "justify-end" : "justify-start"
                     }`}
                   >
-                    <p className="text-body text-sm sm:text-base">
-                      {message.content}
-                    </p>
+                    <div
+                      className={`flex max-w-2xl space-x-3 ${
+                        message.sender === "user"
+                          ? "flex-row-reverse space-x-reverse"
+                          : "flex-row"
+                      }`}
+                    >
+                      {/* Message bubble */}
+                      <div
+                        className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
+                          message.sender === "patient"
+                            ? "chat-bubble--patient"
+                            : message.sender === "user"
+                              ? "chat-bubble--user"
+                              : ""
+                        }`}
+                      >
+                        <p className="text-body text-sm sm:text-base">
+                          {message.content}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))}
+                ))}
 
-            {isTyping && (
-              <div className="mb-4 flex justify-start">
-                <div className="chat-typing-indicator rounded-lg px-4 py-3">
-                  <div className="flex space-x-1">
-                    <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                    <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                    <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                {isTyping && (
+                  <div className="mb-4 flex justify-start">
+                    <div className="chat-typing-indicator rounded-lg px-4 py-3">
+                      <div className="flex space-x-1">
+                        <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                        <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                        <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            )}
+                )}
 
-            <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} />
+              </div>
+            </div>
+
+            {/* Right spacer for balance */}
+            <div className="hidden lg:block w-48 flex-shrink-0"></div>
           </div>
         </div>
 
@@ -890,6 +915,41 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               Torna alla Timeline
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Avatar Expanded Dialog */}
+      <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
+        <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
+          <DialogHeader className="sr-only">
+            <DialogTitle>Avatar del paziente {typedSelectedPatient?.name}</DialogTitle>
+          </DialogHeader>
+          <div className="relative">
+            {typedSelectedPatient?.avatarUrl ? (
+              <Image
+                src={typedSelectedPatient.avatarUrl}
+                alt={`Avatar di ${typedSelectedPatient.name}`}
+                width={600}
+                height={600}
+                className="w-full h-auto object-cover"
+              />
+            ) : (
+              <div
+                className={`flex w-full aspect-square items-center justify-center font-bold text-white text-9xl ${patientAvatar?.colorClass || "avatar-color-default"}`}
+              >
+                {patientAvatar?.initials}
+              </div>
+            )}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsAvatarExpanded(false)}
+              className="absolute top-2 right-2 h-8 w-8 p-0 bg-black/40 hover:bg-black/60"
+              aria-label="Chiudi"
+            >
+              <X className="h-4 w-4 text-white" />
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </SharedLayout>
