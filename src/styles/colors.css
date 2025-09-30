@@ -83,6 +83,11 @@
   --color-border-success: var(--color-success);
   --color-focus-ring: rgba(139, 151, 105, 0.45);
   --color-focus-ring-strong: rgba(139, 151, 105, 0.6);
+  
+  /* ===== CHAT BUBBLE COLORS ===== */
+  /* Chat message bubble colors */
+  --color-chat-bubble-patient: #453614;
+  --color-chat-bubble-user: #313525;
 }
 
 /* ===== MODERN CSS CUSTOM PROPERTIES ===== */

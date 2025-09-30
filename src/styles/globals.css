@@ -672,4 +672,23 @@ html, body {
 }
 
 
+/* Audio Waveform Animation - Enhanced */
+@keyframes audioWave {
+  0% {
+    transform: scaleY(0.4);
+  }
+  25% {
+    transform: scaleY(1.2);
+  }
+  50% {
+    transform: scaleY(0.6);
+  }
+  75% {
+    transform: scaleY(1.4);
+  }
+  100% {
+    transform: scaleY(0.4);
+  }
+}
+
 /* Skeleton animations are defined in components.css */

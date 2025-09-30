@@ -7,7 +7,15 @@ import { api } from "~/trpc/react";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import { ArrowLeft, Check, Loader2, Send } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~/components/ui/dialog";
+import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2 } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -165,6 +173,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [sessionTime, setSessionTime] = useState(0); // Timer in seconds
+  const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
+  const [isAudioAnimating, setIsAudioAnimating] = useState(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Fetch patient data
@@ -235,6 +246,36 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }, 100);
   }, [messages, isTyping]);
 
+  // Animate audio only when patient message arrives (not during typing)
+  useEffect(() => {
+    if (!isAudioPlayerOpen || messages.length === 0) return;
+    
+    // Get the last message
+    const lastMessage = messages[messages.length - 1];
+    
+    // Only animate if the last message is from the patient
+    if (lastMessage && lastMessage.sender === "patient") {
+      setIsAudioAnimating(true);
+      
+      // Stop animation after 3 seconds
+      const timer = setTimeout(() => {
+        setIsAudioAnimating(false);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [messages, isAudioPlayerOpen]);
+
+  // Scroll chat when audio player opens to avoid overlaps
+  useEffect(() => {
+    if (isAudioPlayerOpen) {
+      // Wait for the audio player to render, then scroll
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [isAudioPlayerOpen]);
+
   // Timer effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -257,9 +298,21 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }));
       setMessages(messagesWithDates);
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
+      // Patient-specific welcome messages based on psychological profiles
+      const welcomeMessages: Record<string, string> = {
+        John: "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
+        "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
+        Todd: "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
+      };
+
+      const patientName = typedSelectedPatient.name || "";
+      const welcomeContent =
+        welcomeMessages[patientName] ||
+        `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`;
+
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
-        content: `Ciao! Sono ${typedSelectedPatient.name || "il tuo paziente"}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`,
+        content: welcomeContent,
         sender: "patient",
         timestamp: new Date(),
         stepId,
@@ -321,13 +374,48 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     // Generate patient response after delay
     setTimeout(
       () => {
-        const responses = [
-          "Interessante punto di vista. Puoi elaborare ulteriormente?",
-          "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
-          "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
-          "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
-          "Mi sembra che stai facendo progressi. Continua così!",
-        ];
+        // Patient-specific responses based on psychological profiles
+        const patientResponses: Record<string, string[]> = {
+          John: [
+            "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.",
+            "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.",
+            "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?",
+            "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.",
+            "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.",
+            "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.",
+            "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.",
+          ],
+          "Juanita Delgado": [
+            "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.",
+            "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.",
+            "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.",
+            "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.",
+            "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.",
+            "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.",
+            "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?",
+            "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.",
+          ],
+          Todd: [
+            "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.",
+            "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.",
+            "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...",
+            "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.",
+            "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.",
+            "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.",
+            "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.",
+            "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.",
+          ],
+        };
+
+        // Get responses for current patient, fallback to generic responses
+        const patientName = typedSelectedPatient?.name || "";
+        const responses =
+          patientResponses[patientName] || [
+            "Interessante punto di vista. Puoi elaborare ulteriormente?",
+            "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
+            "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
+            "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
+          ];
 
         const randomResponse =
           responses[Math.floor(Math.random() * responses.length)] ||
@@ -398,9 +486,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         therapySessionId: typedTherapySession.id,
       });
 
-      // Show success message or redirect
-      alert(`Sessione ${stepId} completata con successo!`);
-      goBack();
+      // Show success dialog
+      setIsSuccessDialogOpen(true);
     } catch (error) {
       console.error("Error completing step:", error);
 
@@ -420,6 +507,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         alert("Errore nel completare la sessione. Riprova.");
       }
     }
+  };
+
+  const handleCloseSuccessDialog = () => {
+    setIsSuccessDialogOpen(false);
+    goBack();
   };
 
   if (
@@ -564,6 +656,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           role="log"
           aria-label="Messaggi della conversazione"
           aria-live="polite"
+          style={{
+            paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
+          }}
         >
           <div className="mx-auto max-w-4xl space-y-4 sm:space-y-6">
             {messages.map((message) => (
@@ -618,24 +713,86 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {!isStepCompleted && (
           <div className="flex-shrink-0 p-4 sm:p-6">
             <div className="mx-auto max-w-4xl">
-              <div className="flex space-x-2 sm:space-x-3">
-                <Input
-                  value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
-                  onKeyPress={handleKeyPress}
-                  placeholder="Inizia la conversazione"
-                  disabled={isTyping}
-                  className="flex-1 text-sm sm:text-base"
-                  aria-label="Messaggio da inviare"
-                />
-                <Button
-                  onClick={() => void handleSendMessage()}
-                  disabled={!inputMessage.trim() || isTyping}
-                  className="chat-send-button" size="icon"
-                  aria-label="Invia messaggio"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
+              <div className="relative">
+                {/* Audio Player - appears above input */}
+                {isAudioPlayerOpen && (
+                  <div className="absolute bottom-full left-0 right-0 mb-3 rounded-lg bg-[var(--color-card-background)] p-4 shadow-lg border border-[var(--color-border)]">
+                    <div className="flex items-center justify-end mb-3">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setIsAudioPlayerOpen(false)}
+                        className="h-6 w-6 p-0 hover:bg-[var(--color-primary-green)]/10"
+                        aria-label="Chiudi audio player"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
+                    {/* Audio Waveform Visualization */}
+                    <div className="flex items-center justify-between w-full space-x-1 h-20 px-4">
+                      {[...Array(80)].map((_, i) => {
+                        // Create more dynamic wave patterns
+                        const baseHeight = 4; // Flat when not animating
+                        const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
+                        
+                        return (
+                          <div
+                            key={i}
+                            className="w-1 rounded-full transition-all duration-300"
+                            style={{
+                              height: isAudioAnimating
+                                ? `${animatedHeight}px`
+                                : `${baseHeight}px`,
+                              background: isAudioAnimating
+                                ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
+                                : "rgba(236, 236, 236, 0.2)",
+                              animation: isAudioAnimating
+                                ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
+                                : "none",
+                              transformOrigin: "center",
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex space-x-2 sm:space-x-3">
+                  <div className="relative flex-1">
+                    <Input
+                      value={inputMessage}
+                      onChange={(e) => setInputMessage(e.target.value)}
+                      onKeyPress={handleKeyPress}
+                      placeholder="Inizia la conversazione"
+                      disabled={isTyping}
+                      className="flex-1 text-sm sm:text-base pr-10 h-11"
+                      aria-label="Messaggio da inviare"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
+                      className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
+                        isAudioPlayerOpen 
+                          ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
+                          : "hover:bg-[var(--color-primary-green)]/10"
+                      }`}
+                      aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
+                    >
+                      <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
+                    </Button>
+                  </div>
+                  <Button
+                    onClick={() => void handleSendMessage()}
+                    disabled={!inputMessage.trim() || isTyping}
+                    className="chat-send-button h-11 w-11"
+                    aria-label="Invia messaggio"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -657,6 +814,39 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         )}
       </div>
+
+      {/* Success Dialog */}
+      <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
+        <DialogContent className="sm:max-w-md [&>div]:!animate-none !animate-none">
+          <DialogHeader>
+            <div className="flex items-center justify-center mb-4">
+              <div className="rounded-full bg-[var(--color-primary-green)]/10 p-3">
+                <CheckCircle2 className="h-8 w-8 text-[var(--color-primary-green)]" />
+              </div>
+            </div>
+            <DialogTitle className="text-center text-xl">
+              Sessione Completata!
+            </DialogTitle>
+            <DialogDescription className="text-center pt-2">
+              Hai completato con successo la Sessione {stepId} con{" "}
+              {typedSelectedPatient?.name}.
+              <br />
+              <span className="text-sm text-[var(--color-text-primary)]/60 mt-2 block">
+                Le tue note sono state salvate e puoi rivederle in qualsiasi momento.
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-center">
+            <Button
+              onClick={handleCloseSuccessDialog}
+              className="w-full sm:w-auto"
+              size="lg"
+            >
+              Torna alla Timeline
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SharedLayout>
   );
 }
