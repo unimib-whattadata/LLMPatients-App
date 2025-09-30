@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { api } from "~/trpc/react";
@@ -95,6 +95,62 @@ function formatSessionTime(seconds: number): string {
   const remainingSeconds = seconds % 60;
   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
+
+/**
+ * Patient-specific responses based on psychological profiles
+ * Extracted as constant to avoid recreation on each render
+ */
+const PATIENT_RESPONSES: Record<string, string[]> = {
+  John: [
+    "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.",
+    "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.",
+    "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?",
+    "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.",
+    "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.",
+    "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.",
+    "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.",
+  ],
+  "Juanita Delgado": [
+    "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.",
+    "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.",
+    "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.",
+    "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.",
+    "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.",
+    "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.",
+    "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?",
+    "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.",
+  ],
+  Todd: [
+    "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.",
+    "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.",
+    "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...",
+    "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.",
+    "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.",
+    "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.",
+    "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.",
+    "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.",
+  ],
+};
+
+/**
+ * Patient-specific welcome messages based on psychological profiles
+ * Extracted as constant to avoid recreation on each render
+ */
+const WELCOME_MESSAGES: Record<string, string> = {
+  John: "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
+  "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
+  Todd: "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
+};
+
+/**
+ * Generic fallback responses for patients not in the predefined list
+ */
+const GENERIC_RESPONSES = [
+  "Interessante punto di vista. Puoi elaborare ulteriormente?",
+  "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
+  "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
+  "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
+];
 
 /**
  * Generates a consistent avatar placeholder for patients based on their name
@@ -225,10 +281,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Get utils for invalidating queries
   const utils = api.useUtils();
 
-  // Generate patient avatar data once
-  const patientAvatar = typedSelectedPatient
-    ? generatePatientAvatar(typedSelectedPatient.name)
-    : { colorClass: "avatar-color-default", initials: "P" };
+  // Memoize patient avatar to avoid recalculation on each render
+  const patientAvatar = useMemo(
+    () =>
+      typedSelectedPatient
+        ? generatePatientAvatar(typedSelectedPatient.name)
+        : { colorClass: "avatar-color-default", initials: "P" },
+    [typedSelectedPatient],
+  );
 
   // Check if current step is completed
   const isStepCompleted = useMemo(() => {
@@ -298,16 +358,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }));
       setMessages(messagesWithDates);
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
-      // Patient-specific welcome messages based on psychological profiles
-      const welcomeMessages: Record<string, string> = {
-        John: "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
-        "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
-        Todd: "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
-      };
-
       const patientName = typedSelectedPatient.name || "";
       const welcomeContent =
-        welcomeMessages[patientName] ||
+        WELCOME_MESSAGES[patientName] ||
         `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`;
 
       const welcomeMessage: ChatMessage = {
@@ -321,7 +374,26 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
 
-  const handleSendMessage = async () => {
+  // Scroll to bottom helper function
+  const scrollToBottom = useCallback((delay = 100) => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, delay);
+  }, []);
+
+  // Generate random patient response
+  const getPatientResponse = useCallback(
+    (patientName: string) => {
+      const responses = PATIENT_RESPONSES[patientName] || GENERIC_RESPONSES;
+      return (
+        responses[Math.floor(Math.random() * responses.length)] ||
+        "Mi dispiace, non riesco a rispondere in questo momento."
+      );
+    },
+    [],
+  );
+
+  const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
 
     const messageText = inputMessage.trim();
@@ -341,17 +413,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setMessages(updatedMessages);
 
     // Force immediate scroll to show user message
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 50);
+    scrollToBottom(50);
 
     // Show typing indicator after user message is visible
     setTimeout(() => {
       setIsTyping(true);
-      // Scroll to show typing indicator
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 50);
+      scrollToBottom(50);
     }, 200);
 
     // Save user message to database
@@ -374,52 +441,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     // Generate patient response after delay
     setTimeout(
       () => {
-        // Patient-specific responses based on psychological profiles
-        const patientResponses: Record<string, string[]> = {
-          John: [
-            "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.",
-            "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.",
-            "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?",
-            "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.",
-            "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.",
-            "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.",
-            "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.",
-          ],
-          "Juanita Delgado": [
-            "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.",
-            "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.",
-            "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.",
-            "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.",
-            "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.",
-            "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.",
-            "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?",
-            "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.",
-          ],
-          Todd: [
-            "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.",
-            "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.",
-            "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...",
-            "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.",
-            "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.",
-            "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.",
-            "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.",
-            "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.",
-          ],
-        };
-
-        // Get responses for current patient, fallback to generic responses
         const patientName = typedSelectedPatient?.name || "";
-        const responses =
-          patientResponses[patientName] || [
-            "Interessante punto di vista. Puoi elaborare ulteriormente?",
-            "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
-            "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
-            "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
-          ];
-
-        const randomResponse =
-          responses[Math.floor(Math.random() * responses.length)] ||
-          "Mi dispiace, non riesco a rispondere in questo momento.";
+        const randomResponse = getPatientResponse(patientName);
 
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
@@ -435,9 +458,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         setIsTyping(false);
 
         // Force scroll to show patient response
-        setTimeout(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-        }, 100);
+        scrollToBottom(100);
 
         // Save complete conversation
         saveChatMutation.mutate({
@@ -454,25 +475,28 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       },
       2000 + Math.random() * 2000,
     ); // 2-4 seconds delay
-  };
+  }, [
+    inputMessage,
+    isTyping,
+    typedTherapySession,
+    stepId,
+    messages,
+    scrollToBottom,
+    getPatientResponse,
+    typedSelectedPatient,
+    saveChatMutation,
+  ]);
 
-  const handleKeyPress = async (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      await handleSendMessage();
-    }
-  };
-
-  const goBack = () => {
+  const goBack = useCallback(() => {
     if (typedSelectedPatient) {
       const patientSlug = createPatientSlug(typedSelectedPatient.name);
       router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}`);
     } else {
       router.push(`/dashboard/therapeutic-journey`);
     }
-  };
+  }, [typedSelectedPatient, sessionId, router]);
 
-  const handleCompleteStep = async () => {
+  const handleCompleteStep = useCallback(async () => {
     if (!typedTherapySession) return;
 
     try {
@@ -507,19 +531,40 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         alert("Errore nel completare la sessione. Riprova.");
       }
     }
-  };
+  }, [typedTherapySession, stepId, markStepDoneMutation, utils]);
 
-  const handleCloseSuccessDialog = () => {
+  const handleCloseSuccessDialog = useCallback(() => {
     setIsSuccessDialogOpen(false);
     goBack();
-  };
+  }, [goBack]);
 
-  if (
-    patientLoading ||
-    therapySessionLoading ||
-    chatLoading ||
-    completedStepsLoading
-  ) {
+  const handleKeyPress = useCallback(
+    async (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        await handleSendMessage();
+      }
+    },
+    [handleSendMessage],
+  );
+
+  // Memoize loading state
+  const isLoading = useMemo(
+    () =>
+      patientLoading ||
+      therapySessionLoading ||
+      chatLoading ||
+      completedStepsLoading,
+    [patientLoading, therapySessionLoading, chatLoading, completedStepsLoading],
+  );
+
+  // Memoize current date string
+  const currentDateString = useMemo(
+    () => new Date().toLocaleDateString("it-IT"),
+    [],
+  );
+
+  if (isLoading) {
     return (
       <SharedLayout
         user={user}
@@ -618,7 +663,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     Sessione {stepId}
                   </h1>
                   <p className="text-sm text-[var(--color-text-primary)]/70">
-                    {new Date().toLocaleDateString("it-IT")}
+                    {currentDateString}
                   </p>
                 </div>
               </div>
