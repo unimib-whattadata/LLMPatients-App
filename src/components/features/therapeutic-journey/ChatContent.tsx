@@ -532,7 +532,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
             <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
-              <div className="pill bg-primary-green-20 text-primary-green px-2 py-1 sm:px-3">
+              <div className="pill bg-primary-green text-white px-2 py-1 sm:px-3">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -645,7 +645,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {isStepCompleted && (
           <div className="navbar-background flex-shrink-0 p-6">
             <div className="mx-auto max-w-4xl text-center">
-              <div className="pill bg-primary-green-20 text-primary-green px-4 py-3">
+              <div className="pill bg-primary-green text-white px-4 py-3">
                 <p className="flex items-center justify-center gap-2 text-sm font-medium">
                   <Check className="h-4 w-4" aria-hidden="true" />
                   <span>
