@@ -13,11 +13,11 @@ const isDev = env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {
-    default: "llmpatient - Piattaforma di Simulazione Medica",
-    template: "%s | llmpatient",
+    default: "LLMPatient - Piattaforma di Simulazione di Pazienti",
+    template: "%s | LLMPatient",
   },
   description:
-    "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
+    "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
   keywords: [
     "simulazione medica",
     "formazione sanitaria",
@@ -43,24 +43,24 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     url: "https://llmpatient.whattadata.it",
-    siteName: "llmpatient",
-    title: "llmpatient - Piattaforma di Simulazione Medica",
+    siteName: "LLMPatient",
+    title: "LLMPatient - Piattaforma di Simulazione di Pazienti",
     description:
-      "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
+      "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "llmpatient - Piattaforma di Simulazione Medica",
+        alt: "LLMPatient - Piattaforma di Simulazione di Pazienti",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "llmpatient - Piattaforma di Simulazione Medica",
+    title: "LLMPatient - Piattaforma di Simulazione di Pazienti",
     description:
-      "Piattaforma avanzata di simulazione medica per la formazione sanitaria.",
+      "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria.",
     images: ["/images/twitter-image.png"],
   },
   robots: {

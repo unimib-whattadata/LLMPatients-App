@@ -42,26 +42,27 @@ export function getNavSections(
   // For admins, show admin navigation with separate sections
   if (user.role === "admin") {
     return [
-      {
-        title: "Dashboard",
-        items: [
-          {
-            label: "Panoramica",
-            href: "/dashboard/user?section=overview",
-            icon: Home,
-          },
-          {
-            label: "Il Mio Profilo",
-            href: "/dashboard/user?section=profile",
-            icon: UserCircle,
-          },
-          {
-            label: "La Mia Attività",
-            href: "/dashboard/user?section=activities",
-            icon: Clock,
-          },
-        ],
-      },
+      // Dashboard section hidden - contains Panoramica, Il Mio Profilo, La Mia Attività
+      // {
+      //   title: "Dashboard",
+      //   items: [
+      //     {
+      //       label: "Panoramica",
+      //       href: "/dashboard/user?section=overview",
+      //       icon: Home,
+      //     },
+      //     {
+      //       label: "Il Mio Profilo",
+      //       href: "/dashboard/user?section=profile",
+      //       icon: UserCircle,
+      //     },
+      //     {
+      //       label: "La Mia Attività",
+      //       href: "/dashboard/user?section=activities",
+      //       icon: Clock,
+      //     },
+      //   ],
+      // },
       {
         title: "Gestione Utenti",
         items: [
@@ -101,26 +102,27 @@ export function getNavSections(
   } else {
     // Regular user - show user navigation
     return [
-      {
-        title: "Dashboard",
-        items: [
-          {
-            label: "Panoramica",
-            href: "/dashboard/user?section=overview",
-            icon: Home,
-          },
-          {
-            label: "Il Mio Profilo",
-            href: "/dashboard/user?section=profile",
-            icon: UserCircle,
-          },
-          {
-            label: "La Mia Attività",
-            href: "/dashboard/user?section=activities",
-            icon: Clock,
-          },
-        ],
-      },
+      // Dashboard section hidden - contains Panoramica, Il Mio Profilo, La Mia Attività
+      // {
+      //   title: "Dashboard",
+      //   items: [
+      //     {
+      //       label: "Panoramica",
+      //       href: "/dashboard/user?section=overview",
+      //       icon: Home,
+      //     },
+      //     {
+      //       label: "Il Mio Profilo",
+      //       href: "/dashboard/user?section=profile",
+      //       icon: UserCircle,
+      //     },
+      //     {
+      //       label: "La Mia Attività",
+      //       href: "/dashboard/user?section=activities",
+      //       icon: Clock,
+      //     },
+      //   ],
+      // },
       {
         title: "Gestione Pazienti",
         items: [

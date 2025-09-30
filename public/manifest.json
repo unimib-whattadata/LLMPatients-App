@@ -1,7 +1,7 @@
 {
-  "name": "llmpatient - Piattaforma di Simulazione Medica",
-  "short_name": "llmpatient",
-  "description": "Piattaforma avanzata di simulazione medica per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
+  "name": "LLMPatient - Piattaforma di Simulazione di Pazienti",
+  "short_name": "LLMPatient",
+  "description": "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f6f7ef",

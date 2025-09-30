@@ -13,6 +13,9 @@ import { auth } from "~/server/auth";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { PatientGridWrapper } from "~/components/features/explore-patients/PatientGridWrapper";
 import { HydrateClient } from "~/trpc/server";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "~/components/ui/button";
 
 /**
  * Explore Patients Page Component
@@ -55,6 +58,17 @@ export default async function ExplorePatientsPage() {
               aria-labelledby="patients-title"
             >
               <div className="section-container">
+                {/* Back link for authenticated users */}
+                {user && (
+                  <div className="mb-6">
+                    <Button asChild variant="ghost" size="sm" className="gap-2">
+                      <Link href="/dashboard/therapeutic-journey">
+                        <ArrowLeft className="h-4 w-4" />
+                        Torna al percorso terapeutico
+                      </Link>
+                    </Button>
+                  </div>
+                )}
                 <header>
                   <h1 id="patients-title">I pazienti</h1>
                   <p
