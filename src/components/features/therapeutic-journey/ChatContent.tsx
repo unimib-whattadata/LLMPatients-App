@@ -71,12 +71,21 @@ interface ChatContentProps {
   impersonation?: ImpersonationContext;
 }
 
+// Emotion types for patient avatars
+type PatientEmotion = "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
+
+interface PatientResponse {
+  message: string;
+  emotion: PatientEmotion;
+}
+
 interface ChatMessage {
   id: string;
   content: string;
   sender: "user" | "patient";
   timestamp: Date | string;
   stepId: number;
+  emotion?: PatientEmotion; // Optional emotion for patient messages
 }
 
 /**
@@ -97,38 +106,38 @@ function formatSessionTime(seconds: number): string {
 }
 
 /**
- * Patient-specific responses based on psychological profiles
+ * Patient-specific responses based on psychological profiles with emotions
  * Extracted as constant to avoid recreation on each render
  */
-const PATIENT_RESPONSES: Record<string, string[]> = {
+const PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
   John: [
-    "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.",
-    "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.",
-    "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?",
-    "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.",
-    "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.",
-    "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.",
-    "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.",
+    { message: "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.", emotion: "sadness" },
+    { message: "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.", emotion: "sadness" },
+    { message: "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?", emotion: "anticipation" },
+    { message: "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.", emotion: "sadness" },
+    { message: "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.", emotion: "sadness" },
+    { message: "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.", emotion: "disgust" },
+    { message: "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.", emotion: "sadness" },
   ],
   "Juanita Delgado": [
-    "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.",
-    "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.",
-    "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.",
-    "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.",
-    "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.",
-    "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.",
-    "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?",
-    "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.",
+    { message: "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.", emotion: "sadness" },
+    { message: "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.", emotion: "anger" },
+    { message: "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.", emotion: "sadness" },
+    { message: "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.", emotion: "sadness" },
+    { message: "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.", emotion: "anger" },
+    { message: "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.", emotion: "sadness" },
+    { message: "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?", emotion: "disgust" },
+    { message: "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.", emotion: "anger" },
   ],
   Todd: [
-    "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.",
-    "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.",
-    "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...",
-    "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.",
-    "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.",
-    "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.",
-    "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.",
-    "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.",
+    { message: "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.", emotion: "sadness" },
+    { message: "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.", emotion: "anticipation" },
+    { message: "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...", emotion: "anticipation" },
+    { message: "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.", emotion: "sadness" },
+    { message: "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.", emotion: "sadness" },
+    { message: "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.", emotion: "anticipation" },
+    { message: "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.", emotion: "sadness" },
+    { message: "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.", emotion: "sadness" },
   ],
 };
 
@@ -145,12 +154,41 @@ const WELCOME_MESSAGES: Record<string, string> = {
 /**
  * Generic fallback responses for patients not in the predefined list
  */
-const GENERIC_RESPONSES = [
-  "Interessante punto di vista. Puoi elaborare ulteriormente?",
-  "Capisco la tua preoccupazione. Come ti senti riguardo a questo?",
-  "È un aspetto importante da considerare. Cosa pensi che potremmo fare?",
-  "Grazie per aver condiviso questo con me. Vuoi parlarne di più?",
+const GENERIC_RESPONSES: PatientResponse[] = [
+  { message: "Interessante punto di vista. Puoi elaborare ulteriormente?", emotion: "base" },
+  { message: "Capisco la tua preoccupazione. Come ti senti riguardo a questo?", emotion: "base" },
+  { message: "È un aspetto importante da considerare. Cosa pensi che potremmo fare?", emotion: "base" },
+  { message: "Grazie per aver condiviso questo con me. Vuoi parlarne di più?", emotion: "base" },
 ];
+
+/**
+ * Gets the avatar path based on patient name and emotion
+ * 
+ * @param patientName - The patient's name
+ * @param emotion - The current emotion
+ * @returns Avatar URL path
+ */
+function getPatientAvatarPath(patientName: string, emotion: PatientEmotion = "base"): string {
+  // Normalize patient name for file path
+  const normalizedName = patientName.toLowerCase().replace(/\s+/g, "-");
+  
+  // Map patient names to their folder names
+  const patientFolderMap: Record<string, string> = {
+    "john": "john",
+    "juanita-delgado": "juanita",
+    "todd": "todd",
+  };
+  
+  const folderName = patientFolderMap[normalizedName] || normalizedName;
+  
+  // Check if emotion image exists (Todd has all emotions, others only have base)
+  if (folderName === "todd" || emotion === "base") {
+    return `/images/patients/${folderName}/${emotion}.png`;
+  }
+  
+  // Fallback to base for patients without emotion avatars
+  return `/images/patients/${folderName}/base.png`;
+}
 
 /**
  * Generates a consistent avatar placeholder for patients based on their name
@@ -233,7 +271,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isAudioAnimating, setIsAudioAnimating] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
+  const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
+  const [previousEmotion, setPreviousEmotion] = useState<PatientEmotion>("base");
+  const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
+  const [isCurrentAvatarLoaded, setIsCurrentAvatarLoaded] = useState(true);
+  const transitionDurationMs = 700;
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const avatarFallbackTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Fetch patient data
   const {
@@ -299,13 +345,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }, [typedCompletedSteps, stepId]);
 
-  // Auto-scroll to bottom when new messages arrive or typing state changes
-  useEffect(() => {
-    // Use a small delay to ensure DOM is updated
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
-  }, [messages, isTyping]);
+  // Removed auto-scroll to prevent avatar from jumping
+  // Manual scroll is handled in handleSendMessage and other places
 
   // Animate audio only when patient message arrives (not during typing)
   useEffect(() => {
@@ -332,7 +373,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     if (isAudioPlayerOpen) {
       // Wait for the audio player to render, then scroll
       setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        // Use the helper to ensure we scroll only the messages container
+        scrollToBottom(100);
       }, 100);
     }
   }, [isAudioPlayerOpen]);
@@ -343,7 +385,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       setSessionTime((prev) => prev + 1);
     }, 1000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (avatarTransitionTimeoutRef.current) {
+        clearTimeout(avatarTransitionTimeoutRef.current);
+        avatarTransitionTimeoutRef.current = null;
+      }
+      if (avatarFallbackTimeoutRef.current) {
+        clearTimeout(avatarFallbackTimeoutRef.current);
+        avatarFallbackTimeoutRef.current = null;
+      }
+    };
   }, []);
 
   // Initialize chat with existing data or welcome message
@@ -358,6 +410,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             : msg.timestamp,
       }));
       setMessages(messagesWithDates);
+      
+      // Find the last patient message with an emotion to set the current avatar
+      const lastPatientMessage = [...messagesWithDates]
+        .reverse()
+        .find((msg) => msg.sender === "patient" && msg.emotion);
+      
+      if (lastPatientMessage?.emotion) {
+        setCurrentEmotion(lastPatientMessage.emotion);
+      }
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
       const patientName = typedSelectedPatient.name || "";
       const welcomeContent =
@@ -370,25 +431,33 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         sender: "patient",
         timestamp: new Date(),
         stepId,
+        emotion: "base",
       };
       setMessages([welcomeMessage]);
+      setCurrentEmotion("base");
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
 
-  // Scroll to bottom helper function
+  // Scroll to bottom helper function (smooth scroll to avoid avatar jumping)
   const scrollToBottom = useCallback((delay = 100) => {
     setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const container = messagesContainerRef.current;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: 'smooth',
+        });
+      }
     }, delay);
   }, []);
 
-  // Generate random patient response
+  // Generate random patient response with emotion
   const getPatientResponse = useCallback(
-    (patientName: string) => {
+    (patientName: string): PatientResponse => {
       const responses = PATIENT_RESPONSES[patientName] || GENERIC_RESPONSES;
       return (
         responses[Math.floor(Math.random() * responses.length)] ||
-        "Mi dispiace, non riesco a rispondere in questo momento."
+        { message: "Mi dispiace, non riesco a rispondere in questo momento.", emotion: "base" }
       );
     },
     [],
@@ -443,14 +512,45 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setTimeout(
       () => {
         const patientName = typedSelectedPatient?.name || "";
-        const randomResponse = getPatientResponse(patientName);
+        const patientResponse = getPatientResponse(patientName);
+
+        // Update current emotion with smooth crossfade transition
+        if (patientResponse.emotion !== currentEmotion) {
+          // Save current emotion as previous and set next
+          setPreviousEmotion(currentEmotion);
+          setCurrentEmotion(patientResponse.emotion);
+
+          // Start transition only after the new image has loaded to avoid flicker
+          setIsCurrentAvatarLoaded(false);
+
+          // Clear previous timers
+          if (avatarTransitionTimeoutRef.current) {
+            clearTimeout(avatarTransitionTimeoutRef.current);
+          }
+          if (avatarFallbackTimeoutRef.current) {
+            clearTimeout(avatarFallbackTimeoutRef.current);
+          }
+
+          // Fallback: if onLoad doesn't fire quickly, still transition after a delay
+          avatarFallbackTimeoutRef.current = setTimeout(() => {
+            setIsAvatarTransitioning(true);
+            avatarTransitionTimeoutRef.current = setTimeout(() => {
+              setPreviousEmotion(patientResponse.emotion);
+              setIsAvatarTransitioning(false);
+            }, transitionDurationMs + 50);
+          }, 150);
+
+          // onLoad handler (attached below) will clear this fallback and run
+          // the same transition with precise timing
+        }
 
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
-          content: randomResponse,
+          content: patientResponse.message,
           sender: "patient",
           timestamp: new Date(),
           stepId,
+          emotion: patientResponse.emotion,
         };
 
         // Add patient response
@@ -486,6 +586,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     getPatientResponse,
     typedSelectedPatient,
     saveChatMutation,
+    currentEmotion,
   ]);
 
   const goBack = useCallback(() => {
@@ -678,25 +779,74 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </header>
 
         {/* Messages */}
-        <div
-          className="page-background flex-1 overflow-y-auto"
-          role="log"
-          aria-label="Messaggi della conversazione"
-          aria-live="polite"
-        >
-          <div className="flex h-full justify-center">
+        <div className="page-background flex-1 min-h-0 overflow-hidden">
+          <div className="flex h-full min-h-0 justify-center lg:justify-start lg:gap-6">
             {/* Patient Avatar - Left area */}
-            <div className="hidden lg:flex flex-col items-center justify-center w-48 flex-shrink-0">
-              <div className="flex items-center justify-center w-full">
+            <div className="hidden lg:flex flex-col items-start justify-start w-48 flex-shrink-0 pt-4">
+              <div className="flex items-center justify-center w-full sticky top-4">
                 <div className="therapy-session-avatar-large relative group rounded-[1.1rem] overflow-hidden">
-                  {typedSelectedPatient?.avatarUrl ? (
-                    <Image
-                      src={typedSelectedPatient.avatarUrl}
-                      alt={`Avatar di ${typedSelectedPatient.name}`}
-                      width={100}
-                      height={100}
-                      className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
-                    />
+                  {typedSelectedPatient ? (
+                    <div className="relative w-full h-full">
+                      {/* Show only one image when emotions are the same (normal state) */}
+                      {previousEmotion === currentEmotion ? (
+                          <Image
+                          src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                          alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                          width={100}
+                          height={100}
+                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full"
+                        />
+                      ) : (
+                        <>
+                          {/* Previous emotion image (visible at start, then fades out) */}
+                          <Image
+                            src={getPatientAvatarPath(typedSelectedPatient.name, previousEmotion)}
+                            alt={`Avatar precedente di ${typedSelectedPatient.name}`}
+                            width={100}
+                            height={100}
+                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
+                            style={{ 
+                              zIndex: 1,
+                              opacity: isAvatarTransitioning ? 0 : 1,
+                              transition: `opacity ${transitionDurationMs}ms ease-in-out`
+                            }}
+                          />
+                          {/* Current emotion image (invisible at start, then fades in) */}
+                          <Image
+                            src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                            alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                            width={100}
+                            height={100}
+                            className="rounded-[1.1rem] object-cover shadow-lg w-full h-full absolute inset-0"
+                            style={{ 
+                              zIndex: 2,
+                              opacity: isAvatarTransitioning ? 1 : 0,
+                              transition: `opacity ${transitionDurationMs}ms ease-in-out`
+                            }}
+                            onLoad={() => {
+                              // Start transition when image is ready
+                              if (!isCurrentAvatarLoaded) {
+                                setIsCurrentAvatarLoaded(true);
+                                setIsAvatarTransitioning(true);
+                                if (avatarFallbackTimeoutRef.current) {
+                                  clearTimeout(avatarFallbackTimeoutRef.current);
+                                  avatarFallbackTimeoutRef.current = null;
+                                }
+
+                                if (avatarTransitionTimeoutRef.current) {
+                                  clearTimeout(avatarTransitionTimeoutRef.current);
+                                }
+
+                                avatarTransitionTimeoutRef.current = setTimeout(() => {
+                                  setPreviousEmotion(currentEmotion);
+                                  setIsAvatarTransitioning(false);
+                                }, transitionDurationMs + 50);
+                              }
+                            }}
+                          />
+                        </>
+                      )}
+                    </div>
                   ) : (
                     <div
                       className={`flex h-25 w-25 items-center justify-center rounded-[1.1rem] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
@@ -710,6 +860,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     size="sm"
                     onClick={() => setIsAvatarExpanded(true)}
                     className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
+                    style={{ zIndex: 3 }}
                     aria-label="Espandi avatar"
                   >
                     <Maximize2 className="h-3 w-3 text-white" />
@@ -718,9 +869,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
 
-            {/* Messages area */}
+            {/* Messages area (scrollable) */}
             <div 
-              className="flex-1 max-w-4xl p-4 sm:p-6"
+              ref={messagesContainerRef}
+              className="flex-1 w-full lg:max-w-4xl p-4 sm:p-6 overflow-y-auto min-h-0 chat-scrollbar"
               style={{
                 paddingBottom: isAudioPlayerOpen ? "10rem" : undefined,
               }}
@@ -774,8 +926,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
 
-            {/* Right spacer for balance */}
-            <div className="hidden lg:block w-48 flex-shrink-0"></div>
           </div>
         </div>
 
@@ -925,10 +1075,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             <DialogTitle>Avatar del paziente {typedSelectedPatient?.name}</DialogTitle>
           </DialogHeader>
           <div className="relative">
-            {typedSelectedPatient?.avatarUrl ? (
+            {typedSelectedPatient ? (
               <Image
-                src={typedSelectedPatient.avatarUrl}
-                alt={`Avatar di ${typedSelectedPatient.name}`}
+                src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
                 width={600}
                 height={600}
                 className="w-full h-auto object-cover"
