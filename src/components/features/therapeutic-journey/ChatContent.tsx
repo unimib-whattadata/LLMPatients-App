@@ -338,6 +338,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Mutations for chat operations
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
+  const generateResponseMutation = api.chat.generatePatientResponse.useMutation();
 
   // Get utils for invalidating queries
   const utils = api.useUtils();
@@ -562,51 +563,112 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       console.error("Error saving user message:", error);
     }
 
-    // Generate patient response after delay
-    setTimeout(
-      () => {
-        const patientName = typedSelectedPatient?.name || "";
-        const patientResponse = getPatientResponse(patientName);
+    // Generate patient response using API
+    try {
+      const response = await generateResponseMutation.mutateAsync({
+        patientInfo: {
+          id: typedSelectedPatient?.id || "",
+          name: typedSelectedPatient?.name || "",
+          age: 45, // Default age for simulation
+          gender: "male", // Default gender for simulation
+          diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
+          difficulty: typedSelectedPatient?.difficulty || 1,
+          psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
+          background: typedSelectedPatient?.background || "",
+          currentMedications: [], // Default empty array
+          therapyGoals: typedSelectedPatient?.objectives || [],
+          previousSessions: 0, // Default for new sessions
+        },
+        userMessage: messageText,
+        stepId,
+        sessionId: typedTherapySession?.id || "",
+        conversationHistory: messages.slice(-5).map(msg => ({
+          content: msg.content,
+          sender: msg.sender,
+          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
+        })), // Last 5 messages for context
+      });
 
-        triggerAvatarEmotionChange(patientResponse.emotion);
+      triggerAvatarEmotionChange(response.emotion);
 
-        const patientMessage: ChatMessage = {
-          id: `patient-${Date.now()}`,
-          content: patientResponse.message,
-          sender: "patient",
-          timestamp: new Date(),
-          stepId,
-          emotion: patientResponse.emotion,
-        };
+      const patientMessage: ChatMessage = {
+        id: `patient-${Date.now()}`,
+        content: response.message,
+        sender: "patient",
+        timestamp: response.timestamp || new Date(),
+        stepId,
+        emotion: response.emotion,
+      };
 
-        // Add patient response
-        const finalMessages = [...updatedMessages, patientMessage];
-        setMessages(finalMessages);
-        setIsTyping(false);
+      // Add patient response
+      const finalMessages = [...updatedMessages, patientMessage];
+      setMessages(finalMessages);
+      setIsTyping(false);
 
-        // Force scroll to show patient response
-        scrollToBottom(100);
+      // Force scroll to show patient response
+      scrollToBottom(100);
 
-        // Return focus to input after patient responds
-        setTimeout(() => {
-          inputRef.current?.focus();
-        }, 300);
+      // Return focus to input after patient responds
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
 
-        // Save complete conversation
-        saveChatMutation.mutate({
-          therapySessionId: typedTherapySession.id,
-          stepNumber: stepId,
-          messages: finalMessages.map((msg) => ({
-            ...msg,
-            timestamp:
-              msg.timestamp instanceof Date
-                ? msg.timestamp
-                : new Date(msg.timestamp),
-          })),
-        });
-      },
-      2000 + Math.random() * 2000,
-    ); // 2-4 seconds delay
+      // Save complete conversation
+      saveChatMutation.mutate({
+        therapySessionId: typedTherapySession.id,
+        stepNumber: stepId,
+        messages: finalMessages.map((msg) => ({
+          ...msg,
+          timestamp:
+            msg.timestamp instanceof Date
+              ? msg.timestamp
+              : new Date(msg.timestamp),
+        })),
+      });
+    } catch (error) {
+      console.error("Error generating patient response:", error);
+      setIsTyping(false);
+      
+      // Fallback to static response
+      const patientName = typedSelectedPatient?.name || "";
+      const patientResponse = getPatientResponse(patientName);
+
+      triggerAvatarEmotionChange(patientResponse.emotion);
+
+      const patientMessage: ChatMessage = {
+        id: `patient-${Date.now()}`,
+        content: patientResponse.message,
+        sender: "patient",
+        timestamp: new Date(),
+        stepId,
+        emotion: patientResponse.emotion,
+      };
+
+      // Add patient response
+      const finalMessages = [...updatedMessages, patientMessage];
+      setMessages(finalMessages);
+
+      // Force scroll to show patient response
+      scrollToBottom(100);
+
+      // Return focus to input after patient responds
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300);
+
+      // Save complete conversation
+      saveChatMutation.mutate({
+        therapySessionId: typedTherapySession.id,
+        stepNumber: stepId,
+        messages: finalMessages.map((msg) => ({
+          ...msg,
+          timestamp:
+            msg.timestamp instanceof Date
+              ? msg.timestamp
+              : new Date(msg.timestamp),
+        })),
+      });
+    }
   }, [
     inputMessage,
     isTyping,
@@ -617,6 +679,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     getPatientResponse,
     typedSelectedPatient,
     saveChatMutation,
+    generateResponseMutation,
     triggerAvatarEmotionChange,
   ]);
 

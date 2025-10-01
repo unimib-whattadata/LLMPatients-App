@@ -2,6 +2,7 @@ import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { chat, therapySessions } from "~/server/db/schema";
+import { patientResponseGenerator } from "~/server/services/patient-response-generator";
 
 /**
  * Chat message type for TypeScript
@@ -371,5 +372,46 @@ export const chatRouter = createTRPCRouter({
         .limit(1);
 
       return chatStep.length > 0 ? chatStep[0]!.done : false;
+    }),
+
+  // Generate AI patient response
+  generatePatientResponse: protectedProcedure
+    .input(
+      z.object({
+        patientInfo: z.object({
+          id: z.string(),
+          name: z.string(),
+          age: z.number(),
+          gender: z.string(),
+          diagnosis: z.string(),
+          difficulty: z.number(),
+          psychologicalProfile: z.string(),
+          background: z.string(),
+          currentMedications: z.array(z.string()).optional(),
+          therapyGoals: z.array(z.string()).optional(),
+          previousSessions: z.number().optional(),
+        }),
+        userMessage: z.string(),
+        stepId: z.number(),
+        sessionId: z.string(),
+        conversationHistory: z.array(
+          z.object({
+            content: z.string(),
+            sender: z.enum(["user", "patient"]),
+            timestamp: z.date(),
+          })
+        ).optional(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      return await patientResponseGenerator.generateResponse(input);
+    }),
+
+  // Admin endpoint to enable/disable external AI
+  toggleExternalAI: protectedProcedure
+    .input(z.object({ enabled: z.boolean() }))
+    .mutation(async ({ input }) => {
+      patientResponseGenerator.setUseExternalAI(input.enabled);
+      return { success: true, externalAIEnabled: input.enabled };
     }),
 });
