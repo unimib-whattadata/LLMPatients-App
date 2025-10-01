@@ -37,7 +37,7 @@ export function LoadingCard({
 }: LoadingCardProps) {
   return (
     <div
-      className={cn("grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3", className)}
+      className={cn("grid gap-6 grid-cols-1 sm:grid-cols-2", className)}
       role="status"
       aria-live="polite"
       aria-label="Caricamento contenuto in corso"
