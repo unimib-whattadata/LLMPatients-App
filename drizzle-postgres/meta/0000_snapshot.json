@@ -1,5 +1,5 @@
 {
-  "id": "4d1d59fb-a5a4-496f-972e-5133c11c46bc",
+  "id": "d7d1f257-2687-47b1-872d-72e99d992403",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -8,6 +8,12 @@
       "name": "llmpatient_account",
       "schema": "",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
         "userId": {
           "name": "userId",
           "type": "text",
@@ -76,8 +82,8 @@
         }
       },
       "indexes": {
-        "account_user_id_idx": {
-          "name": "account_user_id_idx",
+        "account_userId_idx": {
+          "name": "account_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -87,6 +93,27 @@
             }
           ],
           "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "account_provider_idx": {
+          "name": "account_provider_idx",
+          "columns": [
+            {
+              "expression": "provider",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "providerAccountId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -103,19 +130,11 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {
-        "llmpatient_account_provider_providerAccountId_pk": {
-          "name": "llmpatient_account_provider_providerAccountId_pk",
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ]
-        }
-      },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
@@ -131,26 +150,39 @@
           "primaryKey": true,
           "notNull": true
         },
-        "therapySessionId": {
-          "name": "therapySessionId",
+        "sessionId": {
+          "name": "sessionId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "stepNumber": {
-          "name": "stepNumber",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "messages": {
-          "name": "messages",
+        "senderId": {
+          "name": "senderId",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "done": {
-          "name": "done",
+        "message": {
+          "name": "message",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "messageType": {
+          "name": "messageType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'text'"
+        },
+        "metadata": {
+          "name": "metadata",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isRead": {
+          "name": "isRead",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
@@ -161,21 +193,15 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "'2025-10-01 15:35:06.231'"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
+          "default": "now()"
         }
       },
       "indexes": {
-        "chat_session_idx": {
-          "name": "chat_session_idx",
+        "chat_sessionId_idx": {
+          "name": "chat_sessionId_idx",
           "columns": [
             {
-              "expression": "therapySessionId",
+              "expression": "sessionId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -186,11 +212,11 @@
           "method": "btree",
           "with": {}
         },
-        "chat_step_number_idx": {
-          "name": "chat_step_number_idx",
+        "chat_senderId_idx": {
+          "name": "chat_senderId_idx",
           "columns": [
             {
-              "expression": "stepNumber",
+              "expression": "senderId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -201,50 +227,42 @@
           "method": "btree",
           "with": {}
         },
-        "chat_done_idx": {
-          "name": "chat_done_idx",
+        "chat_createdAt_idx": {
+          "name": "chat_createdAt_idx",
           "columns": [
             {
-              "expression": "done",
+              "expression": "createdAt",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             }
           ],
           "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "chat_session_step_idx": {
-          "name": "chat_session_step_idx",
-          "columns": [
-            {
-              "expression": "therapySessionId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "stepNumber",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
         }
       },
       "foreignKeys": {
-        "llmpatient_chat_therapySessionId_llmpatient_therapy_session_id_fk": {
-          "name": "llmpatient_chat_therapySessionId_llmpatient_therapy_session_id_fk",
+        "llmpatient_chat_sessionId_llmpatient_therapySessions_id_fk": {
+          "name": "llmpatient_chat_sessionId_llmpatient_therapySessions_id_fk",
           "tableFrom": "llmpatient_chat",
-          "tableTo": "llmpatient_therapy_session",
+          "tableTo": "llmpatient_therapySessions",
           "columnsFrom": [
-            "therapySessionId"
+            "sessionId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "llmpatient_chat_senderId_llmpatient_user_id_fk": {
+          "name": "llmpatient_chat_senderId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_chat",
+          "tableTo": "llmpatient_user",
+          "columnsFrom": [
+            "senderId"
           ],
           "columnsTo": [
             "id"
@@ -259,299 +277,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.llmpatient_impersonation_audit_log": {
-      "name": "llmpatient_impersonation_audit_log",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "impersonationSessionId": {
-          "name": "impersonationSessionId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "actionType": {
-          "name": "actionType",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "actionDetails": {
-          "name": "actionDetails",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "performedAt": {
-          "name": "performedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'2025-10-01 15:35:06.231'"
-        },
-        "ipAddress": {
-          "name": "ipAddress",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userAgent": {
-          "name": "userAgent",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "requestPath": {
-          "name": "requestPath",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "requestMethod": {
-          "name": "requestMethod",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "impersonation_audit_session_idx": {
-          "name": "impersonation_audit_session_idx",
-          "columns": [
-            {
-              "expression": "impersonationSessionId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "impersonation_audit_action_type_idx": {
-          "name": "impersonation_audit_action_type_idx",
-          "columns": [
-            {
-              "expression": "actionType",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "impersonation_audit_performed_at_idx": {
-          "name": "impersonation_audit_performed_at_idx",
-          "columns": [
-            {
-              "expression": "performedAt",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "llmpatient_impersonation_audit_log_impersonationSessionId_llmpatient_impersonation_session_id_fk": {
-          "name": "llmpatient_impersonation_audit_log_impersonationSessionId_llmpatient_impersonation_session_id_fk",
-          "tableFrom": "llmpatient_impersonation_audit_log",
-          "tableTo": "llmpatient_impersonation_session",
-          "columnsFrom": [
-            "impersonationSessionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.llmpatient_impersonation_session": {
-      "name": "llmpatient_impersonation_session",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "adminUserId": {
-          "name": "adminUserId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "targetUserId": {
-          "name": "targetUserId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "startedAt": {
-          "name": "startedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "'2025-10-01 15:35:06.231'"
-        },
-        "endedAt": {
-          "name": "endedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "isActive": {
-          "name": "isActive",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": true
-        },
-        "sessionToken": {
-          "name": "sessionToken",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "ipAddress": {
-          "name": "ipAddress",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "userAgent": {
-          "name": "userAgent",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "reason": {
-          "name": "reason",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "impersonation_admin_user_idx": {
-          "name": "impersonation_admin_user_idx",
-          "columns": [
-            {
-              "expression": "adminUserId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "impersonation_target_user_idx": {
-          "name": "impersonation_target_user_idx",
-          "columns": [
-            {
-              "expression": "targetUserId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "impersonation_active_idx": {
-          "name": "impersonation_active_idx",
-          "columns": [
-            {
-              "expression": "isActive",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "impersonation_started_at_idx": {
-          "name": "impersonation_started_at_idx",
-          "columns": [
-            {
-              "expression": "startedAt",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "llmpatient_impersonation_session_adminUserId_llmpatient_user_id_fk": {
-          "name": "llmpatient_impersonation_session_adminUserId_llmpatient_user_id_fk",
-          "tableFrom": "llmpatient_impersonation_session",
-          "tableTo": "llmpatient_user",
-          "columnsFrom": [
-            "adminUserId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "llmpatient_impersonation_session_targetUserId_llmpatient_user_id_fk": {
-          "name": "llmpatient_impersonation_session_targetUserId_llmpatient_user_id_fk",
-          "tableFrom": "llmpatient_impersonation_session",
-          "tableTo": "llmpatient_user",
-          "columnsFrom": [
-            "targetUserId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.llmpatient_patient": {
-      "name": "llmpatient_patient",
+    "public.llmpatient_patients": {
+      "name": "llmpatient_patients",
       "schema": "",
       "columns": {
         "id": {
@@ -566,55 +293,65 @@
           "primaryKey": false,
           "notNull": true
         },
-        "smallDescription": {
-          "name": "smallDescription",
+        "age": {
+          "name": "age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gender": {
+          "name": "gender",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "details": {
-          "name": "details",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "background": {
-          "name": "background",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "objectives": {
-          "name": "objectives",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "avatarUrl": {
-          "name": "avatarUrl",
+        "medicalHistory": {
+          "name": "medicalHistory",
           "type": "text",
           "primaryKey": false,
           "notNull": false
         },
-        "avatarType": {
-          "name": "avatarType",
+        "currentMedications": {
+          "name": "currentMedications",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'illustration'"
+          "notNull": false
         },
-        "difficulty": {
-          "name": "difficulty",
-          "type": "integer",
+        "allergies": {
+          "name": "allergies",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
-        "estimatedDuration": {
-          "name": "estimatedDuration",
-          "type": "integer",
+        "emergencyContact": {
+          "name": "emergencyContact",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": 30
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "address": {
+          "name": "address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "isActive": {
           "name": "isActive",
@@ -628,66 +365,37 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "'2025-10-01 15:35:06.231'"
+          "default": "now()"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {
-        "virtual_patient_difficulty_idx": {
-          "name": "virtual_patient_difficulty_idx",
-          "columns": [
-            {
-              "expression": "difficulty",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "virtual_patient_active_idx": {
-          "name": "virtual_patient_active_idx",
-          "columns": [
-            {
-              "expression": "isActive",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "virtual_patient_created_at_idx": {
-          "name": "virtual_patient_created_at_idx",
-          "columns": [
-            {
-              "expression": "createdAt",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "virtual_patient_name_idx": {
-          "name": "virtual_patient_name_idx",
+        "patients_name_idx": {
+          "name": "patients_name_idx",
           "columns": [
             {
               "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "patients_isActive_idx": {
+          "name": "patients_isActive_idx",
+          "columns": [
+            {
+              "expression": "isActive",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -710,10 +418,16 @@
       "name": "llmpatient_session",
       "schema": "",
       "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
         "sessionToken": {
           "name": "sessionToken",
           "type": "text",
-          "primaryKey": true,
+          "primaryKey": false,
           "notNull": true
         },
         "userId": {
@@ -730,6 +444,21 @@
         }
       },
       "indexes": {
+        "session_token_idx": {
+          "name": "session_token_idx",
+          "columns": [
+            {
+              "expression": "sessionToken",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
         "session_userId_idx": {
           "name": "session_userId_idx",
           "columns": [
@@ -757,30 +486,32 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "llmpatient_session_sessionToken_unique": {
+          "name": "llmpatient_session_sessionToken_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "sessionToken"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.llmpatient_therapy_session": {
-      "name": "llmpatient_therapy_session",
+    "public.llmpatient_therapySessions": {
+      "name": "llmpatient_therapySessions",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
           "type": "text",
           "primaryKey": true,
-          "notNull": true
-        },
-        "userId": {
-          "name": "userId",
-          "type": "text",
-          "primaryKey": false,
           "notNull": true
         },
         "patientId": {
@@ -789,52 +520,85 @@
           "primaryKey": false,
           "notNull": true
         },
-        "sessionNumber": {
-          "name": "sessionNumber",
+        "therapistId": {
+          "name": "therapistId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sessionDate": {
+          "name": "sessionDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "duration": {
+          "name": "duration",
           "type": "integer",
           "primaryKey": false,
-          "notNull": true,
-          "default": 1
+          "notNull": true
         },
-        "isCompleted": {
-          "name": "isCompleted",
-          "type": "boolean",
+        "sessionType": {
+          "name": "sessionType",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "goals": {
+          "name": "goals",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "progress": {
+          "name": "progress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "homework": {
+          "name": "homework",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nextSessionDate": {
+          "name": "nextSessionDate",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "default": false
+          "default": "'scheduled'"
         },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "'2025-10-01 15:35:06.231'"
+          "default": "now()"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {
-        "therapy_session_user_idx": {
-          "name": "therapy_session_user_idx",
-          "columns": [
-            {
-              "expression": "userId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "therapy_session_patient_idx": {
-          "name": "therapy_session_patient_idx",
+        "therapySessions_patientId_idx": {
+          "name": "therapySessions_patientId_idx",
           "columns": [
             {
               "expression": "patientId",
@@ -848,11 +612,11 @@
           "method": "btree",
           "with": {}
         },
-        "therapy_session_updated_at_idx": {
-          "name": "therapy_session_updated_at_idx",
+        "therapySessions_therapistId_idx": {
+          "name": "therapySessions_therapistId_idx",
           "columns": [
             {
-              "expression": "updatedAt",
+              "expression": "therapistId",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -863,11 +627,11 @@
           "method": "btree",
           "with": {}
         },
-        "therapy_session_completed_idx": {
-          "name": "therapy_session_completed_idx",
+        "therapySessions_sessionDate_idx": {
+          "name": "therapySessions_sessionDate_idx",
           "columns": [
             {
-              "expression": "isCompleted",
+              "expression": "sessionDate",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -878,53 +642,47 @@
           "method": "btree",
           "with": {}
         },
-        "therapy_session_user_patient_idx": {
-          "name": "therapy_session_user_patient_idx",
+        "therapySessions_status_idx": {
+          "name": "therapySessions_status_idx",
           "columns": [
             {
-              "expression": "userId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "patientId",
+              "expression": "status",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
             }
           ],
-          "isUnique": true,
+          "isUnique": false,
           "concurrently": false,
           "method": "btree",
           "with": {}
         }
       },
       "foreignKeys": {
-        "llmpatient_therapy_session_userId_llmpatient_user_id_fk": {
-          "name": "llmpatient_therapy_session_userId_llmpatient_user_id_fk",
-          "tableFrom": "llmpatient_therapy_session",
-          "tableTo": "llmpatient_user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "llmpatient_therapy_session_patientId_llmpatient_patient_id_fk": {
-          "name": "llmpatient_therapy_session_patientId_llmpatient_patient_id_fk",
-          "tableFrom": "llmpatient_therapy_session",
-          "tableTo": "llmpatient_patient",
+        "llmpatient_therapySessions_patientId_llmpatient_patients_id_fk": {
+          "name": "llmpatient_therapySessions_patientId_llmpatient_patients_id_fk",
+          "tableFrom": "llmpatient_therapySessions",
+          "tableTo": "llmpatient_patients",
           "columnsFrom": [
             "patientId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "llmpatient_therapySessions_therapistId_llmpatient_user_id_fk": {
+          "name": "llmpatient_therapySessions_therapistId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_therapySessions",
+          "tableTo": "llmpatient_user",
+          "columnsFrom": [
+            "therapistId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -934,13 +692,13 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.llmpatient_user_activity": {
-      "name": "llmpatient_user_activity",
+    "public.llmpatient_userActivity": {
+      "name": "llmpatient_userActivity",
       "schema": "",
       "columns": {
         "id": {
           "name": "id",
-          "type": "serial",
+          "type": "text",
           "primaryKey": true,
           "notNull": true
         },
@@ -950,14 +708,32 @@
           "primaryKey": false,
           "notNull": true
         },
-        "activityType": {
-          "name": "activityType",
+        "action": {
+          "name": "action",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "metadata": {
-          "name": "metadata",
+        "resource": {
+          "name": "resource",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "details": {
+          "name": "details",
+          "type": "json",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ipAddress": {
+          "name": "ipAddress",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userAgent": {
+          "name": "userAgent",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -967,12 +743,12 @@
           "type": "timestamp",
           "primaryKey": false,
           "notNull": true,
-          "default": "'2025-10-01 15:35:06.230'"
+          "default": "now()"
         }
       },
       "indexes": {
-        "user_activity_user_id_idx": {
-          "name": "user_activity_user_id_idx",
+        "userActivity_userId_idx": {
+          "name": "userActivity_userId_idx",
           "columns": [
             {
               "expression": "userId",
@@ -986,11 +762,26 @@
           "method": "btree",
           "with": {}
         },
-        "user_activity_type_idx": {
-          "name": "user_activity_type_idx",
+        "userActivity_action_idx": {
+          "name": "userActivity_action_idx",
           "columns": [
             {
-              "expression": "activityType",
+              "expression": "action",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "userActivity_createdAt_idx": {
+          "name": "userActivity_createdAt_idx",
+          "columns": [
+            {
+              "expression": "createdAt",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -1003,9 +794,9 @@
         }
       },
       "foreignKeys": {
-        "llmpatient_user_activity_userId_llmpatient_user_id_fk": {
-          "name": "llmpatient_user_activity_userId_llmpatient_user_id_fk",
-          "tableFrom": "llmpatient_user_activity",
+        "llmpatient_userActivity_userId_llmpatient_user_id_fk": {
+          "name": "llmpatient_userActivity_userId_llmpatient_user_id_fk",
+          "tableFrom": "llmpatient_userActivity",
           "tableTo": "llmpatient_user",
           "columnsFrom": [
             "userId"
@@ -1013,7 +804,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -1037,13 +828,25 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
           "notNull": true
+        },
+        "emailVerified": {
+          "name": "emailVerified",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "password": {
           "name": "password",
@@ -1056,25 +859,33 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "default": "'user'"
+          "default": "'patient'"
         },
-        "emailVerified": {
-          "name": "emailVerified",
+        "isActive": {
+          "name": "isActive",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp",
           "primaryKey": false,
-          "notNull": false,
-          "default": "'2025-10-01 15:35:06.230'"
+          "notNull": true,
+          "default": "now()"
         },
-        "image": {
-          "name": "image",
-          "type": "text",
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true,
+          "default": "now()"
         }
       },
       "indexes": {
-        "users_email_idx": {
-          "name": "users_email_idx",
+        "email_idx": {
+          "name": "email_idx",
           "columns": [
             {
               "expression": "email",
@@ -1083,28 +894,13 @@
               "nulls": "last"
             }
           ],
-          "isUnique": false,
+          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
         },
-        "users_name_idx": {
-          "name": "users_name_idx",
-          "columns": [
-            {
-              "expression": "name",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "users_role_idx": {
-          "name": "users_role_idx",
+        "role_idx": {
+          "name": "role_idx",
           "columns": [
             {
               "expression": "role",
@@ -1121,13 +917,21 @@
       },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "llmpatient_user_email_unique": {
+          "name": "llmpatient_user_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.llmpatient_verification_token": {
-      "name": "llmpatient_verification_token",
+    "public.llmpatient_verificationToken": {
+      "name": "llmpatient_verificationToken",
       "schema": "",
       "columns": {
         "identifier": {
@@ -1149,17 +953,46 @@
           "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "llmpatient_verification_token_identifier_token_pk": {
-          "name": "llmpatient_verification_token_identifier_token_pk",
+      "indexes": {
+        "verification_token_idx": {
+          "name": "verification_token_idx",
           "columns": [
-            "identifier",
-            "token"
-          ]
+            {
+              "expression": "token",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "verification_identifier_token_idx": {
+          "name": "verification_identifier_token_idx",
+          "columns": [
+            {
+              "expression": "identifier",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "token",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},

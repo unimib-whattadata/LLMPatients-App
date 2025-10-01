@@ -284,7 +284,7 @@ export const patients = createTable(
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+    updatedAt: d.integer({ mode: "timestamp" }),
   }),
   (t) => [
     index("virtual_patient_difficulty_idx").on(t.difficulty),
@@ -323,7 +323,7 @@ export const therapySessions = createTable(
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+    updatedAt: d.integer({ mode: "timestamp" }),
   }),
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
@@ -369,7 +369,7 @@ export const chat = createTable(
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
+    updatedAt: d.integer({ mode: "timestamp" }),
   }),
   (t) => [
     index("chat_session_idx").on(t.therapySessionId),

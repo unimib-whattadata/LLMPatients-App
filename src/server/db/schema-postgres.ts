@@ -56,13 +56,32 @@ export const users = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    name: d.text(),
-    email: d.text().notNull(),
-    password: d.text(),
-    // Role field for user access control - 'admin' or 'user'
-    role: d.text().default("user").notNull(),
-    emailVerified: d.timestamp({ mode: "date" }).default(new Date()),
-    image: d.text(),
+    name: d.text("name").notNull(),
+    email: d.text("email").notNull().unique(),
+    emailVerified: d.timestamp("emailVerified", { mode: "date" }),
+    image: d.text("image"),
+    password: d.text("password"),
+    role: d.text("role", { enum: ["admin", "therapist", "patient"] })
+      .notNull()
+      .default("patient"),
+    isActive: d.boolean("isActive").notNull().default(true),
+    createdAt: d.timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+  }),
+  (table) => ({
+    emailIdx: uniqueIndex("email_idx").on(table.email),
+    roleIdx: index("role_idx").on(table.role),
+  }),
+  (t) => [
+    // Indexes for common query patterns
+    index("users_email_idx").on(t.email),
+    index("users_name_idx").on(t.name),
+    index("users_role_idx").on(t.role),
+  ],
   }),
   (t) => [
     // Indexes for common query patterns
@@ -117,270 +136,196 @@ export const sessions = createTable(
   (t) => [index("session_userId_idx").on(t.userId)],
 );
 
-export const sessionsRelations = relations(sessions, ({ one }) => ({
-  user: one(users, { fields: [sessions.userId], references: [users.id] }),
-}));
-
+/**
+ * Verification tokens table for email verification
+ *
+ * Stores temporary tokens for email verification and password reset flows.
+ * Tokens are automatically cleaned up after use or expiration.
+ */
 export const verificationTokens = createTable(
-  "verification_token",
+  "verificationToken",
   (d) => ({
-    identifier: d.text().notNull(),
-    token: d.text().notNull(),
-    expires: d.timestamp({ mode: "date" }).notNull(),
+    identifier: d.text("identifier").notNull(),
+    token: d.text("token").notNull(),
+    expires: d.timestamp("expires", { mode: "date" }).notNull(),
   }),
-  (t) => [primaryKey({ columns: [t.identifier, t.token] })],
-);
-
-// User activities table for tracking dashboard actions
-export const userActivities = createTable(
-  "user_activity",
-  (d) => ({
-    id: d.serial().primaryKey(),
-    userId: d
-      .text()
-      .notNull()
-      .references(() => users.id),
-    // Activity type: 'login', 'profile_update', 'simulation', 'dashboard_view'
-    activityType: d.text().notNull(),
-    // JSON string for additional activity metadata
-    metadata: d.text(),
-    createdAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-  }),
-  (t) => [
-    index("user_activity_user_id_idx").on(t.userId),
-    index("user_activity_type_idx").on(t.activityType),
-  ],
-);
-
-export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
-  user: one(users, { fields: [userActivities.userId], references: [users.id] }),
-}));
-
-// Impersonation session tracking table
-export const impersonationSessions = createTable(
-  "impersonation_session",
-  (d) => ({
-    id: d
-      .text()
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => randomUUID()),
-    // Admin user who initiated the impersonation
-    adminUserId: d
-      .text()
-      .notNull()
-      .references(() => users.id),
-    // Target user being impersonated
-    targetUserId: d
-      .text()
-      .notNull()
-      .references(() => users.id),
-    // Session timing
-    startedAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-    endedAt: d.timestamp({ mode: "date" }),
-    // Session status
-    isActive: d.boolean().default(true).notNull(),
-    // Session metadata
-    sessionToken: d.text(),
-    ipAddress: d.text(), // IPv6 compatible
-    userAgent: d.text(),
-    // Optional reason for impersonation
-    reason: d.text(),
-  }),
-  (t) => [
-    index("impersonation_admin_user_idx").on(t.adminUserId),
-    index("impersonation_target_user_idx").on(t.targetUserId),
-    index("impersonation_active_idx").on(t.isActive),
-    index("impersonation_started_at_idx").on(t.startedAt),
-  ],
-);
-
-// Audit log for impersonation events
-export const impersonationAuditLog = createTable(
-  "impersonation_audit_log",
-  (d) => ({
-    id: d
-      .text()
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => randomUUID()),
-    // Reference to impersonation session
-    impersonationSessionId: d
-      .text()
-      .notNull()
-      .references(() => impersonationSessions.id),
-    // Action details
-    actionType: d.text().notNull(), // 'START', 'END', 'ACTION_PERFORMED', 'SESSION_REFRESH'
-    actionDetails: d.text(), // JSON string for detailed action data
-    // Timing
-    performedAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-    // Request metadata
-    ipAddress: d.text(),
-    userAgent: d.text(),
-    // Additional context
-    requestPath: d.text(),
-    requestMethod: d.text(),
-  }),
-  (t) => [
-    index("impersonation_audit_session_idx").on(t.impersonationSessionId),
-    index("impersonation_audit_action_type_idx").on(t.actionType),
-    index("impersonation_audit_performed_at_idx").on(t.performedAt),
-  ],
-);
-
-// Relations for impersonation tables
-export const impersonationSessionsRelations = relations(
-  impersonationSessions,
-  ({ one, many }) => ({
-    adminUser: one(users, {
-      fields: [impersonationSessions.adminUserId],
-      references: [users.id],
-      relationName: "adminImpersonationSessions",
-    }),
-    targetUser: one(users, {
-      fields: [impersonationSessions.targetUserId],
-      references: [users.id],
-      relationName: "targetImpersonationSessions",
-    }),
-    auditLogs: many(impersonationAuditLog),
+  (table) => ({
+    tokenIdx: uniqueIndex("verification_token_idx").on(table.token),
+    identifierTokenIdx: uniqueIndex("verification_identifier_token_idx").on(
+      table.identifier,
+      table.token,
+    ),
   }),
 );
 
-export const impersonationAuditLogRelations = relations(
-  impersonationAuditLog,
-  ({ one }) => ({
-    impersonationSession: one(impersonationSessions, {
-      fields: [impersonationAuditLog.impersonationSessionId],
-      references: [impersonationSessions.id],
-    }),
-  }),
-);
-
-// Patients table for patient exploration page
+/**
+ * Patients table for patient management
+ *
+ * Stores patient information including personal details, medical history,
+ * and therapeutic journey data.
+ */
 export const patients = createTable(
-  "patient",
+  "patients",
   (d) => ({
     id: d
-      .text()
-      .notNull()
+      .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    name: d.text().notNull(),
-    smallDescription: d.text().notNull(), // Brief description of the case
-    details: d.text().notNull(), // JSON string containing all patient details
-    background: d.text().notNull(),
-    objectives: d.text().notNull(), // JSON array of objectives
-    avatarUrl: d.text(),
-    avatarType: d.text().default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
-    difficulty: d.integer().notNull(), // 1: Facile, 2: Medio, 3: Difficile
-    estimatedDuration: d.integer().default(30).notNull(), // minutes
-    isActive: d.boolean().default(true).notNull(),
-    externalPatientId: d.text(), // External patient ID from AI service
-    createdAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-    updatedAt: d.timestamp({ mode: "date" }).$onUpdate(() => new Date()),
+    name: d.text("name").notNull(),
+    age: d.integer("age").notNull(),
+    gender: d.text("gender", { enum: ["male", "female", "other"] }).notNull(),
+    medicalHistory: d.text("medicalHistory"),
+    currentMedications: d.text("currentMedications"),
+    allergies: d.text("allergies"),
+    emergencyContact: d.text("emergencyContact"),
+    phone: d.text("phone"),
+    email: d.text("email"),
+    address: d.text("address"),
+    notes: d.text("notes"),
+    isActive: d.boolean("isActive").notNull().default(true),
+    createdAt: d.timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
   }),
-  (t) => [
-    index("virtual_patient_difficulty_idx").on(t.difficulty),
-    index("virtual_patient_active_idx").on(t.isActive),
-    index("virtual_patient_created_at_idx").on(t.createdAt),
-    index("virtual_patient_name_idx").on(t.name), // For LIKE searches
-    index("virtual_patient_external_id_idx").on(t.externalPatientId), // For external ID lookups
-  ],
+  (table) => ({
+    nameIdx: index("patients_name_idx").on(table.name),
+    isActiveIdx: index("patients_isActive_idx").on(table.isActive),
+  }),
 );
 
-// Relations for patients
-export const patientsRelations = relations(patients, ({ many }) => ({
-  therapySessions: many(therapySessions),
-}));
-
-export const usersRelations = relations(users, ({ many: _many }) => ({}));
+/**
+ * Therapy sessions table for session management
+ *
+ * Stores therapy session information including session details,
+ * progress notes, and therapeutic outcomes.
+ */
 export const therapySessions = createTable(
-  "therapy_session",
+  "therapySessions",
   (d) => ({
     id: d
-      .text()
-      .notNull()
+      .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    userId: d
-      .text()
+    patientId: d.text("patientId")
       .notNull()
-      .references(() => users.id),
-    patientId: d
-      .text()
+      .references(() => patients.id, { onDelete: "cascade" }),
+    therapistId: d.text("therapistId")
       .notNull()
-      .references(() => patients.id),
-    sessionNumber: d.integer().default(1).notNull(),
-    isCompleted: d.boolean().default(false).notNull(),
-    createdAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-    updatedAt: d.timestamp({ mode: "date" }).$onUpdate(() => new Date()),
+      .references(() => users.id, { onDelete: "cascade" }),
+    sessionDate: d.timestamp("sessionDate", { mode: "date" }).notNull(),
+    duration: d.integer("duration").notNull(), // in minutes
+    sessionType: d.text("sessionType", {
+      enum: ["individual", "group", "family", "couples"],
+    }).notNull(),
+    notes: d.text("notes"),
+    goals: d.text("goals"),
+    progress: d.text("progress"),
+    homework: d.text("homework"),
+    nextSessionDate: d.timestamp("nextSessionDate", { mode: "date" }),
+    status: d.text("status", {
+      enum: ["scheduled", "completed", "cancelled", "no_show"],
+    }).notNull().default("scheduled"),
+    createdAt: d.timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
   }),
-  (t) => [
-    index("therapy_session_user_idx").on(t.userId),
-    index("therapy_session_patient_idx").on(t.patientId),
-    index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
-    index("therapy_session_completed_idx").on(t.isCompleted), // For filtering completed sessions
-    uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
-  ],
-);
-
-export const therapySessionsRelations = relations(
-  therapySessions,
-  ({ one, many }) => ({
-    user: one(users, {
-      fields: [therapySessions.userId],
-      references: [users.id],
-    }),
-    patient: one(patients, {
-      fields: [therapySessions.patientId],
-      references: [patients.id],
-    }),
-    chats: many(chat),
+  (table) => ({
+    patientIdIdx: index("therapySessions_patientId_idx").on(table.patientId),
+    therapistIdIdx: index("therapySessions_therapistId_idx").on(table.therapistId),
+    sessionDateIdx: index("therapySessions_sessionDate_idx").on(table.sessionDate),
+    statusIdx: index("therapySessions_status_idx").on(table.status),
   }),
 );
 
-// Chat table for storing chat conversations per step
+/**
+ * Chat messages table for therapeutic conversation
+ *
+ * Stores chat messages between patients and therapists during therapy sessions.
+ * Supports different message types and conversation threading.
+ */
 export const chat = createTable(
   "chat",
   (d) => ({
     id: d
-      .text()
-      .notNull()
+      .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    therapySessionId: d
-      .text()
+    sessionId: d.text("sessionId")
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer().notNull(), // 1, 2, 3, etc.
-    messages: d.text().notNull(), // JSON string containing chat messages
-    done: d.boolean().default(false).notNull(), // true when step is completed
-    createdAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
-    updatedAt: d.timestamp({ mode: "date" }).$onUpdate(() => new Date()),
+    senderId: d.text("senderId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    message: d.text("message").notNull(),
+    messageType: d.text("messageType", {
+      enum: ["text", "image", "file", "system"],
+    }).notNull().default("text"),
+    metadata: d.json("metadata"),
+    isRead: d.boolean("isRead").notNull().default(false),
+    createdAt: d.timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
   }),
-  (t) => [
-    index("chat_session_idx").on(t.therapySessionId),
-    index("chat_step_number_idx").on(t.stepNumber),
-    index("chat_done_idx").on(t.done),
-    uniqueIndex("chat_session_step_idx").on(t.therapySessionId, t.stepNumber),
-  ],
+  (table) => ({
+    sessionIdIdx: index("chat_sessionId_idx").on(table.sessionId),
+    senderIdIdx: index("chat_senderId_idx").on(table.senderId),
+    createdAtIdx: index("chat_createdAt_idx").on(table.createdAt),
+  }),
 );
 
-export const chatRelations = relations(chat, ({ one }) => ({
-  therapySession: one(therapySessions, {
-    fields: [chat.therapySessionId],
-    references: [therapySessions.id],
+/**
+ * User activity log table for audit trail
+ *
+ * Stores user activity logs for security and compliance purposes.
+ * Tracks login attempts, data access, and system interactions.
+ */
+export const userActivity = createTable(
+  "userActivity",
+  (d) => ({
+    id: d
+      .text("id")
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    userId: d.text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    action: d.text("action").notNull(),
+    resource: d.text("resource"),
+    details: d.json("details"),
+    ipAddress: d.text("ipAddress"),
+    userAgent: d.text("userAgent"),
+    createdAt: d.timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
   }),
+  (table) => ({
+    userIdIdx: index("userActivity_userId_idx").on(table.userId),
+    actionIdx: index("userActivity_action_idx").on(table.action),
+    createdAtIdx: index("userActivity_createdAt_idx").on(table.createdAt),
+  }),
+);
+
+// Relations
+export const usersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  sessions: many(sessions),
+  therapySessions: many(therapySessions),
+  chatMessages: many(chat),
+  activity: many(userActivity),
 }));
 
-export const extendedUsersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-  activities: many(userActivities),
-  adminImpersonationSessions: many(impersonationSessions, {
-    relationName: "adminImpersonationSessions",
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, {
+    fields: [accounts.userId],
+    references: [users.id],
   }),
-  targetImpersonationSessions: many(impersonationSessions, {
-    relationName: "targetImpersonationSessions",
-  }),
-  therapySessions: many(therapySessions),
+}));
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
