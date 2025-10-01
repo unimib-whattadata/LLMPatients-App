@@ -433,6 +433,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         setNextEmotion(null);
         setIsAvatarTransitioning(false);
       }
+      
+      // Scroll to bottom after loading existing messages
+      setTimeout(() => {
+        scrollToBottom(100);
+      }, 200);
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
       const patientName = typedSelectedPatient.name || "";
       const welcomeContent =
@@ -451,8 +456,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       setCurrentEmotion("base");
       setNextEmotion(null);
       setIsAvatarTransitioning(false);
+      
+      // Scroll to bottom after setting welcome message
+      setTimeout(() => {
+        scrollToBottom(100);
+      }, 200);
     }
-  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading]);
+  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom]);
 
   // Generate random patient response with emotion
   const getPatientResponse = useCallback(
