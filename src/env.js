@@ -24,7 +24,24 @@ export const env = createEnv({
         : z.string().min(32).optional(),
     NEXTAUTH_SECRET: z.string().min(32).optional(), // Fallback for NextAuth
     JWT_SECRET: z.string().min(32).optional(), // JWT-specific secret
-    DATABASE_URL: z.string().url(),
+    DATABASE_URL: z.string().min(1).refine(
+      (url) => {
+        // Support both SQLite and PostgreSQL URLs
+        return (
+          url.startsWith("file:") ||
+          url.startsWith("libsql:") ||
+          url.startsWith("wss:") ||
+          url.startsWith("ws:") ||
+          url.startsWith("https:") ||
+          url.startsWith("http:") ||
+          url.startsWith("postgres://") ||
+          url.startsWith("postgresql://")
+        );
+      },
+      {
+        message: "DATABASE_URL must be a valid SQLite (file:, libsql:, wss:, ws:, https:, http:) or PostgreSQL (postgres://, postgresql://) URL",
+      }
+    ),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
