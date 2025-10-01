@@ -6,9 +6,7 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { patients } from "~/server/db/schema";
-import {
-  type DifficultyLevel,
-} from "~/lib/constants/difficulty";
+import { type DifficultyLevel } from "~/lib/constants/difficulty";
 
 /**
  * Patient interface representing a virtual patient in the system
@@ -83,29 +81,35 @@ export const patientsRouter = createTRPCRouter({
 
       try {
         // Get patients with error handling
-        const patientsData = await ctx.db.query.patients.findMany({
-          where: and(...whereConditions),
-          orderBy: [asc(patients.difficulty), asc(patients.name)],
-          limit,
-          offset,
-        });
+        const patientsData = await ctx.db
+          .select()
+          .from(patients)
+          .where(and(...whereConditions))
+          .orderBy(asc(patients.difficulty), asc(patients.name))
+          .limit(limit)
+          .offset(offset);
 
         // Transform the data and parse objectives
-        const transformedPatients: Patient[] = patientsData.map((patient) => ({
-          id: patient.id,
-          name: patient.name,
-          smallDescription: patient.smallDescription,
-          details: patient.details,
-          background: patient.background,
-          objectives: JSON.parse(patient.objectives) as string[],
-          avatarUrl: patient.avatarUrl,
-          avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
-          difficulty: patient.difficulty as DifficultyLevel,
-          estimatedDuration: patient.estimatedDuration,
-          isActive: patient.isActive,
-          createdAt: patient.createdAt,
-          updatedAt: patient.updatedAt,
-        }));
+        const transformedPatients: Patient[] = patientsData.map(
+          (patient: typeof patients.$inferSelect) => ({
+            id: patient.id,
+            name: patient.name,
+            smallDescription: patient.smallDescription,
+            details: patient.details,
+            background: patient.background,
+            objectives: JSON.parse(patient.objectives) as string[],
+            avatarUrl: patient.avatarUrl,
+            avatarType: patient.avatarType as
+              | "photo"
+              | "illustration"
+              | "avatar",
+            difficulty: patient.difficulty as DifficultyLevel,
+            estimatedDuration: patient.estimatedDuration,
+            isActive: patient.isActive,
+            createdAt: patient.createdAt,
+            updatedAt: patient.updatedAt,
+          }),
+        );
 
         return transformedPatients;
       } catch (error) {
@@ -117,16 +121,18 @@ export const patientsRouter = createTRPCRouter({
           environment: process.env.NODE_ENV,
           databaseUrl: process.env.DATABASE_URL ? "SET" : "NOT_SET",
         });
-        
+
         // In production, return empty array instead of throwing error
         // This prevents the entire page from crashing
         if (process.env.NODE_ENV === "production") {
           console.warn("Returning empty patients array due to database error");
           return [];
         }
-        
+
         // Re-throw with more context in development
-        throw new Error(`Failed to fetch patients: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(
+          `Failed to fetch patients: ${error instanceof Error ? error.message : String(error)}`,
+        );
       }
     }),
 
@@ -137,13 +143,17 @@ export const patientsRouter = createTRPCRouter({
   getPatientById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const patient = await ctx.db.query.patients.findFirst({
-        where: and(eq(patients.id, input.id), eq(patients.isActive, true)),
-      });
+      const patientResult = await ctx.db
+        .select()
+        .from(patients)
+        .where(and(eq(patients.id, input.id), eq(patients.isActive, true)))
+        .limit(1);
 
-      if (!patient) {
+      if (patientResult.length === 0) {
         throw new Error("Patient not found");
       }
+
+      const patient = patientResult[0]!;
 
       // Transform the data and parse objectives
       const transformedPatient: Patient = {

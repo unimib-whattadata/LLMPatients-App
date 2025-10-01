@@ -1,16 +1,5 @@
-import type {
-  User,
-  ImpersonationContext,
-  NavItem,
-  NavSection,
-} from "./Navbar";
-import {
-  Search,
-  Users,
-  Map,
-  FileText,
-  UserPlus,
-} from "lucide-react";
+import type { User, ImpersonationContext, NavItem, NavSection } from "./Navbar";
+import { Search, Users, Map, FileText, UserPlus } from "lucide-react";
 
 /**
  * Get navigation sections based on user role and impersonation status

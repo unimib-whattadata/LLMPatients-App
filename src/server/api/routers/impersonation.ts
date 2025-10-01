@@ -411,31 +411,40 @@ export const impersonationRouter = createTRPCRouter({
 
         // Get target user details separately (due to join limitations)
         const sessionsWithTargetUsers = await Promise.all(
-          sessions.map(async (item) => {
-            const targetUser = await db
-              .select({
-                id: users.id,
-                email: users.email,
-                name: users.name,
-              })
-              .from(users)
-              .where(eq(users.id, item.session.targetUserId))
-              .limit(1);
+          sessions.map(
+            async (item: {
+              session: typeof impersonationSessions.$inferSelect;
+              adminUser: {
+                id: string;
+                email: string;
+                name: string | null;
+              } | null;
+            }) => {
+              const targetUser = await db
+                .select({
+                  id: users.id,
+                  email: users.email,
+                  name: users.name,
+                })
+                .from(users)
+                .where(eq(users.id, item.session.targetUserId))
+                .limit(1);
 
-            return {
-              ...item.session,
-              adminUser: item.adminUser,
-              targetUser: targetUser[0] ?? null,
-              duration:
-                item.session.endedAt && item.session.startedAt
-                  ? Math.floor(
-                      (item.session.endedAt.getTime() -
-                        item.session.startedAt.getTime()) /
-                        1000,
-                    )
-                  : null,
-            };
-          }),
+              return {
+                ...item.session,
+                adminUser: item.adminUser,
+                targetUser: targetUser[0] ?? null,
+                duration:
+                  item.session.endedAt && item.session.startedAt
+                    ? Math.floor(
+                        (item.session.endedAt.getTime() -
+                          item.session.startedAt.getTime()) /
+                          1000,
+                      )
+                    : null,
+              };
+            },
+          ),
         );
 
         // Get total count for pagination

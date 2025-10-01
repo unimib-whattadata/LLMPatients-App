@@ -326,7 +326,7 @@ export const chatRouter = createTRPCRouter({
         .where(eq(chat.therapySessionId, input.therapySessionId))
         .orderBy(chat.stepNumber);
 
-      return chatSteps.map((step) => {
+      return chatSteps.map((step: typeof chat.$inferSelect) => {
         return {
           ...step,
           messages: JSON.parse(step.messages) as ChatMessage[],

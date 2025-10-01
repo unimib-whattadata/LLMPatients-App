@@ -289,13 +289,13 @@ export const userManagementRouter = createTRPCRouter({
           // Delete impersonation audit logs (references impersonation sessions)
           if (userImpersonationSessions.length > 0) {
             const sessionIds = userImpersonationSessions.map(
-              (session) => session.id,
+              (session: { id: string }) => session.id,
             );
             await tx
               .delete(impersonationAuditLog)
               .where(
                 or(
-                  ...sessionIds.map((id) =>
+                  ...sessionIds.map((id: string) =>
                     eq(impersonationAuditLog.impersonationSessionId, id),
                   ),
                 ),

@@ -14,7 +14,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { inferRouterInputs } from "@trpc/server";
 
 // Get environment variables for client-side usage
-const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development" || process.env.NODE_ENV === "development";
+const isDevelopment =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development" ||
+  process.env.NODE_ENV === "development";
 import { useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Users } from "lucide-react";
@@ -80,9 +82,7 @@ interface User {
 const createUserSchema = z.object({
   name: z.string().min(1, "Il nome è obbligatorio"),
   email: z.string().email("Inserisci un'email valida"),
-  password: z
-    .string()
-    .min(6, "La password deve contenere almeno 6 caratteri"),
+  password: z.string().min(6, "La password deve contenere almeno 6 caratteri"),
   role: z.enum(["admin", "user"]),
 });
 
@@ -133,10 +133,7 @@ export function ManageUsersContent() {
   // Access control check
   const hasAccess = React.useMemo(() => {
     // Development bypass
-    if (
-      isDevelopment &&
-      specialKey === "DavideIsTesting"
-    ) {
+    if (isDevelopment && specialKey === "DavideIsTesting") {
       return true;
     }
     // Production admin access
@@ -144,8 +141,7 @@ export function ManageUsersContent() {
   }, [session, specialKey]);
 
   // API queries and mutations
-  const isDevelopmentAccess =
-    isDevelopment && specialKey === "DavideIsTesting";
+  const isDevelopmentAccess = isDevelopment && specialKey === "DavideIsTesting";
 
   const {
     data: usersData,
@@ -171,13 +167,14 @@ export function ManageUsersContent() {
         enabled: hasAccess,
       });
 
-  const createPublicUserMutation = api.userManagement.createPublicUser.useMutation({
-    onSuccess: () => {
-      setIsCreateDialogOpen(false);
-      createUserForm.reset();
-      void refetchUsers();
-    },
-  });
+  const createPublicUserMutation =
+    api.userManagement.createPublicUser.useMutation({
+      onSuccess: () => {
+        setIsCreateDialogOpen(false);
+        createUserForm.reset();
+        void refetchUsers();
+      },
+    });
 
   const createPrivateUserMutation = api.userManagement.createUser.useMutation({
     onSuccess: () => {
@@ -288,7 +285,6 @@ export function ManageUsersContent() {
     }
   };
 
-
   // Loading state
   if (status === "loading" || (hasAccess && usersLoading)) {
     return (
@@ -298,7 +294,7 @@ export function ManageUsersContent() {
           <div className="dashboard-section__header">
             <div>
               <Skeleton variant="text" className="h-8 w-64" />
-              <Skeleton variant="text" className="h-4 w-96 mt-2" />
+              <Skeleton variant="text" className="mt-2 h-4 w-96" />
             </div>
           </div>
         </section>
@@ -308,14 +304,14 @@ export function ManageUsersContent() {
           <div className="dashboard-section__header">
             <div>
               <Skeleton variant="text" className="h-6 w-48" />
-              <Skeleton variant="text" className="h-4 w-72 mt-2" />
+              <Skeleton variant="text" className="mt-2 h-4 w-72" />
             </div>
           </div>
           <div className="dashboard-metric-grid">
             {Array.from({ length: 3 }).map((_, index) => (
               <div key={index} className="dashboard-metric-card">
-                <Skeleton variant="text" className="h-8 w-12 mx-auto mb-2" />
-                <Skeleton variant="text" className="h-4 w-20 mx-auto" />
+                <Skeleton variant="text" className="mx-auto mb-2 h-8 w-12" />
+                <Skeleton variant="text" className="mx-auto h-4 w-20" />
               </div>
             ))}
           </div>
@@ -326,35 +322,52 @@ export function ManageUsersContent() {
           <div className="dashboard-section__header">
             <div>
               <Skeleton variant="text" className="h-6 w-48" />
-              <Skeleton variant="text" className="h-4 w-72 mt-2" />
+              <Skeleton variant="text" className="mt-2 h-4 w-72" />
             </div>
             <Skeleton variant="button" className="h-10 w-32" />
           </div>
-          
+
           <div className="dashboard-panel">
             {/* Filters skeleton */}
             <div className="mb-6 flex flex-col gap-4 sm:flex-row">
               <Skeleton variant="text" className="h-10 flex-1" />
               <Skeleton variant="text" className="h-10 w-32" />
             </div>
-            
+
             {/* Table skeleton */}
             <div className="overflow-x-auto">
               <table className="dashboard-table">
                 <thead>
                   <tr>
-                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
-                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
-                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
-                    <th><Skeleton variant="text" className="h-4 w-16" /></th>
+                    <th>
+                      <Skeleton variant="text" className="h-4 w-16" />
+                    </th>
+                    <th>
+                      <Skeleton variant="text" className="h-4 w-16" />
+                    </th>
+                    <th>
+                      <Skeleton variant="text" className="h-4 w-16" />
+                    </th>
+                    <th>
+                      <Skeleton variant="text" className="h-4 w-16" />
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {Array.from({ length: 5 }).map((_, index) => (
                     <tr key={index}>
-                      <td><Skeleton variant="text" className="h-4 w-24" /></td>
-                      <td><Skeleton variant="text" className="h-4 w-32" /></td>
-                      <td><Skeleton variant="text" className="h-6 w-16 rounded-full" /></td>
+                      <td>
+                        <Skeleton variant="text" className="h-4 w-24" />
+                      </td>
+                      <td>
+                        <Skeleton variant="text" className="h-4 w-32" />
+                      </td>
+                      <td>
+                        <Skeleton
+                          variant="text"
+                          className="h-6 w-16 rounded-full"
+                        />
+                      </td>
                       <td>
                         <div className="flex space-x-2">
                           <Skeleton variant="button" className="h-8 w-16" />
@@ -391,7 +404,9 @@ export function ManageUsersContent() {
     );
   }
 
-  const users = Array.isArray(usersData) ? usersData : usersData?.users || [];
+  const users = (
+    Array.isArray(usersData) ? usersData : usersData?.users || []
+  ) as User[];
 
   return (
     <div className="dashboard-panel-stack">
@@ -639,7 +654,11 @@ export function ManageUsersContent() {
                   <FormItem className="auth-input-group">
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input {...field} type="password" autoComplete="new-password" />
+                      <Input
+                        {...field}
+                        type="password"
+                        autoComplete="new-password"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

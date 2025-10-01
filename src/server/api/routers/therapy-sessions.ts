@@ -37,22 +37,31 @@ export const therapySessionsRouter = createTRPCRouter({
       const sessionNumber = input.sessionNumber ?? 1;
       const userId = ctx.session.user.id;
 
-      const patient = await ctx.db.query.patients.findFirst({
-        where: and(eq(patients.id, patientId), eq(patients.isActive, true)),
-        columns: { id: true },
-      });
+      const patientResult = await ctx.db
+        .select({ id: patients.id })
+        .from(patients)
+        .where(and(eq(patients.id, patientId), eq(patients.isActive, true)))
+        .limit(1);
 
-      if (!patient) {
+      if (patientResult.length === 0) {
         throw new Error("Patient not found or inactive");
       }
 
+      const patient = patientResult[0];
+
       // Check if a therapy session already exists for this user-patient pair
-      const existingSession = await ctx.db.query.therapySessions.findFirst({
-        where: and(
-          eq(therapySessions.userId, userId),
-          eq(therapySessions.patientId, patientId),
-        ),
-      });
+      const existingSessionResult = await ctx.db
+        .select()
+        .from(therapySessions)
+        .where(
+          and(
+            eq(therapySessions.userId, userId),
+            eq(therapySessions.patientId, patientId),
+          ),
+        )
+        .limit(1);
+
+      const existingSession = existingSessionResult[0];
 
       if (existingSession) {
         // If session exists, update the session number if it's higher
@@ -103,12 +112,18 @@ export const therapySessionsRouter = createTRPCRouter({
       const { patientId } = input;
       const userId = ctx.session.user.id;
 
-      const session = await ctx.db.query.therapySessions.findFirst({
-        where: and(
-          eq(therapySessions.userId, userId),
-          eq(therapySessions.patientId, patientId),
-        ),
-      });
+      const sessionResult = await ctx.db
+        .select()
+        .from(therapySessions)
+        .where(
+          and(
+            eq(therapySessions.userId, userId),
+            eq(therapySessions.patientId, patientId),
+          ),
+        )
+        .limit(1);
+
+      const session = sessionResult[0];
 
       return session ?? null;
     }),
@@ -132,12 +147,18 @@ export const therapySessionsRouter = createTRPCRouter({
       const { patientId } = input;
       const userId = ctx.session.user.id;
 
-      const existingSession = await ctx.db.query.therapySessions.findFirst({
-        where: and(
-          eq(therapySessions.userId, userId),
-          eq(therapySessions.patientId, patientId),
-        ),
-      });
+      const existingSessionResult = await ctx.db
+        .select()
+        .from(therapySessions)
+        .where(
+          and(
+            eq(therapySessions.userId, userId),
+            eq(therapySessions.patientId, patientId),
+          ),
+        )
+        .limit(1);
+
+      const existingSession = existingSessionResult[0];
 
       if (!existingSession) {
         throw new Error("Therapy session not found");
@@ -160,43 +181,48 @@ export const therapySessionsRouter = createTRPCRouter({
   getAllForUser: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
-    const sessions = await ctx.db.query.therapySessions.findMany({
-      where: eq(therapySessions.userId, userId),
-      with: {
+    const sessions = await ctx.db
+      .select({
+        id: therapySessions.id,
+        userId: therapySessions.userId,
+        patientId: therapySessions.patientId,
+        sessionNumber: therapySessions.sessionNumber,
+        isCompleted: therapySessions.isCompleted,
+        createdAt: therapySessions.createdAt,
+        updatedAt: therapySessions.updatedAt,
         patient: {
-          columns: {
-            id: true,
-            name: true,
-            smallDescription: true,
-            details: true,
-            background: true,
-            objectives: true,
-            avatarUrl: true,
-            avatarType: true,
-            difficulty: true,
-            estimatedDuration: true,
-          },
+          id: patients.id,
+          name: patients.name,
+          smallDescription: patients.smallDescription,
+          details: patients.details,
+          background: patients.background,
+          objectives: patients.objectives,
+          avatarUrl: patients.avatarUrl,
+          avatarType: patients.avatarType,
+          difficulty: patients.difficulty,
+          estimatedDuration: patients.estimatedDuration,
         },
-      },
-      orderBy: [desc(therapySessions.updatedAt), therapySessions.createdAt],
-    });
+      })
+      .from(therapySessions)
+      .leftJoin(patients, eq(therapySessions.patientId, patients.id))
+      .where(eq(therapySessions.userId, userId))
+      .orderBy(desc(therapySessions.updatedAt), therapySessions.createdAt);
 
     // Get completed steps count for each session
     const sessionsWithProgress = await Promise.all(
       sessions.map(async (session) => {
-        const completedSteps = await ctx.db.query.chat.findMany({
-          where: and(
-            eq(chat.therapySessionId, session.id),
-            eq(chat.done, true)
-          ),
-          columns: { id: true },
-        });
+        const completedSteps = await ctx.db
+          .select({ id: chat.id })
+          .from(chat)
+          .where(
+            and(eq(chat.therapySessionId, session.id), eq(chat.done, true)),
+          );
 
         return {
           ...session,
           completedStepsCount: completedSteps.length,
         };
-      })
+      }),
     );
 
     return sessionsWithProgress;
@@ -220,13 +246,18 @@ export const therapySessionsRouter = createTRPCRouter({
       const { therapySessionId } = input;
       const userId = ctx.session.user.id;
 
-      const session = await ctx.db.query.therapySessions.findFirst({
-        where: and(
-          eq(therapySessions.id, therapySessionId),
-          eq(therapySessions.userId, userId),
-        ),
-        columns: { isCompleted: true },
-      });
+      const sessionResult = await ctx.db
+        .select({ isCompleted: therapySessions.isCompleted })
+        .from(therapySessions)
+        .where(
+          and(
+            eq(therapySessions.id, therapySessionId),
+            eq(therapySessions.userId, userId),
+          ),
+        )
+        .limit(1);
+
+      const session = sessionResult[0];
 
       return session?.isCompleted ?? false;
     }),
