@@ -25,7 +25,6 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { randomUUID } from "crypto";
 import { config } from "dotenv";
 
 // Load environment variables from .env files BEFORE any other imports
