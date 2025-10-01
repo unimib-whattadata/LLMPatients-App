@@ -8,6 +8,13 @@
       "when": 1759070135857,
       "tag": "0000_lying_strong_guy",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1759333828925,
+      "tag": "0001_wakeful_violations",
+      "breakpoints": true
     }
   ]
 }

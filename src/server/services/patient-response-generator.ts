@@ -62,6 +62,11 @@ export interface GenerateResponseInput {
   }>;
 }
 
+export interface InitializePatientInput {
+  patientInfo: PatientInfo;
+  sessionId: string;
+}
+
 /**
  * Enhanced predefined responses for each patient
  * These will be used as fallback when external AI is not available
@@ -186,7 +191,7 @@ function selectContextualResponse(
  */
 export interface ExternalAIService {
   generateResponse(input: GenerateResponseInput): Promise<PatientResponse>;
-  initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse>;
+  initializePatient(input: InitializePatientInput): Promise<PatientInitializationResponse>;
   generateChatResponse(input: ChatRequest): Promise<ChatResponse>;
 }
 
@@ -220,7 +225,7 @@ class MockExternalAIService implements ExternalAIService {
     return selectContextualResponse(input.patientInfo, input.userMessage, input.conversationHistory);
   }
 
-  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+  async initializePatient(input: InitializePatientInput): Promise<PatientInitializationResponse> {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
     
@@ -252,6 +257,9 @@ class MockExternalAIService implements ExternalAIService {
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
     // Simulate API call delay
     await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
+    
+    // Log the exact JSON being sent to external AI service (simulated)
+    console.log('Simulating External AI Chat Response API Call with JSON:', JSON.stringify(input, null, 2));
     
     // Log the simulated API call for debugging
     console.log('Simulating Chat Response API Call:', {
@@ -346,7 +354,7 @@ class RealExternalAIService implements ExternalAIService {
     }
   }
 
-  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+  async initializePatient(input: InitializePatientInput): Promise<PatientInitializationResponse> {
     if (!this.apiKey) {
       throw new Error("External AI API key not configured");
     }
@@ -400,6 +408,9 @@ class RealExternalAIService implements ExternalAIService {
     }
 
     try {
+      // Log the exact JSON being sent to external AI service
+      console.log('Calling External AI Chat Response API with JSON:', JSON.stringify(input, null, 2));
+      
       const response = await fetch('https://api.therapeutic-ai.com/v1/chat-response', {
         method: 'POST',
         headers: {
@@ -502,7 +513,7 @@ export class PatientResponseGenerator {
    * Initialize patient in external AI service
    * This is the Step 1 - Patient Initialization
    */
-  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+  async initializePatient(input: InitializePatientInput): Promise<PatientInitializationResponse> {
     try {
       if (this.useExternalAI) {
         return await this.externalAI.initializePatient(input);

@@ -58,10 +58,37 @@ export function PatientDetailContent() {
     { enabled: Boolean(patientId) },
   );
 
+  const initializePatientMutation = api.chat.initializePatient.useMutation();
+  
   const startTherapySession = api.therapySessions.start.useMutation({
-    onSuccess: (startedSession) => {
+    onSuccess: async (startedSession) => {
       setActionError(null);
       if (startedSession && patient) {
+        // Initialize patient in external AI service if not already initialized
+        if (!patient.externalPatientId) {
+          try {
+            await initializePatientMutation.mutateAsync({
+              patientInfo: {
+                id: patient.id,
+                name: patient.name,
+                age: 45, // Default age for simulation
+                gender: "male", // Default gender for simulation
+                diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
+                difficulty: patient.difficulty,
+                psychologicalProfile: patient.background,
+                background: patient.background,
+                currentMedications: [],
+                therapyGoals: patient.objectives,
+                previousSessions: 0,
+              },
+              sessionId: startedSession.id,
+            });
+          } catch (error) {
+            console.error("Error initializing patient:", error);
+            // Continue with navigation even if initialization fails
+          }
+        }
+        
         const patientSlug = createPatientSlug(patient.name);
         router.push(
           `/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`,

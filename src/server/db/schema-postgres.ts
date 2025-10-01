@@ -275,6 +275,7 @@ export const patients = createTable(
     difficulty: d.integer().notNull(), // 1: Facile, 2: Medio, 3: Difficile
     estimatedDuration: d.integer().default(30).notNull(), // minutes
     isActive: d.boolean().default(true).notNull(),
+    externalPatientId: d.text(), // External patient ID from AI service
     createdAt: d.timestamp({ mode: "date" }).default(new Date()).notNull(),
     updatedAt: d.timestamp({ mode: "date" }).$onUpdate(() => new Date()),
   }),
@@ -283,6 +284,7 @@ export const patients = createTable(
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
     index("virtual_patient_name_idx").on(t.name), // For LIKE searches
+    index("virtual_patient_external_id_idx").on(t.externalPatientId), // For external ID lookups
   ],
 );
 

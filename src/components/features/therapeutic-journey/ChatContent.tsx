@@ -15,7 +15,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~/components/ui/dialog";
-import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
+import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2, Info } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type { User, ImpersonationContext } from "~/types";
 
@@ -32,6 +37,7 @@ type PatientData = {
   difficulty: number;
   estimatedDuration: number;
   isActive: boolean;
+  externalPatientId: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -339,6 +345,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
   const generateResponseMutation = api.chat.generatePatientResponse.useMutation();
+  const generateChatResponseMutation = api.chat.generateChatResponse.useMutation();
 
   // Get utils for invalidating queries
   const utils = api.useUtils();
@@ -410,6 +417,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
     };
   }, []);
+
 
   // Initialize chat with existing data or welcome message
   useEffect(() => {
@@ -565,66 +573,115 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
     // Generate patient response using API
     try {
-      const response = await generateResponseMutation.mutateAsync({
-        patientInfo: {
-          id: typedSelectedPatient?.id || "",
-          name: typedSelectedPatient?.name || "",
-          age: 45, // Default age for simulation
-          gender: "male", // Default gender for simulation
-          diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
-          difficulty: typedSelectedPatient?.difficulty || 1,
-          psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
-          background: typedSelectedPatient?.background || "",
-          currentMedications: [], // Default empty array
-          therapyGoals: typedSelectedPatient?.objectives || [],
-          previousSessions: 0, // Default for new sessions
-        },
-        userMessage: messageText,
-        stepId,
-        sessionId: typedTherapySession?.id || "",
-        conversationHistory: messages.slice(-5).map(msg => ({
-          content: msg.content,
-          sender: msg.sender,
-          timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
-        })), // Last 5 messages for context
-      });
+      // Check if patient has external_patient_id, if not use fallback
+      if (typedSelectedPatient?.externalPatientId) {
+        // Use the new chat response endpoint with external patient ID
+        const response = await generateChatResponseMutation.mutateAsync({
+          external_patient_id: typedSelectedPatient.externalPatientId,
+          user_message: messageText,
+          session_id: typedTherapySession?.id || "",
+          step_id: stepId,
+        });
 
-      triggerAvatarEmotionChange(response.emotion);
+        triggerAvatarEmotionChange(response.emotion);
 
-      const patientMessage: ChatMessage = {
-        id: `patient-${Date.now()}`,
-        content: response.message,
-        sender: "patient",
-        timestamp: response.timestamp || new Date(),
-        stepId,
-        emotion: response.emotion,
-      };
+        const patientMessage: ChatMessage = {
+          id: `patient-${Date.now()}`,
+          content: response.message,
+          sender: "patient",
+          timestamp: new Date(response.timestamp),
+          stepId,
+          emotion: response.emotion,
+        };
 
-      // Add patient response
-      const finalMessages = [...updatedMessages, patientMessage];
-      setMessages(finalMessages);
-      setIsTyping(false);
+        // Add patient response
+        const finalMessages = [...updatedMessages, patientMessage];
+        setMessages(finalMessages);
+        setIsTyping(false);
 
-      // Force scroll to show patient response
-      scrollToBottom(100);
+        // Force scroll to show patient response
+        scrollToBottom(100);
 
-      // Return focus to input after patient responds
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 300);
+        // Return focus to input after patient responds
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 300);
 
-      // Save complete conversation
-      saveChatMutation.mutate({
-        therapySessionId: typedTherapySession.id,
-        stepNumber: stepId,
-        messages: finalMessages.map((msg) => ({
-          ...msg,
-          timestamp:
-            msg.timestamp instanceof Date
-              ? msg.timestamp
-              : new Date(msg.timestamp),
-        })),
-      });
+        // Save complete conversation
+        saveChatMutation.mutate({
+          therapySessionId: typedTherapySession.id,
+          stepNumber: stepId,
+          messages: finalMessages.map((msg) => ({
+            ...msg,
+            timestamp:
+              msg.timestamp instanceof Date
+                ? msg.timestamp
+                : new Date(msg.timestamp),
+          })),
+        });
+      } else {
+        // Fallback to old method if no external_patient_id
+        const response = await generateResponseMutation.mutateAsync({
+          patientInfo: {
+            id: typedSelectedPatient?.id || "",
+            name: typedSelectedPatient?.name || "",
+            age: 45, // Default age for simulation
+            gender: "male", // Default gender for simulation
+            diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
+            difficulty: typedSelectedPatient?.difficulty || 1,
+            psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
+            background: typedSelectedPatient?.background || "",
+            currentMedications: [], // Default empty array
+            therapyGoals: typedSelectedPatient?.objectives || [],
+            previousSessions: 0, // Default for new sessions
+          },
+          userMessage: messageText,
+          stepId,
+          sessionId: typedTherapySession?.id || "",
+          conversationHistory: messages.slice(-5).map(msg => ({
+            content: msg.content,
+            sender: msg.sender,
+            timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
+          })), // Last 5 messages for context
+        });
+
+        triggerAvatarEmotionChange(response.emotion);
+
+        const patientMessage: ChatMessage = {
+          id: `patient-${Date.now()}`,
+          content: response.message,
+          sender: "patient",
+          timestamp: response.timestamp || new Date(),
+          stepId,
+          emotion: response.emotion,
+        };
+
+        // Add patient response
+        const finalMessages = [...updatedMessages, patientMessage];
+        setMessages(finalMessages);
+        setIsTyping(false);
+
+        // Force scroll to show patient response
+        scrollToBottom(100);
+
+        // Return focus to input after patient responds
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 300);
+
+        // Save complete conversation
+        saveChatMutation.mutate({
+          therapySessionId: typedTherapySession.id,
+          stepNumber: stepId,
+          messages: finalMessages.map((msg) => ({
+            ...msg,
+            timestamp:
+              msg.timestamp instanceof Date
+                ? msg.timestamp
+                : new Date(msg.timestamp),
+          })),
+        });
+      }
     } catch (error) {
       console.error("Error generating patient response:", error);
       setIsTyping(false);
@@ -680,6 +737,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     typedSelectedPatient,
     saveChatMutation,
     generateResponseMutation,
+    generateChatResponseMutation,
     triggerAvatarEmotionChange,
   ]);
 
@@ -851,6 +909,51 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   {formatSessionTime(sessionTime)}
                 </span>
               </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex-shrink-0 hover:bg-[var(--color-primary-green)]/15"
+                    aria-label="Informazioni sessione"
+                  >
+                    <Info className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80" align="end">
+                  <div className="space-y-3">
+                    <h4 className="font-medium text-sm text-[var(--color-text-primary)]">
+                      Informazioni Sessione
+                    </h4>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-[var(--color-text-secondary)]">Patient ID (interno):</span>
+                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                          {typedSelectedPatient?.id || "N/A"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[var(--color-text-secondary)]">Therapy Session ID:</span>
+                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                          {typedTherapySession?.id || "N/A"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[var(--color-text-secondary)]">External Patient ID:</span>
+                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                          {typedSelectedPatient?.externalPatientId || "Non inizializzato"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[var(--color-text-secondary)]">Step ID:</span>
+                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                          {stepId}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
               {!isStepCompleted && (
                 <Button
                   onClick={handleCompleteStep}

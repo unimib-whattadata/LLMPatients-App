@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { chat, therapySessions } from "~/server/db/schema";
-import { patientResponseGenerator } from "~/server/services/patient-response-generator";
+import { chat, therapySessions, patients } from "~/server/db/schema";
+import { patientResponseGenerator, type InitializePatientInput } from "~/server/services/patient-response-generator";
 
 /**
  * Chat message type for TypeScript
@@ -405,6 +405,62 @@ export const chatRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       return await patientResponseGenerator.generateResponse(input);
+    }),
+
+  // Generate AI chat response with external patient ID
+  generateChatResponse: protectedProcedure
+    .input(
+      z.object({
+        external_patient_id: z.string(),
+        user_message: z.string(),
+        session_id: z.string(),
+        step_id: z.number(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      return await patientResponseGenerator.generateChatResponse(input);
+    }),
+
+  // Initialize patient in external AI service
+  initializePatient: protectedProcedure
+    .input(
+      z.object({
+        patientInfo: z.object({
+          id: z.string(),
+          name: z.string(),
+          age: z.number(),
+          gender: z.string(),
+          diagnosis: z.string(),
+          difficulty: z.number(),
+          psychologicalProfile: z.string(),
+          background: z.string(),
+          currentMedications: z.array(z.string()).optional(),
+          therapyGoals: z.array(z.string()).optional(),
+          previousSessions: z.number().optional(),
+        }),
+        sessionId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      // Initialize patient in external AI service
+      const initInput: InitializePatientInput = {
+        patientInfo: input.patientInfo,
+        sessionId: input.sessionId,
+      };
+      const initResponse = await patientResponseGenerator.initializePatient(initInput);
+      
+      // If initialization was successful, save the external_patient_id to database
+      if (initResponse.status === "success" && initResponse.external_patient_id) {
+        await ctx.db
+          .update(patients)
+          .set({ 
+            externalPatientId: initResponse.external_patient_id,
+            updatedAt: new Date()
+          })
+          .where(eq(patients.id, input.patientInfo.id));
+      }
+      
+      return initResponse;
     }),
 
   // Admin endpoint to enable/disable external AI

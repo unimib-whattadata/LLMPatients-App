@@ -1,5 +1,5 @@
 import type { User, ImpersonationContext, NavItem, NavSection } from "./Navbar";
-import { Search, Users, Map, FileText, UserPlus } from "lucide-react";
+import { Search, Users, Map, FileText, UserPlus, BookOpen } from "lucide-react";
 
 /**
  * Get navigation sections based on user role and impersonation status
@@ -81,6 +81,11 @@ export function getNavSections(
             label: "Schema Valutazione",
             href: "/dashboard/patient-attributes",
             icon: FileText,
+          },
+          {
+            label: "Patient Response Generator",
+            href: "/docs/patient-response-generator",
+            icon: BookOpen,
           },
         ],
       },

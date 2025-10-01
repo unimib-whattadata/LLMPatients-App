@@ -26,6 +26,7 @@ export interface Patient {
   difficulty: DifficultyLevel;
   estimatedDuration: number;
   isActive: boolean;
+  externalPatientId?: string | null;
   createdAt: Date;
   updatedAt: Date | null;
 }
@@ -106,6 +107,7 @@ export const patientsRouter = createTRPCRouter({
             difficulty: patient.difficulty as DifficultyLevel,
             estimatedDuration: patient.estimatedDuration,
             isActive: patient.isActive,
+            externalPatientId: patient.externalPatientId,
             createdAt: patient.createdAt,
             updatedAt: patient.updatedAt,
           }),
@@ -168,6 +170,7 @@ export const patientsRouter = createTRPCRouter({
         difficulty: patient.difficulty as DifficultyLevel,
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
+        externalPatientId: patient.externalPatientId,
         createdAt: patient.createdAt,
         updatedAt: patient.updatedAt,
       };
