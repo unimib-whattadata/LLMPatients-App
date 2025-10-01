@@ -234,7 +234,9 @@ async function seedDatabase() {
     .from(users)
     .where(inArray(users.email, targetEmails));
 
-  const existing = new Set(existingUsers.map((record) => record.email));
+  const existing = new Set(
+    existingUsers.map((record: { email: string }) => record.email),
+  );
   const createdUsers: string[] = [];
 
   for (const user of SEED_USERS) {
@@ -271,7 +273,9 @@ async function seedPatients() {
   // First, delete all existing patients and their dependent records
   console.log("[INFO] Removing existing patients...");
   // Delete in order: first dependent tables, then main table
+  // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(therapySessions);
+  // eslint-disable-next-line drizzle/enforce-delete-with-where
   await db.delete(patients);
   console.log("[INFO] Existing patients removed");
 
