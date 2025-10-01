@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
-import { users } from "~/server/db/schema";
+import { users } from "~/server/db/tables";
 
 /**
  * User validation utilities for JWT authentication with database validation

@@ -16,7 +16,7 @@ import {
   protectedProcedure,
   adminProcedure,
 } from "~/server/api/trpc";
-import { users, userActivities } from "~/server/db/schema";
+import { users, userActivities } from "~/server/db/tables";
 
 /**
  * Dashboard router with role-based procedures

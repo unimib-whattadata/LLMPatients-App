@@ -308,30 +308,18 @@ async function seedPatients() {
   // Add all patients from JSON files
   for (const patient of PATIENTS) {
     // Extract age and gender from patient details
-    const age = parseInt(
-      patient.details.demographic_sociocultural_information?.age || "30",
-    );
-    const gender = mapGenderToEnum(
-      patient.details.demographic_sociocultural_information?.gender || "other",
-    );
-
-    // Extract medical history from psychological profile
-    const medicalHistory =
-      patient.details.psychological_profile_and_cognitive_functioning
-        ?.current_and_past_psychiatric_diagnoses || "";
-
-    // Use small description as notes
-    const notes =
-      patient.smallDescription || patient.background || "Patient case study";
-
     const result = await db
       .insert(patients)
       .values({
         name: patient.name,
-        age: age,
-        gender: gender,
-        medicalHistory: medicalHistory,
-        notes: notes,
+        smallDescription: patient.smallDescription,
+        details: JSON.stringify(patient.details),
+        background: patient.background,
+        objectives: JSON.stringify(patient.objectives),
+        avatarUrl: patient.avatarUrl,
+        avatarType: patient.avatarType,
+        difficulty: patient.difficulty,
+        estimatedDuration: patient.estimatedDuration,
         isActive: true,
       })
       .returning({ id: patients.id });
@@ -350,15 +338,16 @@ async function seedPatients() {
 
 async function runSeeding() {
   try {
-    console.log("🔄 Running database migrations...");
-    const migrateCommand = databaseUrl.startsWith("postgres")
-      ? "npx drizzle-kit migrate --config=drizzle-postgres.config.ts"
-      : "npx drizzle-kit migrate";
-    execSync(migrateCommand, {
-      stdio: "inherit",
-      env: { ...process.env, DATABASE_URL: databaseUrl },
-    });
-    console.log("✅ Database migrations completed successfully!");
+    console.log("⏭️  Skipping migrations (schema already applied)...");
+    // console.log("🔄 Running database migrations...");
+    // const migrateCommand = databaseUrl.startsWith("postgres")
+    //   ? "npx drizzle-kit migrate --config=drizzle-postgres.config.ts"
+    //   : "npx drizzle-kit migrate";
+    // execSync(migrateCommand, {
+    //   stdio: "inherit",
+    //   env: { ...process.env, DATABASE_URL: databaseUrl },
+    // });
+    // console.log("✅ Database migrations completed successfully!");
 
     await seedDatabase();
     await seedPatients();

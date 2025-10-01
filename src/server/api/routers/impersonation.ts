@@ -22,7 +22,7 @@ import {
   users,
   impersonationSessions,
   impersonationAuditLog,
-} from "~/server/db/schema";
+} from "~/server/db/tables";
 
 /**
  * Impersonation Router

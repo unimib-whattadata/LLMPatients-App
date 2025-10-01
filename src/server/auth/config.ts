@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
 import { db } from "~/server/db";
-import { users } from "~/server/db/schema";
+import { users } from "~/server/db/tables";
 import {
   validateUserById,
   validateUserByEmail,

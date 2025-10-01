@@ -23,7 +23,7 @@ import {
   userActivities,
   impersonationSessions,
   impersonationAuditLog,
-} from "~/server/db/schema";
+} from "~/server/db/tables";
 import { eq, asc, and, or, like, count } from "drizzle-orm";
 
 export const userManagementRouter = createTRPCRouter({

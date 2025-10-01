@@ -10,7 +10,7 @@
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
 import { asc, eq, and } from "drizzle-orm";
-import { patients } from "../src/server/db/schema";
+import { patients } from "../src/server/db/tables";
 
 async function checkDatabaseConnection() {
   console.log("🔍 Production Database Check");

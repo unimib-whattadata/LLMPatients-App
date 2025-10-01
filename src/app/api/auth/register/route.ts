@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 import { db } from "~/server/db";
-import { users } from "~/server/db/schema";
+import { users } from "~/server/db/tables";
 import {
   validateUserByEmail,
   createValidationConfig,

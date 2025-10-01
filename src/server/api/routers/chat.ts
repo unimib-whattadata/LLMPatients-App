@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { chat, therapySessions, patients } from "~/server/db/schema";
+import { chat, therapySessions, patients } from "~/server/db/tables";
 import { patientResponseGenerator, type InitializePatientInput } from "~/server/services/patient-response-generator";
 
 /**

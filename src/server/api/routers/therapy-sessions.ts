@@ -2,7 +2,7 @@ import { and, eq, desc } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { patients, therapySessions, chat } from "~/server/db/schema";
+import { patients, therapySessions, chat } from "~/server/db/tables";
 
 /**
  * TherapySession type inferred from database schema
@@ -206,7 +206,7 @@ export const therapySessionsRouter = createTRPCRouter({
       .from(therapySessions)
       .leftJoin(patients, eq(therapySessions.patientId, patients.id))
       .where(eq(therapySessions.userId, userId))
-      .orderBy(desc(therapySessions.updatedAt), therapySessions.createdAt);
+      .orderBy(desc(therapySessions.updatedAt), desc(therapySessions.createdAt));
 
     // Get completed steps count for each session
     const sessionsWithProgress = await Promise.all(
