@@ -25,6 +25,7 @@ import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { execSync } from "child_process";
 import { config } from "dotenv";
 
 // Load environment variables from .env files BEFORE any other imports
@@ -44,12 +45,17 @@ import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
-// Import schema tables
-import { users, patients, therapySessions } from "../src/server/db/schema";
-
 // Create database connection - default to local SQLite for seeding
 const databaseUrl =
   process.env.SEED_DATABASE_URL || process.env.DATABASE_URL || "file:./dev.db";
+// Import schema tables
+// Dynamic schema import based on database type
+const schemaPath = databaseUrl.startsWith("postgres")
+  ? "../src/server/db/schema-postgres.ts"
+  : "../src/server/db/schema.ts";
+
+const { users, patients, therapySessions } = await import(schemaPath);
+
 let db: any;
 let client: any;
 
@@ -311,6 +317,13 @@ async function seedPatients() {
 
 async function runSeeding() {
   try {
+    console.log("🔄 Running database migrations...");
+    execSync("npx drizzle-kit migrate", {
+      stdio: "inherit",
+      env: { ...process.env, DATABASE_URL: databaseUrl },
+    });
+    console.log("✅ Database migrations completed successfully!");
+
     await seedDatabase();
     await seedPatients();
     console.log("[SUCCESS] Seeding completato");
