@@ -1,102 +1,77 @@
 #!/usr/bin/env node
 
+/**
+ * Database Seeding Script
+ *
+ * This script supports both PostgreSQL and SQLite databases for seeding.
+ * The database type is automatically detected based on the DATABASE_URL:
+ *
+ * - PostgreSQL: If DATABASE_URL starts with "postgres://" or "postgresql://"
+ * - SQLite/LibSQL: If DATABASE_URL starts with "file:" or other schemes
+ *
+ * For PostgreSQL seeding:
+ * 1. Ensure PostgreSQL is running and accessible
+ * 2. Set DATABASE_URL to your PostgreSQL connection string
+ * 3. Run: pnpm tsx scripts/seed.ts
+ *
+ * For SQLite seeding (default):
+ * 1. Set DATABASE_URL to "file:./dev.db" or leave unset
+ * 2. Run: pnpm tsx scripts/seed.ts
+ *
+ * You can also override with SEED_DATABASE_URL environment variable.
+ */
+
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { randomUUID } from "crypto";
+import { config } from "dotenv";
+
+// Load environment variables from .env files BEFORE any other imports
+config({ path: join(process.cwd(), ".env.local") });
+config({ path: join(process.cwd(), ".env") });
+
+// Set default DATABASE_URL for development if not provided
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = "file:./dev.db";
+}
 
 import bcrypt from "bcryptjs";
 import { eq, inArray } from "drizzle-orm";
 import { createClient } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
-import {
-  text,
-  integer,
-  sqliteTableCreator,
-  primaryKey,
-  index,
-} from "drizzle-orm/sqlite-core";
-import { sql } from "drizzle-orm";
+import { drizzle as drizzleLibSQL } from "drizzle-orm/libsql";
+import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
-// Next.js automatically loads environment variables from .env files
+// Import schema tables
+import { users, patients, therapySessions } from "../src/server/db/schema";
 
-const createTable = sqliteTableCreator((name) => `llmpatient_${name}`);
+// Create database connection - default to local SQLite for seeding
+const databaseUrl =
+  process.env.SEED_DATABASE_URL || process.env.DATABASE_URL || "file:./dev.db";
+let db: any;
+let client: any;
 
-const users = createTable("user", (d) => ({
-  id: d
-    .text({ length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  name: d.text({ length: 255 }),
-  email: d.text({ length: 255 }).notNull(),
-  password: d.text({ length: 255 }),
-  role: d.text({ length: 20 }).default("user").notNull(),
-  emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
-  image: d.text({ length: 255 }),
-}));
-
-const patients = createTable("patient", (d) => ({
-  id: d
-    .text({ length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  name: d.text({ length: 255 }).notNull(),
-  smallDescription: d.text({ length: 500 }).notNull(), // Brief description of the case
-  details: d.text().notNull(), // JSON string containing all patient details
-  background: d.text({ length: 2000 }).notNull(),
-  objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
-  avatarUrl: d.text({ length: 500 }),
-  avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
-  difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
-  estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
-  isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
-  createdAt: d
-    .integer({ mode: "timestamp" })
-    .default(sql`(unixepoch())`)
-    .notNull(),
-  updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
-}));
-
-const therapySessions = createTable(
-  "therapy_session",
-  (d) => ({
-    id: d
-      .text({ length: 255 })
-      .notNull()
-      .primaryKey()
-      .$defaultFn(() => randomUUID()),
-    userId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => users.id),
-    patientId: d
-      .text({ length: 255 })
-      .notNull()
-      .references(() => patients.id),
-    sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
-    createdAt: d
-      .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
-      .notNull(),
-    updatedAt: d.integer({ mode: "timestamp" }).$onUpdate(() => new Date()),
-  }),
-  (t) => [
-    index("therapy_session_user_idx").on(t.userId),
-    index("therapy_session_patient_idx").on(t.patientId),
-  ],
+console.log(
+  `[INFO] Using database: ${databaseUrl.startsWith("postgres") ? "PostgreSQL" : "SQLite"}`,
 );
 
-const databaseUrl = process.env.DATABASE_URL ?? "file:./dev.db";
-const client = createClient({
-  url: databaseUrl,
-  authToken: process.env.DATABASE_AUTH_TOKEN,
-});
-
-const db = drizzle(client);
+if (databaseUrl.startsWith("postgres")) {
+  // PostgreSQL connection
+  client = postgres(databaseUrl);
+  db = drizzlePostgres(client, {
+    schema: { users, patients, therapySessions },
+  });
+} else {
+  // SQLite/LibSQL connection
+  client = createClient({
+    url: databaseUrl,
+    authToken: process.env.DATABASE_AUTH_TOKEN,
+  });
+  db = drizzleLibSQL(client, { schema: { users, patients, therapySessions } });
+}
 
 const SALT_ROUNDS = 10;
 
@@ -341,7 +316,10 @@ async function runSeeding() {
     console.error("[ERROR] Seeding non riuscito", error);
     process.exit(1);
   } finally {
-    client.close();
+    // Close database connection
+    if (client && typeof client.close === "function") {
+      client.close();
+    }
   }
 }
 
