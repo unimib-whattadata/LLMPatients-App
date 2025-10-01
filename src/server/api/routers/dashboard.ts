@@ -30,7 +30,7 @@ export const dashboardRouter = createTRPCRouter({
    */
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
     try {
-      const allUsers = await ctx.db
+      const allUsers = await (ctx.db as any)
         .select({
           id: users.id,
           name: users.name,
@@ -74,7 +74,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        const updatedUser = await ctx.db
+        const updatedUser = await (ctx.db as any)
           .update(users)
           .set({ role: input.role })
           .where(eq(users.id, input.userId))
@@ -93,7 +93,7 @@ export const dashboardRouter = createTRPCRouter({
         }
 
         // Log admin activity
-        await ctx.db.insert(userActivities).values({
+        await (ctx.db as any).insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "role_update",
           metadata: JSON.stringify({
@@ -124,35 +124,35 @@ export const dashboardRouter = createTRPCRouter({
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
       // Get total users count
-      const totalUsersResult = await ctx.db
+      const totalUsersResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users);
 
       // Get active users (users with login activity in last 30 days)
-      const activeUsersQuery = await ctx.db
+      const activeUsersQuery = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
         .where(
           and(
-            eq(userActivities.activityType, "login"),
-            gte(userActivities.createdAt, thirtyDaysAgo),
+            eq((userActivities as any).activityType, "login"),
+            gte((userActivities as any).createdAt, thirtyDaysAgo),
           ),
         )
         .groupBy(userActivities.userId);
 
       // Get admin users count
-      const adminUsersResult = await ctx.db
+      const adminUsersResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users)
         .where(eq(users.role, "admin"));
 
       // Get recent activities (last 10)
-      const recentActivities = await ctx.db
+      const recentActivities = await (ctx.db as any)
         .select({
-          id: userActivities.id,
-          activityType: userActivities.activityType,
-          metadata: userActivities.metadata,
-          createdAt: userActivities.createdAt,
+          id: (userActivities as any).id,
+          activityType: (userActivities as any).activityType,
+          metadata: (userActivities as any).metadata,
+          createdAt: (userActivities as any).createdAt,
           userName: users.name,
         })
         .from(userActivities)
@@ -164,7 +164,7 @@ export const dashboardRouter = createTRPCRouter({
         totalUsers: totalUsersResult[0]?.count ?? 0,
         activeUsers: activeUsersQuery.length,
         adminUsers: adminUsersResult[0]?.count ?? 0,
-        recentActivities: recentActivities.map((activity) => ({
+        recentActivities: recentActivities.map((activity: any) => ({
           id: activity.id,
           type: activity.activityType,
           createdAt: activity.createdAt,
@@ -190,7 +190,7 @@ export const dashboardRouter = createTRPCRouter({
    */
   getUserProfile: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const userProfile = await ctx.db
+      const userProfile = await (ctx.db as any)
         .select({
           id: users.id,
           name: users.name,
@@ -236,7 +236,7 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const existingUser = await ctx.db
+        const existingUser = await (ctx.db as any)
           .select({ id: users.id })
           .from(users)
           .where(
@@ -255,7 +255,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        const updatedUser = await ctx.db
+        const updatedUser = await (ctx.db as any)
           .update(users)
           .set({
             name: input.name,
@@ -276,7 +276,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        await ctx.db.insert(userActivities).values({
+        await (ctx.db as any).insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "profile_update",
           metadata: JSON.stringify({
@@ -308,19 +308,19 @@ export const dashboardRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       try {
-        const activities = await ctx.db
+        const activities = await (ctx.db as any)
           .select({
-            id: userActivities.id,
-            activityType: userActivities.activityType,
-            metadata: userActivities.metadata,
-            createdAt: userActivities.createdAt,
+            id: (userActivities as any).id,
+            activityType: (userActivities as any).activityType,
+            metadata: (userActivities as any).metadata,
+            createdAt: (userActivities as any).createdAt,
           })
           .from(userActivities)
           .where(eq(userActivities.userId, ctx.session.user.id))
           .orderBy(desc(userActivities.createdAt))
           .limit(input.limit);
 
-        return activities.map((activity) => ({
+        return activities.map((activity: any) => ({
           id: activity.id,
           type: activity.activityType,
           createdAt: activity.createdAt,
@@ -354,7 +354,7 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const activity = await ctx.db
+        const activity = await (ctx.db as any)
           .insert(userActivities)
           .values({
             userId: ctx.session.user.id,
@@ -362,9 +362,9 @@ export const dashboardRouter = createTRPCRouter({
             metadata: input.metadata ? JSON.stringify(input.metadata) : null,
           })
           .returning({
-            id: userActivities.id,
-            activityType: userActivities.activityType,
-            createdAt: userActivities.createdAt,
+            id: (userActivities as any).id,
+            activityType: (userActivities as any).activityType,
+            createdAt: (userActivities as any).createdAt,
           });
 
         return activity[0]!;
@@ -386,34 +386,34 @@ export const dashboardRouter = createTRPCRouter({
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
       // Get total students count (users with role 'user')
-      const totalStudentsResult = await ctx.db
+      const totalStudentsResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users)
         .where(eq(users.role, "user"));
 
       // Get active students (students with login activity in last 30 days)
-      const activeStudentsQuery = await ctx.db
+      const activeStudentsQuery = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
         .innerJoin(users, eq(userActivities.userId, users.id))
         .where(
           and(
-            eq(userActivities.activityType, "login"),
+            eq((userActivities as any).activityType, "login"),
             eq(users.role, "user"),
-            gte(userActivities.createdAt, thirtyDaysAgo),
+            gte((userActivities as any).createdAt, thirtyDaysAgo),
           ),
         )
         .groupBy(userActivities.userId);
 
       // Get students with simulation activity (mock data for now)
       // In a real implementation, this would query a simulations table
-      const simulationActivities = await ctx.db
+      const simulationActivities = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
         .innerJoin(users, eq(userActivities.userId, users.id))
         .where(
           and(
-            eq(userActivities.activityType, "simulation"),
+            eq((userActivities as any).activityType, "simulation"),
             eq(users.role, "user"),
           ),
         )
@@ -455,13 +455,13 @@ export const dashboardRouter = createTRPCRouter({
    */
   getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      const studentsWithSimulations = await ctx.db
+      const studentsWithSimulations = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
         .innerJoin(users, eq(userActivities.userId, users.id))
         .where(
           and(
-            eq(userActivities.activityType, "simulation"),
+            eq((userActivities as any).activityType, "simulation"),
             eq(users.role, "user"),
           ),
         )

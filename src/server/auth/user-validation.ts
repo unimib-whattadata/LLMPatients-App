@@ -55,16 +55,16 @@ export async function validateUserById(
         setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
 
-      const queryPromise = db
+      const queryPromise = (db as any)
         .select({
-          id: users.id,
-          email: users.email,
-          name: users.name,
-          role: users.role,
-          image: users.image,
+          id: (users as any).id,
+          email: (users as any).email,
+          name: (users as any).name,
+          role: (users as any).role,
+          image: (users as any).image,
         })
         .from(users)
-        .where(eq(users.id, userId))
+        .where(eq((users as any).id, userId))
         .limit(1);
 
       const userResults = await Promise.race([queryPromise, timeoutPromise]);
@@ -150,16 +150,16 @@ export async function validateUserByEmail(
         setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
 
-      const queryPromise = db
+      const queryPromise = (db as any)
         .select({
-          id: users.id,
-          email: users.email,
-          name: users.name,
-          role: users.role,
-          image: users.image,
+          id: (users as any).id,
+          email: (users as any).email,
+          name: (users as any).name,
+          role: (users as any).role,
+          image: (users as any).image,
         })
         .from(users)
-        .where(eq(users.email, email))
+        .where(eq((users as any).email, email))
         .limit(1);
 
       const userResults = await Promise.race([queryPromise, timeoutPromise]);

@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
     console.log(`[${requestId}] Creating new user in database...`);
     const createUserResult = await handleAuthErrorWithRetry(
       async () => {
-        const newUser = await db
+        const newUser = await (db as any)
           .insert(users)
           .values({
             name: validatedData.name,

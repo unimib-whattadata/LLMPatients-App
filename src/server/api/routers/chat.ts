@@ -2,7 +2,10 @@ import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { chat, therapySessions, patients } from "~/server/db/tables";
-import { patientResponseGenerator, type InitializePatientInput } from "~/server/services/patient-response-generator";
+import {
+  patientResponseGenerator,
+  type InitializePatientInput,
+} from "~/server/services/patient-response-generator";
 
 /**
  * Chat message type for TypeScript
@@ -321,7 +324,7 @@ export const chatRouter = createTRPCRouter({
         return [];
       }
 
-      const chatSteps = await ctx.db
+      const chatSteps = await (ctx.db as any)
         .select()
         .from(chat)
         .where(eq(chat.therapySessionId, input.therapySessionId))
@@ -360,7 +363,7 @@ export const chatRouter = createTRPCRouter({
         return false;
       }
 
-      const chatStep = await ctx.db
+      const chatStep = await (ctx.db as any)
         .select({ done: chat.done })
         .from(chat)
         .where(
@@ -394,13 +397,15 @@ export const chatRouter = createTRPCRouter({
         userMessage: z.string(),
         stepId: z.number(),
         sessionId: z.string(),
-        conversationHistory: z.array(
-          z.object({
-            content: z.string(),
-            sender: z.enum(["user", "patient"]),
-            timestamp: z.date(),
-          })
-        ).optional(),
+        conversationHistory: z
+          .array(
+            z.object({
+              content: z.string(),
+              sender: z.enum(["user", "patient"]),
+              timestamp: z.date(),
+            }),
+          )
+          .optional(),
       }),
     )
     .mutation(async ({ input }) => {
@@ -447,19 +452,23 @@ export const chatRouter = createTRPCRouter({
         patientInfo: input.patientInfo,
         sessionId: input.sessionId,
       };
-      const initResponse = await patientResponseGenerator.initializePatient(initInput);
-      
+      const initResponse =
+        await patientResponseGenerator.initializePatient(initInput);
+
       // If initialization was successful, save the external_patient_id to database
-      if (initResponse.status === "success" && initResponse.external_patient_id) {
+      if (
+        initResponse.status === "success" &&
+        initResponse.external_patient_id
+      ) {
         await ctx.db
           .update(patients)
-          .set({ 
+          .set({
             externalPatientId: initResponse.external_patient_id,
-            updatedAt: new Date()
+            updatedAt: new Date(),
           })
           .where(eq(patients.id, input.patientInfo.id));
       }
-      
+
       return initResponse;
     }),
 

@@ -59,24 +59,24 @@ export const userManagementRouter = createTRPCRouter({
       const whereClause =
         conditions.length > 0 ? and(...conditions) : undefined;
 
-      const userList = await ctx.db
+      const userList = await (ctx.db as any)
         .select({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // // createdAt: users.createdAt,
           // // updatedAt: users.updatedAt,
         })
         .from(users)
         .where(whereClause)
-        .orderBy(asc(users.name)) // Changed from desc(users.createdAt)
+        .orderBy(asc((users as any).name)) // Changed from desc(users.createdAt)
         .limit(limit)
         .offset(offset);
 
       // Get total count for pagination
-      const totalCount = await ctx.db
-        .select({ count: users.id })
+      const totalCount = await (ctx.db as any)
+        .select({ count: (users as any).id })
         .from(users)
         .where(whereClause);
 
@@ -104,10 +104,10 @@ export const userManagementRouter = createTRPCRouter({
       const { name, email, role } = input;
 
       // Check if user with email already exists
-      const existingUser = await ctx.db
+      const existingUser = await (ctx.db as any)
         .select()
         .from(users)
-        .where(eq(users.email, email))
+        .where(eq((users as any).email, email))
         .limit(1);
 
       if (existingUser.length > 0) {
@@ -115,7 +115,7 @@ export const userManagementRouter = createTRPCRouter({
       }
 
       // Create user
-      const newUser = await ctx.db
+      const newUser = await (ctx.db as any)
         .insert(users)
         .values({
           name,
@@ -123,10 +123,10 @@ export const userManagementRouter = createTRPCRouter({
           role,
         })
         .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // createdAt: users.createdAt,
         });
 
@@ -163,18 +163,18 @@ export const userManagementRouter = createTRPCRouter({
       }
 
       // Update user role
-      const updatedUser = await ctx.db
+      const updatedUser = await (ctx.db as any)
         .update(users)
         .set({
           role,
           // updatedAt: new Date(),
         })
-        .where(eq(users.id, userId))
+        .where(eq((users as any).id, userId))
         .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // updatedAt: users.updatedAt,
         });
 
@@ -206,18 +206,20 @@ export const userManagementRouter = createTRPCRouter({
       const { userId, name, email } = input;
 
       // Check if email is already taken by another user
-      const existingUser = await ctx.db
+      const existingUser = await (ctx.db as any)
         .select()
         .from(users)
-        .where(and(eq(users.email, email), eq(users.id, userId)))
+        .where(
+          and(eq((users as any).email, email), eq((users as any).id, userId)),
+        )
         .limit(1);
 
       if (existingUser.length === 0) {
         // Check if email is taken by someone else
-        const emailTaken = await ctx.db
+        const emailTaken = await (ctx.db as any)
           .select()
           .from(users)
-          .where(eq(users.email, email))
+          .where(eq((users as any).email, email))
           .limit(1);
 
         if (emailTaken.length > 0) {
@@ -226,19 +228,19 @@ export const userManagementRouter = createTRPCRouter({
       }
 
       // Update user profile
-      const updatedUser = await ctx.db
+      const updatedUser = await (ctx.db as any)
         .update(users)
         .set({
           name,
           email,
           // updatedAt: new Date(),
         })
-        .where(eq(users.id, userId))
+        .where(eq((users as any).id, userId))
         .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // updatedAt: users.updatedAt,
         });
 
@@ -274,15 +276,15 @@ export const userManagementRouter = createTRPCRouter({
 
       try {
         // Use a transaction to ensure all deletions succeed or none do
-        const result = await ctx.db.transaction(async (tx) => {
+        const result = await (ctx.db as any).transaction(async (tx: any) => {
           // First, get all impersonation session IDs for this user
           const userImpersonationSessions = await tx
-            .select({ id: impersonationSessions.id })
+            .select({ id: (impersonationSessions as any).id })
             .from(impersonationSessions)
             .where(
               or(
-                eq(impersonationSessions.adminUserId, userId),
-                eq(impersonationSessions.targetUserId, userId),
+                eq((impersonationSessions as any).adminUserId, userId),
+                eq((impersonationSessions as any).targetUserId, userId),
               ),
             );
 
@@ -296,7 +298,10 @@ export const userManagementRouter = createTRPCRouter({
               .where(
                 or(
                   ...sessionIds.map((id: string) =>
-                    eq(impersonationAuditLog.impersonationSessionId, id),
+                    eq(
+                      (impersonationAuditLog as any).impersonationSessionId,
+                      id,
+                    ),
                   ),
                 ),
               );
@@ -307,29 +312,29 @@ export const userManagementRouter = createTRPCRouter({
             .delete(impersonationSessions)
             .where(
               or(
-                eq(impersonationSessions.adminUserId, userId),
-                eq(impersonationSessions.targetUserId, userId),
+                eq((impersonationSessions as any).adminUserId, userId),
+                eq((impersonationSessions as any).targetUserId, userId),
               ),
             );
 
           // Delete user activities (references users)
           await tx
             .delete(userActivities)
-            .where(eq(userActivities.userId, userId));
+            .where(eq((userActivities as any).userId, userId));
 
           // Delete sessions (references users)
-          await tx.delete(sessions).where(eq(sessions.userId, userId));
+          await tx.delete(sessions).where(eq((sessions as any).userId, userId));
 
           // Delete user accounts (references users)
-          await tx.delete(accounts).where(eq(accounts.userId, userId));
+          await tx.delete(accounts).where(eq((accounts as any).userId, userId));
 
           // Finally delete the user
           const deletedUser = await tx
             .delete(users)
-            .where(eq(users.id, userId))
+            .where(eq((users as any).id, userId))
             .returning({
-              id: users.id,
-              email: users.email,
+              id: (users as any).id,
+              email: (users as any).email,
             });
 
           if (deletedUser.length === 0) {
@@ -366,17 +371,17 @@ export const userManagementRouter = createTRPCRouter({
 
       const { userId } = input;
 
-      const user = await ctx.db
+      const user = await (ctx.db as any)
         .select({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // createdAt: users.createdAt,
           // updatedAt: users.updatedAt,
         })
         .from(users)
-        .where(eq(users.id, userId))
+        .where(eq((users as any).id, userId))
         .limit(1);
 
       if (user.length === 0) {
@@ -397,21 +402,21 @@ export const userManagementRouter = createTRPCRouter({
     }
 
     // Get total users count
-    const totalUsersResult = await ctx.db
+    const totalUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users);
 
     // Get admin users count
-    const adminUsersResult = await ctx.db
+    const adminUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users)
-      .where(eq(users.role, "admin"));
+      .where(eq((users as any).role, "admin"));
 
     // Get regular users count
-    const regularUsersResult = await ctx.db
+    const regularUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users)
-      .where(eq(users.role, "user"));
+      .where(eq((users as any).role, "user"));
 
     return {
       totalUsers: totalUsersResult[0]?.count ?? 0,
@@ -440,16 +445,16 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("Unauthorized: Development access only");
       }
 
-      const userList = await ctx.db
+      const userList = await (ctx.db as any)
         .select({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // createdAt: users.createdAt,
         })
         .from(users)
-        .orderBy(asc(users.name)) // Changed from desc(users.createdAt)
+        .orderBy(asc((users as any).name)) // Changed from desc(users.createdAt)
         .limit(input.limit);
 
       return userList;
@@ -481,10 +486,10 @@ export const userManagementRouter = createTRPCRouter({
       const { name, email, role } = input;
 
       // Check if user exists
-      const existingUser = await ctx.db
+      const existingUser = await (ctx.db as any)
         .select()
         .from(users)
-        .where(eq(users.email, email))
+        .where(eq((users as any).email, email))
         .limit(1);
 
       if (existingUser.length > 0) {
@@ -492,7 +497,7 @@ export const userManagementRouter = createTRPCRouter({
       }
 
       // Create user
-      const newUser = await ctx.db
+      const newUser = await (ctx.db as any)
         .insert(users)
         .values({
           name,
@@ -500,10 +505,10 @@ export const userManagementRouter = createTRPCRouter({
           role,
         })
         .returning({
-          id: users.id,
-          name: users.name,
-          email: users.email,
-          role: users.role,
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
           // createdAt: users.createdAt,
         });
 

@@ -404,9 +404,9 @@ export function ManageUsersContent() {
     );
   }
 
-  const users = (
-    Array.isArray(usersData) ? usersData : usersData?.users || []
-  ) as User[];
+  const users = (Array.isArray(usersData)
+    ? usersData
+    : usersData?.users || []) as unknown as User[];
 
   return (
     <div className="dashboard-panel-stack">

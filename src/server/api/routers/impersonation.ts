@@ -391,13 +391,13 @@ export const impersonationRouter = createTRPCRouter({
         }
 
         // Get impersonation sessions with user details
-        const sessions = await db
+        const sessions = await (db as any)
           .select({
             session: impersonationSessions,
             adminUser: {
-              id: users.id,
-              email: users.email,
-              name: users.name,
+              id: (users as any).id,
+              email: (users as any).email,
+              name: (users as any).name,
             },
           })
           .from(impersonationSessions)
@@ -420,11 +420,11 @@ export const impersonationRouter = createTRPCRouter({
                 name: string | null;
               } | null;
             }) => {
-              const targetUser = await db
+              const targetUser = await (db as any)
                 .select({
-                  id: users.id,
-                  email: users.email,
-                  name: users.name,
+                  id: (users as any).id,
+                  email: (users as any).email,
+                  name: (users as any).name,
                 })
                 .from(users)
                 .where(eq(users.id, item.session.targetUserId))
@@ -448,7 +448,7 @@ export const impersonationRouter = createTRPCRouter({
         );
 
         // Get total count for pagination
-        const totalCountResult = await db
+        const totalCountResult = await (db as any)
           .select({ count: impersonationSessions.id })
           .from(impersonationSessions)
           .where(
@@ -512,12 +512,12 @@ export const impersonationRouter = createTRPCRouter({
         }
 
         // Get users (excluding admins and the current admin)
-        const usersQuery = db
+        const usersQuery = (db as any)
           .select({
-            id: users.id,
-            email: users.email,
-            name: users.name,
-            role: users.role,
+            id: (users as any).id,
+            email: (users as any).email,
+            name: (users as any).name,
+            role: (users as any).role,
           })
           .from(users)
           .where(and(...whereConditions))
@@ -528,11 +528,11 @@ export const impersonationRouter = createTRPCRouter({
 
         // Filter out current admin user
         const filteredUsers = usersList.filter(
-          (user) => user.id !== ctx.session.user.id,
+          (user: any) => user.id !== ctx.session.user.id,
         );
 
         // Get total count
-        const totalCountResult = await db
+        const totalCountResult = await (db as any)
           .select({ count: users.id })
           .from(users)
           .where(and(...whereConditions));

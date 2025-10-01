@@ -37,10 +37,15 @@ export const therapySessionsRouter = createTRPCRouter({
       const sessionNumber = input.sessionNumber ?? 1;
       const userId = ctx.session.user.id;
 
-      const patientResult = await ctx.db
-        .select({ id: patients.id })
+      const patientResult = await (ctx.db as any)
+        .select({ id: (patients as any).id })
         .from(patients)
-        .where(and(eq(patients.id, patientId), eq(patients.isActive, true)))
+        .where(
+          and(
+            eq((patients as any).id, patientId),
+            eq((patients as any).isActive, true),
+          ),
+        )
         .limit(1);
 
       if (patientResult.length === 0) {
@@ -50,13 +55,13 @@ export const therapySessionsRouter = createTRPCRouter({
       const patient = patientResult[0];
 
       // Check if a therapy session already exists for this user-patient pair
-      const existingSessionResult = await ctx.db
+      const existingSessionResult = await (ctx.db as any)
         .select()
         .from(therapySessions)
         .where(
           and(
-            eq(therapySessions.userId, userId),
-            eq(therapySessions.patientId, patientId),
+            eq((therapySessions as any).userId, userId),
+            eq((therapySessions as any).patientId, patientId),
           ),
         )
         .limit(1);
@@ -66,13 +71,13 @@ export const therapySessionsRouter = createTRPCRouter({
       if (existingSession) {
         // If session exists, update the session number if it's higher
         if (sessionNumber > existingSession.sessionNumber) {
-          const updated = await ctx.db
+          const updated = await (ctx.db as any)
             .update(therapySessions)
             .set({
               sessionNumber,
               updatedAt: new Date(),
             })
-            .where(eq(therapySessions.id, existingSession.id))
+            .where(eq((therapySessions as any).id, existingSession.id))
             .returning();
 
           return updated[0];
@@ -81,7 +86,7 @@ export const therapySessionsRouter = createTRPCRouter({
       }
 
       // Create new therapy session
-      const inserted = await ctx.db
+      const inserted = await (ctx.db as any)
         .insert(therapySessions)
         .values({
           userId,
@@ -112,13 +117,13 @@ export const therapySessionsRouter = createTRPCRouter({
       const { patientId } = input;
       const userId = ctx.session.user.id;
 
-      const sessionResult = await ctx.db
+      const sessionResult = await (ctx.db as any)
         .select()
         .from(therapySessions)
         .where(
           and(
-            eq(therapySessions.userId, userId),
-            eq(therapySessions.patientId, patientId),
+            eq((therapySessions as any).userId, userId),
+            eq((therapySessions as any).patientId, patientId),
           ),
         )
         .limit(1);
@@ -147,13 +152,13 @@ export const therapySessionsRouter = createTRPCRouter({
       const { patientId } = input;
       const userId = ctx.session.user.id;
 
-      const existingSessionResult = await ctx.db
+      const existingSessionResult = await (ctx.db as any)
         .select()
         .from(therapySessions)
         .where(
           and(
-            eq(therapySessions.userId, userId),
-            eq(therapySessions.patientId, patientId),
+            eq((therapySessions as any).userId, userId),
+            eq((therapySessions as any).patientId, patientId),
           ),
         )
         .limit(1);
@@ -166,13 +171,13 @@ export const therapySessionsRouter = createTRPCRouter({
 
       const newSessionNumber = Math.min(existingSession.sessionNumber + 1, 11);
 
-      const updated = await ctx.db
+      const updated = await (ctx.db as any)
         .update(therapySessions)
         .set({
           sessionNumber: newSessionNumber,
           updatedAt: new Date(),
         })
-        .where(eq(therapySessions.id, existingSession.id))
+        .where(eq((therapySessions as any).id, existingSession.id))
         .returning();
 
       return updated[0];
@@ -181,41 +186,50 @@ export const therapySessionsRouter = createTRPCRouter({
   getAllForUser: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.session.user.id;
 
-    const sessions = await ctx.db
+    const sessions = await (ctx.db as any)
       .select({
-        id: therapySessions.id,
-        userId: therapySessions.userId,
-        patientId: therapySessions.patientId,
-        sessionNumber: therapySessions.sessionNumber,
-        isCompleted: therapySessions.isCompleted,
-        createdAt: therapySessions.createdAt,
-        updatedAt: therapySessions.updatedAt,
+        id: (therapySessions as any).id,
+        userId: (therapySessions as any).userId,
+        patientId: (therapySessions as any).patientId,
+        sessionNumber: (therapySessions as any).sessionNumber,
+        isCompleted: (therapySessions as any).isCompleted,
+        createdAt: (therapySessions as any).createdAt,
+        updatedAt: (therapySessions as any).updatedAt,
         patient: {
-          id: patients.id,
-          name: patients.name,
-          smallDescription: patients.smallDescription,
-          details: patients.details,
-          background: patients.background,
-          objectives: patients.objectives,
-          avatarUrl: patients.avatarUrl,
-          avatarType: patients.avatarType,
-          difficulty: patients.difficulty,
-          estimatedDuration: patients.estimatedDuration,
+          id: (patients as any).id,
+          name: (patients as any).name,
+          smallDescription: (patients as any).smallDescription,
+          details: (patients as any).details,
+          background: (patients as any).background,
+          objectives: (patients as any).objectives,
+          avatarUrl: (patients as any).avatarUrl,
+          avatarType: (patients as any).avatarType,
+          difficulty: (patients as any).difficulty,
+          estimatedDuration: (patients as any).estimatedDuration,
         },
       })
       .from(therapySessions)
-      .leftJoin(patients, eq(therapySessions.patientId, patients.id))
-      .where(eq(therapySessions.userId, userId))
-      .orderBy(desc(therapySessions.updatedAt), desc(therapySessions.createdAt));
+      .leftJoin(
+        patients,
+        eq((therapySessions as any).patientId, (patients as any).id),
+      )
+      .where(eq((therapySessions as any).userId, userId))
+      .orderBy(
+        desc((therapySessions as any).updatedAt),
+        desc((therapySessions as any).createdAt),
+      );
 
     // Get completed steps count for each session
     const sessionsWithProgress = await Promise.all(
-      sessions.map(async (session) => {
-        const completedSteps = await ctx.db
-          .select({ id: chat.id })
+      sessions.map(async (session: any) => {
+        const completedSteps = await (ctx.db as any)
+          .select({ id: (chat as any).id })
           .from(chat)
           .where(
-            and(eq(chat.therapySessionId, session.id), eq(chat.done, true)),
+            and(
+              eq((chat as any).therapySessionId, session.id),
+              eq((chat as any).done, true),
+            ),
           );
 
         return {
@@ -246,13 +260,13 @@ export const therapySessionsRouter = createTRPCRouter({
       const { therapySessionId } = input;
       const userId = ctx.session.user.id;
 
-      const sessionResult = await ctx.db
-        .select({ isCompleted: therapySessions.isCompleted })
+      const sessionResult = await (ctx.db as any)
+        .select({ isCompleted: (therapySessions as any).isCompleted })
         .from(therapySessions)
         .where(
           and(
-            eq(therapySessions.id, therapySessionId),
-            eq(therapySessions.userId, userId),
+            eq((therapySessions as any).id, therapySessionId),
+            eq((therapySessions as any).userId, userId),
           ),
         )
         .limit(1);

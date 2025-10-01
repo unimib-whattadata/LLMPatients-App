@@ -50,7 +50,7 @@ export const createTable = pgTableCreator((name) => `llmpatient_${name}`);
  */
 export const users = createTable(
   "user",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -75,10 +75,6 @@ export const users = createTable(
       .notNull()
       .defaultNow(),
   }),
-  (table) => ({
-    emailIdx: uniqueIndex("email_idx").on(table.email),
-    roleIdx: index("role_idx").on(table.role),
-  }),
   (t) => [
     // Indexes for common query patterns
     index("users_email_idx").on(t.email),
@@ -91,12 +87,12 @@ export const users = createTable(
 
 export const accounts = createTable(
   "account",
-  (d) => ({
+  (d: any) => ({
     userId: d
       .text()
       .notNull()
       .references(() => users.id),
-    type: d.text().$type<AdapterAccount["type"]>().notNull(),
+    type: d.text().notNull(),
     provider: d.text().notNull(),
     providerAccountId: d.text().notNull(),
     refresh_token: d.text(),
@@ -121,7 +117,7 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 
 export const sessions = createTable(
   "session",
-  (d) => ({
+  (d: any) => ({
     sessionToken: d.text().notNull().primaryKey(),
     userId: d
       .text()
@@ -140,17 +136,10 @@ export const sessions = createTable(
  */
 export const verificationTokens = createTable(
   "verificationToken",
-  (d) => ({
+  (d: any) => ({
     identifier: d.text("identifier").notNull(),
     token: d.text("token").notNull(),
     expires: d.timestamp("expires", { mode: "date" }).notNull(),
-  }),
-  (table) => ({
-    tokenIdx: uniqueIndex("verification_token_idx").on(table.token),
-    identifierTokenIdx: uniqueIndex("verification_identifier_token_idx").on(
-      table.identifier,
-      table.token,
-    ),
   }),
 );
 
@@ -163,7 +152,7 @@ export const verificationTokens = createTable(
 // Patients table for patient exploration page
 export const patients = createTable(
   "patient",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -180,10 +169,7 @@ export const patients = createTable(
     estimatedDuration: d.integer().default(30).notNull(), // minutes
     isActive: d.boolean().default(true).notNull(),
     externalPatientId: d.text(), // External patient ID from AI service
-    createdAt: d
-      .timestamp({ mode: "date" })
-      .notNull()
-      .defaultNow(),
+    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
   (t) => [
@@ -197,7 +183,7 @@ export const patients = createTable(
 
 export const therapySessions = createTable(
   "therapy_session",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -213,10 +199,7 @@ export const therapySessions = createTable(
       .references(() => patients.id),
     sessionNumber: d.integer().default(1).notNull(),
     isCompleted: d.boolean().default(false).notNull(),
-    createdAt: d
-      .timestamp({ mode: "date" })
-      .notNull()
-      .defaultNow(),
+    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
   (t) => [
@@ -231,7 +214,7 @@ export const therapySessions = createTable(
 // Chat table for storing chat conversations per step
 export const chat = createTable(
   "chat",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -244,10 +227,7 @@ export const chat = createTable(
     stepNumber: d.integer().notNull(), // 1, 2, 3, etc.
     messages: d.text().notNull(), // JSON string containing chat messages
     done: d.boolean().default(false).notNull(), // true when step is completed
-    createdAt: d
-      .timestamp({ mode: "date" })
-      .notNull()
-      .defaultNow(),
+    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
   (t) => [
@@ -264,38 +244,27 @@ export const chat = createTable(
  * Stores user activity logs for security and compliance purposes.
  * Tracks login attempts, data access, and system interactions.
  */
-export const userActivities = createTable(
-  "userActivity",
-  (d) => ({
-    id: d
-      .text("id")
-      .primaryKey()
-      .$defaultFn(() => randomUUID()),
-    userId: d
-      .text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    action: d.text("action").notNull(),
-    resource: d.text("resource"),
-    details: d.json("details"),
-    ipAddress: d.text("ipAddress"),
-    userAgent: d.text("userAgent"),
-    createdAt: d
-      .timestamp("createdAt", { mode: "date" })
-      .notNull()
-      .defaultNow(),
-  }),
-  (table) => ({
-    userIdIdx: index("userActivity_userId_idx").on(table.userId),
-    actionIdx: index("userActivity_action_idx").on(table.action),
-    createdAtIdx: index("userActivity_createdAt_idx").on(table.createdAt),
-  }),
-);
+export const userActivities = createTable("userActivity", (d: any) => ({
+  id: d
+    .text("id")
+    .primaryKey()
+    .$defaultFn(() => randomUUID()),
+  userId: d
+    .text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  action: d.text("action").notNull(),
+  resource: d.text("resource"),
+  details: d.json("details"),
+  ipAddress: d.text("ipAddress"),
+  userAgent: d.text("userAgent"),
+  createdAt: d.timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+}));
 
 // Impersonation session tracking table
 export const impersonationSessions = createTable(
   "impersonation_session",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -312,10 +281,7 @@ export const impersonationSessions = createTable(
       .notNull()
       .references(() => users.id),
     // Session timing
-    startedAt: d
-      .timestamp({ mode: "date" })
-      .notNull()
-      .defaultNow(),
+    startedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     endedAt: d.timestamp({ mode: "date" }),
     // Session status
     isActive: d.boolean().default(true).notNull(),
@@ -337,7 +303,7 @@ export const impersonationSessions = createTable(
 // Audit log for impersonation events
 export const impersonationAuditLog = createTable(
   "impersonation_audit_log",
-  (d) => ({
+  (d: any) => ({
     id: d
       .text()
       .notNull()
@@ -352,10 +318,7 @@ export const impersonationAuditLog = createTable(
     actionType: d.text().notNull(), // 'START', 'END', 'ACTION_PERFORMED', 'SESSION_REFRESH'
     actionDetails: d.text(), // JSON string for detailed action data
     // Timing
-    performedAt: d
-      .timestamp({ mode: "date" })
-      .notNull()
-      .defaultNow(),
+    performedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     // Request metadata
     ipAddress: d.text(),
     userAgent: d.text(),
