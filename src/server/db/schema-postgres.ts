@@ -13,8 +13,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-// Use web-compatible crypto for Edge Runtime compatibility
-const randomUUID = () => crypto.randomUUID();
+import { randomUUID } from "crypto";
 
 /**
  * AdapterAccount type for NextAuth v5 beta compatibility
@@ -63,14 +62,17 @@ export const users = createTable(
     emailVerified: d.timestamp("emailVerified", { mode: "date" }),
     image: d.text("image"),
     password: d.text("password"),
-    role: d.text("role", { enum: ["admin", "therapist", "patient"] })
+    role: d
+      .text("role", { enum: ["admin", "therapist", "patient"] })
       .notNull()
       .default("patient"),
     isActive: d.boolean("isActive").notNull().default(true),
-    createdAt: d.timestamp("createdAt", { mode: "date" })
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
       .notNull()
       .defaultNow(),
-    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+    updatedAt: d
+      .timestamp("updatedAt", { mode: "date" })
       .notNull()
       .defaultNow()
       .$onUpdate(() => new Date()),
@@ -94,7 +96,8 @@ export const accounts = createTable(
       .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    userId: d.text("userId")
+    userId: d
+      .text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: d.text("type").notNull(),
@@ -131,7 +134,8 @@ export const sessions = createTable(
       .primaryKey()
       .$defaultFn(() => randomUUID()),
     sessionToken: d.text("sessionToken").notNull().unique(),
-    userId: d.text("userId")
+    userId: d
+      .text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     expires: d.timestamp("expires", { mode: "date" }).notNull(),
@@ -189,10 +193,12 @@ export const patients = createTable(
     address: d.text("address"),
     notes: d.text("notes"),
     isActive: d.boolean("isActive").notNull().default(true),
-    createdAt: d.timestamp("createdAt", { mode: "date" })
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
       .notNull()
       .defaultNow(),
-    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+    updatedAt: d
+      .timestamp("updatedAt", { mode: "date" })
       .notNull()
       .defaultNow()
       .$onUpdate(() => new Date()),
@@ -216,37 +222,50 @@ export const therapySessions = createTable(
       .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    patientId: d.text("patientId")
+    patientId: d
+      .text("patientId")
       .notNull()
       .references(() => patients.id, { onDelete: "cascade" }),
-    therapistId: d.text("therapistId")
+    therapistId: d
+      .text("therapistId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     sessionDate: d.timestamp("sessionDate", { mode: "date" }).notNull(),
     duration: d.integer("duration").notNull(), // in minutes
-    sessionType: d.text("sessionType", {
-      enum: ["individual", "group", "family", "couples"],
-    }).notNull(),
+    sessionType: d
+      .text("sessionType", {
+        enum: ["individual", "group", "family", "couples"],
+      })
+      .notNull(),
     notes: d.text("notes"),
     goals: d.text("goals"),
     progress: d.text("progress"),
     homework: d.text("homework"),
     nextSessionDate: d.timestamp("nextSessionDate", { mode: "date" }),
-    status: d.text("status", {
-      enum: ["scheduled", "completed", "cancelled", "no_show"],
-    }).notNull().default("scheduled"),
-    createdAt: d.timestamp("createdAt", { mode: "date" })
+    status: d
+      .text("status", {
+        enum: ["scheduled", "completed", "cancelled", "no_show"],
+      })
+      .notNull()
+      .default("scheduled"),
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
       .notNull()
       .defaultNow(),
-    updatedAt: d.timestamp("updatedAt", { mode: "date" })
+    updatedAt: d
+      .timestamp("updatedAt", { mode: "date" })
       .notNull()
       .defaultNow()
       .$onUpdate(() => new Date()),
   }),
   (table) => ({
     patientIdIdx: index("therapySessions_patientId_idx").on(table.patientId),
-    therapistIdIdx: index("therapySessions_therapistId_idx").on(table.therapistId),
-    sessionDateIdx: index("therapySessions_sessionDate_idx").on(table.sessionDate),
+    therapistIdIdx: index("therapySessions_therapistId_idx").on(
+      table.therapistId,
+    ),
+    sessionDateIdx: index("therapySessions_sessionDate_idx").on(
+      table.sessionDate,
+    ),
     statusIdx: index("therapySessions_status_idx").on(table.status),
   }),
 );
@@ -264,19 +283,25 @@ export const chat = createTable(
       .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    sessionId: d.text("sessionId")
+    sessionId: d
+      .text("sessionId")
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    senderId: d.text("senderId")
+    senderId: d
+      .text("senderId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     message: d.text("message").notNull(),
-    messageType: d.text("messageType", {
-      enum: ["text", "image", "file", "system"],
-    }).notNull().default("text"),
+    messageType: d
+      .text("messageType", {
+        enum: ["text", "image", "file", "system"],
+      })
+      .notNull()
+      .default("text"),
     metadata: d.json("metadata"),
     isRead: d.boolean("isRead").notNull().default(false),
-    createdAt: d.timestamp("createdAt", { mode: "date" })
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
       .notNull()
       .defaultNow(),
   }),
@@ -300,7 +325,8 @@ export const userActivity = createTable(
       .text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    userId: d.text("userId")
+    userId: d
+      .text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     action: d.text("action").notNull(),
@@ -308,7 +334,8 @@ export const userActivity = createTable(
     details: d.json("details"),
     ipAddress: d.text("ipAddress"),
     userAgent: d.text("userAgent"),
-    createdAt: d.timestamp("createdAt", { mode: "date" })
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
       .notNull()
       .defaultNow(),
   }),
@@ -346,17 +373,20 @@ export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
 }));
 
-export const therapySessionsRelations = relations(therapySessions, ({ one, many }) => ({
-  patient: one(patients, {
-    fields: [therapySessions.patientId],
-    references: [patients.id],
+export const therapySessionsRelations = relations(
+  therapySessions,
+  ({ one, many }) => ({
+    patient: one(patients, {
+      fields: [therapySessions.patientId],
+      references: [patients.id],
+    }),
+    therapist: one(users, {
+      fields: [therapySessions.therapistId],
+      references: [users.id],
+    }),
+    chatMessages: many(chat),
   }),
-  therapist: one(users, {
-    fields: [therapySessions.therapistId],
-    references: [users.id],
-  }),
-  chatMessages: many(chat),
-}));
+);
 
 export const chatRelations = relations(chat, ({ one }) => ({
   session: one(therapySessions, {
