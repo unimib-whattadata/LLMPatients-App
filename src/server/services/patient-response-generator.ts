@@ -13,6 +13,29 @@ export interface PatientResponse {
   timestamp?: Date; // Make timestamp optional for predefined responses
 }
 
+export interface PatientInitializationResponse {
+  status: "success" | "error";
+  code: string;
+  external_patient_id?: string;
+  message: string;
+  timestamp: string;
+}
+
+export interface ChatResponse {
+  message: string;
+  reasoning_time: number; // in seconds
+  emotion: "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
+  topic: string;
+  timestamp: string;
+}
+
+export interface ChatRequest {
+  external_patient_id: string;
+  user_message: string;
+  session_id: string;
+  step_id: number;
+}
+
 export interface PatientInfo {
   id: string;
   name: string;
@@ -163,6 +186,8 @@ function selectContextualResponse(
  */
 export interface ExternalAIService {
   generateResponse(input: GenerateResponseInput): Promise<PatientResponse>;
+  initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse>;
+  generateChatResponse(input: ChatRequest): Promise<ChatResponse>;
 }
 
 /**
@@ -175,7 +200,7 @@ class MockExternalAIService implements ExternalAIService {
     await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 2000));
     
     // Log the simulated API call for debugging
-    console.log('🔗 Simulating External AI API Call:', {
+    console.log('Simulating External AI API Call:', {
       url: 'https://api.therapeutic-ai.com/v1/initialise-patient',
       method: 'POST',
       patientInfo: {
@@ -193,6 +218,77 @@ class MockExternalAIService implements ExternalAIService {
     
     // Use contextual response selection
     return selectContextualResponse(input.patientInfo, input.userMessage, input.conversationHistory);
+  }
+
+  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1500));
+    
+    // Log the simulated API call for debugging
+    console.log('Simulating Patient Initialization API Call:', {
+      url: 'https://api.therapeutic-ai.com/v1/initialise-patient',
+      method: 'POST',
+      patientInfo: {
+        id: input.patientInfo.id,
+        name: input.patientInfo.name,
+        age: input.patientInfo.age,
+        diagnosis: input.patientInfo.diagnosis,
+        difficulty: input.patientInfo.difficulty,
+        psychologicalProfile: input.patientInfo.psychologicalProfile
+      },
+      sessionId: input.sessionId
+    });
+    
+    // Simulate successful patient creation
+    return {
+      status: "success",
+      code: "PATIENT_CREATED",
+      external_patient_id: `ext_patient_${Date.now()}`,
+      message: "Paziente inizializzato correttamente nel sistema esterno",
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 3000));
+    
+    // Log the simulated API call for debugging
+    console.log('Simulating Chat Response API Call:', {
+      url: 'https://api.therapeutic-ai.com/v1/chat-response',
+      method: 'POST',
+      external_patient_id: input.external_patient_id,
+      user_message: input.user_message.substring(0, 50) + '...',
+      session_id: input.session_id,
+      step_id: input.step_id
+    });
+    
+    // Simulate chat response with reasoning time
+    const topics = ["ansia", "depressione", "famiglia", "lavoro", "relazioni", "terapia", "farmaci", "sonno"];
+    const emotions = ["sadness", "anger", "anticipation", "trust", "surprise", "joy", "base", "disgust"];
+    
+    const sampleResponses = [
+      "Capisco la sua preoccupazione. È normale sentirsi così in questa situazione.",
+      "Mi fa piacere che lei mi stia ascoltando. A volte è difficile esprimere questi sentimenti.",
+      "Quando parlo di queste cose, mi sento un po' meglio. È come se non fossi più solo.",
+      "Lei mi sta aiutando a capire cose su me stesso che non sapevo.",
+      "A volte ho paura di dire la cosa sbagliata, ma lei non mi giudica.",
+      "Grazie per la sua pazienza. So che non è facile con me.",
+      "Quando lei mi fa queste domande, mi sento meno solo. È confortante.",
+      "Il mio cuore batte forte quando parlo di certe cose. È normale?"
+    ];
+    
+    const selectedResponse = sampleResponses[Math.floor(Math.random() * sampleResponses.length)] || "Mi dispiace, non sono sicuro di come rispondere.";
+    const selectedEmotion = emotions[Math.floor(Math.random() * emotions.length)] || "base";
+    const selectedTopic = topics[Math.floor(Math.random() * topics.length)] || "generale";
+    
+    return {
+      message: selectedResponse,
+      reasoning_time: Math.floor(Math.random() * 3) + 1, // 1-3 seconds
+      emotion: selectedEmotion as "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base",
+      topic: selectedTopic,
+      timestamp: new Date().toISOString()
+    };
   }
 }
 
@@ -218,26 +314,18 @@ class RealExternalAIService implements ExternalAIService {
           'X-API-Version': '1.0'
         },
         body: JSON.stringify({
-          patient: {
-            id: input.patientInfo.id,
-            name: input.patientInfo.name,
-            age: input.patientInfo.age,
-            gender: input.patientInfo.gender,
-            diagnosis: input.patientInfo.diagnosis,
-            difficulty_level: input.patientInfo.difficulty,
-            psychological_profile: input.patientInfo.psychologicalProfile,
-            background: input.patientInfo.background,
-            current_medications: input.patientInfo.currentMedications || [],
-            therapy_goals: input.patientInfo.therapyGoals || [],
-            previous_sessions: input.patientInfo.previousSessions || 0
-          },
-          session: {
-            id: input.sessionId,
-            step_id: input.stepId,
-            conversation_history: input.conversationHistory || []
-          },
-          user_message: input.userMessage,
-          timestamp: new Date().toISOString()
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+          diagnosis: input.patientInfo.diagnosis,
+          difficulty_level: input.patientInfo.difficulty,
+          psychological_profile: input.patientInfo.psychologicalProfile,
+          background: input.patientInfo.background,
+          current_medications: input.patientInfo.currentMedications || [],
+          therapy_goals: input.patientInfo.therapyGoals || [],
+          previous_sessions: input.patientInfo.previousSessions || 0,
+          session_id: input.sessionId
         })
       });
 
@@ -251,6 +339,89 @@ class RealExternalAIService implements ExternalAIService {
         message: data.response.message,
         emotion: data.response.emotion,
         timestamp: new Date(data.response.timestamp || new Date())
+      };
+    } catch (error) {
+      console.error("External AI API call failed:", error);
+      throw error;
+    }
+  }
+
+  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+    if (!this.apiKey) {
+      throw new Error("External AI API key not configured");
+    }
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+          'X-API-Version': '1.0'
+        },
+        body: JSON.stringify({
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+          diagnosis: input.patientInfo.diagnosis,
+          difficulty_level: input.patientInfo.difficulty,
+          psychological_profile: input.patientInfo.psychologicalProfile,
+          background: input.patientInfo.background,
+          current_medications: input.patientInfo.currentMedications || [],
+          therapy_goals: input.patientInfo.therapyGoals || [],
+          previous_sessions: input.patientInfo.previousSessions || 0,
+          session_id: input.sessionId
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`External AI API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        status: data.status,
+        code: data.code,
+        external_patient_id: data.external_patient_id,
+        message: data.message,
+        timestamp: data.timestamp
+      };
+    } catch (error) {
+      console.error("External AI API call failed:", error);
+      throw error;
+    }
+  }
+
+  async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
+    if (!this.apiKey) {
+      throw new Error("External AI API key not configured");
+    }
+
+    try {
+      const response = await fetch('https://api.therapeutic-ai.com/v1/chat-response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.apiKey}`,
+          'X-API-Version': '1.0'
+        },
+        body: JSON.stringify(input)
+      });
+
+      if (!response.ok) {
+        throw new Error(`External AI API error: ${response.status} ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        message: data.message,
+        reasoning_time: data.reasoning_time,
+        emotion: data.emotion,
+        topic: data.topic,
+        timestamp: data.timestamp
       };
     } catch (error) {
       console.error("External AI API call failed:", error);
@@ -325,6 +496,57 @@ export class PatientResponseGenerator {
    */
   setUseExternalAI(use: boolean) {
     this.useExternalAI = use;
+  }
+
+  /**
+   * Initialize patient in external AI service
+   * This is the Step 1 - Patient Initialization
+   */
+  async initializePatient(input: GenerateResponseInput): Promise<PatientInitializationResponse> {
+    try {
+      if (this.useExternalAI) {
+        return await this.externalAI.initializePatient(input);
+      } else {
+        // Use enhanced mock service
+        return await this.externalAI.initializePatient(input);
+      }
+    } catch (error) {
+      console.error("Error initializing patient:", error);
+      
+      // Fallback response
+      return {
+        status: "error",
+        code: "INITIALIZATION_FAILED",
+        message: "Errore durante l'inizializzazione del paziente nel servizio esterno",
+        timestamp: new Date().toISOString()
+      };
+    }
+  }
+
+  /**
+   * Generate chat response for ongoing conversation
+   * This is the Step 2 - Chat Response Generation
+   */
+  async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
+    try {
+      if (this.useExternalAI) {
+        return await this.externalAI.generateChatResponse(input);
+      } else {
+        // Use enhanced mock service
+        return await this.externalAI.generateChatResponse(input);
+      }
+    } catch (error) {
+      console.error("Error generating chat response:", error);
+      
+      // Fallback response
+      return {
+        message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+        reasoning_time: 0,
+        emotion: "base",
+        topic: "generale",
+        timestamp: new Date().toISOString()
+      };
+    }
   }
 }
 
