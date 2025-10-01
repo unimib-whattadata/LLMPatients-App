@@ -72,8 +72,7 @@ export const users = createTable(
       .defaultNow(),
     updatedAt: d.timestamp("updatedAt", { mode: "date" })
       .notNull()
-      .defaultNow()
-      .$onUpdate(() => new Date()),
+      .defaultNow(),
   }),
   (table) => ({
     emailIdx: uniqueIndex("email_idx").on(table.email),
@@ -194,8 +193,7 @@ export const patients = createTable(
       .defaultNow(),
     updatedAt: d.timestamp("updatedAt", { mode: "date" })
       .notNull()
-      .defaultNow()
-      .$onUpdate(() => new Date()),
+      .defaultNow(),
   }),
   (table) => ({
     nameIdx: index("patients_name_idx").on(table.name),
@@ -240,8 +238,7 @@ export const therapySessions = createTable(
       .defaultNow(),
     updatedAt: d.timestamp("updatedAt", { mode: "date" })
       .notNull()
-      .defaultNow()
-      .$onUpdate(() => new Date()),
+      .defaultNow(),
   }),
   (table) => ({
     patientIdIdx: index("therapySessions_patientId_idx").on(table.patientId),
