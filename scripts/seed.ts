@@ -318,7 +318,10 @@ async function seedPatients() {
 async function runSeeding() {
   try {
     console.log("🔄 Running database migrations...");
-    execSync("npx drizzle-kit migrate", {
+    const migrateCommand = databaseUrl.startsWith("postgres")
+      ? "npx drizzle-kit migrate --config=drizzle-postgres.config.ts"
+      : "npx drizzle-kit migrate";
+    execSync(migrateCommand, {
       stdio: "inherit",
       env: { ...process.env, DATABASE_URL: databaseUrl },
     });

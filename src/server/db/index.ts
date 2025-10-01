@@ -4,7 +4,13 @@ import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 
 import { env } from "~/env";
-import * as schema from "./schema";
+import * as sqliteSchema from "./schema";
+import * as postgresSchema from "./schema-postgres";
+
+// Choose the correct schema based on database type
+const schema = env.DATABASE_URL.startsWith("postgres")
+  ? postgresSchema
+  : sqliteSchema;
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR
