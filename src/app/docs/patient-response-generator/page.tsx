@@ -35,24 +35,13 @@ export default function PatientResponseGeneratorDocs() {
               </div>
             </header>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="p-6" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
-                <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>API Key</h3>
-                <p className="mb-4" style={{ color: 'var(--color-text-secondary)' }}>
-                  All requests must include a valid API key in the Authorization header.
-                </p>
-                <div className="p-4 font-mono text-sm" style={{ backgroundColor: 'var(--color-surface-primary)' }}>
-                  <div>Authorization: Bearer {`{YOUR_API_KEY}`}</div>
-                </div>
-              </div>
-              
-              <div className="p-6" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
-                <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>Rate Limits</h3>
-                <ul className="space-y-2" style={{ color: 'var(--color-text-secondary)' }}>
-                  <li>• <strong>100 requests/minute</strong> per API key</li>
-                  <li>• <strong>1000 requests/hour</strong> per API key</li>
-                  <li>• <strong>10,000 requests/day</strong> per API key</li>
-                </ul>
+            <div className="p-6" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
+              <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--color-text-primary)' }}>API Key</h3>
+              <p className="mb-4" style={{ color: 'var(--color-text-secondary)' }}>
+                All requests must include a valid API key in the Authorization header.
+              </p>
+              <div className="p-4 font-mono text-sm" style={{ backgroundColor: 'var(--color-surface-primary)' }}>
+                <div>Authorization: Bearer {`{YOUR_API_KEY}`}</div>
               </div>
             </div>
           </section>
@@ -72,7 +61,7 @@ export default function PatientResponseGeneratorDocs() {
 
             {/* URL chiamato */}
             <section className="mb-12">
-              <h3 className="text-2xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+              <h3 className="text-3xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                 <div className="w-8 h-8 flex items-center justify-center mr-4" style={{ backgroundColor: 'var(--color-primary-green)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -116,7 +105,7 @@ export default function PatientResponseGeneratorDocs() {
                   <span className="w-1.5 h-1.5 mr-2" style={{ backgroundColor: 'var(--color-primary-yellow)' }}></span>
                   Struttura del JSON
                 </h4>
-                <div className="p-6 font-mono text-sm overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
+                <div className="p-6 font-mono text-base overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
                   <div className="text-blue-400">{"{"}</div>
                   <div className="ml-4"><span className="text-purple-400">id:</span> <span className="text-orange-400">string</span>,</div>
                   <div className="ml-4"><span className="text-purple-400">name:</span> <span className="text-orange-400">string</span>,</div>
@@ -161,7 +150,7 @@ export default function PatientResponseGeneratorDocs() {
 
             {/* Risposta attesa */}
             <section className="mb-8">
-              <h3 className="text-2xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+              <h3 className="text-3xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                 <div className="w-8 h-8 flex items-center justify-center mr-4" style={{ backgroundColor: 'var(--color-primary-green)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -195,7 +184,7 @@ export default function PatientResponseGeneratorDocs() {
 
             {/* URL chiamato */}
             <section className="mb-12">
-              <h3 className="text-2xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+              <h3 className="text-3xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                 <div className="w-8 h-8 flex items-center justify-center mr-4" style={{ backgroundColor: 'var(--color-primary-green)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
@@ -228,7 +217,7 @@ export default function PatientResponseGeneratorDocs() {
 
             {/* Informazioni passate */}
             <section className="mb-12">
-              <h3 className="text-2xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+              <h3 className="text-3xl font-bold mb-8 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                 <div className="w-8 h-8 flex items-center justify-center mr-4" style={{ backgroundColor: 'var(--color-primary-green)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -239,7 +228,7 @@ export default function PatientResponseGeneratorDocs() {
               
               {/* Struttura JSON */}
               <div className="mb-8">
-                <h4 className="text-xl font-bold mb-6 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+                <h4 className="text-2xl font-bold mb-6 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                   <div className="w-6 h-6 flex items-center justify-center mr-3" style={{ backgroundColor: 'var(--color-primary-yellow)' }}>
                     <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
@@ -247,7 +236,7 @@ export default function PatientResponseGeneratorDocs() {
                   </div>
                   JSON Schema
                 </h4>
-                <div className="p-6 font-mono text-sm overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
+                <div className="p-6 font-mono text-base overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
                   <div className="text-blue-400">{"{"}</div>
                   <div className="ml-4"><span className="text-purple-400">external_patient_id:</span> <span className="text-orange-400">string</span>,</div>
                   <div className="ml-4"><span className="text-purple-400">user_message:</span> <span className="text-orange-400">string</span>,</div>
@@ -259,7 +248,7 @@ export default function PatientResponseGeneratorDocs() {
 
               {/* Esempio reale */}
               <div className="mb-8">
-                <h4 className="text-xl font-bold mb-6 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
+                <h4 className="text-2xl font-bold mb-6 flex items-center" style={{ color: 'var(--color-text-primary)' }}>
                   <div className="w-6 h-6 flex items-center justify-center mr-3" style={{ backgroundColor: 'var(--color-primary-yellow)' }}>
                     <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -284,12 +273,12 @@ export default function PatientResponseGeneratorDocs() {
                 <span className="w-3 h-3 mr-3" style={{ backgroundColor: 'var(--color-primary-green)' }}></span>
                 Risposta attesa
               </h3>
-              <div className="p-6 font-mono text-sm overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
+              <div className="p-6 font-mono text-base overflow-x-auto" style={{ backgroundColor: 'var(--color-surface-tertiary)' }}>
                 <div className="text-blue-400">{"{"}</div>
-                <div className="ml-4"><span className="text-purple-400">"message":</span> <span className="text-green-400">"Capisco la sua preoccupazione. È normale sentirsi così in questa situazione."</span>,</div>
-                <div className="ml-4"><span className="text-purple-400">"reasoning_time":</span> <span className="text-orange-400">2</span>,</div>
-                <div className="ml-4"><span className="text-purple-400">"emotion":</span> <span className="text-green-400">"sadness"</span>,</div>
-                <div className="ml-4"><span className="text-purple-400">"topic":</span> <span className="text-green-400">"ansia"</span>,</div>
+                <div className="ml-4"><span className="text-purple-400">"message":</span> <span className="text-green-400">"Grazie per la sua domanda... A volte mi sento così confusa e non so bene come spiegare quello che provo. È come se avessi tante emozioni diverse che si mescolano insieme."</span>,</div>
+                <div className="ml-4"><span className="text-purple-400">"reasoning_time":</span> <span className="text-orange-400">3</span>,</div>
+                <div className="ml-4"><span className="text-purple-400">"emotion":</span> <span className="text-green-400">"confusion"</span>,</div>
+                <div className="ml-4"><span className="text-purple-400">"topic":</span> <span className="text-green-400">"emozioni"</span>,</div>
                 <div className="ml-4"><span className="text-purple-400">"timestamp":</span> <span className="text-green-400">"2024-01-15T10:30:20.000Z"</span></div>
                 <div className="text-blue-400">{"}"}</div>
               </div>
