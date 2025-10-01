@@ -788,51 +788,248 @@ export default function PatientResponseGeneratorDocs() {
           {/* Risposta attesa */}
           <section className="mb-6">
             <h3
-              className="mb-6 flex items-center text-xl font-bold"
+              className="mb-8 flex items-center text-3xl font-bold"
               style={{ color: "var(--color-text-primary)" }}
             >
-              <span
-                className="mr-3 h-3 w-3"
+              <div
+                className="mr-4 flex h-8 w-8 items-center justify-center"
                 style={{ backgroundColor: "var(--color-primary-green)" }}
-              ></span>
-              Risposta attesa
+              >
+                <svg
+                  className="h-4 w-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              Expected Response
             </h3>
-            <div
-              className="overflow-x-auto p-6 font-mono text-base"
-              style={{ backgroundColor: "var(--color-surface-tertiary)" }}
-            >
-              <div className="text-blue-400">{"{"}</div>
-              <div className="ml-4">
-                <span className="text-purple-400">&quot;message&quot;:</span>{" "}
-                <span className="text-green-400">
-                  &quot;Grazie per la sua domanda... A volte mi sento così
-                  confusa e non so bene come spiegare quello che provo. È come
-                  se avessi tante emozioni diverse che si mescolano
-                  insieme.&quot;
-                </span>
-                ,
+
+            {/* JSON Schema */}
+            <div className="mb-8">
+              <h4
+                className="mb-6 flex items-center text-2xl font-bold"
+                style={{ color: "var(--color-text-primary)" }}
+              >
+                <div
+                  className="mr-3 flex h-6 w-6 items-center justify-center"
+                  style={{ backgroundColor: "var(--color-primary-yellow)" }}
+                >
+                  <svg
+                    className="h-3 w-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    />
+                  </svg>
+                </div>
+                JSON Schema
+              </h4>
+              <div
+                className="overflow-x-auto p-6 font-mono text-base"
+                style={{ backgroundColor: "var(--color-surface-tertiary)" }}
+              >
+                <div className="text-blue-400">{"{"}</div>
+                <div className="ml-4">
+                  <span className="text-purple-400">message:</span>{" "}
+                  <span className="text-orange-400">string</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">reasoning_time:</span>{" "}
+                  <span className="text-orange-400">number</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">emotion:</span>{" "}
+                  <span className="text-orange-400">
+                    &quot;anger&quot; | &quot;anticipation&quot; |
+                    &quot;disgust&quot; | &quot;joy&quot; | &quot;sadness&quot;
+                    | &quot;surprise&quot; | &quot;trust&quot; |
+                    &quot;base&quot;
+                  </span>
+                  ,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">topic:</span>{" "}
+                  <span className="text-orange-400">string</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">timestamp:</span>{" "}
+                  <span className="text-orange-400">string (ISO 8601)</span>
+                </div>
+                <div className="text-blue-400">{"}"}</div>
               </div>
-              <div className="ml-4">
-                <span className="text-purple-400">
-                  &quot;reasoning_time&quot;:
-                </span>{" "}
-                <span className="text-orange-400">3</span>,
+            </div>
+
+            {/* Real Example */}
+            <div className="mb-8">
+              <h4
+                className="mb-6 flex items-center text-2xl font-bold"
+                style={{ color: "var(--color-text-primary)" }}
+              >
+                <div
+                  className="mr-3 flex h-6 w-6 items-center justify-center"
+                  style={{ backgroundColor: "var(--color-primary-yellow)" }}
+                >
+                  <svg
+                    className="h-3 w-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                Real Example
+              </h4>
+              <div
+                className="overflow-x-auto p-6 font-mono text-base"
+                style={{ backgroundColor: "var(--color-surface-tertiary)" }}
+              >
+                <div className="text-blue-400">{"{"}</div>
+                <div className="ml-4">
+                  <span className="text-purple-400">&quot;message&quot;:</span>{" "}
+                  <span className="text-green-400">
+                    &quot;Grazie per la sua domanda... A volte mi sento così
+                    confusa e non so bene come spiegare quello che provo. È come
+                    se avessi tante emozioni diverse che si mescolano
+                    insieme.&quot;
+                  </span>
+                  ,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">
+                    &quot;reasoning_time&quot;:
+                  </span>{" "}
+                  <span className="text-orange-400">3</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">&quot;emotion&quot;:</span>{" "}
+                  <span className="text-green-400">&quot;sadness&quot;</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">&quot;topic&quot;:</span>{" "}
+                  <span className="text-green-400">&quot;emozioni&quot;</span>,
+                </div>
+                <div className="ml-4">
+                  <span className="text-purple-400">
+                    &quot;timestamp&quot;:
+                  </span>{" "}
+                  <span className="text-green-400">
+                    &quot;2024-01-15T10:30:20.000Z&quot;
+                  </span>
+                </div>
+                <div className="text-blue-400">{"}"}</div>
               </div>
-              <div className="ml-4">
-                <span className="text-purple-400">&quot;emotion&quot;:</span>{" "}
-                <span className="text-green-400">&quot;confusion&quot;</span>,
+            </div>
+
+            {/* Possible Emotion Values */}
+            <div className="mb-8">
+              <h4
+                className="mb-6 flex items-center text-2xl font-bold"
+                style={{ color: "var(--color-text-primary)" }}
+              >
+                <div
+                  className="mr-3 flex h-6 w-6 items-center justify-center"
+                  style={{ backgroundColor: "var(--color-primary-yellow)" }}
+                >
+                  <svg
+                    className="h-3 w-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                Possible Emotion Values
+              </h4>
+              <div
+                className="p-6"
+                style={{ backgroundColor: "var(--color-surface-tertiary)" }}
+              >
+                <p
+                  className="mb-4 text-lg"
+                  style={{ color: "var(--color-text-secondary)" }}
+                >
+                  The <code className="text-green-400">emotion</code> field must
+                  be one of the following values:
+                </p>
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;anger&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">
+                      &quot;anticipation&quot;
+                    </code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;disgust&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;joy&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;sadness&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;surprise&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;trust&quot;</code>
+                  </div>
+                  <div
+                    className="p-3"
+                    style={{ backgroundColor: "var(--color-surface-primary)" }}
+                  >
+                    <code className="text-green-400">&quot;base&quot;</code>
+                  </div>
+                </div>
               </div>
-              <div className="ml-4">
-                <span className="text-purple-400">&quot;topic&quot;:</span>{" "}
-                <span className="text-green-400">&quot;emozioni&quot;</span>,
-              </div>
-              <div className="ml-4">
-                <span className="text-purple-400">&quot;timestamp&quot;:</span>{" "}
-                <span className="text-green-400">
-                  &quot;2024-01-15T10:30:20.000Z&quot;
-                </span>
-              </div>
-              <div className="text-blue-400">{"}"}</div>
             </div>
           </section>
         </section>
