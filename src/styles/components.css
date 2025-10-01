@@ -2,6 +2,8 @@
 .chat-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary-green) transparent;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .chat-scrollbar::-webkit-scrollbar {

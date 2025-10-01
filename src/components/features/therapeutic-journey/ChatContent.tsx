@@ -364,13 +364,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setTimeout(() => {
       const container = messagesContainerRef.current;
       if (container) {
+        // Add extra space when audio player is open to prevent overlap
+        const extraSpace = isAudioPlayerOpen ? 120 : 0; // 120px for audio player + padding
         container.scrollTo({
-          top: container.scrollHeight,
-          behavior: 'smooth',
+          top: container.scrollHeight + extraSpace,
+          behavior: 'smooth'
         });
       }
     }, delay);
-  }, []);
+  }, [isAudioPlayerOpen]);
 
   // Animate audio waveform when patient message arrives
   useEffect(() => {
@@ -384,6 +386,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       return () => clearTimeout(timer);
     }
   }, [messages, isAudioPlayerOpen]);
+
+  // Auto-scroll when audio player opens to prevent overlap
+  useEffect(() => {
+    if (isAudioPlayerOpen) {
+      // Scroll to bottom with extra space for audio player
+      scrollToBottom(100);
+    }
+  }, [isAudioPlayerOpen, scrollToBottom]);
 
   // Timer effect
   useEffect(() => {
@@ -763,7 +773,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
             <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
-              <div className="pill bg-primary-green text-white px-2 py-1 sm:px-3">
+              <div className="pill bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] px-2 py-1 sm:px-3 w-16 text-center">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -887,57 +897,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             <div className="flex flex-1 min-h-full">
               {/* Column 2: Chat + Input area */}
               <div className="flex-1 flex flex-col page-background relative">
-                {/* Audio Player - fixed position above input */}
-                {isAudioPlayerOpen && (
-                  <div className="sticky bottom-20 left-0 right-0 z-10 p-4 sm:p-6 bg-transparent">
-                    <div className="mx-auto max-w-4xl">
-                      <div className="flex space-x-2 sm:space-x-3">
-                        <div className="flex-1 flex items-center bg-transparent rounded-lg px-3 py-2">
-                          {/* Audio Waveform Visualization */}
-                          <div className="flex items-center justify-between flex-1 space-x-1 h-20">
-                            {Array.from({ length: 80 }, (_, i) => {
-                              // Create more dynamic wave patterns
-                              const baseHeight = 4; // Flat when not animating
-                              const animatedHeight = 15 + (Math.sin(i * 0.4) * 25) + (Math.cos(i * 0.2) * 15);
-                              
-                              return (
-                                <div
-                                  key={i}
-                                  className="w-1 rounded-full transition-all duration-300"
-                                  style={{
-                                    height: isAudioAnimating
-                                      ? `${animatedHeight}px`
-                                      : `${baseHeight}px`,
-                                    background: isAudioAnimating
-                                      ? "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))"
-                                      : "rgba(236, 236, 236, 0.2)",
-                                    animation: isAudioAnimating
-                                      ? `audioWave 0.8s ease-in-out infinite ${i * 0.03}s`
-                                      : "none",
-                                    transformOrigin: "center",
-                                  }}
-                                />
-                              );
-                            })}
-                          </div>
-                        </div>
-                        
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => setIsAudioPlayerOpen(false)}
-                          className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                          aria-label="Chiudi audio player"
-                        >
-                          <X className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
                 {/* Messages area - extends under input */}
-                <div className="flex-1 p-4 sm:p-6 pb-24">
+                <div className={`flex-1 p-4 sm:p-6 ${isAudioPlayerOpen ? 'pb-40' : 'pb-24'}`}>
               <div className="w-full max-w-4xl mx-auto">
                 <div className="space-y-4 sm:space-y-6">
                   {messages.map((message) => (
@@ -991,6 +952,48 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 {!isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
                     <div className="mx-auto max-w-4xl bg-transparent">
+                      {/* Audio Player - positioned directly above input */}
+                      {isAudioPlayerOpen && (
+                        <div className="mb-4 p-4 bg-transparent">
+                          <div className="flex space-x-2 sm:space-x-3">
+                            <div className="flex-1 flex items-center rounded-lg px-3 py-2">
+                              {/* Audio Waveform Visualization */}
+                              <div className="flex items-center justify-between flex-1 space-x-1 h-20">
+                                {Array.from({ length: 80 }, (_, i) => {
+                                  // Create more dynamic wave patterns with continuous animation
+                                  const baseHeight = 6; // Slightly taller base
+                                  const animatedHeight = 8 + (Math.sin(i * 0.3 + Date.now() * 0.001) * 20) + (Math.cos(i * 0.15 + Date.now() * 0.0008) * 12);
+                                  
+                                  return (
+                                    <div
+                                      key={i}
+                                      className="w-1 rounded-full transition-all duration-200"
+                                      style={{
+                                        height: `${animatedHeight}px`,
+                                        background: "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
+                                        animation: `audioWave 1.2s ease-in-out infinite ${i * 0.02}s`,
+                                        transformOrigin: "center",
+                                        opacity: 0.8 + (Math.sin(i * 0.2) * 0.2),
+                                      }}
+                                    />
+                                  );
+                                })}
+                              </div>
+                            </div>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => setIsAudioPlayerOpen(false)}
+                              className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                              aria-label="Chiudi audio player"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="flex space-x-2 sm:space-x-3 bg-transparent">
                         <div className="relative flex-1">
                           <Input
