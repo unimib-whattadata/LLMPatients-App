@@ -5,7 +5,7 @@ import {
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-import { patients } from "~/server/db/schema";
+import { patients } from "~/server/db/tables";
 import { type DifficultyLevel } from "~/lib/constants/difficulty";
 
 /**
@@ -81,6 +81,17 @@ export const patientsRouter = createTRPCRouter({
       }
 
       try {
+        console.log(
+          "getExplorationPatients: Building query with conditions:",
+          whereConditions,
+        );
+        console.log("getExplorationPatients: Input params:", {
+          difficulty,
+          searchQuery,
+          limit,
+          offset,
+        });
+
         // Get patients with error handling
         const patientsData = await ctx.db
           .select()
@@ -89,6 +100,15 @@ export const patientsRouter = createTRPCRouter({
           .orderBy(asc(patients.difficulty), asc(patients.name))
           .limit(limit)
           .offset(offset);
+
+        console.log(
+          "getExplorationPatients: Raw patients data from DB:",
+          patientsData,
+        );
+        console.log(
+          "getExplorationPatients: Number of patients found:",
+          patientsData.length,
+        );
 
         // Transform the data and parse objectives
         const transformedPatients: Patient[] = patientsData.map(
@@ -111,6 +131,11 @@ export const patientsRouter = createTRPCRouter({
             createdAt: patient.createdAt,
             updatedAt: patient.updatedAt,
           }),
+        );
+
+        console.log(
+          "getExplorationPatients: Transformed patients:",
+          transformedPatients.length,
         );
 
         return transformedPatients;

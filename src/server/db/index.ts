@@ -8,9 +8,9 @@ import * as sqliteSchema from "./schema";
 import * as postgresSchema from "./schema-postgres";
 
 // Choose the correct schema based on database type
-const schema = env.DATABASE_URL.startsWith("postgres")
-  ? postgresSchema
-  : sqliteSchema;
+const isPostgres = env.DATABASE_URL.startsWith("postgres");
+console.log(`Database schema: ${isPostgres ? "PostgreSQL" : "SQLite"}`);
+const schema = isPostgres ? postgresSchema : sqliteSchema;
 
 /**
  * Cache the database connection in development. This avoids creating a new connection on every HMR

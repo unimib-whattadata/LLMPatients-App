@@ -300,6 +300,7 @@ async function seedPatients() {
         avatarType: patient.avatarType,
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,
+        isActive: true,
       })
       .returning({ id: patients.id });
 
