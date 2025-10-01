@@ -2,7 +2,7 @@
 
 /**
  * Comprehensive System Diagnostics Script
- * 
+ *
  * This script performs a complete system health check including:
  * - Authentication configuration
  * - Database connectivity and performance
@@ -10,20 +10,20 @@
  * - Dependencies and package validation
  * - File system and project structure
  * - Build and performance checks
- * 
+ *
  * Usage:
  *   pnpm run system:diagnose
  *   or
  *   npx tsx scripts/system-diagnostics.ts
  *   or
  *   node --loader tsx scripts/system-diagnostics.ts
- * 
+ *
  * Make sure to set your environment variables before running:
  *   - DATABASE_URL
  *   - AUTH_SECRET or NEXTAUTH_SECRET
  *   - DATABASE_AUTH_TOKEN (if required)
  *   - NODE_ENV
- * 
+ *
  * Environment files are loaded in priority order:
  *   1. .env.local (highest priority)
  *   2. .env.production (for production settings)
@@ -97,7 +97,11 @@ interface DatabaseStats {
 // ============================================================================
 
 class Logger {
-  private static formatMessage(icon: string, message: string, indent = 0): string {
+  private static formatMessage(
+    icon: string,
+    message: string,
+    indent = 0,
+  ): string {
     const spaces = "   ".repeat(indent);
     return `${spaces}${icon} ${message}`;
   }
@@ -133,12 +137,12 @@ class FileSystemHelper {
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
     const projectRoot = join(__dirname, "..");
-    
+
     return {
       scriptPath: __filename,
       scriptDir: __dirname,
       projectRoot: projectRoot,
-      workingDirectory: process.cwd()
+      workingDirectory: process.cwd(),
     };
   }
 
@@ -156,7 +160,7 @@ class FileSystemHelper {
 
   static readFileContent(filePath: string): string | null {
     try {
-      return readFileSync(filePath, 'utf8');
+      return readFileSync(filePath, "utf8");
     } catch {
       return null;
     }
@@ -168,40 +172,73 @@ class EnvironmentHelper {
     const nodeEnv = process.env.NODE_ENV;
     const isProduction = nodeEnv === "production";
     const isDevelopment = nodeEnv === "development" || !nodeEnv;
-    const isLocal = process.env.NODE_ENV !== "production" && 
-                   (process.env.VERCEL_ENV !== "production" || !process.env.VERCEL_ENV);
-    
+    const isLocal =
+      process.env.NODE_ENV !== "production" &&
+      (process.env.VERCEL_ENV !== "production" || !process.env.VERCEL_ENV);
+
     return {
       nodeEnv: nodeEnv || "development",
       isProduction,
       isDevelopment,
       isLocal,
-      environment: isProduction ? "production" : "local"
+      environment: isProduction ? "production" : "local",
     };
   }
 
   static loadEnvironmentVariables(): EnvironmentLoadResult {
     const location = FileSystemHelper.getFileLocation();
     const env = this.detectEnvironment();
-    
+
     Logger.section("🔧 Loading environment variables");
-    Logger.info(`🌍 Detected environment: ${env.environment} (NODE_ENV: ${env.nodeEnv})`);
-    
+    Logger.info(
+      `🌍 Detected environment: ${env.environment} (NODE_ENV: ${env.nodeEnv})`,
+    );
+
     const envFileConfigs: Record<string, EnvFileConfig[]> = {
       local: [
-        { path: join(location.projectRoot, ".env.local"), priority: 1, name: ".env.local", required: false },
-        { path: join(location.projectRoot, ".env.development"), priority: 2, name: ".env.development", required: false },
-        { path: join(location.projectRoot, ".env"), priority: 3, name: ".env", required: true }
+        {
+          path: join(location.projectRoot, ".env.local"),
+          priority: 1,
+          name: ".env.local",
+          required: false,
+        },
+        {
+          path: join(location.projectRoot, ".env.development"),
+          priority: 2,
+          name: ".env.development",
+          required: false,
+        },
+        {
+          path: join(location.projectRoot, ".env"),
+          priority: 3,
+          name: ".env",
+          required: true,
+        },
       ],
       production: [
-        { path: join(location.projectRoot, ".env.production"), priority: 1, name: ".env.production", required: true },
-        { path: join(location.projectRoot, "production.env"), priority: 2, name: "production.env", required: false },
-        { path: join(location.projectRoot, ".env"), priority: 3, name: ".env", required: false }
-      ]
+        {
+          path: join(location.projectRoot, ".env.production"),
+          priority: 1,
+          name: ".env.production",
+          required: true,
+        },
+        {
+          path: join(location.projectRoot, "production.env"),
+          priority: 2,
+          name: "production.env",
+          required: false,
+        },
+        {
+          path: join(location.projectRoot, ".env"),
+          priority: 3,
+          name: ".env",
+          required: false,
+        },
+      ],
     };
-    
+
     const envFiles = envFileConfigs[env.environment] ?? envFileConfigs.local;
-    
+
     if (!envFiles) {
       throw new Error(`Invalid environment: ${env.environment}`);
     }
@@ -209,19 +246,19 @@ class EnvironmentHelper {
     const loadedFiles: string[] = [];
     let primaryEnvFile: string | null = null;
     let requiredFileFound = false;
-    
+
     Logger.info(`📋 Looking for ${env.environment} environment files...`);
-    
+
     for (const envFile of envFiles) {
       if (FileSystemHelper.checkFileExists(envFile.path)) {
         Logger.success(`Found: ${envFile.name} (${envFile.path})`);
         config({ path: envFile.path });
         loadedFiles.push(envFile.name);
-        
+
         if (!primaryEnvFile) {
           primaryEnvFile = envFile.name;
         }
-        
+
         if (envFile.required) {
           requiredFileFound = true;
         }
@@ -231,28 +268,36 @@ class EnvironmentHelper {
         Logger.info(`${icon} ${status}: ${envFile.name}`);
       }
     }
-    
+
     if (env.environment === "production" && !requiredFileFound) {
       Logger.warning("No production environment file found!");
-      Logger.info("💡 Production tip: Create .env.production for production settings");
+      Logger.info(
+        "💡 Production tip: Create .env.production for production settings",
+      );
     }
-    
+
     if (primaryEnvFile) {
       Logger.success(`Primary environment file: ${primaryEnvFile}`);
       Logger.info(`📋 Loaded from files: ${loadedFiles.join(", ")}`);
-      
+
       if (env.isProduction && !primaryEnvFile.includes("production")) {
-        Logger.info("💡 Production tip: Consider using .env.production for production environment");
+        Logger.info(
+          "💡 Production tip: Consider using .env.production for production environment",
+        );
       } else if (env.isLocal && primaryEnvFile === ".env.production") {
-        Logger.info("💡 Local tip: Using production environment file in local development");
+        Logger.info(
+          "💡 Local tip: Using production environment file in local development",
+        );
       }
     } else {
-      Logger.warning("No .env files found, using system environment variables only");
+      Logger.warning(
+        "No .env files found, using system environment variables only",
+      );
     }
-    
+
     this.showEnvironmentValidation(env);
     this.showEnvironmentFileContents(location, primaryEnvFile);
-    
+
     return { env, primaryEnvFile, loadedFiles };
   }
 
@@ -270,25 +315,31 @@ class EnvironmentHelper {
     }
   }
 
-  private static showEnvironmentFileContents(location: FileLocation, primaryEnvFile: string | null): void {
+  private static showEnvironmentFileContents(
+    location: FileLocation,
+    primaryEnvFile: string | null,
+  ): void {
     if (!primaryEnvFile) return;
 
     try {
       const envFilePath = join(location.projectRoot, primaryEnvFile);
       const envContent = FileSystemHelper.readFileContent(envFilePath);
-      
+
       if (!envContent) return;
 
       Logger.section(`📝 Environment variables in ${primaryEnvFile}`);
-      const lines = envContent.split('\n').filter(line => line.trim() && !line.startsWith('#'));
-      
-      lines.forEach(line => {
-        const [key, ...valueParts] = line.split('=');
-        const value = valueParts.join('=');
+      const lines = envContent
+        .split("\n")
+        .filter((line) => line.trim() && !line.startsWith("#"));
+
+      lines.forEach((line) => {
+        const [key, ...valueParts] = line.split("=");
+        const value = valueParts.join("=");
         if (key && value) {
-          const isSensitive = key.toLowerCase().includes('secret') || 
-                             key.toLowerCase().includes('password') || 
-                             key.toLowerCase().includes('token');
+          const isSensitive =
+            key.toLowerCase().includes("secret") ||
+            key.toLowerCase().includes("password") ||
+            key.toLowerCase().includes("token");
           const displayValue = isSensitive ? `***${value.slice(-4)}` : value;
           Logger.info(`${key}=${displayValue}`);
         }
@@ -306,7 +357,7 @@ class EnvironmentHelper {
 class ProjectStructureChecker {
   static check(): boolean {
     Logger.section("📁 Project Structure Check");
-    
+
     const location = FileSystemHelper.getFileLocation();
     const essentialFiles = [
       "package.json",
@@ -315,22 +366,22 @@ class ProjectStructureChecker {
       "tailwind.config.ts",
       "src/app/layout.tsx",
       "src/server/db/schema.ts",
-      "src/server/auth/config.ts"
+      "src/server/auth/config.ts",
     ];
-    
+
     const essentialDirs = [
       "src",
       "src/app",
       "src/components",
       "src/server",
-      "public"
+      "public",
     ];
-    
+
     let allFilesExist = true;
     let allDirsExist = true;
-    
+
     Logger.info("📄 Essential files:");
-    essentialFiles.forEach(file => {
+    essentialFiles.forEach((file) => {
       const filePath = join(location.projectRoot, file);
       if (FileSystemHelper.checkFileExists(filePath)) {
         Logger.success(file);
@@ -339,9 +390,9 @@ class ProjectStructureChecker {
         allFilesExist = false;
       }
     });
-    
+
     Logger.info("📂 Essential directories:");
-    essentialDirs.forEach(dir => {
+    essentialDirs.forEach((dir) => {
       const dirPath = join(location.projectRoot, dir);
       const stats = FileSystemHelper.getFileStats(dirPath);
       if (stats?.isDirectory()) {
@@ -351,13 +402,13 @@ class ProjectStructureChecker {
         allDirsExist = false;
       }
     });
-    
+
     if (allFilesExist && allDirsExist) {
       Logger.success("All essential files and directories are present");
     } else {
       Logger.warning("Some essential files or directories are missing");
     }
-    
+
     return allFilesExist && allDirsExist;
   }
 }
@@ -365,61 +416,69 @@ class ProjectStructureChecker {
 class DependenciesChecker {
   static check(): boolean {
     Logger.section("📦 Dependencies Check");
-    
+
     const location = FileSystemHelper.getFileLocation();
     const packageJsonPath = join(location.projectRoot, "package.json");
-    
+
     try {
-      const packageJsonContent = FileSystemHelper.readFileContent(packageJsonPath);
+      const packageJsonContent =
+        FileSystemHelper.readFileContent(packageJsonPath);
       if (!packageJsonContent) {
         Logger.error("Could not read package.json");
         return false;
       }
 
       const packageJson = JSON.parse(packageJsonContent);
-      
+
       Logger.info("📋 Package.json validation:");
-      const requiredFields = ['name', 'version', 'scripts', 'dependencies', 'devDependencies'];
-      requiredFields.forEach(field => {
+      const requiredFields = [
+        "name",
+        "version",
+        "scripts",
+        "dependencies",
+        "devDependencies",
+      ];
+      requiredFields.forEach((field) => {
         if (packageJson[field]) {
           Logger.success(`${field}: present`);
         } else {
           Logger.error(`${field}: missing`);
         }
       });
-      
+
       Logger.info("🔍 Critical dependencies:");
       const criticalDeps = [
-        'next',
-        'react',
-        'react-dom',
-        '@libsql/client',
-        'drizzle-orm',
-        'next-auth'
+        "next",
+        "react",
+        "react-dom",
+        "@libsql/client",
+        "drizzle-orm",
+        "next-auth",
       ];
-      
-      criticalDeps.forEach(dep => {
-        const version = packageJson.dependencies?.[dep] || packageJson.devDependencies?.[dep];
+
+      criticalDeps.forEach((dep) => {
+        const version =
+          packageJson.dependencies?.[dep] || packageJson.devDependencies?.[dep];
         if (version) {
           Logger.success(`${dep}: ${version}`);
         } else {
           Logger.error(`${dep}: missing`);
         }
       });
-      
+
       Logger.info("🛠️  Available scripts:");
-      const importantScripts = ['build', 'dev', 'lint', 'typecheck', 'db:seed'];
-      importantScripts.forEach(script => {
+      const importantScripts = ["build", "dev", "lint", "typecheck", "db:seed"];
+      importantScripts.forEach((script) => {
         if (packageJson.scripts?.[script]) {
           Logger.success(`${script}: ${packageJson.scripts[script]}`);
         } else {
           Logger.error(`${script}: missing`);
         }
       });
-      
+
       return true;
     } catch (error) {
-      Logger.error(`Could not read package.json: ${error}`);
+      Logger.error(`Could not read package.json: ${String(error)}`);
       return false;
     }
   }
@@ -428,24 +487,24 @@ class DependenciesChecker {
 class CodeQualityChecker {
   static async runLintingChecks(): Promise<boolean> {
     Logger.section("🔍 Code Quality Checks");
-    
+
     try {
       Logger.info("📝 Running ESLint...");
       const lintStartTime = Date.now();
-      const lintResult = execSync('pnpm run lint', { 
+      const lintResult = execSync("pnpm run lint", {
         cwd: FileSystemHelper.getFileLocation().projectRoot,
-        encoding: 'utf8',
-        stdio: 'pipe'
+        encoding: "utf8",
+        stdio: "pipe",
       });
       const lintEndTime = Date.now();
       Logger.success(`ESLint passed (${lintEndTime - lintStartTime}ms)`);
-      Logger.info(`📊 Lint output: ${lintResult.trim() || 'No issues found'}`);
-      
+      Logger.info(`📊 Lint output: ${lintResult.trim() || "No issues found"}`);
+
       return true;
     } catch (error: any) {
       Logger.error(`ESLint failed: ${error.message}`);
       if (error.stdout) {
-        Logger.info(`📋 Lint output: ${error.stdout}`);
+        Logger.info(`📋 Lint output: ${String(error.stdout)}`);
       }
       return false;
     }
@@ -453,21 +512,23 @@ class CodeQualityChecker {
 
   static async runTypeScriptCheck(): Promise<boolean> {
     Logger.info("🔧 Running TypeScript check...");
-    
+
     try {
       const tsStartTime = Date.now();
-      const tsResult = execSync('pnpm run typecheck', { 
+      const tsResult = execSync("pnpm run typecheck", {
         cwd: FileSystemHelper.getFileLocation().projectRoot,
-        encoding: 'utf8',
-        stdio: 'pipe'
+        encoding: "utf8",
+        stdio: "pipe",
       });
       const tsEndTime = Date.now();
-      Logger.success(`TypeScript compilation passed (${tsEndTime - tsStartTime}ms)`);
+      Logger.success(
+        `TypeScript compilation passed (${tsEndTime - tsStartTime}ms)`,
+      );
       return true;
     } catch (error: any) {
       Logger.error(`TypeScript compilation failed: ${error.message}`);
       if (error.stdout) {
-        Logger.info(`📋 TypeScript output: ${error.stdout}`);
+        Logger.info(`📋 TypeScript output: ${String(error.stdout)}`);
       }
       return false;
     }
@@ -477,7 +538,7 @@ class CodeQualityChecker {
 class DatabaseChecker {
   static async check(): Promise<boolean> {
     Logger.section("🗄️  Database Connectivity Check");
-    
+
     try {
       const databaseUrl = process.env.DATABASE_URL;
       if (!databaseUrl) {
@@ -486,7 +547,7 @@ class DatabaseChecker {
       }
 
       const connectionStartTime = Date.now();
-      
+
       Logger.info("📊 Database Information:");
       this.logDatabaseInfo(databaseUrl);
 
@@ -495,26 +556,28 @@ class DatabaseChecker {
         authToken: process.env.DATABASE_AUTH_TOKEN,
       });
 
-      const db = drizzle(client);
-      
+      const db = drizzle(client) as any;
+
       const result = await db.select().from(users).limit(1);
       const connectionEndTime = Date.now();
       const connectionTime = connectionEndTime - connectionStartTime;
-      
+
       Logger.success("Database connection successful");
       Logger.info(`Connection time: ${connectionTime}ms`);
       Logger.info(`Found ${result.length} user(s) in database`);
-      
+
       const stats = await this.getDatabaseStats(db);
       this.logDatabaseStats(stats);
-      
+
       this.checkDatabaseSchema();
-      
+
       client.close();
       return true;
     } catch (error) {
       Logger.error("Database connection failed:");
-      Logger.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+      Logger.error(
+        `Error: ${error instanceof Error ? error.message : String(error)}`,
+      );
       Logger.info("Please check your DATABASE_URL and network connectivity.");
       return false;
     }
@@ -523,12 +586,14 @@ class DatabaseChecker {
   private static logDatabaseInfo(databaseUrl: string): void {
     try {
       const url = new URL(databaseUrl);
-      Logger.info(`Type: ${url.protocol.replace(':', '')}`);
+      Logger.info(`Type: ${url.protocol.replace(":", "")}`);
       Logger.info(`Host: ${url.hostname}`);
-      Logger.info(`Port: ${url.port || 'default'}`);
-      Logger.info(`Database: ${url.pathname.slice(1) || 'default'}`);
-      if (url.searchParams.has('authToken')) {
-        Logger.info(`Auth Token: ${url.searchParams.get('authToken')?.length || 0} characters`);
+      Logger.info(`Port: ${url.port || "default"}`);
+      Logger.info(`Database: ${url.pathname.slice(1) || "default"}`);
+      if (url.searchParams.has("authToken")) {
+        Logger.info(
+          `Auth Token: ${url.searchParams.get("authToken")?.length || 0} characters`,
+        );
       }
     } catch (urlError) {
       Logger.info(`URL: ${databaseUrl.substring(0, 50)}...`);
@@ -538,15 +603,18 @@ class DatabaseChecker {
   private static async getDatabaseStats(db: any): Promise<DatabaseStats> {
     try {
       const totalUsers = await db.select().from(users);
-      const roleCounts = totalUsers.reduce((acc: Record<string, number>, user: any) => {
-        acc[user.role] = (acc[user.role] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
-      
+      const roleCounts = totalUsers.reduce(
+        (acc: Record<string, number>, user: any) => {
+          acc[user.role] = (acc[user.role] || 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
       return {
         connectionTime: 0, // Will be set by caller
         totalUsers: totalUsers.length,
-        roleCounts
+        roleCounts,
       };
     } catch {
       return { connectionTime: 0, totalUsers: 0, roleCounts: {} };
@@ -555,7 +623,7 @@ class DatabaseChecker {
 
   private static logDatabaseStats(stats: DatabaseStats): void {
     Logger.info(`Total users in database: ${stats.totalUsers}`);
-    
+
     if (Object.keys(stats.roleCounts).length > 0) {
       Logger.info("User roles distribution:");
       Object.entries(stats.roleCounts).forEach(([role, count]) => {
@@ -574,18 +642,20 @@ class DatabaseChecker {
 class AuthenticationChecker {
   static check(): boolean {
     Logger.section("🔐 Authentication Configuration Check");
-    
+
     const authSecret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
     if (!authSecret) {
       Logger.error("No AUTH_SECRET or NEXTAUTH_SECRET found");
       return false;
     } else if (authSecret.length < 32) {
-      Logger.warning(`AUTH_SECRET is too short (${authSecret.length} characters, minimum 32)`);
+      Logger.warning(
+        `AUTH_SECRET is too short (${authSecret.length} characters, minimum 32)`,
+      );
       return false;
     } else {
       Logger.success("AUTH_SECRET is properly configured");
     }
-    
+
     return true;
   }
 
@@ -596,7 +666,7 @@ class AuthenticationChecker {
         url: process.env.DATABASE_URL!,
         authToken: process.env.DATABASE_AUTH_TOKEN,
       });
-      const db = drizzle(client);
+      const db = drizzle(client) as any;
 
       const testUsers = await db
         .select({ email: users.email, role: users.role })
@@ -616,7 +686,9 @@ class AuthenticationChecker {
       return true;
     } catch (error) {
       Logger.error("User authentication test failed:");
-      Logger.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+      Logger.error(
+        `Error: ${error instanceof Error ? error.message : String(error)}`,
+      );
       return false;
     }
   }
@@ -625,7 +697,7 @@ class AuthenticationChecker {
 class EnvironmentConfigChecker {
   static check(env: EnvironmentInfo): boolean {
     Logger.section("🌍 Environment-Specific Configuration Check");
-    
+
     if (env.isProduction) {
       Logger.info("🏭 Production environment checks:");
       return this.checkProductionConfig();
@@ -645,19 +717,19 @@ class EnvironmentConfigChecker {
     } else {
       Logger.warning("NEXTAUTH_URL not set (recommended for production)");
     }
-    
+
     const databaseUrl = process.env.DATABASE_URL;
     if (databaseUrl && databaseUrl.includes("localhost")) {
       Logger.warning("Database URL contains localhost in production");
     } else if (databaseUrl) {
       Logger.success("Database URL appears to be production-ready");
     }
-    
+
     Logger.section("🔒 Security checks");
     Logger.success("HTTPS enforcement required");
     Logger.success("Secure secrets required");
     Logger.success("Production database required");
-    
+
     return true;
   }
 
@@ -665,19 +737,19 @@ class EnvironmentConfigChecker {
     Logger.success("Local database connections allowed");
     Logger.success("HTTP connections allowed for development");
     Logger.success("Development secrets acceptable");
-    
+
     const location = FileSystemHelper.getFileLocation();
     const devFiles = [".env.local", ".env.development"];
-    const foundDevFiles = devFiles.filter(file => 
-      FileSystemHelper.checkFileExists(join(location.projectRoot, file))
+    const foundDevFiles = devFiles.filter((file) =>
+      FileSystemHelper.checkFileExists(join(location.projectRoot, file)),
     );
-    
+
     if (foundDevFiles.length > 0) {
       Logger.success(`Development files found: ${foundDevFiles.join(", ")}`);
     } else {
       Logger.info("No development-specific .env files found");
     }
-    
+
     return true;
   }
 }
@@ -685,19 +757,21 @@ class EnvironmentConfigChecker {
 class BuildChecker {
   static check(): boolean {
     Logger.section("🏗️  Build Process Check");
-    
+
     try {
       Logger.info("🔨 Testing build process...");
       const buildStartTime = Date.now();
-      
-      execSync('pnpm run typecheck', { 
+
+      execSync("pnpm run typecheck", {
         cwd: FileSystemHelper.getFileLocation().projectRoot,
-        encoding: 'utf8',
-        stdio: 'pipe'
+        encoding: "utf8",
+        stdio: "pipe",
       });
-      
+
       const buildEndTime = Date.now();
-      Logger.success(`Build process validation passed (${buildEndTime - buildStartTime}ms)`);
+      Logger.success(
+        `Build process validation passed (${buildEndTime - buildStartTime}ms)`,
+      );
       return true;
     } catch (error: any) {
       Logger.error(`Build process validation failed: ${error.message}`);
@@ -709,18 +783,18 @@ class BuildChecker {
 class PermissionsChecker {
   static check(): boolean {
     Logger.section("🔒 File Permissions Check");
-    
+
     const location = FileSystemHelper.getFileLocation();
     const criticalFiles = [
       "package.json",
       "next.config.js",
       "src/app/layout.tsx",
-      "src/server/db/schema.ts"
+      "src/server/db/schema.ts",
     ];
-    
+
     let allAccessible = true;
-    
-    criticalFiles.forEach(file => {
+
+    criticalFiles.forEach((file) => {
       const filePath = join(location.projectRoot, file);
       try {
         if (FileSystemHelper.checkFileExists(filePath)) {
@@ -735,7 +809,7 @@ class PermissionsChecker {
         allAccessible = false;
       }
     });
-    
+
     return allAccessible;
   }
 }
@@ -755,18 +829,18 @@ class SystemDiagnostics {
     authentication: false,
     userAuth: false,
     build: false,
-    permissions: false
+    permissions: false,
   };
 
   async run(): Promise<void> {
     Logger.header("🔍 Starting comprehensive system diagnostics");
-    
+
     try {
       await this.runAllChecks();
       this.generateSummary();
       this.showRecommendations();
     } catch (error) {
-      Logger.error(`System diagnostics failed: ${error}`);
+      Logger.error(`System diagnostics failed: ${String(error)}`);
       process.exit(1);
     }
   }
@@ -775,10 +849,10 @@ class SystemDiagnostics {
     // Load environment variables
     const envInfo = EnvironmentHelper.loadEnvironmentVariables();
     this.results.environment = true;
-    
+
     this.showFileLocationInfo();
     this.checkEnvironmentVariables();
-    
+
     // Run all diagnostic checks
     this.results.projectStructure = ProjectStructureChecker.check();
     this.results.dependencies = DependenciesChecker.check();
@@ -787,7 +861,8 @@ class SystemDiagnostics {
     this.results.database = await DatabaseChecker.check();
     this.results.environment = EnvironmentConfigChecker.check(envInfo.env);
     this.results.authentication = AuthenticationChecker.check();
-    this.results.userAuth = await AuthenticationChecker.testUserAuthentication();
+    this.results.userAuth =
+      await AuthenticationChecker.testUserAuthentication();
     this.results.build = BuildChecker.check();
     this.results.permissions = PermissionsChecker.check();
   }
@@ -806,8 +881,8 @@ class SystemDiagnostics {
     const requiredEnvVars = [
       "DATABASE_URL",
       "AUTH_SECRET",
-      "NEXTAUTH_SECRET", 
-      "NODE_ENV"
+      "NEXTAUTH_SECRET",
+      "NODE_ENV",
     ];
 
     const missingVars: string[] = [];
@@ -829,7 +904,9 @@ class SystemDiagnostics {
     }
 
     if (missingVars.length > 0) {
-      Logger.warning(`Missing environment variables: ${missingVars.join(", ")}`);
+      Logger.warning(
+        `Missing environment variables: ${missingVars.join(", ")}`,
+      );
       Logger.info("Please set these variables in your production environment.");
     } else {
       Logger.success("All required environment variables are set.");
@@ -838,22 +915,25 @@ class SystemDiagnostics {
 
   private generateSummary(): void {
     Logger.header("📊 DIAGNOSTICS SUMMARY");
-    
+
     const totalChecks = Object.keys(this.results).length;
     const passedChecks = Object.values(this.results).filter(Boolean).length;
     const failedChecks = totalChecks - passedChecks;
-    
+
     Logger.success(`Passed: ${passedChecks}/${totalChecks} checks`);
     Logger.error(`Failed: ${failedChecks}/${totalChecks} checks`);
-    
+
     Object.entries(this.results).forEach(([check, passed]) => {
       const status = passed ? "✅" : "❌";
-      const checkName = check.replace(/([A-Z])/g, ' $1').toLowerCase().replace(/^./, str => str.toUpperCase());
+      const checkName = check
+        .replace(/([A-Z])/g, " $1")
+        .toLowerCase()
+        .replace(/^./, (str) => str.toUpperCase());
       Logger.info(`${status} ${checkName}`);
     });
-    
+
     Logger.header("🏁 System diagnostics complete!");
-    
+
     if (failedChecks > 0) {
       Logger.warning("Some checks failed. Please review the output above and:");
       Logger.info("1. Fix any linting or TypeScript errors");
@@ -862,14 +942,16 @@ class SystemDiagnostics {
       Logger.info("4. Check file permissions and project structure");
       Logger.info("5. Run 'pnpm run db:seed' if needed for test users");
     } else {
-      Logger.success("All system checks passed! Your application is ready for deployment.");
+      Logger.success(
+        "All system checks passed! Your application is ready for deployment.",
+      );
     }
   }
 
   private showRecommendations(): void {
     Logger.section("💡 Environment-specific recommendations");
     const env = EnvironmentHelper.detectEnvironment();
-    
+
     if (env.isProduction) {
       Logger.info("🏭 Production environment:");
       Logger.info("• Ensure HTTPS is properly configured");

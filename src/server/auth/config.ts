@@ -56,6 +56,10 @@ declare module "next-auth" {
   }
 
   interface User {
+    id: string;
+    name?: string | null;
+    email?: string | null;
+    image?: string | null;
     role: "admin" | "user"; // Add role to user type
     // ...other properties
   }
@@ -175,7 +179,7 @@ export const authConfig = {
 
           const isValidPassword = await bcrypt.compare(
             credentials.password as string,
-            fullUser.password,
+            fullUser.password as string,
           );
 
           if (!isValidPassword) {
@@ -232,7 +236,9 @@ export const authConfig = {
             name: user.name,
             image: user.image,
             role: user.role as "admin" | "user",
-            rememberMe: credentials.rememberMe === "true" || credentials.rememberMe === true,
+            rememberMe:
+              credentials.rememberMe === "true" ||
+              credentials.rememberMe === true,
           };
         } catch (error) {
           if (process.env.NODE_ENV === "development") {
@@ -367,7 +373,7 @@ export const authConfig = {
         token.name = validation.user.name ?? undefined;
         token.image = validation.user.image ?? undefined;
         token.lastValidated = Date.now(); // Track when we last validated against DB
-        
+
         // Handle rememberMe functionality - set session duration
         const rememberMe = extractRememberMe(user);
         token.rememberMe = rememberMe;
