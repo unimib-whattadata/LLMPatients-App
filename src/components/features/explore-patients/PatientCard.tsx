@@ -6,7 +6,14 @@ import {
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "~/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "~/components/ui/card";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 
@@ -64,7 +71,7 @@ export function PatientCard({ patient }: PatientCardProps) {
 
   return (
     <Card
-      className="h-full flex flex-col patient-card !bg-[#2E322B]"
+      className="patient-card flex h-full flex-col !bg-[#2E322B]"
       role="listitem"
       itemScope
       itemType="https://schema.org/Person"
@@ -167,4 +174,3 @@ export function PatientCard({ patient }: PatientCardProps) {
     </Card>
   );
 }
-

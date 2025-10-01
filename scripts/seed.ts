@@ -230,6 +230,25 @@ function mapDifficultyToNumber(difficulty: any): number {
   return DIFFICULTY_LEVELS.MEDIO; // Default to medium difficulty
 }
 
+function mapGenderToEnum(gender: string): "male" | "female" | "other" {
+  const lower = gender.toLowerCase();
+  if (
+    lower.includes("maschio") ||
+    lower.includes("male") ||
+    lower.includes("uomo")
+  ) {
+    return "male";
+  }
+  if (
+    lower.includes("femmina") ||
+    lower.includes("female") ||
+    lower.includes("donna")
+  ) {
+    return "female";
+  }
+  return "other";
+}
+
 const PATIENTS: PatientSeed[] = loadPatientsFromFiles();
 
 async function seedDatabase() {
@@ -288,18 +307,31 @@ async function seedPatients() {
 
   // Add all patients from JSON files
   for (const patient of PATIENTS) {
+    // Extract age and gender from patient details
+    const age = parseInt(
+      patient.details.demographic_sociocultural_information?.age || "30",
+    );
+    const gender = mapGenderToEnum(
+      patient.details.demographic_sociocultural_information?.gender || "other",
+    );
+
+    // Extract medical history from psychological profile
+    const medicalHistory =
+      patient.details.psychological_profile_and_cognitive_functioning
+        ?.current_and_past_psychiatric_diagnoses || "";
+
+    // Use small description as notes
+    const notes =
+      patient.smallDescription || patient.background || "Patient case study";
+
     const result = await db
       .insert(patients)
       .values({
         name: patient.name,
-        smallDescription: patient.smallDescription,
-        details: JSON.stringify(patient.details),
-        background: patient.background,
-        objectives: JSON.stringify(patient.objectives),
-        avatarUrl: patient.avatarUrl,
-        avatarType: patient.avatarType,
-        difficulty: patient.difficulty,
-        estimatedDuration: patient.estimatedDuration,
+        age: age,
+        gender: gender,
+        medicalHistory: medicalHistory,
+        notes: notes,
         isActive: true,
       })
       .returning({ id: patients.id });

@@ -1,5 +1,5 @@
 {
-  "id": "d7d1f257-2687-47b1-872d-72e99d992403",
+  "id": "aa85f0aa-d1f8-4abf-8eb2-41aeeb921540",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -8,12 +8,6 @@
       "name": "llmpatient_account",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
         "userId": {
           "name": "userId",
           "type": "text",
@@ -82,8 +76,8 @@
         }
       },
       "indexes": {
-        "account_userId_idx": {
-          "name": "account_userId_idx",
+        "account_user_id_idx": {
+          "name": "account_user_id_idx",
           "columns": [
             {
               "expression": "userId",
@@ -93,27 +87,6 @@
             }
           ],
           "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "account_provider_idx": {
-          "name": "account_provider_idx",
-          "columns": [
-            {
-              "expression": "provider",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            },
-            {
-              "expression": "providerAccountId",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
           "concurrently": false,
           "method": "btree",
           "with": {}
@@ -130,11 +103,19 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
-      "compositePrimaryKeys": {},
+      "compositePrimaryKeys": {
+        "llmpatient_account_provider_providerAccountId_pk": {
+          "name": "llmpatient_account_provider_providerAccountId_pk",
+          "columns": [
+            "provider",
+            "providerAccountId"
+          ]
+        }
+      },
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
@@ -418,16 +399,10 @@
       "name": "llmpatient_session",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
         "sessionToken": {
           "name": "sessionToken",
           "type": "text",
-          "primaryKey": false,
+          "primaryKey": true,
           "notNull": true
         },
         "userId": {
@@ -444,21 +419,6 @@
         }
       },
       "indexes": {
-        "session_token_idx": {
-          "name": "session_token_idx",
-          "columns": [
-            {
-              "expression": "sessionToken",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
         "session_userId_idx": {
           "name": "session_userId_idx",
           "columns": [
@@ -486,20 +446,12 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "llmpatient_session_sessionToken_unique": {
-          "name": "llmpatient_session_sessionToken_unique",
-          "nullsNotDistinct": false,
-          "columns": [
-            "sessionToken"
-          ]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

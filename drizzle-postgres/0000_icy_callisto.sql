@@ -1,5 +1,4 @@
 CREATE TABLE "llmpatient_account" (
-	"id" text PRIMARY KEY NOT NULL,
 	"userId" text NOT NULL,
 	"type" text NOT NULL,
 	"provider" text NOT NULL,
@@ -10,7 +9,8 @@ CREATE TABLE "llmpatient_account" (
 	"token_type" text,
 	"scope" text,
 	"id_token" text,
-	"session_state" text
+	"session_state" text,
+	CONSTRAINT "llmpatient_account_provider_providerAccountId_pk" PRIMARY KEY("provider","providerAccountId")
 );
 --> statement-breakpoint
 CREATE TABLE "llmpatient_chat" (
@@ -43,11 +43,9 @@ CREATE TABLE "llmpatient_patients" (
 );
 --> statement-breakpoint
 CREATE TABLE "llmpatient_session" (
-	"id" text PRIMARY KEY NOT NULL,
-	"sessionToken" text NOT NULL,
+	"sessionToken" text PRIMARY KEY NOT NULL,
 	"userId" text NOT NULL,
-	"expires" timestamp NOT NULL,
-	CONSTRAINT "llmpatient_session_sessionToken_unique" UNIQUE("sessionToken")
+	"expires" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "llmpatient_therapySessions" (
@@ -98,21 +96,19 @@ CREATE TABLE "llmpatient_verificationToken" (
 	"expires" timestamp NOT NULL
 );
 --> statement-breakpoint
-ALTER TABLE "llmpatient_account" ADD CONSTRAINT "llmpatient_account_userId_llmpatient_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."llmpatient_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "llmpatient_account" ADD CONSTRAINT "llmpatient_account_userId_llmpatient_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."llmpatient_user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "llmpatient_chat" ADD CONSTRAINT "llmpatient_chat_sessionId_llmpatient_therapySessions_id_fk" FOREIGN KEY ("sessionId") REFERENCES "public"."llmpatient_therapySessions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "llmpatient_chat" ADD CONSTRAINT "llmpatient_chat_senderId_llmpatient_user_id_fk" FOREIGN KEY ("senderId") REFERENCES "public"."llmpatient_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "llmpatient_session" ADD CONSTRAINT "llmpatient_session_userId_llmpatient_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."llmpatient_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "llmpatient_session" ADD CONSTRAINT "llmpatient_session_userId_llmpatient_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."llmpatient_user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "llmpatient_therapySessions" ADD CONSTRAINT "llmpatient_therapySessions_patientId_llmpatient_patients_id_fk" FOREIGN KEY ("patientId") REFERENCES "public"."llmpatient_patients"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "llmpatient_therapySessions" ADD CONSTRAINT "llmpatient_therapySessions_therapistId_llmpatient_user_id_fk" FOREIGN KEY ("therapistId") REFERENCES "public"."llmpatient_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "llmpatient_userActivity" ADD CONSTRAINT "llmpatient_userActivity_userId_llmpatient_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."llmpatient_user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-CREATE INDEX "account_userId_idx" ON "llmpatient_account" USING btree ("userId");--> statement-breakpoint
-CREATE UNIQUE INDEX "account_provider_idx" ON "llmpatient_account" USING btree ("provider","providerAccountId");--> statement-breakpoint
+CREATE INDEX "account_user_id_idx" ON "llmpatient_account" USING btree ("userId");--> statement-breakpoint
 CREATE INDEX "chat_sessionId_idx" ON "llmpatient_chat" USING btree ("sessionId");--> statement-breakpoint
 CREATE INDEX "chat_senderId_idx" ON "llmpatient_chat" USING btree ("senderId");--> statement-breakpoint
 CREATE INDEX "chat_createdAt_idx" ON "llmpatient_chat" USING btree ("createdAt");--> statement-breakpoint
 CREATE INDEX "patients_name_idx" ON "llmpatient_patients" USING btree ("name");--> statement-breakpoint
 CREATE INDEX "patients_isActive_idx" ON "llmpatient_patients" USING btree ("isActive");--> statement-breakpoint
-CREATE UNIQUE INDEX "session_token_idx" ON "llmpatient_session" USING btree ("sessionToken");--> statement-breakpoint
 CREATE INDEX "session_userId_idx" ON "llmpatient_session" USING btree ("userId");--> statement-breakpoint
 CREATE INDEX "therapySessions_patientId_idx" ON "llmpatient_therapySessions" USING btree ("patientId");--> statement-breakpoint
 CREATE INDEX "therapySessions_therapistId_idx" ON "llmpatient_therapySessions" USING btree ("therapistId");--> statement-breakpoint
