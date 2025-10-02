@@ -155,23 +155,25 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       setError(null);
       setIsTTSAvailable(true);
 
-      // Stop current audio if playing
+      // Stop current audio if playing (but keep the player visible)
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current = null;
+        // Don't set to null - keep the player visible
       }
 
-      // Clear previous audio URL using a ref to avoid dependency issues
+      // Don't clear the audio URL - keep the player visible
+      // The new audio will replace the old one when ready
+
+      // Generate new audio
+      const audioUrl = await generateAudio(text, patientName);
+      
+      // Update the audio URL and create new audio element
       setCurrentAudioUrl((prevUrl) => {
         if (prevUrl) {
           URL.revokeObjectURL(prevUrl);
         }
-        return null;
+        return audioUrl;
       });
-
-      // Generate new audio
-      const audioUrl = await generateAudio(text, patientName);
-      setCurrentAudioUrl(audioUrl);
       setIsTTSAvailable(true);
 
       // Create new audio element

@@ -90,6 +90,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
   const [showAudioWaveform, setShowAudioWaveform] = useState(true);
   const [showTTSWarning, setShowTTSWarning] = useState(true);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -99,7 +100,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const audioPlayer = useAudioPlayer({
     autoPlay: true,
     onPlaybackEnd: () => {
-      console.log("Audio playback ended");
+      console.log("🎙️ [AUDIO] Playback ended");
+      // Don't clear the audio player - let user control it
     },
     onError: (error) => {
       console.error("Audio error:", error);
@@ -189,8 +191,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setTimeout(() => {
       const container = messagesContainerRef.current;
       if (container) {
-        // Add extra space when audio is playing to prevent overlap
-        const extraSpace = audioPlayer.isPlaying || audioPlayer.currentAudioUrl ? 120 : 0; // 120px for audio player + padding
+        // Add extra space when audio is available to prevent overlap
+        const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0; // 120px for audio player + padding
         container.scrollTo({
           top: container.scrollHeight + extraSpace,
           behavior: 'smooth'
@@ -199,9 +201,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }, delay);
   }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl]);
 
-  // Auto-play audio when patient message arrives
+  // Auto-play audio when patient message arrives (only if user has interacted)
   useEffect(() => {
-    if (messages.length === 0) return;
+    if (messages.length === 0 || !hasUserInteracted) return;
     
     const lastMessage = messages[messages.length - 1];
     
@@ -210,21 +212,31 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       lastMessage.sender === "patient" && 
       lastMessage.id !== lastProcessedMessageIdRef.current
     ) {
+      console.log("🎙️ [AUDIO] Processing new patient message:", {
+        messageId: lastMessage.id,
+        content: lastMessage.content.substring(0, 50) + "...",
+        patientName: typedSelectedPatient?.name,
+        previousProcessedId: lastProcessedMessageIdRef.current,
+        hasUserInteracted
+      });
+      
       // Mark this message as processed
       lastProcessedMessageIdRef.current = lastMessage.id;
       
       // Generate and play audio for patient message
       void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name);
     }
-  }, [messages, audioPlayer.playText, typedSelectedPatient?.name]);
+  }, [messages, audioPlayer, typedSelectedPatient?.name, hasUserInteracted]);
 
   // Auto-scroll when audio is playing to prevent overlap
   useEffect(() => {
-    if (audioPlayer.isPlaying) {
+    if (audioPlayer.isPlaying || audioPlayer.currentAudioUrl) {
       // Scroll to bottom with extra space for audio player
       scrollToBottom(100);
     }
-  }, [audioPlayer.isPlaying, scrollToBottom]);
+  }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl, scrollToBottom]);
+
+  // Audio player remains open for user control - no auto-close
 
   // Timer effect
   useEffect(() => {
@@ -337,6 +349,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
 
+    // Mark that user has interacted (enables auto-play)
+    if (!hasUserInteracted) {
+      setHasUserInteracted(true);
+    }
+
     const messageText = inputMessage.trim();
     setInputMessage(""); // Clear input immediately
 
@@ -391,6 +408,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           step_id: stepId,
         });
 
+        console.log("🤖 [CHAT] Generated patient response:", {
+          message: response.message.substring(0, 50) + "...",
+          emotion: response.emotion,
+          timestamp: response.timestamp,
+          stepId
+        });
+
         triggerAvatarEmotionChange(response.emotion);
 
         const patientMessage: ChatMessage = {
@@ -406,6 +430,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
+        
+        console.log("🤖 [CHAT] Added patient message to state:", {
+          messageId: patientMessage.id,
+          totalMessages: finalMessages.length
+        });
 
         // Force scroll to show patient response
         scrollToBottom(100);
@@ -453,6 +482,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           })), // Last 5 messages for context
         });
 
+        console.log("🤖 [CHAT] Generated patient response (fallback):", {
+          message: response.message.substring(0, 50) + "...",
+          emotion: response.emotion,
+          timestamp: response.timestamp,
+          stepId
+        });
+
         triggerAvatarEmotionChange(response.emotion);
 
         const patientMessage: ChatMessage = {
@@ -468,6 +504,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
+        
+        console.log("🤖 [CHAT] Added patient message to state (fallback):", {
+          messageId: patientMessage.id,
+          totalMessages: finalMessages.length
+        });
 
         // Force scroll to show patient response
         scrollToBottom(100);
@@ -514,6 +555,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     generateResponseMutation,
     generateChatResponseMutation,
     triggerAvatarEmotionChange,
+    hasUserInteracted,
   ]);
 
   const goBack = useCallback(() => {
@@ -847,231 +889,255 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           >
             <div className="flex flex-1 min-h-full">
               {/* Column 2: Chat + Input area */}
-                <div className="flex-1 flex flex-col page-background relative">
-                  {/* Messages area - extends under input */}
-                  <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.isPlaying || audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
-              <div className="w-full max-w-4xl mx-auto">
-                <div className="space-y-4 sm:space-y-6">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`flex ${
-                        message.sender === "user" ? "justify-end" : "justify-start"
-                      }`}
-                    >
-                      <div
-                        className={`flex max-w-2xl space-x-3 ${
-                          message.sender === "user"
-                            ? "flex-row-reverse space-x-reverse"
-                            : "flex-row"
-                        }`}
-                      >
-                        {/* Message bubble */}
+              <div className="flex-1 flex flex-col page-background relative">
+                {/* Messages area - extends under input */}
+                <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
+                  <div className="w-full max-w-4xl mx-auto">
+                    <div className="space-y-4 sm:space-y-6">
+                      {messages.map((message) => (
                         <div
-                          className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
-                            message.sender === "patient"
-                              ? "chat-bubble--patient"
-                              : message.sender === "user"
-                                ? "chat-bubble--user"
-                                : ""
+                          key={message.id}
+                          className={`flex ${
+                            message.sender === "user" ? "justify-end" : "justify-start"
                           }`}
                         >
-                          <p className="text-body text-sm sm:text-base">
-                            {message.content}
-                          </p>
+                          <div
+                            className={`flex max-w-2xl space-x-3 ${
+                              message.sender === "user"
+                                ? "flex-row-reverse space-x-reverse"
+                                : "flex-row"
+                            }`}
+                          >
+                            {/* Message bubble */}
+                            <div
+                              className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
+                                message.sender === "patient"
+                                  ? "chat-bubble--patient"
+                                  : message.sender === "user"
+                                    ? "chat-bubble--user"
+                                    : ""
+                              }`}
+                            >
+                              <p className="text-body text-sm sm:text-base">
+                                {message.content}
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))}
+                      ))}
 
-                  {isTyping && (
-                    <div className="mb-4 flex justify-start">
-                      <div className="chat-typing-indicator rounded-lg px-4 py-3">
-                        <div className="flex space-x-1">
-                          <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                          <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                          <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                      {isTyping && (
+                        <div className="mb-4 flex justify-start">
+                          <div className="chat-typing-indicator rounded-lg px-4 py-3">
+                            <div className="flex space-x-1">
+                              <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                              <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                              <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </div>
-                  )}
                   </div>
                 </div>
-              </div>
 
                 {/* Input area - transparent background - sticky at bottom */}
                 {!isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
-                      <div className="mx-auto max-w-4xl bg-transparent">
-                        {/* TTS Not Available Message */}
-                        {!audioPlayer.isTTSAvailable && showTTSWarning && (
-                          <div className="mb-4">
-                            <div className="message message-warning">
-                              <div className="message-icon">
-                                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                                </svg>
-                              </div>
-                              <div className="message-content">
-                                <div className="message-title">Audio non disponibile</div>
-                                <div className="message-text">
-                                  La quota del servizio di sintesi vocale è esaurita. I messaggi del paziente verranno mostrati solo come testo.
-                                </div>
-                              </div>
-                              <Button
-                                onClick={() => setShowTTSWarning(false)}
-                                variant="ghost"
-                                size="icon"
-                                className="message-dismiss"
-                                aria-label="Chiudi avviso"
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
+                    <div className="mx-auto max-w-4xl bg-transparent">
+                      {/* TTS Not Available Message */}
+                      {!audioPlayer.isTTSAvailable && showTTSWarning && (
+                        <div className="mb-4">
+                          <div className="message message-warning">
+                            <div className="message-icon">
+                              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
                             </div>
-                          </div>
-                        )}
-
-                        {/* Audio Player - positioned directly above input */}
-                        {(audioPlayer.isPlaying || audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
-                          <div className="mb-4 p-4 bg-transparent">
-                            <div className="flex space-x-2 sm:space-x-3">
-                              <div className="flex-1 flex items-center rounded-lg px-3 py-2 bg-[var(--color-surface-primary)]/50 backdrop-blur-sm">
-                                {audioPlayer.isLoading ? (
-                                  <div className="flex items-center justify-center flex-1 h-20">
-                                    <Loader2 className="h-6 w-6 animate-spin text-[var(--color-primary-green)]" />
-                                    <span className="ml-2 text-sm text-[var(--color-text-secondary)]">
-                                      Generazione audio...
-                                    </span>
-                                  </div>
-                                ) : (
-                                  <>
-                                    {/* Play/Pause button */}
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={audioPlayer.togglePlayPause}
-                                      className="h-16 w-16 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                                      aria-label={audioPlayer.isPlaying ? "Pausa" : "Play"}
-                                    >
-                                      {audioPlayer.isPlaying ? (
-                                        <X className="h-6 w-6 text-[var(--color-primary-green)]" />
-                                      ) : (
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 24 24"
-                                          fill="currentColor"
-                                          className="h-6 w-6 text-[var(--color-primary-green)]"
-                                        >
-                                          <path d="M8 5v14l11-7z" />
-                                        </svg>
-                                      )}
-                                    </Button>
-
-                                    {/* Audio Waveform Visualization */}
-                                    {audioPlayer.isPlaying && showAudioWaveform && (
-                                      <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
-                                        {Array.from({ length: 60 }, (_, i) => {
-                                          // Create dynamic wave patterns
-                                          const progress = audioPlayer.duration > 0 
-                                            ? (audioPlayer.currentTime / audioPlayer.duration) 
-                                            : 0;
-                                          const barProgress = i / 60;
-                                          const isPast = barProgress < progress;
-                                          const baseHeight = 6;
-                                          const animatedHeight = isPast 
-                                            ? baseHeight + (Math.sin(i * 0.5) * 15) 
-                                            : baseHeight + (Math.sin(i * 0.3 + Date.now() * 0.002) * 20);
-                                          
-                                          return (
-                                            <div
-                                              key={i}
-                                              className="w-1 rounded-full transition-all duration-200"
-                                              style={{
-                                                height: `${animatedHeight}px`,
-                                                background: isPast
-                                                  ? "linear-gradient(135deg, var(--color-primary-green), var(--color-chat-bubble-patient))"
-                                                  : "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
-                                                animation: !isPast ? `audioWave 1.2s ease-in-out infinite ${i * 0.02}s` : "none",
-                                                transformOrigin: "center",
-                                                opacity: isPast ? 0.5 : 0.8 + (Math.sin(i * 0.2) * 0.2),
-                                              }}
-                                            />
-                                          );
-                                        })}
-                                      </div>
-                                    )}
-
-                                    {/* Static visualization when paused or waveform hidden */}
-                                    {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
-                                      <div className="flex items-center justify-center flex-1 h-20">
-                                        <span className="text-sm text-[var(--color-text-secondary)]">
-                                          {audioPlayer.isPlaying 
-                                            ? "Riproduzione in corso..." 
-                                            : "Audio pronto - Clicca play per ascoltare"
-                                          }
-                                        </span>
-                                      </div>
-                                    )}
-                                  </>
-                                )}
+                            <div className="message-content">
+                              <div className="message-title">Audio non disponibile</div>
+                              <div className="message-text">
+                                La quota del servizio di sintesi vocale è esaurita. I messaggi del paziente verranno mostrati solo come testo.
                               </div>
-                              
-                              
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={audioPlayer.clear}
-                                className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                                aria-label="Chiudi audio player"
-                                disabled={audioPlayer.isLoading}
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
                             </div>
+                            <Button
+                              onClick={() => setShowTTSWarning(false)}
+                              variant="ghost"
+                              size="icon"
+                              className="message-dismiss"
+                              aria-label="Chiudi avviso"
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
                           </div>
-                        )}
-                      
-                      <div className="flex space-x-2 sm:space-x-3 bg-transparent">
-                        <div className="relative flex-1">
-                          <Input
-                            ref={inputRef}
-                            value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Inizia la conversazione"
-                            disabled={isTyping}
-                            className="flex-1 text-sm sm:text-base h-11"
-                            aria-label="Messaggio da inviare"
-                          />
                         </div>
-                        <Button
-                          onClick={() => void handleSendMessage()}
-                          disabled={!inputMessage.trim() || isTyping}
-                          className="chat-send-button h-11 w-11"
-                          aria-label="Invia messaggio"
-                        >
-                          <Send className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                      )}
 
-                {/* Session completed message - sticky at bottom */}
-                {isStepCompleted && (
-                  <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
-                    <div className="mx-auto max-w-4xl text-center">
-                      <div className="pill bg-primary-green text-white px-4 py-3">
-                        <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                          <Check className="h-4 w-4" aria-hidden="true" />
-                          <span>
-                            Sessione {stepId} completata - La conversazione è in modalità sola lettura
-                          </span>
-                        </p>
+                      {/* Auto-play Info Message */}
+                      {!hasUserInteracted && audioPlayer.isTTSAvailable && (
+                        <div className="mb-4">
+                          <div className="message message-info">
+                            <div className="message-icon">
+                              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                              </svg>
+                            </div>
+                            <div className="message-content">
+                              <div className="message-title">Riproduzione audio automatica</div>
+                              <div className="message-text">
+                                Invia un messaggio o clicca play per abilitare la riproduzione automatica dell'audio dei messaggi del paziente.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Audio Player - positioned directly above input */}
+                      {(audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
+                        <div className="mb-4 p-4 bg-transparent">
+                          <div className="flex space-x-2 sm:space-x-3">
+                            <div className="flex-1 flex items-center rounded-lg px-3 py-2 bg-[var(--color-surface-primary)]/50 backdrop-blur-sm">
+                              {audioPlayer.isLoading ? (
+                                <div className="flex items-center justify-center flex-1 h-20">
+                                  <Loader2 className="h-6 w-6 animate-spin text-[var(--color-primary-green)]" />
+                                  <span className="ml-2 text-sm text-[var(--color-text-secondary)]">
+                                    Generazione audio...
+                                  </span>
+                                </div>
+                              ) : (
+                                <>
+                                  {/* Play/Pause button */}
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => {
+                                      // Mark that user has interacted (enables auto-play)
+                                      if (!hasUserInteracted) {
+                                        setHasUserInteracted(true);
+                                      }
+                                      audioPlayer.togglePlayPause();
+                                    }}
+                                    className="h-16 w-16 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                                    aria-label={audioPlayer.isPlaying ? "Pausa" : "Play"}
+                                  >
+                                    {audioPlayer.isPlaying ? (
+                                      <X className="h-6 w-6 text-[var(--color-primary-green)]" />
+                                    ) : (
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        className="h-6 w-6 text-[var(--color-primary-green)]"
+                                      >
+                                        <path d="M8 5v14l11-7z" />
+                                      </svg>
+                                    )}
+                                  </Button>
+
+                                  {/* Audio Waveform Visualization */}
+                                  {audioPlayer.isPlaying && showAudioWaveform && (
+                                    <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
+                                      {Array.from({ length: 60 }, (_, i) => {
+                                        // Create dynamic wave patterns
+                                        const progress = audioPlayer.duration > 0 
+                                          ? (audioPlayer.currentTime / audioPlayer.duration) 
+                                          : 0;
+                                        const barProgress = i / 60;
+                                        const isPast = barProgress < progress;
+                                        const baseHeight = 6;
+                                        const animatedHeight = isPast 
+                                          ? baseHeight + (Math.sin(i * 0.5) * 15) 
+                                          : baseHeight + (Math.sin(i * 0.3 + Date.now() * 0.002) * 20);
+                                        
+                                        return (
+                                          <div
+                                            key={i}
+                                            className="w-1 rounded-full transition-all duration-200"
+                                            style={{
+                                              height: `${animatedHeight}px`,
+                                              background: isPast
+                                                ? "linear-gradient(135deg, var(--color-primary-green), var(--color-chat-bubble-patient))"
+                                                : "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
+                                              animation: !isPast ? `audioWave 1.2s ease-in-out infinite ${i * 0.02}s` : "none",
+                                              transformOrigin: "center",
+                                              opacity: isPast ? 0.5 : 0.8 + (Math.sin(i * 0.2) * 0.2),
+                                            }}
+                                          />
+                                        );
+                                      })}
+                                    </div>
+                                  )}
+
+                                  {/* Static visualization when paused or waveform hidden */}
+                                  {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
+                                    <div className="flex items-center justify-center flex-1 h-20">
+                                      <span className="text-sm text-[var(--color-text-secondary)]">
+                                        {audioPlayer.isPlaying 
+                                          ? "Riproduzione in corso..." 
+                                          : "Audio pronto - Clicca play per ascoltare"
+                                        }
+                                      </span>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+                            </div>
+                            
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={audioPlayer.clear}
+                              className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                              aria-label="Chiudi audio player"
+                              disabled={audioPlayer.isLoading}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    
+                    <div className="flex space-x-2 sm:space-x-3 bg-transparent">
+                      <div className="relative flex-1">
+                        <Input
+                          ref={inputRef}
+                          value={inputMessage}
+                          onChange={(e) => setInputMessage(e.target.value)}
+                          onKeyPress={handleKeyPress}
+                          placeholder="Inizia la conversazione"
+                          disabled={isTyping}
+                          className="flex-1 text-sm sm:text-base h-11"
+                          aria-label="Messaggio da inviare"
+                        />
                       </div>
+                      <Button
+                        onClick={() => void handleSendMessage()}
+                        disabled={!inputMessage.trim() || isTyping}
+                        className="chat-send-button h-11 w-11"
+                        aria-label="Invia messaggio"
+                      >
+                        <Send className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
+
+              {/* Session completed message - sticky at bottom */}
+              {isStepCompleted && (
+                <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
+                  <div className="mx-auto max-w-4xl text-center">
+                    <div className="pill bg-primary-green text-white px-4 py-3">
+                      <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                        <Check className="h-4 w-4" aria-hidden="true" />
+                        <span>
+                          Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
               </div>
 
               {/* Column 3: Empty space for visual balance (same width as column 1) */}
