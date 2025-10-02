@@ -16,6 +16,7 @@ export interface ChatMessage {
   sender: "user" | "patient";
   timestamp: Date;
   stepId: number;
+  emotion?: "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
 }
 
 /**
@@ -93,6 +94,7 @@ export const chatRouter = createTRPCRouter({
             sender: z.enum(["user", "patient"]),
             timestamp: z.date(),
             stepId: z.number(),
+            emotion: z.enum(["anger", "anticipation", "disgust", "joy", "sadness", "surprise", "trust", "base"]).optional(),
           }),
         ),
       }),

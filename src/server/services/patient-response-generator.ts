@@ -458,6 +458,31 @@ const responseCache = new Map<string, PatientResponse[]>();
 /** Cache for contextual analysis results */
 const contextCache = new Map<string, PatientResponse[]>();
 
+/** Cache cleanup configuration */
+const CACHE_CONFIG = {
+  MAX_CONTEXT_CACHE_SIZE: 100, // Maximum number of contextual responses to cache
+  CACHE_CLEANUP_INTERVAL: 300000, // 5 minutes in milliseconds
+};
+
+/** Last cache cleanup time */
+let lastCacheCleanup = Date.now();
+
+/** Clear old cache entries to prevent memory buildup and ensure variety */
+function cleanupCache(): void {
+  const now = Date.now();
+  if (now - lastCacheCleanup < CACHE_CONFIG.CACHE_CLEANUP_INTERVAL) {
+    return;
+  }
+
+  // Clear contextual cache if it's too large
+  if (contextCache.size > CACHE_CONFIG.MAX_CONTEXT_CACHE_SIZE) {
+    contextCache.clear();
+    console.log("🧹 [CACHE] Cleared contextual response cache for variety");
+  }
+
+  lastCacheCleanup = now;
+}
+
 /** Generic fallback responses */
 const GENERIC_RESPONSES: PatientResponse[] = [
   { message: "Interessante. Puoi elaborare ulteriormente?", emotion: "base" },
@@ -510,23 +535,29 @@ function setCachedContextualResponses(
 }
 
 /**
- * Context-aware response selection with caching
+ * Context-aware response selection with improved randomization
  * Analyzes conversation history to select more appropriate responses
+ * Includes timestamp-based randomization to ensure variety
  */
 function selectContextualResponse(
   patientInfo: PatientInfo,
   userMessage: string,
   conversationHistory: GenerateResponseInput["conversationHistory"] = [],
 ): PatientResponse {
+  // Clean up cache periodically to ensure variety
+  cleanupCache();
+  
   // Get cached responses for the patient
   const responses = getCachedResponses(patientInfo.name);
 
-  // Create cache key for contextual analysis
+  // Create cache key for contextual analysis (include timestamp for variety)
   const recentMessages = conversationHistory
     .slice(-LOG_CONFIG.MAX_CONVERSATION_HISTORY)
     .map((m) => m.content.toLowerCase())
     .join(" ");
-  const cacheKey = `${patientInfo.name}_${userMessage.toLowerCase()}_${recentMessages}`;
+  // Add timestamp component to cache key to reduce cache hits and increase variety
+  const timestampComponent = Math.floor(Date.now() / 10000); // Changes every 10 seconds
+  const cacheKey = `${patientInfo.name}_${userMessage.toLowerCase()}_${recentMessages}_${timestampComponent}`;
 
   // Check if we have cached contextual responses
   let filteredResponses = getCachedContextualResponses(cacheKey, responses);
@@ -541,9 +572,14 @@ function selectContextualResponse(
     setCachedContextualResponses(cacheKey, filteredResponses);
   }
 
-  // Select random response from filtered set and add timestamp
-  const selectedResponse =
-    filteredResponses[Math.floor(Math.random() * filteredResponses.length)];
+  // Enhanced randomization: use multiple random factors
+  const randomSeed = Math.random() * 1000 + Date.now() % 1000;
+  const selectedIndex = Math.floor((randomSeed * Math.random()) % filteredResponses.length);
+  const selectedResponse = filteredResponses[selectedIndex];
+  
+  // Debug logging to track variety
+  console.log(`🎲 [RANDOMIZATION] Patient: ${patientInfo.name}, Available responses: ${filteredResponses.length}, Selected index: ${selectedIndex}, Random seed: ${randomSeed.toFixed(2)}`);
+  
   if (!selectedResponse) {
     // Fallback if no response found
     return {
@@ -878,6 +914,7 @@ class MockExternalAIService implements ExternalAIService {
       "disgust",
     ];
 
+    // Enhanced response pool with more variety
     const sampleResponses = [
       "Capisco la sua preoccupazione. È normale sentirsi così in questa situazione.",
       "Mi fa piacere che lei mi stia ascoltando. A volte è difficile esprimere questi sentimenti.",
@@ -887,15 +924,32 @@ class MockExternalAIService implements ExternalAIService {
       "Grazie per la sua pazienza. So che non è facile con me.",
       "Quando lei mi fa queste domande, mi sento meno solo. È confortante.",
       "Il mio cuore batte forte quando parlo di certe cose. È normale?",
+      "È strano, ma quando parlo con lei mi sento meno solo. Non so perché.",
+      "Tutto sembra così complicato. A volte vorrei solo scappare da tutto.",
+      "Lei mi fa delle domande che non mi sono mai posta. È... interessante.",
+      "Forse c'è speranza. Non lo so, ma per la prima volta non mi sento completamente persa.",
+      "A volte penso che sia tutto nella mia testa. Ma poi ricordo che i sintomi sono reali.",
+      "Mia moglie dice che sono cambiato. Forse ha ragione, ma non so come tornare indietro.",
+      "Il lavoro mi sta consumando. Ogni giorno è una lotta per mantenere la concentrazione.",
+      "Lei mi fa riflettere su cose che non avevo mai considerato. È... illuminante.",
     ];
 
+    // Enhanced randomization with multiple factors
+    const randomSeed = Math.random() * 1000 + Date.now() % 1000;
+    const responseIndex = Math.floor((randomSeed * Math.random()) % sampleResponses.length);
+    const emotionIndex = Math.floor((randomSeed * Math.random() * 0.7) % emotions.length);
+    const topicIndex = Math.floor((randomSeed * Math.random() * 0.5) % topics.length);
+    
+    // Debug logging for chat response variety
+    console.log(`🎲 [CHAT RANDOMIZATION] Available responses: ${sampleResponses.length}, Response index: ${responseIndex}, Emotion index: ${emotionIndex}, Random seed: ${randomSeed.toFixed(2)}`);
+
     const selectedResponse =
-      sampleResponses[Math.floor(Math.random() * sampleResponses.length)] ||
+      sampleResponses[responseIndex] ||
       "Mi dispiace, non sono sicuro di come rispondere.";
     const selectedEmotion =
-      emotions[Math.floor(Math.random() * emotions.length)] || "base";
+      emotions[emotionIndex] || "base";
     const selectedTopic =
-      topics[Math.floor(Math.random() * topics.length)] || "generale";
+      topics[topicIndex] || "generale";
 
     const response = {
       message: selectedResponse,

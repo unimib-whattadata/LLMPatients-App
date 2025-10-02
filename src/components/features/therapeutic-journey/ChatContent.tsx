@@ -22,242 +22,34 @@ import {
 } from "~/components/ui/popover";
 import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2, Info } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
-import type { User, ImpersonationContext } from "~/types";
+import type {
+  ChatMessage,
+  PatientData,
+  TherapySessionData,
+  ChatStepData,
+  ChatContentProps,
+} from "./chat-types";
+import type { PatientEmotion } from "./chat-constants";
+import {
+  EMOTION_COLORS,
+  AVATAR_TRANSITION_DURATION_MS,
+} from "./chat-constants";
+import {
+  formatSessionTime,
+  getPatientAvatarPath,
+  generatePatientAvatar,
+} from "./chat-utils";
 
-// API Response Types
-type PatientData = {
-  id: string;
-  name: string;
-  smallDescription: string;
-  details: string;
-  background: string;
-  objectives: string[];
-  avatarUrl: string | null;
-  avatarType: string;
-  difficulty: number;
-  estimatedDuration: number;
-  isActive: boolean;
-  externalPatientId: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type TherapySessionData = {
-  id: string;
-  userId: string;
-  patientId: string;
-  sessionNumber: number;
-  isCompleted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type ChatStepData = {
-  id: string;
-  therapySessionId: string;
-  stepNumber: number;
-  messages: ChatMessage[];
-  done: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type CompletedStepData = {
-  id: string;
-  therapySessionId: string;
-  stepNumber: number;
-  messages: ChatMessage[];
-  done: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-interface ChatContentProps {
-  user: User;
-  impersonation?: ImpersonationContext;
-}
-
-// Emotion types for patient avatars
-type PatientEmotion = "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
-
-interface PatientResponse {
-  message: string;
-  emotion: PatientEmotion;
-}
-
-interface ChatMessage {
-  id: string;
-  content: string;
-  sender: "user" | "patient";
-  timestamp: Date | string;
-  stepId: number;
-  emotion?: PatientEmotion; // Optional emotion for patient messages
-}
-
-/**
- * Formats session time in MM:SS format
- * @param seconds - Number of seconds
- * @returns Formatted time string
- */
-function formatSessionTime(seconds: number): string {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
-}
-
-/**
- * Patient-specific responses based on psychological profiles with emotions
- * Extracted as constant to avoid recreation on each render
- */
-const PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
-  John: [
-    { message: "È difficile... mi sento sopraffatto da tutto quello che sta succedendo. Non so come affrontare tutto insieme.", emotion: "sadness" },
-    { message: "Mia moglie è preoccupata per me, ma è complicato parlare di queste cose. Mi sento in imbarazzo.", emotion: "sadness" },
-    { message: "Al lavoro le cose non vanno bene. Ho paura di non essere più abbastanza competente... l'età, sa?", emotion: "anticipation" },
-    { message: "Ho provato a seguire i consigli che mi ha dato, ma è più difficile di quanto pensassi. A volte mangio senza nemmeno accorgermene.", emotion: "sadness" },
-    { message: "Quando le cose si accumulano, mi sento paralizzato. Come se non potessi fare nulla.", emotion: "sadness" },
-    { message: "I farmaci aiutano un po', ma hanno anche creato altri problemi... non so se ne vale la pena.", emotion: "disgust" },
-    { message: "Vorrei solo tornare a come ero prima, quando le cose sembravano più gestibili.", emotion: "sadness" },
-  ],
-  "Juanita Delgado": [
-    { message: "Non so... forse. Ma sento che nessuno capisce veramente cosa sto passando.", emotion: "sadness" },
-    { message: "È sempre la stessa storia. Le persone dicono di voler aiutare, ma poi mi deludono.", emotion: "anger" },
-    { message: "A volte penso di poter fare grandi cose, altre volte... altre volte non riesco nemmeno ad alzarmi dal letto.", emotion: "sadness" },
-    { message: "Mio padre mi ha sempre spinto a eccellere, ma ora guarda dove sono finita. Un fallimento totale.", emotion: "sadness" },
-    { message: "Perché dovrei fidarmi? Tutti finiscono per usarmi o abbandonarmi comunque.", emotion: "anger" },
-    { message: "C'è qualcosa che non va in me... o forse sono tutti gli altri il problema. Non lo so più.", emotion: "sadness" },
-    { message: "Ho provato la terapia prima. Non ha mai funzionato. Perché questa volta dovrebbe essere diverso?", emotion: "disgust" },
-    { message: "A volte mi arrabbio così tanto che non riesco a controllarlo. Poi mi sento terribilmente in colpa.", emotion: "anger" },
-  ],
-  Todd: [
-    { message: "Mi dispiace, è solo che... è difficile anche solo parlarne. Mi sento stupido.", emotion: "sadness" },
-    { message: "Sono preoccupato per tutto. Il lavoro, uscire di casa, persino fare la spesa. È esaustivo.", emotion: "anticipation" },
-    { message: "So che dovrei fare di più, ma l'ansia è paralizzante. Il mio cuore batte così forte...", emotion: "anticipation" },
-    { message: "Le mie sorelle pensano che stia esagerando. Forse hanno ragione, non lo so.", emotion: "sadness" },
-    { message: "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.", emotion: "sadness" },
-    { message: "Preferisco stare a casa. Lì almeno so cosa aspettarmi. Fuori... fuori è troppo imprevedibile.", emotion: "anticipation" },
-    { message: "Mi sento un peso per tutti. Il mio vicino si preoccupa, ma non dovrebbe. Dovrei farcela da solo.", emotion: "sadness" },
-    { message: "A volte penso che sarebbe più facile lasciare il lavoro, ma poi cosa farei? Sono bloccato.", emotion: "sadness" },
-  ],
-};
-
-/**
- * Patient-specific welcome messages based on psychological profiles
- * Extracted as constant to avoid recreation on each render
- */
-const WELCOME_MESSAGES: Record<string, string> = {
-  John: "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
-  "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
-  Todd: "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
-};
-
-const EMOTION_LABELS: Record<PatientEmotion, string> = {
-  anger: "Rabbia",
-  anticipation: "Attesa",
-  disgust: "Disgusto",
-  joy: "Gioia",
-  sadness: "Tristezza",
-  surprise: "Sorpresa",
-  trust: "Fiducia",
-  base: "Neutro",
-};
-
-const EMOTION_COLORS: Record<PatientEmotion, string> = {
-  joy: "rgb(250 204 21)", // yellow-400
-  anger: "rgb(239 68 68)", // red-500
-  sadness: "rgb(59 130 246)", // blue-500
-  disgust: "rgb(132 204 22)", // lime-500
-  trust: "rgb(16 185 129)", // emerald-500
-  anticipation: "rgb(251 146 60)", // orange-400
-  surprise: "rgb(192 132 252)", // purple-400
-  base: "rgb(156 163 175)", // gray-400
-};
-
-/**
- * Generic fallback responses for patients not in the predefined list
- */
-const GENERIC_RESPONSES: PatientResponse[] = [
-  { message: "Interessante punto di vista. Puoi elaborare ulteriormente?", emotion: "base" },
-  { message: "Capisco la tua preoccupazione. Come ti senti riguardo a questo?", emotion: "base" },
-  { message: "È un aspetto importante da considerare. Cosa pensi che potremmo fare?", emotion: "base" },
-  { message: "Grazie per aver condiviso questo con me. Vuoi parlarne di più?", emotion: "base" },
-];
-
-/**
- * Gets the avatar path based on patient name and emotion
- * 
- * @param patientName - The patient's name
- * @param emotion - The current emotion
- * @returns Avatar URL path
- */
-function getPatientAvatarPath(patientName: string, emotion: PatientEmotion = "base"): string {
-  // Normalize patient name for file path
-  const normalizedName = patientName.toLowerCase().replace(/\s+/g, "-");
-  
-  // Map patient names to their folder names
-  const patientFolderMap: Record<string, string> = {
-    "john": "john",
-    "juanita-delgado": "juanita",
-    "todd": "todd",
+// Welcome message generator
+function getWelcomeMessage(patientName: string, stepId: number): string {
+  const welcomeMessages: Record<string, string> = {
+    "John": "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
+    "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
+    "Todd": "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
   };
   
-  const folderName = patientFolderMap[normalizedName] || normalizedName;
-  
-  // Check if emotion image exists (Todd has all emotions, others only have base)
-  if (folderName === "todd" || emotion === "base") {
-    return `/images/patients/${folderName}/${emotion}.png`;
-  }
-  
-  // Fallback to base for patients without emotion avatars
-  return `/images/patients/${folderName}/base.png`;
-}
-
-/**
- * Generates a consistent avatar placeholder for patients based on their name
- *
- * Creates a colored circle with initials for patients who don't have profile images.
- * Uses a deterministic color selection based on the patient's name for consistency.
- *
- * @param name - The patient's name
- * @returns Object with background color and initials for the avatar
- */
-function generatePatientAvatar(name: string): {
-  colorClass: string;
-  initials: string;
-} {
-  const initials = name
-    .split(" ")
-    .map((word) => word.charAt(0))
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
-  const finalInitials = initials.length > 0 ? initials : "P";
-
-  const colorClasses = [
-    "avatar-color-olive",
-    "avatar-color-mustard",
-    "avatar-color-violet",
-    "avatar-color-teal",
-    "avatar-color-coral",
-    "avatar-color-slate",
-    "avatar-color-amber",
-    "avatar-color-emerald",
-    "avatar-color-indigo",
-    "avatar-color-rose",
-    "avatar-color-cyan",
-    "avatar-color-lime",
-    "avatar-color-purple",
-    "avatar-color-pink",
-    "avatar-color-orange",
-  ];
-
-  const colorIndex =
-    name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) %
-    colorClasses.length;
-  const colorClass = colorClasses[colorIndex] ?? "avatar-color-default";
-
-  return { colorClass, initials: finalInitials };
+  return welcomeMessages[patientName] || 
+    `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
 }
 
 /**
@@ -296,7 +88,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
   const [nextEmotion, setNextEmotion] = useState<PatientEmotion | null>(null);
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
-  const transitionDurationMs = 800;
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -339,7 +130,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedExistingChat = existingChat as ChatStepData | undefined;
-  const typedCompletedSteps = completedSteps as CompletedStepData[] | undefined;
+  const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
 
   // Mutations for chat operations
   const saveChatMutation = api.chat.saveChatStep.useMutation();
@@ -448,10 +239,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         scrollToBottom(100);
       }, 200);
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
-      const patientName = typedSelectedPatient.name || "";
-      const welcomeContent =
-        WELCOME_MESSAGES[patientName] ||
-        `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico. Come posso aiutarti oggi?`;
+      const welcomeContent = getWelcomeMessage(typedSelectedPatient.name, stepId);
 
       const welcomeMessage: ChatMessage = {
         id: `welcome-${Date.now()}`,
@@ -473,18 +261,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom]);
 
-  // Generate random patient response with emotion
-  const getPatientResponse = useCallback(
-    (patientName: string): PatientResponse => {
-      const responses = PATIENT_RESPONSES[patientName] || GENERIC_RESPONSES;
-      return (
-        responses[Math.floor(Math.random() * responses.length)] ||
-        { message: "Mi dispiace, non riesco a rispondere in questo momento.", emotion: "base" }
-      );
-    },
-    [],
-  );
-
   // Trigger smooth avatar emotion transition
   const triggerAvatarEmotionChange = useCallback(
     (emotion: PatientEmotion) => {
@@ -505,10 +281,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           setCurrentEmotion(emotion);
           setNextEmotion(null);
           setIsAvatarTransitioning(false);
-        }, transitionDurationMs);
+        }, AVATAR_TRANSITION_DURATION_MS);
       });
     },
-    [currentEmotion, nextEmotion, transitionDurationMs],
+    [currentEmotion, nextEmotion],
   );
 
   // Update avatar emotion based on last patient message
@@ -686,45 +462,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       console.error("Error generating patient response:", error);
       setIsTyping(false);
       
-      // Fallback to static response
-      const patientName = typedSelectedPatient?.name || "";
-      const patientResponse = getPatientResponse(patientName);
-
-      triggerAvatarEmotionChange(patientResponse.emotion);
-
-      const patientMessage: ChatMessage = {
-        id: `patient-${Date.now()}`,
-        content: patientResponse.message,
-        sender: "patient",
-        timestamp: new Date(),
-        stepId,
-        emotion: patientResponse.emotion,
-      };
-
-      // Add patient response
-      const finalMessages = [...updatedMessages, patientMessage];
-      setMessages(finalMessages);
-
-      // Force scroll to show patient response
-      scrollToBottom(100);
-
-      // Return focus to input after patient responds
+      // Show error message to user
+      alert("Errore nella generazione della risposta. Riprova.");
+      
+      // Return focus to input
       setTimeout(() => {
         inputRef.current?.focus();
       }, 300);
-
-      // Save complete conversation
-      saveChatMutation.mutate({
-        therapySessionId: typedTherapySession.id,
-        stepNumber: stepId,
-        messages: finalMessages.map((msg) => ({
-          ...msg,
-          timestamp:
-            msg.timestamp instanceof Date
-              ? msg.timestamp
-              : new Date(msg.timestamp),
-        })),
-      });
     }
   }, [
     inputMessage,
@@ -733,7 +477,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     stepId,
     messages,
     scrollToBottom,
-    getPatientResponse,
     typedSelectedPatient,
     saveChatMutation,
     generateResponseMutation,
@@ -988,7 +731,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   boxShadow: isAvatarTransitioning 
                     ? `0 0 35px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}90, 0 0 70px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}50`
                     : `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
-                  transition: `all ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+                  transition: `all ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
                 }}
               >
                 <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
@@ -1009,7 +752,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 ? 0
                                 : 1
                               : 1,
-                          transition: `opacity ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+                          transition: `opacity ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
                         }}
                       />
                       {nextEmotion && nextEmotion !== currentEmotion && (
@@ -1022,7 +765,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full absolute inset-0"
                           style={{
                             opacity: isAvatarTransitioning ? 1 : 0,
-                            transition: `opacity ${transitionDurationMs}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+                            transition: `opacity ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
                           }}
                           priority
                         />
