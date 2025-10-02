@@ -148,11 +148,12 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   }, []);
 
   const playText = useCallback(async (text: string, patientName?: string) => {
-    if (!text.trim() || !isTTSAvailable) return;
+    if (!text.trim()) return;
 
     try {
       setIsLoading(true);
       setError(null);
+      setIsTTSAvailable(true);
 
       // Stop current audio if playing
       if (audioRef.current) {
@@ -171,6 +172,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       // Generate new audio
       const audioUrl = await generateAudio(text, patientName);
       setCurrentAudioUrl(audioUrl);
+      setIsTTSAvailable(true);
 
       // Create new audio element
       const audio = new Audio(audioUrl);

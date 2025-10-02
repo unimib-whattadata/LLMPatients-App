@@ -1016,17 +1016,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 )}
                               </div>
                               
-                              {/* Toggle Waveform Button */}
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => setShowAudioWaveform(!showAudioWaveform)}
-                                className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                                aria-label={showAudioWaveform ? "Nascondi traccia audio" : "Mostra traccia audio"}
-                                disabled={audioPlayer.isLoading}
-                              >
-                                <Maximize2 className={`h-4 w-4 transition-transform duration-200 ${showAudioWaveform ? 'rotate-180' : ''}`} />
-                              </Button>
                               
                               <Button
                                 variant="ghost"
