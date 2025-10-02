@@ -44,12 +44,12 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if API key is configured
-    const apiKey = env.ELEVENLABS_API_KEY;
+    const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
     if (!apiKey) {
       console.error("ElevenLabs API key not configured");
       return NextResponse.json(
-        { error: "TTS service not configured" },
-        { status: 503 }
+        { error: "TTS service not configured - please check API key" },
+        { status: 401 }
       );
     }
 
@@ -84,6 +84,40 @@ export async function GET(request: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`❌ [TTS] ElevenLabs API error: ${response.status} - ${errorText}`);
+      
+      // Parse error response to check for specific error types
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = {};
+      }
+      
+      // Handle specific error cases
+      if (response.status === 401) {
+        // Check if it's a quota exceeded error (ElevenLabs returns 401 for quota exceeded)
+        if (errorData.detail?.status === "quota_exceeded") {
+          return NextResponse.json(
+            { error: "TTS quota exceeded - please check your ElevenLabs account credits" },
+            { status: 402 }
+          );
+        }
+        return NextResponse.json(
+          { error: "TTS service not configured - please check API key" },
+          { status: 401 }
+        );
+      } else if (response.status === 429) {
+        return NextResponse.json(
+          { error: "TTS rate limit exceeded - please try again later" },
+          { status: 429 }
+        );
+      } else if (response.status === 402) {
+        return NextResponse.json(
+          { error: "TTS quota exceeded - please check your ElevenLabs account credits" },
+          { status: 402 }
+        );
+      }
+      
       return NextResponse.json(
         { error: `TTS generation failed: ${response.statusText}` },
         { status: response.status }
@@ -137,12 +171,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if API key is configured
-    const apiKey = env.ELEVENLABS_API_KEY;
+    const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
     if (!apiKey) {
       console.error("ElevenLabs API key not configured");
       return NextResponse.json(
-        { error: "TTS service not configured" },
-        { status: 503 }
+        { error: "TTS service not configured - please check API key" },
+        { status: 401 }
       );
     }
 
@@ -177,6 +211,40 @@ export async function POST(request: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`❌ [TTS] ElevenLabs API error: ${response.status} - ${errorText}`);
+      
+      // Parse error response to check for specific error types
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = {};
+      }
+      
+      // Handle specific error cases
+      if (response.status === 401) {
+        // Check if it's a quota exceeded error (ElevenLabs returns 401 for quota exceeded)
+        if (errorData.detail?.status === "quota_exceeded") {
+          return NextResponse.json(
+            { error: "TTS quota exceeded - please check your ElevenLabs account credits" },
+            { status: 402 }
+          );
+        }
+        return NextResponse.json(
+          { error: "TTS service not configured - please check API key" },
+          { status: 401 }
+        );
+      } else if (response.status === 429) {
+        return NextResponse.json(
+          { error: "TTS rate limit exceeded - please try again later" },
+          { status: 429 }
+        );
+      } else if (response.status === 402) {
+        return NextResponse.json(
+          { error: "TTS quota exceeded - please check your ElevenLabs account credits" },
+          { status: 402 }
+        );
+      }
+      
       return NextResponse.json(
         { error: `TTS generation failed: ${response.statusText}` },
         { status: response.status }

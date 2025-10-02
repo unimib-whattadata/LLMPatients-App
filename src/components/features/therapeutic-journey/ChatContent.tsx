@@ -39,6 +39,7 @@ import {
   getPatientAvatarPath,
   generatePatientAvatar,
 } from "./chat-utils";
+import { useAudioPlayer } from "~/hooks/useAudioPlayer";
 
 // Welcome message generator
 function getWelcomeMessage(patientName: string, stepId: number): string {
@@ -82,15 +83,40 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isTyping, setIsTyping] = useState(false);
   const [sessionTime, setSessionTime] = useState(0); // Timer in seconds
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
-  const [isAudioAnimating, setIsAudioAnimating] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
   const [nextEmotion, setNextEmotion] = useState<PatientEmotion | null>(null);
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
+  const [showAudioWaveform, setShowAudioWaveform] = useState(true);
+  const [showTTSWarning, setShowTTSWarning] = useState(true);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastProcessedMessageIdRef = useRef<string | null>(null);
+
+  // Audio player hook
+  const audioPlayer = useAudioPlayer({
+    autoPlay: true,
+    onPlaybackEnd: () => {
+      console.log("Audio playback ended");
+    },
+    onError: (error) => {
+      console.error("Audio error:", error);
+      
+      // Show user-friendly message for TTS configuration issues
+      if (error.includes("not configured") || error.includes("API key")) {
+        console.warn("TTS service not available - audio generation disabled");
+      }
+    },
+  });
+
+  // Reset TTS warning when TTS becomes available again
+  useEffect(() => {
+    if (audioPlayer.isTTSAvailable) {
+      setShowTTSWarning(true);
+    }
+  }, [audioPlayer.isTTSAvailable]);
 
   // Fetch patient data
   const {
@@ -163,36 +189,42 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     setTimeout(() => {
       const container = messagesContainerRef.current;
       if (container) {
-        // Add extra space when audio player is open to prevent overlap
-        const extraSpace = isAudioPlayerOpen ? 120 : 0; // 120px for audio player + padding
+        // Add extra space when audio is playing to prevent overlap
+        const extraSpace = audioPlayer.isPlaying || audioPlayer.currentAudioUrl ? 120 : 0; // 120px for audio player + padding
         container.scrollTo({
           top: container.scrollHeight + extraSpace,
           behavior: 'smooth'
         });
       }
     }, delay);
-  }, [isAudioPlayerOpen]);
+  }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl]);
 
-  // Animate audio waveform when patient message arrives
+  // Auto-play audio when patient message arrives
   useEffect(() => {
-    if (!isAudioPlayerOpen || messages.length === 0) return;
+    if (messages.length === 0) return;
     
     const lastMessage = messages[messages.length - 1];
     
-    if (lastMessage && lastMessage.sender === "patient") {
-      setIsAudioAnimating(true);
-      const timer = setTimeout(() => setIsAudioAnimating(false), 3000);
-      return () => clearTimeout(timer);
+    if (
+      lastMessage && 
+      lastMessage.sender === "patient" && 
+      lastMessage.id !== lastProcessedMessageIdRef.current
+    ) {
+      // Mark this message as processed
+      lastProcessedMessageIdRef.current = lastMessage.id;
+      
+      // Generate and play audio for patient message
+      void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name);
     }
-  }, [messages, isAudioPlayerOpen]);
+  }, [messages, audioPlayer.playText, typedSelectedPatient?.name]);
 
-  // Auto-scroll when audio player opens to prevent overlap
+  // Auto-scroll when audio is playing to prevent overlap
   useEffect(() => {
-    if (isAudioPlayerOpen) {
+    if (audioPlayer.isPlaying) {
       // Scroll to bottom with extra space for audio player
       scrollToBottom(100);
     }
-  }, [isAudioPlayerOpen, scrollToBottom]);
+  }, [audioPlayer.isPlaying, scrollToBottom]);
 
   // Timer effect
   useEffect(() => {
@@ -815,9 +847,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           >
             <div className="flex flex-1 min-h-full">
               {/* Column 2: Chat + Input area */}
-              <div className="flex-1 flex flex-col page-background relative">
-                {/* Messages area - extends under input */}
-                <div className={`flex-1 p-4 sm:p-6 ${isAudioPlayerOpen ? 'pb-40' : 'pb-24'}`}>
+                <div className="flex-1 flex flex-col page-background relative">
+                  {/* Messages area - extends under input */}
+                  <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.isPlaying || audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
               <div className="w-full max-w-4xl mx-auto">
                 <div className="space-y-4 sm:space-y-6">
                   {messages.map((message) => (
@@ -870,48 +902,145 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 {/* Input area - transparent background - sticky at bottom */}
                 {!isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
-                    <div className="mx-auto max-w-4xl bg-transparent">
-                      {/* Audio Player - positioned directly above input */}
-                      {isAudioPlayerOpen && (
-                        <div className="mb-4 p-4 bg-transparent">
-                          <div className="flex space-x-2 sm:space-x-3">
-                            <div className="flex-1 flex items-center rounded-lg px-3 py-2">
-                              {/* Audio Waveform Visualization */}
-                              <div className="flex items-center justify-between flex-1 space-x-1 h-20">
-                                {Array.from({ length: 80 }, (_, i) => {
-                                  // Create more dynamic wave patterns with continuous animation
-                                  const baseHeight = 6; // Slightly taller base
-                                  const animatedHeight = 8 + (Math.sin(i * 0.3 + Date.now() * 0.001) * 20) + (Math.cos(i * 0.15 + Date.now() * 0.0008) * 12);
-                                  
-                                  return (
-                                    <div
-                                      key={i}
-                                      className="w-1 rounded-full transition-all duration-200"
-                                      style={{
-                                        height: `${animatedHeight}px`,
-                                        background: "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
-                                        animation: `audioWave 1.2s ease-in-out infinite ${i * 0.02}s`,
-                                        transformOrigin: "center",
-                                        opacity: 0.8 + (Math.sin(i * 0.2) * 0.2),
-                                      }}
-                                    />
-                                  );
-                                })}
+                      <div className="mx-auto max-w-4xl bg-transparent">
+                        {/* TTS Not Available Message */}
+                        {!audioPlayer.isTTSAvailable && showTTSWarning && (
+                          <div className="mb-4">
+                            <div className="message message-warning">
+                              <div className="message-icon">
+                                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                </svg>
                               </div>
+                              <div className="message-content">
+                                <div className="message-title">Audio non disponibile</div>
+                                <div className="message-text">
+                                  La quota del servizio di sintesi vocale è esaurita. I messaggi del paziente verranno mostrati solo come testo.
+                                </div>
+                              </div>
+                              <Button
+                                onClick={() => setShowTTSWarning(false)}
+                                variant="ghost"
+                                size="icon"
+                                className="message-dismiss"
+                                aria-label="Chiudi avviso"
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
                             </div>
-                            
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => setIsAudioPlayerOpen(false)}
-                              className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                              aria-label="Chiudi audio player"
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
                           </div>
-                        </div>
-                      )}
+                        )}
+
+                        {/* Audio Player - positioned directly above input */}
+                        {(audioPlayer.isPlaying || audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
+                          <div className="mb-4 p-4 bg-transparent">
+                            <div className="flex space-x-2 sm:space-x-3">
+                              <div className="flex-1 flex items-center rounded-lg px-3 py-2 bg-[var(--color-surface-primary)]/50 backdrop-blur-sm">
+                                {audioPlayer.isLoading ? (
+                                  <div className="flex items-center justify-center flex-1 h-20">
+                                    <Loader2 className="h-6 w-6 animate-spin text-[var(--color-primary-green)]" />
+                                    <span className="ml-2 text-sm text-[var(--color-text-secondary)]">
+                                      Generazione audio...
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <>
+                                    {/* Play/Pause button */}
+                                    <Button
+                                      variant="ghost"
+                                      size="sm"
+                                      onClick={audioPlayer.togglePlayPause}
+                                      className="h-16 w-16 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                                      aria-label={audioPlayer.isPlaying ? "Pausa" : "Play"}
+                                    >
+                                      {audioPlayer.isPlaying ? (
+                                        <X className="h-6 w-6 text-[var(--color-primary-green)]" />
+                                      ) : (
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 24 24"
+                                          fill="currentColor"
+                                          className="h-6 w-6 text-[var(--color-primary-green)]"
+                                        >
+                                          <path d="M8 5v14l11-7z" />
+                                        </svg>
+                                      )}
+                                    </Button>
+
+                                    {/* Audio Waveform Visualization */}
+                                    {audioPlayer.isPlaying && showAudioWaveform && (
+                                      <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
+                                        {Array.from({ length: 60 }, (_, i) => {
+                                          // Create dynamic wave patterns
+                                          const progress = audioPlayer.duration > 0 
+                                            ? (audioPlayer.currentTime / audioPlayer.duration) 
+                                            : 0;
+                                          const barProgress = i / 60;
+                                          const isPast = barProgress < progress;
+                                          const baseHeight = 6;
+                                          const animatedHeight = isPast 
+                                            ? baseHeight + (Math.sin(i * 0.5) * 15) 
+                                            : baseHeight + (Math.sin(i * 0.3 + Date.now() * 0.002) * 20);
+                                          
+                                          return (
+                                            <div
+                                              key={i}
+                                              className="w-1 rounded-full transition-all duration-200"
+                                              style={{
+                                                height: `${animatedHeight}px`,
+                                                background: isPast
+                                                  ? "linear-gradient(135deg, var(--color-primary-green), var(--color-chat-bubble-patient))"
+                                                  : "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
+                                                animation: !isPast ? `audioWave 1.2s ease-in-out infinite ${i * 0.02}s` : "none",
+                                                transformOrigin: "center",
+                                                opacity: isPast ? 0.5 : 0.8 + (Math.sin(i * 0.2) * 0.2),
+                                              }}
+                                            />
+                                          );
+                                        })}
+                                      </div>
+                                    )}
+
+                                    {/* Static visualization when paused or waveform hidden */}
+                                    {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
+                                      <div className="flex items-center justify-center flex-1 h-20">
+                                        <span className="text-sm text-[var(--color-text-secondary)]">
+                                          {audioPlayer.isPlaying 
+                                            ? "Riproduzione in corso..." 
+                                            : "Audio pronto - Clicca play per ascoltare"
+                                          }
+                                        </span>
+                                      </div>
+                                    )}
+                                  </>
+                                )}
+                              </div>
+                              
+                              {/* Toggle Waveform Button */}
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setShowAudioWaveform(!showAudioWaveform)}
+                                className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                                aria-label={showAudioWaveform ? "Nascondi traccia audio" : "Mostra traccia audio"}
+                                disabled={audioPlayer.isLoading}
+                              >
+                                <Maximize2 className={`h-4 w-4 transition-transform duration-200 ${showAudioWaveform ? 'rotate-180' : ''}`} />
+                              </Button>
+                              
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={audioPlayer.clear}
+                                className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
+                                aria-label="Chiudi audio player"
+                                disabled={audioPlayer.isLoading}
+                              >
+                                <X className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        )}
                       
                       <div className="flex space-x-2 sm:space-x-3 bg-transparent">
                         <div className="relative flex-1">
@@ -922,22 +1051,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                             onKeyPress={handleKeyPress}
                             placeholder="Inizia la conversazione"
                             disabled={isTyping}
-                            className="flex-1 text-sm sm:text-base pr-10 h-11"
+                            className="flex-1 text-sm sm:text-base h-11"
                             aria-label="Messaggio da inviare"
                           />
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => setIsAudioPlayerOpen(!isAudioPlayerOpen)}
-                            className={`absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 ${
-                              isAudioPlayerOpen 
-                                ? "bg-[var(--color-primary-green)]/20 hover:bg-[var(--color-primary-green)]/30" 
-                                : "hover:bg-[var(--color-primary-green)]/10"
-                            }`}
-                            aria-label={isAudioPlayerOpen ? "Chiudi audio" : "Apri audio"}
-                          >
-                            <Mic className={`h-4 w-4 ${isAudioPlayerOpen ? "text-[var(--color-primary-green)]" : ""}`} />
-                          </Button>
                         </div>
                         <Button
                           onClick={() => void handleSendMessage()}
