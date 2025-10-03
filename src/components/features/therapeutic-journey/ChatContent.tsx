@@ -95,6 +95,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const lastProcessedMessageIdRef = useRef<string | null>(null);
+  const isInitialLoad = useRef(true);
 
   // Audio player hook
   const audioPlayer = useAudioPlayer({
@@ -257,51 +258,57 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   // Initialize chat with existing data or welcome message
   useEffect(() => {
     if (typedExistingChat && typedExistingChat.messages.length > 0) {
-      // Convert string timestamps to Date objects
-      const messagesWithDates = typedExistingChat.messages.map((msg) => ({
-        ...msg,
-        timestamp:
-          typeof msg.timestamp === "string"
-            ? new Date(msg.timestamp)
-            : msg.timestamp,
-      }));
-      setMessages(messagesWithDates);
-      
-      // Find the last patient message with an emotion to set the current avatar
-      const lastPatientMessage = [...messagesWithDates]
-        .reverse()
-        .find((msg) => msg.sender === "patient" && msg.emotion);
-      
-      if (lastPatientMessage?.emotion) {
-        setCurrentEmotion(lastPatientMessage.emotion);
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false;
+        // Convert string timestamps to Date objects
+        const messagesWithDates = typedExistingChat.messages.map((msg) => ({
+          ...msg,
+          timestamp:
+            typeof msg.timestamp === "string"
+              ? new Date(msg.timestamp)
+              : msg.timestamp,
+        }));
+        setMessages(messagesWithDates);
+        
+        // Find the last patient message with an emotion to set the current avatar
+        const lastPatientMessage = [...messagesWithDates]
+          .reverse()
+          .find((msg) => msg.sender === "patient" && msg.emotion);
+        
+        if (lastPatientMessage?.emotion) {
+          setCurrentEmotion(lastPatientMessage.emotion);
+          setNextEmotion(null);
+          setIsAvatarTransitioning(false);
+        }
+        
+        // Scroll to bottom after loading existing messages
+        setTimeout(() => {
+          scrollToBottom(100);
+        }, 200);
+      }
+    } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
+      if (isInitialLoad.current) {
+        isInitialLoad.current = false;
+        const welcomeContent = getWelcomeMessage(typedSelectedPatient.name, stepId);
+
+        const welcomeMessage: ChatMessage = {
+          id: `welcome-${Date.now()}`,
+          content: welcomeContent,
+          sender: "patient",
+          timestamp: new Date(),
+          stepId,
+          emotion: "base",
+        };
+        setMessages([welcomeMessage]);
+        setCurrentEmotion("base");
         setNextEmotion(null);
         setIsAvatarTransitioning(false);
+        
+        // Scroll to bottom after setting welcome message
+        setTimeout(() => {
+          scrollToBottom(100);
+        }, 200);
       }
-      
-      // Scroll to bottom after loading existing messages
-      setTimeout(() => {
-        scrollToBottom(100);
-      }, 200);
-    } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
-      const welcomeContent = getWelcomeMessage(typedSelectedPatient.name, stepId);
-
-      const welcomeMessage: ChatMessage = {
-        id: `welcome-${Date.now()}`,
-        content: welcomeContent,
-        sender: "patient",
-        timestamp: new Date(),
-        stepId,
-        emotion: "base",
-      };
-      setMessages([welcomeMessage]);
-      setCurrentEmotion("base");
-      setNextEmotion(null);
-      setIsAvatarTransitioning(false);
-      
-      // Scroll to bottom after setting welcome message
-      setTimeout(() => {
-        scrollToBottom(100);
-      }, 200);
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom]);
 
