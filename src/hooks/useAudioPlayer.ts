@@ -17,7 +17,7 @@ export interface AudioPlayerState {
 }
 
 export interface AudioPlayerActions {
-  playText: (text: string, patientName?: string) => Promise<void>;
+  playText: (text: string, patientName?: string, emotion?: string) => Promise<void>;
   togglePlayPause: () => void;
   stop: () => void;
   clear: () => void;
@@ -89,7 +89,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     };
   }, [onPlaybackEnd, onError]);
 
-  const generateAudio = useCallback(async (text: string, patientName?: string): Promise<string> => {
+  const generateAudio = useCallback(async (text: string, patientName?: string, emotion?: string): Promise<string> => {
     // Cancel any ongoing request
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
@@ -102,6 +102,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       const params = new URLSearchParams({
         text,
         ...(patientName && { patientName }),
+        ...(emotion && { emotion }),
       });
 
       const response = await fetch(`/api/tts/generate?${params}`, {
@@ -147,7 +148,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     }
   }, []);
 
-  const playText = useCallback(async (text: string, patientName?: string) => {
+  const playText = useCallback(async (text: string, patientName?: string, emotion?: string) => {
     if (!text.trim()) return;
 
     try {
@@ -165,7 +166,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       // The new audio will replace the old one when ready
 
       // Generate new audio
-      const audioUrl = await generateAudio(text, patientName);
+      const audioUrl = await generateAudio(text, patientName, emotion);
       
       // Update the audio URL and create new audio element
       setCurrentAudioUrl((prevUrl) => {

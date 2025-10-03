@@ -225,7 +225,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       lastProcessedMessageIdRef.current = lastMessage.id;
       
       // Generate and play audio for patient message
-      void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name);
+      void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name, lastMessage.emotion);
     }
   }, [messages, audioPlayer, typedSelectedPatient?.name, hasUserInteracted]);
 

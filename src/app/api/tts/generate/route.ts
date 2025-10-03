@@ -3,20 +3,32 @@ import { env } from "~/env";
 
 /**
  * Voice mapping for different patients
- * Maps patient names to ElevenLabs voice IDs
+ * Maps patient names to ElevenLabs Italian voice IDs
  */
 const PATIENT_VOICE_MAP: Record<string, string> = {
-  // Todd - Male voice, anxious tone
-  "todd": "onwK4e9ZLuTAKqWW03F9", // Daniel - conversational British
-  // John - Male voice, mature and reflective
-  "john": "TxGEqnHWrfWFTfGW9XjX", // Josh - American male
-  // Juanita Delgado - Female voice, emotional range
-  "juanita-delgado": "EXAVITQu4vr4xnSDxMaL", // Bella - expressive American female
-  "juanita": "EXAVITQu4vr4xnSDxMaL", // Bella - expressive American female
+  // Todd - Male Italian voice, anxious tone
+  "todd": "pNInz6obpgDQGcFmaJgB", // Matteo - Italian male
+  // John - Male Italian voice, mature and reflective
+  "john": "TX3LPVmP7r2b3yJ8", // Luca - Italian male
+  // Juanita Delgado - Female Italian voice, emotional range
+  "juanita-delgado": "21m00Tcm4TlvDq8ikWAM", // Matilde - Italian female
+  "juanita": "21m00Tcm4TlvDq8ikWAM", // Matilde - Italian female
 };
 
 // Default voice if patient not found
-const DEFAULT_VOICE_ID = "21m00Tcm4TlvDq8ikWAM"; // Rachel - calm neutral voice
+const DEFAULT_VOICE_ID = "EXAVITQu4vr4xnSDxMaL"; // Bella - expressive fallback voice
+
+// Emotion-based voice settings for expressiveness
+const EMOTION_VOICE_SETTINGS: Record<string, { stability: number; style: number }> = {
+  "base": { stability: 0.7, style: 0.3 },      // Neutral, calm
+  "joy": { stability: 0.4, style: 0.8 },       // Expressive, high tone
+  "sadness": { stability: 0.6, style: 0.4 },   // Low, reflective
+  "anger": { stability: 0.3, style: 0.9 },     // Intense, variable
+  "surprise": { stability: 0.5, style: 0.7 },  // Dynamic
+  "anticipation": { stability: 0.5, style: 0.6 }, // Curious
+  "disgust": { stability: 0.4, style: 0.5 },   // Subdued
+  "trust": { stability: 0.8, style: 0.4 },     // Calm, reliable
+};
 
 /**
  * GET handler for TTS generation
@@ -57,6 +69,10 @@ export async function GET(request: NextRequest) {
     const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
     const voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
 
+    // Determine emotion and apply settings
+    const emotion = searchParams.get("emotion") || "base";
+    const emotionSettings = EMOTION_VOICE_SETTINGS[emotion as keyof typeof EMOTION_VOICE_SETTINGS] || { stability: 0.5, style: 0.5 };
+
     console.log(`🎙️ [TTS] Generating speech for patient: ${patientName || "unknown"}, voice: ${voiceId}`);
 
     // Call ElevenLabs API
@@ -73,9 +89,9 @@ export async function GET(request: NextRequest) {
         text: text,
         model_id: "eleven_multilingual_v2", // Support for Italian
         voice_settings: {
-          stability: 0.5,
+          stability: emotionSettings.stability,
           similarity_boost: 0.75,
-          style: 0.5,
+          style: emotionSettings.style,
           use_speaker_boost: true,
         },
       }),
@@ -159,7 +175,7 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as { text: string; patientName?: string };
+    const body = await request.json() as { text: string; patientName?: string; emotion?: string };
     const { text, patientName } = body;
 
     // Validate input
@@ -184,6 +200,10 @@ export async function POST(request: NextRequest) {
     const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
     const voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
 
+    // Determine emotion and apply settings
+    const emotion = body.emotion || "base";
+    const emotionSettings = EMOTION_VOICE_SETTINGS[emotion as keyof typeof EMOTION_VOICE_SETTINGS] || { stability: 0.5, style: 0.5 };
+
     console.log(`🎙️ [TTS] Generating speech for patient: ${patientName || "unknown"}, voice: ${voiceId}`);
 
     // Call ElevenLabs API
@@ -200,9 +220,9 @@ export async function POST(request: NextRequest) {
         text: text,
         model_id: "eleven_multilingual_v2", // Support for Italian
         voice_settings: {
-          stability: 0.5,
+          stability: emotionSettings.stability,
           similarity_boost: 0.75,
-          style: 0.5,
+          style: emotionSettings.style,
           use_speaker_boost: true,
         },
       }),
