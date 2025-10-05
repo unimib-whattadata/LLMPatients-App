@@ -1,12 +1,3 @@
-/**
- * Home Page
- *
- * Main landing page for the llmpatient application.
- * Displays marketing content, features overview, and call-to-action sections.
- *
- * @description Server-side rendered page that handles authentication redirects
- * and renders the marketing homepage. Redirects authenticated users to dashboard.
- */
 
 import { HydrateClient } from "~/trpc/server";
 import { auth } from "~/server/auth";
@@ -16,17 +7,11 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Button } from "~/components/ui/button";
 
-/**
- * Home Page Component
- *
- * Handles authentication redirects and renders marketing homepage.
- * Redirects authenticated users to dashboard.
- */
 export default async function Home() {
-  // Check authentication server-side
+  
   const session = await auth();
 
-  // Redirect authenticated users to dashboard
+  
   if (session?.user) {
     redirect("/dashboard");
   }

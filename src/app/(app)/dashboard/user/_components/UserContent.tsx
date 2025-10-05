@@ -65,7 +65,7 @@ export const UserContent = React.memo(function UserContent() {
 
   const searchParams = useSearchParams();
 
-  // Handle URL parameter for section
+  
   useEffect(() => {
     const section = searchParams.get("section");
     if (
@@ -98,11 +98,11 @@ export const UserContent = React.memo(function UserContent() {
       },
     );
 
-  // Type assertions for API responses
+  
   const typedProfile = profile as UserProfile | undefined;
   const typedActivities = activities as UserActivity[] | undefined;
 
-  // Profile update mutation
+  
   const updateProfile = api.dashboard.updateProfile.useMutation({
     onSuccess: () => {
       setIsEditingProfile(false);
@@ -110,10 +110,7 @@ export const UserContent = React.memo(function UserContent() {
     },
   });
 
-  /**
-   * Initialize profile form when profile data loads
-   */
-  React.useEffect(() => {
+    React.useEffect(() => {
     if (typedProfile && !isEditingProfile) {
       profileForm.reset({
         name: typedProfile.name ?? "",
@@ -122,9 +119,7 @@ export const UserContent = React.memo(function UserContent() {
     }
   }, [typedProfile, isEditingProfile, profileForm]);
 
-  /**
-   * Handle profile form submission
-   */
+  
   const handleProfileSubmit = profileForm.handleSubmit(async (values) => {
     try {
       await updateProfile.mutateAsync({
@@ -137,9 +132,7 @@ export const UserContent = React.memo(function UserContent() {
     }
   });
 
-  /**
-   * Format date for display
-   */
+  
   const formatDate = (timestamp: Date | number) => {
     const date =
       typeof timestamp === "number" ? new Date(timestamp * 1000) : timestamp;
@@ -152,10 +145,7 @@ export const UserContent = React.memo(function UserContent() {
     });
   };
 
-  /**
-   * Get activity type display name
-   */
-  const getActivityDisplayName = (type: string) => {
+    const getActivityDisplayName = (type: string) => {
     switch (type) {
       case "login":
         return "Accesso effettuato";
@@ -170,7 +160,7 @@ export const UserContent = React.memo(function UserContent() {
     }
   };
 
-  // Memoize expensive calculations
+  
   const simulationsCompleted = useMemo(
     () =>
       typedActivities?.filter((activity) => activity.type === "simulation")
@@ -178,7 +168,7 @@ export const UserContent = React.memo(function UserContent() {
     [typedActivities],
   );
 
-  // Memoize profile edit handlers
+  
   const handleEditProfile = useCallback(() => {
     setIsEditingProfile(true);
   }, []);

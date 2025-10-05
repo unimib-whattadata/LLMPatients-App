@@ -9,9 +9,6 @@ import {
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 
-/**
- * User interface for navigation context
- */
 interface User {
   id: string;
   name: string | null;
@@ -20,9 +17,6 @@ interface User {
   image?: string | null;
 }
 
-/**
- * Impersonation context for admin users
- */
 interface ImpersonationContext {
   isImpersonating: boolean;
   originalAdminId: string;
@@ -33,9 +27,6 @@ interface ImpersonationContext {
   sessionId: string;
 }
 
-/**
- * Navigation item structure
- */
 interface NavItem {
   label: string;
   href: string;
@@ -51,12 +42,6 @@ interface ShadcnNavbarProps {
   currentPage?: string;
 }
 
-/**
- * ShadcnNavbar Component
- *
- * Modern navigation component using shadcn/ui NavigationMenu.
- * Provides responsive navigation with mobile support, user authentication, and admin features.
- */
 export function ShadcnNavbar({
   user,
   impersonation,
@@ -65,7 +50,7 @@ export function ShadcnNavbar({
 }: ShadcnNavbarProps) {
 
 
-  // Determine display user (impersonated or actual)
+  
   const displayUser = impersonation?.isImpersonating
     ? {
         id: impersonation.targetUserId,
@@ -75,7 +60,7 @@ export function ShadcnNavbar({
       }
     : user;
 
-  // Handle logout
+  
   const handleLogout = async () => {
     try {
       const callbackUrl =
@@ -91,7 +76,7 @@ export function ShadcnNavbar({
 
 
 
-  // Render user menu
+  
   const renderUserMenu = () => {
     if (!displayUser) return null;
 
@@ -115,7 +100,7 @@ export function ShadcnNavbar({
     );
   };
 
-  // Render auth buttons for non-authenticated users
+  
   const renderAuthButtons = () => (
     <div className="flex items-center space-x-2">
       <Button
@@ -138,7 +123,7 @@ export function ShadcnNavbar({
       className="navbar-background sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
     >
       <div className="flex h-16 items-center px-4 w-full">
-        {/* Logo */}
+        {}
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center space-x-2">
             <Image
@@ -154,10 +139,10 @@ export function ShadcnNavbar({
           </Link>
         </div>
 
-        {/* Spacer to push right content to the right */}
+        {}
         <div className="flex-1" />
 
-        {/* Right side - User menu or Auth buttons */}
+        {}
         <div className="flex items-center space-x-2">
           {displayUser ? renderUserMenu() : renderAuthButtons()}
         </div>
@@ -166,7 +151,7 @@ export function ShadcnNavbar({
   );
 }
 
-// Export types
+
 export type {
   User,
   ImpersonationContext,

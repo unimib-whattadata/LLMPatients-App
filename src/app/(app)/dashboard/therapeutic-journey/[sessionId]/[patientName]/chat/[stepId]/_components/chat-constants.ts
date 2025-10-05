@@ -1,10 +1,5 @@
-/**
- * Chat Constants
- * 
- * Contains all constant values used in the chat interface
- */
 
-// Emotion types for patient avatars
+
 export type PatientEmotion = 
   | "anger" 
   | "anticipation" 
@@ -27,14 +22,14 @@ export const EMOTION_LABELS: Record<PatientEmotion, string> = {
 };
 
 export const EMOTION_COLORS: Record<PatientEmotion, string> = {
-  joy: "rgb(250 204 21)", // yellow-400
-  anger: "rgb(239 68 68)", // red-500
-  sadness: "rgb(59 130 246)", // blue-500
-  disgust: "rgb(132 204 22)", // lime-500
-  trust: "rgb(16 185 129)", // emerald-500
-  anticipation: "rgb(251 146 60)", // orange-400
-  surprise: "rgb(192 132 252)", // purple-400
-  base: "rgb(156 163 175)", // gray-400
+  joy: "rgb(250 204 21)", 
+  anger: "rgb(239 68 68)", 
+  sadness: "rgb(59 130 246)", 
+  disgust: "rgb(132 204 22)", 
+  trust: "rgb(16 185 129)", 
+  anticipation: "rgb(251 146 60)", 
+  surprise: "rgb(192 132 252)", 
+  base: "rgb(156 163 175)", 
 };
 
 export const AVATAR_TRANSITION_DURATION_MS = 800;

@@ -1,17 +1,8 @@
-/**
- * Patient Response Generator Service
- *
- * This service handles patient response generation with support for:
- * - External AI model integration (when available)
- * - Fallback to predefined responses
- * - Mock responses for development
- */
 
-// ============================================================================
-// TYPES & CONSTANTS
-// ============================================================================
 
-/** Supported patient emotions */
+
+
+
 export type PatientEmotion =
   | "anger"
   | "anticipation"
@@ -22,23 +13,18 @@ export type PatientEmotion =
   | "trust"
   | "base";
 
-/** API response status */
 export type ResponseStatus = "success" | "error";
 
-/** Service type indicator */
 export type ServiceType = "mock" | "real";
 
-/** Log level for debugging */
 export type LogLevel = "info" | "warn" | "error" | "debug";
 
-/** Patient response interface */
 export interface PatientResponse {
   message: string;
   emotion: PatientEmotion;
   timestamp?: Date;
 }
 
-/** Patient initialization response interface */
 export interface PatientInitializationResponse {
   status: ResponseStatus;
   code: string;
@@ -47,7 +33,6 @@ export interface PatientInitializationResponse {
   timestamp: string;
 }
 
-/** Chat response interface */
 export interface ChatResponse {
   message: string;
   reasoning_time: number;
@@ -56,7 +41,6 @@ export interface ChatResponse {
   timestamp: string;
 }
 
-/** Chat request interface */
 export interface ChatRequest {
   external_patient_id: string;
   user_message: string;
@@ -64,7 +48,6 @@ export interface ChatRequest {
   step_id: number;
 }
 
-/** Patient information interface */
 export interface PatientInfo {
   id: string;
   name: string;
@@ -96,11 +79,10 @@ export interface InitializePatientInput {
   sessionId: string;
 }
 
-// ============================================================================
-// CONSTANTS & CONFIGURATION
-// ============================================================================
 
-/** API Configuration */
+
+
+
 const API_CONFIG = {
   BASE_URL: "https://api.therapeutic-ai.com/v1",
   ENDPOINTS: {
@@ -119,7 +101,6 @@ const API_CONFIG = {
   },
 } as const;
 
-/** Mock Service Configuration */
 const MOCK_CONFIG = {
   DELAYS: {
     GENERATE_RESPONSE: { min: 1500, max: 2000 },
@@ -148,7 +129,6 @@ const MOCK_CONFIG = {
   ] as PatientEmotion[],
 } as const;
 
-/** Logging Configuration */
 const LOG_CONFIG = {
   PREFIXES: {
     PATIENT_GENERATOR: "🎯 [PATIENT RESPONSE GENERATOR]",
@@ -159,16 +139,14 @@ const LOG_CONFIG = {
   MAX_CONVERSATION_HISTORY: 5,
 } as const;
 
-// ============================================================================
-// UTILITY FUNCTIONS
-// ============================================================================
 
-/** Generate unique request ID */
+
+
+
 function generateRequestId(): string {
   return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-/** Truncate message for logging */
 function truncateMessage(
   message: string,
   maxLength: number = LOG_CONFIG.MAX_MESSAGE_LENGTH,
@@ -178,7 +156,6 @@ function truncateMessage(
     : message;
 }
 
-/** Create base log object */
 function createBaseLog(service: string, method: string, requestId: string) {
   return {
     timestamp: new Date().toISOString(),
@@ -188,7 +165,6 @@ function createBaseLog(service: string, method: string, requestId: string) {
   };
 }
 
-/** Log service call start */
 function logServiceCall(
   prefix: string,
   service: string,
@@ -202,7 +178,6 @@ function logServiceCall(
   });
 }
 
-/** Log service response */
 function logServiceResponse(
   prefix: string,
   service: string,
@@ -221,7 +196,6 @@ function logServiceResponse(
   });
 }
 
-/** Log service error */
 function logServiceError(
   prefix: string,
   service: string,
@@ -242,17 +216,15 @@ function logServiceError(
   });
 }
 
-/** Simulate API delay */
 function simulateDelay(min: number, max: number): Promise<void> {
   const delay = min + Math.random() * (max - min);
   return new Promise((resolve) => setTimeout(resolve, delay));
 }
 
-// ============================================================================
-// CUSTOM ERROR CLASSES
-// ============================================================================
 
-/** Base error class for Patient Response Generator */
+
+
+
 export class PatientResponseGeneratorError extends Error {
   public readonly code: string;
   public readonly statusCode: number;
@@ -267,7 +239,6 @@ export class PatientResponseGeneratorError extends Error {
   }
 }
 
-/** API configuration error */
 export class APIConfigurationError extends PatientResponseGeneratorError {
   constructor(message: string = "API configuration error") {
     super(message, "API_CONFIG_ERROR", 500);
@@ -275,7 +246,6 @@ export class APIConfigurationError extends PatientResponseGeneratorError {
   }
 }
 
-/** External AI service error */
 export class ExternalAIServiceError extends PatientResponseGeneratorError {
   public readonly serviceType: ServiceType;
   public readonly requestId?: string;
@@ -293,7 +263,6 @@ export class ExternalAIServiceError extends PatientResponseGeneratorError {
   }
 }
 
-/** Patient initialization error */
 export class PatientInitializationError extends PatientResponseGeneratorError {
   public readonly patientId: string;
 
@@ -304,7 +273,6 @@ export class PatientInitializationError extends PatientResponseGeneratorError {
   }
 }
 
-/** Response generation error */
 export class ResponseGenerationError extends PatientResponseGeneratorError {
   public readonly patientId: string;
   public readonly stepId: number;
@@ -322,11 +290,10 @@ export class ResponseGenerationError extends PatientResponseGeneratorError {
   }
 }
 
-// ============================================================================
-// PREDEFINED RESPONSES & CACHING
-// ============================================================================
 
-/** Enhanced predefined responses for each patient */
+
+
+
 const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
   John: [
     {
@@ -452,29 +419,24 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
   ],
 };
 
-/** Cache for patient responses to improve performance */
 const responseCache = new Map<string, PatientResponse[]>();
 
-/** Cache for contextual analysis results */
 const contextCache = new Map<string, PatientResponse[]>();
 
-/** Cache cleanup configuration */
 const CACHE_CONFIG = {
-  MAX_CONTEXT_CACHE_SIZE: 100, // Maximum number of contextual responses to cache
-  CACHE_CLEANUP_INTERVAL: 300000, // 5 minutes in milliseconds
+  MAX_CONTEXT_CACHE_SIZE: 100, 
+  CACHE_CLEANUP_INTERVAL: 300000, 
 };
 
-/** Last cache cleanup time */
 let lastCacheCleanup = Date.now();
 
-/** Clear old cache entries to prevent memory buildup and ensure variety */
 function cleanupCache(): void {
   const now = Date.now();
   if (now - lastCacheCleanup < CACHE_CONFIG.CACHE_CLEANUP_INTERVAL) {
     return;
   }
 
-  // Clear contextual cache if it's too large
+  
   if (contextCache.size > CACHE_CONFIG.MAX_CONTEXT_CACHE_SIZE) {
     contextCache.clear();
     console.log("🧹 [CACHE] Cleared contextual response cache for variety");
@@ -483,7 +445,6 @@ function cleanupCache(): void {
   lastCacheCleanup = now;
 }
 
-/** Generic fallback responses */
 const GENERIC_RESPONSES: PatientResponse[] = [
   { message: "Interessante. Puoi elaborare ulteriormente?", emotion: "base" },
   {
@@ -501,7 +462,6 @@ const GENERIC_RESPONSES: PatientResponse[] = [
   },
 ];
 
-/** Get cached responses for a patient */
 function getCachedResponses(patientName: string): PatientResponse[] {
   if (responseCache.has(patientName)) {
     return responseCache.get(patientName)!;
@@ -513,7 +473,6 @@ function getCachedResponses(patientName: string): PatientResponse[] {
   return responses;
 }
 
-/** Get cached contextual responses */
 function getCachedContextualResponses(
   cacheKey: string,
   responses: PatientResponse[],
@@ -522,11 +481,10 @@ function getCachedContextualResponses(
     return contextCache.get(cacheKey)!;
   }
 
-  // Cache will be populated by the calling function
+  
   return responses;
 }
 
-/** Set cached contextual responses */
 function setCachedContextualResponses(
   cacheKey: string,
   responses: PatientResponse[],
@@ -534,35 +492,30 @@ function setCachedContextualResponses(
   contextCache.set(cacheKey, responses);
 }
 
-/**
- * Context-aware response selection with improved randomization
- * Analyzes conversation history to select more appropriate responses
- * Includes timestamp-based randomization to ensure variety
- */
 function selectContextualResponse(
   patientInfo: PatientInfo,
   userMessage: string,
   conversationHistory: GenerateResponseInput["conversationHistory"] = [],
 ): PatientResponse {
-  // Clean up cache periodically to ensure variety
+  
   cleanupCache();
   
-  // Get cached responses for the patient
+  
   const responses = getCachedResponses(patientInfo.name);
 
-  // Create cache key for contextual analysis (include timestamp for variety)
+  
   const recentMessages = conversationHistory
     .slice(-LOG_CONFIG.MAX_CONVERSATION_HISTORY)
     .map((m) => m.content.toLowerCase())
     .join(" ");
-  // Add timestamp component to cache key to reduce cache hits and increase variety
-  const timestampComponent = Math.floor(Date.now() / 10000); // Changes every 10 seconds
+  
+  const timestampComponent = Math.floor(Date.now() / 10000); 
   const cacheKey = `${patientInfo.name}_${userMessage.toLowerCase()}_${recentMessages}_${timestampComponent}`;
 
-  // Check if we have cached contextual responses
+  
   let filteredResponses = getCachedContextualResponses(cacheKey, responses);
 
-  // If not cached, perform contextual analysis
+  
   if (filteredResponses === responses) {
     filteredResponses = performContextualAnalysis(
       responses,
@@ -572,16 +525,16 @@ function selectContextualResponse(
     setCachedContextualResponses(cacheKey, filteredResponses);
   }
 
-  // Enhanced randomization: use multiple random factors
+  
   const randomSeed = Math.random() * 1000 + Date.now() % 1000;
   const selectedIndex = Math.floor((randomSeed * Math.random()) % filteredResponses.length);
   const selectedResponse = filteredResponses[selectedIndex];
   
-  // Debug logging to track variety
+  
   console.log(`🎲 [RANDOMIZATION] Patient: ${patientInfo.name}, Available responses: ${filteredResponses.length}, Selected index: ${selectedIndex}, Random seed: ${randomSeed.toFixed(2)}`);
   
   if (!selectedResponse) {
-    // Fallback if no response found
+    
     return {
       message:
         "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
@@ -597,7 +550,6 @@ function selectContextualResponse(
   };
 }
 
-/** Perform contextual analysis on responses */
 function performContextualAnalysis(
   responses: PatientResponse[],
   userMessage: string,
@@ -606,7 +558,7 @@ function performContextualAnalysis(
   const userMessageLower = userMessage.toLowerCase();
   const contextText = `${userMessageLower} ${recentMessages}`;
 
-  // Define keyword patterns for better matching
+  
   const keywordPatterns = [
     {
       keywords: [
@@ -655,7 +607,7 @@ function performContextualAnalysis(
     },
   ];
 
-  // Find matching patterns
+  
   for (const pattern of keywordPatterns) {
     if (pattern.keywords.some((keyword) => contextText.includes(keyword))) {
       const filtered = responses.filter(pattern.filter);
@@ -665,14 +617,10 @@ function performContextualAnalysis(
     }
   }
 
-  // If no contextual matches, return all responses
+  
   return responses;
 }
 
-/**
- * External AI integration interface
- * This will be implemented when the external AI model is available
- */
 export interface ExternalAIService {
   generateResponse(input: GenerateResponseInput): Promise<PatientResponse>;
   initializePatient(
@@ -681,10 +629,6 @@ export interface ExternalAIService {
   generateChatResponse(input: ChatRequest): Promise<ChatResponse>;
 }
 
-/**
- * Mock external AI service for development
- * Simulates external AI with enhanced responses
- */
 class MockExternalAIService implements ExternalAIService {
   async generateResponse(
     input: GenerateResponseInput,
@@ -692,7 +636,7 @@ class MockExternalAIService implements ExternalAIService {
     const startTime = Date.now();
     const requestId = generateRequestId();
 
-    // Log the simulated API call
+    
     logServiceCall(
       LOG_CONFIG.PREFIXES.MOCK_AI,
       "Simulating External AI API",
@@ -745,13 +689,13 @@ class MockExternalAIService implements ExternalAIService {
       },
     );
 
-    // Simulate API call delay
+    
     await simulateDelay(
       MOCK_CONFIG.DELAYS.GENERATE_RESPONSE.min,
       MOCK_CONFIG.DELAYS.GENERATE_RESPONSE.max,
     );
 
-    // Use contextual response selection
+    
     const response = selectContextualResponse(
       input.patientInfo,
       input.userMessage,
@@ -760,7 +704,7 @@ class MockExternalAIService implements ExternalAIService {
 
     const duration = Date.now() - startTime;
 
-    // Log the response
+    
     logServiceResponse(
       LOG_CONFIG.PREFIXES.MOCK_AI,
       "External AI API",
@@ -783,7 +727,7 @@ class MockExternalAIService implements ExternalAIService {
   ): Promise<PatientInitializationResponse> {
     const startTime = Date.now();
 
-    // Log the simulated API call for debugging
+    
     console.log("🤖 [MOCK AI] Simulating Patient Initialization API Call:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -823,12 +767,12 @@ class MockExternalAIService implements ExternalAIService {
       },
     });
 
-    // Simulate API call delay
+    
     await new Promise((resolve) =>
       setTimeout(resolve, 1000 + Math.random() * 1500),
     );
 
-    // Simulate successful patient creation
+    
     const response = {
       status: "success" as const,
       code: "PATIENT_CREATED",
@@ -840,7 +784,7 @@ class MockExternalAIService implements ExternalAIService {
     const endTime = Date.now();
     const duration = endTime - startTime;
 
-    // Log the response
+    
     console.log("🤖 [MOCK AI] Patient Initialization API Response:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -863,7 +807,7 @@ class MockExternalAIService implements ExternalAIService {
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
     const startTime = Date.now();
 
-    // Log the simulated API call for debugging
+    
     console.log("🤖 [MOCK AI] Simulating Chat Response API Call:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -887,12 +831,12 @@ class MockExternalAIService implements ExternalAIService {
       },
     });
 
-    // Simulate API call delay
+    
     await new Promise((resolve) =>
       setTimeout(resolve, 2000 + Math.random() * 3000),
     );
 
-    // Simulate chat response with reasoning time
+    
     const topics = [
       "ansia",
       "depressione",
@@ -914,7 +858,7 @@ class MockExternalAIService implements ExternalAIService {
       "disgust",
     ];
 
-    // Enhanced response pool with more variety
+    
     const sampleResponses = [
       "Capisco la sua preoccupazione. È normale sentirsi così in questa situazione.",
       "Mi fa piacere che lei mi stia ascoltando. A volte è difficile esprimere questi sentimenti.",
@@ -934,13 +878,13 @@ class MockExternalAIService implements ExternalAIService {
       "Lei mi fa riflettere su cose che non avevo mai considerato. È... illuminante.",
     ];
 
-    // Enhanced randomization with multiple factors
+    
     const randomSeed = Math.random() * 1000 + Date.now() % 1000;
     const responseIndex = Math.floor((randomSeed * Math.random()) % sampleResponses.length);
     const emotionIndex = Math.floor((randomSeed * Math.random() * 0.7) % emotions.length);
     const topicIndex = Math.floor((randomSeed * Math.random() * 0.5) % topics.length);
     
-    // Debug logging for chat response variety
+    
     console.log(`🎲 [CHAT RANDOMIZATION] Available responses: ${sampleResponses.length}, Response index: ${responseIndex}, Emotion index: ${emotionIndex}, Random seed: ${randomSeed.toFixed(2)}`);
 
     const selectedResponse =
@@ -953,7 +897,7 @@ class MockExternalAIService implements ExternalAIService {
 
     const response = {
       message: selectedResponse,
-      reasoning_time: Math.floor(Math.random() * 3) + 1, // 1-3 seconds
+      reasoning_time: Math.floor(Math.random() * 3) + 1, 
       emotion: selectedEmotion as
         | "anger"
         | "anticipation"
@@ -970,7 +914,7 @@ class MockExternalAIService implements ExternalAIService {
     const endTime = Date.now();
     const duration = endTime - startTime;
 
-    // Log the response
+    
     console.log("🤖 [MOCK AI] Chat Response API Response:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -993,10 +937,6 @@ class MockExternalAIService implements ExternalAIService {
   }
 }
 
-/**
- * Real external AI service (to be implemented)
- * This will integrate with the actual external AI model
- */
 class RealExternalAIService implements ExternalAIService {
   private apiUrl = "https://api.therapeutic-ai.com/v1/initialise-patient";
   private apiKey = process.env.EXTERNAL_AI_API_KEY;
@@ -1025,7 +965,7 @@ class RealExternalAIService implements ExternalAIService {
       session_id: input.sessionId,
     };
 
-    // Log the API call
+    
     console.log("🌐 [REAL AI] External AI API Call:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -1103,7 +1043,7 @@ class RealExternalAIService implements ExternalAIService {
         timestamp: new Date(data.response.timestamp || new Date()),
       };
 
-      // Log the successful response
+      
       console.log("🌐 [REAL AI] External AI API Success Response:", {
         timestamp: new Date().toISOString(),
         service: "PatientResponseGenerator",
@@ -1168,7 +1108,7 @@ class RealExternalAIService implements ExternalAIService {
       session_id: input.sessionId,
     };
 
-    // Log the API call
+    
     console.log("🌐 [REAL AI] Patient Initialization API Call:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -1243,7 +1183,7 @@ class RealExternalAIService implements ExternalAIService {
         timestamp: data.timestamp,
       };
 
-      // Log the successful response
+      
       console.log("🌐 [REAL AI] Patient Initialization API Success Response:", {
         timestamp: new Date().toISOString(),
         service: "PatientResponseGenerator",
@@ -1293,7 +1233,7 @@ class RealExternalAIService implements ExternalAIService {
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     const apiUrl = "https://api.therapeutic-ai.com/v1/chat-response";
 
-    // Log the API call
+    
     console.log("🌐 [REAL AI] Chat Response API Call:", {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
@@ -1360,7 +1300,7 @@ class RealExternalAIService implements ExternalAIService {
         timestamp: data.timestamp,
       };
 
-      // Log the successful response
+      
       console.log("🌐 [REAL AI] Chat Response API Success Response:", {
         timestamp: new Date().toISOString(),
         service: "PatientResponseGenerator",
@@ -1404,10 +1344,6 @@ class RealExternalAIService implements ExternalAIService {
   }
 }
 
-/**
- * Main patient response generator
- * Handles fallback logic between external AI and predefined responses
- */
 export class PatientResponseGenerator {
   private externalAI: ExternalAIService;
   private useExternalAI: boolean;
@@ -1419,11 +1355,7 @@ export class PatientResponseGenerator {
       : new MockExternalAIService();
   }
 
-  /**
-   * Generate a patient response
-   * Tries external AI first, falls back to predefined responses
-   */
-  async generateResponse(
+    async generateResponse(
     input: GenerateResponseInput,
   ): Promise<PatientResponse> {
     const startTime = Date.now();
@@ -1513,7 +1445,7 @@ export class PatientResponseGenerator {
 
       console.error("Error generating patient response:", error);
 
-      // Fallback to simple predefined response
+      
       const fallbackResponses = ENHANCED_PATIENT_RESPONSES[
         input.patientInfo.name
       ] || [
@@ -1527,7 +1459,7 @@ export class PatientResponseGenerator {
       const selectedResponse =
         fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
       if (!selectedResponse) {
-        // Fallback if no response found
+        
         const fallbackResult = {
           message:
             "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
@@ -1572,27 +1504,16 @@ export class PatientResponseGenerator {
     }
   }
 
-  /**
-   * Update the external AI service
-   * Call this when the external AI becomes available
-   */
-  setExternalAI(service: ExternalAIService) {
+    setExternalAI(service: ExternalAIService) {
     this.externalAI = service;
     this.useExternalAI = true;
   }
 
-  /**
-   * Enable/disable external AI
-   */
-  setUseExternalAI(use: boolean) {
+    setUseExternalAI(use: boolean) {
     this.useExternalAI = use;
   }
 
-  /**
-   * Initialize patient in external AI service
-   * This is the Step 1 - Patient Initialization
-   */
-  async initializePatient(
+    async initializePatient(
     input: InitializePatientInput,
   ): Promise<PatientInitializationResponse> {
     const startTime = Date.now();
@@ -1677,7 +1598,7 @@ export class PatientResponseGenerator {
 
       console.error("Error initializing patient:", error);
 
-      // Fallback response
+      
       const fallbackResult = {
         status: "error" as const,
         code: "INITIALIZATION_FAILED",
@@ -1702,11 +1623,7 @@ export class PatientResponseGenerator {
     }
   }
 
-  /**
-   * Generate chat response for ongoing conversation
-   * This is the Step 2 - Chat Response Generation
-   */
-  async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
+    async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
@@ -1791,7 +1708,7 @@ export class PatientResponseGenerator {
 
       console.error("Error generating chat response:", error);
 
-      // Fallback response
+      
       const fallbackResult = {
         message:
           "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
@@ -1818,5 +1735,5 @@ export class PatientResponseGenerator {
   }
 }
 
-// Export singleton instance
-export const patientResponseGenerator = new PatientResponseGenerator(false); // Start with mock
+
+export const patientResponseGenerator = new PatientResponseGenerator(false); 

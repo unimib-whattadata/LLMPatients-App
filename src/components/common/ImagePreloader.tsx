@@ -1,9 +1,3 @@
-/**
- * ImagePreloader Component
- * 
- * Preloads critical images for better LCP performance.
- * Uses modern preload techniques with WebP support detection.
- */
 
 "use client";
 
@@ -20,7 +14,7 @@ interface ImagePreloaderProps {
 
 export function ImagePreloader({ images }: ImagePreloaderProps) {
   useEffect(() => {
-    // Check if browser supports WebP
+    
     const supportsWebP = (() => {
       const canvas = document.createElement('canvas');
       canvas.width = 1;
@@ -33,7 +27,7 @@ export function ImagePreloader({ images }: ImagePreloaderProps) {
       link.rel = 'preload';
       link.as = 'image';
       
-      // Use WebP if supported, otherwise fallback to original
+      
       link.href = (supportsWebP && webpSrc) ? webpSrc : src;
       
       if (sizes) {
@@ -44,11 +38,11 @@ export function ImagePreloader({ images }: ImagePreloaderProps) {
         link.media = media;
       }
       
-      // Add to document head
+      
       document.head.appendChild(link);
     });
 
-    // Cleanup function to remove preload links
+    
     return () => {
       const preloadLinks = document.querySelectorAll('link[rel="preload"][as="image"]');
       preloadLinks.forEach(link => {
@@ -59,12 +53,9 @@ export function ImagePreloader({ images }: ImagePreloaderProps) {
     };
   }, [images]);
 
-  return null; // This component doesn't render anything
+  return null; 
 }
 
-/**
- * Critical images that should be preloaded
- */
 export const CRITICAL_IMAGES = [
   {
     src: '/images/home/hero2.png',

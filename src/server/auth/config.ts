@@ -28,22 +28,14 @@ const extractRememberMe = (candidate: unknown): boolean => {
   return false;
 };
 
-/**
- * Module augmentation for `next-auth` types
- *
- * Extends the default NextAuth types to include custom properties for our application.
- * Adds role-based access control and impersonation functionality to the session object.
- *
- * @see https://next-auth.js.org/getting-started/typescript#module-augmentation
- */
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      role: "admin" | "user"; // Add role to session type
-      // ...other properties
+      role: "admin" | "user"; 
+      
     } & DefaultSession["user"];
-    // Add impersonation context to session
+    
     impersonation?: {
       isImpersonating: boolean;
       originalAdminId: string;
@@ -60,15 +52,15 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role: "admin" | "user"; // Add role to user type
-    // ...other properties
+    role: "admin" | "user"; 
+    
   }
 }
 
-// Extend JWT token to include impersonation context
+
 declare module "next-auth" {
   interface JWT {
-    // Existing fields
+    
     id?: string;
     role?: string;
     email?: string;
@@ -77,10 +69,10 @@ declare module "next-auth" {
     lastValidated?: number;
     accessToken?: string;
     provider?: string;
-    maxAge?: number; // Dynamic session duration based on rememberMe
-    rememberMe?: boolean; // Remember me flag
+    maxAge?: number; 
+    rememberMe?: boolean; 
 
-    // Impersonation fields
+    
     impersonation?: {
       originalAdminId: string;
       targetUserId: string;
@@ -93,11 +85,6 @@ declare module "next-auth" {
   }
 }
 
-/**
- * Options for NextAuth.js used to configure adapters, providers, callbacks, etc.
- *
- * @see https://next-auth.js.org/configuration/options
- */
 export const authConfig = {
   providers: [
     CredentialsProvider({
@@ -125,7 +112,7 @@ export const authConfig = {
             );
           }
 
-          // Use enhanced validation function
+          
           const userValidation = await validateUserByEmail(
             credentials.email as string,
             createValidationConfig({ timeout: 5000, retries: 2 }),
@@ -145,7 +132,7 @@ export const authConfig = {
 
           const user = userValidation.user;
 
-          // Get the full user record including password for verification
+          
           const fullUserResults = await db
             .select()
             .from(users)
@@ -165,7 +152,7 @@ export const authConfig = {
 
           const fullUser = fullUserResults[0]!;
 
-          // Verify password
+          
           if (!fullUser.password) {
             if (process.env.NODE_ENV === "development") {
               if (process.env.NODE_ENV === "development") {
@@ -194,7 +181,7 @@ export const authConfig = {
             return null;
           }
 
-          // Perform comprehensive validation before returning user
+          
           const comprehensiveValidation = await comprehensiveUserValidation(
             user.id,
             user.role,
@@ -229,7 +216,7 @@ export const authConfig = {
             }
           }
 
-          // Return validated user object for session creation
+          
           return {
             id: user.id,
             email: user.email,
@@ -249,29 +236,20 @@ export const authConfig = {
       },
     }),
     DiscordProvider,
-    /**
-     * ...add more providers here.
-     *
-     * Most other providers require a bit more work than the Discord provider. For example, the
-     * GitHub provider requires you to add the `refresh_token_expires_in` field to the Account
-     * model. Refer to the NextAuth.js docs for the provider you want to use. Example:
-     *
-     * @see https://next-auth.js.org/providers/github
-     */
-  ],
+      ],
 
   trustHost: true,
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
 
-  // Production-specific configuration
+  
   ...(process.env.NODE_ENV === "production" && {
-    // Ensure proper URL handling in production
+    
     basePath: "/api/auth",
-    // Force HTTPS in production
+    
     useSecureCookies: true,
   }),
 
-  // CSRF protection configuration
+  
   useSecureCookies: process.env.NODE_ENV === "production",
   cookies: {
     sessionToken: {
@@ -312,30 +290,30 @@ export const authConfig = {
     },
   },
 
-  // Note: Adapter is removed when using JWT strategy
-  // adapter: DrizzleAdapter(db, {...}) - Only used with database strategy
+  
+  
 
-  // Enhanced session configuration with JWT strategy
+  
   session: {
-    strategy: "jwt" as const, // Primary strategy: JWT
-    maxAge: 30 * 24 * 60 * 60, // 30 days (default, can be overridden by rememberMe)
-    updateAge: 24 * 60 * 60, // 24 hours - update session every 24 hours
+    strategy: "jwt" as const, 
+    maxAge: 30 * 24 * 60 * 60, 
+    updateAge: 24 * 60 * 60, 
   },
 
-  // JWT configuration for NextAuth v5 with dynamic maxAge support
+  
   jwt: {
-    maxAge: 30 * 24 * 60 * 60, // 30 days (default, can be overridden by rememberMe)
+    maxAge: 30 * 24 * 60 * 60, 
   },
 
-  // Enhanced pages configuration
+  
   pages: {
     signIn: "/login",
-    signOut: "/signout", // Custom styled signout page
-    error: "/login", // Redirect errors to login page
+    signOut: "/signout", 
+    error: "/login", 
   },
 
   callbacks: {
-    // Enhanced JWT callback with comprehensive database validation
+    
     jwt: async ({ token, user, account, trigger }) => {
       if (process.env.NODE_ENV === "development") {
         console.log(
@@ -348,9 +326,9 @@ export const authConfig = {
         );
       }
 
-      // Initial sign in - populate token with validated user data
+      
       if (user?.id) {
-        // Validate user exists in database during initial sign-in
+        
         const validation = await validateUserById(
           user.id,
           createValidationConfig({ timeout: 3000 }),
@@ -363,26 +341,26 @@ export const authConfig = {
               validation.error,
             );
           }
-          return null; // Reject token creation if user validation fails
+          return null; 
         }
 
-        // Populate token with validated database data
+        
         token.id = validation.user.id;
         token.role = validation.user.role;
         token.email = validation.user.email;
         token.name = validation.user.name ?? undefined;
         token.image = validation.user.image ?? undefined;
-        token.lastValidated = Date.now(); // Track when we last validated against DB
+        token.lastValidated = Date.now(); 
 
-        // Handle rememberMe functionality - set session duration
+        
         const rememberMe = extractRememberMe(user);
         token.rememberMe = rememberMe;
         if (rememberMe) {
-          // Extended session for "remember me" - 30 days
-          token.maxAge = 30 * 24 * 60 * 60; // 30 days
+          
+          token.maxAge = 30 * 24 * 60 * 60; 
         } else {
-          // Standard session - 1 day
-          token.maxAge = 24 * 60 * 60; // 1 day
+          
+          token.maxAge = 24 * 60 * 60; 
         }
 
         if (process.env.NODE_ENV === "development")
@@ -399,7 +377,7 @@ export const authConfig = {
           );
       }
 
-      // Handle account linking with validation
+      
       if (account) {
         token.accessToken = account.access_token;
         token.provider = account.provider;
@@ -407,7 +385,7 @@ export const authConfig = {
           console.log("JWT callback - Account linked:", account.provider);
         }
 
-        // Re-validate user data when account is linked
+        
         if (token.id) {
           const validation = await validateUserById(
             token.id as string,
@@ -428,11 +406,11 @@ export const authConfig = {
         }
       }
 
-      // Enhanced token refresh with comprehensive database validation
+      
       if (token.id) {
         const currentTime = Date.now();
         const lastValidated = token.lastValidated ?? 0;
-        const validationInterval = 5 * 60 * 1000; // 5 minutes
+        const validationInterval = 5 * 60 * 1000; 
         const shouldValidate =
           trigger === "update" ||
           currentTime - ((lastValidated as number) ?? 0) > validationInterval;
@@ -462,7 +440,7 @@ export const authConfig = {
                 );
               }
 
-              // Check if user was deleted
+              
               if (
                 validation.errors.some((error) => error.includes("not found"))
               ) {
@@ -471,10 +449,10 @@ export const authConfig = {
                     "JWT callback - User no longer exists, invalidating token",
                   );
                 }
-                return null; // User was deleted, invalidate token
+                return null; 
               }
 
-              // For other errors, continue with existing token but log warning
+              
               if (process.env.NODE_ENV === "development")
                 console.warn(
                   "JWT callback - Database validation errors (continuing with existing token):",
@@ -483,7 +461,7 @@ export const authConfig = {
               return token;
             }
 
-            // Check for account deactivation
+            
             if (!validation.accountActive) {
               if (process.env.NODE_ENV === "development") {
                 console.warn(
@@ -493,7 +471,7 @@ export const authConfig = {
               return null;
             }
 
-            // Update token with latest database data
+            
             const wasRoleChanged = validation.roleChanged;
             token.role = validation.user.role;
             token.email = validation.user.email;
@@ -533,8 +511,8 @@ export const authConfig = {
               );
             }
 
-            // On database errors, continue with existing token but mark as needing validation
-            token.lastValidated = currentTime - validationInterval / 2; // Retry sooner
+            
+            token.lastValidated = currentTime - validationInterval / 2; 
             if (process.env.NODE_ENV === "development") {
               console.warn(
                 "JWT callback - Continuing with existing token due to database error",
@@ -547,7 +525,7 @@ export const authConfig = {
       return token;
     },
 
-    // Enhanced session callback with database cross-validation and impersonation support
+    
     session: async ({ session, token }) => {
       if (process.env.NODE_ENV === "development")
         console.log(
@@ -584,13 +562,13 @@ export const authConfig = {
         return session;
       }
 
-      // Check if token validation is recent enough
+      
       const currentTime = Date.now();
       const lastValidated = token.lastValidated ?? 0;
       const validationAge = currentTime - ((lastValidated as number) ?? 0);
-      const maxValidationAge = 10 * 60 * 1000; // 10 minutes
+      const maxValidationAge = 10 * 60 * 1000; 
 
-      // Perform additional database validation for stale tokens or critical operations
+      
       if (validationAge > maxValidationAge) {
         if (process.env.NODE_ENV === "development") {
           console.log(
@@ -612,14 +590,14 @@ export const authConfig = {
               );
             }
 
-            // If user was deleted or deactivated, return empty session to force logout
+            
             if (validation.error?.includes("not found")) {
               if (process.env.NODE_ENV === "development") {
                 console.warn(
                   "Session callback - User no longer exists, invalidating session",
                 );
               }
-              // Return session with empty user to trigger logout
+              
               return {
                 ...session,
                 user: {
@@ -632,14 +610,14 @@ export const authConfig = {
               };
             }
 
-            // For other errors, log warning but continue with token data
+            
             if (process.env.NODE_ENV === "development") {
               console.warn(
                 "Session callback - Database error during validation, using token data",
               );
             }
           } else {
-            // Use fresh database data for session
+            
             if (process.env.NODE_ENV === "development") {
               console.log(
                 "Session callback - Using fresh database data for session",
@@ -663,7 +641,7 @@ export const authConfig = {
               );
             }
 
-            // Continue to impersonation logic below
+            
           }
         } catch (error) {
           if (process.env.NODE_ENV === "development") {
@@ -672,10 +650,10 @@ export const authConfig = {
               error,
             );
           }
-          // Fall through to use token data
+          
         }
       } else {
-        // Use token data for session (validation was recent)
+        
         session.user.id = (token.id as string) ?? "";
         session.user.role = (token.role as "admin" | "user") || "user";
         session.user.email = (token.email as string) ?? "";
@@ -683,7 +661,7 @@ export const authConfig = {
         session.user.image = (token.image as string) ?? "";
       }
 
-      // Handle impersonation context
+      
       if (
         token.impersonation &&
         typeof token.impersonation === "object" &&
@@ -696,15 +674,15 @@ export const authConfig = {
           );
         }
 
-        // Override user details with impersonated user
+        
         const impersonation = token.impersonation as Record<string, unknown>;
         if (impersonation && typeof impersonation === "object") {
           session.user.id = (impersonation.targetUserId as string) || "";
           session.user.email = (impersonation.targetUserEmail as string) || "";
           session.user.name = (impersonation.targetUserName as string) || "";
-          session.user.role = "user"; // Impersonated sessions always have user role
+          session.user.role = "user"; 
 
-          // Add impersonation context to session
+          
           session.impersonation = {
             isImpersonating: true,
             originalAdminId: (impersonation.originalAdminId as string) || "",
@@ -727,7 +705,7 @@ export const authConfig = {
           });
         }
       } else {
-        // No impersonation active
+        
         session.impersonation = undefined;
 
         if (process.env.NODE_ENV === "development")
@@ -745,19 +723,19 @@ export const authConfig = {
       return session;
     },
 
-    // Enhanced redirect callback with validation logging
+    
     async redirect({ url, baseUrl }) {
       if (process.env.NODE_ENV === "development")
         console.log("NextAuth redirect callback (enhanced):", { url, baseUrl });
 
-      // Allows relative callback URLs
+      
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      // Allows callback URLs on the same origin
+      
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
 
-    // Enhanced signIn callback with database validation
+    
     async signIn({
       user,
       account,
@@ -774,12 +752,12 @@ export const authConfig = {
         });
       }
 
-      // For credentials provider, additional validation is handled in authorize function
+      
       if (account?.provider === "credentials") {
-        return true; // Already validated in authorize function
+        return true; 
       }
 
-      // For OAuth providers, validate user exists and is active
+      
       if (user?.id) {
         try {
           const validation = await validateUserById(
@@ -816,7 +794,7 @@ export const authConfig = {
     },
   },
 
-  // Enhanced events with database validation logging
+  
   events: {
     async signIn(message) {
       if (process.env.NODE_ENV === "development")
@@ -828,7 +806,7 @@ export const authConfig = {
           isNewUser: message.isNewUser,
         });
 
-      // Log database validation status if available
+      
       if (message.user.id) {
         try {
           const validation = await validateUserById(
@@ -878,6 +856,6 @@ export const authConfig = {
     },
   },
 
-  // Enable debug in development
+  
   debug: process.env.NODE_ENV === "development",
 } satisfies NextAuthConfig;

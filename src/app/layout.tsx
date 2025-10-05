@@ -99,25 +99,25 @@ export default function RootLayout({
   return (
     <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth">
       <head>
-        {/* Font optimization handled via Next.js - no external font loading needed */}
+        {}
 
-        {/* Preload critical resources */}
+        {}
 
-        {/* Theme color for mobile browsers */}
+        {}
         <meta name="theme-color" content="#8B9769" />
         <meta name="msapplication-TileColor" content="#8B9769" />
 
-        {/* Viewport optimization */}
+        {}
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
 
-        {/* Security headers - X-Frame-Options should be set via HTTP headers, not meta tags */}
+        {}
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
 
-        {/* Performance hints */}
+        {}
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

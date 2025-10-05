@@ -1,8 +1,3 @@
-/**
- * Audio Player Hook
- * 
- * Custom hook for managing audio generation and playback using ElevenLabs TTS API
- */
 
 import { useState, useRef, useCallback, useEffect } from "react";
 
@@ -44,7 +39,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentRequestRef = useRef<AbortController | null>(null);
 
-  // Cleanup on unmount
+  
   useEffect(() => {
     return () => {
       if (audioRef.current) {
@@ -57,7 +52,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     };
   }, []);
 
-  // Update current time during playback
+  
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -90,7 +85,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   }, [onPlaybackEnd, onError]);
 
   const generateAudio = useCallback(async (text: string, patientName?: string, emotion?: string): Promise<string> => {
-    // Cancel any ongoing request
+    
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
     }
@@ -113,9 +108,9 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         
-        // Handle specific error cases
+        
         if (response.status === 401) {
-          // Check if it's a quota exceeded error (ElevenLabs returns 401 for quota exceeded)
+          
           if (errorData.detail?.status === "quota_exceeded") {
             throw new Error("TTS quota exceeded - please check your ElevenLabs account credits");
           }
@@ -131,16 +126,16 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         throw new Error(errorData.error || `TTS generation failed: ${response.statusText}`);
       }
 
-      // Create blob URL from audio data
+      
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
       
       return audioUrl;
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        // Don't throw error for cancelled requests - this is expected behavior
+        
         console.log("Audio generation cancelled for new request");
-        throw new Error("CANCELLED"); // Special error type for cancelled requests
+        throw new Error("CANCELLED"); 
       }
       throw error;
     } finally {
@@ -156,19 +151,19 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       setError(null);
       setIsTTSAvailable(true);
 
-      // Stop current audio if playing (but keep the player visible)
+      
       if (audioRef.current) {
         audioRef.current.pause();
-        // Don't set to null - keep the player visible
+        
       }
 
-      // Don't clear the audio URL - keep the player visible
-      // The new audio will replace the old one when ready
+      
+      
 
-      // Generate new audio
+      
       const audioUrl = await generateAudio(text, patientName, emotion);
       
-      // Update the audio URL and create new audio element
+      
       setCurrentAudioUrl((prevUrl) => {
         if (prevUrl) {
           URL.revokeObjectURL(prevUrl);
@@ -177,11 +172,11 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       });
       setIsTTSAvailable(true);
 
-      // Create new audio element
+      
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
-      // Set up event listeners
+      
       audio.addEventListener("canplaythrough", () => {
         setIsLoading(false);
         if (autoPlay) {
@@ -196,10 +191,10 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       audio.addEventListener("play", () => setIsPlaying(true));
       audio.addEventListener("pause", () => setIsPlaying(false));
 
-      // Load the audio
+      
       audio.load();
     } catch (error) {
-      // Handle cancelled requests silently
+      
       if (error instanceof Error && error.message === "CANCELLED") {
         console.log("Audio generation was cancelled for new request");
         setIsLoading(false);
@@ -209,7 +204,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       console.error("Error generating audio:", error);
       const errorMessage = error instanceof Error ? error.message : "Errore nella generazione audio";
       
-      // Check if TTS service is not available
+      
       if (errorMessage.includes("not configured") || errorMessage.includes("API key") || errorMessage.includes("quota exceeded")) {
         setIsTTSAvailable(false);
         console.warn("TTS service not available - audio generation disabled");
@@ -275,7 +270,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   }, [duration]);
 
   return {
-    // State
+    
     isPlaying,
     isLoading,
     currentAudioUrl,
@@ -283,7 +278,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     duration,
     error,
     isTTSAvailable,
-    // Actions
+    
     playText,
     togglePlayPause,
     stop,

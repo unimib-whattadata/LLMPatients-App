@@ -7,7 +7,7 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
 import { ChevronDown, Eye, EyeOff, Search, ChevronUp } from "lucide-react";
 
-// Import the patient details schema
+
 import patientDetailsSchema from "~/server/db/patient-details.json";
 
 interface FieldDefinition {
@@ -36,10 +36,6 @@ interface PatientDetailsSchema {
   properties: Record<string, SectionDefinition>;
 }
 
-/**
- * Patient Details Content Component
- * Simple, clean interface for viewing psychological evaluation schema
- */
 export function PatientDetailsContent() {
   const [showFieldTypes, setShowFieldTypes] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -48,9 +44,7 @@ export function PatientDetailsContent() {
 
   const schema = patientDetailsSchema as PatientDetailsSchema;
 
-  /**
-   * Get display name for section
-   */
+  
   const getSectionDisplayName = (key: string): string => {
     const displayNames: Record<string, string> = {
       "personal-info": "Informazioni Personali",
@@ -63,10 +57,7 @@ export function PatientDetailsContent() {
     return displayNames[key] || key.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
-  /**
-   * Get display name for field
-   */
-  const getFieldDisplayName = (key: string): string => {
+    const getFieldDisplayName = (key: string): string => {
     const displayNames: Record<string, string> = {
       "first-name": "Nome",
       "last-name": "Cognome",
@@ -100,27 +91,24 @@ export function PatientDetailsContent() {
     return displayNames[key] || key.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
-  /**
-   * Recursively search in nested fields
-   */
-  const searchInFields = useCallback((fields: Record<string, FieldDefinition>, searchLower: string): boolean => {
+    const searchInFields = useCallback((fields: Record<string, FieldDefinition>, searchLower: string): boolean => {
     return Object.entries(fields).some(([fieldKey, fieldDef]) => {
       const fieldName = getFieldDisplayName(fieldKey).toLowerCase();
       
-      // Check field name
+      
       if (fieldName.includes(searchLower)) return true;
       
-      // Check field description
+      
       if (fieldDef.description && fieldDef.description.toLowerCase().includes(searchLower)) {
         return true;
       }
       
-      // Check enum values
+      
       if (fieldDef.enum && fieldDef.enum.some((value) => value.toLowerCase().includes(searchLower))) {
         return true;
       }
       
-      // Recursively search in nested properties
+      
       if (fieldDef.properties) {
         return searchInFields(fieldDef.properties, searchLower);
       }
@@ -129,10 +117,7 @@ export function PatientDetailsContent() {
     });
   }, []);
 
-  /**
-   * Filter sections based on search term (including nested fields)
-   */
-  const filteredSections = useMemo(() => {
+    const filteredSections = useMemo(() => {
     if (!searchTerm.trim()) {
       return Object.entries(schema.properties);
     }
@@ -142,10 +127,10 @@ export function PatientDetailsContent() {
       ([sectionKey, sectionDef]) => {
         const sectionName = getSectionDisplayName(sectionKey).toLowerCase();
         
-        // Check section name
+        
         if (sectionName.includes(searchLower)) return true;
         
-        // Check fields in section (including nested fields)
+        
         if (sectionDef.properties) {
           return searchInFields(sectionDef.properties, searchLower);
         }
@@ -155,10 +140,7 @@ export function PatientDetailsContent() {
     );
   }, [searchTerm, schema.properties, searchInFields]);
 
-  /**
-   * Toggle all sections expanded/collapsed
-   */
-  const toggleAllSections = () => {
+    const toggleAllSections = () => {
     if (allExpanded) {
       setExpandedSections(new Set());
       setAllExpanded(false);
@@ -169,10 +151,7 @@ export function PatientDetailsContent() {
     }
   };
 
-  /**
-   * Toggle individual section
-   */
-  const toggleSection = (sectionKey: string) => {
+    const toggleSection = (sectionKey: string) => {
     const newExpanded = new Set(expandedSections);
     if (newExpanded.has(sectionKey)) {
       newExpanded.delete(sectionKey);
@@ -183,10 +162,7 @@ export function PatientDetailsContent() {
     setAllExpanded(newExpanded.size === Object.keys(schema.properties).length);
   };
 
-  /**
-   * Render field definition (including nested fields)
-   */
-  const renderField = (fieldKey: string, fieldDef: FieldDefinition, level: number = 0) => {
+    const renderField = (fieldKey: string, fieldDef: FieldDefinition, level: number = 0) => {
     const fieldName = getFieldDisplayName(fieldKey);
     const hasEnum = fieldDef.enum && fieldDef.enum.length > 0;
     const hasDescription = fieldDef.description;
@@ -215,7 +191,7 @@ export function PatientDetailsContent() {
           </div>
         )}
 
-        {/* Render nested fields */}
+        {}
         {hasNestedFields && (
           <div className="mt-2 space-y-1">
             {Object.entries(fieldDef.properties!).map(([nestedKey, nestedDef]) =>
@@ -227,10 +203,7 @@ export function PatientDetailsContent() {
     );
   };
 
-  /**
-   * Render section with collapsible content
-   */
-  const renderSection = (sectionKey: string, sectionDef: SectionDefinition) => {
+    const renderSection = (sectionKey: string, sectionDef: SectionDefinition) => {
     const sectionName = getSectionDisplayName(sectionKey);
     const hasFields = sectionDef.properties && Object.keys(sectionDef.properties).length > 0;
     const fieldCount = hasFields ? Object.keys(sectionDef.properties!).length : 0;
@@ -298,7 +271,7 @@ export function PatientDetailsContent() {
 
         <div className="dashboard-panel">
           <div className="space-y-6">
-            {/* Header Controls */}
+            {}
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold">Tutte le Sezioni</h3>
               <div className="flex items-center gap-2">
@@ -321,7 +294,7 @@ export function PatientDetailsContent() {
               </div>
             </div>
 
-            {/* Search Bar */}
+            {}
             <div>
               <Input
                 placeholder="Cerca sezioni, campi o valori..."
@@ -330,7 +303,7 @@ export function PatientDetailsContent() {
               />
             </div>
 
-            {/* Sections List */}
+            {}
             <ScrollArea className="h-[600px]">
               <div className="space-y-4">
                 {filteredSections.length > 0 ? (

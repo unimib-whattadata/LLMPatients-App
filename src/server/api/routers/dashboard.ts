@@ -1,11 +1,3 @@
-/**
- * Dashboard tRPC Router
- *
- * Provides API endpoints for dashboard functionality including:
- * - Admin procedures: user management, system statistics
- * - User procedures: profile management, activity tracking
- * - Role-based access control for different dashboard features
- */
 
 import { z } from "zod";
 import { eq, desc, count, and, gte, ne } from "drizzle-orm";
@@ -18,17 +10,10 @@ import {
 } from "~/server/api/trpc";
 import { users, userActivities } from "~/server/db/tables";
 
-/**
- * Dashboard router with role-based procedures
- */
 export const dashboardRouter = createTRPCRouter({
-  // ==================== ADMIN PROCEDURES ====================
+  
 
-  /**
-   * Get all users (admin only)
-   * Returns list of all users excluding passwords for security
-   */
-  getAllUsers: adminProcedure.query(async ({ ctx }) => {
+    getAllUsers: adminProcedure.query(async ({ ctx }) => {
     try {
       const allUsers = await (ctx.db as any)
         .select({
@@ -51,11 +36,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-  /**
-   * Update user role (admin only)
-   * Allows admin to change user roles between 'admin' and 'user'
-   */
-  updateUserRole: adminProcedure
+    updateUserRole: adminProcedure
     .input(
       z.object({
         userId: z.string().min(1, "User ID is required"),
@@ -66,7 +47,7 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        // Prevent admin from demoting themselves
+        
         if (input.userId === ctx.session.user.id && input.role === "user") {
           throw new TRPCError({
             code: "BAD_REQUEST",
@@ -92,7 +73,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        // Log admin activity
+        
         await (ctx.db as any).insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "role_update",
@@ -113,22 +94,18 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get system statistics (admin only)
-   * Returns dashboard metrics for admin overview
-   */
-  getSystemStats: adminProcedure.query(async ({ ctx }) => {
+    getSystemStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      // Calculate date 30 days ago for active users metric
+      
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      // Get total users count
+      
       const totalUsersResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users);
 
-      // Get active users (users with login activity in last 30 days)
+      
       const activeUsersQuery = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
@@ -140,13 +117,13 @@ export const dashboardRouter = createTRPCRouter({
         )
         .groupBy(userActivities.userId);
 
-      // Get admin users count
+      
       const adminUsersResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users)
         .where(eq(users.role, "admin"));
 
-      // Get recent activities (last 10)
+      
       const recentActivities = await (ctx.db as any)
         .select({
           id: (userActivities as any).id,
@@ -182,13 +159,9 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-  // ==================== USER PROCEDURES ====================
+  
 
-  /**
-   * Get current user profile
-   * Returns profile information for the authenticated user
-   */
-  getUserProfile: protectedProcedure.query(async ({ ctx }) => {
+    getUserProfile: protectedProcedure.query(async ({ ctx }) => {
     try {
       const userProfile = await (ctx.db as any)
         .select({
@@ -220,11 +193,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-  /**
-   * Update user profile
-   * Allows users to update their own profile information
-   */
-  updateProfile: protectedProcedure
+    updateProfile: protectedProcedure
     .input(
       z.object({
         name: z.string().min(1, "Name is required").max(255, "Name too long"),
@@ -247,7 +216,7 @@ export const dashboardRouter = createTRPCRouter({
           )
           .limit(1);
 
-        // If email exists and belongs to different user, reject
+        
         if (existingUser.length > 0) {
           throw new TRPCError({
             code: "CONFLICT",
@@ -296,11 +265,7 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get user activity history
-   * Returns recent activities for the authenticated user
-   */
-  getUserActivity: protectedProcedure
+    getUserActivity: protectedProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(50).default(10),
@@ -336,11 +301,7 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Record user activity
-   * Allows recording of user actions for tracking purposes
-   */
-  recordActivity: protectedProcedure
+    recordActivity: protectedProcedure
     .input(
       z.object({
         activityType: z.enum(
@@ -376,22 +337,18 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get student statistics (admin only)
-   * Returns statistics for students (users with role 'user')
-   */
-  getStudentStats: adminProcedure.query(async ({ ctx }) => {
+    getStudentStats: adminProcedure.query(async ({ ctx }) => {
     try {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      // Get total students count (users with role 'user')
+      
       const totalStudentsResult = await (ctx.db as any)
         .select({ count: count() })
         .from(users)
         .where(eq(users.role, "user"));
 
-      // Get active students (students with login activity in last 30 days)
+      
       const activeStudentsQuery = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
@@ -405,8 +362,8 @@ export const dashboardRouter = createTRPCRouter({
         )
         .groupBy(userActivities.userId);
 
-      // Get students with simulation activity (mock data for now)
-      // In a real implementation, this would query a simulations table
+      
+      
       const simulationActivities = await (ctx.db as any)
         .select({ userId: userActivities.userId })
         .from(userActivities)
@@ -419,27 +376,27 @@ export const dashboardRouter = createTRPCRouter({
         )
         .groupBy(userActivities.userId);
 
-      // Calculate completion rate (mock calculation)
-      // In real implementation, this would be based on completed vs started simulations
+      
+      
       const totalStudentsCount = totalStudentsResult[0]?.count ?? 0;
       const completionRate =
         totalStudentsCount > 0
           ? Math.round((simulationActivities.length / totalStudentsCount) * 100)
           : 0;
 
-      // Calculate average score (mock calculation)
-      // In real implementation, this would be based on actual simulation scores
+      
+      
       const averageScore =
         simulationActivities.length > 0
-          ? Math.round(70 + Math.random() * 20) // Mock: random between 70-90
+          ? Math.round(70 + Math.random() * 20) 
           : 0;
 
       return {
         totalStudents: totalStudentsCount,
         activeStudents: activeStudentsQuery.length,
-        completionRate: Math.min(completionRate, 100), // Cap at 100%
+        completionRate: Math.min(completionRate, 100), 
         averageScore: averageScore,
-        totalSimulations: simulationActivities.length * 2, // Mock: 2 simulations per active student
+        totalSimulations: simulationActivities.length * 2, 
       };
     } catch {
       throw new TRPCError({
@@ -449,11 +406,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-  /**
-   * Get student evaluation statistics (admin only)
-   * Returns evaluation statistics for students
-   */
-  getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
+    getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
     try {
       const studentsWithSimulations = await (ctx.db as any)
         .select({ userId: userActivities.userId })
@@ -467,12 +420,12 @@ export const dashboardRouter = createTRPCRouter({
         )
         .groupBy(userActivities.userId);
 
-      // Mock data for evaluation statistics
-      // In real implementation, this would query an evaluations table
-      const totalEvaluations = studentsWithSimulations.length * 3; // Mock: 3 evaluations per student
-      const completedEvaluations = Math.round(totalEvaluations * 0.75); // Mock: 75% completion
-      const inProgressEvaluations = Math.round(totalEvaluations * 0.15); // Mock: 15% in progress
-      const successRate = Math.round(completedEvaluations * 0.85); // Mock: 85% success rate
+      
+      
+      const totalEvaluations = studentsWithSimulations.length * 3; 
+      const completedEvaluations = Math.round(totalEvaluations * 0.75); 
+      const inProgressEvaluations = Math.round(totalEvaluations * 0.15); 
+      const successRate = Math.round(completedEvaluations * 0.85); 
 
       return {
         totalEvaluations,

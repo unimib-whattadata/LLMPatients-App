@@ -8,9 +8,6 @@ import { useMediaQuery } from "~/hooks/useMediaQuery";
 
 import type { User, ImpersonationContext, NavItem } from "~/types";
 
-/**
- * Configuration for layout behavior
- */
 interface LayoutConfig {
   showSidebar: boolean;
   showFooter: boolean;
@@ -18,9 +15,6 @@ interface LayoutConfig {
   containerClass: string;
 }
 
-/**
- * Props for the SharedLayout component
- */
 interface SharedLayoutProps {
   children: React.ReactNode;
   user?: User;
@@ -29,26 +23,6 @@ interface SharedLayoutProps {
   currentPage?: string;
 }
 
-/**
- * SharedLayout Component
- *
- * Main layout wrapper that provides consistent structure across the application.
- * Adapts its appearance and behavior based on the layout type and user context.
- *
- * Features:
- * - Responsive navigation with sidebar
- * - User authentication state handling
- * - Impersonation support for admin users
- * - Dynamic page titles and breadcrumbs
- * - Consistent styling across different page types
- *
- * @param children - Page content to be rendered
- * @param user - Current user information
- * @param impersonation - Impersonation context for admin users
- * @param layoutType - Layout style ("dashboard" or "home")
- * @param currentPage - Current page identifier for navigation
- * @returns JSX element containing the complete page layout
- */
 export function SharedLayout({
   children,
   user,
@@ -64,7 +38,7 @@ export function SharedLayout({
     setMobileSidebarOpen(false);
   }, [isDesktop]);
 
-  // Close mobile sidebar when clicking outside
+  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const sidebar = document.querySelector(".sidebar-container");
@@ -88,7 +62,7 @@ export function SharedLayout({
     }
   }, [mobileSidebarOpen]);
 
-  // Configure layout based on type
+  
   const layoutConfig: LayoutConfig = {
     showSidebar: layoutType === "dashboard",
     showFooter: layoutType === "home",
@@ -99,10 +73,10 @@ export function SharedLayout({
         : "min-h-screen bg-background-primary",
   };
 
-  // Get navigation sections for sidebar
+  
   const navSections = getNavSections(user, impersonation);
 
-  // Determine display user (impersonated or actual)
+  
   const displayUser = impersonation?.isImpersonating
     ? {
         id: impersonation.targetUserId,
@@ -112,7 +86,7 @@ export function SharedLayout({
       }
     : user;
 
-  // Render sidebar for dashboard layout
+  
   const renderSidebar = () => {
     if (!layoutConfig.showSidebar) return null;
 
@@ -122,13 +96,13 @@ export function SharedLayout({
         role="complementary"
         aria-label="Dashboard navigation"
       >
-        {/* Navigation */}
+        {}
         <nav
           className="flex-1 space-y-2 px-4 py-6"
           id="sidebar-navigation"
           role="navigation"
         >
-          {/* Navigation Section Label */}
+          {}
           {impersonation?.isImpersonating && (
             <p
               className="text-text-tertiary mb-4 text-xs font-semibold tracking-wider uppercase"
@@ -139,7 +113,7 @@ export function SharedLayout({
             </p>
           )}
 
-          {/* Navigation Sections */}
+          {}
           {navSections.map((section, sectionIndex) => (
             <div key={section.title} className={sectionIndex > 0 ? "mt-6" : ""}>
               <h3
@@ -174,7 +148,7 @@ export function SharedLayout({
           ))}
         </nav>
 
-        {/* User Info Footer */}
+        {}
         <div
           className="bg-background-secondary p-4"
           role="contentinfo"
@@ -215,7 +189,7 @@ export function SharedLayout({
     <div className={`layout-container ${layoutConfig.containerClass}`}>
       
 
-      {/* Shadcn Navbar */}
+      {}
       <ShadcnNavbar
         user={user}
         impersonation={impersonation}
@@ -223,11 +197,11 @@ export function SharedLayout({
         currentPage={currentPage}
       />
 
-      {/* Main Layout */}
+      {}
       <div
         className={`main-container ${layoutConfig.showSidebar ? "dashboard-layout" : "home-layout"}`}
       >
-        {/* Sidebar */}
+        {}
         {layoutConfig.showSidebar && (
           <div
             className={`sidebar-container ${mobileSidebarOpen ? "mobile-open" : ""}`}
@@ -236,7 +210,7 @@ export function SharedLayout({
           </div>
         )}
 
-        {/* Main Content */}
+        {}
         <main
           id="main-content"
           className={`content-container ${layoutConfig.showSidebar ? "with-sidebar" : "full-width"}`}

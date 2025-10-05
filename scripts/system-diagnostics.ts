@@ -1,35 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Comprehensive System Diagnostics Script
- *
- * This script performs a complete system health check including:
- * - Authentication configuration
- * - Database connectivity and performance
- * - Code quality (linting, TypeScript compilation)
- * - Dependencies and package validation
- * - File system and project structure
- * - Build and performance checks
- *
- * Usage:
- *   pnpm run system:diagnose
- *   or
- *   npx tsx scripts/system-diagnostics.ts
- *   or
- *   node --loader tsx scripts/system-diagnostics.ts
- *
- * Make sure to set your environment variables before running:
- *   - DATABASE_URL
- *   - AUTH_SECRET or NEXTAUTH_SECRET
- *   - DATABASE_AUTH_TOKEN (if required)
- *   - NODE_ENV
- *
- * Environment files are loaded in priority order:
- *   1. .env.local (highest priority)
- *   2. .env.production (for production settings)
- *   3. .env (default)
- *   4. production.env (fallback)
- */
 
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
@@ -41,9 +11,9 @@ import { config } from "dotenv";
 import { readFileSync, existsSync, statSync } from "fs";
 import { execSync } from "child_process";
 
-// ============================================================================
-// TYPES AND INTERFACES
-// ============================================================================
+
+
+
 
 interface FileLocation {
   scriptPath: string;
@@ -92,9 +62,9 @@ interface DatabaseStats {
   roleCounts: Record<string, number>;
 }
 
-// ============================================================================
-// UTILITY CLASSES
-// ============================================================================
+
+
+
 
 class Logger {
   private static formatMessage(
@@ -350,9 +320,9 @@ class EnvironmentHelper {
   }
 }
 
-// ============================================================================
-// DIAGNOSTIC CHECKERS
-// ============================================================================
+
+
+
 
 class ProjectStructureChecker {
   static check(): boolean {
@@ -612,7 +582,7 @@ class DatabaseChecker {
       );
 
       return {
-        connectionTime: 0, // Will be set by caller
+        connectionTime: 0, 
         totalUsers: totalUsers.length,
         roleCounts,
       };
@@ -814,9 +784,9 @@ class PermissionsChecker {
   }
 }
 
-// ============================================================================
-// MAIN DIAGNOSTICS CLASS
-// ============================================================================
+
+
+
 
 class SystemDiagnostics {
   private results: DiagnosticResult = {
@@ -846,14 +816,14 @@ class SystemDiagnostics {
   }
 
   private async runAllChecks(): Promise<void> {
-    // Load environment variables
+    
     const envInfo = EnvironmentHelper.loadEnvironmentVariables();
     this.results.environment = true;
 
     this.showFileLocationInfo();
     this.checkEnvironmentVariables();
 
-    // Run all diagnostic checks
+    
     this.results.projectStructure = ProjectStructureChecker.check();
     this.results.dependencies = DependenciesChecker.check();
     this.results.linting = await CodeQualityChecker.runLintingChecks();
@@ -970,17 +940,17 @@ class SystemDiagnostics {
   }
 }
 
-// ============================================================================
-// MAIN EXECUTION
-// ============================================================================
+
+
+
 
 async function runSystemDiagnostics(): Promise<void> {
   const diagnostics = new SystemDiagnostics();
   await diagnostics.run();
 }
 
-// Run diagnostics if this script is executed directly
-if (import.meta.url === `file://${process.argv[1]}`) {
+// Run diagnostics if this file is executed directly
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   runSystemDiagnostics().catch((error) => {
     Logger.error(`System diagnostics failed: ${error}`);
     process.exit(1);

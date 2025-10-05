@@ -36,7 +36,7 @@ export default function PatientResponseGeneratorDocs() {
           </p>
         </header>
 
-        {/* Authentication */}
+        {}
         <section
           className="mb-16 p-10 shadow-xl"
           style={{ backgroundColor: "var(--color-surface-secondary)" }}
@@ -102,7 +102,7 @@ export default function PatientResponseGeneratorDocs() {
           </div>
         </section>
 
-        {/* Passo 1 */}
+        {}
         <section
           className="mb-16 p-10 shadow-xl"
           style={{ backgroundColor: "var(--color-surface-secondary)" }}
@@ -130,7 +130,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </header>
 
-          {/* URL chiamato */}
+          {}
           <section className="mb-12">
             <h3
               className="mb-8 flex items-center text-3xl font-bold"
@@ -174,7 +174,7 @@ export default function PatientResponseGeneratorDocs() {
                   className="text-2xl font-bold"
                   style={{ color: "var(--color-text-primary)" }}
                 >
-                  https://api.therapeutic-ai.com/v1/initialise-patient
+                  https:
                 </span>
               </div>
               <div
@@ -239,7 +239,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </section>
 
-          {/* Informazioni passate */}
+          {}
           <section className="mb-10">
             <h3
               className="mb-6 flex items-center text-xl font-bold"
@@ -252,7 +252,7 @@ export default function PatientResponseGeneratorDocs() {
               Informazioni passate
             </h3>
 
-            {/* Struttura JSON */}
+            {}
             <div className="mb-6">
               <h4
                 className="text-md mb-3 flex items-center font-semibold"
@@ -323,7 +323,7 @@ export default function PatientResponseGeneratorDocs() {
               </div>
             </div>
 
-            {/* Esempio reale */}
+            {}
             <div className="mb-6">
               <h4
                 className="text-md mb-3 flex items-center font-semibold"
@@ -433,7 +433,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </section>
 
-          {/* Risposta attesa */}
+          {}
           <section className="mb-8">
             <h3
               className="mb-8 flex items-center text-3xl font-bold"
@@ -503,7 +503,7 @@ export default function PatientResponseGeneratorDocs() {
           </section>
         </section>
 
-        {/* Passo 2 */}
+        {}
         <section
           className="p-10 shadow-xl"
           style={{ backgroundColor: "var(--color-surface-secondary)" }}
@@ -531,7 +531,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </header>
 
-          {/* URL chiamato */}
+          {}
           <section className="mb-12">
             <h3
               className="mb-8 flex items-center text-3xl font-bold"
@@ -575,7 +575,7 @@ export default function PatientResponseGeneratorDocs() {
                   className="text-2xl font-bold"
                   style={{ color: "var(--color-text-primary)" }}
                 >
-                  https://api.therapeutic-ai.com/v1/chat-response
+                  https:
                 </span>
               </div>
               <div
@@ -640,7 +640,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </section>
 
-          {/* Informazioni passate */}
+          {}
           <section className="mb-12">
             <h3
               className="mb-8 flex items-center text-3xl font-bold"
@@ -667,7 +667,7 @@ export default function PatientResponseGeneratorDocs() {
               Request Payload
             </h3>
 
-            {/* Struttura JSON */}
+            {}
             <div className="mb-8">
               <h4
                 className="mb-6 flex items-center text-2xl font-bold"
@@ -718,7 +718,7 @@ export default function PatientResponseGeneratorDocs() {
               </div>
             </div>
 
-            {/* Esempio reale */}
+            {}
             <div className="mb-8">
               <h4
                 className="mb-6 flex items-center text-2xl font-bold"
@@ -785,7 +785,7 @@ export default function PatientResponseGeneratorDocs() {
             </div>
           </section>
 
-          {/* Risposta attesa */}
+          {}
           <section className="mb-6">
             <h3
               className="mb-8 flex items-center text-3xl font-bold"
@@ -812,7 +812,7 @@ export default function PatientResponseGeneratorDocs() {
               Expected Response
             </h3>
 
-            {/* JSON Schema */}
+            {}
             <div className="mb-8">
               <h4
                 className="mb-6 flex items-center text-2xl font-bold"
@@ -873,7 +873,7 @@ export default function PatientResponseGeneratorDocs() {
               </div>
             </div>
 
-            {/* Real Example */}
+            {}
             <div className="mb-8">
               <h4
                 className="mb-6 flex items-center text-2xl font-bold"
@@ -940,7 +940,7 @@ export default function PatientResponseGeneratorDocs() {
               </div>
             </div>
 
-            {/* Possible Emotion Values */}
+            {}
             <div className="mb-8">
               <h4
                 className="mb-6 flex items-center text-2xl font-bold"

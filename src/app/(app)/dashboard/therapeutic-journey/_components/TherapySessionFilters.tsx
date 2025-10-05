@@ -1,8 +1,3 @@
-/**
- * Therapy Session Filters Component
- *
- * Optimized filter component with memoization for therapy sessions
- */
 
 "use client";
 
@@ -60,5 +55,5 @@ function TherapySessionFiltersComponent({
   );
 }
 
-// Memoize the component to prevent unnecessary re-renders
+
 export const TherapySessionFilters = memo(TherapySessionFiltersComponent);

@@ -2,10 +2,6 @@ import { eq } from "drizzle-orm";
 import { db } from "~/server/db";
 import { users } from "~/server/db/tables";
 
-/**
- * User validation utilities for JWT authentication with database validation
- * These functions ensure JWT tokens remain synchronized with database state
- */
 
 export interface UserValidationResult {
   isValid: boolean;
@@ -20,15 +16,11 @@ export interface UserValidationResult {
 }
 
 export interface DatabaseValidationOptions {
-  timeout?: number; // Database query timeout in milliseconds
-  retries?: number; // Number of retry attempts
-  skipCache?: boolean; // Skip any caching mechanisms
+  timeout?: number; 
+  retries?: number; 
+  skipCache?: boolean; 
 }
 
-/**
- * Validates if a user exists in the database and returns current user data
- * Used during JWT token refresh and session validation
- */
 export async function validateUserById(
   userId: string,
   options: DatabaseValidationOptions = {},
@@ -50,7 +42,7 @@ export async function validateUserById(
         `User validation attempt ${attempt}/${retries} for user ID: ${userId}`,
       );
 
-      // Create a promise that will timeout if database query takes too long
+      
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
@@ -100,12 +92,12 @@ export async function validateUserById(
         lastError.message,
       );
 
-      // If this is the last attempt, return the error
+      
       if (attempt === retries) {
         break;
       }
 
-      // Wait before retrying with exponential backoff
+      
       const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
@@ -121,10 +113,6 @@ export async function validateUserById(
   };
 }
 
-/**
- * Validates if a user exists by email and returns current user data
- * Used during login authentication
- */
 export async function validateUserByEmail(
   email: string,
   options: DatabaseValidationOptions = {},
@@ -216,10 +204,6 @@ export async function validateUserByEmail(
   };
 }
 
-/**
- * Checks if a user's role has changed in the database
- * Used to detect role updates that should invalidate JWT tokens
- */
 export async function checkUserRoleChange(
   userId: string,
   currentRole: string,
@@ -253,10 +237,6 @@ export async function checkUserRoleChange(
   };
 }
 
-/**
- * Validates user account status (active, suspended, etc.)
- * Can be extended to check for additional account states
- */
 export async function validateUserAccountStatus(
   userId: string,
   options: DatabaseValidationOptions = {},
@@ -274,18 +254,14 @@ export async function validateUserAccountStatus(
     };
   }
 
-  // For now, we consider all users with valid database records as active
-  // This can be extended to check additional status fields in the future
+  
+  
   return {
     isActive: true,
     status: "active",
   };
 }
 
-/**
- * Comprehensive user validation that checks existence, role, and account status
- * Used for critical authentication decisions
- */
 export async function comprehensiveUserValidation(
   userId: string,
   expectedRole?: string,
@@ -301,7 +277,7 @@ export async function comprehensiveUserValidation(
   let roleChanged = false;
   let accountActive = false;
 
-  // Validate user existence
+  
   const userValidation = await validateUserById(userId, options);
   if (!userValidation.isValid || !userValidation.user) {
     errors.push(userValidation.error ?? "User validation failed");
@@ -315,7 +291,7 @@ export async function comprehensiveUserValidation(
 
   const user: UserValidationResult["user"] = userValidation.user;
 
-  // Check role changes if expected role is provided
+  
   if (expectedRole) {
     const roleCheck = await checkUserRoleChange(userId, expectedRole, options);
     if (roleCheck.error) {
@@ -325,7 +301,7 @@ export async function comprehensiveUserValidation(
     }
   }
 
-  // Check account status
+  
   const statusCheck = await validateUserAccountStatus(userId, options);
   if (statusCheck.error) {
     errors.push(statusCheck.error);
@@ -344,18 +320,14 @@ export async function comprehensiveUserValidation(
   };
 }
 
-/**
- * Creates a database validation configuration with default timeouts and retries
- * Adjusts based on environment (development vs production)
- */
 export function createValidationConfig(
   overrides: Partial<DatabaseValidationOptions> = {},
 ): DatabaseValidationOptions {
   const isDevelopment = process.env.NODE_ENV === "development";
 
   return {
-    timeout: isDevelopment ? 10000 : 5000, // Longer timeout in development
-    retries: isDevelopment ? 5 : 3, // More retries in development
+    timeout: isDevelopment ? 10000 : 5000, 
+    retries: isDevelopment ? 5 : 3, 
     skipCache: false,
     ...overrides,
   };

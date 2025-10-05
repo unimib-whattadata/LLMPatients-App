@@ -1,25 +1,5 @@
 #!/usr/bin/env node
 
-/**
- * Database Seeding Script
- *
- * This script supports both PostgreSQL and SQLite databases for seeding.
- * The database type is automatically detected based on the DATABASE_URL:
- *
- * - PostgreSQL: If DATABASE_URL starts with "postgres://" or "postgresql://"
- * - SQLite/LibSQL: If DATABASE_URL starts with "file:" or other schemes
- *
- * For PostgreSQL seeding:
- * 1. Ensure PostgreSQL is running and accessible
- * 2. Set DATABASE_URL to your PostgreSQL connection string
- * 3. Run: pnpm tsx scripts/seed.ts
- *
- * For SQLite seeding (default):
- * 1. Set DATABASE_URL to "file:./dev.db" or leave unset
- * 2. Run: pnpm tsx scripts/seed.ts
- *
- * You can also override with SEED_DATABASE_URL environment variable.
- */
 
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
@@ -28,11 +8,11 @@ import { join } from "node:path";
 import { execSync } from "child_process";
 import { config } from "dotenv";
 
-// Load environment variables from .env files BEFORE any other imports
+
 config({ path: join(process.cwd(), ".env.local") });
 config({ path: join(process.cwd(), ".env") });
 
-// Set default DATABASE_URL for development if not provided
+
 if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "file:./dev.db";
 }
@@ -45,11 +25,11 @@ import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
-// Create database connection - default to local SQLite for seeding
+
 const databaseUrl =
   process.env.SEED_DATABASE_URL || process.env.DATABASE_URL || "file:./dev.db";
-// Import schema tables
-// Dynamic schema import based on database type
+
+
 const schemaPath = databaseUrl.startsWith("postgres")
   ? "../src/server/db/schema-postgres.ts"
   : "../src/server/db/schema.ts";
@@ -64,13 +44,13 @@ console.log(
 );
 
 if (databaseUrl.startsWith("postgres")) {
-  // PostgreSQL connection
+  
   client = postgres(databaseUrl);
   db = drizzlePostgres(client, {
     schema: { users, patients, therapySessions },
   });
 } else {
-  // SQLite/LibSQL connection
+  
   client = createClient({
     url: databaseUrl,
     authToken: process.env.DATABASE_AUTH_TOKEN,
@@ -115,7 +95,7 @@ type PatientSeed = {
   estimatedDuration: number;
 };
 
-// Function to read patient data from JSON files
+
 function loadPatientsFromFiles(): PatientSeed[] {
   const patientsDir = join(process.cwd(), "src", "server", "db", "patients");
   const patientFiles = readdirSync(patientsDir).filter((file) =>
@@ -130,13 +110,13 @@ function loadPatientsFromFiles(): PatientSeed[] {
       const fileContent = readFileSync(filePath, "utf-8");
       const patientData = JSON.parse(fileContent);
 
-      // Convert JSON data to PatientSeed format
+      
       const patient: PatientSeed = {
         name: patientData.name || extractNameFromFilename(file),
         smallDescription:
           patientData.small_description ||
           extractDescriptionFromData(patientData),
-        details: patientData.details || patientData, // Use the full data if no details field
+        details: patientData.details || patientData, 
         background:
           patientData.background || extractBackgroundFromData(patientData),
         objectives: patientData.objectives
@@ -160,7 +140,7 @@ function loadPatientsFromFiles(): PatientSeed[] {
   return patients;
 }
 
-// Helper functions to extract data from patient JSON
+
 function extractNameFromFilename(filename: string): string {
   return filename
     .replace(".json", "")
@@ -179,7 +159,7 @@ function extractDescriptionFromData(data: any): string {
 }
 
 function extractBackgroundFromData(data: any): string {
-  // Try to find a background field, or create one from available data
+  
   if (data.background) return data.background;
 
   const age = data.demographic_sociocultural_information?.age;
@@ -207,7 +187,7 @@ function extractObjectivesFromData(data: any): string[] {
       : [data.therapeutic_goals];
   }
 
-  // Default objectives based on common patterns
+  
   return [
     "Conduct comprehensive clinical assessment",
     "Develop appropriate treatment plan",
@@ -227,7 +207,7 @@ function mapDifficultyToNumber(difficulty: any): number {
     if (lower.includes("difficile") || lower.includes("difficult"))
       return DIFFICULTY_LEVELS.DIFFICILE;
   }
-  return DIFFICULTY_LEVELS.MEDIO; // Default to medium difficulty
+  return DIFFICULTY_LEVELS.MEDIO; 
 }
 
 function mapGenderToEnum(gender: string): "male" | "female" | "other" {
@@ -294,20 +274,20 @@ async function seedDatabase() {
 }
 
 async function seedPatients() {
-  // First, delete all existing patients and their dependent records
+  
   console.log("[INFO] Removing existing patients...");
-  // Delete in order: first dependent tables, then main table
-  // eslint-disable-next-line drizzle/enforce-delete-with-where
+  
+  
   await db.delete(therapySessions);
-  // eslint-disable-next-line drizzle/enforce-delete-with-where
+  
   await db.delete(patients);
   console.log("[INFO] Existing patients removed");
 
   let created = 0;
 
-  // Add all patients from JSON files
+  
   for (const patient of PATIENTS) {
-    // Extract age and gender from patient details
+    
     const result = await db
       .insert(patients)
       .values({
@@ -339,15 +319,15 @@ async function seedPatients() {
 async function runSeeding() {
   try {
     console.log("⏭️  Skipping migrations (schema already applied)...");
-    // console.log("🔄 Running database migrations...");
-    // const migrateCommand = databaseUrl.startsWith("postgres")
-    //   ? "npx drizzle-kit migrate --config=drizzle-postgres.config.ts"
-    //   : "npx drizzle-kit migrate";
-    // execSync(migrateCommand, {
-    //   stdio: "inherit",
-    //   env: { ...process.env, DATABASE_URL: databaseUrl },
-    // });
-    // console.log("✅ Database migrations completed successfully!");
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     await seedDatabase();
     await seedPatients();
@@ -357,7 +337,7 @@ async function runSeeding() {
     console.error("[ERROR] Seeding non riuscito", error);
     process.exit(1);
   } finally {
-    // Close database connection
+    
     if (client && typeof client.close === "function") {
       client.close();
     }

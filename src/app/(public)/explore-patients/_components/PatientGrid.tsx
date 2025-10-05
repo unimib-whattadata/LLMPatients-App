@@ -10,16 +10,12 @@ interface PatientGridProps {
   error?: string | null;
 }
 
-/**
- * PatientGrid Component
- * Enhanced responsive grid with loading states and error handling
- */
 export function PatientGrid({
   patients,
   isLoading = false,
   error = null,
 }: PatientGridProps) {
-  // Error state
+  
   if (error) {
     return (
       <div className="flex min-h-[400px] items-center justify-center p-4">
@@ -42,12 +38,12 @@ export function PatientGrid({
     );
   }
 
-  // Loading state
+  
   if (isLoading) {
     return <LoadingCard count={6} />;
   }
 
-  // Empty state
+  
   if (patients.length === 0) {
     return (
       <div className="flex min-h-[400px] items-center justify-center p-4">

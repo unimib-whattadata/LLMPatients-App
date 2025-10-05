@@ -6,12 +6,6 @@ import { signOut } from "next-auth/react";
 import { Button } from "~/components/ui/button";
 import { Check, Loader2, LogOut, XCircle } from "lucide-react";
 
-/**
- * Custom Signout Page
- *
- * This page provides a styled signout experience that matches the site's design.
- * It handles the signout process and shows appropriate loading/error states.
- */
 export default function SignoutPage() {
   const router = useRouter();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -24,15 +18,15 @@ export default function SignoutPage() {
       try {
         setStatus("loading");
 
-        // Perform signout with callback to homepage
+        
         await signOut({
           callbackUrl: "/",
-          redirect: false, // Handle redirect manually
+          redirect: false, 
         });
 
         setStatus("success");
 
-        // Redirect to homepage after a brief delay
+        
         setTimeout(() => {
           router.push("/");
         }, 1500);
@@ -43,7 +37,7 @@ export default function SignoutPage() {
         );
         setStatus("error");
 
-        // Redirect to homepage even on error
+        
         setTimeout(() => {
           router.push("/");
         }, 3000);
@@ -55,7 +49,7 @@ export default function SignoutPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Section - Goodbye Message */}
+      {}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
@@ -75,11 +69,11 @@ export default function SignoutPage() {
         </div>
       </div>
 
-      {/* Right Section - Signout Status with Navbar Color */}
+      {}
       <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center">
-            {/* Logo/Brand */}
+            {}
             <div className="mb-6">
               <div className="bg-primary-green/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
                 <LogOut className="h-8 w-8 text-primary-green" aria-hidden="true" />
@@ -92,7 +86,7 @@ export default function SignoutPage() {
               </p>
             </div>
 
-            {/* Status Content */}
+            {}
             <div className="space-y-4">
               {status === "loading" && (
                 <div className="space-y-4">
@@ -141,7 +135,7 @@ export default function SignoutPage() {
               )}
             </div>
 
-            {/* Manual redirect button */}
+            {}
             <div className="mt-8 pt-6">
               <Button
                 onClick={() => router.push("/")}

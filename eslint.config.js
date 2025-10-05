@@ -1,6 +1,7 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
-// @ts-ignore -- no types for this plugin
+
+// @ts-expect-error - no type definitions available for eslint-plugin-drizzle
 import drizzle from "eslint-plugin-drizzle";
 
 const compat = new FlatCompat({
@@ -20,7 +21,7 @@ export default tseslint.config(
     extends: [
       ...tseslint.configs.recommended,
       ...tseslint.configs.recommendedTypeChecked,
-      //...tseslint.configs.stylisticTypeChecked,
+      
     ],
     rules: {
       "@typescript-eslint/array-type": "off",

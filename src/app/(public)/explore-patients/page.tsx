@@ -1,13 +1,3 @@
-/**
- * Explore Patients Page
- *
- * Main public interface for exploring virtual patients and clinical scenarios.
- * Displays a catalog of available virtual patients for clinical training.
- *
- * @description Server-side rendered page that handles optional authentication
- * and renders the patient exploration interface. Accessible to both
- * authenticated and unauthenticated users.
- */
 
 import { auth } from "~/server/auth";
 import { SharedLayout } from "~/components/layout/SharedLayout";
@@ -17,17 +7,11 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
 
-/**
- * Explore Patients Page Component
- *
- * Handles optional authentication and renders patient exploration interface.
- * Works for both authenticated and unauthenticated users.
- */
 export default async function ExplorePatientsPage() {
-  // Get session if available, but don't require authentication
+  
   const session = await auth();
 
-  // Create user object for authenticated users, undefined for unauthenticated
+  
   const user = session?.user
     ? {
         id: session.user.id,
@@ -58,7 +42,7 @@ export default async function ExplorePatientsPage() {
               aria-labelledby="patients-title"
             >
               <div className="section-container">
-                {/* Back link for authenticated users */}
+                {}
                 {user && (
                   <div className="mb-6">
                     <Button asChild variant="ghost" size="sm" className="gap-2">

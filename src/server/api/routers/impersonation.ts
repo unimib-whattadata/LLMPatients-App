@@ -1,12 +1,3 @@
-/**
- * Impersonation tRPC Router
- *
- * Handles admin user impersonation functionality including:
- * - Starting impersonation sessions
- * - Ending impersonation sessions
- * - Getting impersonation status and history
- * - Audit logging for security tracking
- */
 
 import { z } from "zod";
 import { eq, and, desc } from "drizzle-orm";
@@ -24,16 +15,8 @@ import {
   impersonationAuditLog,
 } from "~/server/db/tables";
 
-/**
- * Impersonation Router
- * Provides endpoints for managing admin user impersonation
- */
 export const impersonationRouter = createTRPCRouter({
-  /**
-   * Start Impersonation Session
-   * Admin-only endpoint to begin impersonating a target user
-   */
-  startImpersonation: adminProcedure
+    startImpersonation: adminProcedure
     .input(
       z.object({
         targetUserId: z.string().min(1, "Target user ID is required"),
@@ -53,7 +36,7 @@ export const impersonationRouter = createTRPCRouter({
       });
 
       try {
-        // Validate that target user exists and is not an admin
+        
         const targetUser = await db
           .select()
           .from(users)
@@ -69,7 +52,7 @@ export const impersonationRouter = createTRPCRouter({
 
         const target = targetUser[0]!;
 
-        // Prevent admin from impersonating another admin
+        
         if (target.role === "admin") {
           throw new TRPCError({
             code: "FORBIDDEN",
@@ -77,7 +60,7 @@ export const impersonationRouter = createTRPCRouter({
           });
         }
 
-        // Prevent self-impersonation
+        
         if (targetUserId === adminUserId) {
           throw new TRPCError({
             code: "BAD_REQUEST",
@@ -85,7 +68,7 @@ export const impersonationRouter = createTRPCRouter({
           });
         }
 
-        // Check for existing active impersonation session
+        
         const existingActiveSession = await db
           .select()
           .from(impersonationSessions)
@@ -105,7 +88,7 @@ export const impersonationRouter = createTRPCRouter({
           });
         }
 
-        // Create new impersonation session
+        
         const sessionId = crypto.randomUUID();
         const sessionToken = crypto.randomUUID();
         const startedAt = new Date();
@@ -122,7 +105,7 @@ export const impersonationRouter = createTRPCRouter({
           reason,
         });
 
-        // Create audit log entry
+        
         await db.insert(impersonationAuditLog).values({
           id: crypto.randomUUID(),
           impersonationSessionId: sessionId,
@@ -171,11 +154,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * End Impersonation Session
-   * Ends the current active impersonation session
-   */
-  endImpersonation: protectedProcedure
+    endImpersonation: protectedProcedure
     .input(
       z.object({
         ipAddress: z.string().optional(),
@@ -185,7 +164,7 @@ export const impersonationRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { ipAddress, userAgent } = input;
 
-      // Determine if this is an impersonated session or original admin
+      
       const isImpersonated = !!ctx.session.impersonation?.isImpersonating;
       const adminUserId = isImpersonated
         ? ctx.session.impersonation!.originalAdminId
@@ -202,11 +181,11 @@ export const impersonationRouter = createTRPCRouter({
       });
 
       try {
-        // Find and validate the active impersonation session
+        
         let activeSession;
 
         if (sessionId) {
-          // We have the session ID from the impersonated session
+          
           activeSession = await db
             .select()
             .from(impersonationSessions)
@@ -218,7 +197,7 @@ export const impersonationRouter = createTRPCRouter({
             )
             .limit(1);
         } else {
-          // Look for active session by admin user ID (direct admin ending)
+          
           activeSession = await db
             .select()
             .from(impersonationSessions)
@@ -240,7 +219,7 @@ export const impersonationRouter = createTRPCRouter({
 
         const session = activeSession[0]!;
 
-        // End the impersonation session
+        
         const endedAt = new Date();
 
         await db
@@ -251,7 +230,7 @@ export const impersonationRouter = createTRPCRouter({
           })
           .where(eq(impersonationSessions.id, session.id));
 
-        // Create audit log entry
+        
         await db.insert(impersonationAuditLog).values({
           id: crypto.randomUUID(),
           impersonationSessionId: session.id,
@@ -299,11 +278,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get Current Impersonation Status
-   * Returns information about the current impersonation session if active
-   */
-  getCurrentImpersonation: protectedProcedure.query(async ({ ctx }) => {
+    getCurrentImpersonation: protectedProcedure.query(async ({ ctx }) => {
     const isImpersonated = !!ctx.session.impersonation?.isImpersonating;
 
     if (!isImpersonated) {
@@ -316,7 +291,7 @@ export const impersonationRouter = createTRPCRouter({
     const impersonationData = ctx.session.impersonation!;
 
     try {
-      // Get session details from database
+      
       const sessionData = await db
         .select()
         .from(impersonationSessions)
@@ -357,11 +332,7 @@ export const impersonationRouter = createTRPCRouter({
     }
   }),
 
-  /**
-   * Get Impersonation History
-   * Admin-only endpoint to view impersonation history with pagination
-   */
-  getImpersonationHistory: adminProcedure
+    getImpersonationHistory: adminProcedure
     .input(
       z.object({
         page: z.number().min(1).default(1),
@@ -375,7 +346,7 @@ export const impersonationRouter = createTRPCRouter({
       const offset = (page - 1) * limit;
 
       try {
-        // Build where conditions
+        
         const whereConditions = [];
 
         if (adminUserId) {
@@ -390,7 +361,7 @@ export const impersonationRouter = createTRPCRouter({
           );
         }
 
-        // Get impersonation sessions with user details
+        
         const sessions = await (db as any)
           .select({
             session: impersonationSessions,
@@ -409,7 +380,7 @@ export const impersonationRouter = createTRPCRouter({
           .limit(limit)
           .offset(offset);
 
-        // Get target user details separately (due to join limitations)
+        
         const sessionsWithTargetUsers = await Promise.all(
           sessions.map(
             async (item: {
@@ -447,7 +418,7 @@ export const impersonationRouter = createTRPCRouter({
           ),
         );
 
-        // Get total count for pagination
+        
         const totalCountResult = await (db as any)
           .select({ count: impersonationSessions.id })
           .from(impersonationSessions)
@@ -478,11 +449,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get All Users for Impersonation
-   * Admin-only endpoint to get list of users that can be impersonated
-   */
-  getUsersForImpersonation: adminProcedure
+    getUsersForImpersonation: adminProcedure
     .input(
       z.object({
         search: z.string().optional(),
@@ -495,23 +462,23 @@ export const impersonationRouter = createTRPCRouter({
       const offset = (page - 1) * limit;
 
       try {
-        // Build where conditions
+        
         const whereConditions = [
-          eq(users.role, "user"), // Only show regular users, not admins
+          eq(users.role, "user"), 
         ];
 
-        // Add search filter if provided
+        
         if (search?.trim()) {
-          // This would need to be adapted based on your SQL dialect
-          // For SQLite, you might need to use LIKE differently
+          
+          
           whereConditions
             .push
-            // Note: This is a simplified search - you may want to use proper full-text search
-            // or multiple OR conditions for email, name search
+            
+            
             ();
         }
 
-        // Get users (excluding admins and the current admin)
+        
         const usersQuery = (db as any)
           .select({
             id: (users as any).id,
@@ -526,12 +493,12 @@ export const impersonationRouter = createTRPCRouter({
 
         const usersList = await usersQuery;
 
-        // Filter out current admin user
+        
         const filteredUsers = usersList.filter(
           (user: any) => user.id !== ctx.session.user.id,
         );
 
-        // Get total count
+        
         const totalCountResult = await (db as any)
           .select({ count: users.id })
           .from(users)

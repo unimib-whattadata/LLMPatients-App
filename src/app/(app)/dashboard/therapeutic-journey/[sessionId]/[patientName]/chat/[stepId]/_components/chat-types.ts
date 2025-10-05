@@ -1,8 +1,3 @@
-/**
- * Chat Types
- * 
- * Type definitions for chat-related components
- */
 
 import type { User, ImpersonationContext } from "~/types";
 import type { PatientEmotion } from "./chat-constants";

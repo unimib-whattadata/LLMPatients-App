@@ -1,13 +1,7 @@
-// @ts-nocheck
+
 import "dotenv/config";
 import { type Config } from "drizzle-kit";
 
-/**
- * Drizzle ORM Configuration for PostgreSQL
- *
- * Use this configuration when working with PostgreSQL databases.
- * Run with: npx drizzle-kit --config=drizzle-postgres.config.ts
- */
 export default {
   schema: "./src/server/db/schema-postgres.ts",
   out: "./drizzle-postgres",

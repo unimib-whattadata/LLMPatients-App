@@ -29,26 +29,12 @@ type TherapySessionWithPatient = {
   };
 };
 
-/**
- * Therapeutic Journey Content Component
- *
- * Main component for displaying and managing therapy sessions for users.
- * Provides filtering, metrics, and session management functionality.
- *
- * Features:
- * - Session filtering by status (all, started, in-progress, completed)
- * - Real-time metrics calculation (progress, completion rates)
- * - Responsive grid layout with loading states
- * - Integration with tRPC for data fetching
- *
- * @returns JSX element containing the therapeutic journey interface
- */
 export function TherapeuticJourneyContent() {
-  // Current filter state for session status
+  
   const [filter, setFilter] = useState<string>("all");
   const [isClient, setIsClient] = useState(false);
 
-  // Ensure client-side rendering to avoid hydration mismatch
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -59,33 +45,24 @@ export function TherapeuticJourneyContent() {
     error: sessionsError,
   } = api.therapySessions.getAllForUser.useQuery();
 
-  // Type assertion for API response
+  
   const typedAllTherapySessions = allTherapySessions as
     | TherapySessionWithPatient[]
     | undefined;
 
-  /**
-   * Determines the status of a therapy session based on completion status and session number
-   * @param therapySession - The therapy session object with isCompleted field
-   * @returns Session status: "started", "in-progress", or "completed"
-   */
-  const getSessionStatus = useCallback(
+    const getSessionStatus = useCallback(
     (therapySession: TherapySessionWithPatient) => {
-      // If the session is marked as completed in the database, it's completed
+      
       if (therapySession.isCompleted) return "completed";
 
-      // Otherwise, determine status based on session number
+      
       if (therapySession.sessionNumber === 1) return "started";
       return "in-progress";
     },
     [],
   );
 
-  /**
-   * Filters therapy sessions based on the current filter state
-   * @returns Array of filtered therapy sessions
-   */
-  const filteredSessions = useMemo(() => {
+    const filteredSessions = useMemo(() => {
     if (!typedAllTherapySessions) return [];
     if (filter === "all") return typedAllTherapySessions;
 
@@ -95,11 +72,7 @@ export function TherapeuticJourneyContent() {
     });
   }, [typedAllTherapySessions, filter, getSessionStatus]);
 
-  /**
-   * Calculates session metrics for display in the metrics component
-   * @returns Object containing startedOrInProgress count, completed count, and average progress percentage
-   */
-  const metrics = useMemo(() => {
+    const metrics = useMemo(() => {
     if (!typedAllTherapySessions)
       return { startedOrInProgress: 0, completed: 0, averageProgress: 0 };
 
@@ -122,17 +95,13 @@ export function TherapeuticJourneyContent() {
     return { startedOrInProgress, completed, averageProgress };
   }, [typedAllTherapySessions, getSessionStatus]);
 
-  /**
-   * Handles filter changes from the filter component
-   * @param newFilter - The new filter value to apply
-   */
-  const handleFilterChange = useCallback((newFilter: string) => {
+    const handleFilterChange = useCallback((newFilter: string) => {
     setFilter(newFilter);
   }, []);
 
   return (
     <div className="dashboard-panel-stack">
-      {/* Progress Overview Section */}
+      {}
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
@@ -173,7 +142,7 @@ export function TherapeuticJourneyContent() {
         ) : null}
       </section>
 
-      {/* Therapy Sessions Grid Section */}
+      {}
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
@@ -184,7 +153,7 @@ export function TherapeuticJourneyContent() {
           </div>
         </div>
 
-        {/* Filter Tabs */}
+        {}
         <TherapySessionFilters
           activeFilter={filter}
           onFilterChange={handleFilterChange}

@@ -8,17 +8,11 @@ import {
 import { patients } from "~/server/db/tables";
 import { type DifficultyLevel } from "~/lib/constants/difficulty";
 
-/**
- * Patient interface representing a virtual patient in the system
- *
- * Contains all necessary information for patient exploration and therapy sessions.
- * Includes demographic data, psychological profile, difficulty level, and metadata.
- */
 export interface Patient {
   id: string;
   name: string;
-  smallDescription: string; // Brief description of the case
-  details: string; // JSON string containing all patient details
+  smallDescription: string; 
+  details: string; 
   background: string;
   objectives: string[];
   avatarUrl?: string | null;
@@ -31,23 +25,8 @@ export interface Patient {
   updatedAt: Date | null;
 }
 
-/**
- * Patients Router
- *
- * Handles all patient exploration and management endpoints.
- * Provides functionality for browsing, filtering, and retrieving patient information.
- */
 export const patientsRouter = createTRPCRouter({
-  /**
-   * Get all active virtual patients for exploration page
-   *
-   * Public endpoint that returns paginated list of patients with optional filtering.
-   * Supports filtering by difficulty level, tags, and search queries.
-   *
-   * @param input - Optional filtering and pagination parameters
-   * @returns Array of patient objects with associated tags
-   */
-  getExplorationPatients: publicProcedure
+    getExplorationPatients: publicProcedure
     .input(
       z
         .object({
@@ -66,13 +45,13 @@ export const patientsRouter = createTRPCRouter({
         offset = 0,
       } = input ?? {};
 
-      // Build where conditions
+      
       const whereConditions = [eq(patients.isActive, true)];
 
       if (difficulty.length > 0) {
         whereConditions.push(
-          // Use IN operator for multiple difficulty values
-          eq(patients.difficulty, difficulty[0]!), // Simplified for now
+          
+          eq(patients.difficulty, difficulty[0]!), 
         );
       }
 
@@ -92,7 +71,7 @@ export const patientsRouter = createTRPCRouter({
           offset,
         });
 
-        // Get patients with error handling
+        
         const patientsData = await ctx.db
           .select()
           .from(patients)
@@ -110,7 +89,7 @@ export const patientsRouter = createTRPCRouter({
           patientsData.length,
         );
 
-        // Transform the data and parse objectives
+        
         const transformedPatients: Patient[] = patientsData.map(
           (patient: typeof patients.$inferSelect) => ({
             id: patient.id,
@@ -140,7 +119,7 @@ export const patientsRouter = createTRPCRouter({
 
         return transformedPatients;
       } catch (error) {
-        // Log detailed error information for debugging
+        
         console.error("Database query failed in getExplorationPatients:", {
           error: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
@@ -149,25 +128,21 @@ export const patientsRouter = createTRPCRouter({
           databaseUrl: process.env.DATABASE_URL ? "SET" : "NOT_SET",
         });
 
-        // In production, return empty array instead of throwing error
-        // This prevents the entire page from crashing
+        
+        
         if (process.env.NODE_ENV === "production") {
           console.warn("Returning empty patients array due to database error");
           return [];
         }
 
-        // Re-throw with more context in development
+        
         throw new Error(
           `Failed to fetch patients: ${error instanceof Error ? error.message : String(error)}`,
         );
       }
     }),
 
-  /**
-   * Get a specific virtual patient by ID
-   * Public endpoint - no authentication required
-   */
-  getPatientById: publicProcedure
+    getPatientById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const patientResult = await ctx.db
@@ -182,7 +157,7 @@ export const patientsRouter = createTRPCRouter({
 
       const patient = patientResult[0]!;
 
-      // Transform the data and parse objectives
+      
       const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
@@ -203,21 +178,12 @@ export const patientsRouter = createTRPCRouter({
       return transformedPatient;
     }),
 
-  /**
-   * Create a new virtual patient
-   *
-   * Protected endpoint for admin users to create new virtual patients.
-   * Validates input data and creates patient with associated tags.
-   *
-   * @param input - Patient creation data including name, description, details, etc.
-   * @returns Created patient object
-   */
-  createPatient: protectedProcedure
+    createPatient: protectedProcedure
     .input(
       z.object({
         name: z.string().min(1).max(255),
         smallDescription: z.string().min(1).max(500),
-        details: z.string().min(1), // JSON string containing all patient details
+        details: z.string().min(1), 
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
@@ -229,12 +195,12 @@ export const patientsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
+      
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }
 
-      // Create the patient
+      
       const [newPatient] = await ctx.db
         .insert(patients)
         .values({
@@ -253,11 +219,7 @@ export const patientsRouter = createTRPCRouter({
       return { id: newPatient?.id, success: true };
     }),
 
-  /**
-   * Update patient status (activate/deactivate)
-   * Protected endpoint - admin only
-   */
-  updatePatientStatus: protectedProcedure
+    updatePatientStatus: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -265,7 +227,7 @@ export const patientsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
+      
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }

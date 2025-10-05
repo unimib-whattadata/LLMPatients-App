@@ -21,22 +21,6 @@ interface PatientCardProps {
   patient: Patient;
 }
 
-/**
- * PatientCard Component
- *
- * Displays patient information in a card format with enhanced styling and accessibility.
- * Shows patient demographics, psychological profile, difficulty level, and estimated duration.
- *
- * Features:
- * - Patient avatar display
- * - Difficulty level indicators with accessibility labels
- * - Patient tags for categorization
- * - Estimated session duration
- * - Link to patient detail page
- *
- * @param patient - Patient object containing all patient information
- * @returns JSX element representing a patient card
- */
 export function PatientCard({ patient }: PatientCardProps) {
   let details: {
     demographic_sociocultural_information?: {
@@ -52,7 +36,7 @@ export function PatientCard({ patient }: PatientCardProps) {
     details = JSON.parse(patient.details) as typeof details;
   } catch (error) {
     console.error("Failed to parse patient details:", error);
-    // Fallback to empty object to prevent crashes
+    
     details = {};
   }
 
@@ -76,7 +60,7 @@ export function PatientCard({ patient }: PatientCardProps) {
       itemScope
       itemType="https://schema.org/Person"
     >
-      {/* Patient Avatar at the top */}
+      {}
       <CardHeader className="flex flex-col items-center space-y-4 pb-4">
         <PatientAvatar
           name={patient.name}
@@ -84,7 +68,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           avatarType={patient.avatarType}
         />
         
-        {/* Patient Name and Age */}
+        {}
         <div className="w-full">
           <div className="flex items-center justify-between mb-2">
             <CardTitle
@@ -99,7 +83,7 @@ export function PatientCard({ patient }: PatientCardProps) {
             </Badge>
           </div>
           
-          {/* Small Description under name */}
+          {}
           <CardDescription className="text-left text-gray-300" itemProp="description">
             {patient.smallDescription}
           </CardDescription>
@@ -107,12 +91,12 @@ export function PatientCard({ patient }: PatientCardProps) {
       </CardHeader>
 
       <CardContent className="flex-1 pt-0">
-        {/* Background Description */}
+        {}
         <p className="text-sm text-gray-300 mb-4" itemProp="additionalProperty">
           {patient.background}
         </p>
 
-        {/* Objectives */}
+        {}
         <div className="space-y-2">
           <p className="text-sm font-medium text-[#8B9769]">Obiettivi:</p>
           <ul className="space-y-1" role="list">
@@ -134,7 +118,7 @@ export function PatientCard({ patient }: PatientCardProps) {
           </ul>
         </div>
 
-        {/* Metadata */}
+        {}
         <div className="flex items-center justify-between mt-4 pt-4">
           <div className="flex items-center space-x-2">
             <div

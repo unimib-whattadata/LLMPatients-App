@@ -45,7 +45,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
 
     updateDebugInfo();
 
-    // Update debug info every 2 seconds when enabled
+    
     const interval = setInterval(updateDebugInfo, 2000);
 
     return () => clearInterval(interval);
@@ -55,7 +55,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
 
   return (
     <>
-      {/* Floating debug button */}
+      {}
       <button
         onClick={() => setIsVisible(!isVisible)}
         className="bg-accent-600 text-text-primary hover:bg-accent-700 fixed bottom-4 left-4 z-50 rounded-full p-3"
@@ -64,7 +64,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
         <Bug className="h-5 w-5" aria-hidden="true" />
       </button>
 
-      {/* Debug panel */}
+      {}
       {isVisible && (
         <div className="bg-background-secondary/95 text-text-secondary fixed bottom-20 left-4 z-50 max-h-96 max-w-lg overflow-auto rounded-lg p-4 font-mono text-xs">
           <div className="mb-2 flex items-center justify-between">

@@ -64,16 +64,16 @@ export function PatientDetailContent() {
     onSuccess: async (startedSession) => {
       setActionError(null);
       if (startedSession && patient) {
-        // Initialize patient in external AI service if not already initialized
+        
         if (!patient.externalPatientId) {
           try {
             await initializePatientMutation.mutateAsync({
               patientInfo: {
                 id: patient.id,
                 name: patient.name,
-                age: 45, // Default age for simulation
-                gender: "male", // Default gender for simulation
-                diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
+                age: 45, 
+                gender: "male", 
+                diagnosis: "Disturbo d'ansia generalizzato", 
                 difficulty: patient.difficulty,
                 psychologicalProfile: patient.background,
                 background: patient.background,
@@ -85,7 +85,7 @@ export function PatientDetailContent() {
             });
           } catch (error) {
             console.error("Error initializing patient:", error);
-            // Continue with navigation even if initialization fails
+            
           }
         }
         
@@ -145,7 +145,7 @@ export function PatientDetailContent() {
     details = JSON.parse(patient.details) as typeof details;
   } catch (error) {
     console.error("Failed to parse patient details:", error);
-    // Fallback to empty object to prevent crashes
+    
     details = {};
   }
 
@@ -168,7 +168,7 @@ export function PatientDetailContent() {
                 isDetailPage={true}
               />
               <div className="p-4 sm:p-6">
-                {/* Patient Info Header */}
+                {}
                 <header className="patient-card-header">
                   <h1 className="patient-card-title text-xl sm:text-2xl">
                     {patient.name}
@@ -180,12 +180,12 @@ export function PatientDetailContent() {
                   </span>
                 </header>
 
-                {/* Description */}
+                {}
                 <p className="patient-card-condition mt-3 text-sm sm:text-base">
                   {patient.smallDescription}
                 </p>
 
-                {/* Metadata */}
+                {}
                 <div className="patient-card-metadata mt-4">
                   <div className="patient-card-difficulty">
                     <span

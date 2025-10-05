@@ -1,16 +1,10 @@
 #!/usr/bin/env tsx
 
-/**
- * Database Schema Generation Script
- * 
- * This script generates migrations for both SQLite and PostgreSQL databases.
- * It creates separate migration files for each database type.
- */
 
 import { execSync } from "child_process";
 import { config } from "dotenv";
 
-// Load environment variables
+
 config();
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -20,7 +14,7 @@ if (!DATABASE_URL) {
   process.exit(1);
 }
 
-// Determine database type
+
 const isPostgres = DATABASE_URL.startsWith("postgres://") || 
                    DATABASE_URL.startsWith("postgresql://");
 
@@ -32,7 +26,7 @@ console.log(`📊 Database URL: ${DATABASE_URL.replace(/\/\/.*@/, "//***:***@")}
 try {
   console.log("🔄 Generating database migrations...");
   
-  // Run drizzle-kit generate
+  
   execSync("npx drizzle-kit generate", { 
     stdio: "inherit",
     env: { ...process.env, DATABASE_URL }

@@ -1,13 +1,3 @@
-/**
- * Login Page
- *
- * Authentication interface for user login with email and password.
- * Provides form validation, error handling, and session management.
- *
- * @description Client-side rendered page that handles user authentication,
- * form validation, and redirects. Includes comprehensive error handling
- * and session verification with JWT token support.
- */
 
 "use client";
 
@@ -33,7 +23,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Checkbox } from "~/components/ui/checkbox";
 
-// Define the consolidated login state interface
+
 interface LoginState {
   phase: "loading" | "login" | "authenticating" | "success" | "redirecting";
   error: string;
@@ -56,7 +46,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 function LoginPageComponent() {
-  // Consolidated state management with JWT session tracking
+  
   const [loginState, setLoginState] = useState<LoginState>({
     phase: "loading",
     error: "",
@@ -80,10 +70,10 @@ function LoginPageComponent() {
 
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard/therapeutic-journey";
 
-  // Deferred navigation function to prevent router updates during render
+  
   const navigate = useCallback(
     (url: string, delay: number = 100) => {
-      if (loginState.isNavigating) return; // Prevent multiple navigation calls
+      if (loginState.isNavigating) return; 
 
       setLoginState((prev) => ({ ...prev, isNavigating: true }));
 
@@ -94,12 +84,12 @@ function LoginPageComponent() {
     [router, loginState.isNavigating],
   );
 
-  // Consolidated navigation and state management controller
+  
   useEffect(() => {
     let countdownInterval: NodeJS.Timeout;
 
     const handleNavigation = () => {
-      // Handle URL error parameters
+      
       const urlError = searchParams.get("error");
       if (urlError && loginState.phase === "loading") {
         let errorMessage =
@@ -131,9 +121,9 @@ function LoginPageComponent() {
         return;
       }
 
-      // Handle session-based navigation
+      
       if (status === "loading") {
-        // Keep in loading state
+        
         return;
       }
 
@@ -142,19 +132,19 @@ function LoginPageComponent() {
         session &&
         loginState.phase !== "redirecting"
       ) {
-        // User is already authenticated, navigate to callback
+        
         setLoginState((prev) => ({ ...prev, phase: "redirecting" }));
         navigate(callbackUrl, 0);
         return;
       }
 
       if (status === "unauthenticated" && loginState.phase === "loading") {
-        // No session, show login form
+        
         setLoginState((prev) => ({ ...prev, phase: "login" }));
         return;
       }
 
-      // Handle success redirect countdown
+      
       if (loginState.phase === "success" && loginState.redirectCountdown > 0) {
         countdownInterval = setInterval(() => {
           setLoginState((prev) => {
@@ -169,7 +159,7 @@ function LoginPageComponent() {
       }
     };
 
-    // Defer navigation logic to next tick to avoid render conflicts
+    
     const timeoutId = setTimeout(handleNavigation, 0);
 
     return () => {
@@ -224,7 +214,7 @@ function LoginPageComponent() {
           "Login: Authentication successful, verifying JWT session...",
         );
 
-        // Wait for JWT session to be established
+        
         let sessionEstablished = false;
         let retryCount = 0;
         const maxRetries = 5;
@@ -232,7 +222,7 @@ function LoginPageComponent() {
         while (!sessionEstablished && retryCount < maxRetries) {
           await new Promise((resolve) =>
             setTimeout(resolve, 200 * (retryCount + 1)),
-          ); // Progressive delay
+          ); 
 
           try {
             const freshSession = await getSession();
@@ -247,7 +237,7 @@ function LoginPageComponent() {
               sessionEstablished = true;
               console.log("Login: JWT session successfully established");
 
-              // Show success message and start countdown
+              
               const redirectSeconds = 3;
               showSuccess(
                 "Login Successful!",
@@ -319,7 +309,7 @@ function LoginPageComponent() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Section - Inspirational Message */}
+      {}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
@@ -339,10 +329,10 @@ function LoginPageComponent() {
         </div>
       </div>
 
-      {/* Right Section - Login Form with Navbar Color */}
+      {}
       <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
         <div className="w-full max-w-md">
-          {/* Success State - Show redirect countdown */}
+          {}
           {loginState.phase === "success" ||
           loginState.phase === "redirecting" ? (
             <div className="text-center">
@@ -377,8 +367,7 @@ function LoginPageComponent() {
               </div>
             </div>
           ) : (
-            /* Normal Login Form */
-            <div>
+                        <div>
               <h2 className="text-2xl font-bold text-white mb-2">Login</h2>
               <p className="text-text-secondary mb-8">
                 Accedi al tuo account per continuare

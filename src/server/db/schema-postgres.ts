@@ -13,12 +13,6 @@ import {
 } from "drizzle-orm/pg-core";
 import { randomUUID } from "crypto";
 
-/**
- * AdapterAccount type for NextAuth v5 beta compatibility
- *
- * Manually defined type to ensure compatibility with the current NextAuth version.
- * Contains OAuth provider account information and tokens.
- */
 type AdapterAccount = {
   type: "oauth" | "email" | "credentials";
   provider: string;
@@ -32,22 +26,8 @@ type AdapterAccount = {
   session_state?: string;
 };
 
-/**
- * Table creator for multi-project schema support
- *
- * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'llmpatient_'.
- * This allows multiple projects to share the same database instance without conflicts.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
 export const createTable = pgTableCreator((name) => `llmpatient_${name}`);
 
-/**
- * Users table for authentication and user management
- *
- * Stores user account information including authentication credentials,
- * profile data, and role-based access control.
- */
 export const users = createTable(
   "user",
   (d: any) => ({
@@ -76,14 +56,14 @@ export const users = createTable(
       .defaultNow(),
   }),
   (t) => [
-    // Indexes for common query patterns
+    
     index("users_email_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
   ],
 );
 
-// Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
+
 
 export const accounts = createTable(
   "account",
@@ -128,12 +108,6 @@ export const sessions = createTable(
   (t) => [index("session_userId_idx").on(t.userId)],
 );
 
-/**
- * Verification tokens table for email verification
- *
- * Stores temporary tokens for email verification and password reset flows.
- * Tokens are automatically cleaned up after use or expiration.
- */
 export const verificationTokens = createTable(
   "verificationToken",
   (d: any) => ({
@@ -143,13 +117,7 @@ export const verificationTokens = createTable(
   }),
 );
 
-/**
- * Patients table for patient management
- *
- * Stores patient information including personal details, medical history,
- * and therapeutic journey data.
- */
-// Patients table for patient exploration page
+
 export const patients = createTable(
   "patient",
   (d: any) => ({
@@ -159,16 +127,16 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => randomUUID()),
     name: d.text().notNull(),
-    smallDescription: d.text().notNull(), // Brief description of the case
-    details: d.text().notNull(), // JSON string containing all patient details
+    smallDescription: d.text().notNull(), 
+    details: d.text().notNull(), 
     background: d.text().notNull(),
-    objectives: d.text().notNull(), // JSON array of objectives
+    objectives: d.text().notNull(), 
     avatarUrl: d.text(),
-    avatarType: d.text().default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
-    difficulty: d.integer().notNull(), // 1: Facile, 2: Medio, 3: Difficile
-    estimatedDuration: d.integer().default(30).notNull(), // minutes
+    avatarType: d.text().default("illustration").notNull(), 
+    difficulty: d.integer().notNull(), 
+    estimatedDuration: d.integer().default(30).notNull(), 
     isActive: d.boolean().default(true).notNull(),
-    externalPatientId: d.text(), // External patient ID from AI service
+    externalPatientId: d.text(), 
     createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
@@ -176,8 +144,8 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
-    index("virtual_patient_name_idx").on(t.name), // For LIKE searches
-    index("virtual_patient_external_id_idx").on(t.externalPatientId), // For external ID lookups
+    index("virtual_patient_name_idx").on(t.name), 
+    index("virtual_patient_external_id_idx").on(t.externalPatientId), 
   ],
 );
 
@@ -205,13 +173,13 @@ export const therapySessions = createTable(
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
-    index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
-    index("therapy_session_completed_idx").on(t.isCompleted), // For filtering completed sessions
+    index("therapy_session_updated_at_idx").on(t.updatedAt), 
+    index("therapy_session_completed_idx").on(t.isCompleted), 
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );
 
-// Chat table for storing chat conversations per step
+
 export const chat = createTable(
   "chat",
   (d: any) => ({
@@ -224,9 +192,9 @@ export const chat = createTable(
       .text()
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer().notNull(), // 1, 2, 3, etc.
-    messages: d.text().notNull(), // JSON string containing chat messages
-    done: d.boolean().default(false).notNull(), // true when step is completed
+    stepNumber: d.integer().notNull(), 
+    messages: d.text().notNull(), 
+    done: d.boolean().default(false).notNull(), 
     createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
@@ -238,12 +206,6 @@ export const chat = createTable(
   ],
 );
 
-/**
- * User activity log table for audit trail
- *
- * Stores user activity logs for security and compliance purposes.
- * Tracks login attempts, data access, and system interactions.
- */
 export const userActivities = createTable("userActivity", (d: any) => ({
   id: d
     .text("id")
@@ -261,7 +223,7 @@ export const userActivities = createTable("userActivity", (d: any) => ({
   createdAt: d.timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
 }));
 
-// Impersonation session tracking table
+
 export const impersonationSessions = createTable(
   "impersonation_session",
   (d: any) => ({
@@ -270,26 +232,26 @@ export const impersonationSessions = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    // Admin user who initiated the impersonation
+    
     adminUserId: d
       .text()
       .notNull()
       .references(() => users.id),
-    // Target user being impersonated
+    
     targetUserId: d
       .text()
       .notNull()
       .references(() => users.id),
-    // Session timing
+    
     startedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     endedAt: d.timestamp({ mode: "date" }),
-    // Session status
+    
     isActive: d.boolean().default(true).notNull(),
-    // Session metadata
+    
     sessionToken: d.text(),
-    ipAddress: d.text(), // IPv6 compatible
+    ipAddress: d.text(), 
     userAgent: d.text(),
-    // Optional reason for impersonation
+    
     reason: d.text(),
   }),
   (t) => [
@@ -300,7 +262,7 @@ export const impersonationSessions = createTable(
   ],
 );
 
-// Audit log for impersonation events
+
 export const impersonationAuditLog = createTable(
   "impersonation_audit_log",
   (d: any) => ({
@@ -309,20 +271,20 @@ export const impersonationAuditLog = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    // Reference to impersonation session
+    
     impersonationSessionId: d
       .text()
       .notNull()
       .references(() => impersonationSessions.id),
-    // Action details
-    actionType: d.text().notNull(), // 'START', 'END', 'ACTION_PERFORMED', 'SESSION_REFRESH'
-    actionDetails: d.text(), // JSON string for detailed action data
-    // Timing
+    
+    actionType: d.text().notNull(), 
+    actionDetails: d.text(), 
+    
     performedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    // Request metadata
+    
     ipAddress: d.text(),
     userAgent: d.text(),
-    // Additional context
+    
     requestPath: d.text(),
     requestMethod: d.text(),
   }),
@@ -333,7 +295,7 @@ export const impersonationAuditLog = createTable(
   ],
 );
 
-// Relations for patients
+
 export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
 }));
@@ -370,7 +332,7 @@ export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
   user: one(users, { fields: [userActivities.userId], references: [users.id] }),
 }));
 
-// Relations for impersonation tables
+
 export const impersonationSessionsRelations = relations(
   impersonationSessions,
   ({ one, many }) => ({

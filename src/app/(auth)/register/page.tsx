@@ -1,13 +1,3 @@
-/**
- * Register Page
- *
- * User registration interface for creating new accounts.
- * Provides comprehensive form validation and account creation.
- *
- * @description Client-side rendered page that handles user registration,
- * form validation, and account creation. Includes comprehensive validation
- * for all registration fields and terms acceptance.
- */
 
 "use client";
 
@@ -67,12 +57,6 @@ const registerSchema = z
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
-/**
- * Register Page Component
- *
- * Handles user registration with comprehensive validation.
- * Redirects authenticated users to home page.
- */
 export default function RegisterPage() {
   const [serverError, setServerError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -136,7 +120,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Section - Welcome Message */}
+      {}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
@@ -156,7 +140,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right Section - Registration Form with Navbar Color */}
+      {}
       <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <h2 className="text-2xl font-bold text-white mb-2">Registrazione</h2>

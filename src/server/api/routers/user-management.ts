@@ -1,13 +1,3 @@
-/**
- * User Management tRPC Router
- *
- * Provides API endpoints for admin user management operations including:
- * - List all users with pagination
- * - Create new users
- * - Update user roles and profiles
- * - Delete users
- * - User activity tracking
- */
 
 import { z } from "zod";
 import {
@@ -27,11 +17,7 @@ import {
 import { eq, asc, and, or, like, count } from "drizzle-orm";
 
 export const userManagementRouter = createTRPCRouter({
-  /**
-   * Get all users with optional filtering and pagination
-   * Admin only endpoint
-   */
-  getAllUsers: adminProcedure
+    getAllUsers: adminProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(100).default(50),
@@ -43,7 +29,7 @@ export const userManagementRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { limit, offset, search, role } = input;
 
-      // Build where conditions
+      
       const conditions = [];
 
       if (search) {
@@ -65,16 +51,16 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // // createdAt: users.createdAt,
-          // // updatedAt: users.updatedAt,
+          
+          
         })
         .from(users)
         .where(whereClause)
-        .orderBy(asc((users as any).name)) // Changed from desc(users.createdAt)
+        .orderBy(asc((users as any).name)) 
         .limit(limit)
         .offset(offset);
 
-      // Get total count for pagination
+      
       const totalCount = await (ctx.db as any)
         .select({ count: (users as any).id })
         .from(users)
@@ -87,11 +73,7 @@ export const userManagementRouter = createTRPCRouter({
       };
     }),
 
-  /**
-   * Create a new user
-   * Admin only endpoint
-   */
-  createUser: adminProcedure
+    createUser: adminProcedure
     .input(
       z.object({
         name: z.string().min(1, "Name is required"),
@@ -103,7 +85,7 @@ export const userManagementRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { name, email, role } = input;
 
-      // Check if user with email already exists
+      
       const existingUser = await (ctx.db as any)
         .select()
         .from(users)
@@ -114,7 +96,7 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("User with this email already exists");
       }
 
-      // Create user
+      
       const newUser = await (ctx.db as any)
         .insert(users)
         .values({
@@ -127,27 +109,15 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // createdAt: users.createdAt,
+          
         });
 
-      // Create account for credentials provider
-      /* await ctx.db.insert(accounts).values({
-        userId: newUser[0]!.id,
-        type: "credentials",
-        provider: "credentials",
-        providerAccountId: newUser[0]!.id,
-        // Note: In a real app, you'd want to handle password storage differently
-        access_token: hashedPassword, // Temporary storage - should use proper auth system
-      }); */
-
+      
+      
       return newUser[0];
     }),
 
-  /**
-   * Update user role
-   * Admin only endpoint
-   */
-  updateUserRole: adminProcedure
+    updateUserRole: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -157,17 +127,17 @@ export const userManagementRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { userId, role } = input;
 
-      // Prevent users from changing their own role
+      
       if (userId === ctx.session.user.id) {
         throw new Error("Cannot change your own role");
       }
 
-      // Update user role
+      
       const updatedUser = await (ctx.db as any)
         .update(users)
         .set({
           role,
-          // updatedAt: new Date(),
+          
         })
         .where(eq((users as any).id, userId))
         .returning({
@@ -175,7 +145,7 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // updatedAt: users.updatedAt,
+          
         });
 
       if (updatedUser.length === 0) {
@@ -185,11 +155,7 @@ export const userManagementRouter = createTRPCRouter({
       return updatedUser[0];
     }),
 
-  /**
-   * Update user profile
-   * Admin only endpoint for managing other users
-   */
-  updateUserProfile: protectedProcedure
+    updateUserProfile: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -198,14 +164,14 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
+      
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }
 
       const { userId, name, email } = input;
 
-      // Check if email is already taken by another user
+      
       const existingUser = await (ctx.db as any)
         .select()
         .from(users)
@@ -215,7 +181,7 @@ export const userManagementRouter = createTRPCRouter({
         .limit(1);
 
       if (existingUser.length === 0) {
-        // Check if email is taken by someone else
+        
         const emailTaken = await (ctx.db as any)
           .select()
           .from(users)
@@ -227,13 +193,13 @@ export const userManagementRouter = createTRPCRouter({
         }
       }
 
-      // Update user profile
+      
       const updatedUser = await (ctx.db as any)
         .update(users)
         .set({
           name,
           email,
-          // updatedAt: new Date(),
+          
         })
         .where(eq((users as any).id, userId))
         .returning({
@@ -241,7 +207,7 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // updatedAt: users.updatedAt,
+          
         });
 
       if (updatedUser.length === 0) {
@@ -251,33 +217,29 @@ export const userManagementRouter = createTRPCRouter({
       return updatedUser[0];
     }),
 
-  /**
-   * Delete user
-   * Admin only endpoint
-   */
-  deleteUser: protectedProcedure
+    deleteUser: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Check if user is admin
+      
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }
 
       const { userId } = input;
 
-      // Prevent users from deleting themselves
+      
       if (userId === ctx.session.user.id) {
         throw new Error("Cannot delete your own account");
       }
 
       try {
-        // Use a transaction to ensure all deletions succeed or none do
+        
         const result = await (ctx.db as any).transaction(async (tx: any) => {
-          // First, get all impersonation session IDs for this user
+          
           const userImpersonationSessions = await tx
             .select({ id: (impersonationSessions as any).id })
             .from(impersonationSessions)
@@ -288,7 +250,7 @@ export const userManagementRouter = createTRPCRouter({
               ),
             );
 
-          // Delete impersonation audit logs (references impersonation sessions)
+          
           if (userImpersonationSessions.length > 0) {
             const sessionIds = userImpersonationSessions.map(
               (session: { id: string }) => session.id,
@@ -307,7 +269,7 @@ export const userManagementRouter = createTRPCRouter({
               );
           }
 
-          // Delete impersonation sessions (references users)
+          
           await tx
             .delete(impersonationSessions)
             .where(
@@ -317,18 +279,18 @@ export const userManagementRouter = createTRPCRouter({
               ),
             );
 
-          // Delete user activities (references users)
+          
           await tx
             .delete(userActivities)
             .where(eq((userActivities as any).userId, userId));
 
-          // Delete sessions (references users)
+          
           await tx.delete(sessions).where(eq((sessions as any).userId, userId));
 
-          // Delete user accounts (references users)
+          
           await tx.delete(accounts).where(eq((accounts as any).userId, userId));
 
-          // Finally delete the user
+          
           const deletedUser = await tx
             .delete(users)
             .where(eq((users as any).id, userId))
@@ -353,18 +315,14 @@ export const userManagementRouter = createTRPCRouter({
       }
     }),
 
-  /**
-   * Get user details by ID
-   * Admin only endpoint
-   */
-  getUserById: protectedProcedure
+    getUserById: protectedProcedure
     .input(
       z.object({
         userId: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      // Check if user is admin
+      
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }
@@ -377,8 +335,8 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // createdAt: users.createdAt,
-          // updatedAt: users.updatedAt,
+          
+          
         })
         .from(users)
         .where(eq((users as any).id, userId))
@@ -391,28 +349,24 @@ export const userManagementRouter = createTRPCRouter({
       return user[0];
     }),
 
-  /**
-   * Get user statistics
-   * Admin only endpoint
-   */
-  getUserStats: protectedProcedure.query(async ({ ctx }) => {
-    // Check if user is admin
+    getUserStats: protectedProcedure.query(async ({ ctx }) => {
+    
     if (ctx.session.user.role !== "admin") {
       throw new Error("Unauthorized: Admin access required");
     }
 
-    // Get total users count
+    
     const totalUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users);
 
-    // Get admin users count
+    
     const adminUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users)
       .where(eq((users as any).role, "admin"));
 
-    // Get regular users count
+    
     const regularUsersResult = await (ctx.db as any)
       .select({ count: count() })
       .from(users)
@@ -425,11 +379,7 @@ export const userManagementRouter = createTRPCRouter({
     };
   }),
 
-  /**
-   * Public endpoint for development access
-   * Only works in development with special key
-   */
-  getPublicUserList: publicProcedure
+    getPublicUserList: publicProcedure
     .input(
       z.object({
         specialKey: z.string(),
@@ -437,7 +387,7 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      // Only allow in development with special key
+      
       if (
         process.env.NODE_ENV !== "development" ||
         input.specialKey !== "DavideIsTesting"
@@ -451,20 +401,16 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // createdAt: users.createdAt,
+          
         })
         .from(users)
-        .orderBy(asc((users as any).name)) // Changed from desc(users.createdAt)
+        .orderBy(asc((users as any).name)) 
         .limit(input.limit);
 
       return userList;
     }),
 
-  /**
-   * Public endpoint for creating users in development
-   * Only works in development with special key
-   */
-  createPublicUser: publicProcedure
+    createPublicUser: publicProcedure
     .input(
       z.object({
         specialKey: z.string(),
@@ -475,7 +421,7 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      // Only allow in development with special key
+      
       if (
         process.env.NODE_ENV !== "development" ||
         input.specialKey !== "DavideIsTesting"
@@ -485,7 +431,7 @@ export const userManagementRouter = createTRPCRouter({
 
       const { name, email, role } = input;
 
-      // Check if user exists
+      
       const existingUser = await (ctx.db as any)
         .select()
         .from(users)
@@ -496,7 +442,7 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("User with this email already exists");
       }
 
-      // Create user
+      
       const newUser = await (ctx.db as any)
         .insert(users)
         .values({
@@ -509,7 +455,7 @@ export const userManagementRouter = createTRPCRouter({
           name: (users as any).name,
           email: (users as any).email,
           role: (users as any).role,
-          // createdAt: users.createdAt,
+          
         });
 
       return newUser[0];

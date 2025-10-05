@@ -3,10 +3,6 @@
 import { api } from "~/trpc/react";
 import { PatientGrid } from "./PatientGrid";
 
-/**
- * PatientGridWrapper Component
- * Client component that handles data fetching for the PatientGrid
- */
 export function PatientGridWrapper() {
   const {
     data: patients,

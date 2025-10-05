@@ -1,17 +1,10 @@
 #!/usr/bin/env tsx
 
-/**
- * Database Migration Script
- * 
- * This script handles migrations for both SQLite and PostgreSQL databases.
- * It automatically detects the database type based on DATABASE_URL and runs
- * the appropriate migrations.
- */
 
 import { execSync } from "child_process";
 import { config } from "dotenv";
 
-// Load environment variables
+
 config();
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -21,7 +14,7 @@ if (!DATABASE_URL) {
   process.exit(1);
 }
 
-// Determine database type
+
 const isPostgres = DATABASE_URL.startsWith("postgres://") || 
                    DATABASE_URL.startsWith("postgresql://");
 
@@ -33,7 +26,7 @@ console.log(`📊 Database URL: ${DATABASE_URL.replace(/\/\/.*@/, "//***:***@")}
 try {
   console.log("🔄 Running database migrations...");
   
-  // Run drizzle-kit migrate
+  
   execSync("npx drizzle-kit migrate", { 
     stdio: "inherit",
     env: { ...process.env, DATABASE_URL }

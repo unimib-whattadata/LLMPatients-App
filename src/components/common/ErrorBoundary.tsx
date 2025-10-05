@@ -1,8 +1,3 @@
-/**
- * Error Boundary Component
- *
- * Catches JavaScript errors anywhere in the child component tree
- */
 
 "use client";
 
@@ -32,7 +27,7 @@ export class ErrorBoundary extends Component<
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
   }
-  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  
   componentDidCatch(error: Error, errorInfo: any) {
     console.error("ErrorBoundary caught an error:", error, errorInfo);
   }

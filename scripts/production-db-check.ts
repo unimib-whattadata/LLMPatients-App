@@ -1,11 +1,5 @@
 #!/usr/bin/env tsx
 
-/**
- * Production Database Check Script
- * 
- * This script helps diagnose database connection issues in production.
- * Run this script to verify database connectivity and schema.
- */
 
 import { createClient } from "@libsql/client";
 import { drizzle } from "drizzle-orm/libsql";
@@ -16,7 +10,7 @@ async function checkDatabaseConnection() {
   console.log("🔍 Production Database Check");
   console.log("==========================");
   
-  // Check environment variables
+  
   const databaseUrl = process.env.DATABASE_URL;
   const authToken = process.env.DATABASE_AUTH_TOKEN;
   
@@ -40,11 +34,11 @@ async function checkDatabaseConnection() {
     
     const db = drizzle(client, { schema: { patients } });
     
-    // Test basic connection
+    
     console.log("Testing basic connection...");
     const startTime = Date.now();
     
-    // Try to query the patients table
+    
     const result = await db.query.patients.findMany({
       limit: 1,
     });
@@ -56,7 +50,7 @@ async function checkDatabaseConnection() {
     console.log(`⏱️  Connection time: ${connectionTime}ms`);
     console.log(`📊 Found ${result.length} patient(s) in database`);
     
-    // Test the specific query that's failing
+    
     console.log("\n🧪 Testing Specific Query...");
     
     const specificQuery = await db.query.patients.findMany({
@@ -73,10 +67,10 @@ async function checkDatabaseConnection() {
     console.log(`✅ Specific query successful!`);
     console.log(`📊 Found ${specificQuery.length} active patient(s)`);
     
-    // Test table schema
+    
     console.log("\n📋 Testing Table Schema...");
     
-    // This will throw an error if the table doesn't exist or has wrong schema
+    
     const schemaTest = await db.query.patients.findFirst({
       columns: {
         id: true,
@@ -110,7 +104,7 @@ async function checkDatabaseConnection() {
     console.error("Error:", error instanceof Error ? error.message : String(error));
     console.error("Stack:", error instanceof Error ? error.stack : undefined);
     
-    // Provide specific troubleshooting steps
+    
     console.log("\n🔧 Troubleshooting Steps:");
     console.log("1. Verify DATABASE_URL is correct");
     console.log("2. Check if DATABASE_AUTH_TOKEN is valid (for Turso)");
@@ -122,7 +116,7 @@ async function checkDatabaseConnection() {
   }
 }
 
-// Run the check
+
 checkDatabaseConnection().catch((error) => {
   console.error("Script failed:", error);
   process.exit(1);

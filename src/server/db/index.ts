@@ -7,20 +7,16 @@ import { env } from "~/env";
 import * as sqliteSchema from "./schema";
 import * as postgresSchema from "./schema-postgres";
 
-// Choose the correct schema based on database type
+
 const isPostgres = env.DATABASE_URL.startsWith("postgres");
 console.log(`Database schema: ${isPostgres ? "PostgreSQL" : "SQLite"}`);
 const schema = isPostgres ? postgresSchema : sqliteSchema;
 
-/**
- * Cache the database connection in development. This avoids creating a new connection on every HMR
- * update.
- */
 const globalForDb = globalThis as unknown as {
   client: Client | undefined;
 };
 
-// Use PostgreSQL for postgres URLs, LibSQL for others (e.g., development)
+
 let db: ReturnType<typeof drizzleLibSQL>;
 if (env.DATABASE_URL.startsWith("postgres")) {
   const client = postgres(env.DATABASE_URL);

@@ -1,4 +1,3 @@
-/* Chat scrollbar styling */
 .chat-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: var(--color-primary-green) transparent;
@@ -19,11 +18,8 @@
   border-radius: 9999px;
   border: 2px solid transparent;
 }
-/* ===== OPTIMIZED COMPONENT SYSTEM ===== */
 @layer components {
-  /* ===== ENHANCED TYPOGRAPHY CLASSES ===== */
-  /* Consolidated typography system with improved consistency */
-
+    
   .text-heading-1 {
     font-size: var(--font-size-4xl);
     line-height: var(--line-height-4xl);
@@ -63,8 +59,7 @@
     font-weight: var(--font-weight-normal);
   }
 
-  /* ===== PILL SYSTEM ===== */
-  .pill {
+    .pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -87,38 +82,7 @@
 
 
 
-  /* ===== UNIFIED MESSAGE SYSTEM ===== */
-  /* 
-   * Unified message styling system for consistent message display across the application.
-   * 
-   * Base classes:
-   * - .message: Base message container with flex layout
-   * - .message-icon: Icon container (1rem x 1rem)
-   * - .message-content: Main content area
-   * - .message-title: Bold title text
-   * - .message-text: Regular message text
-   * 
-   * Message types:
-   * - .message-error: Red error styling
-   * - .message-success: Green success styling  
-   * - .message-warning: Orange warning styling
-   * - .message-info: Blue info styling
-   * 
-   * Size variants:
-   * - .message-inline: Smaller inline messages
-   * - .message-compact: Compact padding
-   * - .message-large: Larger padding and text
-   * 
-   * Usage examples:
-   * <div class="message message-error">
-   *   <div class="message-icon"><AlertTriangle /></div>
-   *   <div class="message-content">
-   *     <div class="message-title">Error</div>
-   *     <div class="message-text">Something went wrong</div>
-   *   </div>
-   * </div>
-   */
-  .message {
+      .message {
     display: flex;
     align-items: flex-start;
     gap: 0.5rem;
@@ -152,8 +116,7 @@
     opacity: 0.9;
   }
 
-  /* Message Types */
-  .message-error {
+    .message-error {
     background-color: var(--color-error);
     color: white;
   }
@@ -173,8 +136,7 @@
     color: white;
   }
 
-  /* Message dismiss button - consistent with message background */
-  .message-dismiss {
+    .message-dismiss {
     background-color: rgba(255, 255, 255, 0.2) !important;
     color: white !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
@@ -203,11 +165,8 @@
 
 
 
-  /* ===== ENHANCED ACCESSIBILITY SYSTEM ===== */
-  /* Comprehensive accessibility features with modern standards */
-  
-  /* Screen Reader Only Content - Enhanced */
-  .sr-only {
+      
+    .sr-only {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -219,8 +178,7 @@
     border: 0;
   }
 
-  /* Focus visible only for keyboard navigation */
-  .sr-only:focus {
+    .sr-only:focus {
     position: static;
     width: auto;
     height: auto;
@@ -234,8 +192,7 @@
     border-radius: 0.25rem;
   }
 
-  /* Skip links for better keyboard navigation */
-  .skip-link {
+    .skip-link {
     position: absolute;
     top: -40px;
     left: 6px;
@@ -255,8 +212,7 @@
     outline-offset: 2px;
   }
 
-  /* Skip Link Styles */
-  .skip-link {
+    .skip-link {
     position: absolute;
     top: -40px;
     left: 6px;
@@ -273,8 +229,7 @@
     outline-offset: 2px;
   }
 
-  /* Enhanced Focus Management */
-  .focus-trap {
+    .focus-trap {
     position: relative;
   }
 
@@ -282,25 +237,21 @@
     isolation: isolate;
   }
 
-  /* High Contrast Focus Indicators */
-  @media (prefers-contrast: high) {
+    @media (prefers-contrast: high) {
     *:focus {
       outline-offset: 2px;
     }
   }
 
-  /* Keyboard Navigation Enhancements */
-  .keyboard-navigation *:focus {
+    .keyboard-navigation *:focus {
     outline-offset: 2px;
   }
 
-  /* Hide mouse focus when using keyboard */
-  .mouse-navigation *:focus {
+    .mouse-navigation *:focus {
     outline: none;
   }
 
-  /* Enhanced Touch Targets */
-  @media (hover: none) and (pointer: coarse) {
+    @media (hover: none) and (pointer: coarse) {
     [data-slot="button"],
     .admin-nav-item,
     .user-nav-item,
@@ -313,8 +264,7 @@
     }
   }
 
-  /* Reduced Motion Alternatives */
-  @media (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion: reduce) {
     .patient-card,
     .patient-avatar-image,
     .admin-nav-item,
@@ -329,8 +279,7 @@
     }
   }
 
-  /* Print Accessibility */
-  @media print {
+    @media print {
     .admin-nav-item.active,
     .user-nav-item.active {
       background: transparent !important;
@@ -344,8 +293,7 @@
     }
   }
 
-  /* ===== RESPONSIVE GRID SYSTEM ===== */
-  .grid-responsive {
+    .grid-responsive {
     display: grid;
     gap: clamp(var(--space-lg), 3vw, var(--space-2xl));
     grid-template-columns: 1fr;
@@ -376,19 +324,15 @@
     }
   }
 
-  /* ===== OPTIMIZED RESPONSIVE DESIGN ===== */
-  /* Mobile-first responsive system with container queries */
-  
-  /* Responsive Patient Grid - Enhanced with container queries */
-  .patient-grid {
+      
+    .patient-grid {
     display: grid;
     gap: clamp(1rem, 2.5vw, 2.5rem);
     grid-template-columns: 1fr;
     container-type: inline-size;
   }
 
-  /* Container query support for better responsive behavior */
-  @container (min-width: 640px) {
+    @container (min-width: 640px) {
     .patient-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -400,8 +344,7 @@
     }
   }
 
-  /* Fallback media queries for older browsers */
-  @media (min-width: 641px) {
+    @media (min-width: 641px) {
     .patient-grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -444,8 +387,7 @@
     }
   }
 
-  /* Responsive Layout and Components - Consolidated */
-  @media (max-width: 1024px) {
+    @media (max-width: 1024px) {
     .dashboard-sidebar {
       transform: translateX(-100%);
     }
@@ -567,9 +509,7 @@
 
 
 
-  /* ===== ENHANCED DASHBOARD COMPONENTS ===== */
-  /* Layout Container Classes */
-  .layout-container {
+      .layout-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -585,8 +525,7 @@
   .main-container {
     flex: 1;
     display: flex;
-    min-height: 0; /* Allow flex item to shrink below content size */
-  }
+    min-height: 0;   }
 
 
   .main-container.home-layout {
@@ -604,11 +543,8 @@
   .sidebar-container {
     flex-shrink: 0;
     position: fixed;
-    top: 4rem; /* Position below navbar (h-16 = 4rem) */
-    left: 0;
-    height: calc(100vh - 4rem); /* Adjust height to account for navbar */
-    z-index: 30; /* Below navbar (z-index: 40) */
-    background-color: #131313 !important;
+    top: 4rem;     left: 0;
+    height: calc(100vh - 4rem);     z-index: 30;     background-color: #131313 !important;
   }
 
   .content-container {
@@ -644,28 +580,20 @@
 
   .dashboard-sidebar {
     width: 16rem;
-    height: calc(100vh - 4rem); /* Adjust height to account for navbar */
-    position: fixed;
-    top: 4rem; /* Position below navbar */
-    left: 0;
+    height: calc(100vh - 4rem);     position: fixed;
+    top: 4rem;     left: 0;
     display: flex;
     flex-direction: column;
-    padding: var(--space-md) 0; /* Restore normal padding */
-    z-index: 30; /* Below navbar (z-index: 40) */
-    --sidebar-width: 16rem;
+    padding: var(--space-md) 0;     z-index: 30;     --sidebar-width: 16rem;
     background-color: #131313 !important;
   }
 
 
-  /* Mobile sidebar behavior */
-  @media (max-width: 1024px) {
+    @media (max-width: 1024px) {
     .sidebar-container {
       position: fixed;
-      top: 4rem; /* Position below navbar */
-      left: 0;
-      height: calc(100vh - 4rem); /* Adjust height to account for navbar */
-      z-index: 30; /* Below navbar (z-index: 40) */
-      transform: translateX(-100%);
+      top: 4rem;       left: 0;
+      height: calc(100vh - 4rem);       z-index: 30;       transform: translateX(-100%);
     }
 
     .sidebar-container.mobile-open {
@@ -688,7 +616,7 @@
     }
 
     .content-container.with-sidebar {
-      margin-left: 0; /* Remove margin on mobile */
+      margin-left: 0; 
     }
   }
 
@@ -696,10 +624,10 @@
     flex: 1;
     padding: var(--space-xl);
     min-height: 100vh;
-    margin-top: 0; /* Remove any top margin that might interfere */
+    margin-top: 0; 
   }
 
-  /* Responsive dashboard main */
+  
   @media (max-width: 1024px) {
     .dashboard-main {
       margin-left: 0;
@@ -802,7 +730,7 @@
   .dashboard-table tbody tr:hover {
   }
 
-  /* ===== DASHBOARD PAGE LAYOUT ===== */
+  
   .dashboard-page {
     width: 100%;
     margin: 0 auto;
@@ -990,7 +918,7 @@
     font-size: 2rem;
   }
 
-  /* ===== GLOBAL SITE MENU ===== */
+  
   .site-menu {
     width: 100%;
     position: relative;
@@ -1233,8 +1161,8 @@
   }
 
 
-  /* ===== OPTIMIZED PERFORMANCE ANIMATIONS ===== */
-  /* Lightweight animations with better performance */
+  
+  
   
   @keyframes pulse {
     0%, 100% {
@@ -1258,20 +1186,20 @@
     animation: pulse 1.5s ease-in-out infinite;
   }
 
-  /* Optimized shimmer effect for loading states */
+  
   .skeleton-shimmer {
     background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
     background-size: 200% 100%;
     animation: shimmer 1.5s ease-in-out infinite;
   }
 
-  /* Performance optimizations */
+  
   .animate-pulse,
   .skeleton-shimmer {
     will-change: opacity, background-position;
   }
 
-  /* Reduce motion for accessibility */
+  
   @media (prefers-reduced-motion: reduce) {
     .animate-pulse,
     .skeleton-shimmer {
@@ -1339,7 +1267,7 @@
     border-radius: 0.6rem;
     margin-top: auto;
   }
-  /* ===== UNIFIED NAVIGATION CLASSES ===== */
+  
   .nav-item {
     display: flex;
     align-items: center;
@@ -1364,7 +1292,7 @@
     outline-offset: 2px;
   }
 
-  /* Navigation list styling */
+  
   .nav-list {
     list-style: none;
     padding: 0;
@@ -1379,7 +1307,7 @@
   }
 
 
-  /* ===== ENHANCED PATIENT COMPONENTS ===== */
+  
   .patients-page {
     min-height: 100vh;
     display: flex;
@@ -1468,7 +1396,7 @@
     padding-bottom: 2rem;
   }
 
-  /* Patient grid is already defined above in responsive section */
+  
 
   .patients-feedback {
     text-align: center;
@@ -1744,7 +1672,7 @@
     margin-bottom: 1.1rem;
   }
 
-  /* ===== STATUS TAGS ===== */
+  
   .status-tag {
     font-size: 0.75rem;
     letter-spacing: 0.02em;
@@ -1765,7 +1693,7 @@
   .status-tag--good {
   }
 
-  /* Force status tag colors with !important */
+  
   .status-tag.bg-\[var\(--color-primary-green\)\] {
     background-color: var(--color-primary-green) !important;
   }
@@ -1778,7 +1706,7 @@
     background-color: var(--color-primary-violet) !important;
   }
 
-  /* Force pill colors with !important */
+  
   .pill.bg-\[var\(--color-primary-green\)\] {
     background-color: var(--color-primary-green) !important;
   }
@@ -1888,7 +1816,7 @@
       min-height: 16rem;
     }
 
-    /* Patient detail page mobile improvements */
+    
     .patient-detail-header {
       padding: 1rem 0;
     }
@@ -1969,7 +1897,7 @@
       min-height: 44px;
     }
   }
-  /* ===== TEXT UTILITIES ===== */
+  
   .line-clamp-2 {
     overflow: hidden;
     display: -webkit-box;
@@ -1979,7 +1907,7 @@
   }
 
 
-  /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+  
   @media (prefers-reduced-motion: reduce) {
     .patient-card,
     .patient-avatar-image,
@@ -1994,7 +1922,7 @@
     }
   }
 
-  /* ===== FOCUS ENHANCEMENTS ===== */
+  
   .admin-nav-item:focus,
   .user-nav-item:focus {
     outline: 2px solid var(--color-focus-blue);
@@ -2072,15 +2000,15 @@
     font-size: var(--font-size-sm);
   }
 
-  /* ===== FILTER BUTTON STYLES ===== */
-  /* Force remove borders from all filter buttons */
+  
+  
   .dashboard-pill-nav__button[class*="filter-button"] {
     border: none !important;
     box-shadow: none !important;
     outline: none !important;
   }
 
-  /* ===== TOAST NOTIFICATIONS ===== */
+  
   .toast-container {
     position: fixed;
     top: 20px;
@@ -2229,8 +2157,7 @@
     isolation: isolate;
   }
 
-  /* Responsive image optimization */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .home-hero {
       min-height: 480px;
       padding: 4rem 0;
@@ -2306,7 +2233,7 @@
     top: 0;
     bottom: -3.5rem;
     width: 8px;
-    background: #3D413B; /* Updated color - no more gradient */
+    background: #3D413B; 
     border-radius: 4px;
     transform: translateX(-50%);
     z-index: 1;
@@ -2503,25 +2430,21 @@
     background-color: var(--color-navbar-dark) !important;
   }
 
-  /* ===== NAVBAR BACKGROUND STYLES ===== */
-  .navbar-background {
+    .navbar-background {
     background-color: var(--color-navbar-dark) !important;
   }
 
-  /* Force navbar background on all navbar elements */
-  header.navbar-background,
+    header.navbar-background,
   .site-menu.navbar-background,
   .dashboard-header.navbar-background {
     background-color: var(--color-navbar-dark) !important;
   }
 
-  /* ===== PAGE BACKGROUND STYLES ===== */
-  .page-background {
+    .page-background {
     background-color: var(--color-page-background) !important;
   }
 
-  /* ===== PRIMARY COLOR BACKGROUNDS ===== */
-  .bg-primary-green {
+    .bg-primary-green {
     background-color: var(--color-primary-green) !important;
   }
 
@@ -2538,14 +2461,12 @@
     background-color: var(--color-primary-violet) !important;
   }
 
-  /* ===== HOVER STATES ===== */
-  .hover-bg-primary-green-10:hover {
+    .hover-bg-primary-green-10:hover {
     background-color: var(--color-primary-green) !important;
     opacity: 0.1;
   }
 
-  /* ===== TEXT COLORS ===== */
-  .text-primary-green {
+    .text-primary-green {
     color: var(--color-primary-green) !important;
   }
 
@@ -2557,21 +2478,17 @@
     color: var(--color-primary-violet) !important;
   }
 
-  /* ===== PROGRESS BAR STYLES ===== */
-  .progress-bar-primary-green {
+    .progress-bar-primary-green {
     background-color: var(--color-primary-green) !important;
   }
 
-  /* Removed problematic child selector that was overriding progress indicator */
-
-  /* Image auto size utility class */
-  .image-auto-size {
+  
+    .image-auto-size {
     width: auto !important;
     height: auto !important;
   }
 
-  /* Skeleton shimmer effect */
-  .skeleton--shimmer {
+    .skeleton--shimmer {
     position: relative;
     overflow: hidden;
   }
@@ -2588,8 +2505,7 @@
     animation: shimmer 1.5s ease-in-out infinite;
   }
 
-  /* Sidebar provider classes */
-  .sidebar-provider {
+    .sidebar-provider {
     --sidebar-width: 16rem;
     --sidebar-width-icon: 3rem;
     --sidebar-width-mobile: 18rem;
@@ -2599,8 +2515,7 @@
     --sidebar-width: 18rem;
   }
 
-  /* Sidebar menu skeleton width classes */
-  .sidebar-menu-skeleton-text--w-50 {
+    .sidebar-menu-skeleton-text--w-50 {
     --skeleton-width: 50%;
   }
 
@@ -2620,10 +2535,8 @@
     --skeleton-width: 90%;
   }
 
-  /* Progress indicator class - removed as it was conflicting with Radix UI behavior */
-
-  /* Chat bubble styles */
-  .chat-bubble--patient {
+  
+    .chat-bubble--patient {
     background-color: var(--color-chat-bubble-patient);
   }
 
@@ -2659,8 +2572,7 @@
     border-radius: 0.75rem;
   }
 
-  /* Avatar color classes */
-  .avatar-color-olive {
+    .avatar-color-olive {
     background-color: #8B9769;
   }
 
@@ -2873,8 +2785,7 @@
   .home-footer-links a:hover {
   }
 
-  /* Additional mobile footer centering for broader coverage */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .home-footer-links {
       justify-content: center !important;
     }
@@ -2886,8 +2797,7 @@
       align-items: center !important;
     }
     
-    /* Centra hero su tablet e mobile */
-    .home-hero-inner {
+        .home-hero-inner {
       text-align: center !important;
     }
     
@@ -2994,8 +2904,7 @@
       text-align: center;
     }
     
-    /* Centra anche i bottoni con classi Tailwind */
-    .home-hero-inner .flex {
+        .home-hero-inner .flex {
       justify-content: center !important;
       align-items: center !important;
     }
@@ -3079,9 +2988,7 @@
     }
   }
 
-  /* ===== PILL NAVIGATION STYLES ===== */
-  /* Therapy session avatar - small and square */
-  .therapy-session-avatar {
+      .therapy-session-avatar {
     width: 3rem;
     height: 3rem;
     flex-shrink: 0;
@@ -3103,8 +3010,7 @@
     object-position: center;
   }
 
-  /* Breadcrumb Navigation */
-  .breadcrumb-link {
+    .breadcrumb-link {
     text-decoration: none;
     transition: color 0.2s ease-in-out;
   }
@@ -3118,10 +3024,8 @@
     border-radius: 0.25rem;
   }
 
-  /* ===== INLINE STYLES MOVED TO CSS CLASSES ===== */
-  
-  /* Chat Content Styles */
-  .chat-container {
+    
+    .chat-container {
     height: calc(100vh - 5rem);
     min-height: calc(100vh - 5rem);
   }
@@ -3136,8 +3040,7 @@
     height: 40px;
   }
   
-  /* Typing Indicator Animation Styles */
-  .typing-dot {
+    .typing-dot {
     animation-delay: 0ms;
     animation-duration: 1.4s;
   }
@@ -3152,8 +3055,7 @@
     animation-duration: 1.4s;
   }
   
-  /* Timeline Styles */
-  .timeline-step {
+    .timeline-step {
     opacity: 1;
     filter: none;
   }
@@ -3167,8 +3069,7 @@
     font-size: 18px;
   }
   
-  /* Progress Bar Styles */
-  .progress-bar {
+    .progress-bar {
     width: 100%;
   }
   
@@ -3193,8 +3094,7 @@
   }
   
   
-  /* Chart Bar Styles */
-  .chart-bar {
+    .chart-bar {
     height: 100%;
   }
   
@@ -3214,8 +3114,7 @@
     height: 75%;
   }
   
-  /* Completion Progress Styles */
-  .completion-progress--80 {
+    .completion-progress--80 {
     width: 80%;
   }
   
@@ -3239,13 +3138,11 @@
     width: 90%;
   }
   
-  /* Dynamic Progress Utility - for JavaScript controlled widths */
-  .progress-bar-dynamic {
+    .progress-bar-dynamic {
     transition: width 0.3s ease;
   }
   
-  /* Timeline Positioning Utilities */
-  .timeline-step-positioned {
+    .timeline-step-positioned {
     position: absolute;
     transform: translateX(-50%) translateY(-50%);
     display: flex;
@@ -3282,13 +3179,11 @@
     box-shadow: none;
   }
 
-  /* Timeline path styling for mobile */
-  .stroke-timeline-path {
+    .stroke-timeline-path {
     background-color: #3d413b;
   }
 
-  /* Timeline step colors - force with maximum specificity */
-  .timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
+    .timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
   .timeline-step-positioned.timeline-desktop-step[data-step-id="2"] {
     background-color: #8B9769 !important;
     background: #8B9769 !important;
@@ -3311,8 +3206,7 @@
     background: #9690B6 !important;
   }
 
-  /* Force with even higher specificity */
-  div.timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
+    div.timeline-step-positioned.timeline-desktop-step[data-step-id="1"],
   div.timeline-step-positioned.timeline-desktop-step[data-step-id="2"] {
     background-color: #8B9769 !important;
     background: #8B9769 !important;
@@ -3335,8 +3229,7 @@
     background: #9690B6 !important;
   }
 
-  /* Mobile timeline colors */
-  .timeline-mobile-step[data-step-id="1"],
+    .timeline-mobile-step[data-step-id="1"],
   .timeline-mobile-step[data-step-id="2"] {
     background-color: #8B9769 !important;
     background: #8B9769 !important;
@@ -3359,8 +3252,7 @@
     background: #9690B6 !important;
   }
 
-  /* Force timeline colors with maximum specificity - override everything */
-  div[data-step-id="1"],
+    div[data-step-id="1"],
   div[data-step-id="2"] {
     background-color: #8B9769 !important;
     background: #8B9769 !important;
@@ -3384,4 +3276,3 @@
   }
 }
 
-/* ===== REMOVED UNUSED UTILITY CLASSES ===== */

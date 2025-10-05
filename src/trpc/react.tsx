@@ -9,16 +9,16 @@ import SuperJSON from "superjson";
 import { type AppRouter } from "~/server/api/root";
 import { createQueryClient } from "./query-client";
 
-// Get environment variables for client-side usage
+
 const isDevelopment = process.env.NEXT_PUBLIC_NODE_ENV === "development" || process.env.NODE_ENV === "development";
 
 let clientQueryClientSingleton: QueryClient | undefined = undefined;
 const getQueryClient = () => {
   if (typeof window === "undefined") {
-    // Server: always make a new query client
+    
     return createQueryClient();
   }
-  // Browser: use singleton pattern to keep the same query client
+  
   clientQueryClientSingleton ??= createQueryClient();
 
   return clientQueryClientSingleton;
@@ -61,8 +61,8 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
 
 function getBaseUrl() {
   if (typeof window !== "undefined") return window.location.origin;
-  // For server-side rendering, we can still access process.env
+  
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   if (process.env.NEXTAUTH_URL) return process.env.NEXTAUTH_URL;
-  return `http://localhost:${process.env.PORT ?? 3000}`;
+  return `http://localhost:3000`;
 }

@@ -1,9 +1,6 @@
-/* ===== FORM STYLES ===== */
-/* Comprehensive form styling system for consistent form display across the application */
 
 @layer components {
-  /* ===== ENHANCED LABELS ===== */
-  .label {
+    .label {
     display: block;
     font-size: var(--font-size-sm);
     font-weight: 600;
@@ -28,16 +25,14 @@
     font-size: 0.8rem;
   }
 
-  /* ===== FORM FIELD HELP TEXT ===== */
-  .field-help {
+    .field-help {
     font-size: 0.8rem;
     color: rgba(255, 255, 255, 0.6);
     margin-top: 0.25rem;
     line-height: 1.4;
   }
 
-  /* ===== ENHANCED FORM VALIDATION ===== */
-  .form-validation {
+    .form-validation {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -92,8 +87,7 @@
     flex-shrink: 0;
   }
 
-  /* ===== FORM FIELD CHARACTER COUNT ===== */
-  .field-character-count {
+    .field-character-count {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -110,8 +104,7 @@
     color: var(--color-error);
   }
 
-  /* ===== FORM LOADING STATES ===== */
-  .form-loading {
+    .form-loading {
     position: relative;
     pointer-events: none;
     opacity: 0.7;
@@ -136,8 +129,7 @@
     100% { transform: translateY(-50%) rotate(360deg); }
   }
 
-  /* ===== FORM FIELD GROUPS ===== */
-  .form-field-group {
+    .form-field-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -154,8 +146,7 @@
     white-space: nowrap;
   }
 
-  /* ===== FORM ACTIONS ===== */
-  .form-actions {
+    .form-actions {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
@@ -183,8 +174,7 @@
     }
   }
 
-  /* ===== FORM PROGRESS INDICATOR ===== */
-  .form-progress {
+    .form-progress {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -216,8 +206,7 @@
     white-space: nowrap;
   }
 
-  /* ===== UNIFIED AUTHENTICATION FORM STYLES ===== */
-  .unified-auth-container {
+    .unified-auth-container {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -252,8 +241,7 @@
     line-height: 1.6;
   }
 
-  /* ===== DARK THEME AUTHENTICATION PAGES ===== */
-  .auth-container {
+    .auth-container {
     min-height: 100vh;
     display: flex;
   }
@@ -432,8 +420,7 @@
     animation: spin 1s linear infinite;
   }
 
-  /* ===== RESPONSIVE FORM ADJUSTMENTS ===== */
-  @media (max-width: 640px) {
+    @media (max-width: 640px) {
     .unified-auth-container {
       padding: 1rem;
     }
@@ -468,8 +455,7 @@
     }
   }
 
-  /* ===== FORM FIELD INDENTATION ===== */
-  .field-indent-1 {
+    .field-indent-1 {
     padding-left: 1.15rem;
   }
   
@@ -485,8 +471,7 @@
     padding-left: 4.6rem;
   }
 
-  /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
-  @media (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion: reduce) {
     .form-loading::after,
     .auth-spinner {
       animation: none;
@@ -494,8 +479,7 @@
   }
 
 
-  /* ===== HIGH CONTRAST MODE ===== */
-  @media (prefers-contrast: high) {
+    @media (prefers-contrast: high) {
     .auth-input,
     .auth-input-error {
       border-width: 2px;
@@ -506,15 +490,12 @@
     }
   }
 
-  /* ===== FORM ELEMENT STYLES ===== */
-  /* Global button background color override */
-  button, [role="button"], input[type="button"], input[type="submit"] {
+      button, [role="button"], input[type="button"], input[type="submit"] {
     background-color: var(--color-primary-green) !important;
     color: var(--color-text-primary) !important;
   }
 
-  /* Remove sound effects from password toggle and other buttons */
-  button, [role="button"], input[type="button"], input[type="submit"] {
+    button, [role="button"], input[type="button"], input[type="submit"] {
     -webkit-tap-highlight-color: transparent !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
@@ -528,8 +509,7 @@
     appearance: none !important;
   }
 
-  /* Specifically target password toggle button to remove any sound */
-  button[type="button"]:hover,
+    button[type="button"]:hover,
   button[type="button"]:active,
   button[type="button"]:focus {
     -webkit-tap-highlight-color: transparent !important;
@@ -537,8 +517,7 @@
     box-shadow: none !important;
   }
 
-  /* Password toggle button specific styling to remove sound */
-  .relative button[type="button"] {
+    .relative button[type="button"] {
     -webkit-tap-highlight-color: transparent !important;
     -webkit-touch-callout: none !important;
     -webkit-user-select: none !important;
@@ -561,8 +540,7 @@
     transition: none !important;
   }
 
-  /* Enhanced Form Field Styling */
-  input[type="text"], 
+    input[type="text"], 
   input[type="email"], 
   input[type="password"], 
   input[type="number"], 
@@ -621,8 +599,7 @@
     font-weight: 400 !important;
   }
 
-  /* Form field disabled state */
-  input[type="text"]:disabled, 
+    input[type="text"]:disabled, 
   input[type="email"]:disabled, 
   input[type="password"]:disabled, 
   input[type="number"]:disabled, 
@@ -637,8 +614,7 @@
     border-color: rgba(255, 255, 255, 0.05) !important;
   }
 
-  /* Checkbox and Radio Button Styling */
-  input[type="checkbox"], 
+    input[type="checkbox"], 
   input[type="radio"] {
     width: 1.25rem !important;
     height: 1.25rem !important;
@@ -663,8 +639,7 @@
   }
 
 
-  /* Preserve essential transitions for UX */
-  button:hover {
+    button:hover {
     transition-duration: 0.15s !important;
   }
 }

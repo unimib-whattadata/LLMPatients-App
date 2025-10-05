@@ -1,9 +1,3 @@
-/**
- * Create Patient Content Component
- *
- * Interface for creating new patient cases and medical scenarios
- * for student clinical simulations
- */
 
 "use client";
 
@@ -209,7 +203,7 @@ export function CreatePatientContent() {
               })}
               className="space-y-8"
             >
-            {/* Basic Information */}
+            {}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Informazioni Base</h3>
               <p className="text-sm text-gray-400 mb-6">Dati essenziali del paziente</p>
@@ -276,7 +270,7 @@ export function CreatePatientContent() {
               />
             </div>
 
-            {/* Objectives */}
+            {}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Obiettivi Terapeutici</h3>
               <p className="text-sm text-gray-400 mb-6">Definisci gli obiettivi del trattamento</p>
@@ -325,7 +319,7 @@ export function CreatePatientContent() {
               </Button>
             </div>
 
-            {/* Configuration */}
+            {}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Configurazione Caso</h3>
               <p className="text-sm text-gray-400 mb-6">Impostazioni per la simulazione</p>
@@ -427,7 +421,7 @@ export function CreatePatientContent() {
               />
             </div>
 
-            {/* Patient Details (JSON) */}
+            {}
             <div className="dashboard-panel">
               <h3 className="text-lg font-semibold mb-4 text-white">Dettagli Paziente (JSON)</h3>
               <p className="text-sm text-gray-400 mb-6">Informazioni strutturate del paziente in formato JSON</p>

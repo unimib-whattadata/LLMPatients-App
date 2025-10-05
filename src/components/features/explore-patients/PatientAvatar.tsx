@@ -12,24 +12,24 @@ interface PatientAvatarProps {
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
-  "", // Pink
-  "", // Purple
-  "", // Deep Purple
-  "", // Indigo
-  "", // Blue
-  "", // Light Blue
-  "", // Cyan
-  "", // Teal
-  "", // Green
-  "", // Light Green
-  "", // Lime
-  "", // Yellow
-  "", // Amber
-  "", // Orange
-  "", // Deep Orange
-  "", // Brown
-  "", // Blue Grey
-  "", // Grey
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
+  "", 
 ];
 
 function initialsFromName(name: string) {
@@ -42,15 +42,15 @@ function initialsFromName(name: string) {
 }
 
 function colorIndexFor(name: string) {
-  // Use a better hash function for better distribution
+  
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     const char = name.charCodeAt(i);
     hash = (hash << 5) - hash + char;
-    hash = hash & hash; // Convert to 32-bit integer
+    hash = hash & hash; 
   }
 
-  // Use absolute value and ensure we get a good distribution
+  
   return Math.abs(hash) % COLOR_SWATCHES.length;
 }
 

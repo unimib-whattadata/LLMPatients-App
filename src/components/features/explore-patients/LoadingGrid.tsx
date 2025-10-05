@@ -1,7 +1,3 @@
-/**
- * LoadingGrid Component
- * Enhanced loading component for patient cards using consistent skeleton system
- */
 
 import { PatientCardSkeleton } from "~/components/ui/skeleton-variants";
 

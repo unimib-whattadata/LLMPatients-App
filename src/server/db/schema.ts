@@ -6,14 +6,8 @@ import {
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 import { randomUUID } from "crypto";
-// import { type AdapterAccount } from "next-auth/adapters";
 
-/**
- * AdapterAccount type for NextAuth v5 beta compatibility
- *
- * Manually defined type to ensure compatibility with the current NextAuth version.
- * Contains OAuth provider account information and tokens.
- */
+
 type AdapterAccount = {
   type: "oauth" | "email" | "credentials";
   provider: string;
@@ -27,22 +21,8 @@ type AdapterAccount = {
   session_state?: string;
 };
 
-/**
- * Table creator for multi-project schema support
- *
- * Uses Drizzle ORM's multi-project schema feature to prefix all tables with 'llmpatient_'.
- * This allows multiple projects to share the same database instance without conflicts.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
 export const createTable = sqliteTableCreator((name) => `llmpatient_${name}`);
 
-/**
- * Users table for authentication and user management
- *
- * Stores user account information including authentication credentials,
- * profile data, and role-based access control.
- */
 export const users = createTable(
   "user",
   (d) => ({
@@ -54,20 +34,20 @@ export const users = createTable(
     name: d.text({ length: 255 }),
     email: d.text({ length: 255 }).notNull(),
     password: d.text({ length: 255 }),
-    // Role field for user access control - 'admin' or 'user'
+    
     role: d.text({ length: 20 }).default("user").notNull(),
     emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
     image: d.text({ length: 255 }),
   }),
   (t) => [
-    // Indexes for common query patterns
+    
     index("users_email_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
   ],
 );
 
-// Note: usersRelations replaced by extendedUsersRelations below to include impersonation relations
+
 
 export const accounts = createTable(
   "account",
@@ -126,7 +106,7 @@ export const verificationTokens = createTable(
   (t) => [primaryKey({ columns: [t.identifier, t.token] })],
 );
 
-// User activities table for tracking dashboard actions
+
 export const userActivities = createTable(
   "user_activity",
   (d) => ({
@@ -135,9 +115,9 @@ export const userActivities = createTable(
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    // Activity type: 'login', 'profile_update', 'simulation', 'dashboard_view'
+    
     activityType: d.text({ length: 50 }).notNull(),
-    // JSON string for additional activity metadata
+    
     metadata: d.text(),
     createdAt: d
       .integer({ mode: "timestamp" })
@@ -154,7 +134,7 @@ export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
   user: one(users, { fields: [userActivities.userId], references: [users.id] }),
 }));
 
-// Impersonation session tracking table
+
 export const impersonationSessions = createTable(
   "impersonation_session",
   (d) => ({
@@ -163,29 +143,29 @@ export const impersonationSessions = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    // Admin user who initiated the impersonation
+    
     adminUserId: d
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    // Target user being impersonated
+    
     targetUserId: d
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    // Session timing
+    
     startedAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
     endedAt: d.integer({ mode: "timestamp" }),
-    // Session status
+    
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
-    // Session metadata
+    
     sessionToken: d.text({ length: 255 }),
-    ipAddress: d.text({ length: 45 }), // IPv6 compatible
+    ipAddress: d.text({ length: 45 }), 
     userAgent: d.text({ length: 500 }),
-    // Optional reason for impersonation
+    
     reason: d.text({ length: 500 }),
   }),
   (t) => [
@@ -196,7 +176,7 @@ export const impersonationSessions = createTable(
   ],
 );
 
-// Audit log for impersonation events
+
 export const impersonationAuditLog = createTable(
   "impersonation_audit_log",
   (d) => ({
@@ -205,23 +185,23 @@ export const impersonationAuditLog = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    // Reference to impersonation session
+    
     impersonationSessionId: d
       .text({ length: 255 })
       .notNull()
       .references(() => impersonationSessions.id),
-    // Action details
-    actionType: d.text({ length: 50 }).notNull(), // 'START', 'END', 'ACTION_PERFORMED', 'SESSION_REFRESH'
-    actionDetails: d.text({ length: 1000 }), // JSON string for detailed action data
-    // Timing
+    
+    actionType: d.text({ length: 50 }).notNull(), 
+    actionDetails: d.text({ length: 1000 }), 
+    
     performedAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
       .notNull(),
-    // Request metadata
+    
     ipAddress: d.text({ length: 45 }),
     userAgent: d.text({ length: 500 }),
-    // Additional context
+    
     requestPath: d.text({ length: 255 }),
     requestMethod: d.text({ length: 10 }),
   }),
@@ -232,7 +212,7 @@ export const impersonationAuditLog = createTable(
   ],
 );
 
-// Relations for impersonation tables
+
 export const impersonationSessionsRelations = relations(
   impersonationSessions,
   ({ one, many }) => ({
@@ -260,7 +240,7 @@ export const impersonationAuditLogRelations = relations(
   }),
 );
 
-// Patients table for patient exploration page
+
 export const patients = createTable(
   "patient",
   (d) => ({
@@ -270,16 +250,16 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => randomUUID()),
     name: d.text({ length: 255 }).notNull(),
-    smallDescription: d.text({ length: 500 }).notNull(), // Brief description of the case
-    details: d.text().notNull(), // JSON string containing all patient details
+    smallDescription: d.text({ length: 500 }).notNull(), 
+    details: d.text().notNull(), 
     background: d.text({ length: 2000 }).notNull(),
-    objectives: d.text({ length: 2000 }).notNull(), // JSON array of objectives
+    objectives: d.text({ length: 2000 }).notNull(), 
     avatarUrl: d.text({ length: 500 }),
-    avatarType: d.text({ length: 20 }).default("illustration").notNull(), // 'photo', 'illustration', 'avatar'
-    difficulty: d.integer({ mode: "number" }).notNull(), // 1: Facile, 2: Medio, 3: Difficile
-    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), // minutes
+    avatarType: d.text({ length: 20 }).default("illustration").notNull(), 
+    difficulty: d.integer({ mode: "number" }).notNull(), 
+    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), 
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
-    externalPatientId: d.text({ length: 255 }), // External patient ID from AI service
+    externalPatientId: d.text({ length: 255 }), 
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)
@@ -290,12 +270,12 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
-    index("virtual_patient_name_idx").on(t.name), // For LIKE searches
-    index("virtual_patient_external_id_idx").on(t.externalPatientId), // For external ID lookups
+    index("virtual_patient_name_idx").on(t.name), 
+    index("virtual_patient_external_id_idx").on(t.externalPatientId), 
   ],
 );
 
-// Relations for patients
+
 export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
 }));
@@ -328,8 +308,8 @@ export const therapySessions = createTable(
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
-    index("therapy_session_updated_at_idx").on(t.updatedAt), // For ordering by updatedAt
-    index("therapy_session_completed_idx").on(t.isCompleted), // For filtering completed sessions
+    index("therapy_session_updated_at_idx").on(t.updatedAt), 
+    index("therapy_session_completed_idx").on(t.isCompleted), 
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );
@@ -349,7 +329,7 @@ export const therapySessionsRelations = relations(
   }),
 );
 
-// Chat table for storing chat conversations per step
+
 export const chat = createTable(
   "chat",
   (d) => ({
@@ -362,9 +342,9 @@ export const chat = createTable(
       .text({ length: 255 })
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer({ mode: "number" }).notNull(), // 1, 2, 3, etc.
-    messages: d.text().notNull(), // JSON string containing chat messages
-    done: d.integer({ mode: "boolean" }).default(false).notNull(), // true when step is completed
+    stepNumber: d.integer({ mode: "number" }).notNull(), 
+    messages: d.text().notNull(), 
+    done: d.integer({ mode: "boolean" }).default(false).notNull(), 
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(unixepoch())`)

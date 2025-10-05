@@ -1,9 +1,3 @@
-/**
- * Manage Users Content Component
- *
- * Interface for managing user accounts, roles, and permissions
- * for admin users only
- */
 
 "use client";
 
@@ -13,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { inferRouterInputs } from "@trpc/server";
 
-// Get environment variables for client-side usage
+
 const isDevelopment =
   process.env.NEXT_PUBLIC_NODE_ENV === "development" ||
   process.env.NODE_ENV === "development";
@@ -103,7 +97,7 @@ export function ManageUsersContent() {
   const searchParams = useSearchParams();
   const specialKey = searchParams.get("specialKey");
 
-  // State management
+  
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedRole, setSelectedRole] = useState<"all" | "admin" | "user">(
     "all",
@@ -130,17 +124,17 @@ export function ManageUsersContent() {
     },
   });
 
-  // Access control check
+  
   const hasAccess = React.useMemo(() => {
-    // Development bypass
+    
     if (isDevelopment && specialKey === "DavideIsTesting") {
       return true;
     }
-    // Production admin access
+    
     return session?.user?.role === "admin";
   }, [session, specialKey]);
 
-  // API queries and mutations
+  
   const isDevelopmentAccess = isDevelopment && specialKey === "DavideIsTesting";
 
   const {
@@ -208,7 +202,7 @@ export function ManageUsersContent() {
     },
   });
 
-  // Access control redirect
+  
   useEffect(() => {
     if (status === "loading") return;
 
@@ -217,7 +211,7 @@ export function ManageUsersContent() {
     }
   }, [hasAccess, status, router]);
 
-  // Initialize edit form when editing user
+  
   useEffect(() => {
     if (editingUser) {
       editUserForm.reset({
@@ -227,7 +221,7 @@ export function ManageUsersContent() {
     }
   }, [editingUser, editUserForm]);
 
-  // Handle form submissions
+  
   const handleCreateUser = createUserForm.handleSubmit(async (values) => {
     try {
       if (isDevelopmentAccess) {
@@ -285,11 +279,11 @@ export function ManageUsersContent() {
     }
   };
 
-  // Loading state
+  
   if (status === "loading" || (hasAccess && usersLoading)) {
     return (
       <div className="dashboard-panel-stack">
-        {/* Header skeleton */}
+        {}
         <section className="dashboard-section">
           <div className="dashboard-section__header">
             <div>
@@ -299,7 +293,7 @@ export function ManageUsersContent() {
           </div>
         </section>
 
-        {/* Statistics skeleton */}
+        {}
         <section className="dashboard-section">
           <div className="dashboard-section__header">
             <div>
@@ -317,7 +311,7 @@ export function ManageUsersContent() {
           </div>
         </section>
 
-        {/* User Management skeleton */}
+        {}
         <section className="dashboard-section">
           <div className="dashboard-section__header">
             <div>
@@ -328,13 +322,13 @@ export function ManageUsersContent() {
           </div>
 
           <div className="dashboard-panel">
-            {/* Filters skeleton */}
+            {}
             <div className="mb-6 flex flex-col gap-4 sm:flex-row">
               <Skeleton variant="text" className="h-10 flex-1" />
               <Skeleton variant="text" className="h-10 w-32" />
             </div>
 
-            {/* Table skeleton */}
+            {}
             <div className="overflow-x-auto">
               <table className="dashboard-table">
                 <thead>
@@ -385,7 +379,7 @@ export function ManageUsersContent() {
     );
   }
 
-  // Access denied
+  
   if (!hasAccess) {
     return (
       <div className="bg-background-primary flex min-h-screen items-center justify-center">
@@ -410,7 +404,7 @@ export function ManageUsersContent() {
 
   return (
     <div className="dashboard-panel-stack">
-      {/* Development Access Notice */}
+      {}
       {isDevelopmentAccess && (
         <section className="dashboard-section" aria-labelledby="dev-notice">
           <div className="dashboard-panel">
@@ -426,7 +420,7 @@ export function ManageUsersContent() {
         </section>
       )}
 
-      {/* Statistics */}
+      {}
       {userStats && (
         <section className="dashboard-section" aria-labelledby="user-stats">
           <div className="dashboard-section__header">
@@ -467,7 +461,7 @@ export function ManageUsersContent() {
         </section>
       )}
 
-      {/* User Management */}
+      {}
       <section className="dashboard-section" aria-labelledby="user-management">
         <div className="dashboard-section__header">
           <div>
@@ -484,7 +478,7 @@ export function ManageUsersContent() {
         </div>
 
         <div className="dashboard-panel">
-          {/* Filters */}
+          {}
           <div className="mb-6 flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
               <Input
@@ -513,7 +507,7 @@ export function ManageUsersContent() {
             </div>
           </div>
 
-          {/* Users Table */}
+          {}
           {users.length === 0 ? (
             <EmptyState
               icon={<Users className="h-12 w-12" aria-hidden="true" />}

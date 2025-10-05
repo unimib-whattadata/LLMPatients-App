@@ -10,9 +10,6 @@ import { getNavItems as getNavigationItems } from "./navigationUtils";
 import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { Button } from "~/components/ui/button";
 
-/**
- * User interface for navigation context
- */
 interface User {
   id: string;
   name: string | null;
@@ -21,9 +18,6 @@ interface User {
   image?: string | null;
 }
 
-/**
- * Impersonation context for admin users
- */
 interface ImpersonationContext {
   isImpersonating: boolean;
   originalAdminId: string;
@@ -34,18 +28,12 @@ interface ImpersonationContext {
   sessionId: string;
 }
 
-/**
- * Navigation item structure
- */
 interface NavItem {
   label: string;
   href: string;
   icon: React.ComponentType<{ className?: string }>;
 }
 
-/**
- * Navigation section containing multiple items
- */
 interface NavSection {
   title: string;
   items: NavItem[];
@@ -64,29 +52,6 @@ interface NavbarProps {
   showSidebar?: boolean;
 }
 
-/**
- * Navbar Component
- *
- * Unified navigation component that handles all navigation across different page types.
- * Provides responsive navigation with mobile support, user authentication, and admin features.
- *
- * Features:
- * - Responsive mobile navigation with hamburger menu
- * - User authentication state display
- * - Admin impersonation functionality
- * - Dynamic navigation items based on user role
- * - Sidebar toggle for dashboard layouts
- * - Breadcrumb navigation
- *
- * @param user - Current user information
- * @param impersonation - Impersonation context for admin users
- * @param layoutType - Layout type ("dashboard" or "home")
- * @param currentPage - Current page identifier
- * @param onSidebarToggle - Callback for sidebar toggle
- * @param sidebarCollapsed - Whether sidebar is collapsed
- * @param showSidebar - Whether to show sidebar toggle
- * @returns JSX element containing the navigation bar
- */
 export function Navbar({
   user,
   impersonation,
@@ -106,15 +71,15 @@ export function Navbar({
     }
   }, [isDesktop]);
 
-  // Close mobile menu when route changes
+  
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  // Get navigation items based on user role and impersonation status
+  
   const navItems = user ? getNavigationItems(user, impersonation) : [];
 
-  // Determine display user (impersonated or actual)
+  
   const displayUser = impersonation?.isImpersonating
     ? {
         id: impersonation.targetUserId,
@@ -124,7 +89,7 @@ export function Navbar({
       }
     : user;
 
-  // Handle logout
+  
   const handleLogout = async () => {
     try {
       const callbackUrl =
@@ -132,21 +97,21 @@ export function Navbar({
       await signOut({ callbackUrl });
     } catch (error) {
       console.error("Logout error:", error);
-      // Fallback: redirect manually if signOut fails
+      
       if (typeof window !== "undefined") {
         window.location.href = "/";
       }
     }
   };
 
-  // Render dashboard header
+  
   const renderDashboardHeader = () => (
     <header className="dashboard-header navbar-background">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Left section: Menu toggle + Logo */}
+          {}
           <div className="flex items-center space-x-4">
-            {/* Mobile menu toggle */}
+            {}
             <Button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               variant="ghost"
@@ -162,7 +127,7 @@ export function Navbar({
               )}
             </Button>
 
-            {/* Logo */}
+            {}
             <Link
               href="/"
               className="flex items-center rounded-md focus:outline-none"
@@ -181,16 +146,16 @@ export function Navbar({
             </Link>
           </div>
 
-          {/* Right section: User info + Controls */}
+          {}
           <div className="flex items-center space-x-2 sm:space-x-4">
-            {/* User name - hidden on mobile */}
+            {}
             {displayUser && (
               <span className="text-text-primary/90 hidden max-w-32 truncate text-sm font-medium md:inline">
                 {displayUser.name ?? displayUser.email}
               </span>
             )}
 
-            {/* Role badge */}
+            {}
             {displayUser && (
               <span
                 className={`pill pill--sm ${
@@ -208,7 +173,7 @@ export function Navbar({
               </span>
             )}
 
-            {/* Logout button */}
+            {}
             {displayUser && (
               <Button
                 onClick={handleLogout}
@@ -223,7 +188,7 @@ export function Navbar({
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {}
       {mobileMenuOpen && (
         <div
           className="lg:hidden"
@@ -266,7 +231,7 @@ export function Navbar({
                 })}
               </div>
 
-              {/* Mobile user info */}
+              {}
               {displayUser && (
                 <div
                   className="mt-6 pt-6"
@@ -308,7 +273,7 @@ export function Navbar({
     </header>
   );
 
-  // Render home page header
+  
   const renderHomeHeader = () => {
     const menuLinks = [
       { label: "Home", href: "/" },
@@ -457,7 +422,7 @@ export function Navbar({
             </ul>
           </nav>
 
-          {/* Spacer to push right content to the right */}
+          {}
           <div className="flex-1" />
 
           <div className="site-menu__right">{desktopActions}</div>
@@ -507,7 +472,7 @@ export function Navbar({
 
   return (
     <>
-      {/* Header */}
+      {}
       <div className="header-container">
         <div role="banner">
           {layoutType === "dashboard"
@@ -519,7 +484,7 @@ export function Navbar({
   );
 }
 
-// Export types and utilities
+
 export type {
   User,
   ImpersonationContext,

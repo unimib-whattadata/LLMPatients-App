@@ -10,7 +10,7 @@ export const createQueryClient = () =>
   new QueryClient({
     defaultOptions: {
       queries: {
-        // Avoid persisting stale data in development for faster feedback loops
+        
         staleTime: isDevelopment ? 0 : 30 * 1000,
         ...(isDevelopment ? { refetchOnWindowFocus: true } : {}),
       },

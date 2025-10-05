@@ -2,18 +2,9 @@ import { cn } from "~/lib/utils"
 import { forwardRef } from "react"
 
 interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  /**
-   * Whether the skeleton should be visible
-   */
-  visible?: boolean
-  /**
-   * Whether to show a shimmer effect
-   */
-  shimmer?: boolean
-  /**
-   * Skeleton variant for different content types
-   */
-  variant?: 'default' | 'card' | 'text' | 'avatar' | 'button'
+    visible?: boolean
+    shimmer?: boolean
+    variant?: 'default' | 'card' | 'text' | 'avatar' | 'button'
 }
 
 const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(

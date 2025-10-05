@@ -16,7 +16,7 @@ import {
   handleAuthErrorWithRetry,
 } from "~/server/auth/error-handling";
 
-// Enhanced validation schema for registration with comprehensive rules
+
 const registerSchema = z.object({
   name: z
     .string()
@@ -32,7 +32,7 @@ const registerSchema = z.object({
     .toLowerCase()
     .trim()
     .refine((email) => {
-      // Allow "admin" as a special case, otherwise validate as email
+      
       return email === "admin" || z.string().email().safeParse(email).success;
     }, "Please enter a valid email address or 'admin'"),
   password: z
@@ -43,7 +43,7 @@ const registerSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
       "Password must contain uppercase, lowercase, number, and special character",
     ),
-  role: z.enum(["admin", "user"]).optional().default("user"), // Allow role specification with default
+  role: z.enum(["admin", "user"]).optional().default("user"), 
 });
 
 export async function POST(request: NextRequest) {
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
   console.log(`[${requestId}] Registration request started`);
 
   try {
-    // Parse and validate request body with enhanced error handling
+    
     let body: unknown;
     try {
       body = await request.json();
@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       throw error;
     }
 
-    // Enhanced user existence check with database validation utilities
+    
     console.log(`[${requestId}] Checking if user already exists...`);
     const userExistsResult = await handleAuthErrorWithRetry(
       async () => {
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
         );
       },
       (error) => handleDatabaseError(error),
-      2, // Max attempts for existence check
+      2, 
       {
         operation: "user_existence_check",
         email: validatedData.email,
@@ -107,7 +107,7 @@ export async function POST(request: NextRequest) {
         userExistsResult.error,
       );
 
-      // Log the error but don't expose internal details
+      
       if (userExistsResult.error) {
         logAuthError(userExistsResult.error, {
           operation: "registration",
@@ -120,20 +120,20 @@ export async function POST(request: NextRequest) {
           error:
             "Unable to process registration at this time. Please try again later.",
         },
-        { status: 503 }, // Service Unavailable
+        { status: 503 }, 
       );
     }
 
-    // Check if user already exists
+    
     if (userExistsResult.result?.isValid) {
       console.warn(`[${requestId}] User already exists:`, validatedData.email);
       return NextResponse.json(
         { error: "User with this email already exists" },
-        { status: 409 }, // Conflict
+        { status: 409 }, 
       );
     }
 
-    // Hash password with enhanced security
+    
     console.log(`[${requestId}] Hashing password...`);
     let hashedPassword: string;
     try {
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new user with enhanced database operation
+    
     console.log(`[${requestId}] Creating new user in database...`);
     const createUserResult = await handleAuthErrorWithRetry(
       async () => {
@@ -157,7 +157,7 @@ export async function POST(request: NextRequest) {
             name: validatedData.name,
             email: validatedData.email,
             password: hashedPassword,
-            role: validatedData.role, // Use validated role with default
+            role: validatedData.role, 
           })
           .returning({
             id: users.id,
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
         return newUser[0]!;
       },
       (error) => {
-        // Handle specific database errors
+        
         if (error.message.includes("UNIQUE constraint")) {
           return createAuthError(
             AuthErrorType.DATABASE_QUERY_FAILED,
@@ -186,7 +186,7 @@ export async function POST(request: NextRequest) {
         }
         return handleDatabaseError(error);
       },
-      2, // Max attempts for user creation
+      2, 
       { operation: "user_creation", email: validatedData.email, requestId },
     );
 
@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         createUserResult.error,
       );
 
-      // Handle specific error types
+      
       if (createUserResult.error?.message.includes("already exists")) {
         return NextResponse.json(
           { error: "User with this email already exists" },
@@ -204,7 +204,7 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Log error and return generic message
+      
       if (createUserResult.error) {
         logAuthError(createUserResult.error, {
           operation: "registration",
@@ -225,7 +225,7 @@ export async function POST(request: NextRequest) {
       role: newUser.role,
     });
 
-    // Verify user creation with a validation check
+    
     console.log(`[${requestId}] Verifying user creation...`);
     const verificationResult = await validateUserByEmail(
       newUser.email,
@@ -237,8 +237,8 @@ export async function POST(request: NextRequest) {
         `[${requestId}] User verification failed after creation:`,
         verificationResult.error,
       );
-      // User was created but verification failed - this is concerning but not fatal
-      // We'll still return success but log the issue
+      
+      
       logAuthError(
         createAuthError(
           AuthErrorType.DATABASE_QUERY_FAILED,
@@ -254,7 +254,7 @@ export async function POST(request: NextRequest) {
       console.log(`[${requestId}] User creation verified successfully`);
     }
 
-    // Return success response (exclude sensitive information)
+    
     return NextResponse.json(
       {
         message: "User registered successfully",
@@ -270,7 +270,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error(`[${requestId}] Unexpected registration error:`, error);
 
-    // Create and log unexpected error
+    
     const authError = createAuthError(
       AuthErrorType.UNKNOWN_ERROR,
       "Unexpected error during registration",
@@ -282,7 +282,7 @@ export async function POST(request: NextRequest) {
 
     logAuthError(authError, { operation: "registration", requestId });
 
-    // Return generic error response
+    
     return NextResponse.json(
       { error: "An unexpected error occurred. Please try again later." },
       { status: 500 },

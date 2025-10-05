@@ -1,32 +1,15 @@
-/**
- * Loading Card Component
- *
- * Optimized skeleton loading states for card-based content with consistent styling
- */
 
 import { cn } from "~/lib/utils";
 import { PatientCardSkeleton } from "~/components/ui/skeleton-variants";
 
 interface LoadingCardProps {
-  /**
-   * Number of skeleton cards to display
-   */
-  count?: number;
+    count?: number;
 
-  /**
-   * Whether to show avatar placeholder
-   */
-  showAvatar?: boolean;
+    showAvatar?: boolean;
 
-  /**
-   * Whether to show button placeholder
-   */
-  showButton?: boolean;
+    showButton?: boolean;
 
-  /**
-   * Additional CSS classes
-   */
-  className?: string;
+    className?: string;
 }
 
 export function LoadingCard({

@@ -1,8 +1,3 @@
-/**
- * Therapy Session Metrics Component
- *
- * Optimized metrics component with memoization for therapy session statistics
- */
 
 "use client";
 
@@ -37,5 +32,5 @@ function TherapySessionMetricsComponent({
   );
 }
 
-// Memoize the component to prevent unnecessary re-renders
+
 export const TherapySessionMetrics = memo(TherapySessionMetricsComponent);

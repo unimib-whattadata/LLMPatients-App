@@ -1,17 +1,7 @@
-/**
- * Skeleton Variants Component
- * 
- * Specialized skeleton components for different content types
- * Optimized for performance and realistic loading states
- */
 
 import { Skeleton } from "./skeleton"
 import { cn } from "~/lib/utils"
 
-/**
- * Patient Card Skeleton
- * Optimized for patient card loading states
- */
 export function PatientCardSkeleton({ 
   showAvatar = true, 
   showButton = true,
@@ -23,14 +13,14 @@ export function PatientCardSkeleton({
 }) {
   return (
     <div className={cn("bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6 h-full flex flex-col", className)}>
-      {/* Patient Avatar */}
+      {}
       {showAvatar && (
         <div className="flex flex-col items-center mb-4">
           <Skeleton variant="avatar" className="h-16 w-16" />
         </div>
       )}
       
-      {/* Patient Info */}
+      {}
       <div className="text-center mb-4">
         <Skeleton variant="text" className="h-6 w-3/4 mx-auto mb-2" />
         <Skeleton variant="text" className="h-4 w-1/2 mx-auto mb-3" />
@@ -38,7 +28,7 @@ export function PatientCardSkeleton({
         <Skeleton variant="text" className="h-4 w-5/6 mx-auto" />
       </div>
 
-      {/* Objectives */}
+      {}
       <div className="flex-1 mb-4">
         <Skeleton variant="text" className="h-4 w-20 mb-2" />
         <div className="space-y-2">
@@ -53,7 +43,7 @@ export function PatientCardSkeleton({
         </div>
       </div>
 
-      {/* Metadata */}
+      {}
       <div className="flex items-center justify-between mb-4">
         <Skeleton variant="text" className="h-6 w-20" />
         <div className="flex items-center space-x-1">
@@ -62,7 +52,7 @@ export function PatientCardSkeleton({
         </div>
       </div>
 
-      {/* Button */}
+      {}
       {showButton && (
         <Skeleton variant="button" className="h-10 w-full" />
       )}
@@ -70,24 +60,20 @@ export function PatientCardSkeleton({
   )
 }
 
-/**
- * Patient Detail Skeleton
- * Optimized for patient detail page loading
- */
 export function PatientDetailSkeleton() {
   return (
     <div className="bg-[var(--color-page-background)] min-h-screen">
-      {/* Header skeleton */}
+      {}
       <header className="bg-[var(--color-surface-secondary)]">
         <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
           <Skeleton variant="text" className="h-4 w-48" />
         </div>
       </header>
 
-      {/* Main content skeleton */}
+      {}
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-          {/* Aside skeleton */}
+          {}
           <aside className="lg:col-span-1">
             <div className="bg-[var(--color-surface-secondary)] overflow-hidden rounded-lg">
               <div className="flex flex-col items-center p-4 sm:p-6">
@@ -106,9 +92,9 @@ export function PatientDetailSkeleton() {
             </div>
           </aside>
 
-          {/* Main section skeleton */}
+          {}
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
-            {/* Patient history article skeleton */}
+            {}
             <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-2">
@@ -119,7 +105,7 @@ export function PatientDetailSkeleton() {
               </div>
             </article>
 
-            {/* Learning objectives article skeleton */}
+            {}
             <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-3">
@@ -138,7 +124,7 @@ export function PatientDetailSkeleton() {
               </div>
             </article>
 
-            {/* Start simulation article skeleton */}
+            {}
             <article className="bg-[var(--color-surface-secondary)] rounded-lg p-4 sm:p-6">
               <Skeleton variant="text" className="h-6 w-48 mb-4" />
               <div className="space-y-2 mb-6">
@@ -155,10 +141,6 @@ export function PatientDetailSkeleton() {
   )
 }
 
-/**
- * Dashboard Card Skeleton
- * Optimized for dashboard card loading
- */
 export function DashboardCardSkeleton({ 
   title = true,
   content = true,
@@ -196,10 +178,6 @@ export function DashboardCardSkeleton({
   )
 }
 
-/**
- * Table Row Skeleton
- * Optimized for table loading states
- */
 export function TableRowSkeleton({ 
   columns = 4,
   className 
@@ -218,10 +196,6 @@ export function TableRowSkeleton({
   )
 }
 
-/**
- * List Item Skeleton
- * Optimized for list loading states
- */
 export function ListItemSkeleton({ 
   showAvatar = false,
   showIcon = false,

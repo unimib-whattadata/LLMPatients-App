@@ -32,7 +32,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
   const autoClose = toast.autoClose !== false;
 
   useEffect(() => {
-    // Trigger enter animation
+    
     const timer = setTimeout(() => setIsVisible(true), 10);
     return () => clearTimeout(timer);
   }, []);
@@ -41,7 +41,7 @@ const Toast = ({ toast, onClose }: ToastProps) => {
     setIsExiting(true);
     setTimeout(() => {
       onClose(toast.id);
-    }, 300); // Match animation duration
+    }, 300); 
   }, [onClose, toast.id]);
 
   useEffect(() => {

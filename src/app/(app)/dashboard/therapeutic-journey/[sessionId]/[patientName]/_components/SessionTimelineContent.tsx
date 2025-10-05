@@ -21,7 +21,7 @@ import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 
-// API Response Types
+
 type PatientData = {
   id: string;
   name: string;
@@ -68,7 +68,7 @@ const STEP_IDS = TIMELINE_STEPS.map((step) => step.id);
 const FIRST_STEP_ID = STEP_IDS[0] ?? 1;
 const LAST_STEP_ID = STEP_IDS[STEP_IDS.length - 1] ?? FIRST_STEP_ID;
 
-// Timeline step component
+
 const TimelineStep = memo(
   ({
     step,
@@ -130,7 +130,7 @@ const TimelineStep = memo(
 );
 TimelineStep.displayName = "TimelineStep";
 
-// Mobile timeline step component
+
 const MobileTimelineStep = memo(
   ({
     step,
@@ -239,7 +239,7 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
-  // Get all completed chat steps for this therapy session
+  
   const { data: completedSteps, isLoading: completedStepsLoading } =
     api.chat.getSessionChats.useQuery(
       { therapySessionId: therapySession?.id ?? "" },
@@ -255,7 +255,7 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
-  // Type assertions for API responses
+  
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedCompletedSteps = completedSteps as CompletedStepData[] | undefined;
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
@@ -290,7 +290,7 @@ export function SessionTimelineContent({
     },
   });
 
-  // Calculate which steps are unlocked based on completed steps
+  
   const unlockedSteps = useMemo(() => {
     if (!typedCompletedSteps) return [FIRST_STEP_ID];
 
@@ -301,7 +301,7 @@ export function SessionTimelineContent({
 
     const unlocked = [FIRST_STEP_ID];
 
-    // Add next step after each completed step
+    
     completedStepNumbers.forEach((completedStep) => {
       const nextStep = completedStep + 1;
       if (nextStep <= LAST_STEP_ID && !unlocked.includes(nextStep)) {
@@ -329,28 +329,28 @@ export function SessionTimelineContent({
     [typedCompletedSteps],
   );
 
-  // Event handlers - must be before early return to maintain hook order
+  
   const handleStepClick = useCallback(
     (stepId: number) => {
       if (!isStepUnlocked(stepId)) return;
 
-      // Navigate to chat page for the selected step with patient name
+      
       if (typedSelectedPatient) {
         const patientSlug = createPatientSlug(typedSelectedPatient.name);
         router.push(
           `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`,
         );
       } else {
-        // Fallback without patient name - this should not happen in normal flow
+        
         router.push(`/dashboard/therapeutic-journey`);
       }
     },
     [isStepUnlocked, router, sessionId, typedSelectedPatient],
   );
 
-  // Computed values - must be before early return to maintain hook order
+  
 
-  // Use original positions and sizes - CSS will handle scaling
+  
   const stepPositions = useMemo(() => {
     const steps = TIMELINE_STEPS.map((step) => ({
       ...step,
@@ -363,7 +363,7 @@ export function SessionTimelineContent({
   const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
   const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
 
-  // Compute timeline path on client side to avoid hydration issues
+  
   const timelinePathD = useMemo(() => {
     if (!isMounted) return "";
 
@@ -507,7 +507,7 @@ export function SessionTimelineContent({
             <div>
               <div className="flex items-center justify-between">
                 <div>
-                  {/* Breadcrumb Navigation */}
+                  {}
                   <Breadcrumb
                     items={[
                       { label: "Dashboard", href: "/dashboard" },

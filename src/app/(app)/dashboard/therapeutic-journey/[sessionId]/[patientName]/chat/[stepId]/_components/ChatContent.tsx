@@ -41,7 +41,7 @@ import {
 } from "./chat-utils";
 import { useAudioPlayer } from "~/hooks/useAudioPlayer";
 
-// Welcome message generator
+
 function getWelcomeMessage(patientName: string, stepId: number): string {
   const welcomeMessages: Record<string, string> = {
     "John": "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
@@ -53,35 +53,17 @@ function getWelcomeMessage(patientName: string, stepId: number): string {
     `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
 }
 
-/**
- * ChatContent Component
- *
- * Interactive chat interface for therapy sessions with virtual patients.
- * Handles real-time messaging, message persistence, and patient interaction.
- *
- * Features:
- * - Real-time chat with virtual patients
- * - Message history persistence
- * - Auto-scroll to latest messages
- * - Patient avatar generation
- * - Loading states and error handling
- * - Support for impersonation mode
- *
- * @param user - Current user information
- * @param impersonation - Optional impersonation context for admin users
- * @returns JSX element containing the chat interface
- */
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
   const router = useRouter();
   const sessionId = params.sessionId as string;
   const stepId = parseInt(params.stepId as string);
 
-  // Chat state management
+  
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [sessionTime, setSessionTime] = useState(0); // Timer in seconds
+  const [sessionTime, setSessionTime] = useState(0); 
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
@@ -97,31 +79,31 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const lastProcessedMessageIdRef = useRef<string | null>(null);
   const isInitialLoad = useRef(true);
 
-  // Audio player hook
+  
   const audioPlayer = useAudioPlayer({
     autoPlay: true,
     onPlaybackEnd: () => {
       console.log("🎙️ [AUDIO] Playback ended");
-      // Don't clear the audio player - let user control it
+      
     },
     onError: (error) => {
       console.error("Audio error:", error);
       
-      // Show user-friendly message for TTS configuration issues
+      
       if (error.includes("not configured") || error.includes("API key")) {
         console.warn("TTS service not available - audio generation disabled");
       }
     },
   });
 
-  // Reset TTS warning when TTS becomes available again
+  
   useEffect(() => {
     if (audioPlayer.isTTSAvailable) {
       setShowTTSWarning(true);
     }
   }, [audioPlayer.isTTSAvailable]);
 
-  // Fetch patient data
+  
   const {
     data: selectedPatient,
     isLoading: patientLoading,
@@ -131,14 +113,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     { enabled: Boolean(sessionId) },
   );
 
-  // Fetch therapy session data
+  
   const { data: therapySession, isLoading: therapySessionLoading } =
     api.therapySessions.getByPatient.useQuery(
       { patientId: sessionId },
       { enabled: Boolean(sessionId) },
     );
 
-  // Get existing chat for this step
+  
   const { data: existingChat, isLoading: chatLoading } =
     api.chat.getChatStep.useQuery(
       {
@@ -148,29 +130,29 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       { enabled: Boolean(therapySession?.id) },
     );
 
-  // Get all completed chat steps for this therapy session
+  
   const { data: completedSteps, isLoading: completedStepsLoading } =
     api.chat.getSessionChats.useQuery(
       { therapySessionId: therapySession?.id ?? "" },
       { enabled: Boolean(therapySession?.id) },
     );
 
-  // Type assertions for API responses
+  
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedExistingChat = existingChat as ChatStepData | undefined;
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
 
-  // Mutations for chat operations
+  
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
   const generateResponseMutation = api.chat.generatePatientResponse.useMutation();
   const generateChatResponseMutation = api.chat.generateChatResponse.useMutation();
 
-  // Get utils for invalidating queries
+  
   const utils = api.useUtils();
 
-  // Memoize patient avatar to avoid recalculation on each render
+  
   const patientAvatar = useMemo(
     () =>
       typedSelectedPatient
@@ -179,7 +161,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [typedSelectedPatient],
   );
 
-  // Check if current step is completed
+  
   const isStepCompleted = useMemo(() => {
     if (!typedCompletedSteps) return false;
     return typedCompletedSteps.some(
@@ -187,13 +169,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }, [typedCompletedSteps, stepId]);
 
-  // Scroll to bottom helper function
+  
   const scrollToBottom = useCallback((delay = 100) => {
     setTimeout(() => {
       const container = messagesContainerRef.current;
       if (container) {
-        // Add extra space when audio is available to prevent overlap
-        const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0; // 120px for audio player + padding
+        
+        const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0; 
         container.scrollTo({
           top: container.scrollHeight + extraSpace,
           behavior: 'smooth'
@@ -202,7 +184,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }, delay);
   }, [audioPlayer.currentAudioUrl]);
 
-  // Auto-play audio when patient message arrives (only if user has interacted)
+  
   useEffect(() => {
     if (messages.length === 0 || !hasUserInteracted) return;
     
@@ -221,25 +203,25 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         hasUserInteracted
       });
       
-      // Mark this message as processed
+      
       lastProcessedMessageIdRef.current = lastMessage.id;
       
-      // Generate and play audio for patient message
+      
       void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name, lastMessage.emotion);
     }
   }, [messages, audioPlayer, typedSelectedPatient?.name, hasUserInteracted]);
 
-  // Auto-scroll when audio is playing to prevent overlap
+  
   useEffect(() => {
     if (audioPlayer.isPlaying || audioPlayer.currentAudioUrl) {
-      // Scroll to bottom with extra space for audio player
+      
       scrollToBottom(100);
     }
   }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl, scrollToBottom]);
 
-  // Audio player remains open for user control - no auto-close
+  
 
-  // Timer effect
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setSessionTime((prev) => prev + 1);
@@ -255,12 +237,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   }, []);
 
 
-  // Initialize chat with existing data or welcome message
+  
   useEffect(() => {
     if (typedExistingChat && typedExistingChat.messages.length > 0) {
       if (isInitialLoad.current) {
         isInitialLoad.current = false;
-        // Convert string timestamps to Date objects
+        
         const messagesWithDates = typedExistingChat.messages.map((msg) => ({
           ...msg,
           timestamp:
@@ -270,7 +252,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         }));
         setMessages(messagesWithDates);
         
-        // Find the last patient message with an emotion to set the current avatar
+        
         const lastPatientMessage = [...messagesWithDates]
           .reverse()
           .find((msg) => msg.sender === "patient" && msg.emotion);
@@ -281,7 +263,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           setIsAvatarTransitioning(false);
         }
         
-        // Scroll to bottom after loading existing messages
+        
         setTimeout(() => {
           scrollToBottom(100);
         }, 200);
@@ -304,7 +286,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         setNextEmotion(null);
         setIsAvatarTransitioning(false);
         
-        // Scroll to bottom after setting welcome message
+        
         setTimeout(() => {
           scrollToBottom(100);
         }, 200);
@@ -312,7 +294,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom]);
 
-  // Trigger smooth avatar emotion transition
+  
   const triggerAvatarEmotionChange = useCallback(
     (emotion: PatientEmotion) => {
       if (emotion === currentEmotion || emotion === nextEmotion) return;
@@ -323,11 +305,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
       setNextEmotion(emotion);
       
-      // Start transition immediately
+      
       requestAnimationFrame(() => {
         setIsAvatarTransitioning(true);
         
-        // Complete transition after duration
+        
         avatarTransitionTimeoutRef.current = setTimeout(() => {
           setCurrentEmotion(emotion);
           setNextEmotion(null);
@@ -338,7 +320,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [currentEmotion, nextEmotion],
   );
 
-  // Update avatar emotion based on last patient message
+  
   useEffect(() => {
     if (!messages.length) {
       setCurrentEmotion("base");
@@ -356,15 +338,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
 
-    // Mark that user has interacted (enables auto-play)
+    
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
     }
 
     const messageText = inputMessage.trim();
-    setInputMessage(""); // Clear input immediately
+    setInputMessage(""); 
 
-    // Create user message
+    
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       content: messageText,
@@ -373,20 +355,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       stepId,
     };
 
-    // Add user message to chat immediately
+    
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
 
-    // Force immediate scroll to show user message
+    
     scrollToBottom(50);
 
-    // Show typing indicator after user message is visible
+    
     setTimeout(() => {
       setIsTyping(true);
       scrollToBottom(50);
     }, 200);
 
-    // Save user message to database
+    
     try {
       await saveChatMutation.mutateAsync({
         therapySessionId: typedTherapySession.id,
@@ -403,11 +385,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       console.error("Error saving user message:", error);
     }
 
-    // Generate patient response using API
+    
     try {
-      // Check if patient has external_patient_id, if not use fallback
+      
       if (typedSelectedPatient?.externalPatientId) {
-        // Use the new chat response endpoint with external patient ID
+        
         const response = await generateChatResponseMutation.mutateAsync({
           external_patient_id: typedSelectedPatient.externalPatientId,
           user_message: messageText,
@@ -433,7 +415,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           emotion: response.emotion,
         };
 
-        // Add patient response
+        
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
@@ -443,15 +425,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           totalMessages: finalMessages.length
         });
 
-        // Force scroll to show patient response
+        
         scrollToBottom(100);
 
-        // Return focus to input after patient responds
+        
         setTimeout(() => {
           inputRef.current?.focus();
         }, 300);
 
-        // Save complete conversation
+        
         saveChatMutation.mutate({
           therapySessionId: typedTherapySession.id,
           stepNumber: stepId,
@@ -464,20 +446,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           })),
         });
       } else {
-        // Fallback to old method if no external_patient_id
+        
         const response = await generateResponseMutation.mutateAsync({
           patientInfo: {
             id: typedSelectedPatient?.id || "",
             name: typedSelectedPatient?.name || "",
-            age: 45, // Default age for simulation
-            gender: "male", // Default gender for simulation
-            diagnosis: "Disturbo d'ansia generalizzato", // Default diagnosis
+            age: 45, 
+            gender: "male", 
+            diagnosis: "Disturbo d'ansia generalizzato", 
             difficulty: typedSelectedPatient?.difficulty || 1,
             psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
             background: typedSelectedPatient?.background || "",
-            currentMedications: [], // Default empty array
+            currentMedications: [], 
             therapyGoals: typedSelectedPatient?.objectives || [],
-            previousSessions: 0, // Default for new sessions
+            previousSessions: 0, 
           },
           userMessage: messageText,
           stepId,
@@ -486,7 +468,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             content: msg.content,
             sender: msg.sender,
             timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
-          })), // Last 5 messages for context
+          })), 
         });
 
         console.log("🤖 [CHAT] Generated patient response (fallback):", {
@@ -507,7 +489,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           emotion: response.emotion,
         };
 
-        // Add patient response
+        
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
@@ -517,15 +499,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           totalMessages: finalMessages.length
         });
 
-        // Force scroll to show patient response
+        
         scrollToBottom(100);
 
-        // Return focus to input after patient responds
+        
         setTimeout(() => {
           inputRef.current?.focus();
         }, 300);
 
-        // Save complete conversation
+        
         saveChatMutation.mutate({
           therapySessionId: typedTherapySession.id,
           stepNumber: stepId,
@@ -542,10 +524,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       console.error("Error generating patient response:", error);
       setIsTyping(false);
       
-      // Show error message to user
+      
       alert("Errore nella generazione della risposta. Riprova.");
       
-      // Return focus to input
+      
       setTimeout(() => {
         inputRef.current?.focus();
       }, 300);
@@ -583,17 +565,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         stepNumber: stepId,
       });
 
-      // Invalidate queries to refresh the timeline
+      
       await utils.chat.getSessionChats.invalidate({
         therapySessionId: typedTherapySession.id,
       });
 
-      // Show success dialog
+      
       setIsSuccessDialogOpen(true);
     } catch (error) {
       console.error("Error completing step:", error);
 
-      // More specific error handling
+      
       if (error instanceof Error) {
         if (
           error.message.includes("not found") ||
@@ -626,7 +608,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [handleSendMessage],
   );
 
-  // Memoize loading state
+  
   const isLoading = useMemo(
     () =>
       patientLoading ||
@@ -636,7 +618,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [patientLoading, therapySessionLoading, chatLoading, completedStepsLoading],
   );
 
-  // Memoize current date string
+  
   const currentDateString = useMemo(
     () => new Date().toLocaleDateString("it-IT"),
     [],
@@ -699,7 +681,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         role="main"
         aria-label="Chat con paziente virtuale"
       >
-        {/* Header */}
+        {}
         <header
           className="dashboard-section navbar-background flex-shrink-0 px-4 py-4 sm:px-6"
           role="banner"
@@ -799,9 +781,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         </header>
 
-        {/* 3 Column Layout with scroll in column 3 */}
+        {}
         <div className="flex-1 flex min-h-0 overflow-hidden">
-          {/* Column 1: Patient Avatar - Fixed, no scroll */}
+          {}
           <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
             <div className="flex flex-col items-center w-full space-y-3 pt-4">
               <div 
@@ -818,7 +800,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
                   {typedSelectedPatient ? (
                     <div className="relative w-full h-full">
-                      {/* Show static image when no transition is pending */}
+                      {}
                       <Image
                         key={`current-${currentEmotion}`}
                         src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
@@ -859,7 +841,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       {patientAvatar?.initials}
                     </div>
                   )}
-                  {/* Expand icon */}
+                  {}
                   <Button
                     variant="ghost"
                     size="sm"
@@ -872,32 +854,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </Button>
                 </div>
               </div>
-              {/* Emotion label - hidden
-              <div className="text-center">
-                <span 
-                  className="text-sm font-medium px-3 py-1 rounded-full"
-                  style={{
-                    color: EMOTION_COLORS[nextEmotion ?? currentEmotion],
-                    backgroundColor: `${EMOTION_COLORS[nextEmotion ?? currentEmotion]}20`,
-                    border: `1px solid ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
-                  }}
-                >
-                  {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
-                </span>
-              </div>
-              */}
+              {}
             </div>
           </div>
 
-          {/* Scrollable container for columns 2 & 3 */}
+          {}
           <div 
             ref={messagesContainerRef}
             className="flex-1 flex overflow-y-auto chat-scrollbar"
           >
             <div className="flex flex-1 min-h-full">
-              {/* Column 2: Chat + Input area */}
+              {}
               <div className="flex-1 flex flex-col page-background relative">
-                {/* Messages area - extends under input */}
+                {}
                 <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
                   <div className="w-full max-w-4xl mx-auto">
                     <div className="space-y-4 sm:space-y-6">
@@ -915,7 +884,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 : "flex-row"
                             }`}
                           >
-                            {/* Message bubble */}
+                            {}
                             <div
                               className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
                                 message.sender === "patient"
@@ -948,11 +917,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </div>
                 </div>
 
-                {/* Input area - transparent background - sticky at bottom */}
+                {}
                 {!isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
                     <div className="mx-auto max-w-4xl bg-transparent">
-                      {/* TTS Not Available Message */}
+                      {}
                       {!audioPlayer.isTTSAvailable && showTTSWarning && (
                         <div className="mb-4">
                           <div className="message message-warning">
@@ -980,7 +949,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         </div>
                       )}
 
-                      {/* Auto-play Info Message */}
+                      {}
                       {!hasUserInteracted && audioPlayer.isTTSAvailable && (
                         <div className="mb-4">
                           <div className="message message-info">
@@ -999,7 +968,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         </div>
                       )}
 
-                      {/* Audio Player - positioned directly above input */}
+                      {}
                       {(audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
                         <div className="mb-4 p-4 bg-transparent">
                           <div className="flex space-x-2 sm:space-x-3">
@@ -1013,12 +982,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 </div>
                               ) : (
                                 <>
-                                  {/* Play/Pause button */}
+                                  {}
                                   <Button
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => {
-                                      // Mark that user has interacted (enables auto-play)
+                                      
                                       if (!hasUserInteracted) {
                                         setHasUserInteracted(true);
                                       }
@@ -1041,11 +1010,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     )}
                                   </Button>
 
-                                  {/* Audio Waveform Visualization */}
+                                  {}
                                   {audioPlayer.isPlaying && showAudioWaveform && (
                                     <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
                                       {Array.from({ length: 60 }, (_, i) => {
-                                        // Create dynamic wave patterns
+                                        
                                         const progress = audioPlayer.duration > 0 
                                           ? (audioPlayer.currentTime / audioPlayer.duration) 
                                           : 0;
@@ -1075,7 +1044,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     </div>
                                   )}
 
-                                  {/* Static visualization when paused or waveform hidden */}
+                                  {}
                                   {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
                                     <div className="flex items-center justify-center flex-1 h-20">
                                       <span className="text-sm text-[var(--color-text-secondary)]">
@@ -1130,7 +1099,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 </div>
               )}
 
-              {/* Session completed message - sticky at bottom */}
+              {}
               {isStepCompleted && (
                 <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
                   <div className="mx-auto max-w-4xl text-center">
@@ -1147,14 +1116,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               )}
               </div>
 
-              {/* Column 3: Empty space for visual balance (same width as column 1) */}
+              {}
               <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Success Dialog */}
+      {}
       <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
         <DialogContent className="sm:max-w-md [&>div]:!animate-none !animate-none">
           <DialogHeader>
@@ -1187,7 +1156,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Avatar Expanded Dialog */}
+      {}
       <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
         <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
           <DialogHeader className="sr-only">

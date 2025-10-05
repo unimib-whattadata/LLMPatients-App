@@ -1,26 +1,22 @@
-/**
- * Enhanced error handling utilities for JWT authentication with database validation
- * Provides comprehensive error management for authentication flows
- */
 
 export enum AuthErrorType {
-  // Database errors
+  
   DATABASE_CONNECTION = "DATABASE_CONNECTION",
   DATABASE_TIMEOUT = "DATABASE_TIMEOUT",
   DATABASE_QUERY_FAILED = "DATABASE_QUERY_FAILED",
 
-  // User validation errors
+  
   USER_NOT_FOUND = "USER_NOT_FOUND",
   USER_DEACTIVATED = "USER_DEACTIVATED",
   USER_ROLE_CHANGED = "USER_ROLE_CHANGED",
 
-  // Authentication errors
+  
   INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
   TOKEN_EXPIRED = "TOKEN_EXPIRED",
   TOKEN_INVALID = "TOKEN_INVALID",
   SESSION_INVALID = "SESSION_INVALID",
 
-  // System errors
+  
   NETWORK_ERROR = "NETWORK_ERROR",
   CONFIGURATION_ERROR = "CONFIGURATION_ERROR",
   UNKNOWN_ERROR = "UNKNOWN_ERROR",
@@ -36,9 +32,6 @@ export interface AuthError {
   severity: "low" | "medium" | "high" | "critical";
 }
 
-/**
- * Creates a structured authentication error
- */
 export function createAuthError(
   type: AuthErrorType,
   message: string,
@@ -58,20 +51,17 @@ export function createAuthError(
   };
 }
 
-/**
- * Handles database connection errors with appropriate retry logic
- */
 export function handleDatabaseError(error: Error, userId?: string): AuthError {
   const errorMessage = error.message.toLowerCase();
 
-  // Determine error type based on error message
+  
   if (errorMessage.includes("timeout") || errorMessage.includes("timed out")) {
     return createAuthError(
       AuthErrorType.DATABASE_TIMEOUT,
       "Database query timed out",
       error.message,
       userId,
-      true, // Retryable
+      true, 
       "medium",
     );
   }
@@ -82,25 +72,22 @@ export function handleDatabaseError(error: Error, userId?: string): AuthError {
       "Database connection failed",
       error.message,
       userId,
-      true, // Retryable
+      true, 
       "high",
     );
   }
 
-  // General database query error
+  
   return createAuthError(
     AuthErrorType.DATABASE_QUERY_FAILED,
     "Database query failed",
     error.message,
     userId,
-    false, // Not retryable by default
+    false, 
     "medium",
   );
 }
 
-/**
- * Handles user validation errors
- */
 export function handleUserValidationError(
   validationResult: { isValid: boolean; error?: string },
   userId?: string,
@@ -113,7 +100,7 @@ export function handleUserValidationError(
       "User not found in database",
       validationResult.error,
       userId,
-      false, // Not retryable
+      false, 
       "high",
     );
   }
@@ -127,25 +114,22 @@ export function handleUserValidationError(
       "User account is deactivated",
       validationResult.error,
       userId,
-      false, // Not retryable
+      false, 
       "medium",
     );
   }
 
-  // General validation error
+  
   return createAuthError(
     AuthErrorType.DATABASE_QUERY_FAILED,
     "User validation failed",
     validationResult.error,
     userId,
-    true, // May be retryable
+    true, 
     "medium",
   );
 }
 
-/**
- * Handles authentication credential errors
- */
 export function handleCredentialsError(
   message: string,
   userId?: string,
@@ -155,14 +139,11 @@ export function handleCredentialsError(
     "Invalid authentication credentials",
     message,
     userId,
-    false, // Credentials errors are not retryable
+    false, 
     "low",
   );
 }
 
-/**
- * Handles JWT token errors
- */
 export function handleTokenError(
   message: string,
   userId?: string,
@@ -180,14 +161,11 @@ export function handleTokenError(
     errorMessage,
     message,
     userId,
-    isExpired, // Expired tokens can be retryable (new login), invalid tokens cannot
+    isExpired, 
     isExpired ? "low" : "medium",
   );
 }
 
-/**
- * Handles session validation errors
- */
 export function handleSessionError(
   message: string,
   userId?: string,
@@ -197,14 +175,11 @@ export function handleSessionError(
     "Session validation failed",
     message,
     userId,
-    true, // Session errors are often retryable
+    true, 
     "medium",
   );
 }
 
-/**
- * Logs authentication errors with appropriate level and structured data
- */
 export function logAuthError(
   error: AuthError,
   context?: Record<string, unknown>,
@@ -233,9 +208,6 @@ export function logAuthError(
   }
 }
 
-/**
- * Determines if an error should trigger a retry based on its type and context
- */
 export function shouldRetryOperation(
   error: AuthError,
   attemptCount: number,
@@ -249,38 +221,32 @@ export function shouldRetryOperation(
     return false;
   }
 
-  // Special retry logic for different error types
+  
   switch (error.type) {
     case AuthErrorType.DATABASE_TIMEOUT:
     case AuthErrorType.DATABASE_CONNECTION:
-      return attemptCount < 3; // More aggressive retry for DB issues
+      return attemptCount < 3; 
 
     case AuthErrorType.DATABASE_QUERY_FAILED:
-      return attemptCount < 2; // Limited retry for query failures
+      return attemptCount < 2; 
 
     case AuthErrorType.SESSION_INVALID:
-      return attemptCount < 2; // Allow session retry
+      return attemptCount < 2; 
 
     default:
-      return attemptCount < 1; // Single retry for other retryable errors
+      return attemptCount < 1; 
   }
 }
 
-/**
- * Calculates appropriate delay for retry attempts with exponential backoff
- */
 export function calculateRetryDelay(
   attemptCount: number,
   baseDelay = 1000,
 ): number {
-  const maxDelay = 10000; // 10 seconds max
+  const maxDelay = 10000; 
   const delay = baseDelay * Math.pow(2, attemptCount - 1);
   return Math.min(delay, maxDelay);
 }
 
-/**
- * Enhanced error handler that combines error creation, logging, and retry logic
- */
 export async function handleAuthErrorWithRetry<T>(
   operation: () => Promise<T>,
   errorHandler: (error: Error) => AuthError,
@@ -293,7 +259,7 @@ export async function handleAuthErrorWithRetry<T>(
     try {
       const result = await operation();
 
-      // If we had previous errors but this attempt succeeded, log recovery
+      
       if (lastError && attempt > 1) {
         console.log("[RECOVERY] Auth operation recovered after retry:", {
           attempt,
@@ -309,10 +275,10 @@ export async function handleAuthErrorWithRetry<T>(
       );
       lastError = authError;
 
-      // Log the error with attempt context
+      
       logAuthError(authError, { ...context, attempt, maxAttempts });
 
-      // Check if we should retry
+      
       if (shouldRetryOperation(authError, attempt, maxAttempts)) {
         const delay = calculateRetryDelay(attempt);
         console.log(
@@ -322,7 +288,7 @@ export async function handleAuthErrorWithRetry<T>(
         continue;
       }
 
-      // No more retries, return final error
+      
       break;
     }
   }
@@ -330,9 +296,6 @@ export async function handleAuthErrorWithRetry<T>(
   return { success: false, error: lastError };
 }
 
-/**
- * Creates user-friendly error messages for different auth error types
- */
 export function getUserFriendlyErrorMessage(error: AuthError): string {
   switch (error.type) {
     case AuthErrorType.DATABASE_CONNECTION:
@@ -363,9 +326,6 @@ export function getUserFriendlyErrorMessage(error: AuthError): string {
   }
 }
 
-/**
- * Error recovery strategies for different error types
- */
 export interface ErrorRecoveryStrategy {
   shouldInvalidateToken: boolean;
   shouldRedirectToLogin: boolean;

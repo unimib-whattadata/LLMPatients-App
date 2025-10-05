@@ -1,8 +1,3 @@
-/**
- * Session Loading Component
- *
- * Provides loading state for session timeline content
- */
 
 import { Loader2 } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton";
