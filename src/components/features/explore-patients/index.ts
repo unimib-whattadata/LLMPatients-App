@@ -1,7 +1,3 @@
-// Explore Patients Feature Components
-export { PatientCard } from "./PatientCard";
+// Explore Patients Feature Components - Shared Components
 export { PatientAvatar } from "./PatientAvatar";
-export { PatientGrid } from "./PatientGrid";
-export { PatientGridWrapper } from "./PatientGridWrapper";
 export { LoadingGrid } from "./LoadingGrid";
-export { PatientDetailContent } from "./PatientDetailContent";
