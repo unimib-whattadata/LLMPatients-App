@@ -10,9 +10,8 @@ const PATIENT_VOICE_MAP: Record<string, string> = {
   "todd": "pNInz6obpgDQGcFmaJgB", // Matteo - Italian male
   // John - Male Italian voice, mature and reflective
   "john": "TX3LPVmP7r2b3yJ8", // Luca - Italian male
-  // Juanita Delgado - Female Italian voice, emotional range
-  "juanita-delgado": "21m00Tcm4TlvDq8ikWAM", // Matilde - Italian female
-  "juanita": "21m00Tcm4TlvDq8ikWAM", // Matilde - Italian female
+  // Juanita - Female Italian voice, emotional range
+  "juanita": "21m00Tcm4TlvDq8ikWAM",
 };
 
 // Default voice if patient not found
@@ -76,8 +75,19 @@ export async function GET(request: NextRequest) {
     console.log(`🎙️ [TTS] Generating speech for patient: ${patientName || "unknown"}, voice: ${voiceId}`);
 
     // Call ElevenLabs API
-    const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+    const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`;
     
+    const ttsRequestBody = {
+      text,
+      model_id: "eleven_multilingual_v2",
+      language_code: "it",
+      voice_settings: {
+        stability: emotionSettings.stability,
+        similarity_boost: 0.75,
+        style: emotionSettings.style,
+      },
+    };
+
     const response = await fetch(elevenLabsUrl, {
       method: "POST",
       headers: {
@@ -85,16 +95,7 @@ export async function GET(request: NextRequest) {
         "Content-Type": "application/json",
         "xi-api-key": apiKey,
       },
-      body: JSON.stringify({
-        text: text,
-        model_id: "eleven_multilingual_v2", // Support for Italian
-        voice_settings: {
-          stability: emotionSettings.stability,
-          similarity_boost: 0.75,
-          style: emotionSettings.style,
-          use_speaker_boost: true,
-        },
-      }),
+      body: JSON.stringify(ttsRequestBody),
     });
 
     if (!response.ok) {
@@ -207,8 +208,20 @@ export async function POST(request: NextRequest) {
     console.log(`🎙️ [TTS] Generating speech for patient: ${patientName || "unknown"}, voice: ${voiceId}`);
 
     // Call ElevenLabs API
-    const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
+    const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=mp3_44100_128`;
     
+    const postRequestBody = {
+      text,
+      model_id: "eleven_flash_v2_5",
+      language_code: "it",
+      apply_text_normalization: "auto", 
+      voice_settings: {
+        stability: emotionSettings.stability,
+        similarity_boost: 0.75,
+        style: emotionSettings.style,
+      },
+    };
+
     const response = await fetch(elevenLabsUrl, {
       method: "POST",
       headers: {
@@ -216,16 +229,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
         "xi-api-key": apiKey,
       },
-      body: JSON.stringify({
-        text: text,
-        model_id: "eleven_multilingual_v2", // Support for Italian
-        voice_settings: {
-          stability: emotionSettings.stability,
-          similarity_boost: 0.75,
-          style: emotionSettings.style,
-          use_speaker_boost: true,
-        },
-      }),
+      body: JSON.stringify(postRequestBody),
     });
 
     if (!response.ok) {

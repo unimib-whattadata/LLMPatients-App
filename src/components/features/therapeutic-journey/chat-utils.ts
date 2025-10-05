@@ -29,7 +29,7 @@ export function getPatientAvatarPath(
   // Map patient names to their folder names
   const patientFolderMap: Record<string, string> = {
     "john": "john",
-    "juanita-delgado": "juanita",
+    "juanita": "juanita",
     "todd": "todd",
   };
   
