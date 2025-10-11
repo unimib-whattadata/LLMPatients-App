@@ -9,21 +9,14 @@ const config = {
   
   turbopack: {
     root: process.cwd(),
-    rules: {
-      "*.svg": {
-        loaders: ["@svgr/webpack"],
-        as: "*.js",
-      },
+    resolveAlias: {
+      "~": "./src",
+      "@": "./src",
     },
-    
-    ...(process.env.NODE_ENV === "development" && {
-      resolveAlias: {
-        
-        "~": "./src",
-        "@": "./src",
-      },
-    }),
   },
+
+  // Always enable React Strict Mode for better development practices
+  reactStrictMode: true,
 
   
   serverExternalPackages: ["bcryptjs"],
@@ -38,15 +31,16 @@ const config = {
     styledComponents: true,
   },
 
-  
-  ...(process.env.NODE_ENV === "development" && {
-    
-    reactStrictMode: true,
-    
-    experimental: {
-      optimizePackageImports: ['@radix-ui/react-icons'],
-    },
-  }),
+  // Package import optimizations (no longer experimental in Next.js 15)
+  optimizePackageImports: [
+    '@radix-ui/react-icons',
+    '@radix-ui/react-accordion',
+    '@radix-ui/react-dialog',
+    '@radix-ui/react-dropdown-menu',
+    '@radix-ui/react-select',
+    '@radix-ui/react-tabs',
+    'lucide-react',
+  ],
 
   
   images: {
@@ -107,7 +101,7 @@ const config = {
         headers: [
           {
             key: "Cache-Control",
-            value: assetCacheControl,
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -123,26 +117,6 @@ const config = {
         poll: 1000,
         aggregateTimeout: 300,
       };
-      
-      
-      config.module.rules.push({
-        test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [
-                  require('tailwindcss'),
-                  require('autoprefixer'),
-                ],
-              },
-            },
-          },
-        ],
-      });
     }
     
     
