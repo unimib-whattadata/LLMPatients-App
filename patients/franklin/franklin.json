@@ -1,0 +1,98 @@
+{
+  "name": "Franklin",
+  "briefDescription": "Studente afroamericano di 21 anni che lavora di notte per sostenersi, impegnato a mantenere gli studi nonostante rottura sentimentale, pressioni economiche e episodi di discriminazione nel campus.",
+  "demographicAndSocioculturalInformation": {
+    "age": "21",
+    "gender": "maschio",
+    "maritalStatus": "single",
+    "culturalBackground": "afroamericano",
+    "religiousBeliefs": "Non riportato",
+    "spokenLanguage": "inglese",
+    "migrationStatus": "Studente fuori sede (università fuori dallo Stato di origine)"
+  },
+  "disorder": {
+    "disorderName": "DAdjustment disorder"
+  },
+  "familyHistory": {
+    "familyDynamicsDuringDevelopment": "Genitori della classe lavoratrice con periodi di disoccupazione, difficoltà economiche e conflitti coniugali; figlio unico.",
+    "familyPsychiatricIllnesses": "Non riportato.",
+    "currentRelationshipWithParents": "Supporto emotivo limitato rispetto alle difficoltà universitarie; i genitori non comprendono la scelta di studiare fuori Stato.",
+    "childhoodExperiences": "Crescita con instabilità economica e tensioni familiari; si descriveva come bravo studente e popolare.",
+    "significantDevelopmentalExperiences": "Esordio di consumo occasionale di alcol e marijuana in prima superiore (nono grado)."
+  },
+  "educationAndEmployment": {
+    "educationLevel": "Studente universitario a tempo pieno (undergraduate).",
+    "workHistory": "Impiegato a tempo pieno nel turno notturno (magazziniere); mantiene lavoro e studio in parallelo.",
+    "housingStability": "Non riportato.",
+    "financialSituation": "Si sostiene economicamente dalla fine delle superiori; forte preoccupazione per la stabilità finanziaria.",
+    "hobbiesAndInterests": "Nei giorni liberi gode di buona energia e passa tempo con gli amici."
+  },
+  "psychologicalProfileAndCognitiveFunctioning": {
+    "affectiveEmotionalFunctioningAndMoodRegulation": "Umore depresso da circa 3 mesi, rabbia per la rottura sentimentale, ritiro sociale; episodica disperazione; appetito ed energia nella norma nei giorni di riposo.",
+    "psychiatricComorbidities": "Nessuna comorbilità maggiore riportata; ansia/ruminazione da stress.",
+    "senseOfSelfAndOthers": "Preoccupato per il rendimento e il futuro; non si sente colpevole o senza valore.",
+    "thoughtFunctioningAndCognitiveStyle": "Ruminazione su denaro, voti e prospettive; pensiero coerente, senza psicosi.",
+    "memory": "Integro sul piano cognitivo; nessun deficit di memoria riportato.",
+    "attentionAndConcentration": "Difficoltà di concentrazione, soprattutto dopo i turni notturni.",
+    "sensoryPerception": "Nega allucinazioni; nessuna alterazione percettiva.",
+    "higherCognitiveFunctions": "Insight e giudizio buoni."
+  },
+  "copingMechanismsAndDefenses": {
+    "copingStrategies": "Ricerca di supporto sociale (cugina), mantenimento di routine lavorativa e accademica, richiesta di aiuto psicologico.",
+    "defenseMechanisms": "Ruminazione; possibile evitamento di emozioni dolorose; nessun meccanismo difensivo specifico patologico evidenziato."
+  },
+  "dysfunctionalBehaviorsAndRiskyConduct": {
+    "selfHarmAndSuicidality": "Nega suicidalità attuale; riferisce talvolta di sentirsi come 'mollare' senza pianificazione o intento.",
+    "substanceAbuse": "Uso occasionale di alcol e marijuana in contesti sociali; nessun abuso né intossicazione ricorrente.",
+    "otherDirectedAggression": "Non riportato.",
+    "impulsiveAndRiskyBehaviors": "Non riportato."
+  },
+  "morality": {
+    "moralValues": "Forte etica del lavoro e dell’indipendenza economica; impegno accademico.",
+    "senseOfGuilt": "Nega colpa e indegnità; prova dispiacere per il calo dei voti.",
+    "deceitAndManipulation": "Non riportato.",
+    "illicitActivities": "Non riportato."
+  },
+  "socialRelationshipsAndInteractions": {
+    "friendships": "Mantiene amicizie; esce con gli amici nei giorni liberi.",
+    "romanticRelationships": "Rottura di relazione di 3 anni dopo discussioni su matrimonio; fattore scatenante dell’attuale disagio.",
+    "sexualRelationships": "Non riportato.",
+    "familyInteractions": "Genitori con comprensione limitata delle difficoltà universitarie; prime esperienze di studente universitario in famiglia (first-gen).",
+    "relationshipsWithPeersAndColleagues": "Esperienze recenti di discriminazione razziale nel campus prevalentemente bianco; lavoro notturno con adeguato adattamento.",
+    "socialMediaUseAndImpact": "Non riportato."
+  },
+  "treatmentsAndInterventions": {
+    "previousTherapeuticExperiences": "Nessuna precedente esperienza di salute mentale; invio incoraggiato da una cugina.",
+    "treatmentResistance": "Non applicabile; nessun trattamento precedente.",
+    "therapeuticGoals": "Elaborare la perdita della relazione, migliorare gestione dello stress, ruminazione e concentrazione; ottimizzare sonno e bilanciare studio-lavoro; pianificazione finanziaria di base.",
+    "medicationHistory": "Nessun trattamento farmacologico riportato.",
+    "responseToMedications": "Non applicabile.",
+    "previousHospitalizations": "Nessuna.",
+    "emergencyDepartmentVisits": "Non riportato.",
+    "previousDropouts": "Non riportato.",
+    "previousPsychiatricDiagnoses": "Nessuna diagnosi precedente; quadro attuale compatibile con disturbo dell’adattamento con umore depresso."
+  },
+  "psychologicalResources": {
+    "insightAndMentalizationCapacity": "Buon insight su fattori di stress e impatto sul funzionamento.",
+    "motivationForChange": "Motivato a intraprendere trattamento; passo non facile considerati i ruoli di genere e culturali.",
+    "psychologicalResilience": "Ha gestito con successo lavoro a tempo pieno, relazione seria e studi a tempo pieno; resilienti capacità di ripresa nei giorni di riposo.",
+    "lifeSatisfaction": "Ridotta nell’ultimo periodo, specie per calo dei voti e fine relazione.",
+    "hopeForTheFuture": "Preservata ma fluttuante; potenziabile con supporto terapeutico.",
+    "longTermLifeGoals": "Concludere gli studi universitari, mantenere indipendenza economica, costruire relazioni stabili."
+  },
+  "medicalAndPhysicalHistory": {
+    "preExistingMedicalConditions": "Nessuna condizione medica rilevante riportata.",
+    "pharmacologicalTreatments": "Nessuno.",
+    "lifestyle": "Turni notturni continuativi; possibile deprivazione di sonno legata al lavoro.",
+    "generalPhysicalHealth": "Buona.",
+    "sleepPatterns": "Difficoltà di riposo e concentrazione dopo i turni notturni; sonno ed energia nella norma nei giorni liberi.",
+    "eatingHabits": "Appetito invariato."
+  },
+  "behaviorDuringTestAdministration": {
+    "recurringDynamicsTransferenceCountertransference": "Non evidenziate dinamiche specifiche; buona alleanza potenziale con terapeuta sensibile a temi di genere/razza/cultura.",
+    "expressedEmotionsAndCongruence": "Aspetto preoccupato e affetto costretto, con sorrisi appropriati; congruo al contenuto.",
+    "speechCharacteristics": "Eloquio coerente.",
+    "nonVerbalBehavior": "Puntuale, cooperativo, attento; postura adeguata.",
+    "appearanceSelfCareOrientation": "Abbigliamento appropriato e buona cura di sé."
+  }
+}

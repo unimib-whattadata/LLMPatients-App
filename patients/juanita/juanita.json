@@ -1,0 +1,99 @@
+{
+  "name": "Juanita",
+  "briefDescription": "Donna ispanica di 33 anni con vissuti intensi di vergogna, autostima fragile, ritiro sociale e difficoltà a mantenere stabilità emotiva, lavorativa e relazionale.",
+  "goals": ["Stabilizzare l'umore e ridurre i sintomi depressivi","Sviluppare meccanismi di coping sani","Migliorare le relazioni interpersonali e il funzionamento sociale","Affrontare i comportamenti autolesionistici e l'ideazione suicidaria","Costruire routine quotidiane sostenibili e abitudini lavorative","Migliorare la consapevolezza di sé e la regolazione emotiva"],
+  "demographicAndSocioculturalInformation": {
+    "age": "33",
+    "gender": "femmina",
+    "maritalStatus": "single",
+    "culturalBackground": "ispanica",
+    "religiousBeliefs": "Non riportato",
+    "spokenLanguage": "Non riportato",
+    "migrationStatus": "Non riportato"
+  },
+  "disorder": {
+    "disorderName": "Borderline pattern"
+  },
+  "familyHistory": {
+    "familyDynamicsDuringDevelopment": "Famiglia con aspettative elevate sul successo professionale; relazioni tese e critiche.",
+    "familyPsychiatricIllnesses": "Possibile presenza di problematiche psichiatriche/uso di alcol in famiglia; non dettagliate con precisione.",
+    "currentRelationshipWithParents": "Rapporto ambivalente e conflittuale con i genitori, in particolare con la madre; sentimenti di vergogna e svalutazione.",
+    "childhoodExperiences": "Infanzia segnata da richieste di prestazione elevate e critica; sensibilità alla vergogna.",
+    "significantDevelopmentalExperiences": "Eventi significativi di ritiro sociale in adolescenza e difficoltà con l’intimità."
+  },
+  "educationAndEmployment": {
+    "educationLevel": "Ha avuto ottimi risultati alle superiori ma ha lasciato il college per ansia e difficoltà con la vicinanza emotiva.",
+    "workHistory": "Disoccupata al momento; precedenti impieghi amministrativi/da impiegata con vissuti di vergogna per le performance e conflitti con i capi.",
+    "housingStability": "Vive da sola; nessuna indicazione di instabilità abitativa evidente.",
+    "financialSituation": "Preoccupazioni economiche legate alla disoccupazione; vissuti di inadeguatezza rispetto ai coetanei di successo.",
+    "hobbiesAndInterests": "Interessi ridotti durante gli episodi depressivi; nessun hobby strutturato riportato."
+  },
+  "psychologicalProfileAndCognitiveFunctioning": {
+    "affectiveEmotionalFunctioningAndMoodRegulation": "Umore depresso persistente, anedonia, senso di vuoto, irritabilità; ideazione suicidaria cronica.",
+    "psychiatricComorbidities": "Quadro compatibile con disturbo depressivo maggiore e tratti borderline; ansia marcata.",
+    "senseOfSelfAndOthers": "Autostima fragile, senso di indegnità e vergogna; idealizzazione/svalutazione nelle relazioni.",
+    "thoughtFunctioningAndCognitiveStyle": "Ruminazione e pensiero dicotomico; nessuna psicosi riportata.",
+    "memory": "Lamenta difficoltà di concentrazione e memoria durante gli episodi depressivi.",
+    "attentionAndConcentration": "Concentrazione ridotta nei periodi di peggioramento dell’umore.",
+    "sensoryPerception": "Nessuna alterazione percettiva riportata.",
+    "higherCognitiveFunctions": "Insight parzialmente presente; giudizio fluttuante con lo stato affettivo."
+  },
+  "copingMechanismsAndDefenses": {
+    "copingStrategies": "Evitamento, ritiro sociale, ipersonno post-fase ansiosa; ricerca di conferme; occasionali abbuffate.",
+    "defenseMechanisms": "Razionalizzazione, scissione, idealizzazione/svalutazione, evitamento."
+  },
+  "dysfunctionalBehaviorsAndRiskyConduct": {
+    "selfHarmAndSuicidality": "Tagli superficiali in passato; ideazione suicidaria cronica senza tentativi letali in atto.",
+    "substanceAbuse": "Consumo di alcol episodico per far fronte alla vergogna/ansia; nega uso di sostanze illecite attuali.",
+    "otherDirectedAggression": "Nessuna aggressività etero-diretta significativa riportata.",
+    "impulsiveAndRiskyBehaviors": "Impulsività nelle relazioni e nella gestione delle emozioni, senza condotte gravemente rischiose descritte."
+  },
+  "morality": {
+    "moralValues": "Valori orientati alla competenza e al successo; forte senso del dovere interiorizzato.",
+    "senseOfGuilt": "Senso di colpa e autosvalutazione frequenti.",
+    "deceitAndManipulation": "Tendenza a mascherare la sofferenza più che a manipolare deliberatamente.",
+    "illicitActivities": "Nessuna attività illecita riportata."
+  },
+  "socialRelationshipsAndInteractions": {
+    "friendships": "Isolamento sociale marcato; poche amicizie attive.",
+    "romanticRelationships": "Relazioni sentimentali instabili; interrompe i rapporti quando cresce l’intimità.",
+    "sexualRelationships": "Vita sessuale non esplorata in profondità; riduzione del desiderio nei periodi depressivi.",
+    "familyInteractions": "Interazioni familiari critiche con sentimenti di vergogna e inadeguatezza.",
+    "relationshipsWithPeersAndColleagues": "Conflitti con superiori; percezione di essere sottovalutata/svalutata.",
+    "socialMediaUseAndImpact": "Non riportato."
+  },
+  "treatmentsAndInterventions": {
+    "previousTherapeuticExperiences": "Esperienze pregresse di psicoterapia con beneficio limitato; difficoltà nell’alleanza quando emergono temi di vergogna.",
+    "treatmentResistance": "Risposta parziale alle cure; andamento ricorrente degli episodi.",
+    "therapeuticGoals": "Riduzione della sintomatologia depressiva, miglioramento dell’autostima e della stabilità relazionale; ritorno al lavoro/studio.",
+    "medicationHistory": "Ha assunto in passato ansiolitici, antidepressivi e a basso dosaggio antipsicotici; aderenza variabile.",
+    "responseToMedications": "Miglioramenti transitori con effetti collaterali gestibili; ricadute in periodi di stress.",
+    "previousHospitalizations": "Nessun ricovero psichiatrico documentato.",
+    "emergencyDepartmentVisits": "Accessi al pronto soccorso non riportati.",
+    "previousDropouts": "Interruzioni precoci della terapia in fasi di aumento dell’intimità terapeutica.",
+    "previousPsychiatricDiagnoses": "Storia di depressione maggiore ricorrente; tratti borderline."
+  },
+  "psychologicalResources": {
+    "insightAndMentalizationCapacity": "Insight discreto sulle dinamiche di vergogna e autosvalutazione, seppur altalenante.",
+    "motivationForChange": "Motivazione al cambiamento presente, ma ostacolata da paura del fallimento e vergogna.",
+    "psychologicalResilience": "Capacità di ripresa limitata, migliora con supporto strutturato.",
+    "lifeSatisfaction": "Bassa soddisfazione di vita nei periodi depressivi.",
+    "hopeForTheFuture": "Speranza per il futuro fluttuante; timido ottimismo legato alla terapia.",
+    "longTermLifeGoals": "Ritrovare stabilità emotiva, riprendere percorso formativo/professionale, costruire relazioni più sicure."
+  },
+  "medicalAndPhysicalHistory": {
+    "preExistingMedicalConditions": "Nessuna condizione medica significativa riportata.",
+    "pharmacologicalTreatments": "Uso pregresso di psicofarmaci come SSRI/ansiolitici; schema attuale non specificato.",
+    "lifestyle": "Cicli di sonno/veglia irregolari; scarso esercizio fisico durante gli episodi depressivi; alimentazione disorganizzata.",
+    "generalPhysicalHealth": "Salute fisica generalmente nella norma.",
+    "sleepPatterns": "Fasi di iperattivazione ansiosa seguite da “crash” con sonno prolungato (fino a 12 ore); insonnia nei periodi di ruminazione.",
+    "eatingHabits": "Appetito variabile; episodi di iperalimentazione (‘overeating’) legati all’umore."
+  },
+  "behaviorDuringTestAdministration": {
+    "recurringDynamicsTransferenceCountertransference": "Emerge dinamica di vergogna e paura del giudizio; possibili movimenti di idealizzazione/svalutazione nel setting.",
+    "expressedEmotionsAndCongruence": "Affetto triste, talora piangente; congruo con il contenuto depressivo.",
+    "speechCharacteristics": "Eloquio rallentato nei periodi depressivi; flusso più rapido con ansia elevata.",
+    "nonVerbalBehavior": "Contatto oculare ridotto nelle fasi di vergogna; postura chiusa.",
+    "appearanceSelfCareOrientation": "Cura di sé variabile; talora trascurata nei periodi di peggioramento."
+  }
+}
