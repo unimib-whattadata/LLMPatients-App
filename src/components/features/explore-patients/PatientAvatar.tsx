@@ -7,29 +7,45 @@ import { AlertTriangle } from "lucide-react";
 interface PatientAvatarProps {
   name: string;
   avatarUrl?: string | null;
-  avatarType: string;
   isDetailPage?: boolean;
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
-  "", 
+  "#3B82F6", // Blue
+  "#10B981", // Emerald
+  "#F59E0B", // Amber
+  "#EF4444", // Red
+  "#8B5CF6", // Violet
+  "#06B6D4", // Cyan
+  "#84CC16", // Lime
+  "#F97316", // Orange
+  "#EC4899", // Pink
+  "#6366F1", // Indigo
+  "#14B8A6", // Teal
+  "#F43F5E", // Rose
+  "#A855F7", // Purple
+  "#22C55E", // Green
+  "#EAB308", // Yellow
+  "#DC2626", // Red-600
+  "#2563EB", // Blue-600
+  "#059669", // Emerald-600
+  "#D97706", // Amber-600
+  "#7C3AED", // Violet-600
+  "#0891B2", // Cyan-600
+  "#65A30D", // Lime-600
+  "#EA580C", // Orange-600
+  "#DB2777", // Pink-600
+  "#4F46E5", // Indigo-600
+  "#0D9488", // Teal-600
+  "#E11D48", // Rose-600
+  "#9333EA", // Purple-600
+  "#16A34A", // Green-600
+  "#CA8A04", // Yellow-600
+  "#B91C1C", // Red-700
+  "#1D4ED8", // Blue-700
+  "#047857", // Emerald-700
+  "#B45309", // Amber-700
+  "#6D28D9", // Violet-700
 ];
 
 function initialsFromName(name: string) {
@@ -71,7 +87,6 @@ function buildPlaceholder(name: string) {
 export function PatientAvatar({
   name,
   avatarUrl,
-  avatarType: _avatarType,
   isDetailPage = false,
 }: PatientAvatarProps) {
   const [hasError, setHasError] = useState(false);
@@ -92,6 +107,7 @@ export function PatientAvatar({
         onError={() => setHasError(true)}
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         unoptimized={showPlaceholder}
+        priority={isDetailPage}
       />
 
       {hasError && avatarUrl && (

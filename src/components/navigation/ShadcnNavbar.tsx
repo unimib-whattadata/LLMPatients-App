@@ -132,6 +132,7 @@ export function ShadcnNavbar({
               width={32}
               height={32}
               className="rounded-lg"
+              style={{ width: 32, height: 32 }}
             />
             <span className="hidden text-lg font-bold sm:inline-block">
               LLMPatient

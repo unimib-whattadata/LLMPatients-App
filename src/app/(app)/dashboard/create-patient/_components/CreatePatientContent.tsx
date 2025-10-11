@@ -1,7 +1,8 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,7 +65,7 @@ const detailsSchema = z
   });
 
 const createPatientSchema = z.object({
-  name: z.string().trim().min(1, "Il nome del paziente è obbligatorio"),
+  name: z.string().trim().min(1, "Il nome del paziente è obbligatorio").max(255, "Massimo 255 caratteri"),
   smallDescription: z
     .string()
     .trim()
@@ -79,22 +80,27 @@ const createPatientSchema = z.object({
     .array(objectiveSchema)
     .min(1, "Almeno un obiettivo terapeutico è obbligatorio"),
   avatarUrl: z.string().trim().optional().or(z.literal("")),
-  avatarType: z.enum(["photo", "illustration", "avatar"]),
   difficulty: z
     .number()
     .min(1, "Difficoltà minima 1")
-    .max(5, "Difficoltà massima 5"),
+    .max(3, "Difficoltà massima 3"),
   estimatedDuration: z
     .number()
-    .min(15, "Durata minima 15 minuti")
-    .max(240, "Durata massima 240 minuti"),
+    .min(5, "Durata minima 5 minuti")
+    .max(180, "Durata massima 180 minuti"),
   details: detailsSchema,
 });
 
 type CreatePatientValues = z.infer<typeof createPatientSchema>;
 
 export function CreatePatientContent() {
+  const router = useRouter();
   const [showJsonTemplate, setShowJsonTemplate] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const form = useForm<CreatePatientValues>({
     resolver: zodResolver(createPatientSchema),
@@ -104,7 +110,6 @@ export function CreatePatientContent() {
       background: "",
       objectives: [""],
       avatarUrl: "",
-      avatarType: "illustration",
       difficulty: 1,
       estimatedDuration: 30,
       details: "",
@@ -132,38 +137,67 @@ export function CreatePatientContent() {
   };
 
   const createPatientMutation = api.patients.createPatient.useMutation({
-    onSuccess: () => {
-      toast.success("Paziente creato con successo!");
+    onSuccess: (data) => {
+      toast.success("Paziente creato con successo!", {
+        description: "Il nuovo caso clinico è stato aggiunto al sistema",
+      });
       form.reset();
       setShowJsonTemplate(false);
+      
+      // Redirect to explore patients or dashboard after a short delay
+      setTimeout(() => {
+        router.push("/explore-patients");
+      }, 1500);
     },
     onError: (error) => {
-      toast.error(`Errore nella creazione: ${error.message}`);
+      toast.error("Errore nella creazione del paziente", {
+        description: error.message,
+      });
     },
   });
 
   const jsonTemplate: Record<string, unknown> = {
-    demographic_sociocultural_information: {
-      age: "28",
+    demographicAndSocioculturalInformation: {
+      age: 28,
       gender: "Maschio",
-      marital_status: "Single",
-      cultural_background: "Background culturale del paziente",
-      religious_beliefs: "Credenze religiose",
-      spoken_language: "Italiano",
-      migration_status: "Residente nativo"
+      maritalStatus: "Single",
+      culturalBackground: "Background culturale del paziente",
+      religiousBeliefs: "Credenze religiose",
+      spokenLanguage: "Italiano",
+      migrationStatus: "Residente nativo",
+      educationLevel: "Laurea triennale",
+      occupation: "Professione del paziente",
+      livingSituation: "Vive da solo/in famiglia"
     },
-    family_social_history: {
-      developmental_family_dynamics: "Dinamiche familiari durante lo sviluppo",
-      current_parent_relationships: "Relazioni attuali con i genitori",
-      childhood_experiences: "Esperienze infantili significative",
-      abuse_history: "Storia di abusi (se presente)"
+    familySocialHistory: {
+      developmentalFamilyDynamics: "Dinamiche familiari durante lo sviluppo",
+      currentParentRelationships: "Relazioni attuali con i genitori",
+      childhoodExperiences: "Esperienze infantili significative",
+      abuseHistory: "Storia di abusi (se presente)",
+      siblingRelationships: "Relazioni con fratelli/sorelle",
+      significantRelationships: "Relazioni significative attuali"
     },
-    psychological_profile_and_cognitive_functioning: {
-      current_and_past_psychiatric_diagnoses: "Diagnosi psichiatriche attuali e passate",
-      main_symptoms: "Sintomi principali",
-      emotional_reactions_and_mood: "Reazioni emotive e umore",
-      self_perception_and_identity: "Percezione di sé e identità"
+    psychologicalProfileAndCognitiveFunctioning: {
+      currentAndPastPsychiatricDiagnoses: "Diagnosi psichiatriche attuali e passate",
+      mainSymptoms: "Sintomi principali presentati",
+      emotionalReactionsAndMood: "Reazioni emotive e tono dell'umore",
+      selfPerceptionAndIdentity: "Percezione di sé e identità",
+      copingMechanisms: "Meccanismi di coping utilizzati",
+      cognitivePatterns: "Pattern cognitivi ricorrenti"
     },
+    medicalHistory: {
+      chronicConditions: "Condizioni mediche croniche",
+      medications: "Farmaci assunti attualmente",
+      substanceUse: "Uso di sostanze (alcol, droghe, ecc.)",
+      sleepPatterns: "Pattern del sonno",
+      diet: "Alimentazione"
+    },
+    therapyHistory: {
+      previousTherapies: "Terapie precedenti",
+      responseToTreatment: "Risposta ai trattamenti precedenti",
+      currentMotivation: "Motivazione attuale alla terapia",
+      therapeuticGoals: "Obiettivi terapeutici del paziente"
+    }
   };
 
   const loadJsonTemplate = () => {
@@ -174,6 +208,36 @@ export function CreatePatientContent() {
     setShowJsonTemplate(false);
   };
 
+  if (!isMounted) {
+    return (
+      <div className="dashboard-panel-stack">
+        <section className="dashboard-section" aria-labelledby="create-patient-form">
+          <div className="dashboard-section__header">
+            <div>
+              <h1 id="create-patient-form" className="dashboard-section__title">
+                Crea Nuovo Paziente
+              </h1>
+              <p className="dashboard-section__description">
+                Inserisci le informazioni complete per creare un nuovo caso clinico da utilizzare nelle simulazioni terapeutiche
+              </p>
+            </div>
+          </div>
+          <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+            <div className="flex items-center justify-center py-12">
+              <div className="text-center">
+                <svg className="animate-spin h-8 w-8 mx-auto mb-4 text-primary-green" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <p className="text-gray-400">Caricamento form...</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard-panel-stack">
       <section
@@ -182,49 +246,76 @@ export function CreatePatientContent() {
       >
         <div className="dashboard-section__header">
           <div>
-            <h2 id="create-patient-form" className="dashboard-section__title">
+            <h1 id="create-patient-form" className="dashboard-section__title">
               Crea Nuovo Paziente
-            </h2>
+            </h1>
             <p className="dashboard-section__description">
-              Inserisci le informazioni complete per creare un nuovo caso clinico
+              Inserisci le informazioni complete per creare un nuovo caso clinico da utilizzare nelle simulazioni terapeutiche
             </p>
           </div>
         </div>
 
-        <div className="dashboard-panel">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(async (values) => {
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(async (values) => {
+              try {
+                // Extract age from details JSON
+                let age = 30; // Default age
                 try {
-                  await createPatientMutation.mutateAsync(values);
+                  const detailsObj = JSON.parse(values.details);
+                  const extractedAge = 
+                    detailsObj?.demographicAndSocioculturalInformation?.age ||
+                    detailsObj?.demographic_sociocultural_information?.age;
+                  if (extractedAge) {
+                    // Handle both string and number formats
+                    age = typeof extractedAge === 'number' 
+                      ? extractedAge 
+                      : parseInt(String(extractedAge), 10);
+                    if (isNaN(age) || age < 1 || age > 120) {
+                      age = 30; // Fallback to default if invalid
+                    }
+                  }
                 } catch (error) {
-                  console.error("Error creating patient:", error);
+                  console.error("Failed to extract age from details:", error);
                 }
-              })}
-              className="space-y-8"
-            >
+
+                await createPatientMutation.mutateAsync({
+                  ...values,
+                  age,
+                });
+              } catch (error) {
+                console.error("Error creating patient:", error);
+              }
+            })}
+            className="space-y-6"
+          >
             {}
-            <div className="dashboard-panel">
-              <h3 className="text-lg font-semibold mb-4 text-white">Informazioni Base</h3>
-              <p className="text-sm text-gray-400 mb-6">Dati essenziali del paziente</p>
+            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-white mb-2">Informazioni Base</h3>
+                <p className="text-sm text-gray-400">Dati essenziali del paziente</p>
+              </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="label-required">Nome Paziente</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Inserisci il nome del paziente"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="label-required">Nome Paziente</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Es. Maria Rossi"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {field.value.length}/255 caratteri
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
                 <FormField
                   control={form.control}
                   name="smallDescription"
@@ -233,13 +324,13 @@ export function CreatePatientContent() {
                       <FormLabel className="label-required">Descrizione Breve</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Es. Disturbo d'Ansia"
+                          placeholder="Es. Disturbo d'Ansia Generalizzato"
                           maxLength={500}
                           {...field}
                         />
                       </FormControl>
                       <FormDescription>
-                        {field.value.length}/500 caratteri
+                        Breve descrizione della condizione principale ({field.value.length}/500 caratteri)
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -255,14 +346,14 @@ export function CreatePatientContent() {
                     <FormLabel className="label-required">Storia Clinica</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="Background medico e storia del paziente..."
-                        rows={4}
+                        placeholder="Descrivi il background clinico del paziente: anamnesi, eventi significativi, sviluppo della condizione attuale..."
+                        rows={6}
                         maxLength={2000}
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      {field.value.length}/2000 caratteri
+                      Storia e contesto clinico del caso ({field.value.length}/2000 caratteri)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -271,9 +362,11 @@ export function CreatePatientContent() {
             </div>
 
             {}
-            <div className="dashboard-panel">
-              <h3 className="text-lg font-semibold mb-4 text-white">Obiettivi Terapeutici</h3>
-              <p className="text-sm text-gray-400 mb-6">Definisci gli obiettivi del trattamento</p>
+            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-white mb-2">Obiettivi Terapeutici</h3>
+                <p className="text-sm text-gray-400">Definisci gli obiettivi clinici e terapeutici del caso</p>
+              </div>
 
               <div className="space-y-4">
                 {objectives.map((_, index) => (
@@ -284,12 +377,14 @@ export function CreatePatientContent() {
                     render={({ field }) => (
                       <FormItem className="space-y-3">
                         <div className="flex items-center gap-3">
-                          <FormControl>
-                            <Input
-                              placeholder="Inserisci un obiettivo terapeutico"
-                              {...field}
-                            />
-                          </FormControl>
+                          <div className="flex-1">
+                            <FormControl>
+                              <Input
+                                placeholder={`Obiettivo ${index + 1}: Es. Ridurre sintomi ansiosi attraverso tecniche di rilassamento`}
+                                {...field}
+                              />
+                            </FormControl>
+                          </div>
                           <Button
                             type="button"
                             variant="outline"
@@ -315,28 +410,30 @@ export function CreatePatientContent() {
                 className="mt-4"
                 onClick={handleObjectiveAdd}
               >
-                Aggiungi Obiettivo
+                + Aggiungi Obiettivo
               </Button>
             </div>
 
             {}
-            <div className="dashboard-panel">
-              <h3 className="text-lg font-semibold mb-4 text-white">Configurazione Caso</h3>
-              <p className="text-sm text-gray-400 mb-6">Impostazioni per la simulazione</p>
+            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-white mb-2">Configurazione Caso</h3>
+                <p className="text-sm text-gray-400">Impostazioni per la simulazione</p>
+              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="difficulty"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
                       <FormLabel className="label-required">
-                        Difficoltà <span className="text-xs text-gray-400">( {field.value}/5 )</span>
+                        Difficoltà <span className="text-xs text-gray-400">( {field.value}/3 )</span>
                       </FormLabel>
                       <FormControl>
                         <Slider
                           min={1}
-                          max={5}
+                          max={3}
                           step={1}
                           value={[field.value]}
                           onValueChange={(value) => field.onChange(value[0])}
@@ -344,7 +441,7 @@ export function CreatePatientContent() {
                         />
                       </FormControl>
                       <FormDescription>
-                        Seleziona il livello di complessità del caso clinico.
+                        Livello di complessità: 1=Principiante, 2=Intermedio, 3=Avanzato
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -360,8 +457,8 @@ export function CreatePatientContent() {
                       </FormLabel>
                       <FormControl>
                         <Slider
-                          min={15}
-                          max={240}
+                          min={5}
+                          max={180}
                           step={5}
                           value={[field.value]}
                           onValueChange={(value) => field.onChange(value[0])}
@@ -369,62 +466,46 @@ export function CreatePatientContent() {
                         />
                       </FormControl>
                       <FormDescription>
-                        Durata prevista della simulazione (15–240 minuti).
+                        Durata prevista della simulazione (5–180 minuti).
                       </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="avatarType"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel>Tipo Avatar</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        value={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Seleziona il tipo di avatar" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="illustration">Illustrazione</SelectItem>
-                          <SelectItem value="photo">Foto</SelectItem>
-                          <SelectItem value="avatar">Avatar</SelectItem>
-                        </SelectContent>
-                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <FormField
-                control={form.control}
-                name="avatarUrl"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>URL Avatar</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="url"
-                        placeholder="https://example.com/avatar.jpg"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="pt-4 border-t border-gray-700">
+                <FormField
+                  control={form.control}
+                  name="avatarUrl"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel>URL Avatar (opzionale)</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="url"
+                          placeholder="https://example.com/avatar.jpg"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Link all'immagine avatar del paziente virtuale
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
 
             {}
-            <div className="dashboard-panel">
-              <h3 className="text-lg font-semibold mb-4 text-white">Dettagli Paziente (JSON)</h3>
-              <p className="text-sm text-gray-400 mb-6">Informazioni strutturate del paziente in formato JSON</p>
+            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold text-white mb-2">Dettagli Paziente (JSON)</h3>
+                <p className="text-sm text-gray-400">
+                  Informazioni strutturate del paziente in formato JSON
+                </p>
+              </div>
 
               <FormField
                 control={form.control}
@@ -444,7 +525,7 @@ export function CreatePatientContent() {
                         </Button>
                         <Button
                           type="button"
-                          variant="outline"
+                          variant="secondary"
                           size="sm"
                           onClick={loadJsonTemplate}
                         >
@@ -453,54 +534,77 @@ export function CreatePatientContent() {
                       </div>
                     </div>
 
-                    {showJsonTemplate ? (
-                      <div className="p-4 bg-gray-800 rounded-lg mb-4">
-                        <h4 className="font-medium mb-2 text-white">Template JSON:</h4>
-                        <pre className="text-xs text-gray-300 whitespace-pre-wrap">
-                          {JSON.stringify(jsonTemplate, null, 2)}
-                        </pre>
+                    {showJsonTemplate && (
+                      <div className="p-4 bg-gray-800/60 border border-gray-700 rounded-xl mb-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-medium text-white flex items-center gap-2">
+                            <svg className="w-4 h-4 text-primary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Template JSON Completo
+                          </h4>
+                          <span className="text-xs text-gray-400 bg-gray-700/50 px-2 py-1 rounded">Copia e personalizza</span>
+                        </div>
+                        <div className="bg-gray-900/60 rounded-lg p-4 overflow-x-auto">
+                          <pre className="text-xs text-gray-300 whitespace-pre font-mono">
+                            {JSON.stringify(jsonTemplate, null, 2)}
+                          </pre>
+                        </div>
                       </div>
-                    ) : null}
+                    )}
 
                     <FormControl>
                       <Textarea
-                        rows={12}
+                        rows={14}
                         className="font-mono text-sm"
-                        placeholder='{"demographic_sociocultural_information": {"age": "28", "gender": "Maschio", ...}}'
+                        placeholder='{"demographicAndSocioculturalInformation": {"age": 28, "gender": "Maschio", ...}}'
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      Inserisci i dettagli strutturati del paziente in formato JSON valido.
-                      Usa il template come riferimento per la struttura.
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className="flex gap-4 pt-6">
-              <Button
-                type="submit"
-                className="min-w-[140px]"
-                isLoading={createPatientMutation.isPending}
-                disabled={createPatientMutation.isPending}
-              >
-                {createPatientMutation.isPending ? "Creazione..." : "Crea Paziente"}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => window.history.back()}
-                disabled={createPatientMutation.isPending}
-              >
-                Annulla
-              </Button>
+            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button
+                  type="submit"
+                  className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-white font-semibold"
+                  isLoading={createPatientMutation.isPending}
+                  disabled={createPatientMutation.isPending}
+                  size="lg"
+                >
+                  {createPatientMutation.isPending ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Creazione in corso...
+                    </span>
+                  ) : (
+                    "Crea Paziente"
+                  )}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => router.push("/dashboard")}
+                  disabled={createPatientMutation.isPending}
+                  size="lg"
+                  className="flex-1 sm:flex-initial"
+                >
+                  Annulla
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500 mt-4 text-center sm:text-left">
+                Tutti i campi contrassegnati con * sono obbligatori
+              </p>
             </div>
           </form>
         </Form>
-        </div>
       </section>
     </div>
   );

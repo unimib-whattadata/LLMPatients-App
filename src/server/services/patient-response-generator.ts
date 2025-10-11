@@ -295,49 +295,59 @@ export class ResponseGenerationError extends PatientResponseGeneratorError {
 
 
 const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
-  John: [
+  "Franklin Johnson": [
     {
       message:
-        "Capisco la sua preoccupazione. È difficile gestire tutto questo stress...",
+        "È difficile concentrarsi in classe dopo aver lavorato tutta la notte... A volte mi chiedo se ce la farò.",
       emotion: "sadness",
     },
     {
       message:
-        "Lei ha ragione, dovrei essere più proattivo. Ma a volte mi sento sopraffatto.",
+        "I miei genitori non capiscono davvero perché ho scelto questa università. Mi sento solo in questo.",
+      emotion: "sadness",
+    },
+    {
+      message:
+        "Dopo la rottura con la mia ragazza, continuo a pensare ai soldi, ai voti, al futuro... Non riesco a smettere.",
       emotion: "anticipation",
     },
     {
       message:
-        "Grazie per il suo supporto. Mi aiuta sapere che non sono solo in questo.",
-      emotion: "trust",
-    },
-    {
-      message:
-        "Quando parlo di questi problemi, mi sento un po' meglio. È come se non fossi più solo.",
-      emotion: "trust",
-    },
-    {
-      message:
-        "A volte penso che sia tutto nella mia testa. Ma poi ricordo che i sintomi sono reali.",
+        "A volte mi sento come se volessi mollare tutto. Non è che voglia farmi del male, ma... è tutto così difficile.",
       emotion: "sadness",
     },
     {
       message:
-        "Mia moglie dice che sono cambiato. Forse ha ragione, ma non so come tornare indietro.",
-      emotion: "sadness",
+        "Grazie per ascoltarmi. Mia cugina aveva ragione a dirmi di venire qui. Non è stato facile per me fare questo passo.",
+      emotion: "trust",
     },
     {
       message:
-        "Il lavoro mi sta consumando. Ogni giorno è una lotta per mantenere la concentrazione.",
-      emotion: "anticipation",
+        "Quando ho un giorno libero, sto bene con i miei amici. È solo che... tutto il resto è troppo pesante.",
+      emotion: "base",
     },
     {
       message:
-        "Lei mi fa riflettere su cose che non avevo mai considerato. È... illuminante.",
+        "Lei mi sta aiutando a vedere le cose in modo diverso. Non avevo mai pensato che potessi avere dei punti di forza.",
       emotion: "surprise",
     },
+    {
+      message:
+        "Essere il primo della mia famiglia ad andare al college dovrebbe essere un orgoglio, ma a volte sembra solo un peso.",
+      emotion: "sadness",
+    },
+    {
+      message:
+        "Sul campus ho vissuto episodi di discriminazione razziale. Mi fa arrabbiare e mi fa sentire ancora più fuori posto.",
+      emotion: "anger",
+    },
+    {
+      message:
+        "I miei voti stanno calando e questo mi scoraggia. Non sono mai stato così.",
+      emotion: "sadness",
+    },
   ],
-  "Juanita Delgado": [
+  "Juanita Pérez": [
     {
       message:
         "Non so se ha senso parlare di questo. Ma forse... forse può aiutare.",
@@ -377,44 +387,25 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
         "Forse c'è speranza. Non lo so, ma per la prima volta non mi sento completamente persa.",
       emotion: "trust",
     },
-  ],
-  Todd: [
     {
       message:
-        "Mi dispiace, è difficile per me parlare di queste cose. Mi sento così ansioso...",
-      emotion: "anticipation",
+        "I miei capi sembrano sempre fantastici all'inizio, ma poi si rivelano tutti degli idioti. È sempre la stessa storia.",
+      emotion: "anger",
     },
     {
-      message: "Grazie per la sua pazienza. So che non è facile con me.",
+      message:
+        "Mi vergogno così tanto di me stessa. Non riesco nemmeno a lavorare come impiegata.",
       emotion: "sadness",
     },
     {
       message:
-        "Quando lei mi fa queste domande, mi sento meno solo. È confortante.",
-      emotion: "trust",
-    },
-    {
-      message:
-        "A volte ho paura di dire la cosa sbagliata. Ma lei non mi giudica.",
-      emotion: "trust",
-    },
-    {
-      message:
-        "Il mio cuore batte forte quando parlo di certe cose. È normale?",
-      emotion: "anticipation",
-    },
-    {
-      message:
-        "Dopo che papà è morto, tutto è cambiato. Non sono mai più riuscito a sentirmi sicuro.",
+        "Mio padre voleva che fossi un successo. Invece guarda dove sono finita.",
       emotion: "sadness",
     },
     {
-      message: "Uscire di casa è diventato una sfida. L'ansia mi paralizza.",
-      emotion: "anticipation",
-    },
-    {
-      message: "Lei mi sta aiutando a capire cose su me stesso che non sapevo.",
-      emotion: "surprise",
+      message:
+        "A volte penso di essere qui per fare qualcosa di grande. Poi mi guardo allo specchio e... niente.",
+      emotion: "sadness",
     },
   ],
 };

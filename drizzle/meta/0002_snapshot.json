@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "43104e8d-2144-4c0b-b9b2-20dc55a25f60",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "9d740895-56ee-4454-9460-81cbf94c0885",
+  "prevId": "62c7933b-4511-412f-92df-8f79702f8294",
   "tables": {
     "llmpatient_account": {
       "name": "llmpatient_account",
@@ -491,6 +491,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "age": {
+          "name": "age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "smallDescription": {
           "name": "smallDescription",
           "type": "text(500)",
@@ -525,14 +532,6 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        },
-        "avatarType": {
-          "name": "avatarType",
-          "type": "text(50)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'illustration'"
         },
         "difficulty": {
           "name": "difficulty",

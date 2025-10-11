@@ -19,7 +19,8 @@ export interface PatientData {
   background: string;
   objectives: string[];
   avatarUrl: string | null;
-  avatarType: string;
+  voiceId: string | null;
+  welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;
   isActive: boolean;

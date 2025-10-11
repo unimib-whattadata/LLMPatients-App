@@ -30,7 +30,6 @@ type PatientData = {
   background: string;
   objectives: string[];
   avatarUrl: string | null;
-  avatarType: string;
   difficulty: number;
   estimatedDuration: number;
   isActive: boolean;

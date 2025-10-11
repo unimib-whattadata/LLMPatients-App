@@ -4,8 +4,6 @@ import { env } from "~/env";
 
 const PATIENT_VOICE_MAP: Record<string, string> = {
   
-  "todd": "pNInz6obpgDQGcFmaJgB", 
-  
   "john": "TX3LPVmP7r2b3yJ8", 
   
   "juanita": "21m00Tcm4TlvDq8ikWAM",
@@ -31,6 +29,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const text = searchParams.get("text");
     const patientName = searchParams.get("patientName");
+    const voiceIdParam = searchParams.get("voiceId");
 
     
     if (!text) {
@@ -50,9 +49,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    
-    const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
-    const voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
+    // Use voiceId from parameter if provided, otherwise fall back to patient name mapping
+    let voiceId: string;
+    if (voiceIdParam) {
+      voiceId = voiceIdParam;
+    } else {
+      const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
+      voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
+    }
 
     
     const emotion = searchParams.get("emotion") || "base";
@@ -151,8 +155,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as { text: string; patientName?: string; emotion?: string };
-    const { text, patientName } = body;
+    const body = await request.json() as { text: string; patientName?: string; voiceId?: string; emotion?: string };
+    const { text, patientName, voiceId: voiceIdParam } = body;
 
     
     if (!text) {
@@ -172,9 +176,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    
-    const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
-    const voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
+    // Use voiceId from parameter if provided, otherwise fall back to patient name mapping
+    let voiceId: string;
+    if (voiceIdParam) {
+      voiceId = voiceIdParam;
+    } else {
+      const normalizedPatientName = patientName?.toLowerCase().replace(/\s+/g, "-") || "";
+      voiceId = PATIENT_VOICE_MAP[normalizedPatientName] || DEFAULT_VOICE_ID;
+    }
 
     
     const emotion = body.emotion || "base";

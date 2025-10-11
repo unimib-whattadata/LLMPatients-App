@@ -33,9 +33,7 @@ export function TRPCReactProvider(props: { children: React.ReactNode }) {
     api.createClient({
       links: [
         loggerLink({
-          enabled: (op) =>
-            isDevelopment ||
-            (op.direction === "down" && op.result instanceof Error),
+          enabled: () => false, // Completely disable TRPC logging
         }),
         httpBatchStreamLink({
           transformer: SuperJSON,

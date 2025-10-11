@@ -8,29 +8,29 @@ export function formatSessionTime(seconds: number): string {
   return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
 }
 
+/**
+ * Get the avatar path for a patient with a specific emotion
+ * Uses avatarUrl from database and replaces the emotion part
+ */
 export function getPatientAvatarPath(
-  patientName: string, 
+  avatarUrl: string | null | undefined,
   emotion: PatientEmotion = "base"
 ): string {
-  
-  const normalizedName = patientName.toLowerCase().replace(/\s+/g, "-");
-  
-  
-  const patientFolderMap: Record<string, string> = {
-    "john": "john",
-    "juanita": "juanita",
-    "todd": "todd",
-  };
-  
-  const folderName = patientFolderMap[normalizedName] || normalizedName;
-  
-  
-  if (folderName === "todd" || emotion === "base") {
-    return `/images/patients/${folderName}/${emotion}.png`;
+  // If no avatarUrl is provided, return a default placeholder
+  if (!avatarUrl) {
+    return `/images/patients/default/${emotion}.png`;
   }
   
+  // If avatarUrl contains an emotion keyword, replace it
+  // Example: "/images/patients/franklin/base.png" -> "/images/patients/franklin/joy.png"
+  const emotionPattern = /\/(base|anger|anticipation|disgust|joy|sadness|surprise|trust)\.png$/i;
   
-  return `/images/patients/${folderName}/base.png`;
+  if (emotionPattern.test(avatarUrl)) {
+    return avatarUrl.replace(emotionPattern, `/${emotion}.png`);
+  }
+  
+  // If avatarUrl doesn't follow the emotion pattern, return as is
+  return avatarUrl;
 }
 
 export function generatePatientAvatar(name: string): {

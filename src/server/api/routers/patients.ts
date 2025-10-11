@@ -11,12 +11,12 @@ import { type DifficultyLevel } from "~/lib/constants/difficulty";
 export interface Patient {
   id: string;
   name: string;
+  age: number;
   smallDescription: string; 
   details: string; 
-  background: string;
+  background: string; // Derived from clinicalCase for backward compatibility
   objectives: string[];
   avatarUrl?: string | null;
-  avatarType: "photo" | "illustration" | "avatar";
   difficulty: DifficultyLevel;
   estimatedDuration: number;
   isActive: boolean;
@@ -94,15 +94,12 @@ export const patientsRouter = createTRPCRouter({
           (patient: typeof patients.$inferSelect) => ({
             id: patient.id,
             name: patient.name,
+            age: patient.age,
             smallDescription: patient.smallDescription,
             details: patient.details,
-            background: patient.background,
+            background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
             objectives: JSON.parse(patient.objectives) as string[],
             avatarUrl: patient.avatarUrl,
-            avatarType: patient.avatarType as
-              | "photo"
-              | "illustration"
-              | "avatar",
             difficulty: patient.difficulty as DifficultyLevel,
             estimatedDuration: patient.estimatedDuration,
             isActive: patient.isActive,
@@ -161,12 +158,12 @@ export const patientsRouter = createTRPCRouter({
       const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
+        age: patient.age,
         smallDescription: patient.smallDescription,
         details: patient.details,
-        background: patient.background,
+        background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
         objectives: JSON.parse(patient.objectives) as string[],
         avatarUrl: patient.avatarUrl,
-        avatarType: patient.avatarType as "photo" | "illustration" | "avatar",
         difficulty: patient.difficulty as DifficultyLevel,
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
@@ -182,14 +179,12 @@ export const patientsRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1).max(255),
+        age: z.number().min(1).max(120),
         smallDescription: z.string().min(1).max(500),
         details: z.string().min(1), 
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
-        avatarType: z
-          .enum(["photo", "illustration", "avatar"])
-          .default("illustration"),
         difficulty: z.number().min(1).max(3),
         estimatedDuration: z.number().min(5).max(180).default(30),
       }),
@@ -205,12 +200,12 @@ export const patientsRouter = createTRPCRouter({
         .insert(patients)
         .values({
           name: input.name,
+          age: input.age,
           smallDescription: input.smallDescription,
           details: input.details,
-          background: input.background,
+          clinicalCase: input.background, // Store background as clinicalCase in DB
           objectives: JSON.stringify(input.objectives),
           avatarUrl: input.avatarUrl,
-          avatarType: input.avatarType,
           difficulty: input.difficulty,
           estimatedDuration: input.estimatedDuration,
         })

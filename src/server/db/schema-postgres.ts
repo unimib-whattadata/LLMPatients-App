@@ -127,12 +127,14 @@ export const patients = createTable(
       .primaryKey()
       .$defaultFn(() => randomUUID()),
     name: d.text().notNull(),
+    age: d.integer().notNull(),
     smallDescription: d.text().notNull(), 
-    details: d.text().notNull(), 
-    background: d.text().notNull(),
+    details: d.text().notNull(),
+    clinicalCase: d.text().notNull(),
     objectives: d.text().notNull(), 
     avatarUrl: d.text(),
-    avatarType: d.text().default("illustration").notNull(), 
+    voiceId: d.text(), // ElevenLabs voice ID for TTS
+    welcomeMessage: d.text(), // Optional custom welcome message
     difficulty: d.integer().notNull(), 
     estimatedDuration: d.integer().default(30).notNull(), 
     isActive: d.boolean().default(true).notNull(),

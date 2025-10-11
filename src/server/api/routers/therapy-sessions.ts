@@ -148,62 +148,78 @@ export const therapySessionsRouter = createTRPCRouter({
     }),
 
   getAllForUser: protectedProcedure.query(async ({ ctx }) => {
-    const userId = ctx.session.user.id;
+    try {
+      const userId = ctx.session.user.id;
 
-    const sessions = await (ctx.db as any)
-      .select({
-        id: (therapySessions as any).id,
-        userId: (therapySessions as any).userId,
-        patientId: (therapySessions as any).patientId,
-        sessionNumber: (therapySessions as any).sessionNumber,
-        isCompleted: (therapySessions as any).isCompleted,
-        createdAt: (therapySessions as any).createdAt,
-        updatedAt: (therapySessions as any).updatedAt,
-        patient: {
-          id: (patients as any).id,
-          name: (patients as any).name,
-          smallDescription: (patients as any).smallDescription,
-          details: (patients as any).details,
-          background: (patients as any).background,
-          objectives: (patients as any).objectives,
-          avatarUrl: (patients as any).avatarUrl,
-          avatarType: (patients as any).avatarType,
-          difficulty: (patients as any).difficulty,
-          estimatedDuration: (patients as any).estimatedDuration,
-        },
-      })
-      .from(therapySessions)
-      .leftJoin(
-        patients,
-        eq((therapySessions as any).patientId, (patients as any).id),
-      )
-      .where(eq((therapySessions as any).userId, userId))
-      .orderBy(
-        desc((therapySessions as any).updatedAt),
-        desc((therapySessions as any).createdAt),
+      const sessions = await (ctx.db as any)
+        .select({
+          id: (therapySessions as any).id,
+          userId: (therapySessions as any).userId,
+          patientId: (therapySessions as any).patientId,
+          sessionNumber: (therapySessions as any).sessionNumber,
+          isCompleted: (therapySessions as any).isCompleted,
+          createdAt: (therapySessions as any).createdAt,
+          updatedAt: (therapySessions as any).updatedAt,
+          patientName: (patients as any).name,
+          patientSmallDescription: (patients as any).smallDescription,
+          patientDetails: (patients as any).details,
+          patientObjectives: (patients as any).objectives,
+          patientAvatarUrl: (patients as any).avatarUrl,
+          patientDifficulty: (patients as any).difficulty,
+          patientEstimatedDuration: (patients as any).estimatedDuration,
+        })
+        .from(therapySessions)
+        .leftJoin(
+          patients,
+          eq((therapySessions as any).patientId, (patients as any).id),
+        )
+        .where(eq((therapySessions as any).userId, userId))
+        .orderBy(
+          desc((therapySessions as any).updatedAt),
+          desc((therapySessions as any).createdAt),
+        );
+
+      // Get completed steps count for each session
+      const sessionsWithProgress = await Promise.all(
+        sessions.map(async (session: any) => {
+          const completedSteps = await (ctx.db as any)
+            .select({ id: (chat as any).id })
+            .from(chat)
+            .where(
+              and(
+                eq((chat as any).therapySessionId, session.id),
+                eq((chat as any).done, true),
+              ),
+            );
+
+          return {
+            id: session.id,
+            userId: session.userId,
+            patientId: session.patientId,
+            sessionNumber: session.sessionNumber,
+            isCompleted: session.isCompleted,
+            createdAt: session.createdAt,
+            updatedAt: session.updatedAt,
+            completedStepsCount: completedSteps.length,
+            patient: {
+              id: session.patientId,
+              name: session.patientName,
+              smallDescription: session.patientSmallDescription,
+              details: session.patientDetails,
+              objectives: session.patientObjectives,
+              avatarUrl: session.patientAvatarUrl,
+              difficulty: session.patientDifficulty,
+              estimatedDuration: session.patientEstimatedDuration,
+            },
+          };
+        }),
       );
 
-    
-    const sessionsWithProgress = await Promise.all(
-      sessions.map(async (session: any) => {
-        const completedSteps = await (ctx.db as any)
-          .select({ id: (chat as any).id })
-          .from(chat)
-          .where(
-            and(
-              eq((chat as any).therapySessionId, session.id),
-              eq((chat as any).done, true),
-            ),
-          );
-
-        return {
-          ...session,
-          completedStepsCount: completedSteps.length,
-        };
-      }),
-    );
-
-    return sessionsWithProgress;
+      return sessionsWithProgress;
+    } catch (error) {
+      console.error("[therapySessions.getAllForUser] Error:", error);
+      throw error;
+    }
   }),
 
     isCompleted: protectedProcedure

@@ -1,96 +1,103 @@
 {
-  "demographicAndSocioculturalInformation": {
-    "age": null,
-    "gender": null,
-    "maritalStatus": null,
-    "culturalBackground": null,
-    "religiousBeliefs": null,
-    "spokenLanguage": null,
-    "migrationStatus": null
-  },
-  "disorder": {
-    "disorderName": null
-  },
-  "familyHistory": {
-    "familyDynamicsDuringDevelopment": null,
-    "familyPsychiatricIllnesses": null,
-    "currentRelationshipWithParents": null,
-    "childhoodExperiences": null,
-    "significantDevelopmentalExperiences": null
-  },
-  "educationAndEmployment": {
-    "educationLevel": null,
-    "workHistory": null,
-    "housingStability": null,
-    "financialSituation": null,
-    "hobbiesAndInterests": null
-  },
-  "psychologicalProfileAndCognitiveFunctioning": {
-    "affectiveEmotionalFunctioningAndMoodRegulation": null,
-    "psychiatricComorbidities": null,
-    "senseOfSelfAndOthers": null,
-    "thoughtFunctioningAndCognitiveStyle": null,
-    "memory": null,
-    "attentionAndConcentration": null,
-    "sensoryPerception": null,
-    "higherCognitiveFunctions": null
-  },
-  "copingMechanismsAndDefenses": {
-    "copingStrategies": null,
-    "defenseMechanisms": null
-  },
-  "dysfunctionalBehaviorsAndRiskyConduct": {
-    "selfHarmAndSuicidality": null,
-    "substanceAbuse": null,
-    "otherDirectedAggression": null,
-    "impulsiveAndRiskyBehaviors": null
-  },
-  "morality": {
-    "moralValues": null,
-    "senseOfGuilt": null,
-    "deceitAndManipulation": null,
-    "illicitActivities": null
-  },
-  "socialRelationshipsAndInteractions": {
-    "friendships": null,
-    "romanticRelationships": null,
-    "sexualRelationships": null,
-    "familyInteractions": null,
-    "relationshipsWithPeersAndColleagues": null,
-    "socialMediaUseAndImpact": null
-  },
-  "treatmentsAndInterventions": {
-    "previousTherapeuticExperiences": null,
-    "treatmentResistance": null,
-    "therapeuticGoals": null,
-    "medicationHistory": null,
-    "responseToMedications": null,
-    "previousHospitalizations": null,
-    "emergencyDepartmentVisits": null,
-    "previousDropouts": null,
-    "previousPsychiatricDiagnoses": null
-  },
-  "psychologicalResources": {
-    "insightAndMentalizationCapacity": null,
-    "motivationForChange": null,
-    "psychologicalResilience": null,
-    "lifeSatisfaction": null,
-    "hopeForTheFuture": null,
-    "longTermLifeGoals": null
-  },
-  "medicalAndPhysicalHistory": {
-    "preExistingMedicalConditions": null,
-    "pharmacologicalTreatments": null,
-    "lifestyle": null,
-    "generalPhysicalHealth": null,
-    "sleepPatterns": null,
-    "eatingHabits": null
-  },
-  "behaviorDuringTestAdministration": {
-    "recurringDynamicsTransferenceCountertransference": null,
-    "expressedEmotionsAndCongruence": null,
-    "speechCharacteristics": null,
-    "nonVerbalBehavior": null,
-    "appearanceSelfCareOrientation": null
+  "name": null,
+  "smallfDescription": null,
+  "objectives": [],
+  "difficulty": null,
+  "estimatedDuration": null,
+  "details": {
+    "demographicAndSocioculturalInformation": {
+      "age": null,
+      "gender": null,
+      "maritalStatus": null,
+      "culturalBackground": null,
+      "religiousBeliefs": null,
+      "spokenLanguage": null,
+      "migrationStatus": null
+    },
+    "disorder": {
+      "disorderName": null
+    },
+    "familyHistory": {
+      "familyDynamicsDuringDevelopment": null,
+      "familyPsychiatricIllnesses": null,
+      "currentRelationshipWithParents": null,
+      "childhoodExperiences": null,
+      "significantDevelopmentalExperiences": null
+    },
+    "educationAndEmployment": {
+      "educationLevel": null,
+      "workHistory": null,
+      "housingStability": null,
+      "financialSituation": null,
+      "hobbiesAndInterests": null
+    },
+    "psychologicalProfileAndCognitiveFunctioning": {
+      "affectiveEmotionalFunctioningAndMoodRegulation": null,
+      "psychiatricComorbidities": null,
+      "senseOfSelfAndOthers": null,
+      "thoughtFunctioningAndCognitiveStyle": null,
+      "memory": null,
+      "attentionAndConcentration": null,
+      "sensoryPerception": null,
+      "higherCognitiveFunctions": null
+    },
+    "copingMechanismsAndDefenses": {
+      "copingStrategies": null,
+      "defenseMechanisms": null
+    },
+    "dysfunctionalBehaviorsAndRiskyConduct": {
+      "selfHarmAndSuicidality": null,
+      "substanceAbuse": null,
+      "otherDirectedAggression": null,
+      "impulsiveAndRiskyBehaviors": null
+    },
+    "morality": {
+      "moralValues": null,
+      "senseOfGuilt": null,
+      "deceitAndManipulation": null,
+      "illicitActivities": null
+    },
+    "socialRelationshipsAndInteractions": {
+      "friendships": null,
+      "romanticRelationships": null,
+      "sexualRelationships": null,
+      "familyInteractions": null,
+      "relationshipsWithPeersAndColleagues": null,
+      "socialMediaUseAndImpact": null
+    },
+    "treatmentsAndInterventions": {
+      "previousTherapeuticExperiences": null,
+      "treatmentResistance": null,
+      "therapeuticGoals": null,
+      "medicationHistory": null,
+      "responseToMedications": null,
+      "previousHospitalizations": null,
+      "emergencyDepartmentVisits": null,
+      "previousDropouts": null,
+      "previousPsychiatricDiagnoses": null
+    },
+    "psychologicalResources": {
+      "insightAndMentalizationCapacity": null,
+      "motivationForChange": null,
+      "psychologicalResilience": null,
+      "lifeSatisfaction": null,
+      "hopeForTheFuture": null,
+      "longTermLifeGoals": null
+    },
+    "medicalAndPhysicalHistory": {
+      "preExistingMedicalConditions": null,
+      "pharmacologicalTreatments": null,
+      "lifestyle": null,
+      "generalPhysicalHealth": null,
+      "sleepPatterns": null,
+      "eatingHabits": null
+    },
+    "behaviorDuringTestAdministration": {
+      "recurringDynamicsTransferenceCountertransference": null,
+      "expressedEmotionsAndCongruence": null,
+      "speechCharacteristics": null,
+      "nonVerbalBehavior": null,
+      "appearanceSelfCareOrientation": null
+    }
   }
 }

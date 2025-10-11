@@ -131,24 +131,6 @@ export function PatientDetailContent() {
     { label: patient.name, isActive: true },
   ];
 
-  let details: {
-    demographic_sociocultural_information?: {
-      age?: string;
-      gender?: string;
-    };
-    psychological_profile_and_cognitive_functioning?: {
-      current_and_past_psychiatric_diagnoses?: string;
-    };
-  } = {};
-
-  try {
-    details = JSON.parse(patient.details) as typeof details;
-  } catch (error) {
-    console.error("Failed to parse patient details:", error);
-    
-    details = {};
-  }
-
   return (
     <div className="bg-background-primary min-h-screen">
       <header className="bg-background-secondary">
@@ -164,7 +146,6 @@ export function PatientDetailContent() {
               <PatientAvatar
                 name={patient.name}
                 avatarUrl={patient.avatarUrl}
-                avatarType={patient.avatarType}
                 isDetailPage={true}
               />
               <div className="p-4 sm:p-6">
@@ -174,16 +155,11 @@ export function PatientDetailContent() {
                     {patient.name}
                   </h1>
                   <span className="patient-card-age text-sm sm:text-base">
-                    {details.demographic_sociocultural_information?.age ||
-                      "N/A"}{" "}
-                    anni
+                    {patient.age} anni
                   </span>
                 </header>
 
                 {}
-                <p className="patient-card-condition mt-3 text-sm sm:text-base">
-                  {patient.smallDescription}
-                </p>
 
                 {}
                 <div className="patient-card-metadata mt-4">
@@ -215,10 +191,10 @@ export function PatientDetailContent() {
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
               <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
-                Storia del paziente
+                Descrizione
               </h2>
-              <p className="patient-card-background text-sm leading-relaxed sm:text-base">
-                {patient.background}
+              <p className="patient-card-condition text-sm leading-relaxed sm:text-base">
+                {patient.smallDescription}
               </p>
             </article>
 

@@ -22,24 +22,6 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
-  let details: {
-    demographic_sociocultural_information?: {
-      age?: string;
-      gender?: string;
-    };
-    psychological_profile_and_cognitive_functioning?: {
-      current_and_past_psychiatric_diagnoses?: string;
-    };
-  } = {};
-
-  try {
-    details = JSON.parse(patient.details) as typeof details;
-  } catch (error) {
-    console.error("Failed to parse patient details:", error);
-    
-    details = {};
-  }
-
   const getDifficultyIcon = (difficulty: number) => {
     switch (difficulty) {
       case 1:
@@ -65,7 +47,6 @@ export function PatientCard({ patient }: PatientCardProps) {
         <PatientAvatar
           name={patient.name}
           avatarUrl={patient.avatarUrl}
-          avatarType={patient.avatarType}
         />
         
         {}
@@ -79,7 +60,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               {patient.name}
             </CardTitle>
             <Badge variant="secondary" itemProp="age" className="bg-[#8B9769] text-white">
-              {details.demographic_sociocultural_information?.age || "N/A"} anni
+              {patient.age} anni
             </Badge>
           </div>
           
@@ -91,11 +72,6 @@ export function PatientCard({ patient }: PatientCardProps) {
       </CardHeader>
 
       <CardContent className="flex-1 pt-0">
-        {}
-        <p className="text-sm text-gray-300 mb-4" itemProp="additionalProperty">
-          {patient.background}
-        </p>
-
         {}
         <div className="space-y-2">
           <p className="text-sm font-medium text-[#8B9769]">Obiettivi:</p>

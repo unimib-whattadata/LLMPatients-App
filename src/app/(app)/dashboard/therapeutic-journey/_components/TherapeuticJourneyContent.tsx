@@ -25,7 +25,6 @@ type TherapySessionWithPatient = {
     difficulty: number;
     estimatedDuration: number;
     avatarUrl: string | null;
-    avatarType: string;
   };
 };
 

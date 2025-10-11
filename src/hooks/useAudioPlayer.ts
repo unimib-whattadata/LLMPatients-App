@@ -12,7 +12,7 @@ export interface AudioPlayerState {
 }
 
 export interface AudioPlayerActions {
-  playText: (text: string, patientName?: string, emotion?: string) => Promise<void>;
+  playText: (text: string, voiceId?: string, emotion?: string) => Promise<void>;
   togglePlayPause: () => void;
   stop: () => void;
   clear: () => void;
@@ -84,7 +84,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     };
   }, [onPlaybackEnd, onError]);
 
-  const generateAudio = useCallback(async (text: string, patientName?: string, emotion?: string): Promise<string> => {
+  const generateAudio = useCallback(async (text: string, voiceId?: string, emotion?: string): Promise<string> => {
     
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
@@ -96,7 +96,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     try {
       const params = new URLSearchParams({
         text,
-        ...(patientName && { patientName }),
+        ...(voiceId && { voiceId }),
         ...(emotion && { emotion }),
       });
 
@@ -143,7 +143,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     }
   }, []);
 
-  const playText = useCallback(async (text: string, patientName?: string, emotion?: string) => {
+  const playText = useCallback(async (text: string, voiceId?: string, emotion?: string) => {
     if (!text.trim()) return;
 
     try {
@@ -161,7 +161,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       
 
       
-      const audioUrl = await generateAudio(text, patientName, emotion);
+      const audioUrl = await generateAudio(text, voiceId, emotion);
       
       
       setCurrentAudioUrl((prevUrl) => {

@@ -41,18 +41,6 @@ import {
 } from "./chat-utils";
 import { useAudioPlayer } from "~/hooks/useAudioPlayer";
 
-
-function getWelcomeMessage(patientName: string, stepId: number): string {
-  const welcomeMessages: Record<string, string> = {
-    "John": "Buongiorno. Sono John. Grazie per avermi dedicato del tempo oggi. Ci sono... molte cose di cui dovremmo parlare, se va bene per lei.",
-    "Juanita Delgado": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
-    "Todd": "Salve... sono Todd. Mi scusi se sembro nervoso. Non sono molto bravo in queste cose, ma... cercherò di fare del mio meglio.",
-  };
-  
-  return welcomeMessages[patientName] || 
-    `Ciao! Sono ${patientName}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
-}
-
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
   const router = useRouter();
@@ -206,10 +194,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       
       lastProcessedMessageIdRef.current = lastMessage.id;
       
-      
-      void audioPlayer.playText(lastMessage.content, typedSelectedPatient?.name, lastMessage.emotion);
+      // Use voiceId from database for TTS
+      void audioPlayer.playText(
+        lastMessage.content, 
+        typedSelectedPatient?.voiceId || undefined, 
+        lastMessage.emotion
+      );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.name, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.voiceId, hasUserInteracted]);
 
   
   useEffect(() => {
@@ -271,7 +263,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
       if (isInitialLoad.current) {
         isInitialLoad.current = false;
-        const welcomeContent = getWelcomeMessage(typedSelectedPatient.name, stepId);
+        // Use welcome message from database, or generate a default one
+        const welcomeContent = typedSelectedPatient.welcomeMessage || 
+          `Ciao! Sono ${typedSelectedPatient.name}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
 
         const welcomeMessage: ChatMessage = {
           id: `welcome-${Date.now()}`,
@@ -803,7 +797,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       {}
                       <Image
                         key={`current-${currentEmotion}`}
-                        src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                        src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, currentEmotion)}
                         alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
                         width={100}
                         height={100}
@@ -821,7 +815,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       {nextEmotion && nextEmotion !== currentEmotion && (
                         <Image
                           key={`next-${nextEmotion}`}
-                          src={getPatientAvatarPath(typedSelectedPatient.name, nextEmotion)}
+                          src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, nextEmotion)}
                           alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
                           width={100}
                           height={100}
@@ -1165,7 +1159,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           <div className="relative">
             {typedSelectedPatient ? (
               <Image
-                src={getPatientAvatarPath(typedSelectedPatient.name, currentEmotion)}
+                src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, currentEmotion)}
                 alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
                 width={600}
                 height={600}

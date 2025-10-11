@@ -31,7 +31,6 @@ type TherapySessionWithPatient = {
     difficulty: number;
     estimatedDuration: number;
     avatarUrl: string | null;
-    avatarType: string;
   };
 };
 
@@ -96,7 +95,6 @@ function TherapySessionCardComponent({
                 <PatientAvatar
                   name={therapySession.patient.name}
                   avatarUrl={therapySession.patient.avatarUrl}
-                  avatarType={therapySession.patient.avatarType}
                 />
               </div>
               <div>

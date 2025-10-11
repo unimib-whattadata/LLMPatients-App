@@ -3,7 +3,7 @@
 
 import { fileURLToPath } from "node:url";
 import { resolve } from "node:path";
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { execSync } from "child_process";
 import { config } from "dotenv";
@@ -87,54 +87,68 @@ type PatientSeed = {
       current_and_past_psychiatric_diagnoses: string;
     };
   };
-  background: string;
+  clinicalCase: string;
   objectives: string[];
   avatarUrl: string | null;
-  avatarType: string;
+  voiceId?: string | null;
+  welcomeMessage?: string | null;
   difficulty: number;
   estimatedDuration: number;
 };
 
 
 function loadPatientsFromFiles(): PatientSeed[] {
-  const patientsDir = join(process.cwd(), "src", "server", "db", "patients");
-  const patientFiles = readdirSync(patientsDir).filter((file) =>
-    file.endsWith(".json"),
-  );
+  const patientsDir = join(process.cwd(), "patients");
+  const entries = readdirSync(patientsDir, { withFileTypes: true });
 
   const patients: PatientSeed[] = [];
 
-  for (const file of patientFiles) {
-    try {
-      const filePath = join(patientsDir, file);
-      const fileContent = readFileSync(filePath, "utf-8");
-      const patientData = JSON.parse(fileContent);
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      const slug = entry.name;
+      const patientFilePath = join(patientsDir, slug, `${slug}.json`);
 
-      
-      const patient: PatientSeed = {
-        name: patientData.name || extractNameFromFilename(file),
-        smallDescription:
-          patientData.small_description ||
-          extractDescriptionFromData(patientData),
-        details: patientData.details || patientData, 
-        background:
-          patientData.background || extractBackgroundFromData(patientData),
-        objectives: patientData.objectives
-          ? Array.isArray(patientData.objectives)
+      if (!existsSync(patientFilePath)) {
+        continue;
+      }
+
+      try {
+        const fileContent = readFileSync(patientFilePath, "utf-8");
+        const patientData = JSON.parse(fileContent);
+
+        const patient: PatientSeed = {
+          name: patientData.name || extractNameFromFilename(`${slug}.json`),
+          smallDescription:
+            patientData.briefDescription ||
+            patientData.small_description ||
+            extractDescriptionFromData(patientData),
+          details: patientData.details || patientData,
+          clinicalCase: patientData.clinicalCase || "",
+          objectives: Array.isArray(patientData.objectives)
             ? patientData.objectives
-            : JSON.parse(patientData.objectives)
-          : extractObjectivesFromData(patientData),
-        avatarUrl: patientData.avatarUrl || null,
-        avatarType: patientData.avatarType || "illustration",
-        difficulty: mapDifficultyToNumber(patientData.difficulty),
-        estimatedDuration: patientData.estimatedDuration || 30,
-      };
+            : patientData.objectives
+              ? [patientData.objectives].flat()
+              : extractObjectivesFromData(patientData),
+          avatarUrl: patientData.avatarUrl || null,
+          difficulty: mapDifficultyToNumber(patientData.difficulty),
+          estimatedDuration: patientData.estimatedDuration || 30,
+        };
 
-      patients.push(patient);
-      console.log(`[INFO] Loaded patient: ${patient.name}`);
-    } catch (error) {
-      console.error(`[ERROR] Failed to load patient from ${file}:`, error);
+        patients.push(patient);
+        console.log(`[INFO] Loaded patient: ${patient.name}`);
+      } catch (error) {
+        console.error(
+          `[ERROR] Failed to load patient from ${patientFilePath}:`,
+          error,
+        );
+      }
     }
+  }
+
+  if (patients.length === 0) {
+    console.warn(
+      "[WARN] No patient data loaded. Check that patient JSON files are available.",
+    );
   }
 
   return patients;
@@ -149,7 +163,15 @@ function extractNameFromFilename(filename: string): string {
 }
 
 function extractDescriptionFromData(data: any): string {
+  const brief = data.briefDescription;
+  if (brief) {
+    return brief;
+  }
+
+  // Try both camelCase and snake_case formats
   const diagnoses =
+    data.psychologicalProfileAndCognitiveFunctioning
+      ?.currentAndPastPsychiatricDiagnoses ||
     data.psychological_profile_and_cognitive_functioning
       ?.current_and_past_psychiatric_diagnoses;
   if (diagnoses) {
@@ -159,12 +181,21 @@ function extractDescriptionFromData(data: any): string {
 }
 
 function extractBackgroundFromData(data: any): string {
-  
+  if (data.details?.clinicalCase) {
+    return data.details.clinicalCase;
+  }
+
   if (data.background) return data.background;
 
-  const age = data.demographic_sociocultural_information?.age;
-  const gender = data.demographic_sociocultural_information?.gender;
+  // Try both camelCase and snake_case formats
+  const age = 
+    data.demographicAndSocioculturalInformation?.age ||
+    data.demographic_sociocultural_information?.age;
+  const gender = 
+    data.demographicAndSocioculturalInformation?.gender ||
+    data.demographic_sociocultural_information?.gender;
   const mainSymptoms =
+    data.psychologicalProfileAndCognitiveFunctioning?.mainSymptoms ||
     data.psychological_profile_and_cognitive_functioning?.main_symptoms;
 
   let background = "";
@@ -181,6 +212,10 @@ function extractBackgroundFromData(data: any): string {
 }
 
 function extractObjectivesFromData(data: any): string[] {
+  if (Array.isArray(data.objectives)) {
+    return data.objectives;
+  }
+
   if (data.therapeutic_goals) {
     return Array.isArray(data.therapeutic_goals)
       ? data.therapeutic_goals
@@ -227,6 +262,20 @@ function mapGenderToEnum(gender: string): "male" | "female" | "other" {
     return "female";
   }
   return "other";
+}
+
+function extractAgeFromDetails(details: any): number {
+  // Try to find age in different possible locations
+  if (details?.demographicAndSocioculturalInformation?.age) {
+    const age = parseInt(details.demographicAndSocioculturalInformation.age, 10);
+    if (!isNaN(age)) return age;
+  }
+  if (details?.demographic_sociocultural_information?.age) {
+    const age = parseInt(details.demographic_sociocultural_information.age, 10);
+    if (!isNaN(age)) return age;
+  }
+  // Default age if not found
+  return 30;
 }
 
 const PATIENTS: PatientSeed[] = loadPatientsFromFiles();
@@ -292,12 +341,14 @@ async function seedPatients() {
       .insert(patients)
       .values({
         name: patient.name,
+        age: extractAgeFromDetails(patient.details),
         smallDescription: patient.smallDescription,
         details: JSON.stringify(patient.details),
-        background: patient.background,
+        clinicalCase: patient.clinicalCase,
         objectives: JSON.stringify(patient.objectives),
         avatarUrl: patient.avatarUrl,
-        avatarType: patient.avatarType,
+        voiceId: patient.voiceId || null,
+        welcomeMessage: patient.welcomeMessage || null,
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,
         isActive: true,
