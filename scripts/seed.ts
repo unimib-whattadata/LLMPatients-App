@@ -78,23 +78,38 @@ const SEED_USERS = [
 type PatientSeed = {
   name: string;
   smallDescription: string;
-  details: {
-    demographic_sociocultural_information: {
-      age: string;
-      gender: string;
-    };
-    psychological_profile_and_cognitive_functioning: {
-      current_and_past_psychiatric_diagnoses: string;
-    };
-  };
+  details: Record<string, any>;
   clinicalCase: string;
   objectives: string[];
   avatarUrl: string | null;
-  voiceId?: string | null;
-  welcomeMessage?: string | null;
+  voiceId: string | null;
+  welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;
+  therapeuticJourney: unknown;
 };
+
+
+function loadRootAttributes(): Record<string, any> {
+  const rootAttributesPath = join(process.cwd(), "patients", "attributes.json");
+
+  if (!existsSync(rootAttributesPath)) {
+    return {};
+  }
+
+  try {
+    const rootAttributesContent = readFileSync(rootAttributesPath, "utf-8");
+    return JSON.parse(rootAttributesContent);
+  } catch (error) {
+    console.warn(
+      `[WARN] Failed to load root attributes from ${rootAttributesPath}. Using empty defaults.`,
+      error,
+    );
+    return {};
+  }
+}
+
+const rootAttributes = loadRootAttributes();
 
 
 function loadPatientsFromFiles(): PatientSeed[] {
@@ -106,39 +121,73 @@ function loadPatientsFromFiles(): PatientSeed[] {
   for (const entry of entries) {
     if (entry.isDirectory()) {
       const slug = entry.name;
-      const patientFilePath = join(patientsDir, slug, `${slug}.json`);
+      const attributesPath = join(patientsDir, slug, "attributes.json");
 
-      if (!existsSync(patientFilePath)) {
+      if (!existsSync(attributesPath)) {
+        console.warn(
+          `[WARN] Missing attributes.json for patient directory '${slug}'. Skipping.`,
+        );
         continue;
       }
 
       try {
-        const fileContent = readFileSync(patientFilePath, "utf-8");
-        const patientData = JSON.parse(fileContent);
+        const attributesContent = readFileSync(attributesPath, "utf-8");
+        const attributesData = {
+          ...(rootAttributes ?? {}),
+          ...JSON.parse(attributesContent),
+        };
+
+        const therapeuticJourneyPath = join(
+          patientsDir,
+          slug,
+          "therapeutic-journey.json",
+        );
+        let therapeuticJourneyData: unknown = {};
+        if (existsSync(therapeuticJourneyPath)) {
+          const therapeuticJourneyContent = readFileSync(
+            therapeuticJourneyPath,
+            "utf-8",
+          );
+          therapeuticJourneyData = JSON.parse(therapeuticJourneyContent);
+        } else {
+          console.warn(
+            `[WARN] Missing therapeutic-journey.json for patient '${slug}'. Using empty object.`,
+          );
+        }
+
+        let clinicalCase: string = attributesData.clinicalCase || "";
+        if (!clinicalCase) {
+          const clinicalCasePath = join(patientsDir, slug, "clinical-case");
+          if (existsSync(clinicalCasePath)) {
+            clinicalCase = readFileSync(clinicalCasePath, "utf-8");
+          }
+        }
+
+        const normalizedObjectives = normalizeObjectives(attributesData);
+        const normalizedDetails = normalizeDetails(attributesData);
 
         const patient: PatientSeed = {
-          name: patientData.name || extractNameFromFilename(`${slug}.json`),
+          name: attributesData.name || extractNameFromFilename(`${slug}.json`),
           smallDescription:
-            patientData.briefDescription ||
-            patientData.small_description ||
-            extractDescriptionFromData(patientData),
-          details: patientData.details || patientData,
-          clinicalCase: patientData.clinicalCase || "",
-          objectives: Array.isArray(patientData.objectives)
-            ? patientData.objectives
-            : patientData.objectives
-              ? [patientData.objectives].flat()
-              : extractObjectivesFromData(patientData),
-          avatarUrl: patientData.avatarUrl || null,
-          difficulty: mapDifficultyToNumber(patientData.difficulty),
-          estimatedDuration: patientData.estimatedDuration || 30,
+            attributesData.briefDescription ||
+            attributesData.small_description ||
+            extractDescriptionFromData(attributesData),
+          details: normalizedDetails,
+          clinicalCase,
+          objectives: normalizedObjectives,
+          avatarUrl: attributesData.avatarUrl || null,
+          voiceId: attributesData.voiceId || null,
+          welcomeMessage: attributesData.welcomeMessage || null,
+          difficulty: mapDifficultyToNumber(attributesData.difficulty),
+          estimatedDuration: attributesData.estimatedDuration || 30,
+          therapeuticJourney: therapeuticJourneyData,
         };
 
         patients.push(patient);
         console.log(`[INFO] Loaded patient: ${patient.name}`);
       } catch (error) {
         console.error(
-          `[ERROR] Failed to load patient from ${patientFilePath}:`,
+          `[ERROR] Failed to load patient from ${attributesPath}:`,
           error,
         );
       }
@@ -163,7 +212,7 @@ function extractNameFromFilename(filename: string): string {
 }
 
 function extractDescriptionFromData(data: any): string {
-  const brief = data.briefDescription;
+  const brief = data.briefDescription || data.smallDescription;
   if (brief) {
     return brief;
   }
@@ -180,55 +229,52 @@ function extractDescriptionFromData(data: any): string {
   return "Patient case study";
 }
 
-function extractBackgroundFromData(data: any): string {
-  if (data.details?.clinicalCase) {
-    return data.details.clinicalCase;
+function extractObjectivesFromData(data: any): string[] {
+  const detailsGoals =
+    data.details?.treatmentsAndInterventions?.therapeuticGoals ||
+    data.details?.treatments_and_interventions?.therapeutic_goals;
+  const source = data.objectives || detailsGoals || data.therapeutic_goals;
+
+  if (!source) {
+    return [
+      "Conduct comprehensive clinical assessment",
+      "Develop appropriate treatment plan",
+      "Practice therapeutic communication skills",
+      "Address patient's primary concerns",
+    ];
   }
 
-  if (data.background) return data.background;
-
-  // Try both camelCase and snake_case formats
-  const age = 
-    data.demographicAndSocioculturalInformation?.age ||
-    data.demographic_sociocultural_information?.age;
-  const gender = 
-    data.demographicAndSocioculturalInformation?.gender ||
-    data.demographic_sociocultural_information?.gender;
-  const mainSymptoms =
-    data.psychologicalProfileAndCognitiveFunctioning?.mainSymptoms ||
-    data.psychological_profile_and_cognitive_functioning?.main_symptoms;
-
-  let background = "";
-  if (age && gender) {
-    background += `A ${age}-year-old ${gender.toLowerCase()} `;
-  }
-  if (mainSymptoms) {
-    background += `presenting with ${mainSymptoms.toLowerCase()}. `;
-  }
-  background +=
-    "This case study provides an opportunity to practice clinical assessment and intervention skills.";
-
-  return background;
+  return Array.isArray(source) ? source : [source];
 }
 
-function extractObjectivesFromData(data: any): string[] {
-  if (Array.isArray(data.objectives)) {
-    return data.objectives;
+function normalizeDetails(data: any): Record<string, any> {
+  if (data.details && typeof data.details === "object") {
+    return data.details;
   }
+  const cloned = { ...data };
+  delete cloned.objectives;
+  delete cloned.briefDescription;
+  delete cloned.small_description;
+  delete cloned.avatarUrl;
+  delete cloned.avatar_url;
+  delete cloned.voiceId;
+  delete cloned.welcomeMessage;
+  delete cloned.difficulty;
+  delete cloned.estimatedDuration;
+  delete cloned.name;
+  delete cloned.clinicalCase;
+  delete cloned.smallDescription;
+  return cloned;
+}
 
-  if (data.therapeutic_goals) {
-    return Array.isArray(data.therapeutic_goals)
-      ? data.therapeutic_goals
-      : [data.therapeutic_goals];
-  }
-
-  
-  return [
-    "Conduct comprehensive clinical assessment",
-    "Develop appropriate treatment plan",
-    "Practice therapeutic communication skills",
-    "Address patient's primary concerns",
-  ];
+function normalizeObjectives(data: any): string[] {
+  const objectives = extractObjectivesFromData(data);
+  return objectives.map((objective) => {
+    if (typeof objective === "string") {
+      return objective.trim();
+    }
+    return JSON.stringify(objective);
+  });
 }
 
 function mapDifficultyToNumber(difficulty: any): number {
@@ -266,12 +312,11 @@ function mapGenderToEnum(gender: string): "male" | "female" | "other" {
 
 function extractAgeFromDetails(details: any): number {
   // Try to find age in different possible locations
-  if (details?.demographicAndSocioculturalInformation?.age) {
-    const age = parseInt(details.demographicAndSocioculturalInformation.age, 10);
-    if (!isNaN(age)) return age;
-  }
-  if (details?.demographic_sociocultural_information?.age) {
-    const age = parseInt(details.demographic_sociocultural_information.age, 10);
+  const ageValue =
+    details?.demographicAndSocioculturalInformation?.age ??
+    details?.demographic_sociocultural_information?.age;
+  if (ageValue !== undefined && ageValue !== null) {
+    const age = parseInt(ageValue, 10);
     if (!isNaN(age)) return age;
   }
   // Default age if not found
@@ -351,6 +396,7 @@ async function seedPatients() {
         welcomeMessage: patient.welcomeMessage || null,
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,
+        therapeuticJourney: JSON.stringify(patient.therapeuticJourney),
         isActive: true,
       })
       .returning({ id: patients.id });

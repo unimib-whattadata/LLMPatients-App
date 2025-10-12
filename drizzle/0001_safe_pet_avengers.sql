@@ -1,1 +1,0 @@
-ALTER TABLE `llmpatient_patient` ADD `age` integer NOT NULL DEFAULT 30;

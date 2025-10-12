@@ -8,6 +8,16 @@ import {
 import { patients } from "~/server/db/tables";
 import { type DifficultyLevel } from "~/lib/constants/difficulty";
 
+function safeJsonParse<T>(value: string | null | undefined, fallback: T): T {
+  if (!value) return fallback;
+  try {
+    return JSON.parse(value) as T;
+  } catch (error) {
+    console.warn("[patientsRouter] Failed to parse JSON", { error, value });
+    return fallback;
+  }
+}
+
 export interface Patient {
   id: string;
   name: string;
@@ -17,6 +27,9 @@ export interface Patient {
   background: string; // Derived from clinicalCase for backward compatibility
   objectives: string[];
   avatarUrl?: string | null;
+  voiceId?: string | null;
+  welcomeMessage?: string | null;
+  therapeuticJourney: unknown;
   difficulty: DifficultyLevel;
   estimatedDuration: number;
   isActive: boolean;
@@ -100,6 +113,9 @@ export const patientsRouter = createTRPCRouter({
             background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
             objectives: JSON.parse(patient.objectives) as string[],
             avatarUrl: patient.avatarUrl,
+            voiceId: patient.voiceId,
+            welcomeMessage: patient.welcomeMessage,
+            therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
             difficulty: patient.difficulty as DifficultyLevel,
             estimatedDuration: patient.estimatedDuration,
             isActive: patient.isActive,
@@ -164,6 +180,9 @@ export const patientsRouter = createTRPCRouter({
         background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
         objectives: JSON.parse(patient.objectives) as string[],
         avatarUrl: patient.avatarUrl,
+        voiceId: patient.voiceId,
+        welcomeMessage: patient.welcomeMessage,
+        therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
@@ -185,6 +204,9 @@ export const patientsRouter = createTRPCRouter({
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
+        voiceId: z.string().max(255).optional(),
+        welcomeMessage: z.string().max(1000).optional(),
+        therapeuticJourney: z.unknown().optional(),
         difficulty: z.number().min(1).max(3),
         estimatedDuration: z.number().min(5).max(180).default(30),
       }),
@@ -206,6 +228,9 @@ export const patientsRouter = createTRPCRouter({
           clinicalCase: input.background, // Store background as clinicalCase in DB
           objectives: JSON.stringify(input.objectives),
           avatarUrl: input.avatarUrl,
+          voiceId: input.voiceId ?? null,
+          welcomeMessage: input.welcomeMessage ?? null,
+          therapeuticJourney: JSON.stringify(input.therapeuticJourney ?? {}),
           difficulty: input.difficulty,
           estimatedDuration: input.estimatedDuration,
         })

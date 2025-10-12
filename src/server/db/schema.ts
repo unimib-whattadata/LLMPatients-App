@@ -255,6 +255,7 @@ export const patients = createTable(
     details: d.text().notNull(),
     clinicalCase: d.text().notNull(), 
     objectives: d.text({ length: 2000 }).notNull(), 
+    therapeuticJourney: d.text().notNull(),
     avatarUrl: d.text({ length: 500 }),
     voiceId: d.text({ length: 255 }), // ElevenLabs voice ID for TTS
     welcomeMessage: d.text({ length: 1000 }), // Optional custom welcome message
