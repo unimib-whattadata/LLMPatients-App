@@ -59,7 +59,7 @@ export function getNavSections(
           },
           {
             label: "Schema di Valutazione",
-            href: "/dashboard/patient-attributes",
+            href: "/dashboard/patient/attributes",
             icon: FileText,
           },
         ],
@@ -139,7 +139,7 @@ export function getNavSections(
           },
           {
             label: "Schema di Valutazione",
-            href: "/dashboard/patient-attributes",
+            href: "/dashboard/patient/attributes",
             icon: FileText,
           },
         ],

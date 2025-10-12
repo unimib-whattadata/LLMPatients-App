@@ -4,6 +4,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import { format } from "date-fns";
 
+import { Button } from "~/components/ui/button";
 import type { AdminPatientSummary } from "./types";
 
 export const patientColumns: ColumnDef<AdminPatientSummary>[] = [
@@ -59,18 +60,12 @@ export const patientColumns: ColumnDef<AdminPatientSummary>[] = [
       const patient = row.original;
       return (
         <div className="flex gap-2">
-          <Link
-            href={`/dashboard/patient/show/${patient.id}`}
-            className="text-sm text-primary-green hover:underline"
-          >
-            View
-          </Link>
-          <Link
-            href={`/dashboard/patient/edit/${patient.id}`}
-            className="text-sm text-white hover:underline"
-          >
-            Edit
-          </Link>
+          <Button asChild size="sm" variant="outline">
+            <Link href={`/dashboard/patient/show/${patient.id}`}>View</Link>
+          </Button>
+          <Button asChild size="sm" variant="secondary">
+            <Link href={`/dashboard/patient/edit/${patient.id}`}>Edit</Link>
+          </Button>
         </div>
       );
     },
