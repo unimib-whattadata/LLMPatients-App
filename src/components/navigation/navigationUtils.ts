@@ -53,8 +53,8 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           {
-            label: "Crea Pazienti",
-            href: "/dashboard/create-patient",
+            label: "Gestione Pazienti",
+            href: "/dashboard/patient",
             icon: UserPlus,
           },
           {
@@ -133,8 +133,8 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           {
-            label: "Crea Pazienti",
-            href: "/dashboard/create-patient",
+            label: "Gestione Pazienti",
+            href: "/dashboard/patient",
             icon: UserPlus,
           },
           {
