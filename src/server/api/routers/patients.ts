@@ -61,13 +61,11 @@ export const patientsRouter = createTRPCRouter({
         filters.push(like(patients.name, `%${search.trim()}%`));
       }
 
-      let query = ctx.db.select().from(patients);
+      const baseQuery = ctx.db.select().from(patients);
+      const filteredQuery =
+        filters.length > 0 ? baseQuery.where(and(...filters)) : baseQuery;
 
-      if (filters.length > 0) {
-        query = query.where(and(...filters));
-      }
-
-      const rows = await query.orderBy(asc(patients.name));
+      const rows = await filteredQuery.orderBy(asc(patients.name));
 
       return rows.map((patient) => ({
         id: patient.id,

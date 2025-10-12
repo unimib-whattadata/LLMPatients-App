@@ -38,6 +38,11 @@ export function CreatePatientContent() {
       onSubmitSuccess={() => {
         toast.info("Redirecting to patient list...");
       }}
+      breadcrumbItems={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Patients", href: "/dashboard/patient/index" },
+        { label: "Create", isActive: true },
+      ]}
     />
   );
 }

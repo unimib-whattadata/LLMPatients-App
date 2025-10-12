@@ -201,7 +201,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         lastMessage.emotion
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.voiceId, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.voiceId, typedSelectedPatient?.name, hasUserInteracted]);
 
   
   useEffect(() => {

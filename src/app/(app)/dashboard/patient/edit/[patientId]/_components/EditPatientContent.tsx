@@ -79,6 +79,11 @@ export function EditPatientContent({ patientId }: EditPatientContentProps) {
       onCancel={() => router.push(`/dashboard/patient/show/${patientId}`)}
       submitLabel="Save patient"
       cancelLabel="Discard"
+      breadcrumbItems={[
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Patients", href: "/dashboard/patient/index" },
+        { label: patient?.name ?? "Patient", isActive: true },
+      ]}
     />
   );
 }

@@ -44,7 +44,7 @@ export function PatientList() {
           </div>
         </div>
 
-        <div className="dashboard-panel bg-gray-900/40 border border-gray-800 space-y-6">
+        <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div className="flex flex-1 flex-col gap-2">
               <Label htmlFor="patient-search">Search patients</Label>

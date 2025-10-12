@@ -32,7 +32,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
               Loading patient...
             </h1>
           </div>
-          <div className="dashboard-panel bg-gray-900/40 border border-gray-800 p-8 text-center text-gray-400">
+          <div className="dashboard-panel bg-gray-900/40 border border-gray-800 text-center text-gray-400">
             Retrieving patient information
           </div>
         </section>
@@ -49,7 +49,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
               Patient not found
             </h1>
           </div>
-          <div className="dashboard-panel bg-gray-900/40 border border-gray-800 p-8">
+          <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
             <p className="text-sm text-gray-400">
               Unable to locate the requested patient. It may have been removed or is no longer available.
             </p>

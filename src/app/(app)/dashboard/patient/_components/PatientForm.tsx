@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
-import { Textarea } from "~/components/ui/textarea";
 import {
+  Button,
+  Input,
+  Textarea,
   Form,
   FormControl,
   FormDescription,
@@ -16,8 +16,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "~/components/ui/form";
-import { Slider } from "~/components/ui/slider";
+  Slider,
+  Breadcrumb,
+} from "~/components/ui";
 
 const objectiveSchema = z
   .string()
@@ -113,6 +114,11 @@ interface PatientFormProps {
   resetAfterSubmit?: boolean;
   onSubmitSuccess?: () => void;
   footerSlot?: React.ReactNode;
+  breadcrumbItems?: Array<{
+    label: string;
+    href?: string;
+    isActive?: boolean;
+  }>;
 }
 
 export function PatientForm({
@@ -127,6 +133,7 @@ export function PatientForm({
   resetAfterSubmit = false,
   onSubmitSuccess,
   footerSlot,
+  breadcrumbItems,
 }: PatientFormProps) {
   const [showJsonTemplate, setShowJsonTemplate] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -304,7 +311,7 @@ export function PatientForm({
               </p>
             </div>
           </div>
-          <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
+      <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
             <div className="flex items-center justify-center py-12">
               <div className="text-center">
                 <svg
@@ -339,7 +346,10 @@ export function PatientForm({
     <div className="dashboard-panel-stack">
       <section className="dashboard-section" aria-labelledby="patient-form">
         <div className="dashboard-section__header">
-          <div>
+          <div className="space-y-3">
+            {breadcrumbItems?.length ? (
+              <Breadcrumb items={breadcrumbItems} />
+            ) : null}
             <h1 id="patient-form" className="dashboard-section__title">
               {mode === "create" ? "Create New Patient" : "Edit Patient"}
             </h1>
@@ -352,17 +362,12 @@ export function PatientForm({
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
             <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-white mb-2">Basic Information</h3>
-                <p className="text-sm text-gray-400">Core patient metadata</p>
-              </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                       <FormLabel className="label-required">Patient Name</FormLabel>
                       <FormControl>
                         <Input placeholder="e.g. Maria Rossi" {...field} />
@@ -376,7 +381,7 @@ export function PatientForm({
                   control={form.control}
                   name="smallDescription"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                       <FormLabel className="label-required">Short Description</FormLabel>
                       <FormControl>
                         <Input
@@ -398,7 +403,7 @@ export function PatientForm({
                 control={form.control}
                 name="background"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
+                  <FormItem className="space-y-4">
                     <FormLabel className="label-required">Clinical Background</FormLabel>
                     <FormControl>
                       <Textarea
@@ -418,11 +423,6 @@ export function PatientForm({
             </div>
 
             <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-white mb-2">Therapeutic Objectives</h3>
-                <p className="text-sm text-gray-400">Define the clinical and therapeutic goals</p>
-              </div>
-
               <div className="space-y-4">
                 {objectives.map((_, index) => (
                   <FormField
@@ -470,17 +470,12 @@ export function PatientForm({
             </div>
 
             <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-white mb-2">Case Configuration</h3>
-                <p className="text-sm text-gray-400">Simulation settings</p>
-              </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
                   control={form.control}
                   name="difficulty"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                       <FormLabel className="label-required">
                         Difficulty <span className="text-xs text-gray-400">( {field.value}/3 )</span>
                       </FormLabel>
@@ -505,7 +500,7 @@ export function PatientForm({
                   control={form.control}
                   name="estimatedDuration"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                       <FormLabel className="label-required">
                         Estimated Duration (min) <span className="text-xs text-gray-400">( {field.value} min )</span>
                       </FormLabel>
@@ -531,7 +526,7 @@ export function PatientForm({
                   control={form.control}
                   name="avatarUrl"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                       <FormLabel>Avatar URL (optional)</FormLabel>
                       <FormControl>
                         <Input type="url" placeholder="https://example.com/avatar.jpg" {...field} />
@@ -545,16 +540,11 @@ export function PatientForm({
             </div>
 
             <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-white mb-2">Patient Details (JSON)</h3>
-                <p className="text-sm text-gray-400">Structured patient information in JSON format</p>
-              </div>
-
               <FormField
                 control={form.control}
                 name="details"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
+                    <FormItem className="space-y-4">
                     <div className="flex items-center justify-between mb-4">
                       <FormLabel className="label-required">JSON Details</FormLabel>
                       <div className="flex gap-2">
@@ -623,7 +613,7 @@ export function PatientForm({
             {footerSlot}
 
             <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:justify-end sm:items-center">
                 <Button
                   type="submit"
                   className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-white font-semibold"
@@ -650,9 +640,6 @@ export function PatientForm({
                   </Button>
                 )}
               </div>
-              <p className="text-xs text-gray-500 mt-4 text-center sm:text-left">
-                All fields marked with * are required
-              </p>
             </div>
           </form>
         </Form>
