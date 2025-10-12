@@ -53,10 +53,20 @@ export function getNavSections(
         title: "Gestione Pazienti",
         items: [
           {
-            label: "Crea Paziente",
+            label: "Crea Pazienti",
             href: "/dashboard/create-patient",
             icon: UserPlus,
           },
+          {
+            label: "Schema di Valutazione",
+            href: "/dashboard/patient-attributes",
+            icon: FileText,
+          },
+        ],
+      },
+      {
+        title: "Percorso Terapeutico",
+        items: [
           {
             label: "Esplora Pazienti",
             href: "/explore-patients",
@@ -67,11 +77,11 @@ export function getNavSections(
             href: "/dashboard/therapeutic-journey",
             icon: Map,
           },
-          {
-            label: "Schema Valutazione",
-            href: "/dashboard/patient-attributes",
-            icon: FileText,
-          },
+        ],
+      },
+      {
+        title: "API",
+        items: [
           {
             label: "Patient Response Generator",
             href: "/docs/patient-response-generator",
@@ -105,7 +115,7 @@ export function getNavSections(
       
       
       {
-        title: "Gestione Pazienti",
+        title: "Percorso Terapeutico",
         items: [
           {
             label: "Esplora Pazienti",
@@ -117,10 +127,30 @@ export function getNavSections(
             href: "/dashboard/therapeutic-journey",
             icon: Map,
           },
+        ],
+      },
+      {
+        title: "Gestione Pazienti",
+        items: [
           {
-            label: "Schema Valutazione",
+            label: "Crea Pazienti",
+            href: "/dashboard/create-patient",
+            icon: UserPlus,
+          },
+          {
+            label: "Schema di Valutazione",
             href: "/dashboard/patient-attributes",
             icon: FileText,
+          },
+        ],
+      },
+      {
+        title: "API",
+        items: [
+          {
+            label: "Patient Response Generator",
+            href: "/docs/patient-response-generator",
+            icon: BookOpen,
           },
         ],
       },
