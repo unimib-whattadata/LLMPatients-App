@@ -624,6 +624,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
+        currentPage="/dashboard/therapeutic-journey"
       >
         <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
           <div className="dashboard-section text-center">
@@ -645,6 +646,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         user={user}
         impersonation={impersonation}
         layoutType="dashboard"
+        currentPage="/dashboard/therapeutic-journey"
       >
         <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
           <div className="dashboard-section text-center">
@@ -669,6 +671,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       user={user}
       impersonation={impersonation}
       layoutType="dashboard"
+      currentPage="/dashboard/therapeutic-journey"
     >
       <div
         className="chat-container page-background flex h-[calc(100vh-4rem)] flex-col"

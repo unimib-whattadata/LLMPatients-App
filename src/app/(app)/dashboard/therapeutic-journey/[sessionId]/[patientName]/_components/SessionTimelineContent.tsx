@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { SessionLoading } from "~/components/common";
 import { Breadcrumb } from "~/components/ui";
+import { Button } from "~/components/ui/button";
 
 import {
   TIMELINE_CONFIG,
@@ -498,7 +499,7 @@ export function SessionTimelineContent({
       user={user}
       impersonation={impersonation}
       layoutType="dashboard"
-      currentPage="/therapeutic-journey"
+      currentPage="/dashboard/therapeutic-journey"
     >
       <div className="dashboard-panel-stack">
         <section className="dashboard-section">
@@ -547,18 +548,17 @@ export function SessionTimelineContent({
                     </span>
                   </div>
                   {typedTherapySession.sessionNumber < LAST_STEP_ID && (
-                    <button
+                    <Button
                       onClick={() => {
                         if (!sessionId) return;
                         void advanceSession.mutate({ patientId: sessionId });
                       }}
+                      isLoading={advanceSession.isPending}
                       disabled={advanceSession.isPending}
-                      className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 rounded-md px-4 py-2 text-sm font-medium text-white transition-colors"
+                      className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white"
                     >
-                      {advanceSession.isPending
-                        ? "Avanzamento..."
-                        : "Avanza alla prossima sessione"}
-                    </button>
+                      Avanza alla prossima sessione
+                    </Button>
                   )}
                 </div>
               )}

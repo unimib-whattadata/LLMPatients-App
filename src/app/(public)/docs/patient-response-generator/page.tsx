@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { SharedLayout } from "~/components/layout/SharedLayout";
+import { auth } from "~/server/auth";
 
 export const metadata: Metadata = {
   title: "API Integration Guide - Patient Response Generator",
@@ -6,12 +8,30 @@ export const metadata: Metadata = {
     "Complete technical documentation for external AI service integration with patient response generation system",
 };
 
-export default function PatientResponseGeneratorDocs() {
+export default async function PatientResponseGeneratorDocs() {
+  const session = await auth();
+
+  const user = session?.user
+    ? {
+        id: session.user.id,
+        name: session.user.name ?? null,
+        email: session.user.email!,
+        role: session.user.role || "user",
+        image: session.user.image,
+      }
+    : undefined;
+
   return (
-    <div
-      className="min-h-screen"
-      style={{ backgroundColor: "var(--color-page-background)" }}
+    <SharedLayout
+      user={user}
+      impersonation={session?.impersonation ?? undefined}
+      layoutType={user ? "dashboard" : "home"}
+      currentPage="/docs/patient-response-generator"
     >
+      <div
+        className="min-h-screen"
+        style={{ backgroundColor: "var(--color-page-background)" }}
+      >
       <div className="container mx-auto px-4 py-8">
         <header className="mb-16 text-center">
           <h1
@@ -1035,5 +1055,6 @@ export default function PatientResponseGeneratorDocs() {
         </section>
       </div>
     </div>
+    </SharedLayout>
   );
 }
