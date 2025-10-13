@@ -83,23 +83,33 @@ export interface InitializePatientInput {
 
 
 
-const API_CONFIG = {
-  BASE_URL: "https://api.therapeutic-ai.com/v1",
-  ENDPOINTS: {
-    GENERATE_RESPONSE: "/generate-response",
-    INITIALIZE_PATIENT: "/initialise-patient",
-    CHAT_RESPONSE: "/chat-response",
-  },
-  HEADERS: {
-    "Content-Type": "application/json",
-    "X-API-Version": "1.0",
-  },
-  TIMEOUTS: {
-    GENERATE_RESPONSE: 5000,
-    INITIALIZE_PATIENT: 3000,
-    CHAT_RESPONSE: 8000,
-  },
-} as const;
+import { env } from "~/env";
+
+// API Configuration based on mode
+const getApiConfig = () => {
+  const isRemote = env.API === "remote";
+  
+  return {
+    BASE_URL: isRemote ? (env.API_BASE_URL || "https://e-patients-api.whattadata.it") : "local",
+    ENDPOINTS: {
+      GENERATE_RESPONSE: isRemote ? (env.API_GENERATE_RESPONSE_ENDPOINT || "/api/message") : "/mock/generate-response",
+      INITIALIZE_PATIENT: isRemote ? (env.API_INITIALIZE_PATIENT_ENDPOINT || "/initialise-patient") : "/mock/initialise-patient",
+      CHAT_RESPONSE: isRemote ? (env.API_CHAT_RESPONSE_ENDPOINT || "/chat-response") : "/mock/chat-response",
+    },
+    HEADERS: {
+      "Content-Type": "application/json",
+      "X-API-Version": "1.0",
+    },
+    TIMEOUTS: {
+      GENERATE_RESPONSE: parseInt(env.API_TIMEOUT_GENERATE_RESPONSE || "5000"),
+      INITIALIZE_PATIENT: parseInt(env.API_TIMEOUT_INITIALIZE_PATIENT || "3000"),
+      CHAT_RESPONSE: parseInt(env.API_TIMEOUT_CHAT_RESPONSE || "8000"),
+    },
+    IS_REMOTE: isRemote,
+  } as const;
+};
+
+const API_CONFIG = getApiConfig();
 
 const MOCK_CONFIG = {
   DELAYS: {
@@ -929,7 +939,6 @@ class MockExternalAIService implements ExternalAIService {
 }
 
 class RealExternalAIService implements ExternalAIService {
-  private apiUrl = "https://api.therapeutic-ai.com/v1/initialise-patient";
   private apiKey = process.env.EXTERNAL_AI_API_KEY;
 
   async generateResponse(
@@ -941,7 +950,13 @@ class RealExternalAIService implements ExternalAIService {
 
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const requestBody = {
+    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
+    
+    // Format request body based on API mode
+    const requestBody = API_CONFIG.IS_REMOTE ? {
+      session_id: input.sessionId,
+      user_input: input.userMessage,
+    } : {
       id: input.patientInfo.id,
       name: input.patientInfo.name,
       age: input.patientInfo.age,
@@ -961,7 +976,7 @@ class RealExternalAIService implements ExternalAIService {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
       method: "generateResponse",
-      url: this.apiUrl,
+            url: apiUrl,
       httpMethod: "POST",
       requestId,
       patientInfo: {
@@ -994,7 +1009,8 @@ class RealExternalAIService implements ExternalAIService {
     });
 
     try {
-      const response = await fetch(this.apiUrl, {
+      const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1017,7 +1033,7 @@ class RealExternalAIService implements ExternalAIService {
           error: {
             status: response.status,
             statusText: response.statusText,
-            url: this.apiUrl,
+            url: apiUrl,
           },
           status: "error",
         });
@@ -1028,7 +1044,12 @@ class RealExternalAIService implements ExternalAIService {
 
       const data = await response.json();
 
-      const result = {
+      // Handle response format based on API mode
+      const result = API_CONFIG.IS_REMOTE ? {
+        message: data.message,
+        emotion: data.emotion,
+        timestamp: new Date(data.timestamp || new Date()),
+      } : {
         message: data.response.message,
         emotion: data.response.emotion,
         timestamp: new Date(data.response.timestamp || new Date()),
@@ -1065,7 +1086,7 @@ class RealExternalAIService implements ExternalAIService {
         error: {
           message: error instanceof Error ? error.message : "Unknown error",
           stack: error instanceof Error ? error.stack : undefined,
-          url: this.apiUrl,
+            url: apiUrl,
         },
         status: "error",
       });
@@ -1084,6 +1105,7 @@ class RealExternalAIService implements ExternalAIService {
 
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT}`;
     const requestBody = {
       id: input.patientInfo.id,
       name: input.patientInfo.name,
@@ -1104,7 +1126,7 @@ class RealExternalAIService implements ExternalAIService {
       timestamp: new Date().toISOString(),
       service: "PatientResponseGenerator",
       method: "initializePatient",
-      url: this.apiUrl,
+      url: apiUrl,
       httpMethod: "POST",
       requestId,
       patientInfo: {
@@ -1132,7 +1154,8 @@ class RealExternalAIService implements ExternalAIService {
     });
 
     try {
-      const response = await fetch(this.apiUrl, {
+      const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1155,7 +1178,7 @@ class RealExternalAIService implements ExternalAIService {
           error: {
             status: response.status,
             statusText: response.statusText,
-            url: this.apiUrl,
+            url: apiUrl,
           },
           status: "error",
         });
@@ -1205,7 +1228,7 @@ class RealExternalAIService implements ExternalAIService {
         error: {
           message: error instanceof Error ? error.message : "Unknown error",
           stack: error instanceof Error ? error.stack : undefined,
-          url: this.apiUrl,
+            url: apiUrl,
         },
         status: "error",
       });
@@ -1222,7 +1245,7 @@ class RealExternalAIService implements ExternalAIService {
 
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const apiUrl = "https://api.therapeutic-ai.com/v1/chat-response";
+    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
 
     
     console.log("🌐 [REAL AI] Chat Response API Call:", {
@@ -1339,9 +1362,15 @@ export class PatientResponseGenerator {
   private externalAI: ExternalAIService;
   private useExternalAI: boolean;
 
-  constructor(useExternalAI: boolean = false) {
-    this.useExternalAI = useExternalAI;
-    this.externalAI = useExternalAI
+  constructor(useExternalAI?: boolean) {
+    // Use environment variable if not explicitly provided
+    if (useExternalAI === undefined) {
+      this.useExternalAI = env.API === "remote";
+    } else {
+      this.useExternalAI = useExternalAI;
+    }
+    
+    this.externalAI = this.useExternalAI
       ? new RealExternalAIService()
       : new MockExternalAIService();
   }

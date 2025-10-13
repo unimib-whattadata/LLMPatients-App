@@ -36,7 +36,7 @@ export const users = createTable(
     password: d.text({ length: 255 }),
     
     role: d.text({ length: 20 }).default("user").notNull(),
-    emailVerified: d.integer({ mode: "timestamp" }).default(sql`(unixepoch())`),
+    emailVerified: d.integer({ mode: "timestamp" }).default(sql`(strftime('%s', 'now'))`),
     image: d.text({ length: 255 }),
   }),
   (t) => [
@@ -121,7 +121,7 @@ export const userActivities = createTable(
     metadata: d.text(),
     createdAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
   }),
   (t) => [
@@ -156,7 +156,7 @@ export const impersonationSessions = createTable(
     
     startedAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     endedAt: d.integer({ mode: "timestamp" }),
     
@@ -196,7 +196,7 @@ export const impersonationAuditLog = createTable(
     
     performedAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     
     ipAddress: d.text({ length: 45 }),
@@ -265,7 +265,7 @@ export const patients = createTable(
     externalPatientId: d.text({ length: 255 }), 
     createdAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     updatedAt: d.integer({ mode: "timestamp" }),
   }),
@@ -304,7 +304,7 @@ export const therapySessions = createTable(
     isCompleted: d.integer({ mode: "boolean" }).default(false).notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     updatedAt: d.integer({ mode: "timestamp" }),
   }),
@@ -350,7 +350,7 @@ export const chat = createTable(
     done: d.integer({ mode: "boolean" }).default(false).notNull(), 
     createdAt: d
       .integer({ mode: "timestamp" })
-      .default(sql`(unixepoch())`)
+      .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     updatedAt: d.integer({ mode: "timestamp" }),
   }),

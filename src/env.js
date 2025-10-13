@@ -30,7 +30,16 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    ELEVENLABS_API_KEY: z.string().min(1).optional(), 
+    ELEVENLABS_API_KEY: z.string().min(1).optional(),
+    // API Configuration
+    API: z.enum(["local", "remote"]).default("local"),
+    API_BASE_URL: z.string().url().optional(),
+    API_GENERATE_RESPONSE_ENDPOINT: z.string().optional(),
+    API_INITIALIZE_PATIENT_ENDPOINT: z.string().optional(),
+    API_CHAT_RESPONSE_ENDPOINT: z.string().optional(),
+    API_TIMEOUT_GENERATE_RESPONSE: z.string().optional(),
+    API_TIMEOUT_INITIALIZE_PATIENT: z.string().optional(),
+    API_TIMEOUT_CHAT_RESPONSE: z.string().optional(),
   },
 
     client: {
@@ -45,6 +54,15 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
     ELEVENLABS_API_KEY: process.env.ELEVENLABS_API_KEY,
+    // API Configuration
+    API: process.env.API,
+    API_BASE_URL: process.env.API_BASE_URL,
+    API_GENERATE_RESPONSE_ENDPOINT: process.env.API_GENERATE_RESPONSE_ENDPOINT,
+    API_INITIALIZE_PATIENT_ENDPOINT: process.env.API_INITIALIZE_PATIENT_ENDPOINT,
+    API_CHAT_RESPONSE_ENDPOINT: process.env.API_CHAT_RESPONSE_ENDPOINT,
+    API_TIMEOUT_GENERATE_RESPONSE: process.env.API_TIMEOUT_GENERATE_RESPONSE,
+    API_TIMEOUT_INITIALIZE_PATIENT: process.env.API_TIMEOUT_INITIALIZE_PATIENT,
+    API_TIMEOUT_CHAT_RESPONSE: process.env.API_TIMEOUT_CHAT_RESPONSE,
   },
     skipValidation: !!process.env.SKIP_ENV_VALIDATION,
     emptyStringAsUndefined: true,
