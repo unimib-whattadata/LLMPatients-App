@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "next build",
+    "postbuild": "drizzle-kit migrate --config=drizzle-postgres.config.ts",
     "build:analyze": "ANALYZE=true next build",
     "check": "next lint && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
