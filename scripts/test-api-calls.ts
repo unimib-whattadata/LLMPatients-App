@@ -7,6 +7,7 @@
 
 import { config } from "dotenv";
 import { PatientResponseGenerator } from "../src/server/services/patient-response-generator";
+import { DIFFICULTY_LEVELS } from "../src/lib/constants/difficulty";
 
 // Load environment variables from .env file
 config();
@@ -18,7 +19,7 @@ async function testApiCalls() {
     // Test 1: Test Mock API (should always work)
     console.log("🤖 Testing Mock API...");
     const mockGenerator = new PatientResponseGenerator(false);
-    
+
     const mockInput = {
       patientInfo: {
         id: "test-patient-1",
@@ -26,7 +27,7 @@ async function testApiCalls() {
         age: 35,
         gender: "female",
         diagnosis: "anxiety",
-        difficulty: "intermediate",
+        difficulty: DIFFICULTY_LEVELS.MEDIO,
         psychologicalProfile: "introverted",
         background: "Software engineer with work stress",
         currentMedications: [],
@@ -34,7 +35,7 @@ async function testApiCalls() {
         previousSessions: 0,
       },
       sessionId: "test-session-1",
-      stepId: "step-1",
+      stepId: 1,
       userMessage: "Hello, I'm feeling anxious today",
       conversationHistory: [],
     };
@@ -49,22 +50,30 @@ async function testApiCalls() {
     // Test 2: Test Real API (if configured)
     console.log("🌐 Testing Real API...");
     const realGenerator = new PatientResponseGenerator(true);
-    
+
     // Check if API key is configured
     if (!process.env.EXTERNAL_AI_API_KEY) {
-      console.log("  ⚠️  EXTERNAL_AI_API_KEY not configured, skipping real API test");
-      console.log("  💡 To test real API, add EXTERNAL_AI_API_KEY to your .env file\n");
+      console.log(
+        "  ⚠️  EXTERNAL_AI_API_KEY not configured, skipping real API test",
+      );
+      console.log(
+        "  💡 To test real API, add EXTERNAL_AI_API_KEY to your .env file\n",
+      );
     } else {
       console.log("  📤 Sending real API request...");
       try {
         const realResponse = await realGenerator.generateResponse(mockInput);
         console.log("  ✅ Real API Response:");
-        console.log(`    Message: ${realResponse.message.substring(0, 100)}...`);
+        console.log(
+          `    Message: ${realResponse.message.substring(0, 100)}...`,
+        );
         console.log(`    Emotion: ${realResponse.emotion}`);
         console.log(`    Timestamp: ${realResponse.timestamp}\n`);
       } catch (error) {
         console.log("  ❌ Real API Error:");
-        console.log(`    ${error instanceof Error ? error.message : "Unknown error"}\n`);
+        console.log(
+          `    ${error instanceof Error ? error.message : "Unknown error"}\n`,
+        );
       }
     }
 
@@ -73,13 +82,8 @@ async function testApiCalls() {
     const chatInput = {
       external_patient_id: "test-patient-1",
       user_message: "How are you feeling today?",
-      conversation_history: [
-        {
-          content: "Hello, I'm feeling anxious today",
-          sender: "user",
-          timestamp: new Date().toISOString(),
-        }
-      ],
+      session_id: "test-session-1",
+      step_id: 1,
     };
 
     console.log("  📤 Sending chat request...");
@@ -98,7 +102,7 @@ async function testApiCalls() {
         age: 28,
         gender: "male",
         diagnosis: "depression",
-        difficulty: "beginner",
+        difficulty: DIFFICULTY_LEVELS.FACILE,
         psychologicalProfile: "extroverted",
         background: "Recent graduate looking for work",
         currentMedications: [],
@@ -122,11 +126,12 @@ async function testApiCalls() {
     console.log("✅ Chat Response - Working");
     console.log("✅ Patient Initialization - Working");
     if (!process.env.EXTERNAL_AI_API_KEY) {
-      console.log("⚠️  Real API - Not configured (add EXTERNAL_AI_API_KEY to test)");
+      console.log(
+        "⚠️  Real API - Not configured (add EXTERNAL_AI_API_KEY to test)",
+      );
     } else {
       console.log("✅ Real API - Tested");
     }
-
   } catch (error) {
     console.error("❌ Test failed:", error);
     process.exit(1);
