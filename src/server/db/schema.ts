@@ -5,7 +5,8 @@ import {
   sqliteTableCreator,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
-import { randomUUID } from "crypto";
+// Generate UUID using Web Crypto API
+const randomUUID = () => crypto.randomUUID();
 
 
 type AdapterAccount = {
