@@ -7,6 +7,8 @@ import {
   type InitializePatientInput,
 } from "~/server/services/patient-response-generator";
 
+import type { ResponseMetadata } from "~/server/services/patient-response-generator";
+
 export interface ChatMessage {
   id: string;
   content: string;
@@ -14,6 +16,7 @@ export interface ChatMessage {
   timestamp: Date;
   stepId: number;
   emotion?: "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
+  metadata?: ResponseMetadata;
 }
 
 export interface Chat {
@@ -89,6 +92,29 @@ export const chatRouter = createTRPCRouter({
             timestamp: z.date(),
             stepId: z.number(),
             emotion: z.enum(["anger", "anticipation", "disgust", "joy", "sadness", "surprise", "trust", "base"]).optional(),
+            metadata: z.object({
+              apiType: z.enum(["MOCK", "REAL"]),
+              endpoint: z.string().optional(),
+              requestData: z.object({
+                patientId: z.string().optional(),
+                patientName: z.string().optional(),
+                userMessage: z.string().optional(),
+                sessionId: z.string().optional(),
+                stepId: z.number().optional(),
+                externalPatientId: z.string().optional(),
+              }).optional(),
+              responseData: z.object({
+                message: z.string().optional(),
+                emotion: z.enum(["anger", "anticipation", "disgust", "joy", "sadness", "surprise", "trust", "base"]).optional(),
+                topic: z.string().optional(),
+                reasoningTime: z.number().optional(),
+                status: z.string().optional(),
+                code: z.string().optional(),
+                externalPatientId: z.string().optional(),
+              }).optional(),
+              duration: z.number().optional(),
+              timestamp: z.string(),
+            }).optional(),
           }),
         ),
       }),

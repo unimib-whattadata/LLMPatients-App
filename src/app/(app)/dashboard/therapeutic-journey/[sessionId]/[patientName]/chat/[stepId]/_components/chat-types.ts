@@ -1,6 +1,7 @@
 
 import type { User, ImpersonationContext } from "~/types";
 import type { PatientEmotion } from "./chat-constants";
+import type { ResponseMetadata } from "~/server/services/patient-response-generator";
 
 export interface ChatMessage {
   id: string;
@@ -9,6 +10,7 @@ export interface ChatMessage {
   timestamp: Date | string;
   stepId: number;
   emotion?: PatientEmotion;
+  metadata?: ResponseMetadata;
 }
 
 export interface PatientData {

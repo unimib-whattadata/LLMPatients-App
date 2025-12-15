@@ -20,7 +20,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2, Info } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
+import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2, Info, Code2 } from "lucide-react";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type {
   ChatMessage,
@@ -407,6 +413,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           timestamp: new Date(response.timestamp),
           stepId,
           emotion: response.emotion,
+          metadata: response.metadata,
         };
 
         
@@ -481,6 +488,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           timestamp: response.timestamp || new Date(),
           stepId,
           emotion: response.emotion,
+          metadata: response.metadata,
         };
 
         
@@ -883,7 +891,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           >
                             {}
                             <div
-                              className={`max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
+                              className={`flex items-start gap-2 max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
                                 message.sender === "patient"
                                   ? "chat-bubble--patient"
                                   : message.sender === "user"
@@ -891,9 +899,191 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     : ""
                               }`}
                             >
-                              <p className="text-body text-sm sm:text-base">
+                              <p className="text-body text-sm sm:text-base flex-1">
                                 {message.content}
                               </p>
+                              {message.sender === "patient" && message.metadata && (
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <button
+                                        className="flex-shrink-0 opacity-70 hover:opacity-100 transition-all mt-0.5 p-1 rounded hover:bg-white/20 hover:scale-110"
+                                        aria-label="Informazioni tecniche risposta"
+                                        type="button"
+                                      >
+                                        <Code2 className="h-4 w-4 text-white" />
+                                      </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                      side={message.sender === "patient" ? "right" : "left"}
+                                      className="max-w-sm rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-4 text-sm text-[var(--color-text-primary)]"
+                                      sideOffset={8}
+                                    >
+                                      <div className="space-y-3">
+                                        <div>
+                                          <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                            Informazioni Tecniche
+                                          </h4>
+                                          <div className="space-y-2 text-sm">
+                                            <div className="flex justify-between">
+                                              <span className="text-[var(--color-text-secondary)]">API Type:</span>
+                                              <span className={`font-mono text-xs text-[var(--color-text-primary)] ${
+                                                message.metadata.apiType === "REAL" 
+                                                  ? "text-green-400" 
+                                                  : "text-yellow-400"
+                                              }`}>
+                                                {message.metadata.apiType}
+                                              </span>
+                                            </div>
+                                            {message.metadata.endpoint && (
+                                              <div className="flex flex-col gap-1">
+                                                <span className="text-[var(--color-text-secondary)]">Endpoint:</span>
+                                                <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                  {message.metadata.endpoint.length > 40
+                                                    ? `${message.metadata.endpoint.substring(0, 40)}...`
+                                                    : message.metadata.endpoint}
+                                                </span>
+                                              </div>
+                                            )}
+                                            {message.metadata.duration !== undefined && (
+                                              <div className="flex justify-between">
+                                                <span className="text-[var(--color-text-secondary)]">Durata:</span>
+                                                <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  {message.metadata.duration < 1000 
+                                                    ? `${message.metadata.duration}ms` 
+                                                    : `${(message.metadata.duration / 1000).toFixed(2)}s`}
+                                                </span>
+                                              </div>
+                                            )}
+                                            {message.metadata.timestamp && (
+                                              <div className="flex justify-between">
+                                                <span className="text-[var(--color-text-secondary)]">Timestamp:</span>
+                                                <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
+                                                </span>
+                                              </div>
+                                            )}
+                                          </div>
+                                        </div>
+                                        
+                                        {message.metadata.requestData && (
+                                          <div className="border-t border-[var(--color-border-secondary)] pt-3">
+                                            <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                              Dati Inviati
+                                            </h4>
+                                            <div className="space-y-2 text-sm">
+                                              {message.metadata.requestData.patientId && (
+                                                <div className="flex flex-col gap-1">
+                                                  <span className="text-[var(--color-text-secondary)]">Patient ID:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                    {message.metadata.requestData.patientId.substring(0, 20)}...
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.requestData.patientName && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Patient Name:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                    {message.metadata.requestData.patientName}
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.requestData.externalPatientId && (
+                                                <div className="flex flex-col gap-1">
+                                                  <span className="text-[var(--color-text-secondary)]">External ID:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                    {message.metadata.requestData.externalPatientId.substring(0, 20)}...
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.requestData.userMessage && (
+                                                <div className="flex flex-col gap-1">
+                                                  <span className="text-[var(--color-text-secondary)]">User Message:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-words leading-tight">
+                                                    {message.metadata.requestData.userMessage.length > 80
+                                                      ? `${message.metadata.requestData.userMessage.substring(0, 80)}...`
+                                                      : message.metadata.requestData.userMessage}
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.requestData.sessionId && (
+                                                <div className="flex flex-col gap-1">
+                                                  <span className="text-[var(--color-text-secondary)]">Session ID:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                    {message.metadata.requestData.sessionId.substring(0, 20)}...
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.requestData.stepId !== undefined && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Step ID:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                    {message.metadata.requestData.stepId}
+                                                  </span>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                        
+                                        {message.metadata.responseData && (
+                                          <div className="border-t border-[var(--color-border-secondary)] pt-3">
+                                            <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                              Dati Ricevuti
+                                            </h4>
+                                            <div className="space-y-2 text-sm">
+                                              {message.metadata.responseData.emotion && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Emotion:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] capitalize">
+                                                    {message.metadata.responseData.emotion}
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.responseData.topic && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Topic:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                    {message.metadata.responseData.topic}
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.responseData.reasoningTime !== undefined && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Reasoning Time:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                    {message.metadata.responseData.reasoningTime}s
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.responseData.status && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Status:</span>
+                                                  <span className={`font-mono text-xs ${
+                                                    message.metadata.responseData.status === "success" 
+                                                      ? "text-green-400" 
+                                                      : "text-red-400"
+                                                  }`}>
+                                                    {message.metadata.responseData.status}
+                                                  </span>
+                                                </div>
+                                              )}
+                                              {message.metadata.responseData.code && (
+                                                <div className="flex justify-between">
+                                                  <span className="text-[var(--color-text-secondary)]">Code:</span>
+                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                    {message.metadata.responseData.code}
+                                                  </span>
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              )}
                             </div>
                           </div>
                         </div>

@@ -19,10 +19,35 @@ export type ServiceType = "mock" | "real";
 
 export type LogLevel = "info" | "warn" | "error" | "debug";
 
+export interface ResponseMetadata {
+  apiType: "MOCK" | "REAL";
+  endpoint?: string;
+  requestData?: {
+    patientId?: string;
+    patientName?: string;
+    userMessage?: string;
+    sessionId?: string;
+    stepId?: number;
+    externalPatientId?: string;
+  };
+  responseData?: {
+    message?: string;
+    emotion?: PatientEmotion;
+    topic?: string;
+    reasoningTime?: number;
+    status?: string;
+    code?: string;
+    externalPatientId?: string;
+  };
+  duration?: number;
+  timestamp: string;
+}
+
 export interface PatientResponse {
   message: string;
   emotion: PatientEmotion;
   timestamp?: Date;
+  metadata?: ResponseMetadata;
 }
 
 export interface PatientInitializationResponse {
@@ -39,6 +64,7 @@ export interface ChatResponse {
   emotion: PatientEmotion;
   topic: string;
   timestamp: string;
+  metadata?: ResponseMetadata;
 }
 
 export interface ChatRequest {
@@ -1117,7 +1143,26 @@ class MockExternalAIService implements ExternalAIService {
       "success",
     );
 
-    return response;
+    return {
+      ...response,
+      metadata: {
+        apiType: "MOCK",
+        endpoint: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`,
+        requestData: {
+          patientId: input.patientInfo.id,
+          patientName: input.patientInfo.name,
+          userMessage: input.userMessage,
+          sessionId: input.sessionId,
+          stepId: input.stepId,
+        },
+        responseData: {
+          message: response.message,
+          emotion: response.emotion,
+        },
+        duration,
+        timestamp: new Date().toISOString(),
+      },
+    };
   }
 
   async initializePatient(
@@ -1270,6 +1315,9 @@ class MockExternalAIService implements ExternalAIService {
       selectedTopic,
     );
 
+    const endTime = Date.now();
+    const duration = endTime - startTime;
+
     const response = {
       message: selectedResponse,
       reasoning_time: Math.floor(Math.random() * 3) + 1, 
@@ -1284,10 +1332,25 @@ class MockExternalAIService implements ExternalAIService {
         | "base",
       topic: selectedTopic,
       timestamp: new Date().toISOString(),
+      metadata: {
+        apiType: "MOCK" as const,
+        endpoint: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
+        requestData: {
+          externalPatientId: input.external_patient_id,
+          userMessage: input.user_message,
+          sessionId: input.session_id,
+          stepId: input.step_id,
+        },
+        responseData: {
+          message: selectedResponse,
+          emotion: selectedEmotion as PatientEmotion,
+          topic: selectedTopic,
+          reasoningTime: Math.floor(Math.random() * 3) + 1,
+        },
+        duration,
+        timestamp: new Date().toISOString(),
+      },
     };
-
-    const endTime = Date.now();
-    const duration = endTime - startTime;
 
     
     PatientResponseLogger.logServiceResponse(
@@ -1405,8 +1468,10 @@ class RealExternalAIService implements ExternalAIService {
 
     const requestId = generateRequestId();
     const requestBody = createGenerateResponseBody(input, API_CONFIG.IS_REMOTE);
+    const startTime = Date.now();
+    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
 
-    return this.makeApiRequest<PatientResponse>(
+    const result = await this.makeApiRequest<PatientResponse>(
       API_CONFIG.ENDPOINTS.GENERATE_RESPONSE,
       "generateResponse",
       requestId,
@@ -1427,6 +1492,29 @@ class RealExternalAIService implements ExternalAIService {
       },
       (data) => parseGenerateResponse(data, API_CONFIG.IS_REMOTE),
     );
+
+    const duration = Date.now() - startTime;
+
+    return {
+      ...result,
+      metadata: {
+        apiType: "REAL" as const,
+        endpoint: apiUrl,
+        requestData: {
+          patientId: input.patientInfo.id,
+          patientName: input.patientInfo.name,
+          userMessage: input.userMessage,
+          sessionId: input.sessionId,
+          stepId: input.stepId,
+        },
+        responseData: {
+          message: result.message,
+          emotion: result.emotion,
+        },
+        duration,
+        timestamp: new Date().toISOString(),
+      },
+    };
   }
 
   async initializePatient(
@@ -1484,8 +1572,10 @@ class RealExternalAIService implements ExternalAIService {
     this.ensureApiKey();
 
     const requestId = generateRequestId();
+    const startTime = Date.now();
+    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
 
-    return this.makeApiRequest<ChatResponse>(
+    const result = await this.makeApiRequest<ChatResponse>(
       API_CONFIG.ENDPOINTS.CHAT_RESPONSE,
       "generateChatResponse",
       requestId,
@@ -1512,6 +1602,30 @@ class RealExternalAIService implements ExternalAIService {
         };
       },
     );
+
+    const duration = Date.now() - startTime;
+
+    return {
+      ...result,
+      metadata: {
+        apiType: "REAL" as const,
+        endpoint: apiUrl,
+        requestData: {
+          externalPatientId: input.external_patient_id,
+          userMessage: input.user_message,
+          sessionId: input.session_id,
+          stepId: input.step_id,
+        },
+        responseData: {
+          message: result.message,
+          emotion: result.emotion,
+          topic: result.topic,
+          reasoningTime: result.reasoning_time,
+        },
+        duration,
+        timestamp: new Date().toISOString(),
+      },
+    };
   }
 }
 
@@ -1619,6 +1733,22 @@ export class PatientResponseGenerator {
           message: selectedResponse.message,
           emotion: selectedResponse.emotion,
           timestamp: new Date(),
+          metadata: {
+            apiType: "MOCK" as const,
+            endpoint: "FALLBACK",
+            requestData: {
+              patientId: input.patientInfo.id,
+              patientName: input.patientInfo.name,
+              userMessage: input.userMessage,
+              sessionId: input.sessionId,
+              stepId: input.stepId,
+            },
+            responseData: {
+              message: selectedResponse.message,
+              emotion: selectedResponse.emotion,
+            },
+            timestamp: new Date().toISOString(),
+          },
         };
       },
       {
@@ -1693,6 +1823,23 @@ export class PatientResponseGenerator {
         emotion: "base" as const,
         topic: "generale",
         timestamp: new Date().toISOString(),
+        metadata: {
+          apiType: "MOCK" as const,
+          endpoint: "FALLBACK",
+          requestData: {
+            externalPatientId: input.external_patient_id,
+            userMessage: input.user_message,
+            sessionId: input.session_id,
+            stepId: input.step_id,
+          },
+          responseData: {
+            message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+            emotion: "base" as const,
+            topic: "generale",
+            reasoningTime: 0,
+          },
+          timestamp: new Date().toISOString(),
+        },
       }),
       {
         externalPatientId: input.external_patient_id,
