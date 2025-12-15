@@ -139,7 +139,7 @@ const MOCK_CONFIG = {
   ] as PatientEmotion[],
 } as const;
 
-// ANSI color codes for terminal output
+// Enhanced ANSI color codes with better contrast
 const COLORS = {
   reset: "\x1b[0m",
   bright: "\x1b[1m",
@@ -152,6 +152,13 @@ const COLORS = {
   cyan: "\x1b[36m",
   white: "\x1b[37m",
   gray: "\x1b[90m",
+  // Enhanced colors with better visibility
+  brightRed: "\x1b[91m",
+  brightGreen: "\x1b[92m",
+  brightYellow: "\x1b[93m",
+  brightBlue: "\x1b[94m",
+  brightMagenta: "\x1b[95m",
+  brightCyan: "\x1b[96m",
 } as const;
 
 const LOG_CONFIG = {
@@ -164,38 +171,429 @@ const LOG_CONFIG = {
   MAX_CONVERSATION_HISTORY: 5,
 } as const;
 
-// Helper function to format timestamp
-function formatTime(date: Date = new Date()): string {
-  return date.toLocaleTimeString("it-IT", {
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false,
-  });
+// Optimized Logger class with improved formatting and colors
+class PatientResponseLogger {
+  private static readonly EMOTION_COLORS: Record<PatientEmotion, keyof typeof COLORS> = {
+    anger: "brightRed",
+    sadness: "blue",
+    joy: "brightYellow",
+    trust: "brightGreen",
+    surprise: "magenta",
+    anticipation: "brightCyan",
+    disgust: "red",
+    base: "gray",
+  };
+
+  private static formatTime(date: Date = new Date()): string {
+    return date.toLocaleTimeString("it-IT", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+  }
+
+  private static formatDuration(ms: number): string {
+    if (ms < 1000) return `${ms}ms`;
+    return `${(ms / 1000).toFixed(2)}s`;
+  }
+
+  private static colorize(text: string, color: keyof typeof COLORS): string {
+    return `${COLORS[color]}${text}${COLORS.reset}`;
+  }
+
+  private static truncateMessage(
+    message: string,
+    maxLength: number = LOG_CONFIG.MAX_MESSAGE_LENGTH,
+  ): string {
+    return message.length > maxLength
+      ? message.substring(0, maxLength) + "..."
+      : message;
+  }
+
+  private static shortenRequestId(requestId: string): string {
+    return requestId.split("_").pop()?.substring(0, 8) || requestId;
+  }
+
+  private static getDurationColor(duration: number, thresholds: { slow: number; medium: number }): keyof typeof COLORS {
+    if (duration > thresholds.slow) return "brightYellow";
+    if (duration > thresholds.medium) return "white";
+    return "brightGreen";
+  }
+
+  private static createBadge(text: string, color: keyof typeof COLORS): string {
+    return `${this.colorize("▌", color)}${this.colorize(` ${text} `, "bright")}${this.colorize("▌", color)}`;
+  }
+
+  private static createSeparator(char: string = "─", length: number = 50): string {
+    return this.colorize(char.repeat(length), "gray");
+  }
+
+  // Service call logging
+  static logServiceCall(
+    prefix: string,
+    method: string,
+    requestId: string,
+    data: {
+      patientInfo?: { id?: string; name?: string; age?: number; gender?: string };
+      sessionInfo?: { sessionId?: string; stepId?: number; userMessage?: string };
+      url?: string;
+    },
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    
+    // Header line
+    console.log(
+      `${this.colorize(prefix, "brightCyan")} ${this.colorize("▶", "brightBlue")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Details section
+    const details: string[] = [];
+    
+    if (data.patientInfo) {
+      const { name, id, age, gender } = data.patientInfo;
+      const patientInfo = age && gender 
+        ? `${this.colorize(name || id || "N/A", "white")} ${this.colorize(`(${age}yo, ${gender})`, "gray")}`
+        : this.colorize(name || id || "N/A", "white");
+      details.push(`  ${this.colorize("👤", "dim")} ${this.colorize("Patient:", "dim")} ${patientInfo}`);
+    }
+    
+    if (data.sessionInfo) {
+      const { sessionId, stepId, userMessage } = data.sessionInfo;
+      const sessionInfo = stepId 
+        ? `${this.colorize(sessionId?.substring(0, 8) || "N/A", "white")} ${this.colorize(`│ Step: ${stepId}`, "gray")}`
+        : this.colorize(sessionId?.substring(0, 8) || "N/A", "white");
+      details.push(`  ${this.colorize("💬", "dim")} ${this.colorize("Session:", "dim")} ${sessionInfo}`);
+      
+      if (userMessage) {
+        details.push(`  ${this.colorize("📝", "dim")} ${this.colorize("Message:", "dim")} ${this.colorize(this.truncateMessage(userMessage, 75), "white")}`);
+      }
+    }
+    
+    if (data.url) {
+      details.push(`  ${this.colorize("🔗", "dim")} ${this.colorize("URL:", "dim")} ${this.colorize(data.url, "brightBlue")}`);
+    }
+
+    if (details.length > 0) {
+      details.forEach(detail => console.log(detail));
+    }
+  }
+
+  // Service response logging
+  static logServiceResponse(
+    prefix: string,
+    method: string,
+    requestId: string,
+    duration: number,
+    response: {
+      message?: string;
+      emotion?: PatientEmotion;
+      topic?: string;
+      reasoning_time?: number;
+      status?: string;
+      code?: string;
+      external_patient_id?: string;
+    },
+    status: "success" | "error" | "warning" = "success",
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    const statusIcon = status === "success" ? "✓" : status === "error" ? "✗" : "⚠";
+    const statusColor = status === "success" ? "brightGreen" : status === "error" ? "brightRed" : "brightYellow";
+    const durationColor = this.getDurationColor(duration, { slow: 3000, medium: 1000 });
+    const durationBadge = this.createBadge(this.formatDuration(duration), durationColor);
+    
+    // Header line with status and duration
+    console.log(
+      `${this.colorize(prefix, "brightCyan")} ${this.colorize(statusIcon, statusColor)} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Response details
+    const details: string[] = [];
+    
+    if (response.message) {
+      details.push(`  ${this.colorize("💭", "dim")} ${this.colorize("Response:", "dim")} ${this.colorize(this.truncateMessage(response.message, 75), "white")}`);
+    }
+    
+    if (response.emotion) {
+      const emotionColor = this.EMOTION_COLORS[response.emotion] || "white";
+      const emotionBadge = this.createBadge(response.emotion, emotionColor);
+      const extraInfo: string[] = [];
+      
+      if (response.topic) {
+        extraInfo.push(this.colorize(`Topic: ${response.topic}`, "brightCyan"));
+      }
+      if (response.reasoning_time !== undefined) {
+        extraInfo.push(this.colorize(`Reasoning: ${response.reasoning_time}s`, "gray"));
+      }
+      
+      const extraInfoStr = extraInfo.length > 0 ? ` ${this.colorize("│", "gray")} ${extraInfo.join(` ${this.colorize("│", "gray")} `)}` : "";
+      details.push(`  ${this.colorize("😊", "dim")} ${this.colorize("Emotion:", "dim")} ${emotionBadge}${extraInfoStr}`);
+    } else {
+      // If no emotion, show topic and reasoning separately
+      if (response.topic) {
+        details.push(`  ${this.colorize("🏷️", "dim")} ${this.colorize("Topic:", "dim")} ${this.colorize(response.topic, "brightCyan")}`);
+      }
+      if (response.reasoning_time !== undefined) {
+        details.push(`  ${this.colorize("⏱️", "dim")} ${this.colorize("Reasoning:", "dim")} ${this.colorize(`${response.reasoning_time}s`, "gray")}`);
+      }
+    }
+
+    if (response.status) {
+      const statusColor = response.status === "success" ? "brightGreen" : "brightRed";
+      const statusBadge = this.createBadge(response.status.toUpperCase(), statusColor);
+      const codeInfo = response.code ? ` ${this.colorize(`(${response.code})`, "gray")}` : "";
+      details.push(`  ${this.colorize("📊", "dim")} ${this.colorize("Status:", "dim")} ${statusBadge}${codeInfo}`);
+    }
+
+    if (response.external_patient_id) {
+      details.push(`  ${this.colorize("🆔", "dim")} ${this.colorize("External ID:", "dim")} ${this.colorize(response.external_patient_id, "brightCyan")}`);
+    }
+
+    if (details.length > 0) {
+      details.forEach(detail => console.log(detail));
+    }
+  }
+
+  // Service error logging
+  static logServiceError(
+    prefix: string,
+    method: string,
+    requestId: string,
+    duration: number,
+    error: unknown,
+    url?: string,
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const durationBadge = this.createBadge(this.formatDuration(duration), "brightRed");
+    
+    // Header line
+    console.log(
+      `${this.colorize(prefix, "brightCyan")} ${this.colorize("✗", "brightRed")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Error details
+    console.log(
+      `  ${this.colorize("❌", "brightRed")} ${this.colorize("Error:", "brightRed")} ${this.colorize(errorMessage, "white")}`
+    );
+    
+    if (url) {
+      console.log(
+        `  ${this.colorize("🔗", "dim")} ${this.colorize("URL:", "dim")} ${this.colorize(url, "brightRed")}`
+      );
+    }
+    
+    if (error instanceof Error && error.stack && process.env.NODE_ENV === "development") {
+      const stackLines = error.stack.split("\n").slice(1, 3);
+      stackLines.forEach((line) => {
+        console.log(`  ${this.colorize("  └─", "gray")} ${this.colorize(line.trim(), "gray")}`);
+      });
+    }
+  }
+
+  // Generator method call logging
+  static logGeneratorCall(
+    method: string,
+    requestId: string,
+    serviceType: "REAL" | "MOCK",
+    data: {
+      patientInfo?: { name?: string; age?: number; gender?: string };
+      sessionId?: string;
+      stepId?: number;
+      userMessage?: string;
+      conversationHistoryLength?: number;
+      externalPatientId?: string;
+    },
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    const serviceColor = serviceType === "REAL" ? "brightGreen" : "brightYellow";
+    const serviceBadge = this.createBadge(serviceType, serviceColor);
+    
+    // Header line
+    console.log(
+      `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize("▶", "brightBlue")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${serviceBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Details section
+    const details: string[] = [];
+    
+    if (data.patientInfo) {
+      const { name, age, gender } = data.patientInfo;
+      const patientInfo = age && gender 
+        ? `${this.colorize(name || "N/A", "white")} ${this.colorize(`(${age}yo, ${gender})`, "gray")}`
+        : this.colorize(name || "N/A", "white");
+      details.push(`  ${this.colorize("👤", "dim")} ${this.colorize("Patient:", "dim")} ${patientInfo}`);
+    }
+    
+    if (data.sessionId) {
+      const sessionInfo = data.stepId 
+        ? `${this.colorize(data.sessionId.substring(0, 8), "white")} ${this.colorize(`│ Step: ${data.stepId}`, "gray")}`
+        : this.colorize(data.sessionId.substring(0, 8), "white");
+      details.push(`  ${this.colorize("💬", "dim")} ${this.colorize("Session:", "dim")} ${sessionInfo}`);
+    }
+    
+    if (data.userMessage) {
+      details.push(`  ${this.colorize("📝", "dim")} ${this.colorize("Message:", "dim")} ${this.colorize(this.truncateMessage(data.userMessage, 75), "white")}`);
+    }
+    
+    if (data.conversationHistoryLength && data.conversationHistoryLength > 0) {
+      details.push(`  ${this.colorize("📚", "dim")} ${this.colorize("History:", "dim")} ${this.colorize(`${data.conversationHistoryLength} messages`, "gray")}`);
+    }
+
+    if (data.externalPatientId) {
+      details.push(`  ${this.colorize("🆔", "dim")} ${this.colorize("External ID:", "dim")} ${this.colorize(data.externalPatientId.substring(0, 16), "white")}`);
+    }
+
+    if (details.length > 0) {
+      details.forEach(detail => console.log(detail));
+    }
+  }
+
+  // Generator method response logging
+  static logGeneratorResponse(
+    method: string,
+    requestId: string,
+    duration: number,
+    response: {
+      message?: string;
+      emotion?: PatientEmotion;
+      topic?: string;
+      reasoning_time?: number;
+      status?: string;
+      code?: string;
+      external_patient_id?: string;
+    },
+    status: "success" | "error" | "warning" = "success",
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    const statusIcon = status === "success" ? "✓" : status === "error" ? "✗" : "⚠";
+    const statusColor = status === "success" ? "brightGreen" : status === "error" ? "brightRed" : "brightYellow";
+    const durationColor = this.getDurationColor(duration, { slow: 3000, medium: 1000 });
+    const durationBadge = this.createBadge(this.formatDuration(duration), durationColor);
+    
+    // Header line with status and duration
+    console.log(
+      `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize(statusIcon, statusColor)} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Response details
+    const details: string[] = [];
+    
+    if (response.message) {
+      details.push(`  ${this.colorize("💭", "dim")} ${this.colorize("Response:", "dim")} ${this.colorize(this.truncateMessage(response.message, 75), "white")}`);
+    }
+    
+    if (response.emotion) {
+      const emotionColor = this.EMOTION_COLORS[response.emotion] || "white";
+      const emotionBadge = this.createBadge(response.emotion, emotionColor);
+      const extraInfo: string[] = [];
+      
+      if (response.topic) {
+        extraInfo.push(this.colorize(`Topic: ${response.topic}`, "brightCyan"));
+      }
+      if (response.reasoning_time !== undefined) {
+        extraInfo.push(this.colorize(`Reasoning: ${response.reasoning_time}s`, "gray"));
+      }
+      
+      const extraInfoStr = extraInfo.length > 0 ? ` ${this.colorize("│", "gray")} ${extraInfo.join(` ${this.colorize("│", "gray")} `)}` : "";
+      details.push(`  ${this.colorize("😊", "dim")} ${this.colorize("Emotion:", "dim")} ${emotionBadge}${extraInfoStr}`);
+    } else {
+      // If no emotion, show topic and reasoning separately
+      if (response.topic) {
+        details.push(`  ${this.colorize("🏷️", "dim")} ${this.colorize("Topic:", "dim")} ${this.colorize(response.topic, "brightCyan")}`);
+      }
+      if (response.reasoning_time !== undefined) {
+        details.push(`  ${this.colorize("⏱️", "dim")} ${this.colorize("Reasoning:", "dim")} ${this.colorize(`${response.reasoning_time}s`, "gray")}`);
+      }
+    }
+    
+    if (response.status) {
+      const statusColor = response.status === "success" ? "brightGreen" : "brightRed";
+      const statusBadge = this.createBadge(response.status.toUpperCase(), statusColor);
+      const codeInfo = response.code ? ` ${this.colorize(`(${response.code})`, "gray")}` : "";
+      details.push(`  ${this.colorize("📊", "dim")} ${this.colorize("Status:", "dim")} ${statusBadge}${codeInfo}`);
+    }
+
+    if (response.external_patient_id) {
+      details.push(`  ${this.colorize("🆔", "dim")} ${this.colorize("External ID:", "dim")} ${this.colorize(response.external_patient_id, "brightCyan")}`);
+    }
+
+    if (details.length > 0) {
+      details.forEach(detail => console.log(detail));
+    }
+  }
+
+  // Generator error logging with fallback info
+  static logGeneratorError(
+    method: string,
+    requestId: string,
+    duration: number,
+    error: unknown,
+    fallbackType?: string,
+  ): void {
+    const time = this.formatTime();
+    const shortId = this.shortenRequestId(requestId);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const durationBadge = this.createBadge(this.formatDuration(duration), "brightYellow");
+    const fallbackBadge = fallbackType ? ` ${this.createBadge("FALLBACK", "brightYellow")}` : "";
+    
+    // Header line
+    console.log(
+      `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize("⚠", "brightYellow")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge}${fallbackBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
+    );
+    
+    // Error details
+    console.log(
+      `  ${this.colorize("❌", "brightRed")} ${this.colorize("Error:", "brightRed")} ${this.colorize(errorMessage, "white")}`
+    );
+    
+    if (fallbackType) {
+      console.log(
+        `  ${this.colorize("🔄", "brightYellow")} ${this.colorize("Fallback:", "brightYellow")} ${this.colorize(fallbackType, "white")}`
+      );
+    }
+  }
+
+  // Specialized logging methods
+  static logRandomization(
+    patientName: string,
+    responseCount: number,
+    selectedIndex: number,
+    emotion?: PatientEmotion,
+    topic?: string,
+  ): void {
+    const emotionBadge = emotion ? ` ${this.createBadge(emotion, this.EMOTION_COLORS[emotion] || "white")}` : "";
+    const topicBadge = topic ? ` ${this.createBadge(topic, "brightBlue")}` : "";
+    const countBadge = this.createBadge(`${responseCount} responses`, "gray");
+    const indexBadge = this.createBadge(`#${selectedIndex}`, "brightCyan");
+    
+    console.log(
+      `${this.colorize("🎲", "brightMagenta")} ${this.colorize("[RANDOMIZATION]", "brightMagenta")} ${this.colorize(patientName, "white")} ${countBadge} ${this.colorize("→", "gray")} ${indexBadge}${emotionBadge}${topicBadge}`
+    );
+  }
+
+  static logCacheCleanup(message: string): void {
+    console.log(
+      `${this.colorize("🧹", "brightYellow")} ${this.colorize("[CACHE]", "brightYellow")} ${this.colorize(message, "dim")}`
+    );
+  }
+
+  static logWarning(message: string): void {
+    const warningBadge = this.createBadge("WARNING", "brightYellow");
+    console.log(
+      `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${warningBadge} ${this.colorize(message, "white")}`
+    );
+  }
 }
 
-// Helper function to format duration
-function formatDuration(ms: number): string {
-  if (ms < 1000) return `${ms}ms`;
-  return `${(ms / 1000).toFixed(2)}s`;
-}
-
-// Helper function to colorize text
-function colorize(text: string, color: keyof typeof COLORS): string {
-  return `${COLORS[color]}${text}${COLORS.reset}`;
-}
-
-// Helper function to create a visual separator
-function separator(char: string = "─", length: number = 60): string {
-  return colorize(char.repeat(length), "gray");
-}
-
-
-
-
-
+// Helper functions
 function generateRequestId(): string {
-  return `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `req_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 function truncateMessage(
@@ -203,137 +601,81 @@ function truncateMessage(
   maxLength: number = LOG_CONFIG.MAX_MESSAGE_LENGTH,
 ): string {
   return message.length > maxLength
-    ? message.substring(0, maxLength) + "..."
+    ? `${message.substring(0, maxLength)}...`
     : message;
-}
-
-// Improved logging functions with better formatting
-function logServiceCall(
-  prefix: string,
-  service: string,
-  method: string,
-  requestId: string,
-  data: Record<string, any>,
-): void {
-  const time = formatTime();
-  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-  
-  console.log(
-    `${colorize(prefix, "cyan")} ${colorize("→", "blue")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(time, "dim")}`
-  );
-  
-  // Log key information in a structured way
-  if (data.patientInfo) {
-    console.log(
-      `  ${colorize("Patient:", "dim")} ${colorize(data.patientInfo.name || data.patientInfo.id, "white")} ${colorize(`(${data.patientInfo.age}yo, ${data.patientInfo.gender})`, "gray")}`
-    );
-  }
-  
-  if (data.sessionInfo) {
-    const sessionInfo = data.sessionInfo;
-    console.log(
-      `  ${colorize("Session:", "dim")} ${colorize(sessionInfo.sessionId?.substring(0, 8) || "N/A", "white")} ${colorize(`Step: ${sessionInfo.stepId || "N/A"}`, "gray")}`
-    );
-    if (sessionInfo.userMessage) {
-      console.log(
-        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(sessionInfo.userMessage, 80), "white")}`
-      );
-    }
-  }
-  
-  if (data.url) {
-    console.log(
-      `  ${colorize("URL:", "dim")} ${colorize(data.url, "blue")}`
-    );
-  }
-}
-
-function logServiceResponse(
-  prefix: string,
-  service: string,
-  method: string,
-  requestId: string,
-  duration: number,
-  response: any,
-  status: string,
-): void {
-  const time = formatTime();
-  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-  const statusColor = status === "success" ? "green" : status === "error" ? "red" : "yellow";
-  const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
-  
-  console.log(
-    `${colorize(prefix, "cyan")} ${colorize("✓", status === "success" ? "green" : "red")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(time, "dim")}`
-  );
-  
-  if (response.message) {
-    console.log(
-      `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(response.message, 80), "white")}`
-    );
-  }
-  
-  if (response.emotion) {
-    const emotionColors: Record<string, keyof typeof COLORS> = {
-      anger: "red",
-      sadness: "blue",
-      joy: "yellow",
-      trust: "green",
-      surprise: "magenta",
-      anticipation: "cyan",
-      disgust: "red",
-      base: "gray",
-    };
-    const emotionColor = emotionColors[response.emotion] || "white";
-    console.log(
-      `  ${colorize("Emotion:", "dim")} ${colorize(response.emotion, emotionColor)}`
-    );
-  }
-  
-  if (response.topic) {
-    console.log(
-      `  ${colorize("Topic:", "dim")} ${colorize(response.topic, "cyan")}`
-    );
-  }
-  
-  if (response.reasoning_time !== undefined) {
-    console.log(
-      `  ${colorize("Reasoning:", "dim")} ${colorize(`${response.reasoning_time}s`, "gray")}`
-    );
-  }
-}
-
-function logServiceError(
-  prefix: string,
-  service: string,
-  method: string,
-  requestId: string,
-  duration: number,
-  error: unknown,
-  status: string = "error",
-): void {
-  const time = formatTime();
-  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-  const errorMessage = error instanceof Error ? error.message : "Unknown error";
-  
-  console.log(
-    `${colorize(prefix, "cyan")} ${colorize("✗", "red")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "red")} ${colorize(time, "dim")}`
-  );
-  
-  console.log(
-    `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
-  );
-  
-  if (error instanceof Error && error.stack && process.env.NODE_ENV === "development") {
-    const stackLines = error.stack.split("\n").slice(1, 3);
-    stackLines.forEach((line) => {
-      console.log(`  ${colorize(line.trim(), "gray")}`);
-    });
-  }
 }
 
 function simulateDelay(min: number, max: number): Promise<void> {
   const delay = min + Math.random() * (max - min);
   return new Promise((resolve) => setTimeout(resolve, delay));
+}
+
+// Helper for API calls with timeout
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit,
+  timeout: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    return response;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+// Helper for creating request body based on API mode
+function createGenerateResponseBody(
+  input: GenerateResponseInput,
+  isRemote: boolean,
+) {
+  return isRemote
+    ? {
+        session_id: input.sessionId,
+        user_input: input.userMessage,
+      }
+    : {
+        id: input.patientInfo.id,
+        name: input.patientInfo.name,
+        age: input.patientInfo.age,
+        gender: input.patientInfo.gender,
+        diagnosis: input.patientInfo.diagnosis,
+        difficulty_level: input.patientInfo.difficulty,
+        psychological_profile: input.patientInfo.psychologicalProfile,
+        background: input.patientInfo.background,
+        current_medications: input.patientInfo.currentMedications || [],
+        therapy_goals: input.patientInfo.therapyGoals || [],
+        previous_sessions: input.patientInfo.previousSessions || 0,
+        session_id: input.sessionId,
+      };
+}
+
+// Helper for parsing response based on API mode
+function parseGenerateResponse(
+  data: unknown,
+  isRemote: boolean,
+): PatientResponse {
+  const response = data as Record<string, unknown>;
+  return isRemote
+    ? {
+        message: response.message as string,
+        emotion: response.emotion as PatientEmotion,
+        timestamp: new Date((response.timestamp as string) || new Date()),
+      }
+    : {
+        message: (response.response as { message: string }).message,
+        emotion: (response.response as { emotion: PatientEmotion }).emotion,
+        timestamp: new Date(
+          ((response.response as { timestamp?: string }).timestamp ||
+            new Date()) as string,
+        ),
+      };
 }
 
 
@@ -526,13 +868,12 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
 };
 
 const responseCache = new Map<string, PatientResponse[]>();
-
 const contextCache = new Map<string, PatientResponse[]>();
 
 const CACHE_CONFIG = {
   MAX_CONTEXT_CACHE_SIZE: 100, 
-  CACHE_CLEANUP_INTERVAL: 300000, 
-};
+  CACHE_CLEANUP_INTERVAL: 300000, // 5 minutes
+} as const;
 
 let lastCacheCleanup = Date.now();
 
@@ -542,12 +883,15 @@ function cleanupCache(): void {
     return;
   }
 
-  
   if (contextCache.size > CACHE_CONFIG.MAX_CONTEXT_CACHE_SIZE) {
-    contextCache.clear();
-    console.log(
-      `${colorize("🧹 [CACHE]", "yellow")} ${colorize("Cleared contextual response cache", "dim")}`
-    );
+    // Clear oldest entries (simple FIFO approach)
+    const entriesToDelete = contextCache.size - CACHE_CONFIG.MAX_CONTEXT_CACHE_SIZE;
+    const keysToDelete = Array.from(contextCache.keys()).slice(0, entriesToDelete);
+    keysToDelete.forEach((key) => contextCache.delete(key));
+    
+    if (keysToDelete.length > 0) {
+      PatientResponseLogger.logCacheCleanup(`Cleared ${keysToDelete.length} entries from contextual response cache`);
+    }
   }
 
   lastCacheCleanup = now;
@@ -605,13 +949,17 @@ function selectContextualResponse(
   userMessage: string,
   conversationHistory: GenerateResponseInput["conversationHistory"] = [],
 ): PatientResponse {
-  
   cleanupCache();
   
-  
   const responses = getCachedResponses(patientInfo.name);
+  if (responses.length === 0) {
+    return {
+      message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+      emotion: "base",
+      timestamp: new Date(),
+    };
+  }
 
-  
   const recentMessages = conversationHistory
     .slice(-LOG_CONFIG.MAX_CONVERSATION_HISTORY)
     .map((m) => m.content.toLowerCase())
@@ -620,38 +968,31 @@ function selectContextualResponse(
   const timestampComponent = Math.floor(Date.now() / 10000); 
   const cacheKey = `${patientInfo.name}_${userMessage.toLowerCase()}_${recentMessages}_${timestampComponent}`;
 
-  
   let filteredResponses = getCachedContextualResponses(cacheKey, responses);
 
-  
   if (filteredResponses === responses) {
     filteredResponses = performContextualAnalysis(
       responses,
       userMessage,
       recentMessages,
     );
-    setCachedContextualResponses(cacheKey, filteredResponses);
+    if (filteredResponses.length > 0) {
+      setCachedContextualResponses(cacheKey, filteredResponses);
+    }
   }
 
-  
-  const randomSeed = Math.random() * 1000 + Date.now() % 1000;
-  const selectedIndex = Math.floor((randomSeed * Math.random()) % filteredResponses.length);
-  const selectedResponse = filteredResponses[selectedIndex];
-  
-  
-  console.log(
-    `${colorize("🎲 [RANDOMIZATION]", "magenta")} ${colorize(patientInfo.name, "white")} ${colorize(`(${filteredResponses.length} responses)`, "gray")} ${colorize(`→ #${selectedIndex}`, "cyan")}`
-  );
-  
-  if (!selectedResponse) {
-    
-    return {
-      message:
-        "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
-      emotion: "base",
-      timestamp: new Date(),
-    };
+  if (filteredResponses.length === 0) {
+    filteredResponses = responses;
   }
+
+  const selectedIndex = Math.floor(Math.random() * filteredResponses.length);
+  const selectedResponse = filteredResponses[selectedIndex]!;
+  
+  PatientResponseLogger.logRandomization(
+    patientInfo.name,
+    filteredResponses.length,
+    selectedIndex,
+  );
 
   return {
     message: selectedResponse.message,
@@ -665,69 +1006,50 @@ function performContextualAnalysis(
   userMessage: string,
   recentMessages: string,
 ): PatientResponse[] {
-  const userMessageLower = userMessage.toLowerCase();
-  const contextText = `${userMessageLower} ${recentMessages}`;
+  const contextText = `${userMessage.toLowerCase()} ${recentMessages}`;
 
-  
+  // Pre-compile keyword patterns for better performance
   const keywordPatterns = [
     {
-      keywords: [
-        "famiglia",
-        "moglie",
-        "familiare",
-        "marito",
-        "figli",
-        "parenti",
-      ],
-      filter: (r: PatientResponse) =>
-        r.message.toLowerCase().includes("moglie") ||
-        r.message.toLowerCase().includes("famiglia") ||
-        r.message.toLowerCase().includes("papà") ||
-        r.message.toLowerCase().includes("mamma"),
+      keywords: ["famiglia", "moglie", "familiare", "marito", "figli", "parenti"],
+      responseKeywords: ["moglie", "famiglia", "papà", "mamma"],
     },
     {
       keywords: ["lavoro", "ufficio", "carriera", "professione"],
-      filter: (r: PatientResponse) =>
-        r.message.toLowerCase().includes("lavoro") ||
-        r.message.toLowerCase().includes("competente") ||
-        r.message.toLowerCase().includes("ufficio"),
+      responseKeywords: ["lavoro", "competente", "ufficio"],
     },
     {
       keywords: ["ansia", "paura", "nervoso", "preoccupato", "tensione"],
-      filter: (r: PatientResponse) =>
-        r.message.toLowerCase().includes("ansioso") ||
-        r.message.toLowerCase().includes("paura") ||
-        r.message.toLowerCase().includes("battito") ||
-        r.message.toLowerCase().includes("nervoso"),
+      responseKeywords: ["ansioso", "paura", "battito", "nervoso"],
     },
     {
       keywords: ["rabbia", "arrabbiato", "frustrato", "irritato", "furioso"],
-      filter: (r: PatientResponse) =>
-        r.message.toLowerCase().includes("rabbia") ||
-        r.message.toLowerCase().includes("arrabbiata") ||
-        r.message.toLowerCase().includes("furioso"),
+      responseKeywords: ["rabbia", "arrabbiata", "furioso"],
     },
     {
       keywords: ["speranza", "migliorare", "aiuto", "guarire", "bene"],
-      filter: (r: PatientResponse) =>
-        r.message.toLowerCase().includes("speranza") ||
-        r.message.toLowerCase().includes("aiuto") ||
-        r.message.toLowerCase().includes("migliore") ||
-        r.message.toLowerCase().includes("bene"),
+      responseKeywords: ["speranza", "aiuto", "migliore", "bene"],
     },
-  ];
+  ] as const;
 
-  
+  // Check patterns and filter responses
   for (const pattern of keywordPatterns) {
     if (pattern.keywords.some((keyword) => contextText.includes(keyword))) {
-      const filtered = responses.filter(pattern.filter);
+      const messageLowerCache = new Map<string, string>();
+      const filtered = responses.filter((r) => {
+        const messageLower = messageLowerCache.get(r.message) ?? r.message.toLowerCase();
+        if (!messageLowerCache.has(r.message)) {
+          messageLowerCache.set(r.message, messageLower);
+        }
+        return pattern.responseKeywords.some((keyword) => messageLower.includes(keyword));
+      });
+      
       if (filtered.length > 0) {
         return filtered;
       }
     }
   }
 
-  
   return responses;
 }
 
@@ -747,54 +1069,22 @@ class MockExternalAIService implements ExternalAIService {
     const requestId = generateRequestId();
 
     
-    logServiceCall(
+    PatientResponseLogger.logServiceCall(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "Simulating External AI API",
       "generateResponse",
       requestId,
       {
         url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`,
-        httpMethod: "POST",
         patientInfo: {
           id: input.patientInfo.id,
           name: input.patientInfo.name,
           age: input.patientInfo.age,
           gender: input.patientInfo.gender,
-          diagnosis: input.patientInfo.diagnosis,
-          difficulty: input.patientInfo.difficulty,
-          psychologicalProfile: input.patientInfo.psychologicalProfile,
-          background: input.patientInfo.background,
-          currentMedications: input.patientInfo.currentMedications || [],
-          therapyGoals: input.patientInfo.therapyGoals || [],
-          previousSessions: input.patientInfo.previousSessions || 0,
         },
         sessionInfo: {
           sessionId: input.sessionId,
           stepId: input.stepId,
           userMessage: truncateMessage(input.userMessage),
-          conversationHistoryLength: input.conversationHistory?.length || 0,
-        },
-        requestBody: {
-          patient_id: input.patientInfo.id,
-          patient_name: input.patientInfo.name,
-          patient_age: input.patientInfo.age,
-          patient_gender: input.patientInfo.gender,
-          diagnosis: input.patientInfo.diagnosis,
-          difficulty_level: input.patientInfo.difficulty,
-          psychological_profile: input.patientInfo.psychologicalProfile,
-          background: input.patientInfo.background,
-          current_medications: input.patientInfo.currentMedications || [],
-          therapy_goals: input.patientInfo.therapyGoals || [],
-          previous_sessions: input.patientInfo.previousSessions || 0,
-          session_id: input.sessionId,
-          step_id: input.stepId,
-          user_message: input.userMessage,
-          conversation_history:
-            input.conversationHistory?.map((msg) => ({
-              content: truncateMessage(msg.content, 50),
-              sender: msg.sender,
-              timestamp: msg.timestamp,
-            })) || [],
         },
       },
     );
@@ -815,16 +1105,14 @@ class MockExternalAIService implements ExternalAIService {
     const duration = Date.now() - startTime;
 
     
-    logServiceResponse(
+    PatientResponseLogger.logServiceResponse(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "External AI API",
       "generateResponse",
       requestId,
       duration,
       {
         message: truncateMessage(response.message),
         emotion: response.emotion,
-        timestamp: response.timestamp,
       },
       "success",
     );
@@ -839,21 +1127,17 @@ class MockExternalAIService implements ExternalAIService {
 
     
     const requestId = generateRequestId();
-    logServiceCall(
+    PatientResponseLogger.logServiceCall(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "Simulating External AI API",
       "initializePatient",
       requestId,
       {
         url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT}`,
-        httpMethod: "POST",
         patientInfo: {
           id: input.patientInfo.id,
           name: input.patientInfo.name,
           age: input.patientInfo.age,
           gender: input.patientInfo.gender,
-          diagnosis: input.patientInfo.diagnosis,
-          difficulty: input.patientInfo.difficulty,
         },
         sessionInfo: {
           sessionId: input.sessionId,
@@ -879,9 +1163,8 @@ class MockExternalAIService implements ExternalAIService {
     const duration = endTime - startTime;
 
     
-    logServiceResponse(
+    PatientResponseLogger.logServiceResponse(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "External AI API",
       "initializePatient",
       requestId,
       duration,
@@ -893,12 +1176,6 @@ class MockExternalAIService implements ExternalAIService {
       },
       "success",
     );
-    
-    if (response.external_patient_id) {
-      console.log(
-        `  ${colorize("External ID:", "dim")} ${colorize(response.external_patient_id, "cyan")}`
-      );
-    }
 
     return response;
   }
@@ -908,14 +1185,12 @@ class MockExternalAIService implements ExternalAIService {
 
     
     const requestId = generateRequestId();
-    logServiceCall(
+    PatientResponseLogger.logServiceCall(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "Simulating External AI API",
       "generateChatResponse",
       requestId,
       {
         url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
-        httpMethod: "POST",
         sessionInfo: {
           sessionId: input.session_id,
           stepId: input.step_id,
@@ -975,10 +1250,9 @@ class MockExternalAIService implements ExternalAIService {
     ];
 
     
-    const randomSeed = Math.random() * 1000 + Date.now() % 1000;
-    const responseIndex = Math.floor((randomSeed * Math.random()) % sampleResponses.length);
-    const emotionIndex = Math.floor((randomSeed * Math.random() * 0.7) % emotions.length);
-    const topicIndex = Math.floor((randomSeed * Math.random() * 0.5) % topics.length);
+    const responseIndex = Math.floor(Math.random() * sampleResponses.length);
+    const emotionIndex = Math.floor(Math.random() * emotions.length);
+    const topicIndex = Math.floor(Math.random() * topics.length);
 
     const selectedResponse =
       sampleResponses[responseIndex] ||
@@ -988,8 +1262,12 @@ class MockExternalAIService implements ExternalAIService {
     const selectedTopic =
       topics[topicIndex] || "generale";
     
-    console.log(
-      `${colorize("🎲 [CHAT RANDOMIZATION]", "magenta")} ${colorize(`${sampleResponses.length} responses`, "gray")} ${colorize(`→ #${responseIndex}`, "cyan")} ${colorize(`[${selectedEmotion}]`, "yellow")} ${colorize(`(${selectedTopic})`, "blue")}`
+    PatientResponseLogger.logRandomization(
+      `Chat (${sampleResponses.length} responses)`,
+      sampleResponses.length,
+      responseIndex,
+      selectedEmotion as PatientEmotion,
+      selectedTopic,
     );
 
     const response = {
@@ -1012,9 +1290,8 @@ class MockExternalAIService implements ExternalAIService {
     const duration = endTime - startTime;
 
     
-    logServiceResponse(
+    PatientResponseLogger.logServiceResponse(
       LOG_CONFIG.PREFIXES.MOCK_AI,
-      "External AI API",
       "generateChatResponse",
       requestId,
       duration,
@@ -1027,153 +1304,137 @@ class MockExternalAIService implements ExternalAIService {
 }
 
 class RealExternalAIService implements ExternalAIService {
-  private apiKey = env.EXTERNAL_AI_API_KEY;
+  private readonly apiKey = env.EXTERNAL_AI_API_KEY;
 
-  async generateResponse(
-    input: GenerateResponseInput,
-  ): Promise<PatientResponse> {
+  private ensureApiKey(): void {
     if (!this.apiKey) {
-      throw new Error("External AI API key not configured");
+      throw new APIConfigurationError("External AI API key not configured");
     }
+  }
 
+  private async makeApiRequest<T>(
+    endpoint: string,
+    method: string,
+    requestId: string,
+    requestBody: unknown,
+    timeout: number,
+    logData: {
+      patientInfo?: { id?: string; name?: string; age?: number; gender?: string };
+      sessionInfo?: { sessionId?: string; stepId?: number; userMessage?: string };
+    },
+    parseResponse: (data: unknown) => T,
+  ): Promise<T> {
     const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
-    
-    // Format request body based on API mode
-    const requestBody = API_CONFIG.IS_REMOTE ? {
-      session_id: input.sessionId,
-      user_input: input.userMessage,
-    } : {
-      id: input.patientInfo.id,
-      name: input.patientInfo.name,
-      age: input.patientInfo.age,
-      gender: input.patientInfo.gender,
-      diagnosis: input.patientInfo.diagnosis,
-      difficulty_level: input.patientInfo.difficulty,
-      psychological_profile: input.patientInfo.psychologicalProfile,
-      background: input.patientInfo.background,
-      current_medications: input.patientInfo.currentMedications || [],
-      therapy_goals: input.patientInfo.therapyGoals || [],
-      previous_sessions: input.patientInfo.previousSessions || 0,
-      session_id: input.sessionId,
-    };
+    const apiUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
 
-    
-    logServiceCall(
+    PatientResponseLogger.logServiceCall(
       LOG_CONFIG.PREFIXES.REAL_AI,
-      "External AI API",
-      "generateResponse",
+      method,
       requestId,
       {
         url: apiUrl,
-        httpMethod: "POST",
-        patientInfo: {
-          id: input.patientInfo.id,
-          name: input.patientInfo.name,
-          age: input.patientInfo.age,
-          gender: input.patientInfo.gender,
-          diagnosis: input.patientInfo.diagnosis,
-          difficulty: input.patientInfo.difficulty,
-        },
-        sessionInfo: {
-          sessionId: input.sessionId,
-          stepId: input.stepId,
-          userMessage: truncateMessage(input.userMessage),
-          conversationHistoryLength: input.conversationHistory?.length || 0,
-        },
+        ...logData,
       },
     );
 
     try {
-      const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`,
-          "X-API-Version": "1.0",
+      const response = await fetchWithTimeout(
+        apiUrl,
+        {
+          method: "POST",
+          headers: {
+            ...API_CONFIG.HEADERS,
+            Authorization: `Bearer ${this.apiKey}`,
+          },
+          body: JSON.stringify(requestBody),
         },
-        body: JSON.stringify(requestBody),
-      });
+        timeout,
+      );
 
-      const endTime = Date.now();
-      const duration = endTime - startTime;
+      const duration = Date.now() - startTime;
 
       if (!response.ok) {
-        logServiceError(
+        const error = new Error(`HTTP ${response.status}: ${response.statusText}`);
+        PatientResponseLogger.logServiceError(
           LOG_CONFIG.PREFIXES.REAL_AI,
-          "External AI API",
-          "generateResponse",
+          method,
           requestId,
           duration,
-          new Error(`HTTP ${response.status}: ${response.statusText}`),
-          "error",
+          error,
+          apiUrl,
         );
-        console.log(
-          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
-        );
-        throw new Error(
+        throw new ExternalAIServiceError(
           `External AI API error: ${response.status} ${response.statusText}`,
+          "real",
+          requestId,
+          response.status,
         );
       }
 
       const data = await response.json();
+      const result = parseResponse(data);
 
-      // Handle response format based on API mode
-      const result = API_CONFIG.IS_REMOTE ? {
-        message: data.message,
-        emotion: data.emotion,
-        timestamp: new Date(data.timestamp || new Date()),
-      } : {
-        message: data.response.message,
-        emotion: data.response.emotion,
-        timestamp: new Date(data.response.timestamp || new Date()),
-      };
-
-      
-      logServiceResponse(
+      PatientResponseLogger.logServiceResponse(
         LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "generateResponse",
+        method,
         requestId,
         duration,
-        result,
+        result as Record<string, unknown>,
         "success",
       );
 
       return result;
     } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      logServiceError(
+      const duration = Date.now() - startTime;
+      PatientResponseLogger.logServiceError(
         LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "generateResponse",
+        method,
         requestId,
         duration,
         error,
-        "error",
-      );
-      
-      console.log(
-        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+        apiUrl,
       );
       throw error;
     }
   }
 
+  async generateResponse(
+    input: GenerateResponseInput,
+  ): Promise<PatientResponse> {
+    this.ensureApiKey();
+
+    const requestId = generateRequestId();
+    const requestBody = createGenerateResponseBody(input, API_CONFIG.IS_REMOTE);
+
+    return this.makeApiRequest<PatientResponse>(
+      API_CONFIG.ENDPOINTS.GENERATE_RESPONSE,
+      "generateResponse",
+      requestId,
+      requestBody,
+      API_CONFIG.TIMEOUTS.GENERATE_RESPONSE,
+      {
+        patientInfo: {
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+        },
+        sessionInfo: {
+          sessionId: input.sessionId,
+          stepId: input.stepId,
+          userMessage: truncateMessage(input.userMessage),
+        },
+      },
+      (data) => parseGenerateResponse(data, API_CONFIG.IS_REMOTE),
+    );
+  }
+
   async initializePatient(
     input: InitializePatientInput,
   ): Promise<PatientInitializationResponse> {
-    if (!this.apiKey) {
-      throw new Error("External AI API key not configured");
-    }
+    this.ensureApiKey();
 
-    const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT}`;
+    const requestId = generateRequestId();
     const requestBody = {
       id: input.patientInfo.id,
       name: input.patientInfo.name,
@@ -1189,132 +1450,48 @@ class RealExternalAIService implements ExternalAIService {
       session_id: input.sessionId,
     };
 
-    
-    logServiceCall(
-      LOG_CONFIG.PREFIXES.REAL_AI,
-      "External AI API",
+    return this.makeApiRequest<PatientInitializationResponse>(
+      API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT,
       "initializePatient",
       requestId,
+      requestBody,
+      API_CONFIG.TIMEOUTS.INITIALIZE_PATIENT,
       {
-        url: apiUrl,
-        httpMethod: "POST",
         patientInfo: {
           id: input.patientInfo.id,
           name: input.patientInfo.name,
           age: input.patientInfo.age,
           gender: input.patientInfo.gender,
-          diagnosis: input.patientInfo.diagnosis,
-          difficulty: input.patientInfo.difficulty,
         },
         sessionInfo: {
           sessionId: input.sessionId,
         },
       },
+      (data) => {
+        const response = data as PatientInitializationResponse;
+        return {
+          status: response.status,
+          code: response.code,
+          external_patient_id: response.external_patient_id,
+          message: response.message,
+          timestamp: response.timestamp,
+        };
+      },
     );
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`,
-          "X-API-Version": "1.0",
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      if (!response.ok) {
-        logServiceError(
-          LOG_CONFIG.PREFIXES.REAL_AI,
-          "External AI API",
-          "initializePatient",
-          requestId,
-          duration,
-          new Error(`HTTP ${response.status}: ${response.statusText}`),
-          "error",
-        );
-        console.log(
-          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
-        );
-        throw new Error(
-          `External AI API error: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const data = await response.json();
-
-      const result = {
-        status: data.status,
-        code: data.code,
-        external_patient_id: data.external_patient_id,
-        message: data.message,
-        timestamp: data.timestamp,
-      };
-
-      
-      logServiceResponse(
-        LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "initializePatient",
-        requestId,
-        duration,
-        {
-          status: result.status,
-          code: result.code,
-          message: result.message,
-        },
-        "success",
-      );
-      
-      if (result.external_patient_id) {
-        console.log(
-          `  ${colorize("External ID:", "dim")} ${colorize(result.external_patient_id, "cyan")}`
-        );
-      }
-
-      return result;
-    } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      logServiceError(
-        LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "initializePatient",
-        requestId,
-        duration,
-        error,
-        "error",
-      );
-      
-      console.log(
-        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
-      );
-      throw error;
-    }
   }
 
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
-    if (!this.apiKey) {
-      throw new Error("External AI API key not configured");
-    }
+    this.ensureApiKey();
 
-    const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
+    const requestId = generateRequestId();
 
-    
-    logServiceCall(
-      LOG_CONFIG.PREFIXES.REAL_AI,
-      "External AI API",
+    return this.makeApiRequest<ChatResponse>(
+      API_CONFIG.ENDPOINTS.CHAT_RESPONSE,
       "generateChatResponse",
       requestId,
+      input,
+      API_CONFIG.TIMEOUTS.CHAT_RESPONSE,
       {
-        url: apiUrl,
-        httpMethod: "POST",
         sessionInfo: {
           sessionId: input.session_id,
           stepId: input.step_id,
@@ -1324,81 +1501,17 @@ class RealExternalAIService implements ExternalAIService {
           id: input.external_patient_id,
         },
       },
+      (data) => {
+        const response = data as ChatResponse;
+        return {
+          message: response.message,
+          reasoning_time: response.reasoning_time,
+          emotion: response.emotion,
+          topic: response.topic,
+          timestamp: response.timestamp,
+        };
+      },
     );
-
-    try {
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.apiKey}`,
-          "X-API-Version": "1.0",
-        },
-        body: JSON.stringify(input),
-      });
-
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      if (!response.ok) {
-        logServiceError(
-          LOG_CONFIG.PREFIXES.REAL_AI,
-          "External AI API",
-          "generateChatResponse",
-          requestId,
-          duration,
-          new Error(`HTTP ${response.status}: ${response.statusText}`),
-          "error",
-        );
-        console.log(
-          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
-        );
-        throw new Error(
-          `External AI API error: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const data = await response.json();
-
-      const result = {
-        message: data.message,
-        reasoning_time: data.reasoning_time,
-        emotion: data.emotion,
-        topic: data.topic,
-        timestamp: data.timestamp,
-      };
-
-      
-      logServiceResponse(
-        LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "generateChatResponse",
-        requestId,
-        duration,
-        result,
-        "success",
-      );
-
-      return result;
-    } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      logServiceError(
-        LOG_CONFIG.PREFIXES.REAL_AI,
-        "External AI API",
-        "generateChatResponse",
-        requestId,
-        duration,
-        error,
-        "error",
-      );
-      
-      console.log(
-        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
-      );
-      throw error;
-    }
   }
 }
 
@@ -1408,18 +1521,13 @@ export class PatientResponseGenerator {
 
   constructor(useExternalAI?: boolean) {
     // Use environment variable if not explicitly provided
-    if (useExternalAI === undefined) {
-      this.useExternalAI = env.API === "remote";
-    } else {
-      this.useExternalAI = useExternalAI;
-    }
+    const shouldUseExternal = useExternalAI ?? env.API === "remote";
     
     // Fallback to MOCK AI if REAL AI is requested but API key is not configured
-    if (this.useExternalAI && !env.EXTERNAL_AI_API_KEY) {
-      console.warn(
-        `${colorize("⚠", "yellow")} ${colorize("[PATIENT RESPONSE GENERATOR]", "cyan")} ${colorize("EXTERNAL_AI_API_KEY not configured. Falling back to MOCK AI.", "yellow")}`
-      );
-      this.useExternalAI = false;
+    this.useExternalAI = shouldUseExternal && !!env.EXTERNAL_AI_API_KEY;
+    
+    if (shouldUseExternal && !this.useExternalAI) {
+      PatientResponseLogger.logWarning("EXTERNAL_AI_API_KEY not configured. Falling back to MOCK AI.");
     }
     
     this.externalAI = this.useExternalAI
@@ -1427,346 +1535,178 @@ export class PatientResponseGenerator {
       : new MockExternalAIService();
   }
 
-    async generateResponse(
-    input: GenerateResponseInput,
-  ): Promise<PatientResponse> {
+  private async executeWithFallback<T>(
+    method: string,
+    serviceCall: () => Promise<T>,
+    fallback: () => T,
+    logData: {
+      patientInfo?: { name?: string; age?: number; gender?: string };
+      sessionId?: string;
+      stepId?: number;
+      userMessage?: string;
+      conversationHistoryLength?: number;
+      externalPatientId?: string;
+    },
+    responseMapper: (result: T) => Record<string, unknown>,
+  ): Promise<T> {
     const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const requestId = generateRequestId();
 
-    const time = formatTime();
-    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
-    
-    console.log(
-      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
+    PatientResponseLogger.logGeneratorCall(
+      method,
+      requestId,
+      this.useExternalAI ? "REAL" : "MOCK",
+      logData,
     );
-    
-    console.log(
-      `  ${colorize("Patient:", "dim")} ${colorize(input.patientInfo.name, "white")} ${colorize(`(${input.patientInfo.age}yo, ${input.patientInfo.gender})`, "gray")}`
-    );
-    
-    console.log(
-      `  ${colorize("Session:", "dim")} ${colorize(input.sessionId.substring(0, 8), "white")} ${colorize(`Step: ${input.stepId}`, "gray")}`
-    );
-    
-    if (input.userMessage) {
-      console.log(
-        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(input.userMessage, 80), "white")}`
-      );
-    }
-    
-    if (input.conversationHistory && input.conversationHistory.length > 0) {
-      console.log(
-        `  ${colorize("History:", "dim")} ${colorize(`${input.conversationHistory.length} messages`, "gray")}`
-      );
-    }
 
     try {
-      let result: PatientResponse;
+      const result = await serviceCall();
+      const duration = Date.now() - startTime;
 
-      result = await this.externalAI.generateResponse(input);
-
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-      const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
-
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", "green")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
-      );
-      
-      console.log(
-        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(result.message, 80), "white")}`
-      );
-      
-      const emotionColors: Record<string, keyof typeof COLORS> = {
-        anger: "red",
-        sadness: "blue",
-        joy: "yellow",
-        trust: "green",
-        surprise: "magenta",
-        anticipation: "cyan",
-        disgust: "red",
-        base: "gray",
-      };
-      const emotionColor = emotionColors[result.emotion] || "white";
-      console.log(
-        `  ${colorize("Emotion:", "dim")} ${colorize(result.emotion, emotionColor)}`
+      PatientResponseLogger.logGeneratorResponse(
+        method,
+        requestId,
+        duration,
+        responseMapper(result),
+        "success",
       );
 
       return result;
     } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
+      const duration = Date.now() - startTime;
 
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("⚠", "yellow")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "yellow")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
-      );
-      
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.log(
-        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
+      PatientResponseLogger.logGeneratorError(
+        method,
+        requestId,
+        duration,
+        error,
+        "Fallback",
       );
 
-      
-      const fallbackResponses = ENHANCED_PATIENT_RESPONSES[
-        input.patientInfo.name
-      ] || [
-        {
-          message:
-            "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
-          emotion: "base" as const,
-        },
-      ];
+      const fallbackResult = fallback();
+      const durationAfterFallback = Date.now() - startTime;
 
-      const selectedResponse =
-        fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      if (!selectedResponse) {
-        
-        const fallbackResult = {
-          message:
-            "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
-          emotion: "base" as const,
-          timestamp: new Date(),
-        };
-
-        console.log(
-          `  ${colorize("→", "yellow")} ${colorize("Emergency fallback", "yellow")}`
-        );
-
-        return fallbackResult;
-      }
-
-      const fallbackResult = {
-        message: selectedResponse.message,
-        emotion: selectedResponse.emotion,
-        timestamp: new Date(),
-      };
-
-      console.log(
-        `  ${colorize("→", "yellow")} ${colorize("Predefined fallback", "yellow")}`
-      );
-      
-      console.log(
-        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(fallbackResult.message, 80), "white")}`
-      );
-      
-      const emotionColors: Record<string, keyof typeof COLORS> = {
-        anger: "red",
-        sadness: "blue",
-        joy: "yellow",
-        trust: "green",
-        surprise: "magenta",
-        anticipation: "cyan",
-        disgust: "red",
-        base: "gray",
-      };
-      const emotionColor = emotionColors[fallbackResult.emotion] || "white";
-      console.log(
-        `  ${colorize("Emotion:", "dim")} ${colorize(fallbackResult.emotion, emotionColor)}`
+      PatientResponseLogger.logGeneratorResponse(
+        method,
+        requestId,
+        durationAfterFallback,
+        responseMapper(fallbackResult),
+        "warning",
       );
 
       return fallbackResult;
     }
   }
 
-    setExternalAI(service: ExternalAIService) {
+  async generateResponse(
+    input: GenerateResponseInput,
+  ): Promise<PatientResponse> {
+    return this.executeWithFallback(
+      "generateResponse",
+      () => this.externalAI.generateResponse(input),
+      () => {
+        const fallbackResponses = ENHANCED_PATIENT_RESPONSES[input.patientInfo.name] || [
+          {
+            message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+            emotion: "base" as const,
+          },
+        ];
+
+        const randomIndex = Math.floor(Math.random() * fallbackResponses.length);
+        const selectedResponse = fallbackResponses[randomIndex] ?? fallbackResponses[0]!;
+
+        return {
+          message: selectedResponse.message,
+          emotion: selectedResponse.emotion,
+          timestamp: new Date(),
+        };
+      },
+      {
+        patientInfo: {
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+        },
+        sessionId: input.sessionId,
+        stepId: input.stepId,
+        userMessage: input.userMessage,
+        conversationHistoryLength: input.conversationHistory?.length,
+      },
+      (result) => ({
+        message: result.message,
+        emotion: result.emotion,
+      }),
+    );
+  }
+
+  setExternalAI(service: ExternalAIService): void {
     this.externalAI = service;
     this.useExternalAI = true;
   }
 
-    setUseExternalAI(use: boolean) {
+  setUseExternalAI(use: boolean): void {
     this.useExternalAI = use;
+    // Reinitialize service if switching modes
+    if (use && env.EXTERNAL_AI_API_KEY) {
+      this.externalAI = new RealExternalAIService();
+    } else if (!use) {
+      this.externalAI = new MockExternalAIService();
+    }
   }
 
-    async initializePatient(
+  async initializePatient(
     input: InitializePatientInput,
   ): Promise<PatientInitializationResponse> {
-    const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-    const time = formatTime();
-    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
-    
-    console.log(
-      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
-    );
-    
-    console.log(
-      `  ${colorize("Patient:", "dim")} ${colorize(input.patientInfo.name, "white")} ${colorize(`(${input.patientInfo.age}yo, ${input.patientInfo.gender})`, "gray")}`
-    );
-    
-    console.log(
-      `  ${colorize("Session:", "dim")} ${colorize(input.sessionId.substring(0, 8), "white")}`
-    );
-
-    try {
-      let result: PatientInitializationResponse;
-
-      result = await this.externalAI.initializePatient(input);
-
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-      const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
-      const statusColor = result.status === "success" ? "green" : "red";
-
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", statusColor)} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
-      );
-      
-      console.log(
-        `  ${colorize("Status:", "dim")} ${colorize(result.status.toUpperCase(), statusColor)} ${colorize(`(${result.code})`, "gray")}`
-      );
-      
-      if (result.external_patient_id) {
-        console.log(
-          `  ${colorize("External ID:", "dim")} ${colorize(result.external_patient_id, "cyan")}`
-        );
-      }
-      
-      if (result.message) {
-        console.log(
-          `  ${colorize("Message:", "dim")} ${colorize(result.message, "white")}`
-        );
-      }
-
-      return result;
-    } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✗", "red")} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "red")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
-      );
-      
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.log(
-        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
-      );
-
-      
-      const fallbackResult = {
+    return this.executeWithFallback(
+      "initializePatient",
+      () => this.externalAI.initializePatient(input),
+      () => ({
         status: "error" as const,
         code: "INITIALIZATION_FAILED",
-        message:
-          "Errore durante l'inizializzazione del paziente nel servizio esterno",
+        message: "Errore durante l'inizializzazione del paziente nel servizio esterno",
         timestamp: new Date().toISOString(),
-      };
-
-      console.log(
-        `  ${colorize("→", "yellow")} ${colorize("Error fallback", "yellow")}`
-      );
-      
-      console.log(
-        `  ${colorize("Status:", "dim")} ${colorize(fallbackResult.status.toUpperCase(), "red")} ${colorize(`(${fallbackResult.code})`, "gray")}`
-      );
-      
-      if (fallbackResult.message) {
-        console.log(
-          `  ${colorize("Message:", "dim")} ${colorize(fallbackResult.message, "white")}`
-        );
-      }
-
-      return fallbackResult;
-    }
+      }),
+      {
+        patientInfo: {
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+        },
+        sessionId: input.sessionId,
+      },
+      (result) => ({
+        status: result.status,
+        code: result.code,
+        message: result.message,
+        external_patient_id: result.external_patient_id,
+      }),
+    );
   }
 
-    async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
-    const startTime = Date.now();
-    const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-
-    const time = formatTime();
-    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
-    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
-    
-    console.log(
-      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
-    );
-    
-    console.log(
-      `  ${colorize("External ID:", "dim")} ${colorize(input.external_patient_id.substring(0, 16), "white")}`
-    );
-    
-    console.log(
-      `  ${colorize("Session:", "dim")} ${colorize(input.session_id.substring(0, 8), "white")} ${colorize(`Step: ${input.step_id}`, "gray")}`
-    );
-    
-    if (input.user_message) {
-      console.log(
-        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(input.user_message, 80), "white")}`
-      );
-    }
-
-    try {
-      let result: ChatResponse;
-
-      result = await this.externalAI.generateChatResponse(input);
-
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-      const durationColor = duration > 5000 ? "yellow" : duration > 2000 ? "white" : "green";
-
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", "green")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
-      );
-      
-      console.log(
-        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(result.message, 80), "white")}`
-      );
-      
-      const emotionColors: Record<string, keyof typeof COLORS> = {
-        anger: "red",
-        sadness: "blue",
-        joy: "yellow",
-        trust: "green",
-        surprise: "magenta",
-        anticipation: "cyan",
-        disgust: "red",
-        base: "gray",
-      };
-      const emotionColor = emotionColors[result.emotion] || "white";
-      console.log(
-        `  ${colorize("Emotion:", "dim")} ${colorize(result.emotion, emotionColor)} ${colorize(`| Topic: ${result.topic}`, "gray")} ${colorize(`| Reasoning: ${result.reasoning_time}s`, "gray")}`
-      );
-
-      return result;
-    } catch (error) {
-      const endTime = Date.now();
-      const duration = endTime - startTime;
-
-      console.log(
-        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("⚠", "yellow")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "yellow")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
-      );
-      
-      const errorMessage = error instanceof Error ? error.message : "Unknown error";
-      console.log(
-        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
-      );
-
-      
-      const fallbackResult = {
-        message:
-          "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+  async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
+    return this.executeWithFallback(
+      "generateChatResponse",
+      () => this.externalAI.generateChatResponse(input),
+      () => ({
+        message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
         reasoning_time: 0,
         emotion: "base" as const,
         topic: "generale",
         timestamp: new Date().toISOString(),
-      };
-
-      console.log(
-        `  ${colorize("→", "yellow")} ${colorize("Fallback chat response", "yellow")}`
-      );
-      
-      console.log(
-        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(fallbackResult.message, 80), "white")}`
-      );
-      
-      console.log(
-        `  ${colorize("Emotion:", "dim")} ${colorize(fallbackResult.emotion, "gray")} ${colorize(`| Topic: ${fallbackResult.topic}`, "gray")}`
-      );
-
-      return fallbackResult;
-    }
+      }),
+      {
+        externalPatientId: input.external_patient_id,
+        sessionId: input.session_id,
+        stepId: input.step_id,
+        userMessage: input.user_message,
+      },
+      (result) => ({
+        message: result.message,
+        emotion: result.emotion,
+        topic: result.topic,
+        reasoning_time: result.reasoning_time,
+      }),
+    );
   }
 }
 
