@@ -1,5 +1,6 @@
-
 import { useState, useRef, useCallback, useEffect } from "react";
+import { TTS_ERROR_CODES, TTS_HTTP_STATUS } from "~/lib/tts/constants";
+import { isTTSDisabledError, isRealTTSError } from "~/lib/tts/utils";
 
 export interface AudioPlayerState {
   isPlaying: boolean;
@@ -108,22 +109,25 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         
-        
-        if (response.status === 401) {
-          
-          if (errorData.detail?.status === "quota_exceeded") {
-            throw new Error("TTS quota exceeded - please check your ElevenLabs account credits");
-          }
-          throw new Error("TTS service not configured - please check API key");
-        } else if (response.status === 402) {
-          throw new Error("TTS quota exceeded - please check your ElevenLabs account credits");
-        } else if (response.status === 429) {
-          throw new Error("TTS rate limit exceeded - please try again later");
-        } else if (response.status === 503) {
-          throw new Error("TTS service temporarily unavailable");
+        // Handle 503 (service disabled) silently - don't throw error
+        if (response.status === TTS_HTTP_STATUS.DISABLED) {
+          throw new Error(TTS_ERROR_CODES.DISABLED);
         }
         
-        throw new Error(errorData.error || `TTS generation failed: ${response.statusText}`);
+        // Handle specific error cases
+        if (response.status === TTS_HTTP_STATUS.NOT_CONFIGURED) {
+          // Check if it's a quota issue
+          if (errorData.detail?.status === "quota_exceeded") {
+            throw new Error(TTS_ERROR_CODES.QUOTA_EXCEEDED);
+          }
+          throw new Error(TTS_ERROR_CODES.NOT_CONFIGURED);
+        } else if (response.status === TTS_HTTP_STATUS.QUOTA_EXCEEDED) {
+          throw new Error(TTS_ERROR_CODES.QUOTA_EXCEEDED);
+        } else if (response.status === TTS_HTTP_STATUS.RATE_LIMIT) {
+          throw new Error(TTS_ERROR_CODES.RATE_LIMIT);
+        }
+        
+        throw new Error(errorData.error || `${TTS_ERROR_CODES.GENERATION_FAILED}: ${response.statusText}`);
       }
 
       
@@ -133,10 +137,15 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       return audioUrl;
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        
         console.log("Audio generation cancelled for new request");
-        throw new Error("CANCELLED"); 
+        throw new Error(TTS_ERROR_CODES.CANCELLED);
       }
+      
+      // Re-throw TTS_DISABLED error to be handled in playText
+      if (isTTSDisabledError(error)) {
+        throw error;
+      }
+      
       throw error;
     } finally {
       currentRequestRef.current = null;
@@ -194,24 +203,33 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       
       audio.load();
     } catch (error) {
-      
-      if (error instanceof Error && error.message === "CANCELLED") {
+      // Handle cancellation silently
+      if (error instanceof Error && error.message === TTS_ERROR_CODES.CANCELLED) {
         console.log("Audio generation was cancelled for new request");
         setIsLoading(false);
         return;
       }
       
-      console.error("Error generating audio:", error);
+      // Handle TTS disabled case silently (no error logging)
+      if (isTTSDisabledError(error)) {
+        setIsTTSAvailable(false);
+        setIsLoading(false);
+        // Don't log error or call onError - TTS is simply disabled
+        return;
+      }
+      
       const errorMessage = error instanceof Error ? error.message : "Errore nella generazione audio";
       
-      
-      if (errorMessage.includes("not configured") || errorMessage.includes("API key") || errorMessage.includes("quota exceeded")) {
+      // Handle real TTS errors (quota, rate limit, not configured)
+      if (isRealTTSError(error)) {
         setIsTTSAvailable(false);
         console.warn("TTS service not available - audio generation disabled");
         setIsLoading(false);
         return;
       }
       
+      // Only log actual errors (not TTS disabled or real TTS errors)
+      console.error("Error generating audio:", error);
       setError(errorMessage);
       setIsLoading(false);
       onError?.(errorMessage);

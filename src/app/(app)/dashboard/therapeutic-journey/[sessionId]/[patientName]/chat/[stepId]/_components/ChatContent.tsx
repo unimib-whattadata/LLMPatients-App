@@ -38,6 +38,7 @@ import type {
 import type { PatientEmotion } from "./chat-constants";
 import {
   EMOTION_COLORS,
+  EMOTION_LABELS,
   AVATAR_TRANSITION_DURATION_MS,
 } from "./chat-constants";
 import {
@@ -46,6 +47,7 @@ import {
   generatePatientAvatar,
 } from "./chat-utils";
 import { useAudioPlayer } from "~/hooks/useAudioPlayer";
+import { useTTSStatus } from "~/hooks/useTTSStatus";
 
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
@@ -74,23 +76,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const isInitialLoad = useRef(true);
 
   
+  // TTS status management
+  const { isTTSEnabled, ttsStatus } = useTTSStatus(true);
+
   const audioPlayer = useAudioPlayer({
     autoPlay: true,
     onPlaybackEnd: () => {
       console.log("🎙️ [AUDIO] Playback ended");
-      
     },
     onError: (error) => {
       console.error("Audio error:", error);
-      
-      
-      if (error.includes("not configured") || error.includes("API key")) {
-        console.warn("TTS service not available - audio generation disabled");
-      }
     },
   });
 
-  
+  // Update warning visibility based on TTS availability
   useEffect(() => {
     if (audioPlayer.isTTSAvailable) {
       setShowTTSWarning(true);
@@ -860,6 +859,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 </div>
               </div>
               {}
+              <div className="flex flex-col items-center w-full mt-2">
+                <div
+                  className="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all duration-300"
+                  style={{
+                    backgroundColor: EMOTION_COLORS[nextEmotion ?? currentEmotion],
+                    boxShadow: `0 2px 8px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}60`,
+                  }}
+                >
+                  {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1109,7 +1119,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
                     <div className="mx-auto max-w-4xl bg-transparent">
                       {}
-                      {!audioPlayer.isTTSAvailable && showTTSWarning && (
+                      {!audioPlayer.isTTSAvailable && showTTSWarning && isTTSEnabled !== false && (
                         <div className="mb-4">
                           <div className="message message-warning">
                             <div className="message-icon">
@@ -1137,7 +1147,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       )}
 
                       {}
-                      {!hasUserInteracted && audioPlayer.isTTSAvailable && (
+                      {!hasUserInteracted && audioPlayer.isTTSAvailable && isTTSEnabled !== false && (
                         <div className="mb-4">
                           <div className="message message-info">
                             <div className="message-icon">
