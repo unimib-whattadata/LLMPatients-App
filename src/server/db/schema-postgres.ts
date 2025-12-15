@@ -11,7 +11,8 @@ import {
   json,
   serial,
 } from "drizzle-orm/pg-core";
-import { randomUUID } from "crypto";
+// Generate UUID using Web Crypto API (Edge Runtime compatible)
+const randomUUID = () => crypto.randomUUID();
 
 type AdapterAccount = {
   type: "oauth" | "email" | "credentials";

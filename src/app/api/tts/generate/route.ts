@@ -39,6 +39,16 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // Check if ElevenLabs is enabled
+    const elevenLabsEnabled = process.env.ELEVENLABS_ENABLED === "true" || env.ELEVENLABS_ENABLED === true;
+    if (!elevenLabsEnabled) {
+      console.log("🎙️ [TTS] ElevenLabs is disabled - TTS conversion skipped");
+      return NextResponse.json(
+        { error: "TTS service is disabled - set ELEVENLABS_ENABLED=true to enable" },
+        { status: 503 }
+      );
+    }
+
     
     const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
     if (!apiKey) {
@@ -163,6 +173,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Text parameter is required" },
         { status: 400 }
+      );
+    }
+
+    // Check if ElevenLabs is enabled
+    const elevenLabsEnabled = process.env.ELEVENLABS_ENABLED === "true" || env.ELEVENLABS_ENABLED === true;
+    if (!elevenLabsEnabled) {
+      console.log("🎙️ [TTS] ElevenLabs is disabled - TTS conversion skipped");
+      return NextResponse.json(
+        { error: "TTS service is disabled - set ELEVENLABS_ENABLED=true to enable" },
+        { status: 503 }
       );
     }
 

@@ -139,6 +139,21 @@ const MOCK_CONFIG = {
   ] as PatientEmotion[],
 } as const;
 
+// ANSI color codes for terminal output
+const COLORS = {
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  dim: "\x1b[2m",
+  red: "\x1b[31m",
+  green: "\x1b[32m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
+  cyan: "\x1b[36m",
+  white: "\x1b[37m",
+  gray: "\x1b[90m",
+} as const;
+
 const LOG_CONFIG = {
   PREFIXES: {
     PATIENT_GENERATOR: "🎯 [PATIENT RESPONSE GENERATOR]",
@@ -148,6 +163,32 @@ const LOG_CONFIG = {
   MAX_MESSAGE_LENGTH: 100,
   MAX_CONVERSATION_HISTORY: 5,
 } as const;
+
+// Helper function to format timestamp
+function formatTime(date: Date = new Date()): string {
+  return date.toLocaleTimeString("it-IT", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+}
+
+// Helper function to format duration
+function formatDuration(ms: number): string {
+  if (ms < 1000) return `${ms}ms`;
+  return `${(ms / 1000).toFixed(2)}s`;
+}
+
+// Helper function to colorize text
+function colorize(text: string, color: keyof typeof COLORS): string {
+  return `${COLORS[color]}${text}${COLORS.reset}`;
+}
+
+// Helper function to create a visual separator
+function separator(char: string = "─", length: number = 60): string {
+  return colorize(char.repeat(length), "gray");
+}
 
 
 
@@ -166,15 +207,7 @@ function truncateMessage(
     : message;
 }
 
-function createBaseLog(service: string, method: string, requestId: string) {
-  return {
-    timestamp: new Date().toISOString(),
-    service,
-    method,
-    requestId,
-  };
-}
-
+// Improved logging functions with better formatting
 function logServiceCall(
   prefix: string,
   service: string,
@@ -182,10 +215,37 @@ function logServiceCall(
   requestId: string,
   data: Record<string, any>,
 ): void {
-  console.log(`${prefix} ${service} Call:`, {
-    ...createBaseLog(service, method, requestId),
-    ...data,
-  });
+  const time = formatTime();
+  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+  
+  console.log(
+    `${colorize(prefix, "cyan")} ${colorize("→", "blue")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(time, "dim")}`
+  );
+  
+  // Log key information in a structured way
+  if (data.patientInfo) {
+    console.log(
+      `  ${colorize("Patient:", "dim")} ${colorize(data.patientInfo.name || data.patientInfo.id, "white")} ${colorize(`(${data.patientInfo.age}yo, ${data.patientInfo.gender})`, "gray")}`
+    );
+  }
+  
+  if (data.sessionInfo) {
+    const sessionInfo = data.sessionInfo;
+    console.log(
+      `  ${colorize("Session:", "dim")} ${colorize(sessionInfo.sessionId?.substring(0, 8) || "N/A", "white")} ${colorize(`Step: ${sessionInfo.stepId || "N/A"}`, "gray")}`
+    );
+    if (sessionInfo.userMessage) {
+      console.log(
+        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(sessionInfo.userMessage, 80), "white")}`
+      );
+    }
+  }
+  
+  if (data.url) {
+    console.log(
+      `  ${colorize("URL:", "dim")} ${colorize(data.url, "blue")}`
+    );
+  }
 }
 
 function logServiceResponse(
@@ -197,13 +257,49 @@ function logServiceResponse(
   response: any,
   status: string,
 ): void {
-  console.log(`${prefix} ${service} Response:`, {
-    ...createBaseLog(service, method, requestId),
-    duration: `${duration}ms`,
-    response:
-      typeof response === "string" ? truncateMessage(response) : response,
-    status,
-  });
+  const time = formatTime();
+  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+  const statusColor = status === "success" ? "green" : status === "error" ? "red" : "yellow";
+  const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
+  
+  console.log(
+    `${colorize(prefix, "cyan")} ${colorize("✓", status === "success" ? "green" : "red")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(time, "dim")}`
+  );
+  
+  if (response.message) {
+    console.log(
+      `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(response.message, 80), "white")}`
+    );
+  }
+  
+  if (response.emotion) {
+    const emotionColors: Record<string, keyof typeof COLORS> = {
+      anger: "red",
+      sadness: "blue",
+      joy: "yellow",
+      trust: "green",
+      surprise: "magenta",
+      anticipation: "cyan",
+      disgust: "red",
+      base: "gray",
+    };
+    const emotionColor = emotionColors[response.emotion] || "white";
+    console.log(
+      `  ${colorize("Emotion:", "dim")} ${colorize(response.emotion, emotionColor)}`
+    );
+  }
+  
+  if (response.topic) {
+    console.log(
+      `  ${colorize("Topic:", "dim")} ${colorize(response.topic, "cyan")}`
+    );
+  }
+  
+  if (response.reasoning_time !== undefined) {
+    console.log(
+      `  ${colorize("Reasoning:", "dim")} ${colorize(`${response.reasoning_time}s`, "gray")}`
+    );
+  }
 }
 
 function logServiceError(
@@ -215,15 +311,24 @@ function logServiceError(
   error: unknown,
   status: string = "error",
 ): void {
-  console.log(`${prefix} ${service} Error:`, {
-    ...createBaseLog(service, method, requestId),
-    duration: `${duration}ms`,
-    error: {
-      message: error instanceof Error ? error.message : "Unknown error",
-      stack: error instanceof Error ? error.stack : undefined,
-    },
-    status,
-  });
+  const time = formatTime();
+  const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+  const errorMessage = error instanceof Error ? error.message : "Unknown error";
+  
+  console.log(
+    `${colorize(prefix, "cyan")} ${colorize("✗", "red")} ${colorize(method, "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "red")} ${colorize(time, "dim")}`
+  );
+  
+  console.log(
+    `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
+  );
+  
+  if (error instanceof Error && error.stack && process.env.NODE_ENV === "development") {
+    const stackLines = error.stack.split("\n").slice(1, 3);
+    stackLines.forEach((line) => {
+      console.log(`  ${colorize(line.trim(), "gray")}`);
+    });
+  }
 }
 
 function simulateDelay(min: number, max: number): Promise<void> {
@@ -440,7 +545,9 @@ function cleanupCache(): void {
   
   if (contextCache.size > CACHE_CONFIG.MAX_CONTEXT_CACHE_SIZE) {
     contextCache.clear();
-    console.log("🧹 [CACHE] Cleared contextual response cache for variety");
+    console.log(
+      `${colorize("🧹 [CACHE]", "yellow")} ${colorize("Cleared contextual response cache", "dim")}`
+    );
   }
 
   lastCacheCleanup = now;
@@ -532,7 +639,9 @@ function selectContextualResponse(
   const selectedResponse = filteredResponses[selectedIndex];
   
   
-  console.log(`🎲 [RANDOMIZATION] Patient: ${patientInfo.name}, Available responses: ${filteredResponses.length}, Selected index: ${selectedIndex}, Random seed: ${randomSeed.toFixed(2)}`);
+  console.log(
+    `${colorize("🎲 [RANDOMIZATION]", "magenta")} ${colorize(patientInfo.name, "white")} ${colorize(`(${filteredResponses.length} responses)`, "gray")} ${colorize(`→ #${selectedIndex}`, "cyan")}`
+  );
   
   if (!selectedResponse) {
     
@@ -729,44 +838,28 @@ class MockExternalAIService implements ExternalAIService {
     const startTime = Date.now();
 
     
-    console.log("🤖 [MOCK AI] Simulating Patient Initialization API Call:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "initializePatient",
-      url: "https://api.therapeutic-ai.com/v1/initialise-patient",
-      httpMethod: "POST",
-      requestId: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      patientInfo: {
-        id: input.patientInfo.id,
-        name: input.patientInfo.name,
-        age: input.patientInfo.age,
-        gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty: input.patientInfo.difficulty,
-        psychologicalProfile: input.patientInfo.psychologicalProfile,
-        background: input.patientInfo.background,
-        currentMedications: input.patientInfo.currentMedications || [],
-        therapyGoals: input.patientInfo.therapyGoals || [],
-        previousSessions: input.patientInfo.previousSessions || 0,
+    const requestId = generateRequestId();
+    logServiceCall(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "Simulating External AI API",
+      "initializePatient",
+      requestId,
+      {
+        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT}`,
+        httpMethod: "POST",
+        patientInfo: {
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+          diagnosis: input.patientInfo.diagnosis,
+          difficulty: input.patientInfo.difficulty,
+        },
+        sessionInfo: {
+          sessionId: input.sessionId,
+        },
       },
-      sessionInfo: {
-        sessionId: input.sessionId,
-      },
-      requestBody: {
-        patient_id: input.patientInfo.id,
-        patient_name: input.patientInfo.name,
-        patient_age: input.patientInfo.age,
-        patient_gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty_level: input.patientInfo.difficulty,
-        psychological_profile: input.patientInfo.psychologicalProfile,
-        background: input.patientInfo.background,
-        current_medications: input.patientInfo.currentMedications || [],
-        therapy_goals: input.patientInfo.therapyGoals || [],
-        previous_sessions: input.patientInfo.previousSessions || 0,
-        session_id: input.sessionId,
-      },
-    });
+    );
 
     
     await new Promise((resolve) =>
@@ -781,26 +874,31 @@ class MockExternalAIService implements ExternalAIService {
       message: "Paziente inizializzato correttamente nel sistema esterno",
       timestamp: new Date().toISOString(),
     };
-
+    
     const endTime = Date.now();
     const duration = endTime - startTime;
 
     
-    console.log("🤖 [MOCK AI] Patient Initialization API Response:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "initializePatient",
-      requestId: `req_${startTime}_${Math.random().toString(36).substr(2, 9)}`,
-      duration: `${duration}ms`,
-      response: {
+    logServiceResponse(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "External AI API",
+      "initializePatient",
+      requestId,
+      duration,
+      {
         status: response.status,
         code: response.code,
         external_patient_id: response.external_patient_id,
         message: response.message,
-        timestamp: response.timestamp,
       },
-      status: "success",
-    });
+      "success",
+    );
+    
+    if (response.external_patient_id) {
+      console.log(
+        `  ${colorize("External ID:", "dim")} ${colorize(response.external_patient_id, "cyan")}`
+      );
+    }
 
     return response;
   }
@@ -809,28 +907,25 @@ class MockExternalAIService implements ExternalAIService {
     const startTime = Date.now();
 
     
-    console.log("🤖 [MOCK AI] Simulating Chat Response API Call:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "generateChatResponse",
-      url: "https://api.therapeutic-ai.com/v1/chat-response",
-      httpMethod: "POST",
-      requestId: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-      requestInfo: {
-        external_patient_id: input.external_patient_id,
-        user_message:
-          input.user_message.substring(0, 100) +
-          (input.user_message.length > 100 ? "..." : ""),
-        session_id: input.session_id,
-        step_id: input.step_id,
+    const requestId = generateRequestId();
+    logServiceCall(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "Simulating External AI API",
+      "generateChatResponse",
+      requestId,
+      {
+        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
+        httpMethod: "POST",
+        sessionInfo: {
+          sessionId: input.session_id,
+          stepId: input.step_id,
+          userMessage: truncateMessage(input.user_message),
+        },
+        patientInfo: {
+          id: input.external_patient_id,
+        },
       },
-      requestBody: {
-        external_patient_id: input.external_patient_id,
-        user_message: input.user_message,
-        session_id: input.session_id,
-        step_id: input.step_id,
-      },
-    });
+    );
 
     
     await new Promise((resolve) =>
@@ -884,9 +979,6 @@ class MockExternalAIService implements ExternalAIService {
     const responseIndex = Math.floor((randomSeed * Math.random()) % sampleResponses.length);
     const emotionIndex = Math.floor((randomSeed * Math.random() * 0.7) % emotions.length);
     const topicIndex = Math.floor((randomSeed * Math.random() * 0.5) % topics.length);
-    
-    
-    console.log(`🎲 [CHAT RANDOMIZATION] Available responses: ${sampleResponses.length}, Response index: ${responseIndex}, Emotion index: ${emotionIndex}, Random seed: ${randomSeed.toFixed(2)}`);
 
     const selectedResponse =
       sampleResponses[responseIndex] ||
@@ -895,6 +987,10 @@ class MockExternalAIService implements ExternalAIService {
       emotions[emotionIndex] || "base";
     const selectedTopic =
       topics[topicIndex] || "generale";
+    
+    console.log(
+      `${colorize("🎲 [CHAT RANDOMIZATION]", "magenta")} ${colorize(`${sampleResponses.length} responses`, "gray")} ${colorize(`→ #${responseIndex}`, "cyan")} ${colorize(`[${selectedEmotion}]`, "yellow")} ${colorize(`(${selectedTopic})`, "blue")}`
+    );
 
     const response = {
       message: selectedResponse,
@@ -916,30 +1012,22 @@ class MockExternalAIService implements ExternalAIService {
     const duration = endTime - startTime;
 
     
-    console.log("🤖 [MOCK AI] Chat Response API Response:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "generateChatResponse",
-      requestId: `req_${startTime}_${Math.random().toString(36).substr(2, 9)}`,
-      duration: `${duration}ms`,
-      response: {
-        message:
-          response.message.substring(0, 100) +
-          (response.message.length > 100 ? "..." : ""),
-        reasoning_time: response.reasoning_time,
-        emotion: response.emotion,
-        topic: response.topic,
-        timestamp: response.timestamp,
-      },
-      status: "success",
-    });
+    logServiceResponse(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "External AI API",
+      "generateChatResponse",
+      requestId,
+      duration,
+      response,
+      "success",
+    );
 
     return response;
   }
 }
 
 class RealExternalAIService implements ExternalAIService {
-  private apiKey = process.env.EXTERNAL_AI_API_KEY;
+  private apiKey = env.EXTERNAL_AI_API_KEY;
 
   async generateResponse(
     input: GenerateResponseInput,
@@ -972,41 +1060,30 @@ class RealExternalAIService implements ExternalAIService {
     };
 
     
-    console.log("🌐 [REAL AI] External AI API Call:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "generateResponse",
-            url: apiUrl,
-      httpMethod: "POST",
+    logServiceCall(
+      LOG_CONFIG.PREFIXES.REAL_AI,
+      "External AI API",
+      "generateResponse",
       requestId,
-      patientInfo: {
-        id: input.patientInfo.id,
-        name: input.patientInfo.name,
-        age: input.patientInfo.age,
-        gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty: input.patientInfo.difficulty,
-        psychologicalProfile: input.patientInfo.psychologicalProfile,
-        background: input.patientInfo.background,
-        currentMedications: input.patientInfo.currentMedications || [],
-        therapyGoals: input.patientInfo.therapyGoals || [],
-        previousSessions: input.patientInfo.previousSessions || 0,
+      {
+        url: apiUrl,
+        httpMethod: "POST",
+        patientInfo: {
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+          diagnosis: input.patientInfo.diagnosis,
+          difficulty: input.patientInfo.difficulty,
+        },
+        sessionInfo: {
+          sessionId: input.sessionId,
+          stepId: input.stepId,
+          userMessage: truncateMessage(input.userMessage),
+          conversationHistoryLength: input.conversationHistory?.length || 0,
+        },
       },
-      sessionInfo: {
-        sessionId: input.sessionId,
-        stepId: input.stepId,
-        userMessage:
-          input.userMessage.substring(0, 100) +
-          (input.userMessage.length > 100 ? "..." : ""),
-        conversationHistoryLength: input.conversationHistory?.length || 0,
-      },
-      requestBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.apiKey.substring(0, 10)}...`,
-        "X-API-Version": "1.0",
-      },
-    });
+    );
 
     try {
       const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
@@ -1024,19 +1101,18 @@ class RealExternalAIService implements ExternalAIService {
       const duration = endTime - startTime;
 
       if (!response.ok) {
-        console.log("🌐 [REAL AI] External AI API Error Response:", {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateResponse",
+        logServiceError(
+          LOG_CONFIG.PREFIXES.REAL_AI,
+          "External AI API",
+          "generateResponse",
           requestId,
-          duration: `${duration}ms`,
-          error: {
-            status: response.status,
-            statusText: response.statusText,
-            url: apiUrl,
-          },
-          status: "error",
-        });
+          duration,
+          new Error(`HTTP ${response.status}: ${response.statusText}`),
+          "error",
+        );
+        console.log(
+          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+        );
         throw new Error(
           `External AI API error: ${response.status} ${response.statusText}`,
         );
@@ -1056,42 +1132,34 @@ class RealExternalAIService implements ExternalAIService {
       };
 
       
-      console.log("🌐 [REAL AI] External AI API Success Response:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "generateResponse",
+      logServiceResponse(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "generateResponse",
         requestId,
-        duration: `${duration}ms`,
-        response: {
-          message:
-            result.message.substring(0, 100) +
-            (result.message.length > 100 ? "..." : ""),
-          emotion: result.emotion,
-          timestamp: result.timestamp,
-        },
-        status: "success",
-      });
+        duration,
+        result,
+        "success",
+      );
 
       return result;
     } catch (error) {
       const endTime = Date.now();
       const duration = endTime - startTime;
 
-      console.log("🌐 [REAL AI] External AI API Exception:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "generateResponse",
+      logServiceError(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "generateResponse",
         requestId,
-        duration: `${duration}ms`,
-        error: {
-          message: error instanceof Error ? error.message : "Unknown error",
-          stack: error instanceof Error ? error.stack : undefined,
-            url: apiUrl,
-        },
-        status: "error",
-      });
-
-      console.error("External AI API call failed:", error);
+        duration,
+        error,
+        "error",
+      );
+      
+      console.log(
+        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+      );
       throw error;
     }
   }
@@ -1122,39 +1190,29 @@ class RealExternalAIService implements ExternalAIService {
     };
 
     
-    console.log("🌐 [REAL AI] Patient Initialization API Call:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "initializePatient",
-      url: apiUrl,
-      httpMethod: "POST",
+    logServiceCall(
+      LOG_CONFIG.PREFIXES.REAL_AI,
+      "External AI API",
+      "initializePatient",
       requestId,
-      patientInfo: {
-        id: input.patientInfo.id,
-        name: input.patientInfo.name,
-        age: input.patientInfo.age,
-        gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty: input.patientInfo.difficulty,
-        psychologicalProfile: input.patientInfo.psychologicalProfile,
-        background: input.patientInfo.background,
-        currentMedications: input.patientInfo.currentMedications || [],
-        therapyGoals: input.patientInfo.therapyGoals || [],
-        previousSessions: input.patientInfo.previousSessions || 0,
+      {
+        url: apiUrl,
+        httpMethod: "POST",
+        patientInfo: {
+          id: input.patientInfo.id,
+          name: input.patientInfo.name,
+          age: input.patientInfo.age,
+          gender: input.patientInfo.gender,
+          diagnosis: input.patientInfo.diagnosis,
+          difficulty: input.patientInfo.difficulty,
+        },
+        sessionInfo: {
+          sessionId: input.sessionId,
+        },
       },
-      sessionInfo: {
-        sessionId: input.sessionId,
-      },
-      requestBody,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.apiKey.substring(0, 10)}...`,
-        "X-API-Version": "1.0",
-      },
-    });
+    );
 
     try {
-      const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
@@ -1169,19 +1227,18 @@ class RealExternalAIService implements ExternalAIService {
       const duration = endTime - startTime;
 
       if (!response.ok) {
-        console.log("🌐 [REAL AI] Patient Initialization API Error Response:", {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "initializePatient",
+        logServiceError(
+          LOG_CONFIG.PREFIXES.REAL_AI,
+          "External AI API",
+          "initializePatient",
           requestId,
-          duration: `${duration}ms`,
-          error: {
-            status: response.status,
-            statusText: response.statusText,
-            url: apiUrl,
-          },
-          status: "error",
-        });
+          duration,
+          new Error(`HTTP ${response.status}: ${response.statusText}`),
+          "error",
+        );
+        console.log(
+          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+        );
         throw new Error(
           `External AI API error: ${response.status} ${response.statusText}`,
         );
@@ -1198,42 +1255,44 @@ class RealExternalAIService implements ExternalAIService {
       };
 
       
-      console.log("🌐 [REAL AI] Patient Initialization API Success Response:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "initializePatient",
+      logServiceResponse(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "initializePatient",
         requestId,
-        duration: `${duration}ms`,
-        response: {
+        duration,
+        {
           status: result.status,
           code: result.code,
-          external_patient_id: result.external_patient_id,
           message: result.message,
-          timestamp: result.timestamp,
         },
-        status: "success",
-      });
+        "success",
+      );
+      
+      if (result.external_patient_id) {
+        console.log(
+          `  ${colorize("External ID:", "dim")} ${colorize(result.external_patient_id, "cyan")}`
+        );
+      }
 
       return result;
     } catch (error) {
       const endTime = Date.now();
       const duration = endTime - startTime;
 
-      console.log("🌐 [REAL AI] Patient Initialization API Exception:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "initializePatient",
+      logServiceError(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "initializePatient",
         requestId,
-        duration: `${duration}ms`,
-        error: {
-          message: error instanceof Error ? error.message : "Unknown error",
-          stack: error instanceof Error ? error.stack : undefined,
-            url: apiUrl,
-        },
-        status: "error",
-      });
-
-      console.error("External AI API call failed:", error);
+        duration,
+        error,
+        "error",
+      );
+      
+      console.log(
+        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+      );
       throw error;
     }
   }
@@ -1248,28 +1307,24 @@ class RealExternalAIService implements ExternalAIService {
     const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
 
     
-    console.log("🌐 [REAL AI] Chat Response API Call:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "generateChatResponse",
-      url: apiUrl,
-      httpMethod: "POST",
+    logServiceCall(
+      LOG_CONFIG.PREFIXES.REAL_AI,
+      "External AI API",
+      "generateChatResponse",
       requestId,
-      requestInfo: {
-        external_patient_id: input.external_patient_id,
-        user_message:
-          input.user_message.substring(0, 100) +
-          (input.user_message.length > 100 ? "..." : ""),
-        session_id: input.session_id,
-        step_id: input.step_id,
+      {
+        url: apiUrl,
+        httpMethod: "POST",
+        sessionInfo: {
+          sessionId: input.session_id,
+          stepId: input.step_id,
+          userMessage: truncateMessage(input.user_message),
+        },
+        patientInfo: {
+          id: input.external_patient_id,
+        },
       },
-      requestBody: input,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.apiKey.substring(0, 10)}...`,
-        "X-API-Version": "1.0",
-      },
-    });
+    );
 
     try {
       const response = await fetch(apiUrl, {
@@ -1286,19 +1341,18 @@ class RealExternalAIService implements ExternalAIService {
       const duration = endTime - startTime;
 
       if (!response.ok) {
-        console.log("🌐 [REAL AI] Chat Response API Error Response:", {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateChatResponse",
+        logServiceError(
+          LOG_CONFIG.PREFIXES.REAL_AI,
+          "External AI API",
+          "generateChatResponse",
           requestId,
-          duration: `${duration}ms`,
-          error: {
-            status: response.status,
-            statusText: response.statusText,
-            url: apiUrl,
-          },
-          status: "error",
-        });
+          duration,
+          new Error(`HTTP ${response.status}: ${response.statusText}`),
+          "error",
+        );
+        console.log(
+          `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+        );
         throw new Error(
           `External AI API error: ${response.status} ${response.statusText}`,
         );
@@ -1315,44 +1369,34 @@ class RealExternalAIService implements ExternalAIService {
       };
 
       
-      console.log("🌐 [REAL AI] Chat Response API Success Response:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "generateChatResponse",
+      logServiceResponse(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "generateChatResponse",
         requestId,
-        duration: `${duration}ms`,
-        response: {
-          message:
-            result.message.substring(0, 100) +
-            (result.message.length > 100 ? "..." : ""),
-          reasoning_time: result.reasoning_time,
-          emotion: result.emotion,
-          topic: result.topic,
-          timestamp: result.timestamp,
-        },
-        status: "success",
-      });
+        duration,
+        result,
+        "success",
+      );
 
       return result;
     } catch (error) {
       const endTime = Date.now();
       const duration = endTime - startTime;
 
-      console.log("🌐 [REAL AI] Chat Response API Exception:", {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "generateChatResponse",
+      logServiceError(
+        LOG_CONFIG.PREFIXES.REAL_AI,
+        "External AI API",
+        "generateChatResponse",
         requestId,
-        duration: `${duration}ms`,
-        error: {
-          message: error instanceof Error ? error.message : "Unknown error",
-          stack: error instanceof Error ? error.stack : undefined,
-          url: apiUrl,
-        },
-        status: "error",
-      });
-
-      console.error("External AI API call failed:", error);
+        duration,
+        error,
+        "error",
+      );
+      
+      console.log(
+        `  ${colorize("URL:", "dim")} ${colorize(apiUrl, "red")}`
+      );
       throw error;
     }
   }
@@ -1370,6 +1414,14 @@ export class PatientResponseGenerator {
       this.useExternalAI = useExternalAI;
     }
     
+    // Fallback to MOCK AI if REAL AI is requested but API key is not configured
+    if (this.useExternalAI && !env.EXTERNAL_AI_API_KEY) {
+      console.warn(
+        `${colorize("⚠", "yellow")} ${colorize("[PATIENT RESPONSE GENERATOR]", "cyan")} ${colorize("EXTERNAL_AI_API_KEY not configured. Falling back to MOCK AI.", "yellow")}`
+      );
+      this.useExternalAI = false;
+    }
+    
     this.externalAI = this.useExternalAI
       ? new RealExternalAIService()
       : new MockExternalAIService();
@@ -1381,65 +1433,64 @@ export class PatientResponseGenerator {
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    console.log("🎯 [PATIENT RESPONSE GENERATOR] Starting generateResponse:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "generateResponse",
-      requestId,
-      useExternalAI: this.useExternalAI,
-      patientInfo: {
-        id: input.patientInfo.id,
-        name: input.patientInfo.name,
-        age: input.patientInfo.age,
-        gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty: input.patientInfo.difficulty,
-      },
-      sessionInfo: {
-        sessionId: input.sessionId,
-        stepId: input.stepId,
-        userMessage:
-          input.userMessage.substring(0, 100) +
-          (input.userMessage.length > 100 ? "..." : ""),
-        conversationHistoryLength: input.conversationHistory?.length || 0,
-      },
-    });
+    const time = formatTime();
+    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
+    
+    console.log(
+      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
+    );
+    
+    console.log(
+      `  ${colorize("Patient:", "dim")} ${colorize(input.patientInfo.name, "white")} ${colorize(`(${input.patientInfo.age}yo, ${input.patientInfo.gender})`, "gray")}`
+    );
+    
+    console.log(
+      `  ${colorize("Session:", "dim")} ${colorize(input.sessionId.substring(0, 8), "white")} ${colorize(`Step: ${input.stepId}`, "gray")}`
+    );
+    
+    if (input.userMessage) {
+      console.log(
+        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(input.userMessage, 80), "white")}`
+      );
+    }
+    
+    if (input.conversationHistory && input.conversationHistory.length > 0) {
+      console.log(
+        `  ${colorize("History:", "dim")} ${colorize(`${input.conversationHistory.length} messages`, "gray")}`
+      );
+    }
 
     try {
       let result: PatientResponse;
 
-      if (this.useExternalAI) {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Real External AI Service",
-        );
-        result = await this.externalAI.generateResponse(input);
-      } else {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Mock External AI Service",
-        );
-        result = await this.externalAI.generateResponse(input);
-      }
+      result = await this.externalAI.generateResponse(input);
 
       const endTime = Date.now();
       const duration = endTime - startTime;
+      const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] generateResponse completed successfully:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateResponse",
-          requestId,
-          duration: `${duration}ms`,
-          response: {
-            message:
-              result.message.substring(0, 100) +
-              (result.message.length > 100 ? "..." : ""),
-            emotion: result.emotion,
-            timestamp: result.timestamp,
-          },
-          status: "success",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", "green")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
+      );
+      
+      console.log(
+        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(result.message, 80), "white")}`
+      );
+      
+      const emotionColors: Record<string, keyof typeof COLORS> = {
+        anger: "red",
+        sadness: "blue",
+        joy: "yellow",
+        trust: "green",
+        surprise: "magenta",
+        anticipation: "cyan",
+        disgust: "red",
+        base: "gray",
+      };
+      const emotionColor = emotionColors[result.emotion] || "white";
+      console.log(
+        `  ${colorize("Emotion:", "dim")} ${colorize(result.emotion, emotionColor)}`
       );
 
       return result;
@@ -1448,22 +1499,13 @@ export class PatientResponseGenerator {
       const duration = endTime - startTime;
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] generateResponse failed, using fallback:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateResponse",
-          requestId,
-          duration: `${duration}ms`,
-          error: {
-            message: error instanceof Error ? error.message : "Unknown error",
-            stack: error instanceof Error ? error.stack : undefined,
-          },
-          status: "fallback",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("⚠", "yellow")} ${colorize("generateResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "yellow")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
       );
-
-      console.error("Error generating patient response:", error);
+      
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.log(
+        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
+      );
 
       
       const fallbackResponses = ENHANCED_PATIENT_RESPONSES[
@@ -1488,15 +1530,7 @@ export class PatientResponseGenerator {
         };
 
         console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using emergency fallback response:",
-          {
-            timestamp: new Date().toISOString(),
-            service: "PatientResponseGenerator",
-            method: "generateResponse",
-            requestId,
-            response: fallbackResult,
-            status: "emergency_fallback",
-          },
+          `  ${colorize("→", "yellow")} ${colorize("Emergency fallback", "yellow")}`
         );
 
         return fallbackResult;
@@ -1509,15 +1543,26 @@ export class PatientResponseGenerator {
       };
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] Using predefined fallback response:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateResponse",
-          requestId,
-          response: fallbackResult,
-          status: "predefined_fallback",
-        },
+        `  ${colorize("→", "yellow")} ${colorize("Predefined fallback", "yellow")}`
+      );
+      
+      console.log(
+        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(fallbackResult.message, 80), "white")}`
+      );
+      
+      const emotionColors: Record<string, keyof typeof COLORS> = {
+        anger: "red",
+        sadness: "blue",
+        joy: "yellow",
+        trust: "green",
+        surprise: "magenta",
+        anticipation: "cyan",
+        disgust: "red",
+        base: "gray",
+      };
+      const emotionColor = emotionColors[fallbackResult.emotion] || "white";
+      console.log(
+        `  ${colorize("Emotion:", "dim")} ${colorize(fallbackResult.emotion, emotionColor)}`
       );
 
       return fallbackResult;
@@ -1539,61 +1584,51 @@ export class PatientResponseGenerator {
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
-    console.log("🎯 [PATIENT RESPONSE GENERATOR] Starting initializePatient:", {
-      timestamp: new Date().toISOString(),
-      service: "PatientResponseGenerator",
-      method: "initializePatient",
-      requestId,
-      useExternalAI: this.useExternalAI,
-      patientInfo: {
-        id: input.patientInfo.id,
-        name: input.patientInfo.name,
-        age: input.patientInfo.age,
-        gender: input.patientInfo.gender,
-        diagnosis: input.patientInfo.diagnosis,
-        difficulty: input.patientInfo.difficulty,
-      },
-      sessionInfo: {
-        sessionId: input.sessionId,
-      },
-    });
+    const time = formatTime();
+    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
+    
+    console.log(
+      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
+    );
+    
+    console.log(
+      `  ${colorize("Patient:", "dim")} ${colorize(input.patientInfo.name, "white")} ${colorize(`(${input.patientInfo.age}yo, ${input.patientInfo.gender})`, "gray")}`
+    );
+    
+    console.log(
+      `  ${colorize("Session:", "dim")} ${colorize(input.sessionId.substring(0, 8), "white")}`
+    );
 
     try {
       let result: PatientInitializationResponse;
 
-      if (this.useExternalAI) {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Real External AI Service for initialization",
-        );
-        result = await this.externalAI.initializePatient(input);
-      } else {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Mock External AI Service for initialization",
-        );
-        result = await this.externalAI.initializePatient(input);
-      }
+      result = await this.externalAI.initializePatient(input);
 
       const endTime = Date.now();
       const duration = endTime - startTime;
+      const durationColor = duration > 3000 ? "yellow" : duration > 1000 ? "white" : "green";
+      const statusColor = result.status === "success" ? "green" : "red";
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] initializePatient completed successfully:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "initializePatient",
-          requestId,
-          duration: `${duration}ms`,
-          response: {
-            status: result.status,
-            code: result.code,
-            external_patient_id: result.external_patient_id,
-            message: result.message,
-            timestamp: result.timestamp,
-          },
-          status: "success",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", statusColor)} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
       );
+      
+      console.log(
+        `  ${colorize("Status:", "dim")} ${colorize(result.status.toUpperCase(), statusColor)} ${colorize(`(${result.code})`, "gray")}`
+      );
+      
+      if (result.external_patient_id) {
+        console.log(
+          `  ${colorize("External ID:", "dim")} ${colorize(result.external_patient_id, "cyan")}`
+        );
+      }
+      
+      if (result.message) {
+        console.log(
+          `  ${colorize("Message:", "dim")} ${colorize(result.message, "white")}`
+        );
+      }
 
       return result;
     } catch (error) {
@@ -1601,22 +1636,13 @@ export class PatientResponseGenerator {
       const duration = endTime - startTime;
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] initializePatient failed, using fallback:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "initializePatient",
-          requestId,
-          duration: `${duration}ms`,
-          error: {
-            message: error instanceof Error ? error.message : "Unknown error",
-            stack: error instanceof Error ? error.stack : undefined,
-          },
-          status: "fallback",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✗", "red")} ${colorize("initializePatient", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "red")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
       );
-
-      console.error("Error initializing patient:", error);
+      
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.log(
+        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
+      );
 
       
       const fallbackResult = {
@@ -1628,16 +1654,18 @@ export class PatientResponseGenerator {
       };
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] Using error fallback response:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "initializePatient",
-          requestId,
-          response: fallbackResult,
-          status: "error_fallback",
-        },
+        `  ${colorize("→", "yellow")} ${colorize("Error fallback", "yellow")}`
       );
+      
+      console.log(
+        `  ${colorize("Status:", "dim")} ${colorize(fallbackResult.status.toUpperCase(), "red")} ${colorize(`(${fallbackResult.code})`, "gray")}`
+      );
+      
+      if (fallbackResult.message) {
+        console.log(
+          `  ${colorize("Message:", "dim")} ${colorize(fallbackResult.message, "white")}`
+        );
+      }
 
       return fallbackResult;
     }
@@ -1647,62 +1675,58 @@ export class PatientResponseGenerator {
     const startTime = Date.now();
     const requestId = `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
+    const time = formatTime();
+    const shortRequestId = requestId.split("_").pop()?.substring(0, 8) || requestId;
+    const serviceType = this.useExternalAI ? colorize("REAL", "green") : colorize("MOCK", "yellow");
+    
     console.log(
-      "🎯 [PATIENT RESPONSE GENERATOR] Starting generateChatResponse:",
-      {
-        timestamp: new Date().toISOString(),
-        service: "PatientResponseGenerator",
-        method: "generateChatResponse",
-        requestId,
-        useExternalAI: this.useExternalAI,
-        requestInfo: {
-          external_patient_id: input.external_patient_id,
-          user_message:
-            input.user_message.substring(0, 100) +
-            (input.user_message.length > 100 ? "..." : ""),
-          session_id: input.session_id,
-          step_id: input.step_id,
-        },
-      },
+      `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("→", "blue")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${serviceType} ${colorize(time, "dim")}`
     );
+    
+    console.log(
+      `  ${colorize("External ID:", "dim")} ${colorize(input.external_patient_id.substring(0, 16), "white")}`
+    );
+    
+    console.log(
+      `  ${colorize("Session:", "dim")} ${colorize(input.session_id.substring(0, 8), "white")} ${colorize(`Step: ${input.step_id}`, "gray")}`
+    );
+    
+    if (input.user_message) {
+      console.log(
+        `  ${colorize("Message:", "dim")} ${colorize(truncateMessage(input.user_message, 80), "white")}`
+      );
+    }
 
     try {
       let result: ChatResponse;
 
-      if (this.useExternalAI) {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Real External AI Service for chat response",
-        );
-        result = await this.externalAI.generateChatResponse(input);
-      } else {
-        console.log(
-          "🎯 [PATIENT RESPONSE GENERATOR] Using Mock External AI Service for chat response",
-        );
-        result = await this.externalAI.generateChatResponse(input);
-      }
+      result = await this.externalAI.generateChatResponse(input);
 
       const endTime = Date.now();
       const duration = endTime - startTime;
+      const durationColor = duration > 5000 ? "yellow" : duration > 2000 ? "white" : "green";
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] generateChatResponse completed successfully:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateChatResponse",
-          requestId,
-          duration: `${duration}ms`,
-          response: {
-            message:
-              result.message.substring(0, 100) +
-              (result.message.length > 100 ? "..." : ""),
-            reasoning_time: result.reasoning_time,
-            emotion: result.emotion,
-            topic: result.topic,
-            timestamp: result.timestamp,
-          },
-          status: "success",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("✓", "green")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), durationColor)} ${colorize(formatTime(), "dim")}`
+      );
+      
+      console.log(
+        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(result.message, 80), "white")}`
+      );
+      
+      const emotionColors: Record<string, keyof typeof COLORS> = {
+        anger: "red",
+        sadness: "blue",
+        joy: "yellow",
+        trust: "green",
+        surprise: "magenta",
+        anticipation: "cyan",
+        disgust: "red",
+        base: "gray",
+      };
+      const emotionColor = emotionColors[result.emotion] || "white";
+      console.log(
+        `  ${colorize("Emotion:", "dim")} ${colorize(result.emotion, emotionColor)} ${colorize(`| Topic: ${result.topic}`, "gray")} ${colorize(`| Reasoning: ${result.reasoning_time}s`, "gray")}`
       );
 
       return result;
@@ -1711,22 +1735,13 @@ export class PatientResponseGenerator {
       const duration = endTime - startTime;
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] generateChatResponse failed, using fallback:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateChatResponse",
-          requestId,
-          duration: `${duration}ms`,
-          error: {
-            message: error instanceof Error ? error.message : "Unknown error",
-            stack: error instanceof Error ? error.stack : undefined,
-          },
-          status: "fallback",
-        },
+        `${colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "cyan")} ${colorize("⚠", "yellow")} ${colorize("generateChatResponse", "bright")} ${colorize(`[${shortRequestId}]`, "gray")} ${colorize(formatDuration(duration), "yellow")} ${colorize(formatTime(), "dim")} ${colorize("→ FALLBACK", "yellow")}`
       );
-
-      console.error("Error generating chat response:", error);
+      
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      console.log(
+        `  ${colorize("Error:", "red")} ${colorize(errorMessage, "white")}`
+      );
 
       
       const fallbackResult = {
@@ -1739,15 +1754,15 @@ export class PatientResponseGenerator {
       };
 
       console.log(
-        "🎯 [PATIENT RESPONSE GENERATOR] Using fallback chat response:",
-        {
-          timestamp: new Date().toISOString(),
-          service: "PatientResponseGenerator",
-          method: "generateChatResponse",
-          requestId,
-          response: fallbackResult,
-          status: "fallback",
-        },
+        `  ${colorize("→", "yellow")} ${colorize("Fallback chat response", "yellow")}`
+      );
+      
+      console.log(
+        `  ${colorize("Response:", "dim")} ${colorize(truncateMessage(fallbackResult.message, 80), "white")}`
+      );
+      
+      console.log(
+        `  ${colorize("Emotion:", "dim")} ${colorize(fallbackResult.emotion, "gray")} ${colorize(`| Topic: ${fallbackResult.topic}`, "gray")}`
       );
 
       return fallbackResult;
@@ -1756,4 +1771,4 @@ export class PatientResponseGenerator {
 }
 
 
-export const patientResponseGenerator = new PatientResponseGenerator(false); 
+export const patientResponseGenerator = new PatientResponseGenerator(); 
