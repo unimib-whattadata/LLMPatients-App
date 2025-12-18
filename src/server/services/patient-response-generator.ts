@@ -119,7 +119,7 @@ const getApiConfig = () => {
     BASE_URL: isRemote ? (env.API_BASE_URL || "https://e-patients-api.whattadata.it") : "local",
     ENDPOINTS: {
       GENERATE_RESPONSE: isRemote ? (env.API_GENERATE_RESPONSE_ENDPOINT || "/api/message") : "/mock/generate-response",
-      INITIALIZE_PATIENT: isRemote ? (env.API_INITIALIZE_PATIENT_ENDPOINT || "/initialise-patient") : "/mock/initialise-patient",
+      INITIALIZE_PATIENT: isRemote ? (env.API_INITIALIZE_PATIENT_ENDPOINT || "/patient") : "/mock/initialise-patient",
       CHAT_RESPONSE: isRemote ? (env.API_CHAT_RESPONSE_ENDPOINT || "/chat-response") : "/mock/chat-response",
     },
     HEADERS: {

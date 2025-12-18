@@ -141,6 +141,11 @@ export const patients = createTable(
     estimatedDuration: d.integer().default(30).notNull(), 
     isActive: d.boolean().default(true).notNull(),
     externalPatientId: d.text(), 
+    gender: d.text(), // Gender for API compatibility
+    diagnosis: d.text(), // Diagnosis for API compatibility
+    psychologicalProfile: d.text(), // Psychological profile for API compatibility
+    currentMedications: d.text(), // JSON array of current medications
+    previousSessions: d.integer().default(0), // Number of previous therapy sessions
     createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),

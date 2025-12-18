@@ -35,6 +35,11 @@ export interface Patient {
   estimatedDuration: number;
   isActive: boolean;
   externalPatientId?: string | null;
+  gender?: string | null; // Gender for API compatibility
+  diagnosis?: string | null; // Diagnosis for API compatibility
+  psychologicalProfile?: string | null; // Psychological profile for API compatibility
+  currentMedications?: string[] | null; // Current medications array
+  previousSessions?: number | null; // Number of previous therapy sessions
   createdAt: Date;
   updatedAt: Date | null;
 }
@@ -195,7 +200,7 @@ export const patientsRouter = createTRPCRouter({
             smallDescription: patient.smallDescription,
             details: patient.details,
             background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
-            objectives: JSON.parse(patient.objectives) as string[],
+            objectives: safeJsonParse<string[]>(patient.objectives, []),
             avatarUrl: patient.avatarUrl,
             voiceId: patient.voiceId,
             welcomeMessage: patient.welcomeMessage,
@@ -204,6 +209,11 @@ export const patientsRouter = createTRPCRouter({
             estimatedDuration: patient.estimatedDuration,
             isActive: patient.isActive,
             externalPatientId: patient.externalPatientId,
+            gender: patient.gender ?? null,
+            diagnosis: patient.diagnosis ?? null,
+            psychologicalProfile: patient.psychologicalProfile ?? null,
+            currentMedications: patient.currentMedications ? safeJsonParse(patient.currentMedications, []) as string[] : null,
+            previousSessions: patient.previousSessions ?? null,
             createdAt: patient.createdAt,
             updatedAt: patient.updatedAt,
           }),
@@ -271,6 +281,11 @@ export const patientsRouter = createTRPCRouter({
         estimatedDuration: patient.estimatedDuration,
         isActive: patient.isActive,
         externalPatientId: patient.externalPatientId,
+        gender: patient.gender ?? null,
+        diagnosis: patient.diagnosis ?? null,
+        psychologicalProfile: patient.psychologicalProfile ?? null,
+        currentMedications: patient.currentMedications ? safeJsonParse(patient.currentMedications, []) as string[] : null,
+        previousSessions: patient.previousSessions ?? null,
         createdAt: patient.createdAt,
         updatedAt: patient.updatedAt,
       };

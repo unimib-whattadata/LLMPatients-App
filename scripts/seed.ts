@@ -310,6 +310,108 @@ function mapGenderToEnum(gender: string): "male" | "female" | "other" {
   return "other";
 }
 
+function extractGender(details: any): string | null {
+  return details?.demographicAndSocioculturalInformation?.gender || 
+         details?.demographicAndSocioculturalInformation?.gender || null;
+}
+
+function extractDiagnosis(details: any): string | null {
+  return details?.disorder?.disorderName || null;
+}
+
+function extractPsychologicalProfile(details: any): string | null {
+  const profile = details?.psychologicalProfileAndCognitiveFunctioning;
+  if (!profile) return null;
+
+  const parts: string[] = [];
+  
+  if (profile.affectiveEmotionalFunctioningAndMoodRegulation) {
+    parts.push(`Affective/Emotional: ${profile.affectiveEmotionalFunctioningAndMoodRegulation}`);
+  }
+  if (profile.psychiatricComorbidities) {
+    parts.push(`Comorbidities: ${profile.psychiatricComorbidities}`);
+  }
+  if (profile.senseOfSelfAndOthers) {
+    parts.push(`Self/Others: ${profile.senseOfSelfAndOthers}`);
+  }
+  if (profile.thoughtFunctioningAndCognitiveStyle) {
+    parts.push(`Cognitive Style: ${profile.thoughtFunctioningAndCognitiveStyle}`);
+  }
+
+  return parts.length > 0 ? parts.join(". ") : null;
+}
+
+function extractCurrentMedications(details: any): string[] {
+  const treatments = details?.treatmentsAndInterventions;
+  if (!treatments) return [];
+
+  const medications: string[] = [];
+  
+  if (treatments.medicationHistory) {
+    const medHistory = treatments.medicationHistory.toLowerCase();
+    if (medHistory.includes("ssri") || medHistory.includes("antidepressant")) {
+      medications.push("Antidepressants");
+    }
+    if (medHistory.includes("anxiolytic") || medHistory.includes("benzodiazepine")) {
+      medications.push("Anxiolytics");
+    }
+    if (medHistory.includes("antipsychotic") || medHistory.includes("neuroleptic")) {
+      medications.push("Antipsychotics");
+    }
+    if (medHistory.includes("mood stabilizer") || medHistory.includes("stabilizzatore")) {
+      medications.push("Mood Stabilizers");
+    }
+  }
+
+  if (treatments.pharmacologicalTreatments) {
+    const pharmTreat = treatments.pharmacologicalTreatments.toLowerCase();
+    if (pharmTreat.includes("ssri") || pharmTreat.includes("antidepressant")) {
+      if (!medications.includes("Antidepressants")) {
+        medications.push("Antidepressants");
+      }
+    }
+    if (pharmTreat.includes("anxiolytic") || pharmTreat.includes("benzodiazepine")) {
+      if (!medications.includes("Anxiolytics")) {
+        medications.push("Anxiolytics");
+      }
+    }
+  }
+
+  if (medications.length === 0 && treatments.medicationHistory) {
+    const medHistory = treatments.medicationHistory.trim();
+    if (medHistory && medHistory !== "Nessuno" && medHistory !== "None" && !medHistory.includes("Non applicabile")) {
+      medications.push(medHistory);
+    }
+  }
+
+  return medications;
+}
+
+function extractPreviousSessions(details: any): number {
+  const treatments = details?.treatmentsAndInterventions;
+  if (!treatments) return 0;
+
+  const previousTherapy = treatments.previousTherapeuticExperiences;
+  if (!previousTherapy) return 0;
+
+  const lowerText = previousTherapy.toLowerCase();
+  
+  if (lowerText.includes("nessuna") || lowerText.includes("none") || lowerText.includes("non applicabile")) {
+    return 0;
+  }
+
+  const numberMatch = previousTherapy.match(/\d+/);
+  if (numberMatch) {
+    return parseInt(numberMatch[0]!, 10) || 0;
+  }
+
+  if (lowerText.includes("terapia") || lowerText.includes("therapy") || lowerText.includes("trattamento")) {
+    return 1;
+  }
+
+  return 0;
+}
+
 function extractAgeFromDetails(details: any): number {
   // Try to find age in different possible locations
   const ageValue =
@@ -382,13 +484,16 @@ async function seedPatients() {
   
   for (const patient of PATIENTS) {
     
+    const details = patient.details;
+    const currentMedications = extractCurrentMedications(details);
+    
     const result = await db
       .insert(patients)
       .values({
         name: patient.name,
-        age: extractAgeFromDetails(patient.details),
+        age: extractAgeFromDetails(details),
         smallDescription: patient.smallDescription,
-        details: JSON.stringify(patient.details),
+        details: JSON.stringify(details),
         clinicalCase: patient.clinicalCase,
         objectives: JSON.stringify(patient.objectives),
         avatarUrl: patient.avatarUrl,
@@ -398,6 +503,11 @@ async function seedPatients() {
         estimatedDuration: patient.estimatedDuration,
         therapeuticJourney: JSON.stringify(patient.therapeuticJourney),
         isActive: true,
+        gender: extractGender(details),
+        diagnosis: extractDiagnosis(details),
+        psychologicalProfile: extractPsychologicalProfile(details),
+        currentMedications: currentMedications.length > 0 ? JSON.stringify(currentMedications) : null,
+        previousSessions: extractPreviousSessions(details),
       })
       .returning({ id: patients.id });
 

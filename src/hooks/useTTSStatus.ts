@@ -5,10 +5,12 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { checkTTSAvailability, type TTSAvailabilityResult } from "~/lib/tts/utils";
+import { checkTTSAvailability } from "~/lib/tts/utils";
+import type { TTSAvailabilityResult } from "~/lib/tts/constants";
 
 export interface UseTTSStatusReturn {
   isTTSEnabled: boolean | null;
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   ttsStatus: TTSAvailabilityResult | null;
   isLoading: boolean;
   checkStatus: () => Promise<void>;
@@ -22,6 +24,7 @@ export interface UseTTSStatusReturn {
  */
 export function useTTSStatus(autoCheck: boolean = true): UseTTSStatusReturn {
   const [isTTSEnabled, setIsTTSEnabled] = useState<boolean | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
   const [ttsStatus, setTtsStatus] = useState<TTSAvailabilityResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 

@@ -7,7 +7,7 @@ import { Clock } from "lucide-react";
 import { useSession } from "next-auth/react";
 
 import { PatientAvatar } from "~/components/features/explore-patients";
-import { Breadcrumb } from "~/components/ui";
+import { Breadcrumb, Alert, AlertDescription, AlertTitle } from "~/components/ui";
 import { PatientDetailSkeleton } from "~/components/ui/skeleton-variants";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
@@ -67,25 +67,39 @@ export function PatientDetailContent() {
         
         if (!patient.externalPatientId) {
           try {
-            await initializePatientMutation.mutateAsync({
+            const initResponse = await initializePatientMutation.mutateAsync({
               patientInfo: {
                 id: patient.id,
                 name: patient.name,
-                age: 45, 
-                gender: "male", 
-                diagnosis: "Disturbo d'ansia generalizzato", 
+                age: patient.age,
+                gender: patient.gender || "non specificato",
+                diagnosis: patient.diagnosis || "Non specificato",
                 difficulty: patient.difficulty,
-                psychologicalProfile: patient.background,
+                psychologicalProfile: patient.psychologicalProfile || patient.background,
                 background: patient.background,
-                currentMedications: [],
+                currentMedications: patient.currentMedications || [],
                 therapyGoals: patient.objectives,
-                previousSessions: 0,
+                previousSessions: patient.previousSessions || 0,
               },
               sessionId: startedSession.id,
             });
+
+            // Verifica se l'inizializzazione è fallita
+            if (initResponse.status !== "success" || !initResponse.external_patient_id) {
+              setActionError(
+                initResponse.message ||
+                  "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
+              );
+              return; // Blocca il redirect
+            }
           } catch (error) {
             console.error("Error initializing patient:", error);
-            
+            setActionError(
+              error instanceof Error
+                ? error.message
+                : "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
+            );
+            return; // Blocca il redirect
           }
         }
         
@@ -246,9 +260,10 @@ export function PatientDetailContent() {
                     </Button>
                   </div>
                   {actionError && (
-                    <p className="mt-3 text-sm text-red-500 sm:mt-4">
-                      {actionError}
-                    </p>
+                    <Alert variant="destructive" className="mt-3 sm:mt-4">
+                      <AlertTitle>Errore di inizializzazione</AlertTitle>
+                      <AlertDescription>{actionError}</AlertDescription>
+                    </Alert>
                   )}
                 </>
               ) : (

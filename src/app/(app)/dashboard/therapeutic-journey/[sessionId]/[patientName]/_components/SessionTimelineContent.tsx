@@ -34,6 +34,7 @@ type PatientData = {
   difficulty: number;
   estimatedDuration: number;
   isActive: boolean;
+  externalPatientId?: string | null;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -485,6 +486,109 @@ export function SessionTimelineContent({
                   >
                     Torna al Percorso Terapeutico
                   </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </SharedLayout>
+    );
+  }
+
+  // Verifica se il paziente è stato inizializzato nell'API esterna
+  if (typedSelectedPatient && !typedSelectedPatient.externalPatientId) {
+    return (
+      <SharedLayout
+        user={user}
+        impersonation={impersonation}
+        layoutType="dashboard"
+        currentPage="/dashboard/therapeutic-journey"
+      >
+        <div className="dashboard-panel-stack">
+          <section className="dashboard-section">
+            <div className="dashboard-section__header">
+              <div>
+                <Breadcrumb
+                  items={[
+                    { label: "Dashboard", href: "/dashboard" },
+                    {
+                      label: "Percorso Terapeutico",
+                      href: "/dashboard/therapeutic-journey",
+                    },
+                    {
+                      label: typedSelectedPatient.name,
+                      isActive: true,
+                    },
+                  ]}
+                />
+
+                <h1 className="dashboard-section__title">
+                  Percorso Terapeutico non disponibile
+                </h1>
+                <p className="dashboard-section__description">
+                  Il paziente non è stato inizializzato correttamente nel sistema esterno.
+                  L'inizializzazione è necessaria per avviare il percorso terapeutico.
+                </p>
+                <div className="mt-6">
+                  <article className="dashboard-action-card">
+                    <div className="dashboard-action-card-content">
+                      <div className="dashboard-action-card-main">
+                        <div className="mb-3 flex items-start gap-3">
+                          <div className="flex-shrink-0 mt-0.5">
+                            <svg
+                              className="h-5 w-5 text-red-500"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="dashboard-action-card__title mb-1.5 text-red-400 text-base">
+                              Errore di inizializzazione
+                            </h3>
+                            <p className="dashboard-action-card__description text-sm leading-snug">
+                              Si è verificato un errore durante la chiamata all'API esterna per l'inizializzazione del paziente.
+                              Il percorso terapeutico non può essere avviato fino a quando questo problema non sarà risolto.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="mt-4 flex gap-3">
+                          <Button
+                            onClick={() => {
+                              if (typedSelectedPatient) {
+                                const patientSlug = createPatientSlug(typedSelectedPatient.name);
+                                router.push(
+                                  `/explore-patients/${typedSelectedPatient.id}/${patientSlug}`
+                                );
+                              }
+                            }}
+                            variant="outline"
+                            size="sm"
+                            className="flex-1"
+                          >
+                            Torna alla pagina del paziente
+                          </Button>
+                          <Button
+                            asChild
+                            variant="outline"
+                            size="sm"
+                            className="flex-1"
+                          >
+                            <Link href="/dashboard/therapeutic-journey">
+                              Torna al Percorso Terapeutico
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
                 </div>
               </div>
             </div>
