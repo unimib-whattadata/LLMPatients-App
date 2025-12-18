@@ -16,13 +16,13 @@ export const DEFAULT_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
 
 export const EMOTION_VOICE_SETTINGS: Record<string, { stability: number; style: number }> = {
   base: { stability: 0.7, style: 0.3 },
-  joy: { stability: 0.4, style: 0.8 },
-  sadness: { stability: 0.6, style: 0.4 },
-  anger: { stability: 0.3, style: 0.9 },
-  surprise: { stability: 0.5, style: 0.7 },
-  anticipation: { stability: 0.5, style: 0.6 },
-  disgust: { stability: 0.4, style: 0.5 },
-  trust: { stability: 0.8, style: 0.4 },
+  SEEKING: { stability: 0.5, style: 0.6 },
+  RAGE: { stability: 0.3, style: 0.9 },
+  FEAR: { stability: 0.4, style: 0.7 },
+  CARE: { stability: 0.8, style: 0.4 },
+  LUST: { stability: 0.4, style: 0.8 },
+  SADNESS: { stability: 0.6, style: 0.4 },
+  PLAY: { stability: 0.4, style: 0.8 },
 };
 
 export interface TTSRequestParams {
@@ -142,6 +142,7 @@ export function handleElevenLabsError(
     status,
   };
 }
+
 
 
 

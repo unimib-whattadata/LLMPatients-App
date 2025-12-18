@@ -1,34 +1,34 @@
 
 
 export type PatientEmotion = 
-  | "anger" 
-  | "anticipation" 
-  | "disgust" 
-  | "joy" 
-  | "sadness" 
-  | "surprise" 
-  | "trust" 
+  | "SEEKING" 
+  | "RAGE" 
+  | "FEAR" 
+  | "CARE" 
+  | "LUST" 
+  | "SADNESS" 
+  | "PLAY" 
   | "base";
 
 export const EMOTION_LABELS: Record<PatientEmotion, string> = {
-  anger: "Rabbia",
-  anticipation: "Attesa",
-  disgust: "Disgusto",
-  joy: "Gioia",
-  sadness: "Tristezza",
-  surprise: "Sorpresa",
-  trust: "Fiducia",
+  SEEKING: "Ricerca",
+  RAGE: "Rabbia",
+  FEAR: "Paura",
+  CARE: "Cura",
+  LUST: "Desiderio",
+  SADNESS: "Tristezza",
+  PLAY: "Gioco",
   base: "Neutro",
 };
 
 export const EMOTION_COLORS: Record<PatientEmotion, string> = {
-  joy: "rgb(250 204 21)", 
-  anger: "rgb(239 68 68)", 
-  sadness: "rgb(59 130 246)", 
-  disgust: "rgb(132 204 22)", 
-  trust: "rgb(16 185 129)", 
-  anticipation: "rgb(251 146 60)", 
-  surprise: "rgb(192 132 252)", 
+  SEEKING: "rgb(251 146 60)", 
+  RAGE: "rgb(239 68 68)", 
+  FEAR: "rgb(139 92 246)", 
+  CARE: "rgb(16 185 129)", 
+  LUST: "rgb(236 72 153)", 
+  SADNESS: "rgb(59 130 246)", 
+  PLAY: "rgb(250 204 21)", 
   base: "rgb(156 163 175)", 
 };
 

@@ -15,7 +15,7 @@ export interface ChatMessage {
   sender: "user" | "patient";
   timestamp: Date;
   stepId: number;
-  emotion?: "anger" | "anticipation" | "disgust" | "joy" | "sadness" | "surprise" | "trust" | "base";
+  emotion?: "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "SADNESS" | "PLAY" | "base";
   metadata?: ResponseMetadata;
 }
 
@@ -91,7 +91,7 @@ export const chatRouter = createTRPCRouter({
             sender: z.enum(["user", "patient"]),
             timestamp: z.date(),
             stepId: z.number(),
-            emotion: z.enum(["anger", "anticipation", "disgust", "joy", "sadness", "surprise", "trust", "base"]).optional(),
+            emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "SADNESS", "PLAY", "base"]).optional(),
             metadata: z.object({
               apiType: z.enum(["MOCK", "REAL"]),
               endpoint: z.string().optional(),
@@ -105,13 +105,14 @@ export const chatRouter = createTRPCRouter({
               }).optional(),
               responseData: z.object({
                 message: z.string().optional(),
-                emotion: z.enum(["anger", "anticipation", "disgust", "joy", "sadness", "surprise", "trust", "base"]).optional(),
+                emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "SADNESS", "PLAY", "base"]).optional(),
                 topic: z.string().optional(),
                 reasoningTime: z.number().optional(),
                 status: z.string().optional(),
                 code: z.string().optional(),
                 externalPatientId: z.string().optional(),
               }).optional(),
+              rawResponseJson: z.string().optional(),
               duration: z.number().optional(),
               timestamp: z.string(),
             }).optional(),

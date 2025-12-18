@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.12.4",
   "scripts": {
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
@@ -26,7 +27,7 @@
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "audit:performance": "npm run build && npm run start & sleep 5 && npx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html && pkill -f 'next start'",
+    "audit:performance": "pnpm run build && pnpm run start & sleep 5 && pnpm dlx lighthouse http://localhost:3000 --output=html --output-path=./lighthouse-report.html && pkill -f 'next start'",
     "clean": "rm -rf .next && rm -rf out && rm -rf dist"
   },
   "dependencies": {

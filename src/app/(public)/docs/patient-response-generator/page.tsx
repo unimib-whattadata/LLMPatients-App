@@ -874,10 +874,9 @@ export default async function PatientResponseGeneratorDocs() {
                 <div className="ml-4">
                   <span className="text-purple-400">emotion:</span>{" "}
                   <span className="text-orange-400">
-                    &quot;anger&quot; | &quot;anticipation&quot; |
-                    &quot;disgust&quot; | &quot;joy&quot; | &quot;sadness&quot;
-                    | &quot;surprise&quot; | &quot;trust&quot; |
-                    &quot;base&quot;
+                    &quot;SEEKING&quot; | &quot;RAGE&quot; | &quot;FEAR&quot; |
+                    &quot;CARE&quot; | &quot;LUST&quot; | &quot;SADNESS&quot;
+                    | &quot;PLAY&quot; | &quot;base&quot;
                   </span>
                   ,
                 </div>
@@ -942,7 +941,7 @@ export default async function PatientResponseGeneratorDocs() {
                 </div>
                 <div className="ml-4">
                   <span className="text-purple-400">&quot;emotion&quot;:</span>{" "}
-                  <span className="text-green-400">&quot;sadness&quot;</span>,
+                  <span className="text-green-400">&quot;SADNESS&quot;</span>,
                 </div>
                 <div className="ml-4">
                   <span className="text-purple-400">&quot;topic&quot;:</span>{" "}
@@ -1002,45 +1001,45 @@ export default async function PatientResponseGeneratorDocs() {
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;anger&quot;</code>
+                    <code className="text-green-400">&quot;SEEKING&quot;</code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
                     <code className="text-green-400">
-                      &quot;anticipation&quot;
+                      &quot;RAGE&quot;
                     </code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;disgust&quot;</code>
+                    <code className="text-green-400">&quot;FEAR&quot;</code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;joy&quot;</code>
+                    <code className="text-green-400">&quot;CARE&quot;</code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;sadness&quot;</code>
+                    <code className="text-green-400">&quot;LUST&quot;</code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;surprise&quot;</code>
+                    <code className="text-green-400">&quot;SADNESS&quot;</code>
                   </div>
                   <div
                     className="p-3"
                     style={{ backgroundColor: "var(--color-surface-primary)" }}
                   >
-                    <code className="text-green-400">&quot;trust&quot;</code>
+                    <code className="text-green-400">&quot;PLAY&quot;</code>
                   </div>
                   <div
                     className="p-3"

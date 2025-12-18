@@ -69,6 +69,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [showAudioWaveform, setShowAudioWaveform] = useState(true);
   const [showTTSWarning, setShowTTSWarning] = useState(true);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const [extractedText, setExtractedText] = useState<string | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -162,6 +163,26 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     );
   }, [typedCompletedSteps, stepId]);
 
+  // Helper function to extract and remove text in parentheses
+  const extractAndRemoveParentheses = useCallback((text: string): { cleanedText: string; extractedText: string | null } => {
+    const parenthesesRegex = /\(([^)]+)\)/g;
+    const matches: string[] = [];
+    let match;
+    
+    // Extract all text in parentheses
+    while ((match = parenthesesRegex.exec(text)) !== null) {
+      matches.push(match[1]!);
+    }
+    
+    // Remove all text in parentheses from the original text
+    const cleanedText = text.replace(parenthesesRegex, '').trim();
+    
+    // Join all extracted texts
+    const extractedText = matches.length > 0 ? matches.join(' ') : null;
+    
+    return { cleanedText, extractedText };
+  }, []);
+
   
   const scrollToBottom = useCallback((delay = 100) => {
     setTimeout(() => {
@@ -240,13 +261,30 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       if (isInitialLoad.current) {
         isInitialLoad.current = false;
         
-        const messagesWithDates = typedExistingChat.messages.map((msg) => ({
-          ...msg,
-          timestamp:
-            typeof msg.timestamp === "string"
-              ? new Date(msg.timestamp)
-              : msg.timestamp,
-        }));
+        const messagesWithDates = typedExistingChat.messages.map((msg) => {
+          // Extract and remove text in parentheses for patient messages
+          if (msg.sender === "patient") {
+            const { cleanedText, extractedText } = extractAndRemoveParentheses(msg.content);
+            if (extractedText) {
+              setExtractedText(extractedText);
+            }
+            return {
+              ...msg,
+              content: cleanedText,
+              timestamp:
+                typeof msg.timestamp === "string"
+                  ? new Date(msg.timestamp)
+                  : msg.timestamp,
+            };
+          }
+          return {
+            ...msg,
+            timestamp:
+              typeof msg.timestamp === "string"
+                ? new Date(msg.timestamp)
+                : msg.timestamp,
+          };
+        });
         setMessages(messagesWithDates);
         
         
@@ -272,9 +310,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const welcomeContent = typedSelectedPatient.welcomeMessage || 
           `Ciao! Sono ${typedSelectedPatient.name}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
 
+        // Extract and remove text in parentheses from welcome message
+        const { cleanedText, extractedText } = extractAndRemoveParentheses(welcomeContent);
+        if (extractedText) {
+          setExtractedText(extractedText);
+        }
+
         const welcomeMessage: ChatMessage = {
           id: `welcome-${Date.now()}`,
-          content: welcomeContent,
+          content: cleanedText,
           sender: "patient",
           timestamp: new Date(),
           stepId,
@@ -291,7 +335,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         }, 200);
       }
     }
-  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom]);
+  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom, extractAndRemoveParentheses]);
 
   
   const triggerAvatarEmotionChange = useCallback(
@@ -406,9 +450,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         triggerAvatarEmotionChange(response.emotion);
 
+        // Extract and remove text in parentheses
+        const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
+        if (extractedText) {
+          setExtractedText(extractedText);
+        }
+
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
-          content: response.message,
+          content: cleanedText,
           sender: "patient",
           timestamp: new Date(response.timestamp),
           stepId,
@@ -481,9 +531,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
         triggerAvatarEmotionChange(response.emotion);
 
+        // Extract and remove text in parentheses
+        const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
+        if (extractedText) {
+          setExtractedText(extractedText);
+        }
+
         const patientMessage: ChatMessage = {
           id: `patient-${Date.now()}`,
-          content: response.message,
+          content: cleanedText,
           sender: "patient",
           timestamp: response.timestamp || new Date(),
           stepId,
@@ -547,6 +603,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     generateChatResponseMutation,
     triggerAvatarEmotionChange,
     hasUserInteracted,
+    extractAndRemoveParentheses,
   ]);
 
   const goBack = useCallback(() => {
@@ -860,6 +917,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 </div>
               </div>
               {}
+              {extractedText && (
+                <div className="flex flex-col items-center w-full mt-2 px-2">
+                  <div 
+                    className="text-xs text-[var(--color-text-secondary)] text-center break-words max-w-full italic"
+                    style={{
+                      animation: 'fadeIn 0.5s ease-in-out',
+                    }}
+                  >
+                    {extractedText}
+                  </div>
+                </div>
+              )}
+              {}
               <div className="flex flex-col items-center w-full mt-2">
                 <div
                   className="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all duration-300"
@@ -927,18 +997,18 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     </TooltipTrigger>
                                     <TooltipContent
                                       side={message.sender === "patient" ? "right" : "left"}
-                                      className="max-w-sm rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-4 text-sm text-[var(--color-text-primary)]"
+                                      className="max-w-xs w-full rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-3 text-xs text-[var(--color-text-primary)] max-h-[70vh] overflow-y-auto"
                                       sideOffset={8}
                                     >
-                                      <div className="space-y-3">
+                                      <div className="space-y-3 max-w-full">
                                         <div>
-                                          <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                          <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
                                             Informazioni Tecniche
                                           </h4>
-                                          <div className="space-y-2 text-sm">
+                                          <div className="space-y-2 text-xs">
                                             <div className="flex justify-between">
                                               <span className="text-[var(--color-text-secondary)]">API Type:</span>
-                                              <span className={`font-mono text-xs text-[var(--color-text-primary)] ${
+                                              <span className={`font-mono text-[10px] text-[var(--color-text-primary)] ${
                                                 message.metadata.apiType === "REAL" 
                                                   ? "text-green-400" 
                                                   : "text-yellow-400"
@@ -947,11 +1017,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               </span>
                                             </div>
                                             {message.metadata.endpoint && (
-                                              <div className="flex flex-col gap-1">
+                                              <div className="flex flex-col gap-1.5">
                                                 <span className="text-[var(--color-text-secondary)]">Endpoint:</span>
-                                                <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
-                                                  {message.metadata.endpoint.length > 40
-                                                    ? `${message.metadata.endpoint.substring(0, 40)}...`
+                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
+                                                  {message.metadata.endpoint.length > 30
+                                                    ? `${message.metadata.endpoint.substring(0, 30)}...`
                                                     : message.metadata.endpoint}
                                                 </span>
                                               </div>
@@ -959,19 +1029,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                             {message.metadata.duration !== undefined && (
                                               <div className="flex justify-between">
                                                 <span className="text-[var(--color-text-secondary)]">Durata:</span>
-                                                <span className="font-mono text-xs text-[var(--color-text-primary)]">
-                                                  {message.metadata.duration < 1000 
-                                                    ? `${message.metadata.duration}ms` 
-                                                    : `${(message.metadata.duration / 1000).toFixed(2)}s`}
-                                                </span>
+                                              <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
+                                                {message.metadata.duration < 1000 
+                                                  ? `${message.metadata.duration}ms` 
+                                                  : `${(message.metadata.duration / 1000).toFixed(2)}s`}
+                                              </span>
                                               </div>
                                             )}
                                             {message.metadata.timestamp && (
                                               <div className="flex justify-between">
                                                 <span className="text-[var(--color-text-secondary)]">Timestamp:</span>
-                                                <span className="font-mono text-xs text-[var(--color-text-primary)]">
-                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
-                                                </span>
+                                              <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
+                                                {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
+                                              </span>
                                               </div>
                                             )}
                                           </div>
@@ -979,14 +1049,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                         
                                         {message.metadata.requestData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
-                                            <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                            <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
                                               Dati Inviati
                                             </h4>
-                                            <div className="space-y-2 text-sm">
+                                            <div className="space-y-2 text-xs">
                                               {message.metadata.requestData.patientId && (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-1.5">
                                                   <span className="text-[var(--color-text-secondary)]">Patient ID:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
                                                     {message.metadata.requestData.patientId.substring(0, 20)}...
                                                   </span>
                                                 </div>
@@ -994,33 +1064,33 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.requestData.patientName && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Patient Name:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                     {message.metadata.requestData.patientName}
                                                   </span>
                                                 </div>
                                               )}
                                               {message.metadata.requestData.externalPatientId && (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-1.5">
                                                   <span className="text-[var(--color-text-secondary)]">External ID:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
                                                     {message.metadata.requestData.externalPatientId.substring(0, 20)}...
                                                   </span>
                                                 </div>
                                               )}
                                               {message.metadata.requestData.userMessage && (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-1.5">
                                                   <span className="text-[var(--color-text-secondary)]">User Message:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-words leading-tight">
-                                                    {message.metadata.requestData.userMessage.length > 80
-                                                      ? `${message.metadata.requestData.userMessage.substring(0, 80)}...`
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-words leading-tight">
+                                                    {message.metadata.requestData.userMessage.length > 50
+                                                      ? `${message.metadata.requestData.userMessage.substring(0, 50)}...`
                                                       : message.metadata.requestData.userMessage}
                                                   </span>
                                                 </div>
                                               )}
                                               {message.metadata.requestData.sessionId && (
-                                                <div className="flex flex-col gap-1">
+                                                <div className="flex flex-col gap-1.5">
                                                   <span className="text-[var(--color-text-secondary)]">Session ID:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] break-all">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
                                                     {message.metadata.requestData.sessionId.substring(0, 20)}...
                                                   </span>
                                                 </div>
@@ -1028,7 +1098,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.requestData.stepId !== undefined && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Step ID:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                     {message.metadata.requestData.stepId}
                                                   </span>
                                                 </div>
@@ -1039,14 +1109,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                         
                                         {message.metadata.responseData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
-                                            <h4 className="font-medium text-sm text-[var(--color-text-primary)] mb-2">
+                                            <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
                                               Dati Ricevuti
                                             </h4>
-                                            <div className="space-y-2 text-sm">
+                                            <div className="space-y-2 text-xs">
                                               {message.metadata.responseData.emotion && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Emotion:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)] capitalize">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] capitalize">
                                                     {message.metadata.responseData.emotion}
                                                   </span>
                                                 </div>
@@ -1054,7 +1124,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.responseData.topic && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Topic:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                     {message.metadata.responseData.topic}
                                                   </span>
                                                 </div>
@@ -1062,7 +1132,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.responseData.reasoningTime !== undefined && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Reasoning Time:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                     {message.metadata.responseData.reasoningTime}s
                                                   </span>
                                                 </div>
@@ -1070,7 +1140,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.responseData.status && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Status:</span>
-                                                  <span className={`font-mono text-xs ${
+                                                  <span className={`font-mono text-[10px] ${
                                                     message.metadata.responseData.status === "success" 
                                                       ? "text-green-400" 
                                                       : "text-red-400"
@@ -1082,12 +1152,23 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.responseData.code && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Code:</span>
-                                                  <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                     {message.metadata.responseData.code}
                                                   </span>
                                                 </div>
                                               )}
                                             </div>
+                                            
+                                            {message.metadata.rawResponseJson && (
+                                              <div className="mt-3 border-t border-[var(--color-border-secondary)] pt-3">
+                                                <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
+                                                  JSON Risposta
+                                                </h4>
+                                                <pre className="text-[10px] font-mono text-[var(--color-text-primary)] bg-[var(--color-surface-primary)] p-2 rounded border border-[var(--color-border-secondary)] overflow-auto max-h-32">
+                                                  {message.metadata.rawResponseJson}
+                                                </pre>
+                                              </div>
+                                            )}
                                           </div>
                                         )}
                                       </div>

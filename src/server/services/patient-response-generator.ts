@@ -4,13 +4,13 @@
 
 
 export type PatientEmotion =
-  | "anger"
-  | "anticipation"
-  | "disgust"
-  | "joy"
-  | "sadness"
-  | "surprise"
-  | "trust"
+  | "SEEKING"
+  | "RAGE"
+  | "FEAR"
+  | "CARE"
+  | "LUST"
+  | "SADNESS"
+  | "PLAY"
   | "base";
 
 export type ResponseStatus = "success" | "error";
@@ -29,6 +29,7 @@ export interface ResponseMetadata {
     sessionId?: string;
     stepId?: number;
     externalPatientId?: string;
+    therapistId?: string;
   };
   responseData?: {
     message?: string;
@@ -39,6 +40,7 @@ export interface ResponseMetadata {
     code?: string;
     externalPatientId?: string;
   };
+  rawResponseJson?: string;
   duration?: number;
   timestamp: string;
 }
@@ -155,14 +157,14 @@ const MOCK_CONFIG = {
     "sonno",
   ],
   SAMPLE_EMOTIONS: [
-    "sadness",
-    "anger",
-    "anticipation",
-    "trust",
-    "surprise",
-    "joy",
+    "SADNESS",
+    "RAGE",
+    "SEEKING",
+    "CARE",
+    "FEAR",
+    "PLAY",
+    "LUST",
     "base",
-    "disgust",
   ] as PatientEmotion[],
 } as const;
 
@@ -201,13 +203,13 @@ const LOG_CONFIG = {
 // Optimized Logger class with improved formatting and colors
 class PatientResponseLogger {
   private static readonly EMOTION_COLORS: Record<PatientEmotion, keyof typeof COLORS> = {
-    anger: "brightRed",
-    sadness: "blue",
-    joy: "brightYellow",
-    trust: "brightGreen",
-    surprise: "magenta",
-    anticipation: "brightCyan",
-    disgust: "red",
+    SEEKING: "brightCyan",
+    RAGE: "brightRed",
+    FEAR: "magenta",
+    CARE: "brightGreen",
+    LUST: "brightMagenta",
+    SADNESS: "blue",
+    PLAY: "brightYellow",
     base: "gray",
   };
 
@@ -802,27 +804,27 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
     {
       message:
         "È difficile concentrarsi in classe dopo aver lavorato tutta la notte... A volte mi chiedo se ce la farò.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "I miei genitori non capiscono davvero perché ho scelto questa università. Mi sento solo in questo.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "Dopo la rottura con la mia ragazza, continuo a pensare ai soldi, ai voti, al futuro... Non riesco a smettere.",
-      emotion: "anticipation",
+      emotion: "SEEKING",
     },
     {
       message:
         "A volte mi sento come se volessi mollare tutto. Non è che voglia farmi del male, ma... è tutto così difficile.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "Grazie per ascoltarmi. Mia cugina aveva ragione a dirmi di venire qui. Non è stato facile per me fare questo passo.",
-      emotion: "trust",
+      emotion: "CARE",
     },
     {
       message:
@@ -832,22 +834,22 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
     {
       message:
         "Lei mi sta aiutando a vedere le cose in modo diverso. Non avevo mai pensato che potessi avere dei punti di forza.",
-      emotion: "surprise",
+      emotion: "PLAY",
     },
     {
       message:
         "Essere il primo della mia famiglia ad andare al college dovrebbe essere un orgoglio, ma a volte sembra solo un peso.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "Sul campus ho vissuto episodi di discriminazione razziale. Mi fa arrabbiare e mi fa sentire ancora più fuori posto.",
-      emotion: "anger",
+      emotion: "RAGE",
     },
     {
       message:
         "I miei voti stanno calando e questo mi scoraggia. Non sono mai stato così.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
   ],
   "Juanita Pérez": [
@@ -859,56 +861,56 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
     {
       message:
         "Lei sembra capire. È raro trovare qualcuno che non mi giudichi.",
-      emotion: "trust",
+      emotion: "CARE",
     },
     {
       message:
         "A volte mi sento così arrabbiata con tutto. Non so come gestire questa rabbia.",
-      emotion: "anger",
+      emotion: "RAGE",
     },
     {
       message:
         "È strano, ma quando parlo con lei mi sento meno sola. Non so perché.",
-      emotion: "trust",
+      emotion: "CARE",
     },
     {
       message:
         "Tutto sembra così complicato. A volte vorrei solo scappare da tutto.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "Lei mi fa delle domande che non mi sono mai posta. È... interessante.",
-      emotion: "surprise",
+      emotion: "PLAY",
     },
     {
       message: "La rabbia mi divora dall'interno. Non so come fermarla.",
-      emotion: "anger",
+      emotion: "RAGE",
     },
     {
       message:
         "Forse c'è speranza. Non lo so, ma per la prima volta non mi sento completamente persa.",
-      emotion: "trust",
+      emotion: "CARE",
     },
     {
       message:
         "I miei capi sembrano sempre fantastici all'inizio, ma poi si rivelano tutti degli idioti. È sempre la stessa storia.",
-      emotion: "anger",
+      emotion: "RAGE",
     },
     {
       message:
         "Mi vergogno così tanto di me stessa. Non riesco nemmeno a lavorare come impiegata.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "Mio padre voleva che fossi un successo. Invece guarda dove sono finita.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
     {
       message:
         "A volte penso di essere qui per fare qualcosa di grande. Poi mi guardo allo specchio e... niente.",
-      emotion: "sadness",
+      emotion: "SADNESS",
     },
   ],
 };
@@ -1163,6 +1165,11 @@ class MockExternalAIService implements ExternalAIService {
       "success",
     );
 
+    const mockResponseJson = JSON.stringify({
+      message: response.message,
+      emotion: response.emotion,
+    }, null, 2);
+
     return {
       ...response,
       metadata: {
@@ -1179,6 +1186,7 @@ class MockExternalAIService implements ExternalAIService {
           message: response.message,
           emotion: response.emotion,
         },
+        rawResponseJson: mockResponseJson,
         duration,
         timestamp: new Date().toISOString(),
       },
@@ -1284,14 +1292,14 @@ class MockExternalAIService implements ExternalAIService {
       "sonno",
     ];
     const emotions = [
-      "sadness",
-      "anger",
-      "anticipation",
-      "trust",
-      "surprise",
-      "joy",
+      "SADNESS",
+      "RAGE",
+      "SEEKING",
+      "CARE",
+      "FEAR",
+      "PLAY",
+      "LUST",
       "base",
-      "disgust",
     ];
 
     
@@ -1338,20 +1346,25 @@ class MockExternalAIService implements ExternalAIService {
     const endTime = Date.now();
     const duration = endTime - startTime;
 
-    const response = {
+    const mockResponseData = {
       message: selectedResponse,
-      reasoning_time: Math.floor(Math.random() * 3) + 1, 
+      reasoning_time: Math.floor(Math.random() * 3) + 1,
       emotion: selectedEmotion as
-        | "anger"
-        | "anticipation"
-        | "disgust"
-        | "joy"
-        | "sadness"
-        | "surprise"
-        | "trust"
+        | "SEEKING"
+        | "RAGE"
+        | "FEAR"
+        | "CARE"
+        | "LUST"
+        | "SADNESS"
+        | "PLAY"
         | "base",
       topic: selectedTopic,
       timestamp: new Date().toISOString(),
+    };
+    const mockResponseJson = JSON.stringify(mockResponseData, null, 2);
+
+    const response = {
+      ...mockResponseData,
       metadata: {
         apiType: "MOCK" as const,
         endpoint: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
@@ -1368,6 +1381,7 @@ class MockExternalAIService implements ExternalAIService {
           topic: selectedTopic,
           reasoningTime: Math.floor(Math.random() * 3) + 1,
         },
+        rawResponseJson: mockResponseJson,
         duration,
         timestamp: new Date().toISOString(),
       },
@@ -1407,7 +1421,7 @@ class RealExternalAIService implements ExternalAIService {
       sessionInfo?: { sessionId?: string; stepId?: number; userMessage?: string };
     },
     parseResponse: (data: unknown) => T,
-  ): Promise<T> {
+  ): Promise<{ result: T; rawJson: string }> {
     const startTime = Date.now();
     const apiUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
 
@@ -1456,6 +1470,7 @@ class RealExternalAIService implements ExternalAIService {
       }
 
       const data = await response.json();
+      const rawJson = JSON.stringify(data, null, 2);
       const result = parseResponse(data);
 
       PatientResponseLogger.logServiceResponse(
@@ -1467,7 +1482,7 @@ class RealExternalAIService implements ExternalAIService {
         "success",
       );
 
-      return result;
+      return { result, rawJson };
     } catch (error) {
       const duration = Date.now() - startTime;
       
@@ -1530,7 +1545,7 @@ class RealExternalAIService implements ExternalAIService {
     const startTime = Date.now();
     const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
 
-    const result = await this.makeApiRequest<PatientResponse>(
+    const { result, rawJson } = await this.makeApiRequest<PatientResponse>(
       API_CONFIG.ENDPOINTS.GENERATE_RESPONSE,
       "generateResponse",
       requestId,
@@ -1570,6 +1585,7 @@ class RealExternalAIService implements ExternalAIService {
           message: result.message,
           emotion: result.emotion,
         },
+        rawResponseJson: rawJson,
         duration,
         timestamp: new Date().toISOString(),
       },
@@ -1597,7 +1613,7 @@ class RealExternalAIService implements ExternalAIService {
       session_id: input.sessionId,
     };
 
-    return this.makeApiRequest<PatientInitializationResponse>(
+    const { result } = await this.makeApiRequest<PatientInitializationResponse>(
       API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT,
       "initializePatient",
       requestId,
@@ -1625,6 +1641,7 @@ class RealExternalAIService implements ExternalAIService {
         };
       },
     );
+    return result;
   }
 
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
@@ -1634,7 +1651,7 @@ class RealExternalAIService implements ExternalAIService {
     const startTime = Date.now();
     const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
 
-    const result = await this.makeApiRequest<ChatResponse>(
+    const { result, rawJson } = await this.makeApiRequest<ChatResponse>(
       API_CONFIG.ENDPOINTS.CHAT_RESPONSE,
       "generateChatResponse",
       requestId,
@@ -1682,6 +1699,7 @@ class RealExternalAIService implements ExternalAIService {
           topic: result.topic,
           reasoningTime: result.reasoning_time,
         },
+        rawResponseJson: rawJson,
         duration,
         timestamp: new Date().toISOString(),
       },
@@ -1789,6 +1807,11 @@ export class PatientResponseGenerator {
         const randomIndex = Math.floor(Math.random() * fallbackResponses.length);
         const selectedResponse = fallbackResponses[randomIndex] ?? fallbackResponses[0]!;
 
+        const fallbackResponseJson = JSON.stringify({
+          message: selectedResponse.message,
+          emotion: selectedResponse.emotion,
+        }, null, 2);
+
         return {
           message: selectedResponse.message,
           emotion: selectedResponse.emotion,
@@ -1807,6 +1830,7 @@ export class PatientResponseGenerator {
               message: selectedResponse.message,
               emotion: selectedResponse.emotion,
             },
+            rawResponseJson: fallbackResponseJson,
             timestamp: new Date().toISOString(),
           },
         };
