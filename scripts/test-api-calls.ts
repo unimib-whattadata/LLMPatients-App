@@ -84,6 +84,7 @@ async function testApiCalls() {
       user_message: "How are you feeling today?",
       session_id: "test-session-1",
       step_id: 1,
+      therapist_id: "test-therapist-1",
     };
 
     console.log("  📤 Sending chat request...");

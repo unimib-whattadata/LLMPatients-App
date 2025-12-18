@@ -442,6 +442,7 @@ export const chatRouter = createTRPCRouter({
         user_message: z.string(),
         session_id: z.string(),
         step_id: z.number(),
+        therapist_id: z.string(),
       }),
     )
     .mutation(async ({ input }) => {

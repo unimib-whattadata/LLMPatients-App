@@ -72,6 +72,7 @@ export interface ChatRequest {
   user_message: string;
   session_id: string;
   step_id: number;
+  therapist_id: string;
 }
 
 export interface PatientInfo {
@@ -643,16 +644,35 @@ async function fetchWithTimeout(
   timeout: number,
 ): Promise<Response> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
+  let timeoutId: NodeJS.Timeout | null = null;
+  let isTimeout = false;
+
+  timeoutId = setTimeout(() => {
+    isTimeout = true;
+    controller.abort();
+  }, timeout);
 
   try {
     const response = await fetch(url, {
       ...options,
       signal: controller.signal,
     });
+    if (timeoutId) clearTimeout(timeoutId);
     return response;
-  } finally {
-    clearTimeout(timeoutId);
+  } catch (error) {
+    if (timeoutId) clearTimeout(timeoutId);
+    
+    // Distinguish between timeout and other abort errors
+    if (isTimeout || (error instanceof Error && error.name === 'AbortError')) {
+      const timeoutError = new Error(
+        `Request timeout after ${timeout}ms: ${url}`
+      );
+      timeoutError.name = 'TimeoutError';
+      throw timeoutError;
+    }
+    
+    // Re-throw other errors as-is
+    throw error;
   }
 }
 
@@ -1340,6 +1360,7 @@ class MockExternalAIService implements ExternalAIService {
           userMessage: input.user_message,
           sessionId: input.session_id,
           stepId: input.step_id,
+          therapistId: input.therapist_id,
         },
         responseData: {
           message: selectedResponse,
@@ -1449,6 +1470,44 @@ class RealExternalAIService implements ExternalAIService {
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
+      
+      // Handle timeout errors specifically
+      if (error instanceof Error && error.name === 'TimeoutError') {
+        PatientResponseLogger.logServiceError(
+          LOG_CONFIG.PREFIXES.REAL_AI,
+          method,
+          requestId,
+          duration,
+          error,
+          apiUrl,
+        );
+        throw new ExternalAIServiceError(
+          `External AI API timeout: The request took longer than ${timeout}ms to complete`,
+          "real",
+          requestId,
+          408, // Request Timeout status code
+        );
+      }
+      
+      // Handle abort errors (shouldn't happen with our improved fetchWithTimeout, but just in case)
+      if (error instanceof Error && (error.name === 'AbortError' || error.message.includes('aborted'))) {
+        PatientResponseLogger.logServiceError(
+          LOG_CONFIG.PREFIXES.REAL_AI,
+          method,
+          requestId,
+          duration,
+          error,
+          apiUrl,
+        );
+        throw new ExternalAIServiceError(
+          `External AI API request was aborted: ${error.message}`,
+          "real",
+          requestId,
+          408,
+        );
+      }
+      
+      // Handle other errors
       PatientResponseLogger.logServiceError(
         LOG_CONFIG.PREFIXES.REAL_AI,
         method,
@@ -1615,6 +1674,7 @@ class RealExternalAIService implements ExternalAIService {
           userMessage: input.user_message,
           sessionId: input.session_id,
           stepId: input.step_id,
+          therapistId: input.therapist_id,
         },
         responseData: {
           message: result.message,

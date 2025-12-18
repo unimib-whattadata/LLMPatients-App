@@ -394,6 +394,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           user_message: messageText,
           session_id: typedTherapySession?.id || "",
           step_id: stepId,
+          therapist_id: user.id,
         });
 
         console.log("🤖 [CHAT] Generated patient response:", {
