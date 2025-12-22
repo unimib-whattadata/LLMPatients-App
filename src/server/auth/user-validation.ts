@@ -38,11 +38,6 @@ export async function validateUserById(
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      console.log(
-        `User validation attempt ${attempt}/${retries} for user ID: ${userId}`,
-      );
-
-      
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
@@ -62,7 +57,6 @@ export async function validateUserById(
       const userResults = await Promise.race([queryPromise, timeoutPromise]);
 
       if (userResults.length === 0) {
-        console.warn(`User validation failed: User not found for ID ${userId}`);
         return {
           isValid: false,
           error: "User not found in database",
@@ -70,10 +64,6 @@ export async function validateUserById(
       }
 
       const user = userResults[0]!;
-      console.log(`User validation successful for ID ${userId}:`, {
-        email: user.email,
-        role: user.role,
-      });
 
       return {
         isValid: true,
@@ -87,26 +77,16 @@ export async function validateUserById(
       };
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      console.error(
-        `User validation attempt ${attempt}/${retries} failed:`,
-        lastError.message,
-      );
 
-      
       if (attempt === retries) {
         break;
       }
 
-      
       const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
       await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
-  console.error(
-    `User validation failed after ${retries} attempts:`,
-    lastError?.message,
-  );
   return {
     isValid: false,
     error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
@@ -130,10 +110,6 @@ export async function validateUserByEmail(
 
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
-      console.log(
-        `Email validation attempt ${attempt}/${retries} for email: ${email}`,
-      );
-
       const timeoutPromise = new Promise<never>((_, reject) => {
         setTimeout(() => reject(new Error("Database query timeout")), timeout);
       });
@@ -153,9 +129,6 @@ export async function validateUserByEmail(
       const userResults = await Promise.race([queryPromise, timeoutPromise]);
 
       if (userResults.length === 0) {
-        console.warn(
-          `Email validation failed: User not found for email ${email}`,
-        );
         return {
           isValid: false,
           error: "User not found in database",
@@ -163,10 +136,6 @@ export async function validateUserByEmail(
       }
 
       const user = userResults[0]!;
-      console.log(`Email validation successful for ${email}:`, {
-        id: user.id,
-        role: user.role,
-      });
 
       return {
         isValid: true,
@@ -180,10 +149,6 @@ export async function validateUserByEmail(
       };
     } catch (error) {
       lastError = error instanceof Error ? error : new Error(String(error));
-      console.error(
-        `Email validation attempt ${attempt}/${retries} failed:`,
-        lastError.message,
-      );
 
       if (attempt === retries) {
         break;
@@ -194,10 +159,6 @@ export async function validateUserByEmail(
     }
   }
 
-  console.error(
-    `Email validation failed after ${retries} attempts:`,
-    lastError?.message,
-  );
   return {
     isValid: false,
     error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
@@ -224,12 +185,6 @@ export async function checkUserRoleChange(
 
   const dbRole = validation.user.role;
   const hasChanged = dbRole !== currentRole;
-
-  if (hasChanged) {
-    console.log(
-      `Role change detected for user ${userId}: ${currentRole} -> ${dbRole}`,
-    );
-  }
 
   return {
     hasChanged,

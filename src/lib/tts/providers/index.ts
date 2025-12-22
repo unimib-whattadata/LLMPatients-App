@@ -5,7 +5,10 @@
  */
 
 import { env } from "~/env";
+import { createLogger } from "~/lib/logger";
 import type { TTSProvider, TTSProviderName, TTSProviderConfig } from "./types";
+
+const logger = createLogger("TTS");
 import { ElevenLabsProvider } from "./elevenlabs";
 import { VibeVoiceProvider } from "./vibevoice";
 
@@ -38,7 +41,7 @@ export function getConfiguredProvider(): TTSProviderName {
     return provider;
   }
   
-  console.warn(`Invalid TTS_PROVIDER: ${provider}, defaulting to "none"`);
+  logger.warn(`Invalid TTS_PROVIDER: ${provider}, defaulting to "none"`);
   return "none";
 }
 

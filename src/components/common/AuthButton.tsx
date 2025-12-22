@@ -5,12 +5,15 @@ import { useSession, signOut } from "next-auth/react";
 import { useCallback } from "react";
 import { Button } from "~/components/ui/button";
 import { Skeleton } from "~/components/ui/skeleton";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("AuthButton");
 
 export default function AuthButton() {
   const { data: session, status } = useSession({
     required: false,
     onUnauthenticated() {
-      console.log("AuthButton: User not authenticated");
+      logger.debug("User not authenticated");
     },
   });
 
@@ -31,7 +34,7 @@ export default function AuthButton() {
         typeof window !== "undefined" ? window.location.origin : "/";
       await signOut({ callbackUrl });
     } catch (error) {
-      console.error("AuthButton - Logout failed:", error);
+      logger.error("Logout failed", error);
       
       if (typeof window !== "undefined") {
         window.location.href = "/";

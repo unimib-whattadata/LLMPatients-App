@@ -15,6 +15,9 @@ import {
   impersonationAuditLog,
 } from "~/server/db/tables";
 import { eq, asc, and, or, like, count } from "drizzle-orm";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("UserManagement");
 
 export const userManagementRouter = createTRPCRouter({
     getAllUsers: adminProcedure
@@ -308,7 +311,7 @@ export const userManagementRouter = createTRPCRouter({
 
         return { success: true, deletedUser: result };
       } catch (error) {
-        console.error("Error deleting user:", error);
+        logger.error("Error deleting user", error);
         throw new Error(
           `Failed to delete user: ${error instanceof Error ? error.message : "Unknown error"}`,
         );

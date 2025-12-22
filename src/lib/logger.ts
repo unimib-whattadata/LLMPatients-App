@@ -9,6 +9,37 @@ const LEVEL_PRIORITY: Record<LogLevel, number> = {
   error: 40,
 };
 
+// Emoji per ogni livello di log
+const LEVEL_EMOJI: Record<LogLevel, string> = {
+  debug: "🔍",
+  info: "📘",
+  warn: "⚠️",
+  error: "❌",
+};
+
+// Colori ANSI per il terminale
+const ANSI_COLORS = {
+  reset: "\x1b[0m",
+  bright: "\x1b[1m",
+  dim: "\x1b[2m",
+  // Foreground colors
+  cyan: "\x1b[36m",
+  blue: "\x1b[34m",
+  yellow: "\x1b[33m",
+  red: "\x1b[31m",
+  gray: "\x1b[90m",
+} as const;
+
+const LEVEL_COLOR: Record<LogLevel, string> = {
+  debug: ANSI_COLORS.cyan,
+  info: ANSI_COLORS.blue,
+  warn: ANSI_COLORS.yellow,
+  error: ANSI_COLORS.red,
+};
+
+// Controlla se siamo in ambiente Node.js (server-side)
+const isServer = typeof window === "undefined";
+
 const DEFAULT_LEVEL: LogLevel =
   (process.env.NEXT_PUBLIC_LOG_LEVEL as LogLevel) ||
   (process.env.LOG_LEVEL as LogLevel) ||
@@ -45,6 +76,19 @@ function normalizeMeta(meta?: unknown): Record<string, unknown> | undefined {
   return { detail: meta };
 }
 
+function formatPrefix(level: LogLevel, namespace: string): string {
+  const emoji = LEVEL_EMOJI[level];
+  const color = LEVEL_COLOR[level];
+
+  if (isServer) {
+    // Terminale: usa colori ANSI
+    return `${emoji} ${color}[${namespace}]${ANSI_COLORS.reset}`;
+  } else {
+    // Browser: solo emoji (i colori ANSI non funzionano nella console del browser)
+    return `${emoji} [${namespace}]`;
+  }
+}
+
 export interface Logger {
   debug: (message: string, meta?: unknown) => void;
   info: (message: string, meta?: unknown) => void;
@@ -67,7 +111,7 @@ function createLogFunction(
       ? { ...baseContext, ...normalizedMeta }
       : baseContext;
     const hasContext = Object.keys(mergedContext).length > 0;
-    const prefix = `[${namespace}]`;
+    const prefix = formatPrefix(level, namespace);
 
     if (hasContext) {
       // Use structured logging-friendly format where available.
@@ -98,11 +142,3 @@ export function createLogger(
       createLogger(namespace, { ...baseContext, ...context }),
   };
 }
-
-
-
-
-
-
-
-

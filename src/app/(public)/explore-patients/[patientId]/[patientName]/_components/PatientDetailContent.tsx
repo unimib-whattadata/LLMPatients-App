@@ -16,6 +16,9 @@ import {
   getDifficultyAccessibleText,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("PatientDetail");
 
 function normalizeParam(value: unknown): string | null {
   if (typeof value === "string") {
@@ -93,7 +96,7 @@ export function PatientDetailContent() {
               return; // Blocca il redirect
             }
           } catch (error) {
-            console.error("Error initializing patient:", error);
+            logger.error("Error initializing patient", error);
             setActionError(
               error instanceof Error
                 ? error.message

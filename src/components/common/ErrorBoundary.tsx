@@ -4,6 +4,9 @@
 import { Component } from "react";
 import type { ReactNode } from "react";
 import { Button } from "~/components/ui/button";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("ErrorBoundary");
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -29,7 +32,7 @@ export class ErrorBoundary extends Component<
   }
   
   componentDidCatch(error: Error, errorInfo: any) {
-    console.error("ErrorBoundary caught an error:", error, errorInfo);
+    logger.error("Caught an error", { error, errorInfo });
   }
 
   render() {

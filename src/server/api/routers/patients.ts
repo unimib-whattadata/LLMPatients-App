@@ -8,13 +8,16 @@ import {
 } from "~/server/api/trpc";
 import { patients } from "~/server/db/tables";
 import { type DifficultyLevel } from "~/lib/constants/difficulty";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Patients");
 
 function safeJsonParse<T>(value: string | null | undefined, fallback: T): T {
   if (!value) return fallback;
   try {
     return JSON.parse(value) as T;
   } catch (error) {
-    console.warn("[patientsRouter] Failed to parse JSON", { error, value });
+    logger.warn("Failed to parse JSON", { error, value });
     return fallback;
   }
 }
@@ -162,11 +165,10 @@ export const patientsRouter = createTRPCRouter({
       }
 
       try {
-        console.log(
-          "getExplorationPatients: Building query with conditions:",
-          whereConditions,
-        );
-        console.log("getExplorationPatients: Input params:", {
+        logger.debug("getExplorationPatients: Building query", {
+          conditionsCount: whereConditions.length,
+        });
+        logger.debug("getExplorationPatients: Input params", {
           difficulty,
           searchQuery,
           limit,
@@ -182,14 +184,9 @@ export const patientsRouter = createTRPCRouter({
           .limit(limit)
           .offset(offset);
 
-        console.log(
-          "getExplorationPatients: Raw patients data from DB:",
-          patientsData,
-        );
-        console.log(
-          "getExplorationPatients: Number of patients found:",
-          patientsData.length,
-        );
+        logger.debug("getExplorationPatients: Patients found", {
+          count: patientsData.length,
+        });
 
         
         const transformedPatients: Patient[] = patientsData.map(
@@ -219,15 +216,14 @@ export const patientsRouter = createTRPCRouter({
           }),
         );
 
-        console.log(
-          "getExplorationPatients: Transformed patients:",
-          transformedPatients.length,
-        );
+        logger.debug("getExplorationPatients: Transformed patients", {
+          count: transformedPatients.length,
+        });
 
         return transformedPatients;
       } catch (error) {
         
-        console.error("Database query failed in getExplorationPatients:", {
+        logger.error("Database query failed in getExplorationPatients", {
           error: error instanceof Error ? error.message : String(error),
           stack: error instanceof Error ? error.stack : undefined,
           input: { difficulty, searchQuery, limit, offset },
@@ -238,7 +234,7 @@ export const patientsRouter = createTRPCRouter({
         
         
         if (process.env.NODE_ENV === "production") {
-          console.warn("Returning empty patients array due to database error");
+          logger.warn("Returning empty patients array due to database error");
           return [];
         }
 

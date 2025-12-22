@@ -128,7 +128,7 @@ export const UserContent = React.memo(function UserContent() {
       });
       setIsEditingProfile(false);
     } catch (error) {
-      console.error("Failed to update profile:", error);
+      // Silent catch
     }
   });
 

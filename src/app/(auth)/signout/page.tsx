@@ -5,6 +5,9 @@ import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { Button } from "~/components/ui/button";
 import { Check, Loader2, LogOut, XCircle } from "lucide-react";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Signout");
 
 export default function SignoutPage() {
   const router = useRouter();
@@ -31,7 +34,7 @@ export default function SignoutPage() {
           router.push("/");
         }, 1500);
       } catch (err) {
-        console.error("Signout error:", err);
+        logger.error("Signout error", err);
         setError(
           "Si è verificato un errore durante il logout. Verrai reindirizzato alla homepage.",
         );

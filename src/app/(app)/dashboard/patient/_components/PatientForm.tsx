@@ -270,7 +270,7 @@ export function PatientForm({
         }
       }
     } catch (error) {
-      console.error("Failed to extract age from details:", error);
+      // Silent catch
     }
     return age;
   };
@@ -292,7 +292,6 @@ export function PatientForm({
       setShowJsonTemplate(false);
       onSubmitSuccess?.();
     } catch (error) {
-      console.error("Patient form submission failed:", error);
       throw error;
     }
   };

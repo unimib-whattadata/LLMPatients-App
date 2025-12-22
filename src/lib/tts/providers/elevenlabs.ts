@@ -5,8 +5,11 @@
  */
 
 import { env } from "~/env";
+import { createLogger } from "~/lib/logger";
 import type { TTSProvider, TTSParams } from "./types";
 import { getElevenLabsVoiceId, getEmotionSettings } from "./voice-mapping";
+
+const logger = createLogger("TTS:ElevenLabs");
 
 export class ElevenLabsProvider implements TTSProvider {
   name = "elevenlabs" as const;
@@ -45,7 +48,7 @@ export class ElevenLabsProvider implements TTSProvider {
     // Use flash model for better performance
     const modelId = "eleven_flash_v2_5";
 
-    console.log(`🎙️ [TTS] ElevenLabs generating speech for: ${params.patientName || "unknown"}`);
+    logger.info(`Generating speech for: ${params.patientName || "unknown"}`);
 
     const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const ttsRequestBody = {
@@ -72,7 +75,7 @@ export class ElevenLabsProvider implements TTSProvider {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`❌ [TTS] ElevenLabs API error: ${response.status} - ${errorText}`);
+      logger.error(`API error: ${response.status} - ${errorText}`);
       
       // Re-throw with status code for error handling
       const error = new Error(`ElevenLabs API error: ${response.status}`);
@@ -81,7 +84,7 @@ export class ElevenLabsProvider implements TTSProvider {
     }
 
     const audioBuffer = await response.arrayBuffer();
-    console.log(`✅ [TTS] Successfully generated ${audioBuffer.byteLength} bytes of audio with ElevenLabs`);
+    logger.info(`Successfully generated ${audioBuffer.byteLength} bytes of audio`);
 
     return audioBuffer;
   }

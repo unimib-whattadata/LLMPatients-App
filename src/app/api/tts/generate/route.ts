@@ -1,8 +1,11 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
+import { createLogger } from "~/lib/logger";
 import { getTTSProvider } from "~/lib/tts/providers";
 import { TTS_HTTP_STATUS, TTS_ERROR_MESSAGES } from "~/lib/tts/constants";
 import type { TTSParams } from "~/lib/tts/providers/types";
+
+const logger = createLogger("TTS:API");
 
 /**
  * Common TTS generation logic using provider factory
@@ -31,7 +34,7 @@ async function generateTTS(params: TTSParams): Promise<Response> {
       },
     });
   } catch (error) {
-    console.error(`❌ [TTS] Error with ${provider.name}:`, error instanceof Error ? error.message : error);
+    logger.error(`Error with ${provider.name}: ${error instanceof Error ? error.message : error}`);
     
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     const errorStatus = (error as Error & { status?: number }).status;
@@ -93,7 +96,7 @@ export async function GET(request: NextRequest) {
       emotion: emotion || undefined,
     });
   } catch (error) {
-    console.error("❌ [TTS] Error generating speech:", error);
+    logger.error("Error generating speech", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -114,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     return generateTTS(body);
   } catch (error) {
-    console.error("❌ [TTS] Error generating speech:", error);
+    logger.error("Error generating speech", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

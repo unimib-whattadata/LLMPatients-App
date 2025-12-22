@@ -1,4 +1,3 @@
-
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -35,17 +34,8 @@ export const createCallerFactory = t.createCallerFactory;
 
 export const createTRPCRouter = t.router;
 
-const timingMiddleware = t.middleware(async ({ next, path }) => {
-  const start = Date.now();
-
-  const result = await next();
-
-  const end = Date.now();
-  if (process.env.NODE_ENV === "development") {
-    console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
-  }
-
-  return result;
+const timingMiddleware = t.middleware(async ({ next }) => {
+  return await next();
 });
 
 export const publicProcedure = t.procedure.use(timingMiddleware);

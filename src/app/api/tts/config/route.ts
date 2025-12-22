@@ -5,14 +5,17 @@
  */
 
 import { NextResponse } from "next/server";
+import { createLogger } from "~/lib/logger";
 import { getTTSProviderConfig } from "~/lib/tts/providers";
+
+const logger = createLogger("TTS:Config");
 
 export async function GET() {
   try {
     const config = await getTTSProviderConfig();
     return NextResponse.json(config);
   } catch (error) {
-    console.error("❌ [TTS] Error getting provider config:", error);
+    logger.error("Error getting provider config", error);
     return NextResponse.json(
       {
         provider: "none",

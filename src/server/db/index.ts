@@ -7,9 +7,7 @@ import { env } from "~/env";
 import * as sqliteSchema from "./schema";
 import * as postgresSchema from "./schema-postgres";
 
-
 const isPostgres = env.DATABASE_URL.startsWith("postgres");
-console.log(`Database schema: ${isPostgres ? "PostgreSQL" : "SQLite"}`);
 const schema = isPostgres ? postgresSchema : sqliteSchema;
 
 const globalForDb = globalThis as unknown as {

@@ -286,9 +286,6 @@ export function SessionTimelineContent({
 
       router.push(`/dashboard/therapeutic-journey`);
     },
-    onError: (error) => {
-      console.error("Error advancing session:", error);
-    },
   });
 
   

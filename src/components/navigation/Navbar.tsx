@@ -9,6 +9,9 @@ import { Menu, X, LogOut } from "lucide-react";
 import { getNavItems as getNavigationItems } from "./navigationUtils";
 import { useMediaQuery } from "~/hooks/useMediaQuery";
 import { Button } from "~/components/ui/button";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Navbar");
 
 interface User {
   id: string;
@@ -96,7 +99,7 @@ export function Navbar({
         typeof window !== "undefined" ? window.location.origin : "/";
       await signOut({ callbackUrl });
     } catch (error) {
-      console.error("Logout error:", error);
+      logger.error("Logout error", error);
       
       if (typeof window !== "undefined") {
         window.location.href = "/";

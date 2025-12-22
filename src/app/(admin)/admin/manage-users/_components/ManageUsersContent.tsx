@@ -16,6 +16,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Users } from "lucide-react";
 import { api } from "~/trpc/react";
 import Link from "next/link";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("ManageUsers");
 import { Skeleton } from "~/components/ui/skeleton";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -235,7 +238,7 @@ export function ManageUsersContent() {
         await createPrivateUserMutation.mutateAsync(payload);
       }
     } catch (error) {
-      console.error("Failed to create user:", error);
+      logger.error("Failed to create user", error);
     }
   });
 
@@ -249,7 +252,7 @@ export function ManageUsersContent() {
         email: values.email,
       });
     } catch (error) {
-      console.error("Failed to update user:", error);
+      logger.error("Failed to update user", error);
     }
   });
 
@@ -260,7 +263,7 @@ export function ManageUsersContent() {
     try {
       await updateRoleMutation.mutateAsync({ userId, role: newRole });
     } catch (error) {
-      console.error("Failed to update role:", error);
+      logger.error("Failed to update role", error);
     }
   };
 
@@ -275,7 +278,7 @@ export function ManageUsersContent() {
       await deleteUserMutation.mutateAsync({ userId: userToDelete.id });
       setUserToDelete(null);
     } catch (error) {
-      console.error("Failed to delete user:", error);
+      logger.error("Failed to delete user", error);
     }
   };
 

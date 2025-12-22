@@ -71,14 +71,6 @@ function TherapySessionCardComponent({
     ? 100
     : Math.max(0, Math.min(100, Math.round((therapySession.completedStepsCount / 11) * 100)));
 
-  
-  console.log('Progress Debug:', {
-    patientName: therapySession.patient.name,
-    completedSteps: therapySession.completedStepsCount,
-    progressPercentage,
-    isCompleted: therapySession.isCompleted
-  });
-
   return (
     <article
       className="dashboard-action-card"

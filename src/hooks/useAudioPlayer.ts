@@ -1,6 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { TTS_ERROR_CODES, TTS_HTTP_STATUS } from "~/lib/tts/constants";
 import { isTTSDisabledError, isRealTTSError } from "~/lib/tts/utils";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("AudioPlayer");
 
 export interface AudioPlayerState {
   isPlaying: boolean;
@@ -137,7 +140,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       return audioUrl;
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        console.log("Audio generation cancelled for new request");
+        logger.debug("Audio generation cancelled for new request");
         throw new Error(TTS_ERROR_CODES.CANCELLED);
       }
       
@@ -190,7 +193,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         setIsLoading(false);
         if (autoPlay) {
           audio.play().catch((playError) => {
-            console.error("Error playing audio:", playError);
+            logger.error("Error playing audio", playError);
             setError("Errore durante la riproduzione");
             setIsLoading(false);
           });
@@ -205,7 +208,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     } catch (error) {
       // Handle cancellation silently
       if (error instanceof Error && error.message === TTS_ERROR_CODES.CANCELLED) {
-        console.log("Audio generation was cancelled for new request");
+        logger.debug("Audio generation was cancelled for new request");
         setIsLoading(false);
         return;
       }
@@ -223,13 +226,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       // Handle real TTS errors (quota, rate limit, not configured)
       if (isRealTTSError(error)) {
         setIsTTSAvailable(false);
-        console.warn("TTS service not available - audio generation disabled");
+        logger.warn("TTS service not available - audio generation disabled");
         setIsLoading(false);
         return;
       }
       
       // Only log actual errors (not TTS disabled or real TTS errors)
-      console.error("Error generating audio:", error);
+      logger.error("Error generating audio", error);
       setError(errorMessage);
       setIsLoading(false);
       onError?.(errorMessage);
@@ -244,7 +247,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       audio.pause();
     } else {
       audio.play().catch((error) => {
-        console.error("Error playing audio:", error);
+        logger.error("Error playing audio", error);
         setError("Errore durante la riproduzione");
       });
     }

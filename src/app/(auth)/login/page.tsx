@@ -22,6 +22,9 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Checkbox } from "~/components/ui/checkbox";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Login");
 
 
 interface LoginState {
@@ -190,7 +193,7 @@ function LoginPageComponent() {
     }));
 
     try {
-      console.log("Login: Attempting authentication with credentials...");
+      logger.debug("Attempting authentication with credentials...");
 
       const result = await signIn("credentials", {
         email: values.email,
@@ -201,7 +204,7 @@ function LoginPageComponent() {
       });
 
       if (result?.error) {
-        console.error("Login: Authentication failed:", result.error);
+        logger.error("Authentication failed", { error: result.error });
         const errorMsg = "Invalid email or password. Please try again.";
         form.setError("password", { message: errorMsg });
         setLoginState((prev) => ({ ...prev, phase: "login", error: errorMsg }));
@@ -210,9 +213,7 @@ function LoginPageComponent() {
           "Please check your credentials and try again.",
         );
       } else if (result?.ok) {
-        console.log(
-          "Login: Authentication successful, verifying JWT session...",
-        );
+        logger.debug("Authentication successful, verifying JWT session...");
 
         
         let sessionEstablished = false;
@@ -226,7 +227,7 @@ function LoginPageComponent() {
 
           try {
             const freshSession = await getSession();
-            console.log(`Login: Session check attempt ${retryCount + 1}:`, {
+            logger.debug(`Session check attempt ${retryCount + 1}`, {
               hasSession: !!freshSession,
               userId: freshSession?.user?.id,
               email: freshSession?.user?.email,
@@ -235,7 +236,7 @@ function LoginPageComponent() {
 
             if (freshSession?.user?.id && freshSession?.user?.email) {
               sessionEstablished = true;
-              console.log("Login: JWT session successfully established");
+              logger.info("JWT session successfully established");
 
               
               const redirectSeconds = 3;
@@ -253,23 +254,16 @@ function LoginPageComponent() {
               }));
             } else {
               retryCount++;
-              console.warn(
-                `Login: Session not yet available (attempt ${retryCount}/${maxRetries})`,
-              );
+              logger.warn(`Session not yet available (attempt ${retryCount}/${maxRetries})`);
             }
           } catch (error) {
             retryCount++;
-            console.error(
-              `Login: Session verification error (attempt ${retryCount}/${maxRetries}):`,
-              error,
-            );
+            logger.error(`Session verification error (attempt ${retryCount}/${maxRetries})`, error);
           }
         }
 
         if (!sessionEstablished) {
-          console.error(
-            "Login: Failed to establish JWT session after authentication",
-          );
+          logger.error("Failed to establish JWT session after authentication");
           const errorMsg =
             "Authentication succeeded but session creation failed. Please try logging in again.";
           setLoginState((prev) => ({
@@ -285,7 +279,7 @@ function LoginPageComponent() {
         }
       }
     } catch (error) {
-      console.error("Login: Unexpected error during authentication:", error);
+      logger.error("Unexpected error during authentication", error);
       const errorMsg = "An unexpected error occurred. Please try again.";
       setLoginState((prev) => ({ ...prev, phase: "login", error: errorMsg }));
       showError(

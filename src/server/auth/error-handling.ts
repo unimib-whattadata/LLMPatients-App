@@ -1,3 +1,6 @@
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Auth:Error");
 
 export enum AuthErrorType {
   
@@ -192,19 +195,19 @@ export function logAuthError(
 
   switch (error.severity) {
     case "critical":
-      console.error("🚨 CRITICAL AUTH ERROR:", logData);
+      logger.error(`CRITICAL: ${error.message}`, logData);
       break;
     case "high":
-      console.error("[HIGH SEVERITY] AUTH ERROR:", logData);
+      logger.error(`HIGH: ${error.message}`, logData);
       break;
     case "medium":
-      console.warn(" MEDIUM SEVERITY AUTH ERROR:", logData);
+      logger.warn(`MEDIUM: ${error.message}`, logData);
       break;
     case "low":
-      console.info(" LOW SEVERITY AUTH ERROR:", logData);
+      logger.info(`LOW: ${error.message}`, logData);
       break;
     default:
-      console.log("AUTH ERROR:", logData);
+      logger.debug(error.message, logData);
   }
 }
 
@@ -261,7 +264,7 @@ export async function handleAuthErrorWithRetry<T>(
 
       
       if (lastError && attempt > 1) {
-        console.log("[RECOVERY] Auth operation recovered after retry:", {
+        logger.info("Auth operation recovered after retry", {
           attempt,
           previousError: lastError.type,
           context,
@@ -281,9 +284,7 @@ export async function handleAuthErrorWithRetry<T>(
       
       if (shouldRetryOperation(authError, attempt, maxAttempts)) {
         const delay = calculateRetryDelay(attempt);
-        console.log(
-          `🔄 Retrying auth operation in ${delay}ms (attempt ${attempt + 1}/${maxAttempts})`,
-        );
+        logger.debug(`Retrying auth operation in ${delay}ms (attempt ${attempt + 1}/${maxAttempts})`);
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }

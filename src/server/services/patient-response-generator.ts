@@ -1,7 +1,7 @@
 
+import { createLogger } from "~/lib/logger";
 
-
-
+const baseLogger = createLogger("PatientResponseGenerator");
 
 export type PatientEmotion =
   | "SEEKING"
@@ -213,6 +213,13 @@ class PatientResponseLogger {
     base: "gray",
   };
 
+  // Centralized log output - allows easy switching to different logger in future
+  private static log(message: string): void {
+    // Using console.log for formatted ANSI output
+    // The formatting is already applied to the message string
+    console.log(message);
+  }
+
   private static formatTime(date: Date = new Date()): string {
     return date.toLocaleTimeString("it-IT", {
       hour: "2-digit",
@@ -273,7 +280,7 @@ class PatientResponseLogger {
     const shortId = this.shortenRequestId(requestId);
     
     // Header line
-    console.log(
+    this.log(
       `${this.colorize(prefix, "brightCyan")} ${this.colorize("▶", "brightBlue")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
     
@@ -305,7 +312,7 @@ class PatientResponseLogger {
     }
 
     if (details.length > 0) {
-      details.forEach(detail => console.log(detail));
+      details.forEach(detail => this.log(detail));
     }
   }
 
@@ -334,7 +341,7 @@ class PatientResponseLogger {
     const durationBadge = this.createBadge(this.formatDuration(duration), durationColor);
     
     // Header line with status and duration
-    console.log(
+    this.log(
       `${this.colorize(prefix, "brightCyan")} ${this.colorize(statusIcon, statusColor)} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
     
@@ -381,7 +388,7 @@ class PatientResponseLogger {
     }
 
     if (details.length > 0) {
-      details.forEach(detail => console.log(detail));
+      details.forEach(detail => this.log(detail));
     }
   }
 
@@ -400,17 +407,17 @@ class PatientResponseLogger {
     const durationBadge = this.createBadge(this.formatDuration(duration), "brightRed");
     
     // Header line
-    console.log(
+    this.log(
       `${this.colorize(prefix, "brightCyan")} ${this.colorize("✗", "brightRed")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
     
     // Error details
-    console.log(
+    this.log(
       `  ${this.colorize("❌", "brightRed")} ${this.colorize("Error:", "brightRed")} ${this.colorize(errorMessage, "white")}`
     );
     
     if (url) {
-      console.log(
+      this.log(
         `  ${this.colorize("🔗", "dim")} ${this.colorize("URL:", "dim")} ${this.colorize(url, "brightRed")}`
       );
     }
@@ -418,7 +425,7 @@ class PatientResponseLogger {
     if (error instanceof Error && error.stack && process.env.NODE_ENV === "development") {
       const stackLines = error.stack.split("\n").slice(1, 3);
       stackLines.forEach((line) => {
-        console.log(`  ${this.colorize("  └─", "gray")} ${this.colorize(line.trim(), "gray")}`);
+        this.log(`  ${this.colorize("  └─", "gray")} ${this.colorize(line.trim(), "gray")}`);
       });
     }
   }
@@ -443,7 +450,7 @@ class PatientResponseLogger {
     const serviceBadge = this.createBadge(serviceType, serviceColor);
     
     // Header line
-    console.log(
+    this.log(
       `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize("▶", "brightBlue")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${serviceBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
     
@@ -478,7 +485,7 @@ class PatientResponseLogger {
     }
 
     if (details.length > 0) {
-      details.forEach(detail => console.log(detail));
+      details.forEach(detail => this.log(detail));
     }
   }
 
@@ -506,7 +513,7 @@ class PatientResponseLogger {
     const durationBadge = this.createBadge(this.formatDuration(duration), durationColor);
     
     // Header line with status and duration
-    console.log(
+    this.log(
       `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize(statusIcon, statusColor)} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
     
@@ -553,7 +560,7 @@ class PatientResponseLogger {
     }
 
     if (details.length > 0) {
-      details.forEach(detail => console.log(detail));
+      details.forEach(detail => this.log(detail));
     }
   }
 
@@ -572,17 +579,17 @@ class PatientResponseLogger {
     const fallbackBadge = fallbackType ? ` ${this.createBadge("FALLBACK", "brightYellow")}` : "";
     
     // Header line
-    console.log(
+    this.log(
       `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${this.colorize("⚠", "brightYellow")} ${this.colorize(method, "bright")} ${this.colorize(`[${shortId}]`, "gray")} ${durationBadge}${fallbackBadge} ${this.colorize("│", "gray")} ${this.colorize(time, "dim")}`
     );
-    
+
     // Error details
-    console.log(
+    this.log(
       `  ${this.colorize("❌", "brightRed")} ${this.colorize("Error:", "brightRed")} ${this.colorize(errorMessage, "white")}`
     );
-    
+
     if (fallbackType) {
-      console.log(
+      this.log(
         `  ${this.colorize("🔄", "brightYellow")} ${this.colorize("Fallback:", "brightYellow")} ${this.colorize(fallbackType, "white")}`
       );
     }
@@ -601,20 +608,20 @@ class PatientResponseLogger {
     const countBadge = this.createBadge(`${responseCount} responses`, "gray");
     const indexBadge = this.createBadge(`#${selectedIndex}`, "brightCyan");
     
-    console.log(
+    this.log(
       `${this.colorize("🎲", "brightMagenta")} ${this.colorize("[RANDOMIZATION]", "brightMagenta")} ${this.colorize(patientName, "white")} ${countBadge} ${this.colorize("→", "gray")} ${indexBadge}${emotionBadge}${topicBadge}`
     );
   }
 
   static logCacheCleanup(message: string): void {
-    console.log(
+    this.log(
       `${this.colorize("🧹", "brightYellow")} ${this.colorize("[CACHE]", "brightYellow")} ${this.colorize(message, "dim")}`
     );
   }
 
   static logWarning(message: string): void {
     const warningBadge = this.createBadge("WARNING", "brightYellow");
-    console.log(
+    this.log(
       `${this.colorize(LOG_CONFIG.PREFIXES.PATIENT_GENERATOR, "brightCyan")} ${warningBadge} ${this.colorize(message, "white")}`
     );
   }

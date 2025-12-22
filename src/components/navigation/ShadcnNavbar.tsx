@@ -8,6 +8,9 @@ import {
 } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("ShadcnNavbar");
 
 interface User {
   id: string;
@@ -67,7 +70,7 @@ export function ShadcnNavbar({
         typeof window !== "undefined" ? window.location.origin : "/";
       await signOut({ callbackUrl });
     } catch (error) {
-      console.error("Logout error:", error);
+      logger.error("Logout error", error);
       if (typeof window !== "undefined") {
         window.location.href = "/";
       }

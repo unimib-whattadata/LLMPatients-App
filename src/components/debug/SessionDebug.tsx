@@ -3,6 +3,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Bug, X } from "lucide-react";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("SessionDebug");
 
 interface SessionDebugProps {
   enabled?: boolean;
@@ -121,7 +124,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
               <button
                 onClick={() => {
                   void update();
-                  console.log("Session update triggered");
+                  logger.debug("Session update triggered");
                 }}
                 className="bg-accent-600 text-text-primary hover:bg-accent-700 rounded px-3 py-1 text-xs"
               >
@@ -132,23 +135,17 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
             <div>
               <button
                 onClick={() => {
-                  console.log("=== SESSION DEBUG INFO ===");
-                  console.log("Status:", status);
-                  console.log("Session:", session);
-                  console.log("Cookies:", document.cookie);
-                  console.log(
-                    "LocalStorage next-auth items:",
-                    Object.keys(localStorage).filter((key) =>
+                  logger.info("Session debug info", {
+                    status,
+                    session,
+                    cookies: document.cookie,
+                    localStorageItems: Object.keys(localStorage).filter((key) =>
                       key.includes("next-auth"),
                     ),
-                  );
-                  console.log(
-                    "SessionStorage next-auth items:",
-                    Object.keys(sessionStorage).filter((key) =>
+                    sessionStorageItems: Object.keys(sessionStorage).filter((key) =>
                       key.includes("next-auth"),
                     ),
-                  );
-                  console.log("========================");
+                  });
                 }}
                 className="bg-success-600 text-text-primary hover:bg-success-700 ml-2 rounded px-3 py-1 text-xs"
               >

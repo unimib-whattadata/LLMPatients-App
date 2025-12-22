@@ -6,9 +6,12 @@
  */
 
 import { env } from "~/env";
+import { createLogger } from "~/lib/logger";
 import type { TTSProvider, TTSParams } from "./types";
 import { getVibeVoicePreset } from "./voice-mapping";
 import type WS from "ws";
+
+const logger = createLogger("TTS:VibeVoice");
 
 // WebSocket module cache
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +27,7 @@ function getWebSocket(): typeof WS {
     wsModule = require("ws") as { default?: typeof WS; WebSocket?: typeof WS };
     return wsModule.default ?? wsModule.WebSocket ?? (wsModule as unknown as typeof WS);
   } catch (error) {
-    console.error("[VibeVoice] Error loading ws module:", error);
+    logger.error("Error loading ws module", error);
     throw new Error(
       "WebSocket library (ws) is required for VibeVoice provider. Please install it: pnpm add ws"
     );
@@ -132,7 +135,7 @@ export class VibeVoiceProvider implements TTSProvider {
     const wsUrl = this.getWebSocketUrl();
     const voicePreset = this.getVoiceId(params.voiceId);
 
-    console.log(`🎙️ [TTS] VibeVoice generating speech for: ${params.patientName || "unknown"}`);
+    logger.info(`Generating speech for: ${params.patientName || "unknown"}`);
 
     return new Promise((resolve, reject) => {
       const url = new URL(wsUrl);
@@ -178,7 +181,7 @@ export class VibeVoiceProvider implements TTSProvider {
         try {
           const pcmData = Buffer.concat(audioChunks);
           const wavData = pcm16ToWav(pcmData, 24000);
-          console.log(`✅ [TTS] VibeVoice generated ${wavData.length} bytes`);
+          logger.info(`Successfully generated ${wavData.length} bytes of audio`);
           resolve(wavData.buffer);
         } catch (error) {
           reject(new Error(`Failed to convert audio: ${error instanceof Error ? error.message : "Unknown error"}`));

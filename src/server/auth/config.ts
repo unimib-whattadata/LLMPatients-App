@@ -96,37 +96,16 @@ export const authConfig = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          if (process.env.NODE_ENV === "development") {
-            if (process.env.NODE_ENV === "development") {
-              console.warn("Credentials authorize - Missing email or password");
-            }
-          }
           return null;
         }
 
         try {
-          if (process.env.NODE_ENV === "development") {
-            console.log(
-              "Credentials authorize - Validating user:",
-              credentials.email,
-            );
-          }
-
-          
           const userValidation = await validateUserByEmail(
             credentials.email as string,
             createValidationConfig({ timeout: 5000, retries: 2 }),
           );
 
           if (!userValidation.isValid || !userValidation.user) {
-            if (process.env.NODE_ENV === "development") {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "Credentials authorize - User validation failed:",
-                  userValidation.error,
-                );
-              }
-            }
             return null;
           }
 
@@ -140,13 +119,6 @@ export const authConfig = {
             .limit(1);
 
           if (fullUserResults.length === 0) {
-            if (process.env.NODE_ENV === "development") {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "Credentials authorize - User not found in password verification query",
-                );
-              }
-            }
             return null;
           }
 
@@ -154,13 +126,6 @@ export const authConfig = {
 
           
           if (!fullUser.password) {
-            if (process.env.NODE_ENV === "development") {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "Credentials authorize - User has no password set",
-                );
-              }
-            }
             return null;
           }
 
@@ -170,14 +135,6 @@ export const authConfig = {
           );
 
           if (!isValidPassword) {
-            if (process.env.NODE_ENV === "development") {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "Credentials authorize - Invalid password for user:",
-                  credentials.email,
-                );
-              }
-            }
             return null;
           }
 
@@ -192,31 +149,9 @@ export const authConfig = {
             !comprehensiveValidation.isValid ||
             !comprehensiveValidation.accountActive
           ) {
-            if (process.env.NODE_ENV === "development") {
-              if (process.env.NODE_ENV === "development") {
-                console.error(
-                  "Credentials authorize - Comprehensive validation failed:",
-                  comprehensiveValidation.errors,
-                );
-              }
-            }
             return null;
           }
 
-          if (process.env.NODE_ENV === "development") {
-            if (process.env.NODE_ENV === "development") {
-              console.log(
-                "Credentials authorize - Authentication successful:",
-                {
-                  userId: user.id,
-                  email: user.email,
-                  role: user.role,
-                },
-              );
-            }
-          }
-
-          
           return {
             id: user.id,
             email: user.email,
@@ -228,9 +163,6 @@ export const authConfig = {
               credentials.rememberMe === true,
           };
         } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.error("Credentials authorize - Unexpected error:", error);
-          }
           return null;
         }
       },
@@ -315,32 +247,13 @@ export const authConfig = {
   callbacks: {
     
     jwt: async ({ token, user, account, trigger }) => {
-      if (process.env.NODE_ENV === "development") {
-        console.log(
-          "JWT callback - Enhanced database validation - Trigger:",
-          trigger,
-          "User:",
-          user?.email,
-          "Token exists:",
-          !!token,
-        );
-      }
-
-      
       if (user?.id) {
-        
         const validation = await validateUserById(
           user.id,
           createValidationConfig({ timeout: 3000 }),
         );
 
         if (!validation.isValid || !validation.user) {
-          if (process.env.NODE_ENV === "development") {
-            console.error(
-              "JWT callback - User validation failed during sign-in:",
-              validation.error,
-            );
-          }
           return null; 
         }
 
@@ -363,27 +276,12 @@ export const authConfig = {
           token.maxAge = 24 * 60 * 60; 
         }
 
-        if (process.env.NODE_ENV === "development")
-          console.log(
-            "JWT callback - Initial sign in with DB validation successful:",
-            {
-              id: token.id,
-              email: token.email,
-              role: token.role,
-              validated: new Date(
-                (token.lastValidated as number) ?? Date.now(),
-              ).toISOString(),
-            },
-          );
       }
 
       
       if (account) {
         token.accessToken = account.access_token;
         token.provider = account.provider;
-        if (process.env.NODE_ENV === "development") {
-          console.log("JWT callback - Account linked:", account.provider);
-        }
 
         
         if (token.id) {
@@ -397,11 +295,6 @@ export const authConfig = {
             token.name = validation.user.name ?? undefined;
             token.image = validation.user.image ?? undefined;
             token.lastValidated = Date.now();
-            if (process.env.NODE_ENV === "development") {
-              console.log(
-                "JWT callback - User data refreshed after account linking",
-              );
-            }
           }
         }
       }
@@ -416,12 +309,6 @@ export const authConfig = {
           currentTime - ((lastValidated as number) ?? 0) > validationInterval;
 
         if (shouldValidate) {
-          if (process.env.NODE_ENV === "development") {
-            console.log(
-              "JWT callback - Performing comprehensive database validation...",
-            );
-          }
-
           try {
             const validation = await comprehensiveUserValidation(
               token.id as string,
@@ -433,91 +320,25 @@ export const authConfig = {
             );
 
             if (!validation.isValid || !validation.user) {
-              if (process.env.NODE_ENV === "development") {
-                console.error(
-                  "JWT callback - Comprehensive validation failed:",
-                  validation.errors,
-                );
-              }
-
-              
               if (
                 validation.errors.some((error) => error.includes("not found"))
               ) {
-                if (process.env.NODE_ENV === "development") {
-                  console.warn(
-                    "JWT callback - User no longer exists, invalidating token",
-                  );
-                }
                 return null; 
               }
-
-              
-              if (process.env.NODE_ENV === "development")
-                console.warn(
-                  "JWT callback - Database validation errors (continuing with existing token):",
-                  validation.errors,
-                );
               return token;
             }
 
-            
             if (!validation.accountActive) {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "JWT callback - User account is not active, invalidating token",
-                );
-              }
               return null;
             }
 
-            
-            const wasRoleChanged = validation.roleChanged;
             token.role = validation.user.role;
             token.email = validation.user.email;
             token.name = validation.user.name ?? undefined;
             token.image = validation.user.image ?? undefined;
             token.lastValidated = currentTime;
-
-            if (wasRoleChanged) {
-              if (process.env.NODE_ENV === "development")
-                console.log(
-                  "JWT callback - Role change detected and updated in token:",
-                  {
-                    userId: token.id,
-                    newRole: token.role,
-                    previousValidation: new Date(
-                      (lastValidated as number) ?? 0,
-                    ).toISOString(),
-                  },
-                );
-            } else {
-              if (process.env.NODE_ENV === "development")
-                console.log(
-                  "JWT callback - Token refreshed with current DB data:",
-                  {
-                    id: token.id,
-                    email: token.email,
-                    role: token.role,
-                    validated: new Date(currentTime).toISOString(),
-                  },
-                );
-            }
           } catch (error) {
-            if (process.env.NODE_ENV === "development") {
-              console.error(
-                "JWT callback - Error during comprehensive validation:",
-                error,
-              );
-            }
-
-            
             token.lastValidated = currentTime - validationInterval / 2; 
-            if (process.env.NODE_ENV === "development") {
-              console.warn(
-                "JWT callback - Continuing with existing token due to database error",
-              );
-            }
           }
         }
       }
@@ -527,38 +348,7 @@ export const authConfig = {
 
     
     session: async ({ session, token }) => {
-      if (process.env.NODE_ENV === "development")
-        console.log(
-          "Session callback - Enhanced DB validation with impersonation - Creating session for token:",
-          {
-            tokenId: token?.id,
-            tokenEmail: token?.email,
-            tokenRole: token?.role,
-            isImpersonating: !!(
-              token?.impersonation &&
-              typeof token.impersonation === "object" &&
-              "isActive" in token.impersonation &&
-              token.impersonation.isActive
-            ),
-            impersonationTarget:
-              token?.impersonation &&
-              typeof token.impersonation === "object" &&
-              "targetUserEmail" in token.impersonation
-                ? token.impersonation.targetUserEmail
-                : undefined,
-            lastValidated: token?.lastValidated
-              ? new Date((token.lastValidated as number) ?? 0).toISOString()
-              : "never",
-          },
-        );
-
       if (!token || !session.user) {
-        if (process.env.NODE_ENV === "development") {
-          console.warn("Session callback - Missing token or session.user:", {
-            hasToken: !!token,
-            hasSessionUser: !!session.user,
-          });
-        }
         return session;
       }
 
@@ -570,12 +360,6 @@ export const authConfig = {
 
       
       if (validationAge > maxValidationAge) {
-        if (process.env.NODE_ENV === "development") {
-          console.log(
-            "Session callback - Token validation is stale, performing fresh database check...",
-          );
-        }
-
         try {
           const validation = await validateUserById(
             (token.id as string) ?? "",
@@ -583,21 +367,7 @@ export const authConfig = {
           );
 
           if (!validation.isValid || !validation.user) {
-            if (process.env.NODE_ENV === "development") {
-              console.error(
-                "Session callback - Fresh database validation failed:",
-                validation.error,
-              );
-            }
-
-            
             if (validation.error?.includes("not found")) {
-              if (process.env.NODE_ENV === "development") {
-                console.warn(
-                  "Session callback - User no longer exists, invalidating session",
-                );
-              }
-              
               return {
                 ...session,
                 user: {
@@ -609,48 +379,16 @@ export const authConfig = {
                 },
               };
             }
-
-            
-            if (process.env.NODE_ENV === "development") {
-              console.warn(
-                "Session callback - Database error during validation, using token data",
-              );
-            }
           } else {
-            
-            if (process.env.NODE_ENV === "development") {
-              console.log(
-                "Session callback - Using fresh database data for session",
-              );
-            }
             session.user.id = validation.user.id;
             session.user.role =
               (validation.user.role as "admin" | "user") || "user";
             session.user.email = validation.user.email;
             session.user.name = validation.user.name ?? undefined;
             session.user.image = validation.user.image;
-
-            if (process.env.NODE_ENV === "development") {
-              console.log(
-                "Session callback - Session created with fresh DB data:",
-                {
-                  userId: session.user.id,
-                  email: session.user.email,
-                  role: session.user.role,
-                },
-              );
-            }
-
-            
           }
         } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.error(
-              "Session callback - Error during fresh database validation:",
-              error,
-            );
-          }
-          
+          // Silent catch
         }
       } else {
         
@@ -668,13 +406,6 @@ export const authConfig = {
         "isActive" in token.impersonation &&
         token.impersonation.isActive
       ) {
-        if (process.env.NODE_ENV === "development") {
-          console.log(
-            "Session callback - Active impersonation detected, setting up impersonated session",
-          );
-        }
-
-        
         const impersonation = token.impersonation as Record<string, unknown>;
         if (impersonation && typeof impersonation === "object") {
           session.user.id = (impersonation.targetUserId as string) || "";
@@ -695,29 +426,8 @@ export const authConfig = {
             sessionId: (impersonation.sessionId as string) || "",
           };
         }
-
-        if (process.env.NODE_ENV === "development") {
-          console.log("Session callback - Impersonated session created:", {
-            originalAdminId: session.impersonation?.originalAdminId,
-            impersonatedUserId: session.user.id,
-            impersonatedUserEmail: session.user.email,
-            sessionId: session.impersonation?.sessionId,
-          });
-        }
       } else {
-        
         session.impersonation = undefined;
-
-        if (process.env.NODE_ENV === "development")
-          console.log("Session callback - Normal session created:", {
-            userId: session.user.id,
-            email: session.user.email,
-            role: session.user.role,
-            tokenAge:
-              validationAge > 0
-                ? `${Math.round(validationAge / 1000)}s`
-                : "fresh",
-          });
       }
 
       return session;
@@ -725,12 +435,7 @@ export const authConfig = {
 
     
     async redirect({ url, baseUrl }) {
-      if (process.env.NODE_ENV === "development")
-        console.log("NextAuth redirect callback (enhanced):", { url, baseUrl });
-
-      
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
@@ -743,21 +448,10 @@ export const authConfig = {
       email: _email,
       credentials,
     }) {
-      if (process.env.NODE_ENV === "development") {
-        console.log("SignIn callback - Enhanced validation:", {
-          userId: user?.id,
-          userEmail: user?.email,
-          accountProvider: account?.provider,
-          hasCredentials: !!credentials,
-        });
-      }
-
-      
       if (account?.provider === "credentials") {
         return true; 
       }
 
-      
       if (user?.id) {
         try {
           const validation = await validateUserById(
@@ -766,26 +460,11 @@ export const authConfig = {
           );
 
           if (!validation.isValid) {
-            if (process.env.NODE_ENV === "development") {
-              console.error(
-                "SignIn callback - User validation failed for OAuth:",
-                validation.error,
-              );
-            }
             return false;
           }
 
-          if (process.env.NODE_ENV === "development") {
-            console.log("SignIn callback - OAuth user validation successful");
-          }
           return true;
         } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.error(
-              "SignIn callback - Error validating OAuth user:",
-              error,
-            );
-          }
           return false;
         }
       }
@@ -794,67 +473,7 @@ export const authConfig = {
     },
   },
 
-  
-  events: {
-    async signIn(message) {
-      if (process.env.NODE_ENV === "development")
-        console.log("NextAuth signIn event (enhanced):", {
-          user: message.user.email,
-          userId: message.user.id,
-          account: message.account?.provider,
-          profile: message.profile?.email,
-          isNewUser: message.isNewUser,
-        });
-
-      
-      if (message.user.id) {
-        try {
-          const validation = await validateUserById(
-            message.user.id,
-            createValidationConfig({ timeout: 1000, retries: 1 }),
-          );
-          if (process.env.NODE_ENV === "development") {
-            console.log("SignIn event - DB validation status:", {
-              isValid: validation.isValid,
-              userRole: validation.user?.role,
-              error: validation.error,
-            });
-          }
-        } catch (error) {
-          if (process.env.NODE_ENV === "development") {
-            console.warn(
-              "SignIn event - Could not validate against DB:",
-              error,
-            );
-          }
-        }
-      }
-    },
-
-    async session(message) {
-      if (process.env.NODE_ENV === "development")
-        console.log("NextAuth session event (enhanced):", {
-          user: message.session?.user?.email,
-          userId: message.session?.user?.id,
-          role: (message.session?.user as { role?: string })?.role,
-          sessionExists: !!message.session,
-        });
-    },
-
-    async signOut(_message) {
-      if (process.env.NODE_ENV === "development")
-        console.log("NextAuth signOut event (enhanced):", {
-          timestamp: new Date().toISOString(),
-        });
-    },
-
-    async updateUser(_message) {
-      if (process.env.NODE_ENV === "development")
-        console.log("NextAuth updateUser event:", {
-          timestamp: new Date().toISOString(),
-        });
-    },
-  },
+  events: {},
 
   
   debug: process.env.NODE_ENV === "development",

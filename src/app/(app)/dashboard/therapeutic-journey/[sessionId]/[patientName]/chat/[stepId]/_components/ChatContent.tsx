@@ -82,12 +82,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
   const audioPlayer = useAudioPlayer({
     autoPlay: true,
-    onPlaybackEnd: () => {
-      console.log("🎙️ [AUDIO] Playback ended");
-    },
-    onError: (error) => {
-      console.error("Audio error:", error);
-    },
   });
 
   // Update warning visibility based on TTS availability
@@ -209,15 +203,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       lastMessage.sender === "patient" && 
       lastMessage.id !== lastProcessedMessageIdRef.current
     ) {
-      console.log("🎙️ [AUDIO] Processing new patient message:", {
-        messageId: lastMessage.id,
-        content: lastMessage.content.substring(0, 50) + "...",
-        patientName: typedSelectedPatient?.name,
-        previousProcessedId: lastProcessedMessageIdRef.current,
-        hasUserInteracted
-      });
-      
-      
       lastProcessedMessageIdRef.current = lastMessage.id;
       
       // Use voiceId from database for TTS
@@ -425,7 +410,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         })),
       });
     } catch (error) {
-      console.error("Error saving user message:", error);
+      // Silent catch
     }
 
     
@@ -439,13 +424,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           session_id: typedTherapySession?.id || "",
           step_id: stepId,
           therapist_id: user.id,
-        });
-
-        console.log("🤖 [CHAT] Generated patient response:", {
-          message: response.message.substring(0, 50) + "...",
-          emotion: response.emotion,
-          timestamp: response.timestamp,
-          stepId
         });
 
         triggerAvatarEmotionChange(response.emotion);
@@ -470,13 +448,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
-        
-        console.log("🤖 [CHAT] Added patient message to state:", {
-          messageId: patientMessage.id,
-          totalMessages: finalMessages.length
-        });
 
-        
         scrollToBottom(100);
 
         
@@ -522,13 +494,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           })), 
         });
 
-        console.log("🤖 [CHAT] Generated patient response (fallback):", {
-          message: response.message.substring(0, 50) + "...",
-          emotion: response.emotion,
-          timestamp: response.timestamp,
-          stepId
-        });
-
         triggerAvatarEmotionChange(response.emotion);
 
         // Extract and remove text in parentheses
@@ -551,13 +516,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
-        
-        console.log("🤖 [CHAT] Added patient message to state (fallback):", {
-          messageId: patientMessage.id,
-          totalMessages: finalMessages.length
-        });
 
-        
         scrollToBottom(100);
 
         
@@ -579,10 +538,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         });
       }
     } catch (error) {
-      console.error("Error generating patient response:", error);
       setIsTyping(false);
-      
-      
       alert("Errore nella generazione della risposta. Riprova.");
       
       
@@ -632,9 +588,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       
       setIsSuccessDialogOpen(true);
     } catch (error) {
-      console.error("Error completing step:", error);
-
-      
       if (error instanceof Error) {
         if (
           error.message.includes("not found") ||

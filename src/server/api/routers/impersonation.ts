@@ -14,6 +14,9 @@ import {
   impersonationSessions,
   impersonationAuditLog,
 } from "~/server/db/tables";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("Impersonation");
 
 export const impersonationRouter = createTRPCRouter({
     startImpersonation: adminProcedure
@@ -29,7 +32,7 @@ export const impersonationRouter = createTRPCRouter({
       const { targetUserId, reason, ipAddress, userAgent } = input;
       const adminUserId = ctx.session.user.id;
 
-      console.log("Starting impersonation:", {
+      logger.info("Starting impersonation", {
         adminUserId,
         targetUserId,
         reason: reason ?? "No reason provided",
@@ -122,7 +125,7 @@ export const impersonationRouter = createTRPCRouter({
           userAgent,
         });
 
-        console.log("Impersonation session created successfully:", {
+        logger.info("Impersonation session created successfully", {
           sessionId,
           adminUserId,
           targetUserId,
@@ -141,7 +144,7 @@ export const impersonationRouter = createTRPCRouter({
           startedAt,
         };
       } catch (error) {
-        console.error("Error starting impersonation:", error);
+        logger.error("Error starting impersonation", error);
 
         if (error instanceof TRPCError) {
           throw error;
@@ -173,7 +176,7 @@ export const impersonationRouter = createTRPCRouter({
         ? ctx.session.impersonation!.sessionId
         : undefined;
 
-      console.log("Ending impersonation:", {
+      logger.info("Ending impersonation", {
         adminUserId,
         sessionId,
         isImpersonated,
@@ -248,7 +251,7 @@ export const impersonationRouter = createTRPCRouter({
           userAgent,
         });
 
-        console.log("Impersonation session ended successfully:", {
+        logger.info("Impersonation session ended successfully", {
           sessionId: session.id,
           adminUserId: session.adminUserId,
           targetUserId: session.targetUserId,
@@ -265,7 +268,7 @@ export const impersonationRouter = createTRPCRouter({
           ),
         };
       } catch (error) {
-        console.error("Error ending impersonation:", error);
+        logger.error("Error ending impersonation", error);
 
         if (error instanceof TRPCError) {
           throw error;
@@ -299,10 +302,9 @@ export const impersonationRouter = createTRPCRouter({
         .limit(1);
 
       if (sessionData.length === 0) {
-        console.warn(
-          "Impersonation session not found in database:",
-          impersonationData.sessionId,
-        );
+        logger.warn("Impersonation session not found in database", {
+          sessionId: impersonationData.sessionId,
+        });
         return {
           isImpersonating: false,
           session: null,
@@ -324,7 +326,7 @@ export const impersonationRouter = createTRPCRouter({
         },
       };
     } catch (error) {
-      console.error("Error getting current impersonation:", error);
+      logger.error("Error getting current impersonation", error);
       return {
         isImpersonating: false,
         session: null,
@@ -441,7 +443,7 @@ export const impersonationRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        console.error("Error getting impersonation history:", error);
+        logger.error("Error getting impersonation history", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to retrieve impersonation history",
@@ -519,7 +521,7 @@ export const impersonationRouter = createTRPCRouter({
           },
         };
       } catch (error) {
-        console.error("Error getting users for impersonation:", error);
+        logger.error("Error getting users for impersonation", error);
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to retrieve users for impersonation",

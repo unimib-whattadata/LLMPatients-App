@@ -3,6 +3,9 @@ import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { patients, therapySessions, chat } from "~/server/db/tables";
+import { createLogger } from "~/lib/logger";
+
+const logger = createLogger("TherapySessions");
 
 export type TherapySession = typeof therapySessions.$inferSelect;
 
@@ -217,7 +220,7 @@ export const therapySessionsRouter = createTRPCRouter({
 
       return sessionsWithProgress;
     } catch (error) {
-      console.error("[therapySessions.getAllForUser] Error:", error);
+      logger.error("getAllForUser failed", error);
       throw error;
     }
   }),
