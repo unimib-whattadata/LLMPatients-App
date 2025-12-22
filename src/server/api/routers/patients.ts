@@ -17,7 +17,7 @@ function safeJsonParse<T>(value: string | null | undefined, fallback: T): T {
   try {
     return JSON.parse(value) as T;
   } catch (error) {
-    logger.warn("Failed to parse JSON", { error, value });
+    logger.warn("JSON parsing failed", { error: error instanceof Error ? error.message : String(error), rawValue: typeof value === 'string' ? value.substring(0, 100) : value });
     return fallback;
   }
 }
@@ -165,12 +165,10 @@ export const patientsRouter = createTRPCRouter({
       }
 
       try {
-        logger.debug("getExplorationPatients: Building query", {
-          conditionsCount: whereConditions.length,
-        });
-        logger.debug("getExplorationPatients: Input params", {
+        logger.debug("Building exploration query", {
+          conditions: whereConditions.length,
           difficulty,
-          searchQuery,
+          searchQuery: searchQuery || "(none)",
           limit,
           offset,
         });
@@ -184,9 +182,7 @@ export const patientsRouter = createTRPCRouter({
           .limit(limit)
           .offset(offset);
 
-        logger.debug("getExplorationPatients: Patients found", {
-          count: patientsData.length,
-        });
+        logger.debug("Patients retrieved from database", { count: patientsData.length });
 
         
         const transformedPatients: Patient[] = patientsData.map(
@@ -216,25 +212,23 @@ export const patientsRouter = createTRPCRouter({
           }),
         );
 
-        logger.debug("getExplorationPatients: Transformed patients", {
-          count: transformedPatients.length,
-        });
+        logger.debug("Patients transformation completed", { count: transformedPatients.length });
 
         return transformedPatients;
       } catch (error) {
         
-        logger.error("Database query failed in getExplorationPatients", {
+        logger.error("Database query failed for exploration patients", {
           error: error instanceof Error ? error.message : String(error),
-          stack: error instanceof Error ? error.stack : undefined,
-          input: { difficulty, searchQuery, limit, offset },
-          environment: process.env.NODE_ENV,
-          databaseUrl: process.env.DATABASE_URL ? "SET" : "NOT_SET",
+          difficulty,
+          searchQuery: searchQuery || "(none)",
+          limit,
+          offset,
         });
 
         
         
         if (process.env.NODE_ENV === "production") {
-          logger.warn("Returning empty patients array due to database error");
+          logger.warn("Returning empty array due to database error in production");
           return [];
         }
 

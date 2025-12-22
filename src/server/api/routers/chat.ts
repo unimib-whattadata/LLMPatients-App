@@ -210,9 +210,9 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      logger.debug("markStepDone called", {
-        therapySessionId: input.therapySessionId,
-        stepNumber: input.stepNumber,
+      logger.debug("Marking step as done", {
+        sessionId: input.therapySessionId,
+        step: input.stepNumber,
         userId: ctx.session.user.id,
       });
 
@@ -228,7 +228,7 @@ export const chatRouter = createTRPCRouter({
         )
         .limit(1);
 
-      logger.debug("Found therapy session", { found: therapySession.length > 0 });
+      logger.debug("Therapy session lookup completed", { found: therapySession.length > 0 });
 
       if (therapySession.length === 0) {
         throw new Error("Therapy session not found or access denied");
@@ -252,7 +252,7 @@ export const chatRouter = createTRPCRouter({
           throw new Error("Chat step not found");
         }
 
-        logger.debug("Updating existing chat step", { chatId: existingChatData.id });
+        logger.debug("Updating existing chat step to done", { chatId: existingChatData.id });
         
         const [updatedChat] = await ctx.db
           .update(chat)
@@ -267,7 +267,7 @@ export const chatRouter = createTRPCRouter({
           throw new Error("Failed to update chat step");
         }
 
-        logger.debug("Updated chat step successfully");
+        logger.debug("Chat step updated successfully");
 
         
         if (input.stepNumber === 11) {
@@ -279,7 +279,7 @@ export const chatRouter = createTRPCRouter({
             })
             .where(eq(therapySessions.id, input.therapySessionId));
 
-          logger.info("Therapy session marked as completed (step 11 finished)");
+          logger.info("Therapy session completed", { step: 11 });
         }
 
         return {
@@ -287,7 +287,7 @@ export const chatRouter = createTRPCRouter({
           messages: JSON.parse(updatedChat.messages) as ChatMessage[],
         };
       } else {
-        logger.debug("Creating new chat step with done=true");
+        logger.debug("Creating new chat step as completed");
         
         const [newChat] = await ctx.db
           .insert(chat)
@@ -304,7 +304,7 @@ export const chatRouter = createTRPCRouter({
           throw new Error("Failed to create chat step");
         }
 
-        logger.debug("Created new chat step successfully", { chatId: newChat.id });
+        logger.debug("New chat step created", { chatId: newChat.id });
 
         
         if (input.stepNumber === 11) {
@@ -316,7 +316,7 @@ export const chatRouter = createTRPCRouter({
             })
             .where(eq(therapySessions.id, input.therapySessionId));
 
-          logger.info("Therapy session marked as completed (step 11 finished)");
+          logger.info("Therapy session completed", { step: 11 });
         }
 
         return {

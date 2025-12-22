@@ -32,7 +32,7 @@ export class ErrorBoundary extends Component<
   }
   
   componentDidCatch(error: Error, errorInfo: any) {
-    logger.error("Caught an error", { error, errorInfo });
+    logger.error("React error boundary caught an error", { error: error.message, componentStack: errorInfo?.componentStack?.substring(0, 200) });
   }
 
   render() {

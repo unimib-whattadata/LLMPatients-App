@@ -34,7 +34,7 @@ async function generateTTS(params: TTSParams): Promise<Response> {
       },
     });
   } catch (error) {
-    logger.error(`Error with ${provider.name}: ${error instanceof Error ? error.message : error}`);
+    logger.error("Audio generation failed", { provider: provider.name, error: error instanceof Error ? error.message : String(error) });
     
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     const errorStatus = (error as Error & { status?: number }).status;
@@ -96,7 +96,7 @@ export async function GET(request: NextRequest) {
       emotion: emotion || undefined,
     });
   } catch (error) {
-    logger.error("Error generating speech", error);
+    logger.error("GET request failed", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
 
     return generateTTS(body);
   } catch (error) {
-    logger.error("Error generating speech", error);
+    logger.error("POST request failed", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

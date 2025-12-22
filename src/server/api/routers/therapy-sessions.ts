@@ -220,7 +220,7 @@ export const therapySessionsRouter = createTRPCRouter({
 
       return sessionsWithProgress;
     } catch (error) {
-      logger.error("getAllForUser failed", error);
+      logger.error("Failed to retrieve user therapy sessions", { userId, error });
       throw error;
     }
   }),

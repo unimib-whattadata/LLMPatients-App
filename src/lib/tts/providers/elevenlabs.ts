@@ -48,7 +48,7 @@ export class ElevenLabsProvider implements TTSProvider {
     // Use flash model for better performance
     const modelId = "eleven_flash_v2_5";
 
-    logger.info(`Generating speech for: ${params.patientName || "unknown"}`);
+    logger.info("Generating speech", { patient: params.patientName || "(unknown)", voiceId });
 
     const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
     const ttsRequestBody = {
@@ -75,7 +75,7 @@ export class ElevenLabsProvider implements TTSProvider {
 
     if (!response.ok) {
       const errorText = await response.text();
-      logger.error(`API error: ${response.status} - ${errorText}`);
+      logger.error("API request failed", { status: response.status, error: errorText.substring(0, 200) });
       
       // Re-throw with status code for error handling
       const error = new Error(`ElevenLabs API error: ${response.status}`);
@@ -84,7 +84,7 @@ export class ElevenLabsProvider implements TTSProvider {
     }
 
     const audioBuffer = await response.arrayBuffer();
-    logger.info(`Successfully generated ${audioBuffer.byteLength} bytes of audio`);
+    logger.info("Audio generated successfully", { bytes: audioBuffer.byteLength });
 
     return audioBuffer;
   }

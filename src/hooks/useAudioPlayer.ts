@@ -16,7 +16,7 @@ export interface AudioPlayerState {
 }
 
 export interface AudioPlayerActions {
-  playText: (text: string, voiceId?: string, emotion?: string) => Promise<void>;
+  playText: (text: string, voiceId?: string, emotion?: string, patientName?: string) => Promise<void>;
   togglePlayPause: () => void;
   stop: () => void;
   clear: () => void;
@@ -88,7 +88,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     };
   }, [onPlaybackEnd, onError]);
 
-  const generateAudio = useCallback(async (text: string, voiceId?: string, emotion?: string): Promise<string> => {
+  const generateAudio = useCallback(async (text: string, voiceId?: string, emotion?: string, patientName?: string): Promise<string> => {
     
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
@@ -102,6 +102,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         text,
         ...(voiceId && { voiceId }),
         ...(emotion && { emotion }),
+        ...(patientName && { patientName }),
       });
 
       const response = await fetch(`/api/tts/generate?${params}`, {
@@ -140,7 +141,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       return audioUrl;
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
-        logger.debug("Audio generation cancelled for new request");
+        logger.debug("Audio generation cancelled");
         throw new Error(TTS_ERROR_CODES.CANCELLED);
       }
       
@@ -155,7 +156,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     }
   }, []);
 
-  const playText = useCallback(async (text: string, voiceId?: string, emotion?: string) => {
+  const playText = useCallback(async (text: string, voiceId?: string, emotion?: string, patientName?: string) => {
     if (!text.trim()) return;
 
     try {
@@ -173,7 +174,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       
 
       
-      const audioUrl = await generateAudio(text, voiceId, emotion);
+      const audioUrl = await generateAudio(text, voiceId, emotion, patientName);
       
       
       setCurrentAudioUrl((prevUrl) => {
@@ -193,7 +194,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         setIsLoading(false);
         if (autoPlay) {
           audio.play().catch((playError) => {
-            logger.error("Error playing audio", playError);
+            logger.error("Audio playback failed", playError);
             setError("Errore durante la riproduzione");
             setIsLoading(false);
           });
@@ -208,7 +209,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     } catch (error) {
       // Handle cancellation silently
       if (error instanceof Error && error.message === TTS_ERROR_CODES.CANCELLED) {
-        logger.debug("Audio generation was cancelled for new request");
+        logger.debug("Audio generation cancelled by new request");
         setIsLoading(false);
         return;
       }
@@ -226,13 +227,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       // Handle real TTS errors (quota, rate limit, not configured)
       if (isRealTTSError(error)) {
         setIsTTSAvailable(false);
-        logger.warn("TTS service not available - audio generation disabled");
+        logger.warn("TTS service unavailable, audio generation disabled");
         setIsLoading(false);
         return;
       }
       
       // Only log actual errors (not TTS disabled or real TTS errors)
-      logger.error("Error generating audio", error);
+      logger.error("Audio generation failed", error);
       setError(errorMessage);
       setIsLoading(false);
       onError?.(errorMessage);
@@ -247,7 +248,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       audio.pause();
     } else {
       audio.play().catch((error) => {
-        logger.error("Error playing audio", error);
+        logger.error("Audio playback failed", error);
         setError("Errore durante la riproduzione");
       });
     }

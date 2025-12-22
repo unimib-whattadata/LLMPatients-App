@@ -195,19 +195,19 @@ export function logAuthError(
 
   switch (error.severity) {
     case "critical":
-      logger.error(`CRITICAL: ${error.message}`, logData);
+      logger.error(`[CRITICAL] ${error.message}`, { type: error.type, userId: error.userId, retryable: error.retryable });
       break;
     case "high":
-      logger.error(`HIGH: ${error.message}`, logData);
+      logger.error(`[HIGH] ${error.message}`, { type: error.type, userId: error.userId, retryable: error.retryable });
       break;
     case "medium":
-      logger.warn(`MEDIUM: ${error.message}`, logData);
+      logger.warn(`[MEDIUM] ${error.message}`, { type: error.type, userId: error.userId, retryable: error.retryable });
       break;
     case "low":
-      logger.info(`LOW: ${error.message}`, logData);
+      logger.info(`[LOW] ${error.message}`, { type: error.type, userId: error.userId });
       break;
     default:
-      logger.debug(error.message, logData);
+      logger.debug(error.message, { type: error.type });
   }
 }
 
@@ -264,11 +264,7 @@ export async function handleAuthErrorWithRetry<T>(
 
       
       if (lastError && attempt > 1) {
-        logger.info("Auth operation recovered after retry", {
-          attempt,
-          previousError: lastError.type,
-          context,
-        });
+        logger.info("Auth operation recovered after retry", { attempt, previousError: lastError.type });
       }
 
       return { success: true, result };
@@ -284,7 +280,7 @@ export async function handleAuthErrorWithRetry<T>(
       
       if (shouldRetryOperation(authError, attempt, maxAttempts)) {
         const delay = calculateRetryDelay(attempt);
-        logger.debug(`Retrying auth operation in ${delay}ms (attempt ${attempt + 1}/${maxAttempts})`);
+        logger.debug("Retrying auth operation", { delay: `${delay}ms`, attempt: `${attempt + 1}/${maxAttempts}` });
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }

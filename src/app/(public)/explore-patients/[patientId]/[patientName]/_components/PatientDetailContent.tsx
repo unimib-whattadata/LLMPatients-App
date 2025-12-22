@@ -96,7 +96,7 @@ export function PatientDetailContent() {
               return; // Blocca il redirect
             }
           } catch (error) {
-            logger.error("Error initializing patient", error);
+            logger.error("Patient initialization failed", error);
             setActionError(
               error instanceof Error
                 ? error.message

@@ -41,7 +41,7 @@ export function getConfiguredProvider(): TTSProviderName {
     return provider;
   }
   
-  logger.warn(`Invalid TTS_PROVIDER: ${provider}, defaulting to "none"`);
+  logger.warn("Invalid TTS_PROVIDER configured, using none", { configured: provider });
   return "none";
 }
 

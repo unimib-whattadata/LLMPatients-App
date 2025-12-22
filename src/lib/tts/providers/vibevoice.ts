@@ -27,7 +27,7 @@ function getWebSocket(): typeof WS {
     wsModule = require("ws") as { default?: typeof WS; WebSocket?: typeof WS };
     return wsModule.default ?? wsModule.WebSocket ?? (wsModule as unknown as typeof WS);
   } catch (error) {
-    logger.error("Error loading ws module", error);
+    logger.error("Failed to load WebSocket module", error);
     throw new Error(
       "WebSocket library (ws) is required for VibeVoice provider. Please install it: pnpm add ws"
     );
@@ -135,7 +135,7 @@ export class VibeVoiceProvider implements TTSProvider {
     const wsUrl = this.getWebSocketUrl();
     const voicePreset = this.getVoiceId(params.voiceId);
 
-    logger.info(`Generating speech for: ${params.patientName || "unknown"}`);
+    logger.info("Generating speech", { patient: params.patientName || "(unknown)", voice: voicePreset });
 
     return new Promise((resolve, reject) => {
       const url = new URL(wsUrl);
@@ -181,7 +181,7 @@ export class VibeVoiceProvider implements TTSProvider {
         try {
           const pcmData = Buffer.concat(audioChunks);
           const wavData = pcm16ToWav(pcmData, 24000);
-          logger.info(`Successfully generated ${wavData.length} bytes of audio`);
+          logger.info("Audio generated successfully", { bytes: wavData.length });
           resolve(wavData.buffer);
         } catch (error) {
           reject(new Error(`Failed to convert audio: ${error instanceof Error ? error.message : "Unknown error"}`));

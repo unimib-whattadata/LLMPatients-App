@@ -209,7 +209,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       void audioPlayer.playText(
         lastMessage.content, 
         typedSelectedPatient?.voiceId || undefined, 
-        lastMessage.emotion
+        lastMessage.emotion,
+        typedSelectedPatient?.name || undefined
       );
     }
   }, [messages, audioPlayer, typedSelectedPatient?.voiceId, typedSelectedPatient?.name, hasUserInteracted]);

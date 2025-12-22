@@ -238,7 +238,7 @@ export function ManageUsersContent() {
         await createPrivateUserMutation.mutateAsync(payload);
       }
     } catch (error) {
-      logger.error("Failed to create user", error);
+      logger.error("User creation failed", error);
     }
   });
 
@@ -252,7 +252,7 @@ export function ManageUsersContent() {
         email: values.email,
       });
     } catch (error) {
-      logger.error("Failed to update user", error);
+      logger.error("User update failed", error);
     }
   });
 
@@ -263,7 +263,7 @@ export function ManageUsersContent() {
     try {
       await updateRoleMutation.mutateAsync({ userId, role: newRole });
     } catch (error) {
-      logger.error("Failed to update role", error);
+      logger.error("Role update failed", error);
     }
   };
 
@@ -278,7 +278,7 @@ export function ManageUsersContent() {
       await deleteUserMutation.mutateAsync({ userId: userToDelete.id });
       setUserToDelete(null);
     } catch (error) {
-      logger.error("Failed to delete user", error);
+      logger.error("User deletion failed", error);
     }
   };
 

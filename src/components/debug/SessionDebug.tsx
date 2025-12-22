@@ -124,7 +124,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
               <button
                 onClick={() => {
                   void update();
-                  logger.debug("Session update triggered");
+                  logger.debug("Session update triggered manually");
                 }}
                 className="bg-accent-600 text-text-primary hover:bg-accent-700 rounded px-3 py-1 text-xs"
               >
@@ -135,17 +135,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
             <div>
               <button
                 onClick={() => {
-                  logger.info("Session debug info", {
-                    status,
-                    session,
-                    cookies: document.cookie,
-                    localStorageItems: Object.keys(localStorage).filter((key) =>
-                      key.includes("next-auth"),
-                    ),
-                    sessionStorageItems: Object.keys(sessionStorage).filter((key) =>
-                      key.includes("next-auth"),
-                    ),
-                  });
+                  logger.info("Session debug info logged to console", { status, hasSession: !!session });
                 }}
                 className="bg-success-600 text-text-primary hover:bg-success-700 ml-2 rounded px-3 py-1 text-xs"
               >

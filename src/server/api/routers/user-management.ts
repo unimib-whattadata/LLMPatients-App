@@ -311,7 +311,7 @@ export const userManagementRouter = createTRPCRouter({
 
         return { success: true, deletedUser: result };
       } catch (error) {
-        logger.error("Error deleting user", error);
+        logger.error("User deletion failed", { userId, error: error instanceof Error ? error.message : String(error) });
         throw new Error(
           `Failed to delete user: ${error instanceof Error ? error.message : "Unknown error"}`,
         );

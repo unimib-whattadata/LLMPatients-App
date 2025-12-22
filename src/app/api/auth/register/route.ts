@@ -52,7 +52,7 @@ const registerSchema = z.object({
 export async function POST(request: NextRequest) {
   const requestId = crypto.randomUUID().substring(0, 8);
   const reqLogger = logger.child({ requestId });
-  reqLogger.info("Registration request started");
+  reqLogger.info("Processing registration request");
 
   try {
     
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     try {
       body = await request.json();
     } catch (error) {
-      reqLogger.error("Failed to parse request body", error);
+      reqLogger.error("Invalid JSON in request body", error);
       return NextResponse.json(
         {
           error:
@@ -73,22 +73,18 @@ export async function POST(request: NextRequest) {
     let validatedData: z.infer<typeof registerSchema>;
     try {
       validatedData = registerSchema.parse(body);
-      reqLogger.debug("Request validation successful", {
-        email: validatedData.email,
-        name: validatedData.name,
-        role: validatedData.role,
-      });
+      reqLogger.debug("Input validation passed", { email: validatedData.email, role: validatedData.role });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMessage = error.issues.map((err) => err.message).join(", ");
-        reqLogger.warn("Validation failed", { errorMessage });
+        reqLogger.warn("Input validation failed", { errors: errorMessage });
         return NextResponse.json({ error: errorMessage }, { status: 400 });
       }
       throw error;
     }
 
     
-    reqLogger.debug("Checking if user already exists...");
+    reqLogger.debug("Checking if user already exists", { email: validatedData.email });
     const userExistsResult = await handleAuthErrorWithRetry(
       async () => {
         return await validateUserByEmail(
@@ -106,7 +102,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (!userExistsResult.success) {
-      reqLogger.error("Database error during user existence check", userExistsResult.error);
+      reqLogger.error("Database error checking user existence", userExistsResult.error);
 
       
       if (userExistsResult.error) {
@@ -127,7 +123,7 @@ export async function POST(request: NextRequest) {
 
     
     if (userExistsResult.result?.isValid) {
-      reqLogger.warn("User already exists", { email: validatedData.email });
+      reqLogger.warn("Registration rejected - user exists", { email: validatedData.email });
       return NextResponse.json(
         { error: "User with this email already exists" },
         { status: 409 }, 
@@ -135,13 +131,13 @@ export async function POST(request: NextRequest) {
     }
 
     
-    reqLogger.debug("Hashing password...");
+    reqLogger.debug("Hashing password");
     let hashedPassword: string;
     try {
       const saltRounds = process.env.NODE_ENV === "production" ? 12 : 10;
       hashedPassword = await bcrypt.hash(validatedData.password, saltRounds);
     } catch (error) {
-      reqLogger.error("Password hashing failed", error);
+      reqLogger.error("Failed to hash password", error);
       return NextResponse.json(
         { error: "Failed to process password. Please try again." },
         { status: 500 },
@@ -149,7 +145,7 @@ export async function POST(request: NextRequest) {
     }
 
     
-    reqLogger.debug("Creating new user in database...");
+    reqLogger.debug("Creating user in database");
     const createUserResult = await handleAuthErrorWithRetry(
       async () => {
         const newUser = await (db as any)
@@ -192,7 +188,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (!createUserResult.success || !createUserResult.result) {
-      reqLogger.error("User creation failed", createUserResult.error);
+      reqLogger.error("Failed to create user", createUserResult.error);
 
       
       if (createUserResult.error?.message.includes("already exists")) {
@@ -217,21 +213,17 @@ export async function POST(request: NextRequest) {
     }
 
     const newUser = createUserResult.result;
-    reqLogger.info("User created successfully", {
-      id: newUser.id,
-      email: newUser.email,
-      role: newUser.role,
-    });
+    reqLogger.info("User created successfully", { id: newUser.id, email: newUser.email, role: newUser.role });
 
     
-    reqLogger.debug("Verifying user creation...");
+    reqLogger.debug("Verifying user creation");
     const verificationResult = await validateUserByEmail(
       newUser.email,
       createValidationConfig({ timeout: 3000, retries: 1 }),
     );
 
     if (!verificationResult.isValid) {
-      reqLogger.error("User verification failed after creation", { error: verificationResult.error });
+      reqLogger.error("Post-creation verification failed", { error: verificationResult.error });
       
       
       logAuthError(
@@ -246,7 +238,7 @@ export async function POST(request: NextRequest) {
         { operation: "post_creation_verification", requestId },
       );
     } else {
-      reqLogger.debug("User creation verified successfully");
+      reqLogger.debug("User creation verified");
     }
 
     
@@ -263,7 +255,7 @@ export async function POST(request: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    reqLogger.error("Unexpected registration error", error);
+    reqLogger.error("Unexpected error during registration", error);
 
     
     const authError = createAuthError(

@@ -15,7 +15,7 @@ export async function GET() {
     const config = await getTTSProviderConfig();
     return NextResponse.json(config);
   } catch (error) {
-    logger.error("Error getting provider config", error);
+    logger.error("Failed to get provider config", error);
     return NextResponse.json(
       {
         provider: "none",

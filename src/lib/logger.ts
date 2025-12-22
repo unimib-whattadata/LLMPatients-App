@@ -9,15 +9,15 @@ const LEVEL_PRIORITY: Record<LogLevel, number> = {
   error: 40,
 };
 
-// Emoji per ogni livello di log
+// Emoji for each log level
 const LEVEL_EMOJI: Record<LogLevel, string> = {
   debug: "🔍",
-  info: "📘",
+  info: "✅",
   warn: "⚠️",
   error: "❌",
 };
 
-// Colori ANSI per il terminale
+// ANSI colors for terminal
 const ANSI_COLORS = {
   reset: "\x1b[0m",
   bright: "\x1b[1m",
@@ -28,16 +28,20 @@ const ANSI_COLORS = {
   yellow: "\x1b[33m",
   red: "\x1b[31m",
   gray: "\x1b[90m",
+  magenta: "\x1b[35m",
+  green: "\x1b[32m",
+  white: "\x1b[37m",
 } as const;
 
+// Colors for log levels
 const LEVEL_COLOR: Record<LogLevel, string> = {
   debug: ANSI_COLORS.cyan,
-  info: ANSI_COLORS.blue,
+  info: ANSI_COLORS.green,
   warn: ANSI_COLORS.yellow,
   error: ANSI_COLORS.red,
 };
 
-// Controlla se siamo in ambiente Node.js (server-side)
+// Check if we are in Node.js environment (server-side)
 const isServer = typeof window === "undefined";
 
 const DEFAULT_LEVEL: LogLevel =
@@ -61,11 +65,9 @@ function normalizeMeta(meta?: unknown): Record<string, unknown> | undefined {
 
   if (meta instanceof Error) {
     return {
-      error: {
-        name: meta.name,
-        message: meta.message,
-        stack: meta.stack,
-      },
+      error: meta.message,
+      errorName: meta.name,
+      stack: meta.stack?.split("\n").slice(0, 3).join(" → "),
     };
   }
 
@@ -76,17 +78,53 @@ function normalizeMeta(meta?: unknown): Record<string, unknown> | undefined {
   return { detail: meta };
 }
 
+function formatValue(value: unknown): string {
+  if (value === null) return "null";
+  if (value === undefined) return "undefined";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (typeof value === "object") {
+    try {
+      return JSON.stringify(value);
+    } catch {
+      return "[Object]";
+    }
+  }
+  return String(value);
+}
+
+function formatMetaInline(meta: Record<string, unknown>): string {
+  const entries = Object.entries(meta)
+    .filter(([, v]) => v !== undefined)
+    .map(([k, v]) => `${k}: ${formatValue(v)}`);
+  
+  if (entries.length === 0) return "";
+  
+  if (isServer) {
+    return `${ANSI_COLORS.gray} | ${entries.join(", ")}${ANSI_COLORS.reset}`;
+  }
+  return ` | ${entries.join(", ")}`;
+}
+
 function formatPrefix(level: LogLevel, namespace: string): string {
   const emoji = LEVEL_EMOJI[level];
-  const color = LEVEL_COLOR[level];
+  const levelColor = LEVEL_COLOR[level];
 
   if (isServer) {
-    // Terminale: usa colori ANSI
-    return `${emoji} ${color}[${namespace}]${ANSI_COLORS.reset}`;
+    // Terminal: use ANSI colors
+    // Format: emoji [LEVEL] [Component] message
+    return `${emoji} ${ANSI_COLORS.magenta}${ANSI_COLORS.bright}[${namespace}]${ANSI_COLORS.reset} ${levelColor}`;
   } else {
-    // Browser: solo emoji (i colori ANSI non funzionano nella console del browser)
+    // Browser: emoji only (ANSI colors don't work in browser console)
     return `${emoji} [${namespace}]`;
   }
+}
+
+function formatSuffix(): string {
+  if (isServer) {
+    return ANSI_COLORS.reset;
+  }
+  return "";
 }
 
 export interface Logger {
@@ -112,20 +150,14 @@ function createLogFunction(
       : baseContext;
     const hasContext = Object.keys(mergedContext).length > 0;
     const prefix = formatPrefix(level, namespace);
+    const suffix = formatSuffix();
+    const metaStr = hasContext ? formatMetaInline(mergedContext) : "";
 
-    if (hasContext) {
-      // Use structured logging-friendly format where available.
-      (console[consoleMethod] ?? console.log).call(
-        console,
-        `${prefix} ${message}`,
-        mergedContext,
-      );
-    } else {
-      (console[consoleMethod] ?? console.log).call(
-        console,
-        `${prefix} ${message}`,
-      );
-    }
+    // Format: emoji [Component] Message | key: value, key2: value2
+    (console[consoleMethod] ?? console.log).call(
+      console,
+      `${prefix}${message}${suffix}${metaStr}`,
+    );
   };
 }
 

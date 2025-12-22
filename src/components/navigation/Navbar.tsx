@@ -99,7 +99,7 @@ export function Navbar({
         typeof window !== "undefined" ? window.location.origin : "/";
       await signOut({ callbackUrl });
     } catch (error) {
-      logger.error("Logout error", error);
+      logger.error("Logout failed", error);
       
       if (typeof window !== "undefined") {
         window.location.href = "/";

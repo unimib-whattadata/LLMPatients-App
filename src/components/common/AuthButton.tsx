@@ -13,7 +13,7 @@ export default function AuthButton() {
   const { data: session, status } = useSession({
     required: false,
     onUnauthenticated() {
-      logger.debug("User not authenticated");
+      logger.debug("User is not authenticated");
     },
   });
 

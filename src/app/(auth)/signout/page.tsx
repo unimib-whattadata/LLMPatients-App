@@ -34,7 +34,7 @@ export default function SignoutPage() {
           router.push("/");
         }, 1500);
       } catch (err) {
-        logger.error("Signout error", err);
+        logger.error("Signout failed", err);
         setError(
           "Si è verificato un errore durante il logout. Verrai reindirizzato alla homepage.",
         );

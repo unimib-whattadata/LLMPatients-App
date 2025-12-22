@@ -21,12 +21,7 @@ const handler = (req: NextRequest) =>
     router: appRouter,
     createContext: () => createContext(req),
     onError: ({ path, error }) => {
-      logger.error(`Failed on ${path ?? "<no-path>"}`, {
-        path,
-        error: error.message,
-        stack: error.stack,
-        environment: env.NODE_ENV,
-      });
+      logger.error("Request failed", { path: path ?? "(unknown)", error: error.message });
     },
   });
 
