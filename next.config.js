@@ -19,7 +19,7 @@ const config = {
   reactStrictMode: true,
 
   
-  serverExternalPackages: ["bcryptjs"],
+  serverExternalPackages: ["bcryptjs", "ws"],
 
   
   compiler: {

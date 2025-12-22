@@ -1,75 +1,74 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import {
-  validateTTSService,
-  prepareTTSConfig,
-  handleElevenLabsError,
-  type TTSRequestParams,
-} from "./route-helpers";
-import { env } from "~/env";
+import { getTTSProvider } from "~/lib/tts/providers";
+import { TTS_HTTP_STATUS, TTS_ERROR_MESSAGES } from "~/lib/tts/constants";
+import type { TTSParams } from "~/lib/tts/providers/types";
 
 /**
- * Common TTS generation logic
+ * Common TTS generation logic using provider factory
  */
-async function generateTTS(params: TTSRequestParams, modelId: string = "eleven_multilingual_v2"): Promise<Response> {
-  // Validate service availability
-  const validation = validateTTSService();
-  if (!validation.isValid && validation.error) {
+async function generateTTS(params: TTSParams): Promise<Response> {
+  const provider = getTTSProvider();
+
+  if (provider.name === "none") {
     return NextResponse.json(
-      { error: validation.error.message },
-      { status: validation.error.status }
+      { error: TTS_ERROR_MESSAGES.DISABLED },
+      { status: TTS_HTTP_STATUS.DISABLED }
     );
   }
 
-  // Prepare TTS configuration
-  const config = prepareTTSConfig(params);
-  const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY!;
+  try {
+    const audioBuffer = await provider.generateAudio(params);
 
-  console.log(`🎙️ [TTS] Generating speech for patient: ${params.patientName || "unknown"}, voice: ${config.voiceId}`);
+    // Determine content type based on provider
+    const contentType = provider.name === "vibevoice" ? "audio/wav" : "audio/mpeg";
 
-  // Call ElevenLabs API
-  const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${config.voiceId}`;
-  const ttsRequestBody = {
-    text: params.text,
-    model_id: modelId,
-    language_code: "it",
-    ...(modelId === "eleven_flash_v2_5" && { apply_text_normalization: "auto" }),
-    voice_settings: {
-      stability: config.emotionSettings.stability,
-      similarity_boost: 0.75,
-      style: config.emotionSettings.style,
-    },
-  };
-
-  const response = await fetch(elevenLabsUrl, {
-    method: "POST",
-    headers: {
-      Accept: "audio/mpeg",
-      "Content-Type": "application/json",
-      "xi-api-key": apiKey,
-    },
-    body: JSON.stringify(ttsRequestBody),
-  });
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    console.error(`❌ [TTS] ElevenLabs API error: ${response.status} - ${errorText}`);
+    return new NextResponse(audioBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": contentType,
+        "Content-Length": audioBuffer.byteLength.toString(),
+      },
+    });
+  } catch (error) {
+    console.error(`❌ [TTS] Error with ${provider.name}:`, error instanceof Error ? error.message : error);
     
-    const error = handleElevenLabsError(response.status, errorText);
-    return NextResponse.json({ error: error.message }, { status: error.status });
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorStatus = (error as Error & { status?: number }).status;
+    
+    // Map error status to appropriate response
+    if (errorStatus === 402) {
+      return NextResponse.json(
+        { error: TTS_ERROR_MESSAGES.QUOTA_EXCEEDED },
+        { status: TTS_HTTP_STATUS.QUOTA_EXCEEDED }
+      );
+    }
+    if (errorStatus === 429) {
+      return NextResponse.json(
+        { error: TTS_ERROR_MESSAGES.RATE_LIMIT },
+        { status: TTS_HTTP_STATUS.RATE_LIMIT }
+      );
+    }
+    if (errorStatus === 401) {
+      return NextResponse.json(
+        { error: TTS_ERROR_MESSAGES.NOT_CONFIGURED },
+        { status: TTS_HTTP_STATUS.NOT_CONFIGURED }
+      );
+    }
+
+    // Connection errors for VibeVoice
+    if (errorMessage.includes("connection") || errorMessage.includes("timeout")) {
+      return NextResponse.json(
+        { error: `TTS connection error: ${errorMessage}` },
+        { status: 503 }
+      );
+    }
+
+    return NextResponse.json(
+      { error: errorMessage || TTS_ERROR_MESSAGES.GENERATION_FAILED },
+      { status: 500 }
+    );
   }
-
-  // Return audio buffer
-  const audioBuffer = await response.arrayBuffer();
-  console.log(`✅ [TTS] Successfully generated ${audioBuffer.byteLength} bytes of audio`);
-
-  return new NextResponse(audioBuffer, {
-    status: 200,
-    headers: {
-      "Content-Type": "audio/mpeg",
-      "Content-Length": audioBuffer.byteLength.toString(),
-    },
-  });
 }
 
 export async function GET(request: NextRequest) {
@@ -104,7 +103,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = (await request.json()) as TTSRequestParams;
+    const body = (await request.json()) as TTSParams;
 
     if (!body.text) {
       return NextResponse.json(
@@ -113,7 +112,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return generateTTS(body, "eleven_flash_v2_5");
+    return generateTTS(body);
   } catch (error) {
     console.error("❌ [TTS] Error generating speech:", error);
     return NextResponse.json(

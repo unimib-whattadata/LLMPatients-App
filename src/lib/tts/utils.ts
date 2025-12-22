@@ -16,8 +16,25 @@ export function isTTSEnabled(): boolean {
   }
   
   // Server-side: check environment variable
-  const enabled = process.env.ELEVENLABS_ENABLED === "true";
-  return enabled;
+  const provider = process.env.TTS_PROVIDER;
+  return provider === "elevenlabs" || provider === "vibevoice";
+}
+
+/**
+ * Gets the configured TTS provider name (for client-side, use checkTTSAvailability)
+ */
+export function getConfiguredTTSProviderName(): "none" | "elevenlabs" | "vibevoice" {
+  if (typeof window !== "undefined") {
+    // Client-side: cannot access env vars directly
+    return "none";
+  }
+  
+  const provider = process.env.TTS_PROVIDER;
+  if (provider === "elevenlabs" || provider === "vibevoice" || provider === "none") {
+    return provider;
+  }
+  
+  return "none";
 }
 
 /**
@@ -85,32 +102,26 @@ export function isRealTTSError(error: unknown): boolean {
 
 /**
  * Checks TTS availability via API
+ * Uses the new /api/tts/config endpoint to get provider information
  */
 export async function checkTTSAvailability(): Promise<TTSAvailabilityResult> {
   try {
-    const response = await fetch("/api/tts/generate?text=test");
+    const response = await fetch("/api/tts/config");
     
-    if (response.ok) {
+    if (!response.ok) {
       return {
-        isAvailable: true,
-        status: "enabled",
+        isAvailable: false,
+        status: "unknown",
+        reason: `HTTP ${response.status}`,
       };
     }
     
-    const status = response.status;
-    const statusType = getTTSStatusFromHTTPStatus(status);
-    
-    let errorData;
-    try {
-      errorData = await response.json();
-    } catch {
-      errorData = {};
-    }
+    const config = await response.json() as { provider: string; isAvailable: boolean; reason?: string };
     
     return {
-      isAvailable: false,
-      status: statusType,
-      reason: errorData.error || `HTTP ${status}`,
+      isAvailable: config.isAvailable,
+      status: config.isAvailable ? "enabled" : (config.provider === "none" ? "disabled" : "unavailable"),
+      reason: config.reason,
     };
   } catch (error) {
     return {

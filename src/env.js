@@ -30,11 +30,11 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
-    ELEVENLABS_ENABLED: z
-      .string()
-      .optional()
-      .transform((val) => val === "true"),
+    TTS_PROVIDER: z
+      .enum(["none", "elevenlabs", "vibevoice"])
+      .default("none"),
     ELEVENLABS_API_KEY: z.string().min(1).optional(),
+    VIBEVOICE_URL: z.string().url().default("http://localhost:3001"),
     // API Configuration
     API: z.enum(["local", "remote"]).default("local"),
     API_BASE_URL: z.string().url().optional(),
@@ -58,8 +58,9 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXT_PUBLIC_NODE_ENV: process.env.NODE_ENV,
-    ELEVENLABS_ENABLED: process.env.ELEVENLABS_ENABLED,
+    TTS_PROVIDER: process.env.TTS_PROVIDER,
     ELEVENLABS_API_KEY: process.env.ELEVENLABS_API_KEY,
+    VIBEVOICE_URL: process.env.VIBEVOICE_URL,
     // API Configuration
     API: process.env.API,
     API_BASE_URL: process.env.API_BASE_URL,

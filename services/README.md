@@ -46,8 +46,10 @@ Una volta completato il setup, puoi avviare il server VibeVoice con:
 ```bash
 cd services/VibeVoice
 source venv/bin/activate
-python demo/vibevoice_realtime_demo.py
+python demo/vibevoice_realtime_demo.py --port 3001
 ```
+
+**IMPORTANTE**: Usa la porta 3001 (o altra porta libera) perché Next.js usa già la porta 3000.
 
 ### Opzioni di avvio
 
@@ -59,7 +61,7 @@ python demo/vibevoice_realtime_demo.py [opzioni]
 
 **Opzioni disponibili:**
 
-- `--port PORT`: Porta su cui avviare il server (default: 3000)
+- `--port PORT`: Porta su cui avviare il server (default: 3000, ma usa 3001 per evitare conflitti con Next.js)
 - `--model_path PATH`: Percorso del modello HuggingFace (default: `microsoft/VibeVoice-Realtime-0.5B`)
 - `--device DEVICE`: Dispositivo da utilizzare per l'inferenza
   - `cpu`: CPU (default su sistemi senza GPU)
@@ -72,30 +74,25 @@ python demo/vibevoice_realtime_demo.py [opzioni]
 
 **Avvio su CPU:**
 ```bash
-python demo/vibevoice_realtime_demo.py --device cpu --port 3000
+python demo/vibevoice_realtime_demo.py --device cpu --port 3001
 ```
 
 **Avvio su Apple Silicon (M1/M2/M3):**
 ```bash
-python demo/vibevoice_realtime_demo.py --device mps --port 3000
+python demo/vibevoice_realtime_demo.py --device mps --port 3001
 ```
 
 **Avvio su GPU NVIDIA:**
 ```bash
-python demo/vibevoice_realtime_demo.py --device cuda --port 3000
-```
-
-**Avvio con porta personalizzata:**
-```bash
-python demo/vibevoice_realtime_demo.py --port 8080
+python demo/vibevoice_realtime_demo.py --device cuda --port 3001
 ```
 
 ### Accesso al servizio
 
 Una volta avviato, il server sarà disponibile su:
 
-- **Web Interface**: http://localhost:3000
-- **WebSocket Endpoint**: ws://localhost:3000/stream
+- **Web Interface**: http://localhost:3001
+- **WebSocket Endpoint**: ws://localhost:3001/stream
 
 ### Voci disponibili
 
