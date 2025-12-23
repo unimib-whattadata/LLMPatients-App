@@ -48,51 +48,62 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentRequestRef = useRef<AbortController | null>(null);
+  const listenersRef = useRef<{
+    onTimeUpdate?: () => void;
+    onLoadedMetadata?: () => void;
+    onEnded?: () => void;
+    onError?: () => void;
+    onCanPlayThrough?: () => void;
+    onPlay?: () => void;
+    onPause?: () => void;
+  } | null>(null);
+  const currentAudioUrlRef = useRef<string | null>(null);
 
-  
+  const revokeCurrentAudioUrl = useCallback(() => {
+    if (currentAudioUrlRef.current) {
+      URL.revokeObjectURL(currentAudioUrlRef.current);
+      currentAudioUrlRef.current = null;
+    }
+  }, []);
+
+  const cleanupAudio = useCallback((resetState: boolean = true) => {
+    const audio = audioRef.current;
+    const listeners = listenersRef.current;
+
+    if (audio && listeners) {
+      if (listeners.onTimeUpdate) audio.removeEventListener("timeupdate", listeners.onTimeUpdate);
+      if (listeners.onLoadedMetadata) audio.removeEventListener("loadedmetadata", listeners.onLoadedMetadata);
+      if (listeners.onEnded) audio.removeEventListener("ended", listeners.onEnded);
+      if (listeners.onError) audio.removeEventListener("error", listeners.onError);
+      if (listeners.onCanPlayThrough) audio.removeEventListener("canplaythrough", listeners.onCanPlayThrough);
+      if (listeners.onPlay) audio.removeEventListener("play", listeners.onPlay);
+      if (listeners.onPause) audio.removeEventListener("pause", listeners.onPause);
+    }
+
+    if (audio) {
+      audio.pause();
+      audio.src = "";
+      audio.load();
+    }
+
+    audioRef.current = null;
+    listenersRef.current = null;
+
+    if (resetState) {
+      setIsPlaying(false);
+      setIsLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      cleanupAudio(false);
+      revokeCurrentAudioUrl();
       if (currentRequestRef.current) {
         currentRequestRef.current.abort();
       }
     };
-  }, []);
-
-  
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const updateTime = () => setCurrentTime(audio.currentTime);
-    const updateDuration = () => setDuration(audio.duration || 0);
-    const handleEnded = () => {
-      setIsPlaying(false);
-      onPlaybackEnd?.();
-    };
-    const handleError = () => {
-      const errorMsg = "Errore durante la riproduzione audio";
-      setError(errorMsg);
-      setIsPlaying(false);
-      setIsLoading(false);
-      onError?.(errorMsg);
-    };
-
-    audio.addEventListener("timeupdate", updateTime);
-    audio.addEventListener("loadedmetadata", updateDuration);
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("error", handleError);
-
-    return () => {
-      audio.removeEventListener("timeupdate", updateTime);
-      audio.removeEventListener("loadedmetadata", updateDuration);
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("error", handleError);
-    };
-  }, [onPlaybackEnd, onError]);
+  }, [cleanupAudio, revokeCurrentAudioUrl]);
 
   const generateAudio = useCallback(async (
     text: string,
@@ -182,17 +193,12 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       setIsLoading(true);
       setError(null);
       setIsTTSAvailable(true);
+      cleanupAudio();
+      revokeCurrentAudioUrl();
+      setCurrentAudioUrl(null);
+      setCurrentTime(0);
+      setDuration(0);
 
-      
-      if (audioRef.current) {
-        audioRef.current.pause();
-        
-      }
-
-      
-      
-
-      
       const audioUrl = await generateAudio(text, voiceId, emotion, patientName, options);
       
       
@@ -200,6 +206,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         if (prevUrl) {
           URL.revokeObjectURL(prevUrl);
         }
+        currentAudioUrlRef.current = audioUrl;
         return audioUrl;
       });
       setIsTTSAvailable(true);
@@ -208,8 +215,20 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
-      
-      audio.addEventListener("canplaythrough", () => {
+      const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+      const handleLoadedMetadata = () => setDuration(audio.duration || 0);
+      const handleEnded = () => {
+        setIsPlaying(false);
+        onPlaybackEnd?.();
+      };
+      const handleErrorEvent = () => {
+        const errorMsg = "Errore durante la riproduzione audio";
+        setError(errorMsg);
+        setIsPlaying(false);
+        setIsLoading(false);
+        onError?.(errorMsg);
+      };
+      const handleCanPlayThrough = () => {
         setIsLoading(false);
         if (autoPlay) {
           audio.play().catch((playError) => {
@@ -218,12 +237,27 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
             setIsLoading(false);
           });
         }
-      });
+      };
+      const handlePlay = () => setIsPlaying(true);
+      const handlePause = () => setIsPlaying(false);
 
-      audio.addEventListener("play", () => setIsPlaying(true));
-      audio.addEventListener("pause", () => setIsPlaying(false));
+      audio.addEventListener("timeupdate", handleTimeUpdate);
+      audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.addEventListener("ended", handleEnded);
+      audio.addEventListener("error", handleErrorEvent);
+      audio.addEventListener("canplaythrough", handleCanPlayThrough);
+      audio.addEventListener("play", handlePlay);
+      audio.addEventListener("pause", handlePause);
+      listenersRef.current = {
+        onTimeUpdate: handleTimeUpdate,
+        onLoadedMetadata: handleLoadedMetadata,
+        onEnded: handleEnded,
+        onError: handleErrorEvent,
+        onCanPlayThrough: handleCanPlayThrough,
+        onPlay: handlePlay,
+        onPause: handlePause,
+      };
 
-      
       audio.load();
     } catch (error) {
       // Handle cancellation silently
@@ -257,7 +291,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       setIsLoading(false);
       onError?.(errorMessage);
     }
-  }, [autoPlay, generateAudio, onError]);
+  }, [autoPlay, cleanupAudio, generateAudio, onError, onPlaybackEnd, revokeCurrentAudioUrl]);
 
   const togglePlayPause = useCallback(() => {
     const audio = audioRef.current;
@@ -283,25 +317,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   }, []);
 
   const clear = useCallback(() => {
-    const audio = audioRef.current;
-    if (audio) {
-      audio.pause();
-      audioRef.current = null;
-    }
-    
-    setCurrentAudioUrl((prevUrl) => {
-      if (prevUrl) {
-        URL.revokeObjectURL(prevUrl);
-      }
-      return null;
-    });
-    
-    setIsPlaying(false);
-    setIsLoading(false);
+    cleanupAudio();
+    revokeCurrentAudioUrl();
+    setCurrentAudioUrl(null);
     setCurrentTime(0);
     setDuration(0);
     setError(null);
-  }, []);
+  }, [cleanupAudio, revokeCurrentAudioUrl]);
 
   const seek = useCallback((time: number) => {
     const audio = audioRef.current;

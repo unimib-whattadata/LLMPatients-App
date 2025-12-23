@@ -4,6 +4,7 @@ import { createLogger } from "~/lib/logger";
 import { getTTSProvider } from "~/lib/tts/providers";
 import { TTS_HTTP_STATUS, TTS_ERROR_MESSAGES } from "~/lib/tts/constants";
 import type { TTSParams } from "~/lib/tts/providers/types";
+import { auth } from "~/server/auth";
 
 const logger = createLogger("TTS:API");
 
@@ -75,6 +76,11 @@ async function generateTTS(params: TTSParams): Promise<Response> {
 }
 
 export async function GET(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams;
     const text = searchParams.get("text");
@@ -107,6 +113,11 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const body = (await request.json()) as TTSParams;
 
@@ -126,4 +137,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

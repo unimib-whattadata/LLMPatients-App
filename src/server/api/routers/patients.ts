@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { eq, asc, and, like } from "drizzle-orm";
+import { eq, asc, and, like, inArray } from "drizzle-orm";
 import { adminProcedure } from "~/server/api/trpc";
 import {
   createTRPCRouter,
@@ -158,8 +158,7 @@ export const patientsRouter = createTRPCRouter({
 
       if (difficulty.length > 0) {
         whereConditions.push(
-          
-          eq(patients.difficulty, difficulty[0]!), 
+          inArray(patients.difficulty, difficulty),
         );
       }
 
@@ -266,7 +265,7 @@ export const patientsRouter = createTRPCRouter({
         smallDescription: patient.smallDescription,
         details: patient.details,
         background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
-        objectives: JSON.parse(patient.objectives) as string[],
+        objectives: safeJsonParse<string[]>(patient.objectives, []),
         avatarUrl: patient.avatarUrl,
         elevenlabsVoiceId: patient.elevenlabsVoiceId,
         vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,

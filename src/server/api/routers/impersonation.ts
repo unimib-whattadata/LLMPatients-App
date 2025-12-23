@@ -1,6 +1,6 @@
 
 import { z } from "zod";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, or, like, count } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 import {
@@ -414,13 +414,13 @@ export const impersonationRouter = createTRPCRouter({
 
         
         const totalCountResult = await (db as any)
-          .select({ count: impersonationSessions.id })
+          .select({ count: count() })
           .from(impersonationSessions)
           .where(
             whereConditions.length > 0 ? and(...whereConditions) : undefined,
           );
 
-        const totalCount = totalCountResult.length;
+        const totalCount = Number(totalCountResult[0]?.count ?? 0);
         const totalPages = Math.ceil(totalCount / limit);
 
         return {
@@ -465,11 +465,10 @@ export const impersonationRouter = createTRPCRouter({
         if (search?.trim()) {
           
           
-          whereConditions
-            .push
-            
-            
-            ();
+          const term = `%${search.trim()}%`;
+          whereConditions.push(
+            or(like(users.name, term), like(users.email, term)),
+          );
         }
 
         
@@ -494,11 +493,11 @@ export const impersonationRouter = createTRPCRouter({
 
         
         const totalCountResult = await (db as any)
-          .select({ count: users.id })
+          .select({ count: count() })
           .from(users)
           .where(and(...whereConditions));
 
-        const totalCount = totalCountResult.length;
+        const totalCount = Number(totalCountResult[0]?.count ?? 0);
         const totalPages = Math.ceil(totalCount / limit);
 
         return {

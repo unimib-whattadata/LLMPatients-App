@@ -151,8 +151,8 @@ export const therapySessionsRouter = createTRPCRouter({
     }),
 
   getAllForUser: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
     try {
-      const userId = ctx.session.user.id;
 
       const sessions = await (ctx.db as any)
         .select({

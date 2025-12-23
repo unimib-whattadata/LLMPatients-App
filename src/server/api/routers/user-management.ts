@@ -15,6 +15,7 @@ import {
   impersonationAuditLog,
 } from "~/server/db/tables";
 import { eq, asc, and, or, like, count } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 import { createLogger } from "~/lib/logger";
 
 const logger = createLogger("UserManagement");
@@ -64,15 +65,17 @@ export const userManagementRouter = createTRPCRouter({
         .offset(offset);
 
       
-      const totalCount = await (ctx.db as any)
-        .select({ count: (users as any).id })
+      const totalCountResult = await (ctx.db as any)
+        .select({ count: count() })
         .from(users)
         .where(whereClause);
 
+      const totalCount = Number(totalCountResult[0]?.count ?? 0);
+
       return {
         users: userList,
-        totalCount: totalCount.length,
-        hasMore: totalCount.length > offset + limit,
+        totalCount,
+        hasMore: offset + limit < totalCount,
       };
     }),
 
@@ -86,7 +89,7 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const { name, email, role } = input;
+      const { name, email, role, password } = input;
 
       
       const existingUser = await (ctx.db as any)
@@ -99,6 +102,9 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("User with this email already exists");
       }
 
+      const saltRounds = process.env.NODE_ENV === "production" ? 12 : 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+
       
       const newUser = await (ctx.db as any)
         .insert(users)
@@ -106,6 +112,7 @@ export const userManagementRouter = createTRPCRouter({
           name,
           email,
           role,
+          password: hashedPassword,
         })
         .returning({
           id: (users as any).id,
@@ -445,6 +452,9 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("User with this email already exists");
       }
 
+      const saltRounds = process.env.NODE_ENV === "production" ? 12 : 10;
+      const hashedPassword = await bcrypt.hash(input.password, saltRounds);
+
       
       const newUser = await (ctx.db as any)
         .insert(users)
@@ -452,6 +462,7 @@ export const userManagementRouter = createTRPCRouter({
           name,
           email,
           role,
+          password: hashedPassword,
         })
         .returning({
           id: (users as any).id,
