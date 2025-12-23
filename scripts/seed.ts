@@ -7,6 +7,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { execSync } from "child_process";
 import { config } from "dotenv";
+import nodeCrypto from "node:crypto";
 
 
 config({ path: join(process.cwd(), ".env.local") });
@@ -15,6 +16,11 @@ config({ path: join(process.cwd(), ".env") });
 
 if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "file:./dev.db";
+}
+
+// Ensure global crypto is available (required by bcryptjs in some environments)
+if (!(globalThis as any).crypto && (nodeCrypto as any).webcrypto) {
+  (globalThis as any).crypto = (nodeCrypto as any).webcrypto;
 }
 
 import bcrypt from "bcryptjs";
