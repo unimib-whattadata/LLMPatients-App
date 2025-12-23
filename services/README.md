@@ -1,133 +1,232 @@
-# Servizi TTS - VibeVoice
+## TTS Services – VibeVoice
 
-Questa cartella contiene i servizi di Text-to-Speech utilizzati nel progetto LLMPatients.
+This directory contains the Text-to-Speech services used by the **LLMPatients** project, in particular the local **VibeVoice** server.
 
-## 🎙️ VibeVoice
+### 🎙️ VibeVoice overview
 
-VibeVoice è un framework open-source di Microsoft per la sintesi vocale in tempo reale che supporta input di testo in streaming e generazione di discorsi lunghi.
+VibeVoice is an open-source framework by Microsoft for real-time speech synthesis.
+In LLMPatients, it runs as a **separate Python server**, and the Next.js app connects to it over HTTP/WebSocket through the `VibeVoiceProvider` in TypeScript.
 
-### Requisiti
+High-level architecture:
 
-- Python 3.9 o superiore
-- pip
-- Virtual environment (venv)
+- LLMPatients (Next.js) → `VibeVoiceProvider` (`src/lib/tts/providers/vibevoice.ts`)
+- WebSocket connection to the VibeVoice Python server (`/stream`)
+- The server streams PCM16 audio chunks, which are converted to WAV and returned to the frontend.
 
-### Setup iniziale
+---
 
-1. **Naviga nella cartella VibeVoice:**
-   ```bash
-   cd services/VibeVoice
-   ```
+### Environment configuration (`.env`)
 
-2. **Crea e attiva il virtual environment (se non esiste già):**
+The main environment variables related to TTS/VibeVoice are:
+
+```bash
+# TTS provider used by LLMPatients:
+#   - "none"
+#   - "elevenlabs"
+#   - "vibevoice"
+TTS_PROVIDER=vibevoice
+
+# Base HTTP URL of the local VibeVoice server.
+# The TypeScript provider will convert this to a WebSocket URL internally.
+VIBEVOICE_URL=http://localhost:3001
+
+# VibeVoice runtime configuration
+# Port and device are configurable and used when starting the Python server
+VIBEVOICE_PORT=3001
+VIBEVOICE_DEVICE=mps   # cpu | cuda | mps | mpx
+
+# Only required if using ElevenLabs as a provider
+# ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
+```
+
+The `VibeVoiceProvider` will:
+
+- Read `VIBEVOICE_URL` from `process.env` / `env`  
+- Convert it from HTTP to WebSocket (e.g. `http://localhost:3001` → `ws://localhost:3001/stream`)  
+- Connect, send text and voice preset, and collect the streamed audio
+
+So, in practice the **VibeVoice-specific env variables you must set** are:
+
+- `VIBEVOICE_URL` – must match the host and port where the Python server is running  
+- `VIBEVOICE_PORT` – the port the Python server listens on  
+- `VIBEVOICE_DEVICE` – the device the model uses for inference
+
+Make sure your `.env` is consistent, for example:
+
+```bash
+TTS_PROVIDER=vibevoice
+VIBEVOICE_URL=http://localhost:3001
+VIBEVOICE_PORT=3001
+VIBEVOICE_DEVICE=mps
+```
+
+---
+
+### Requirements
+
+- Python 3.9 or higher  
+- `pip`  
+- Virtual environment (`venv`)
+
+---
+
+### Initial setup
+
+From the project root:
+
+```bash
+cd services/VibeVoice
+```
+
+1. **Create and activate the virtual environment (if it does not exist yet):**
+
    ```bash
    python3 -m venv venv
-   source venv/bin/activate  # Su macOS/Linux
-   # oppure su Windows: venv\Scripts\activate
+   source venv/bin/activate  # macOS / Linux
+   # or on Windows:
+   # venv\Scripts\activate
    ```
 
-3. **Installa le dipendenze:**
+2. **Install dependencies:**
+
    ```bash
    pip install --upgrade pip
    pip install -e .
    ```
 
-   Questo installerà tutte le dipendenze necessarie, inclusi:
-   - PyTorch
-   - Transformers
-   - FastAPI
-   - Uvicorn
-   - e altre librerie richieste
+   This will install all required dependencies, including:
 
-### Avvio del server
+   - PyTorch  
+   - Transformers  
+   - FastAPI  
+   - Uvicorn  
+   - and other libraries required by VibeVoice
 
-Una volta completato il setup, puoi avviare il server VibeVoice con:
+---
+
+### Starting the VibeVoice server
+
+After the setup, start the VibeVoice server with the port and device taken from your environment:
 
 ```bash
 cd services/VibeVoice
 source venv/bin/activate
-python demo/vibevoice_realtime_demo.py --port 3001
+
+# Use values from .env (loaded into your shell) for port and device
+python demo/vibevoice_realtime_demo.py \
+  --port "${VIBEVOICE_PORT:-3001}" \
+  --device "${VIBEVOICE_DEVICE:-cpu}"
 ```
 
-**IMPORTANTE**: Usa la porta 3001 (o altra porta libera) perché Next.js usa già la porta 3000.
+> **Important:**  
+> Use a port that does not conflict with Next.js (usually `3000`), for example `3001`.  
+> The port used here **must match** the one in `VIBEVOICE_URL` and `VIBEVOICE_PORT`
+> (e.g. `VIBEVOICE_URL=http://localhost:3001` and `VIBEVOICE_PORT=3001`).
 
-### Opzioni di avvio
+---
 
-Il server supporta diverse opzioni da riga di comando:
+### Run options
+
+The server supports several command-line options:
 
 ```bash
-python demo/vibevoice_realtime_demo.py [opzioni]
+python demo/vibevoice_realtime_demo.py [options]
 ```
 
-**Opzioni disponibili:**
+**Common options:**
 
-- `--port PORT`: Porta su cui avviare il server (default: 3000, ma usa 3001 per evitare conflitti con Next.js)
-- `--model_path PATH`: Percorso del modello HuggingFace (default: `microsoft/VibeVoice-Realtime-0.5B`)
-- `--device DEVICE`: Dispositivo da utilizzare per l'inferenza
-  - `cpu`: CPU (default su sistemi senza GPU)
-  - `cuda`: GPU NVIDIA (se disponibile)
-  - `mps`: Apple Silicon GPU (Mac con chip M1/M2/M3)
-  - `mpx`: Alias per `mps`
-- `--reload`: Abilita il reload automatico durante lo sviluppo
+- `--port PORT` – port where the server will listen  
+- `--model_path PATH` – HuggingFace model path  
+  (default: `microsoft/VibeVoice-Realtime-0.5B`)  
+- `--device DEVICE` – device for inference  
+  - `cpu` – CPU (default on systems without GPU)  
+  - `cuda` – NVIDIA GPU (if available)  
+  - `mps` – Apple Silicon GPU (Mac M1/M2/M3)  
+  - `mpx` – alias for `mps`  
+- `--reload` – enable auto-reload during development
 
-### Esempi di utilizzo
+#### Example commands
 
-**Avvio su CPU:**
+Run on CPU (overriding env values):
+
 ```bash
 python demo/vibevoice_realtime_demo.py --device cpu --port 3001
 ```
 
-**Avvio su Apple Silicon (M1/M2/M3):**
+Run on Apple Silicon (M1/M2/M3):
+
 ```bash
 python demo/vibevoice_realtime_demo.py --device mps --port 3001
 ```
 
-**Avvio su GPU NVIDIA:**
+Run on NVIDIA GPU:
+
 ```bash
 python demo/vibevoice_realtime_demo.py --device cuda --port 3001
 ```
 
-### Accesso al servizio
+---
 
-Una volta avviato, il server sarà disponibile su:
+### Service access
 
-- **Web Interface**: http://localhost:3001
-- **WebSocket Endpoint**: ws://localhost:3001/stream
+Once running, the server is available at:
 
-### Voci disponibili
+- **Web interface**: `http://localhost:3001`  
+- **WebSocket endpoint**: `ws://localhost:3001/stream`
 
-Il servizio include diverse voci pre-configurate in `demo/voices/streaming_model/`:
+These values are derived from `VIBEVOICE_URL` in `.env`, so keep them aligned.
 
-- **Inglese**: Carter, Davis, Emma, Frank, Grace, Mike, Samuel
-- **Multilingue**: Voci per DE, FR, IT, JP, KR, NL, PL, PT, ES
+---
 
-### Note importanti
+### Voices
 
-1. **Primo avvio**: Al primo avvio, il modello verrà scaricato automaticamente da HuggingFace. Questo può richiedere alcuni minuti e spazio su disco (~1-2 GB).
+The service ships with several pre-configured voices under `demo/voices/streaming_model/`, including:
 
-2. **Memoria**: Il modello richiede almeno 4-8 GB di RAM disponibile.
+- **English**: Carter, Davis, Emma, Frank, Grace, Mike, Samuel  
+- **Multilingual**: voices for DE, FR, IT, JP, KR, NL, PL, PT, ES
 
-3. **Dispositivi**:
-   - Su macOS con Apple Silicon, usa `--device mps` per migliori prestazioni
-   - Su sistemi senza GPU, usa `--device cpu` (più lento ma funziona)
+---
 
-4. **Warning**: Potresti vedere alcuni warning durante l'avvio (tokenizer, OpenSSL). Non sono critici e non impediscono il funzionamento.
+### Notes
+
+1. **First run** – on the first startup, the model is downloaded from HuggingFace.  
+   This can take a few minutes and ~1–2 GB of disk space.
+
+2. **Memory** – the model typically needs at least 4–8 GB of available RAM.
+
+3. **Devices** –  
+   - On macOS with Apple Silicon, prefer `--device mps` for better performance.  
+   - On systems without a GPU, use `--device cpu` (slower but works everywhere).
+
+4. **Warnings** – you may see warnings (tokenizer, OpenSSL, etc.) when starting the server.  
+   They are usually non-blocking and do not prevent the server from working.
+
+---
 
 ### Troubleshooting
 
-**Problema: "ModuleNotFoundError"**
-- Soluzione: Assicurati di aver attivato il virtual environment e installato le dipendenze con `pip install -e .`
+**Issue: `ModuleNotFoundError`**  
+- Ensure the virtual environment is activated and dependencies installed with:
 
-**Problema: "Voices directory not found"**
-- Soluzione: Verifica che la cartella `demo/voices/streaming_model/` esista e contenga file `.pt`
+  ```bash
+  pip install -e .
+  ```
 
-**Problema: Server non si avvia**
-- Soluzione: Controlla che la porta non sia già in uso. Prova con una porta diversa usando `--port`
+**Issue: `Voices directory not found`**  
+- Check that `demo/voices/streaming_model/` exists and contains `.pt` files.
 
-### Documentazione aggiuntiva
+**Issue: server does not start**  
+- Ensure the chosen port is not already in use.  
+- Try a different port and update `VIBEVOICE_URL` in `.env` accordingly.
 
-Per maggiori informazioni su VibeVoice, consulta:
-- [Repository originale](https://github.com/microsoft/VibeVoice)
-- [Documentazione tecnica](https://microsoft.github.io/VibeVoice)
-- [HuggingFace Collection](https://huggingface.co/collections/microsoft/vibevoice-68a2ef24a875c44be47b034f)
+---
+
+### Additional documentation
+
+For more information about VibeVoice itself:
+
+- Original repository: `https://github.com/microsoft/VibeVoice`  
+- Technical docs: `https://microsoft.github.io/VibeVoice`  
+- HuggingFace collection: `https://huggingface.co/collections/microsoft/vibevoice-68a2ef24a875c44be47b034f`
+
 
