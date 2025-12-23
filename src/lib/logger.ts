@@ -83,6 +83,11 @@ function formatValue(value: unknown): string {
   if (value === undefined) return "undefined";
   if (typeof value === "string") return value;
   if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (typeof value === "bigint") return value.toString();
+  if (typeof value === "symbol") return value.toString();
+  if (typeof value === "function") {
+    return value.name ? `[Function ${value.name}]` : "[Function]";
+  }
   if (typeof value === "object") {
     try {
       return JSON.stringify(value);
@@ -90,7 +95,7 @@ function formatValue(value: unknown): string {
       return "[Object]";
     }
   }
-  return String(value);
+  return "[Unknown]";
 }
 
 function formatMetaInline(meta: Record<string, unknown>): string {

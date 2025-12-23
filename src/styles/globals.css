@@ -343,11 +343,6 @@ body {
 
 
 @media (prefers-contrast: high) {
-  .admin-nav-item,
-  .user-nav-item {
-    border: 2px solid currentColor;
-  }
-
   .dashboard-card,
   .patient-card {
     border: 2px solid currentColor;
@@ -356,19 +351,7 @@ body {
   }
 }
 
-@media (forced-colors: active) {
-  .admin-nav-item.active,
-  .user-nav-item.active {
-    forced-color-adjust: none;
-  }
-
-  .dashboard-header {
-    forced-color-adjust: none;
-  }
-}
-
 @media print {
-  .dashboard-header,
   .dashboard-sidebar,
   .footer-container {
     display: none;
@@ -661,4 +644,3 @@ html, body {
     opacity: 1;
   }
 }
-

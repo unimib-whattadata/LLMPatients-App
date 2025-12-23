@@ -3,38 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { signOut } from "next-auth/react";
-import {
-  LogOut,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
 import { createLogger } from "~/lib/logger";
+import type { User, ImpersonationContext } from "~/types";
 
 const logger = createLogger("ShadcnNavbar");
-
-interface User {
-  id: string;
-  name: string | null;
-  email: string;
-  role: "admin" | "user";
-  image?: string | null;
-}
-
-interface ImpersonationContext {
-  isImpersonating: boolean;
-  originalAdminId: string;
-  targetUserId: string;
-  targetUserEmail: string;
-  targetUserName: string | null;
-  startedAt: Date;
-  sessionId: string;
-}
-
-interface NavItem {
-  label: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
 
 type LayoutType = "dashboard" | "home";
 
@@ -51,7 +26,6 @@ export function ShadcnNavbar({
   layoutType: _layoutType,
   currentPage: _currentPage = "",
 }: ShadcnNavbarProps) {
-
 
   
   const displayUser = impersonation?.isImpersonating
@@ -154,11 +128,3 @@ export function ShadcnNavbar({
     </header>
   );
 }
-
-
-export type {
-  User,
-  ImpersonationContext,
-  NavItem,
-  LayoutType,
-};

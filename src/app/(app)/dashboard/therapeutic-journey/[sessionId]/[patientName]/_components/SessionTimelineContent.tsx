@@ -524,7 +524,7 @@ export function SessionTimelineContent({
                 </h1>
                 <p className="dashboard-section__description">
                   Il paziente non è stato inizializzato correttamente nel sistema esterno.
-                  L'inizializzazione è necessaria per avviare il percorso terapeutico.
+                  L&apos;inizializzazione è necessaria per avviare il percorso terapeutico.
                 </p>
                 <div className="mt-6">
                   <article className="dashboard-action-card">
@@ -551,7 +551,7 @@ export function SessionTimelineContent({
                               Errore di inizializzazione
                             </h3>
                             <p className="dashboard-action-card__description text-sm leading-snug">
-                              Si è verificato un errore durante la chiamata all'API esterna per l'inizializzazione del paziente.
+                              Si è verificato un errore durante la chiamata all&apos;API esterna per l&apos;inizializzazione del paziente.
                               Il percorso terapeutico non può essere avviato fino a quando questo problema non sarà risolto.
                             </p>
                           </div>

@@ -1,4 +1,4 @@
-import type { User, ImpersonationContext, NavItem, NavSection } from "./Navbar";
+import type { User, ImpersonationContext, NavItem, NavSection } from "~/types";
 import { Search, Users, Map, FileText, UserPlus, BookOpen } from "lucide-react";
 
 export function getNavSections(

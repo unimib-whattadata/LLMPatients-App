@@ -552,6 +552,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     isTyping,
     typedTherapySession,
     stepId,
+    user.id,
     messages,
     scrollToBottom,
     typedSelectedPatient,
