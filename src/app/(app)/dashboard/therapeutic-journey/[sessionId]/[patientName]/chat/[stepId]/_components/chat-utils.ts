@@ -22,8 +22,8 @@ export function getPatientAvatarPath(
   }
   
   // If avatarUrl contains an emotion keyword, replace it
-  // Example: "/images/patients/franklin/base.png" -> "/images/patients/franklin/SEEKING.png"
-  const emotionPattern = /\/(base|SEEKING|RAGE|FEAR|CARE|LUST|SADNESS|PLAY)\.png$/i;
+  // Example: "/images/patients/franklin/base.png" -> "/images/patients/franklin/seeking.png"
+  const emotionPattern = /\/(base|seeking|rage|fear|care|lust|sadness|play)\.png$/i;
   
   if (emotionPattern.test(avatarUrl)) {
     return avatarUrl.replace(emotionPattern, `/${emotion}.png`);
