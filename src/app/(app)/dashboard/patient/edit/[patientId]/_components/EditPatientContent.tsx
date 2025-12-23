@@ -63,7 +63,8 @@ export function EditPatientContent({ patientId }: EditPatientContentProps) {
       difficulty: values.difficulty,
       estimatedDuration: values.estimatedDuration,
       therapeuticJourney: patient.therapeuticJourney,
-      voiceId: patient.voiceId ?? undefined,
+      elevenlabsVoiceId: patient.elevenlabsVoiceId ?? undefined,
+      vibevoiceVoiceId: patient.vibevoiceVoiceId ?? undefined,
       welcomeMessage: patient.welcomeMessage ?? undefined,
       isActive: patient.isActive,
     });
