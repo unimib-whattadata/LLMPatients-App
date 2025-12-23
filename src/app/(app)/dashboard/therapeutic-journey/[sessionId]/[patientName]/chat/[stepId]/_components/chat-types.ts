@@ -21,7 +21,8 @@ export interface PatientData {
   background: string;
   objectives: string[];
   avatarUrl: string | null;
-  voiceId: string | null;
+  elevenlabsVoiceId: string | null;
+  vibevoiceVoiceId: string | null;
   welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;

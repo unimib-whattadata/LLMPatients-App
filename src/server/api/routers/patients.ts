@@ -31,7 +31,8 @@ export interface Patient {
   background: string; // Derived from clinicalCase for backward compatibility
   objectives: string[];
   avatarUrl?: string | null;
-  voiceId?: string | null;
+  elevenlabsVoiceId?: string | null;
+  vibevoiceVoiceId?: string | null;
   welcomeMessage?: string | null;
   therapeuticJourney: unknown;
   difficulty: DifficultyLevel;
@@ -83,7 +84,8 @@ export const patientsRouter = createTRPCRouter({
         background: patient.clinicalCase,
         objectives: safeJsonParse<string[]>(patient.objectives, []),
         avatarUrl: patient.avatarUrl,
-        voiceId: patient.voiceId,
+        elevenlabsVoiceId: patient.elevenlabsVoiceId,
+        vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -119,7 +121,8 @@ export const patientsRouter = createTRPCRouter({
         background: patient.clinicalCase,
         objectives: safeJsonParse<string[]>(patient.objectives, []),
         avatarUrl: patient.avatarUrl,
-        voiceId: patient.voiceId,
+        elevenlabsVoiceId: patient.elevenlabsVoiceId,
+        vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -195,7 +198,8 @@ export const patientsRouter = createTRPCRouter({
             background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
             objectives: safeJsonParse<string[]>(patient.objectives, []),
             avatarUrl: patient.avatarUrl,
-            voiceId: patient.voiceId,
+            elevenlabsVoiceId: patient.elevenlabsVoiceId,
+            vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
             welcomeMessage: patient.welcomeMessage,
             therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
             difficulty: patient.difficulty as DifficultyLevel,
@@ -264,7 +268,8 @@ export const patientsRouter = createTRPCRouter({
         background: patient.clinicalCase, // Map clinicalCase to background for backward compatibility
         objectives: JSON.parse(patient.objectives) as string[],
         avatarUrl: patient.avatarUrl,
-        voiceId: patient.voiceId,
+        elevenlabsVoiceId: patient.elevenlabsVoiceId,
+        vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -293,7 +298,8 @@ export const patientsRouter = createTRPCRouter({
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
-        voiceId: z.string().max(255).optional(),
+        elevenlabsVoiceId: z.string().max(255).optional(),
+        vibevoiceVoiceId: z.string().max(255).optional(),
         welcomeMessage: z.string().max(1000).optional(),
         therapeuticJourney: z.unknown().optional(),
         difficulty: z.number().min(1).max(3),
@@ -317,7 +323,8 @@ export const patientsRouter = createTRPCRouter({
           clinicalCase: input.background, // Store background as clinicalCase in DB
           objectives: JSON.stringify(input.objectives),
           avatarUrl: input.avatarUrl,
-          voiceId: input.voiceId ?? null,
+          elevenlabsVoiceId: input.elevenlabsVoiceId ?? null,
+          vibevoiceVoiceId: input.vibevoiceVoiceId ?? null,
           welcomeMessage: input.welcomeMessage ?? null,
           therapeuticJourney: JSON.stringify(input.therapeuticJourney ?? {}),
           difficulty: input.difficulty,
@@ -339,7 +346,8 @@ export const patientsRouter = createTRPCRouter({
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
-        voiceId: z.string().max(255).optional().nullable(),
+        elevenlabsVoiceId: z.string().max(255).optional().nullable(),
+        vibevoiceVoiceId: z.string().max(255).optional().nullable(),
         welcomeMessage: z.string().max(1000).optional().nullable(),
         therapeuticJourney: z.unknown().optional(),
         difficulty: z.number().min(1).max(3),
@@ -357,7 +365,8 @@ export const patientsRouter = createTRPCRouter({
         background,
         objectives,
         avatarUrl,
-        voiceId,
+        elevenlabsVoiceId,
+        vibevoiceVoiceId,
         welcomeMessage,
         therapeuticJourney,
         difficulty,
@@ -375,7 +384,8 @@ export const patientsRouter = createTRPCRouter({
           clinicalCase: background,
           objectives: JSON.stringify(objectives),
           avatarUrl: avatarUrl ?? null,
-          voiceId: voiceId ?? null,
+          elevenlabsVoiceId: elevenlabsVoiceId ?? null,
+          vibevoiceVoiceId: vibevoiceVoiceId ?? null,
           welcomeMessage: welcomeMessage ?? null,
           therapeuticJourney: JSON.stringify(therapeuticJourney ?? {}),
           difficulty,

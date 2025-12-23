@@ -9,8 +9,13 @@ export type TTSProviderName = "none" | "elevenlabs" | "vibevoice";
 export interface TTSParams {
   text: string;
   patientName?: string;
+  // Provider-agnostic override for voice; when not provided,
+  // provider-specific IDs from the patient record are used.
   voiceId?: string;
   emotion?: string;
+  // Provider-specific patient voice identifiers (preferred over generic voiceId)
+  elevenlabsVoiceId?: string;
+  vibevoiceVoiceId?: string;
 }
 
 export interface TTSProvider {

@@ -79,8 +79,9 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const text = searchParams.get("text");
     const patientName = searchParams.get("patientName");
-    const voiceId = searchParams.get("voiceId");
     const emotion = searchParams.get("emotion");
+    const elevenlabsVoiceId = searchParams.get("elevenlabsVoiceId");
+    const vibevoiceVoiceId = searchParams.get("vibevoiceVoiceId");
 
     if (!text) {
       return NextResponse.json(
@@ -92,8 +93,9 @@ export async function GET(request: NextRequest) {
     return generateTTS({
       text,
       patientName: patientName || undefined,
-      voiceId: voiceId || undefined,
       emotion: emotion || undefined,
+      elevenlabsVoiceId: elevenlabsVoiceId || undefined,
+      vibevoiceVoiceId: vibevoiceVoiceId || undefined,
     });
   } catch (error) {
     logger.error("GET request failed", error);

@@ -2,7 +2,7 @@
   "name": "Franklin Johnson",
   "briefDescription": "Studente afroamericano di 21 anni che lavora di notte per sostenersi, impegnato a mantenere gli studi nonostante rottura sentimentale, pressioni economiche e episodi di discriminazione nel campus.",
   "avatarUrl": "/images/patients/franklin/base.png",
-  "voiceId": "pNInz6obpgDQGcFmaJgB",
+  "elevenlabsVoiceId": "pNInz6obpgDQGcFmaJgB",
   "welcomeMessage": "Salve... Sono Franklin. Apprezzo che mi dedichi del tempo oggi. Ultimamente mi sento molto stressato, e... beh, ci sono diverse cose di cui vorrei parlare, se va bene.",
   "objectives": [
     "Ridurre l'ansia pervasiva",

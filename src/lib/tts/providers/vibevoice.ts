@@ -133,7 +133,8 @@ export class VibeVoiceProvider implements TTSProvider {
   async generateAudio(params: TTSParams): Promise<ArrayBuffer> {
     const WebSocket = getWebSocket();
     const wsUrl = this.getWebSocketUrl();
-    const voicePreset = this.getVoiceId(params.voiceId);
+    // Use provider-specific VibeVoice ID, fallback to mapping defaults.
+    const voicePreset = this.getVoiceId(params.vibevoiceVoiceId);
 
     logger.info("Generating speech", { patient: params.patientName || "(unknown)", voice: voicePreset });
 

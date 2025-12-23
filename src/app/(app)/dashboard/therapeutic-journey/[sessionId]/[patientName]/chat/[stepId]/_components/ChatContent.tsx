@@ -205,15 +205,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     ) {
       lastProcessedMessageIdRef.current = lastMessage.id;
       
-      // Use voiceId from database for TTS
+      // Use provider-specific voice IDs from database for TTS
       void audioPlayer.playText(
-        lastMessage.content, 
-        typedSelectedPatient?.voiceId || undefined, 
+        lastMessage.content,
+        undefined,
         lastMessage.emotion,
-        typedSelectedPatient?.name || undefined
+        typedSelectedPatient?.name || undefined,
+        {
+          elevenlabsVoiceId: typedSelectedPatient?.elevenlabsVoiceId || undefined,
+          vibevoiceVoiceId: typedSelectedPatient?.vibevoiceVoiceId || undefined,
+        },
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.voiceId, typedSelectedPatient?.name, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.name, hasUserInteracted]);
 
   
   useEffect(() => {

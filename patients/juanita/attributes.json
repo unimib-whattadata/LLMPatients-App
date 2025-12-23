@@ -2,7 +2,7 @@
   "name": "Juanita Pérez",
   "briefDescription": "Donna ispanica di 33 anni con vissuti intensi di vergogna, autostima fragile, ritiro sociale e difficoltà a mantenere stabilità emotiva, lavorativa e relazionale.",
   "avatarUrl": "/images/patients/juanita/base.png",
-  "voiceId": "21m00Tcm4TlvDq8ikWAM",
+  "elevenlabsVoiceId": "21m00Tcm4TlvDq8ikWAM",
   "welcomeMessage": "Sono Juanita. Non so bene da dove iniziare... o se ha senso iniziare. Ma sono qui, suppongo.",
   "objectives": [
     "Stabilizzare l'umore e ridurre i sintomi depressivi",

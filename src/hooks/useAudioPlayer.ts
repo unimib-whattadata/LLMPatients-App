@@ -16,7 +16,13 @@ export interface AudioPlayerState {
 }
 
 export interface AudioPlayerActions {
-  playText: (text: string, voiceId?: string, emotion?: string, patientName?: string) => Promise<void>;
+  playText: (
+    text: string,
+    voiceId?: string, // deprecated, kept for backwards compatibility of external callers
+    emotion?: string,
+    patientName?: string,
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+  ) => Promise<void>;
   togglePlayPause: () => void;
   stop: () => void;
   clear: () => void;
@@ -88,7 +94,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     };
   }, [onPlaybackEnd, onError]);
 
-  const generateAudio = useCallback(async (text: string, voiceId?: string, emotion?: string, patientName?: string): Promise<string> => {
+  const generateAudio = useCallback(async (
+    text: string,
+    voiceId?: string, // deprecated
+    emotion?: string,
+    patientName?: string,
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+  ): Promise<string> => {
     
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
@@ -100,9 +112,10 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     try {
       const params = new URLSearchParams({
         text,
-        ...(voiceId && { voiceId }),
         ...(emotion && { emotion }),
         ...(patientName && { patientName }),
+        ...(options?.elevenlabsVoiceId && { elevenlabsVoiceId: options.elevenlabsVoiceId }),
+        ...(options?.vibevoiceVoiceId && { vibevoiceVoiceId: options.vibevoiceVoiceId }),
       });
 
       const response = await fetch(`/api/tts/generate?${params}`, {
@@ -156,7 +169,13 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     }
   }, []);
 
-  const playText = useCallback(async (text: string, voiceId?: string, emotion?: string, patientName?: string) => {
+  const playText = useCallback(async (
+    text: string,
+    voiceId?: string,
+    emotion?: string,
+    patientName?: string,
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+  ) => {
     if (!text.trim()) return;
 
     try {
@@ -174,7 +193,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       
 
       
-      const audioUrl = await generateAudio(text, voiceId, emotion, patientName);
+      const audioUrl = await generateAudio(text, voiceId, emotion, patientName, options);
       
       
       setCurrentAudioUrl((prevUrl) => {

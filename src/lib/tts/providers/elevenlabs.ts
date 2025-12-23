@@ -39,8 +39,12 @@ export class ElevenLabsProvider implements TTSProvider {
       throw new Error("ElevenLabs API key not configured");
     }
 
-    // Determine voice ID
-    const voiceId = params.voiceId || this.getVoiceId(undefined, params.patientName);
+    // Determine voice ID: prefer patient-specific ElevenLabs ID,
+    // then fallback mapping based on patient name.
+    const voiceId =
+      params.elevenlabsVoiceId
+        ? this.getVoiceId(params.elevenlabsVoiceId, params.patientName)
+        : this.getVoiceId(undefined, params.patientName);
 
     // Determine emotion settings
     const emotionSettings = getEmotionSettings(params.emotion);

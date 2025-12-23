@@ -82,7 +82,8 @@ type PatientSeed = {
   clinicalCase: string;
   objectives: string[];
   avatarUrl: string | null;
-  voiceId: string | null;
+  elevenlabsVoiceId?: string | null;
+  vibevoiceVoiceId?: string | null;
   welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;
@@ -176,7 +177,8 @@ function loadPatientsFromFiles(): PatientSeed[] {
           clinicalCase,
           objectives: normalizedObjectives,
           avatarUrl: attributesData.avatarUrl || null,
-          voiceId: attributesData.voiceId || null,
+          elevenlabsVoiceId: attributesData.elevenlabsVoiceId || null,
+          vibevoiceVoiceId: attributesData.vibevoiceVoiceId || null,
           welcomeMessage: attributesData.welcomeMessage || null,
           difficulty: mapDifficultyToNumber(attributesData.difficulty),
           estimatedDuration: attributesData.estimatedDuration || 30,
@@ -257,7 +259,6 @@ function normalizeDetails(data: any): Record<string, any> {
   delete cloned.small_description;
   delete cloned.avatarUrl;
   delete cloned.avatar_url;
-  delete cloned.voiceId;
   delete cloned.welcomeMessage;
   delete cloned.difficulty;
   delete cloned.estimatedDuration;
@@ -497,7 +498,8 @@ async function seedPatients() {
         clinicalCase: patient.clinicalCase,
         objectives: JSON.stringify(patient.objectives),
         avatarUrl: patient.avatarUrl,
-        voiceId: patient.voiceId || null,
+        elevenlabsVoiceId: patient.elevenlabsVoiceId || null,
+        vibevoiceVoiceId: patient.vibevoiceVoiceId || null,
         welcomeMessage: patient.welcomeMessage || null,
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,

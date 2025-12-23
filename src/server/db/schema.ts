@@ -258,7 +258,8 @@ export const patients = createTable(
     objectives: d.text({ length: 2000 }).notNull(), 
     therapeuticJourney: d.text().notNull(),
     avatarUrl: d.text({ length: 500 }),
-    voiceId: d.text({ length: 255 }), // ElevenLabs voice ID for TTS
+    elevenlabsVoiceId: d.text({ length: 255 }), // New: dedicated ElevenLabs voice ID for TTS
+    vibevoiceVoiceId: d.text({ length: 255 }), // New: VibeVoice voice ID for TTS
     welcomeMessage: d.text({ length: 1000 }), // Optional custom welcome message
     difficulty: d.integer({ mode: "number" }).notNull(), 
     estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), 
