@@ -457,7 +457,7 @@ export const impersonationRouter = createTRPCRouter({
 
       try {
         
-        const whereConditions = [
+        const whereConditions: Parameters<typeof and>[number][] = [
           eq(users.role, "user"), 
         ];
 

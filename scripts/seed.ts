@@ -7,6 +7,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { execSync } from "child_process";
 import { config } from "dotenv";
+import nodeCrypto from "node:crypto";
 
 
 config({ path: join(process.cwd(), ".env.local") });
@@ -15,6 +16,11 @@ config({ path: join(process.cwd(), ".env") });
 
 if (!process.env.DATABASE_URL) {
   process.env.DATABASE_URL = "file:./dev.db";
+}
+
+// Ensure global crypto is available (required by bcryptjs in some environments)
+if (!(globalThis as any).crypto && (nodeCrypto as any).webcrypto) {
+  (globalThis as any).crypto = (nodeCrypto as any).webcrypto;
 }
 
 import bcrypt from "bcryptjs";
@@ -84,6 +90,7 @@ type PatientSeed = {
   avatarUrl: string | null;
   elevenlabsVoiceId?: string | null;
   vibevoiceVoiceId?: string | null;
+  externalPatientId?: string | null;
   welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;
@@ -179,6 +186,7 @@ function loadPatientsFromFiles(): PatientSeed[] {
           avatarUrl: attributesData.avatarUrl || null,
           elevenlabsVoiceId: attributesData.elevenlabsVoiceId || null,
           vibevoiceVoiceId: attributesData.vibevoiceVoiceId || null,
+          externalPatientId: attributesData.externalPatientId || null,
           welcomeMessage: attributesData.welcomeMessage || null,
           difficulty: mapDifficultyToNumber(attributesData.difficulty),
           estimatedDuration: attributesData.estimatedDuration || 30,
@@ -265,6 +273,7 @@ function normalizeDetails(data: any): Record<string, any> {
   delete cloned.name;
   delete cloned.clinicalCase;
   delete cloned.smallDescription;
+  delete cloned.externalPatientId;
   return cloned;
 }
 
@@ -500,6 +509,7 @@ async function seedPatients() {
         avatarUrl: patient.avatarUrl,
         elevenlabsVoiceId: patient.elevenlabsVoiceId || null,
         vibevoiceVoiceId: patient.vibevoiceVoiceId || null,
+        externalPatientId: patient.externalPatientId || null,
         welcomeMessage: patient.welcomeMessage || null,
         difficulty: patient.difficulty,
         estimatedDuration: patient.estimatedDuration,

@@ -12,6 +12,47 @@ import type { ResponseMetadata } from "~/server/services/patient-response-genera
 
 const logger = createLogger("Chat");
 
+// Helper to normalize emotion string to match PatientEmotion type
+function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "SADNESS" | "PLAY" | "base" {
+  if (!emotion || typeof emotion !== "string") {
+    return "base";
+  }
+  
+  // Convert to uppercase to match PatientEmotion type
+  const emotionUpper = emotion.toUpperCase();
+  
+  // Map valid emotions
+  const validEmotions = [
+    "SEEKING",
+    "RAGE",
+    "FEAR",
+    "CARE",
+    "LUST",
+    "SADNESS",
+    "PLAY",
+    "base",
+  ] as const;
+  
+  // Check if it's a valid emotion (case-insensitive)
+  const matchedEmotion = validEmotions.find(
+    (e) => e.toUpperCase() === emotionUpper
+  );
+  
+  return matchedEmotion ?? "base";
+}
+
+// Helper to normalize chat messages from database
+function normalizeChatMessages(messages: unknown): ChatMessage[] {
+  if (!Array.isArray(messages)) {
+    return [];
+  }
+  
+  return messages.map((msg: any) => ({
+    ...msg,
+    emotion: msg.emotion ? normalizeEmotion(msg.emotion) : undefined,
+  })) as ChatMessage[];
+}
+
 export interface ChatMessage {
   id: string;
   content: string;
@@ -75,9 +116,10 @@ export const chatRouter = createTRPCRouter({
       }
 
       const chatData = chatStep[0];
+      const parsedMessages = JSON.parse(chatData!.messages) as ChatMessage[];
       return {
         ...chatData,
-        messages: JSON.parse(chatData!.messages) as ChatMessage[],
+        messages: normalizeChatMessages(parsedMessages),
       };
     }),
 
@@ -170,9 +212,10 @@ export const chatRouter = createTRPCRouter({
           throw new Error("Failed to create chat step");
         }
 
+        const parsedMessagesNew = JSON.parse(newChat.messages) as ChatMessage[];
         return {
           ...newChat,
-          messages: JSON.parse(newChat.messages) as ChatMessage[],
+          messages: normalizeChatMessages(parsedMessagesNew),
         };
       } else {
         
@@ -194,9 +237,10 @@ export const chatRouter = createTRPCRouter({
           throw new Error("Failed to update chat step");
         }
 
+        const parsedMessagesUpdated = JSON.parse(updatedChat.messages) as ChatMessage[];
         return {
           ...updatedChat,
-          messages: JSON.parse(updatedChat.messages) as ChatMessage[],
+          messages: normalizeChatMessages(parsedMessagesUpdated),
         };
       }
     }),
@@ -357,9 +401,10 @@ export const chatRouter = createTRPCRouter({
         .orderBy(chat.stepNumber);
 
       return chatSteps.map((step: typeof chat.$inferSelect) => {
+        const parsedMessages = JSON.parse(step.messages) as ChatMessage[];
         return {
           ...step,
-          messages: JSON.parse(step.messages) as ChatMessage[],
+          messages: normalizeChatMessages(parsedMessages),
         };
       });
     }),

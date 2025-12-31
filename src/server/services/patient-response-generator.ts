@@ -711,6 +711,35 @@ function createGenerateResponseBody(
       };
 }
 
+// Helper to normalize emotion string to PatientEmotion type
+function normalizeEmotion(emotion: unknown): PatientEmotion {
+  if (!emotion || typeof emotion !== "string") {
+    return "base";
+  }
+  
+  // Convert to uppercase to match PatientEmotion type
+  const emotionUpper = emotion.toUpperCase();
+  
+  // Map valid emotions
+  const validEmotions: PatientEmotion[] = [
+    "SEEKING",
+    "RAGE",
+    "FEAR",
+    "CARE",
+    "LUST",
+    "SADNESS",
+    "PLAY",
+    "base",
+  ];
+  
+  // Check if it's a valid emotion (case-insensitive)
+  const matchedEmotion = validEmotions.find(
+    (e) => e.toUpperCase() === emotionUpper
+  );
+  
+  return matchedEmotion ?? "base";
+}
+
 // Helper for parsing response based on API mode
 function parseGenerateResponse(
   data: unknown,
@@ -720,12 +749,12 @@ function parseGenerateResponse(
   return isRemote
     ? {
         message: response.message as string,
-        emotion: response.emotion as PatientEmotion,
+        emotion: normalizeEmotion(response.emotion),
         timestamp: new Date((response.timestamp as string) || new Date()),
       }
     : {
         message: (response.response as { message: string }).message,
-        emotion: (response.response as { emotion: PatientEmotion }).emotion,
+        emotion: normalizeEmotion((response.response as { emotion: unknown }).emotion),
         timestamp: new Date(
           ((response.response as { timestamp?: string }).timestamp ||
             new Date()) as string,
@@ -1679,7 +1708,7 @@ class RealExternalAIService implements ExternalAIService {
         return {
           message: response.message,
           reasoning_time: response.reasoning_time,
-          emotion: response.emotion,
+          emotion: normalizeEmotion(response.emotion),
           topic: response.topic,
           timestamp: response.timestamp,
         };

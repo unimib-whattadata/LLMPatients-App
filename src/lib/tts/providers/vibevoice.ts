@@ -9,6 +9,7 @@ import { env } from "~/env";
 import { createLogger } from "~/lib/logger";
 import type { TTSProvider, TTSParams } from "./types";
 import { getVibeVoicePreset } from "./voice-mapping";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 import type WS from "ws";
 
 const logger = createLogger("TTS:VibeVoice");
@@ -183,7 +184,12 @@ export class VibeVoiceProvider implements TTSProvider {
           const pcmData = Buffer.concat(audioChunks);
           const wavData = pcm16ToWav(pcmData, 24000);
           logger.info("Audio generated successfully", { bytes: wavData.length });
-          resolve(wavData.buffer);
+          // Convert to ArrayBuffer (not SharedArrayBuffer)
+          // Create a new ArrayBuffer to ensure it's not a SharedArrayBuffer
+          const arrayBuffer = new ArrayBuffer(wavData.length);
+          const view = new Uint8Array(arrayBuffer);
+          view.set(wavData);
+          resolve(arrayBuffer);
         } catch (error) {
           reject(new Error(`Failed to convert audio: ${error instanceof Error ? error.message : "Unknown error"}`));
         }

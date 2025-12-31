@@ -17,6 +17,7 @@ import {
 import { eq, asc, and, or, like, count } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { createLogger } from "~/lib/logger";
+import { env } from "~/env";
 
 const logger = createLogger("UserManagement");
 
@@ -452,7 +453,7 @@ export const userManagementRouter = createTRPCRouter({
         throw new Error("User with this email already exists");
       }
 
-      const saltRounds = process.env.NODE_ENV === "production" ? 12 : 10;
+      const saltRounds = env.NODE_ENV === "production" ? 12 : 10;
       const hashedPassword = await bcrypt.hash(input.password, saltRounds);
 
       
