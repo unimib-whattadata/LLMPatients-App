@@ -14,7 +14,7 @@ export function isTTSEnabled(): boolean {
     // Client-side: we can't directly check env vars, so we'll need to check via API
     return true; // Will be determined by API response
   }
-  
+
   // Server-side: check environment variable
   const provider = process.env.TTS_PROVIDER;
   return provider === "elevenlabs" || provider === "vibevoice";
@@ -28,12 +28,12 @@ export function getConfiguredTTSProviderName(): "none" | "elevenlabs" | "vibevoi
     // Client-side: cannot access env vars directly
     return "none";
   }
-  
+
   const provider = process.env.TTS_PROVIDER;
   if (provider === "elevenlabs" || provider === "vibevoice" || provider === "none") {
     return provider;
   }
-  
+
   return "none";
 }
 
@@ -107,7 +107,7 @@ export function isRealTTSError(error: unknown): boolean {
 export async function checkTTSAvailability(): Promise<TTSAvailabilityResult> {
   try {
     const response = await fetch("/api/tts/config");
-    
+
     if (!response.ok) {
       return {
         isAvailable: false,
@@ -115,12 +115,14 @@ export async function checkTTSAvailability(): Promise<TTSAvailabilityResult> {
         reason: `HTTP ${response.status}`,
       };
     }
-    
-    const config = await response.json() as { provider: string; isAvailable: boolean; reason?: string };
-    
+
+    const config = await response.json() as { provider: string; location?: "local" | "remote"; isAvailable: boolean; reason?: string };
+
     return {
       isAvailable: config.isAvailable,
       status: config.isAvailable ? "enabled" : (config.provider === "none" ? "disabled" : "unavailable"),
+      provider: config.provider,
+      location: config.location,
       reason: config.reason,
     };
   } catch (error) {

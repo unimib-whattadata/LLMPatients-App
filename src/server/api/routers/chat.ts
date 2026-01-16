@@ -17,10 +17,10 @@ function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE
   if (!emotion || typeof emotion !== "string") {
     return "base";
   }
-  
+
   // Convert to uppercase to match PatientEmotion type
   const emotionUpper = emotion.toUpperCase();
-  
+
   // Map valid emotions
   const validEmotions = [
     "SEEKING",
@@ -32,12 +32,12 @@ function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE
     "PLAY",
     "base",
   ] as const;
-  
+
   // Check if it's a valid emotion (case-insensitive)
   const matchedEmotion = validEmotions.find(
     (e) => e.toUpperCase() === emotionUpper
   );
-  
+
   return matchedEmotion ?? "base";
 }
 
@@ -46,7 +46,7 @@ function normalizeChatMessages(messages: unknown): ChatMessage[] {
   if (!Array.isArray(messages)) {
     return [];
   }
-  
+
   return messages.map((msg: any) => ({
     ...msg,
     emotion: msg.emotion ? normalizeEmotion(msg.emotion) : undefined,
@@ -75,7 +75,7 @@ export interface Chat {
 }
 
 export const chatRouter = createTRPCRouter({
-  
+
   getChatStep: protectedProcedure
     .input(
       z.object({
@@ -84,7 +84,7 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      
+
       const therapySession = await ctx.db
         .select()
         .from(therapySessions)
@@ -123,7 +123,7 @@ export const chatRouter = createTRPCRouter({
       };
     }),
 
-  
+
   saveChatStep: protectedProcedure
     .input(
       z.object({
@@ -166,7 +166,7 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
+
       const therapySession = await ctx.db
         .select()
         .from(therapySessions)
@@ -202,7 +202,7 @@ export const chatRouter = createTRPCRouter({
       };
 
       if (existingChat.length === 0) {
-        
+
         const [newChat] = await ctx.db
           .insert(chat)
           .values(chatData)
@@ -218,7 +218,7 @@ export const chatRouter = createTRPCRouter({
           messages: normalizeChatMessages(parsedMessagesNew),
         };
       } else {
-        
+
         const existingChatData = existingChat[0];
         if (!existingChatData) {
           throw new Error("Chat step not found");
@@ -245,7 +245,7 @@ export const chatRouter = createTRPCRouter({
       }
     }),
 
-  
+
   markStepDone: protectedProcedure
     .input(
       z.object({
@@ -260,7 +260,7 @@ export const chatRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       });
 
-      
+
       const therapySession = await ctx.db
         .select()
         .from(therapySessions)
@@ -278,7 +278,7 @@ export const chatRouter = createTRPCRouter({
         throw new Error("Therapy session not found or access denied");
       }
 
-      
+
       const existingChat = await ctx.db
         .select()
         .from(chat)
@@ -297,7 +297,7 @@ export const chatRouter = createTRPCRouter({
         }
 
         logger.debug("Updating existing chat step to done", { chatId: existingChatData.id });
-        
+
         const [updatedChat] = await ctx.db
           .update(chat)
           .set({
@@ -313,7 +313,7 @@ export const chatRouter = createTRPCRouter({
 
         logger.debug("Chat step updated successfully");
 
-        
+
         if (input.stepNumber === 11) {
           await ctx.db
             .update(therapySessions)
@@ -332,13 +332,13 @@ export const chatRouter = createTRPCRouter({
         };
       } else {
         logger.debug("Creating new chat step as completed");
-        
+
         const [newChat] = await ctx.db
           .insert(chat)
           .values({
             therapySessionId: input.therapySessionId,
             stepNumber: input.stepNumber,
-            messages: JSON.stringify([]), 
+            messages: JSON.stringify([]),
             done: true,
             updatedAt: new Date(),
           })
@@ -350,7 +350,7 @@ export const chatRouter = createTRPCRouter({
 
         logger.debug("New chat step created", { chatId: newChat.id });
 
-        
+
         if (input.stepNumber === 11) {
           await ctx.db
             .update(therapySessions)
@@ -370,7 +370,7 @@ export const chatRouter = createTRPCRouter({
       }
     }),
 
-  
+
   getSessionChats: protectedProcedure
     .input(
       z.object({
@@ -378,7 +378,7 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      
+
       const therapySession = await ctx.db
         .select()
         .from(therapySessions)
@@ -409,7 +409,7 @@ export const chatRouter = createTRPCRouter({
       });
     }),
 
-  
+
   isStepCompleted: protectedProcedure
     .input(
       z.object({
@@ -418,7 +418,7 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
-      
+
       const therapySession = await ctx.db
         .select()
         .from(therapySessions)
@@ -448,7 +448,7 @@ export const chatRouter = createTRPCRouter({
       return chatStep.length > 0 ? chatStep[0]!.done : false;
     }),
 
-  
+
   generatePatientResponse: protectedProcedure
     .input(
       z.object({
@@ -483,7 +483,7 @@ export const chatRouter = createTRPCRouter({
       return await patientResponseGenerator.generateResponse(input);
     }),
 
-  
+
   generateChatResponse: protectedProcedure
     .input(
       z.object({
@@ -498,7 +498,7 @@ export const chatRouter = createTRPCRouter({
       return await patientResponseGenerator.generateChatResponse(input);
     }),
 
-  
+
   initializePatient: protectedProcedure
     .input(
       z.object({
@@ -519,7 +519,7 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
+
       const initInput: InitializePatientInput = {
         patientInfo: input.patientInfo,
         sessionId: input.sessionId,
@@ -527,7 +527,7 @@ export const chatRouter = createTRPCRouter({
       const initResponse =
         await patientResponseGenerator.initializePatient(initInput);
 
-      
+
       if (
         initResponse.status === "success" &&
         initResponse.external_patient_id
@@ -544,11 +544,12 @@ export const chatRouter = createTRPCRouter({
       return initResponse;
     }),
 
-  
+
   toggleExternalAI: protectedProcedure
     .input(z.object({ enabled: z.boolean() }))
     .mutation(async ({ input }) => {
-      patientResponseGenerator.setUseExternalAI(input.enabled);
       return { success: true, externalAIEnabled: input.enabled };
     }),
+
+
 });

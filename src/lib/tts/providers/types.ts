@@ -4,7 +4,7 @@
  * Common interfaces and types for TTS providers
  */
 
-export type TTSProviderName = "none" | "elevenlabs" | "vibevoice";
+export type TTSProviderName = "none" | "elevenlabs" | "vibevoice" | "chatterbox";
 
 export interface TTSParams {
   text: string;
@@ -23,6 +23,8 @@ export interface TTSProvider {
    * Name of the provider
    */
   name: TTSProviderName;
+
+  type: "local" | "remote";
 
   /**
    * Check if the provider is available and configured
@@ -46,6 +48,7 @@ export interface TTSProvider {
 
 export interface TTSProviderConfig {
   provider: TTSProviderName;
+  location: "local" | "remote";
   isAvailable: boolean;
   reason?: string;
 }

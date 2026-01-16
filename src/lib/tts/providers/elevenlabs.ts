@@ -13,6 +13,7 @@ const logger = createLogger("TTS:ElevenLabs");
 
 export class ElevenLabsProvider implements TTSProvider {
   name = "elevenlabs" as const;
+  type = "remote" as const;
 
   /**
    * Check if ElevenLabs is available and configured
@@ -34,7 +35,7 @@ export class ElevenLabsProvider implements TTSProvider {
    */
   async generateAudio(params: TTSParams): Promise<ArrayBuffer> {
     const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
-    
+
     if (!apiKey) {
       throw new Error("ElevenLabs API key not configured");
     }
@@ -80,7 +81,7 @@ export class ElevenLabsProvider implements TTSProvider {
     if (!response.ok) {
       const errorText = await response.text();
       logger.error("API request failed", { status: response.status, error: errorText.substring(0, 200) });
-      
+
       // Re-throw with status code for error handling
       const error = new Error(`ElevenLabs API error: ${response.status}`);
       (error as Error & { status?: number }).status = response.status;

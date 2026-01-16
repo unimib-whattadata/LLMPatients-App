@@ -11,12 +11,14 @@ import type { TTSProvider, TTSProviderName, TTSProviderConfig } from "./types";
 const logger = createLogger("TTS");
 import { ElevenLabsProvider } from "./elevenlabs";
 import { VibeVoiceProvider } from "./vibevoice";
+import { ChatterboxProvider } from "./chatterbox";
 
 /**
  * None Provider - used when TTS is disabled
  */
 class NoneProvider implements TTSProvider {
   name = "none" as const;
+  type = "local" as const;
 
   async isAvailable(): Promise<boolean> {
     return false;
@@ -36,11 +38,11 @@ class NoneProvider implements TTSProvider {
  */
 export function getConfiguredProvider(): TTSProviderName {
   const provider = process.env.TTS_PROVIDER || env.TTS_PROVIDER || "none";
-  
-  if (provider === "none" || provider === "elevenlabs" || provider === "vibevoice") {
+
+  if (provider === "none" || provider === "elevenlabs" || provider === "vibevoice" || provider === "chatterbox") {
     return provider;
   }
-  
+
   logger.warn("Invalid TTS_PROVIDER configured, using none", { configured: provider });
   return "none";
 }
@@ -56,6 +58,8 @@ export function createTTSProvider(): TTSProvider {
       return new ElevenLabsProvider();
     case "vibevoice":
       return new VibeVoiceProvider();
+    case "chatterbox":
+      return new ChatterboxProvider();
     case "none":
     default:
       return new NoneProvider();
@@ -70,13 +74,13 @@ let cachedProviderName: TTSProviderName | null = null;
 
 export function getTTSProvider(): TTSProvider {
   const currentProviderName = getConfiguredProvider();
-  
+
   // Recreate provider if it changed or doesn't exist
   if (!cachedProvider || cachedProviderName !== currentProviderName) {
     cachedProvider = createTTSProvider();
     cachedProviderName = currentProviderName;
   }
-  
+
   return cachedProvider;
 }
 
@@ -91,12 +95,14 @@ export async function getTTSProviderConfig(): Promise<TTSProviderConfig> {
     const isAvailable = await provider.isAvailable();
     return {
       provider: providerName,
+      location: provider.type,
       isAvailable,
       reason: isAvailable ? undefined : "Provider is not available or not configured",
     };
   } catch (error) {
     return {
       provider: providerName,
+      location: provider.type,
       isAvailable: false,
       reason: error instanceof Error ? error.message : "Unknown error",
     };
@@ -104,6 +110,6 @@ export async function getTTSProviderConfig(): Promise<TTSProviderConfig> {
 }
 
 // Export provider classes for direct use if needed
-export { ElevenLabsProvider, VibeVoiceProvider, NoneProvider };
+export { ElevenLabsProvider, VibeVoiceProvider, ChatterboxProvider, NoneProvider };
 export type { TTSProvider, TTSProviderName, TTSProviderConfig, TTSParams } from "./types";
 

@@ -55,11 +55,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const sessionId = params.sessionId as string;
   const stepId = parseInt(params.stepId as string);
 
-  
+
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [sessionTime, setSessionTime] = useState(0); 
+  const [sessionTime, setSessionTime] = useState(0);
   const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
@@ -76,7 +76,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const lastProcessedMessageIdRef = useRef<string | null>(null);
   const isInitialLoad = useRef(true);
 
-  
+
   // TTS status management
   const { isTTSEnabled, ttsStatus } = useTTSStatus(true);
 
@@ -91,7 +91,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [audioPlayer.isTTSAvailable]);
 
-  
+
   const {
     data: selectedPatient,
     isLoading: patientLoading,
@@ -101,14 +101,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     { enabled: Boolean(sessionId) },
   );
 
-  
+
   const { data: therapySession, isLoading: therapySessionLoading } =
     api.therapySessions.getByPatient.useQuery(
       { patientId: sessionId },
       { enabled: Boolean(sessionId) },
     );
 
-  
+
   const { data: existingChat, isLoading: chatLoading } =
     api.chat.getChatStep.useQuery(
       {
@@ -118,29 +118,32 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       { enabled: Boolean(therapySession?.id) },
     );
 
-  
+
   const { data: completedSteps, isLoading: completedStepsLoading } =
     api.chat.getSessionChats.useQuery(
       { therapySessionId: therapySession?.id ?? "" },
       { enabled: Boolean(therapySession?.id) },
     );
 
-  
+
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedExistingChat = existingChat as ChatStepData | undefined;
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
 
-  
+
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
   const generateResponseMutation = api.chat.generatePatientResponse.useMutation();
   const generateChatResponseMutation = api.chat.generateChatResponse.useMutation();
 
-  
+
+
+
+
   const utils = api.useUtils();
 
-  
+
   const patientAvatar = useMemo(
     () =>
       typedSelectedPatient
@@ -149,7 +152,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [typedSelectedPatient],
   );
 
-  
+
   const isStepCompleted = useMemo(() => {
     if (!typedCompletedSteps) return false;
     return typedCompletedSteps.some(
@@ -162,28 +165,28 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     const parenthesesRegex = /\(([^)]+)\)/g;
     const matches: string[] = [];
     let match;
-    
+
     // Extract all text in parentheses
     while ((match = parenthesesRegex.exec(text)) !== null) {
       matches.push(match[1]!);
     }
-    
+
     // Remove all text in parentheses from the original text
     const cleanedText = text.replace(parenthesesRegex, '').trim();
-    
+
     // Join all extracted texts
     const extractedText = matches.length > 0 ? matches.join(' ') : null;
-    
+
     return { cleanedText, extractedText };
   }, []);
 
-  
+
   const scrollToBottom = useCallback((delay = 100) => {
     setTimeout(() => {
       const container = messagesContainerRef.current;
       if (container) {
-        
-        const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0; 
+
+        const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0;
         container.scrollTo({
           top: container.scrollHeight + extraSpace,
           behavior: 'smooth'
@@ -192,19 +195,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }, delay);
   }, [audioPlayer.currentAudioUrl]);
 
-  
+
   useEffect(() => {
     if (messages.length === 0 || !hasUserInteracted) return;
-    
+
     const lastMessage = messages[messages.length - 1];
-    
+
     if (
-      lastMessage && 
-      lastMessage.sender === "patient" && 
+      lastMessage &&
+      lastMessage.sender === "patient" &&
       lastMessage.id !== lastProcessedMessageIdRef.current
     ) {
       lastProcessedMessageIdRef.current = lastMessage.id;
-      
+
       // Use provider-specific voice IDs from database for TTS
       void audioPlayer.playText(
         lastMessage.content,
@@ -219,17 +222,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.name, hasUserInteracted]);
 
-  
+
   useEffect(() => {
     if (audioPlayer.isPlaying || audioPlayer.currentAudioUrl) {
-      
+
       scrollToBottom(100);
     }
   }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl, scrollToBottom]);
 
-  
 
-  
+
+
   useEffect(() => {
     const interval = setInterval(() => {
       setSessionTime((prev) => prev + 1);
@@ -245,12 +248,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   }, []);
 
 
-  
+
   useEffect(() => {
     if (typedExistingChat && typedExistingChat.messages.length > 0) {
       if (isInitialLoad.current) {
         isInitialLoad.current = false;
-        
+
         const messagesWithDates = typedExistingChat.messages.map((msg) => {
           // Extract and remove text in parentheses for patient messages
           if (msg.sender === "patient") {
@@ -276,19 +279,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           };
         });
         setMessages(messagesWithDates);
-        
-        
+
+
         const lastPatientMessage = [...messagesWithDates]
           .reverse()
           .find((msg) => msg.sender === "patient" && msg.emotion);
-        
+
         if (lastPatientMessage?.emotion) {
           setCurrentEmotion(lastPatientMessage.emotion);
           setNextEmotion(null);
           setIsAvatarTransitioning(false);
         }
-        
-        
+
+
         setTimeout(() => {
           scrollToBottom(100);
         }, 200);
@@ -297,7 +300,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       if (isInitialLoad.current) {
         isInitialLoad.current = false;
         // Use welcome message from database, or generate a default one
-        const welcomeContent = typedSelectedPatient.welcomeMessage || 
+        const welcomeContent = typedSelectedPatient.welcomeMessage ||
           `Ciao! Sono ${typedSelectedPatient.name}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
 
         // Extract and remove text in parentheses from welcome message
@@ -318,8 +321,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         setCurrentEmotion("base");
         setNextEmotion(null);
         setIsAvatarTransitioning(false);
-        
-        
+
+
         setTimeout(() => {
           scrollToBottom(100);
         }, 200);
@@ -327,7 +330,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     }
   }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom, extractAndRemoveParentheses]);
 
-  
+
   const triggerAvatarEmotionChange = useCallback(
     (emotion: PatientEmotion) => {
       if (emotion === currentEmotion || emotion === nextEmotion) return;
@@ -337,12 +340,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
 
       setNextEmotion(emotion);
-      
-      
+
+
       requestAnimationFrame(() => {
         setIsAvatarTransitioning(true);
-        
-        
+
+
         avatarTransitionTimeoutRef.current = setTimeout(() => {
           setCurrentEmotion(emotion);
           setNextEmotion(null);
@@ -353,7 +356,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [currentEmotion, nextEmotion],
   );
 
-  
+
   useEffect(() => {
     if (!messages.length) {
       setCurrentEmotion("base");
@@ -371,15 +374,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
 
-    
+
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
     }
 
     const messageText = inputMessage.trim();
-    setInputMessage(""); 
+    setInputMessage("");
 
-    
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       content: messageText,
@@ -388,20 +391,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       stepId,
     };
 
-    
+
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
 
-    
+
     scrollToBottom(50);
 
-    
+
     setTimeout(() => {
       setIsTyping(true);
       scrollToBottom(50);
     }, 200);
 
-    
+
     try {
       await saveChatMutation.mutateAsync({
         therapySessionId: typedTherapySession.id,
@@ -418,11 +421,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       // Silent catch
     }
 
-    
+
     try {
-      
+
       if (typedSelectedPatient?.externalPatientId) {
-        
+
         const response = await generateChatResponseMutation.mutateAsync({
           external_patient_id: typedSelectedPatient.externalPatientId,
           user_message: messageText,
@@ -449,19 +452,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           metadata: response.metadata,
         };
 
-        
+
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
 
         scrollToBottom(100);
 
-        
+
         setTimeout(() => {
           inputRef.current?.focus();
         }, 300);
 
-        
+
         saveChatMutation.mutate({
           therapySessionId: typedTherapySession.id,
           stepNumber: stepId,
@@ -474,20 +477,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           })),
         });
       } else {
-        
+
         const response = await generateResponseMutation.mutateAsync({
           patientInfo: {
             id: typedSelectedPatient?.id || "",
             name: typedSelectedPatient?.name || "",
-            age: 45, 
-            gender: "male", 
-            diagnosis: "Disturbo d'ansia generalizzato", 
+            age: 45,
+            gender: "male",
+            diagnosis: "Disturbo d'ansia generalizzato",
             difficulty: typedSelectedPatient?.difficulty || 1,
             psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
             background: typedSelectedPatient?.background || "",
-            currentMedications: [], 
+            currentMedications: [],
             therapyGoals: typedSelectedPatient?.objectives || [],
-            previousSessions: 0, 
+            previousSessions: 0,
           },
           userMessage: messageText,
           stepId,
@@ -496,7 +499,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             content: msg.content,
             sender: msg.sender,
             timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
-          })), 
+          })),
         });
 
         triggerAvatarEmotionChange(response.emotion);
@@ -517,19 +520,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           metadata: response.metadata,
         };
 
-        
+
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
         setIsTyping(false);
 
         scrollToBottom(100);
 
-        
+
         setTimeout(() => {
           inputRef.current?.focus();
         }, 300);
 
-        
+
         saveChatMutation.mutate({
           therapySessionId: typedTherapySession.id,
           stepNumber: stepId,
@@ -545,8 +548,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     } catch (error) {
       setIsTyping(false);
       alert("Errore nella generazione della risposta. Riprova.");
-      
-      
+
+
       setTimeout(() => {
         inputRef.current?.focus();
       }, 300);
@@ -586,12 +589,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         stepNumber: stepId,
       });
 
-      
+
       await utils.chat.getSessionChats.invalidate({
         therapySessionId: typedTherapySession.id,
       });
 
-      
+
       setIsSuccessDialogOpen(true);
     } catch (error) {
       if (error instanceof Error) {
@@ -626,7 +629,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [handleSendMessage],
   );
 
-  
+
   const isLoading = useMemo(
     () =>
       patientLoading ||
@@ -636,7 +639,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [patientLoading, therapySessionLoading, chatLoading, completedStepsLoading],
   );
 
-  
+
   const currentDateString = useMemo(
     () => new Date().toLocaleDateString("it-IT"),
     [],
@@ -702,7 +705,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         role="main"
         aria-label="Chat con paziente virtuale"
       >
-        {}
+        { }
         <header
           className="dashboard-section navbar-background flex-shrink-0 px-4 py-4 sm:px-6"
           role="banner"
@@ -778,6 +781,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         </span>
                       </div>
                     </div>
+
+
+
+
                   </div>
                 </PopoverContent>
               </Popover>
@@ -802,17 +809,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           </div>
         </header>
 
-        {}
+        { }
         <div className="flex-1 flex min-h-0 overflow-hidden">
-          {}
+          { }
           <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
             <div className="flex flex-col items-center w-full space-y-3 pt-4">
-              <div 
+              <div
                 className="relative rounded-[1.1rem]"
                 style={{
                   padding: isAvatarTransitioning ? '4px' : '3px',
                   background: EMOTION_COLORS[nextEmotion ?? currentEmotion],
-                  boxShadow: isAvatarTransitioning 
+                  boxShadow: isAvatarTransitioning
                     ? `0 0 35px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}90, 0 0 70px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}50`
                     : `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
                   transition: `all ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
@@ -821,7 +828,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
                   {typedSelectedPatient ? (
                     <div className="relative w-full h-full">
-                      {}
+                      { }
                       <Image
                         key={`current-${currentEmotion}`}
                         src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, currentEmotion)}
@@ -862,7 +869,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       {patientAvatar?.initials}
                     </div>
                   )}
-                  {}
+                  { }
                   <Button
                     variant="ghost"
                     size="sm"
@@ -875,10 +882,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </Button>
                 </div>
               </div>
-              {}
+              { }
               {extractedText && (
                 <div className="flex flex-col items-center w-full mt-2 px-2">
-                  <div 
+                  <div
                     className="text-xs text-[var(--color-text-secondary)] text-center break-words max-w-full italic"
                     style={{
                       animation: 'fadeIn 0.5s ease-in-out',
@@ -888,7 +895,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </div>
                 </div>
               )}
-              {}
+              { }
               <div className="flex flex-col items-center w-full mt-2">
                 <div
                   className="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all duration-300"
@@ -903,41 +910,38 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             </div>
           </div>
 
-          {}
-          <div 
+          { }
+          <div
             ref={messagesContainerRef}
             className="flex-1 flex overflow-y-auto chat-scrollbar"
           >
             <div className="flex flex-1 min-h-full">
-              {}
+              { }
               <div className="flex-1 flex flex-col page-background relative">
-                {}
+                { }
                 <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
                   <div className="w-full max-w-4xl mx-auto">
                     <div className="space-y-4 sm:space-y-6">
                       {messages.map((message) => (
                         <div
                           key={message.id}
-                          className={`flex ${
-                            message.sender === "user" ? "justify-end" : "justify-start"
-                          }`}
+                          className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"
+                            }`}
                         >
                           <div
-                            className={`flex max-w-2xl space-x-3 ${
-                              message.sender === "user"
-                                ? "flex-row-reverse space-x-reverse"
-                                : "flex-row"
-                            }`}
-                          >
-                            {}
-                            <div
-                              className={`flex items-start gap-2 max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${
-                                message.sender === "patient"
-                                  ? "chat-bubble--patient"
-                                  : message.sender === "user"
-                                    ? "chat-bubble--user"
-                                    : ""
+                            className={`flex max-w-2xl space-x-3 ${message.sender === "user"
+                              ? "flex-row-reverse space-x-reverse"
+                              : "flex-row"
                               }`}
+                          >
+                            { }
+                            <div
+                              className={`flex items-start gap-2 max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${message.sender === "patient"
+                                ? "chat-bubble--patient"
+                                : message.sender === "user"
+                                  ? "chat-bubble--user"
+                                  : ""
+                                }`}
                             >
                               <p className="text-body text-sm sm:text-base flex-1">
                                 {message.content}
@@ -967,11 +971,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                           <div className="space-y-2 text-xs">
                                             <div className="flex justify-between">
                                               <span className="text-[var(--color-text-secondary)]">API Type:</span>
-                                              <span className={`font-mono text-[10px] text-[var(--color-text-primary)] ${
-                                                message.metadata.apiType === "REAL" 
-                                                  ? "text-green-400" 
-                                                  : "text-yellow-400"
-                                              }`}>
+                                              <span className={`font-mono text-[10px] text-[var(--color-text-primary)] ${message.metadata.apiType === "REAL"
+                                                ? "text-green-400"
+                                                : "text-yellow-400"
+                                                }`}>
                                                 {message.metadata.apiType}
                                               </span>
                                             </div>
@@ -988,24 +991,24 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                             {message.metadata.duration !== undefined && (
                                               <div className="flex justify-between">
                                                 <span className="text-[var(--color-text-secondary)]">Durata:</span>
-                                              <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                {message.metadata.duration < 1000 
-                                                  ? `${message.metadata.duration}ms` 
-                                                  : `${(message.metadata.duration / 1000).toFixed(2)}s`}
-                                              </span>
+                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
+                                                  {message.metadata.duration < 1000
+                                                    ? `${message.metadata.duration}ms`
+                                                    : `${(message.metadata.duration / 1000).toFixed(2)}s`}
+                                                </span>
                                               </div>
                                             )}
                                             {message.metadata.timestamp && (
                                               <div className="flex justify-between">
                                                 <span className="text-[var(--color-text-secondary)]">Timestamp:</span>
-                                              <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
-                                              </span>
+                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
+                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
+                                                </span>
                                               </div>
                                             )}
                                           </div>
                                         </div>
-                                        
+
                                         {message.metadata.requestData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
                                             <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
@@ -1065,7 +1068,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                             </div>
                                           </div>
                                         )}
-                                        
+
                                         {message.metadata.responseData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
                                             <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
@@ -1099,11 +1102,10 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               {message.metadata.responseData.status && (
                                                 <div className="flex justify-between">
                                                   <span className="text-[var(--color-text-secondary)]">Status:</span>
-                                                  <span className={`font-mono text-[10px] ${
-                                                    message.metadata.responseData.status === "success" 
-                                                      ? "text-green-400" 
-                                                      : "text-red-400"
-                                                  }`}>
+                                                  <span className={`font-mono text-[10px] ${message.metadata.responseData.status === "success"
+                                                    ? "text-green-400"
+                                                    : "text-red-400"
+                                                    }`}>
                                                     {message.metadata.responseData.status}
                                                   </span>
                                                 </div>
@@ -1117,7 +1119,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                                 </div>
                                               )}
                                             </div>
-                                            
+
                                             {message.metadata.rawResponseJson && (
                                               <div className="mt-3 border-t border-[var(--color-border-secondary)] pt-3">
                                                 <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
@@ -1155,11 +1157,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </div>
                 </div>
 
-                {}
+                { }
                 {!isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
                     <div className="mx-auto max-w-4xl bg-transparent">
-                      {}
+                      { }
                       {!audioPlayer.isTTSAvailable && showTTSWarning && isTTSEnabled !== false && (
                         <div className="mb-4">
                           <div className="message message-warning">
@@ -1187,7 +1189,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         </div>
                       )}
 
-                      {}
+                      { }
                       {!hasUserInteracted && audioPlayer.isTTSAvailable && isTTSEnabled !== false && (
                         <div className="mb-4">
                           <div className="message message-info">
@@ -1206,7 +1208,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         </div>
                       )}
 
-                      {}
+                      { }
                       {(audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
                         <div className="mb-4 p-4 bg-transparent">
                           <div className="flex space-x-2 sm:space-x-3">
@@ -1220,12 +1222,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 </div>
                               ) : (
                                 <>
-                                  {}
+                                  { }
                                   <Button
                                     variant="ghost"
                                     size="sm"
                                     onClick={() => {
-                                      
+
                                       if (!hasUserInteracted) {
                                         setHasUserInteracted(true);
                                       }
@@ -1248,21 +1250,21 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     )}
                                   </Button>
 
-                                  {}
+                                  { }
                                   {audioPlayer.isPlaying && showAudioWaveform && (
                                     <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
                                       {Array.from({ length: 60 }, (_, i) => {
-                                        
-                                        const progress = audioPlayer.duration > 0 
-                                          ? (audioPlayer.currentTime / audioPlayer.duration) 
+
+                                        const progress = audioPlayer.duration > 0
+                                          ? (audioPlayer.currentTime / audioPlayer.duration)
                                           : 0;
                                         const barProgress = i / 60;
                                         const isPast = barProgress < progress;
                                         const baseHeight = 6;
-                                        const animatedHeight = isPast 
-                                          ? baseHeight + (Math.sin(i * 0.5) * 15) 
+                                        const animatedHeight = isPast
+                                          ? baseHeight + (Math.sin(i * 0.5) * 15)
                                           : baseHeight + (Math.sin(i * 0.3 + Date.now() * 0.002) * 20);
-                                        
+
                                         return (
                                           <div
                                             key={i}
@@ -1282,12 +1284,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     </div>
                                   )}
 
-                                  {}
+                                  { }
                                   {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
                                     <div className="flex items-center justify-center flex-1 h-20">
                                       <span className="text-sm text-[var(--color-text-secondary)]">
-                                        {audioPlayer.isPlaying 
-                                          ? "Riproduzione in corso..." 
+                                        {audioPlayer.isPlaying
+                                          ? "Riproduzione in corso..."
                                           : "Audio pronto - Clicca play per ascoltare"
                                         }
                                       </span>
@@ -1296,7 +1298,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 </>
                               )}
                             </div>
-                            
+
                             <Button
                               variant="ghost"
                               size="sm"
@@ -1310,58 +1312,58 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           </div>
                         </div>
                       )}
-                    
-                    <div className="flex space-x-2 sm:space-x-3 bg-transparent">
-                      <div className="relative flex-1">
-                        <Input
-                          ref={inputRef}
-                          value={inputMessage}
-                          onChange={(e) => setInputMessage(e.target.value)}
-                          onKeyPress={handleKeyPress}
-                          placeholder="Inizia la conversazione"
-                          disabled={isTyping}
-                          className="flex-1 text-sm sm:text-base h-11"
-                          aria-label="Messaggio da inviare"
-                        />
-                      </div>
-                      <Button
-                        onClick={() => void handleSendMessage()}
-                        disabled={!inputMessage.trim() || isTyping}
-                        className="chat-send-button h-11 w-11"
-                        aria-label="Invia messaggio"
-                      >
-                        <Send className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              )}
 
-              {}
-              {isStepCompleted && (
-                <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
-                  <div className="mx-auto max-w-4xl text-center">
-                    <div className="pill bg-primary-green text-white px-4 py-3">
-                      <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                        <Check className="h-4 w-4" aria-hidden="true" />
-                        <span>
-                          Sessione {stepId} completata - La conversazione è in modalità sola lettura
-                        </span>
-                      </p>
+                      <div className="flex space-x-2 sm:space-x-3 bg-transparent">
+                        <div className="relative flex-1">
+                          <Input
+                            ref={inputRef}
+                            value={inputMessage}
+                            onChange={(e) => setInputMessage(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                            placeholder="Inizia la conversazione"
+                            disabled={isTyping}
+                            className="flex-1 text-sm sm:text-base h-11"
+                            aria-label="Messaggio da inviare"
+                          />
+                        </div>
+                        <Button
+                          onClick={() => void handleSendMessage()}
+                          disabled={!inputMessage.trim() || isTyping}
+                          className="chat-send-button h-11 w-11"
+                          aria-label="Invia messaggio"
+                        >
+                          <Send className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+
+                { }
+                {isStepCompleted && (
+                  <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
+                    <div className="mx-auto max-w-4xl text-center">
+                      <div className="pill bg-primary-green text-white px-4 py-3">
+                        <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                          <Check className="h-4 w-4" aria-hidden="true" />
+                          <span>
+                            Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {}
+              { }
               <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
             </div>
           </div>
         </div>
       </div>
 
-      {}
+      { }
       <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
         <DialogContent className="sm:max-w-md [&>div]:!animate-none !animate-none">
           <DialogHeader>
@@ -1394,7 +1396,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </DialogContent>
       </Dialog>
 
-      {}
+      { }
       <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
         <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
           <DialogHeader className="sr-only">

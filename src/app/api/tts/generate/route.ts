@@ -25,7 +25,10 @@ async function generateTTS(params: TTSParams): Promise<Response> {
     const audioBuffer = await provider.generateAudio(params);
 
     // Determine content type based on provider
-    const contentType = provider.name === "vibevoice" ? "audio/wav" : "audio/mpeg";
+    let contentType = "audio/mpeg";
+    if (provider.name === "vibevoice" || provider.name === "chatterbox") {
+      contentType = "audio/wav";
+    }
 
     return new NextResponse(audioBuffer, {
       status: 200,
@@ -36,10 +39,10 @@ async function generateTTS(params: TTSParams): Promise<Response> {
     });
   } catch (error) {
     logger.error("Audio generation failed", { provider: provider.name, error: error instanceof Error ? error.message : String(error) });
-    
+
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     const errorStatus = (error as Error & { status?: number }).status;
-    
+
     // Map error status to appropriate response
     if (errorStatus === 402) {
       return NextResponse.json(
@@ -60,10 +63,10 @@ async function generateTTS(params: TTSParams): Promise<Response> {
       );
     }
 
-    // Connection errors for VibeVoice
-    if (errorMessage.includes("connection") || errorMessage.includes("timeout")) {
+    // Connection errors for VibeVoice / Chatterbox
+    if (errorMessage.includes("connection") || errorMessage.includes("timeout") || errorMessage.includes("python")) {
       return NextResponse.json(
-        { error: `TTS connection error: ${errorMessage}` },
+        { error: `TTS service error: ${errorMessage}` },
         { status: 503 }
       );
     }

@@ -2,16 +2,16 @@ import { createEnv } from "@t3-oss/env-nextjs";
 import { z } from "zod";
 
 export const env = createEnv({
-    server: {
+  server: {
     AUTH_SECRET:
       process.env.NODE_ENV === "production"
         ? z.string().min(32)
         : z.string().min(32).optional(),
-    NEXTAUTH_SECRET: z.string().min(32).optional(), 
-    JWT_SECRET: z.string().min(32).optional(), 
+    NEXTAUTH_SECRET: z.string().min(32).optional(),
+    JWT_SECRET: z.string().min(32).optional(),
     DATABASE_URL: z.string().min(1).refine(
       (url) => {
-        
+
         return (
           url.startsWith("file:") ||
           url.startsWith("libsql:") ||
@@ -31,7 +31,7 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
     TTS_PROVIDER: z
-      .enum(["none", "elevenlabs", "vibevoice"])
+      .enum(["none", "elevenlabs", "vibevoice", "chatterbox"])
       .default("none"),
     ELEVENLABS_API_KEY: z.string().min(1).optional(),
     VIBEVOICE_URL: z.string().url().default("http://localhost:3001"),
@@ -47,11 +47,11 @@ export const env = createEnv({
     EXTERNAL_AI_API_KEY: z.string().min(1).optional(),
   },
 
-    client: {
+  client: {
     NEXT_PUBLIC_NODE_ENV: z.enum(["development", "test", "production"]).optional(),
   },
 
-    runtimeEnv: {
+  runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     JWT_SECRET: process.env.JWT_SECRET,
@@ -72,6 +72,6 @@ export const env = createEnv({
     API_TIMEOUT_CHAT_RESPONSE: process.env.API_TIMEOUT_CHAT_RESPONSE,
     EXTERNAL_AI_API_KEY: process.env.EXTERNAL_AI_API_KEY,
   },
-    skipValidation: !!process.env.SKIP_ENV_VALIDATION,
-    emptyStringAsUndefined: true,
+  skipValidation: !!process.env.SKIP_ENV_VALIDATION,
+  emptyStringAsUndefined: true,
 });

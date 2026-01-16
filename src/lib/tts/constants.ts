@@ -34,6 +34,8 @@ export type TTSStatus = "enabled" | "disabled" | "unavailable" | "unknown";
 export interface TTSAvailabilityResult {
   isAvailable: boolean;
   status: TTSStatus;
+  provider?: string;
+  location?: "local" | "remote";
   reason?: string;
 }
 

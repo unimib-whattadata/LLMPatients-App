@@ -15,6 +15,39 @@ A Next.js application for simulating patient interactions using Large Language M
 pnpm install
 ```
 
+## Database
+
+By default, the application uses **SQLite** for local development.
+
+### Initialize Database (SQLite)
+
+1. Ensure `.env` has the correct `DATABASE_URL`:
+   ```env
+   DATABASE_URL="file:./dev.db"
+   ```
+
+2. Push the schema to the database:
+   ```bash
+   pnpm db:push
+   ```
+
+3. (Optional) Seed the database with initial data:
+   ```bash
+   pnpm db:seed
+   ```
+
+### PostgreSQL (Optional)
+
+If you prefer to use PostgreSQL:
+1. Update `.env`:
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
+   ```
+2. Run the specific PostgreSQL push command:
+   ```bash
+   pnpm db:push:postgres
+   ```
+
 ### Development
 
 ```bash
@@ -27,6 +60,55 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ```bash
 pnpm build
+```
+
+## TTS Integration (Text-to-Speech)
+
+This project supports local Text-to-Speech using **Chatterbox (Turbo)** and **VibeVoice (0.5b)** directly integrated via Python.
+
+### Prerequisites
+
+- Python 3.10+ (tested with 3.11)
+- `pip`
+
+### Setup Services
+
+The services are located in the `services/` directory.
+
+#### 1. Chatterbox
+
+Chatterbox requires a virtual environment and dependencies:
+
+```bash
+cd services/chatterbox
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+#### 2. VibeVoice
+
+VibeVoice uses the system python or a compatible environment (Python 3.9+). 
+Ensure you have the necessary dependencies installed (pytorch, transformers, etc) or use the `scripts/install-services.ts` helper (note: helper might only clone repos).
+
+### Configuration
+
+Set the `TTS_PROVIDER` environment variable in `.env`:
+
+```env
+# Options: 'chatterbox', 'vibevoice', 'elevenlabs', 'none'
+TTS_PROVIDER="chatterbox"
+
+# Optional: VibeVoice URL if running remotely (default is local bridge)
+# VIBEVOICE_URL="http://localhost:3000" 
+```
+
+### Testing
+
+To run a comprehensive test of all platform functionalities (system diagnostics + TTS integration):
+
+```bash
+pnpm test
 ```
 
 ## Logger
