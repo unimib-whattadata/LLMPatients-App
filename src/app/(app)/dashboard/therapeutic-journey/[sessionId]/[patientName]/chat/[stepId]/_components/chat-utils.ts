@@ -1,4 +1,3 @@
-
 import type { PatientEmotion } from "./chat-constants";
 import { AVATAR_COLOR_CLASSES } from "./chat-constants";
 
@@ -14,30 +13,39 @@ export function formatSessionTime(seconds: number): string {
  */
 export function getPatientAvatarPath(
   avatarUrl: string | null | undefined,
-  emotion: PatientEmotion = "base"
+  emotion: PatientEmotion = "base",
 ): string {
   // Convert emotion to lowercase for file path (files are lowercase: rage.png, sadness.png, etc.)
   const emotionLower = emotion.toLowerCase();
-  
+
   // If no avatarUrl is provided, return a default placeholder
   if (!avatarUrl) {
     return `/images/patients/default/${emotionLower}.png`;
   }
-  
+
   // If avatarUrl contains an emotion keyword, replace it
   // Example: "/images/patients/franklin/base.png" -> "/images/patients/franklin/seeking.png"
   // Pattern matches any emotion name (case-insensitive) before .png at the end
-  const emotionPattern = /\/(base|seeking|rage|fear|care|lust|sadness|play)\.png$/i;
-  
+  const emotionPattern =
+    /\/(base|seeking|rage|fear|care|lust|sadness|play)\.png$/i;
+
   if (emotionPattern.test(avatarUrl)) {
     const newPath = avatarUrl.replace(emotionPattern, `/${emotionLower}.png`);
     // Debug logging (remove in production)
-    if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
-      console.log("[getPatientAvatarPath]", { avatarUrl, emotion, emotionLower, newPath });
+    if (
+      typeof window !== "undefined" &&
+      process.env.NODE_ENV === "development"
+    ) {
+      console.log("[getPatientAvatarPath]", {
+        avatarUrl,
+        emotion,
+        emotionLower,
+        newPath,
+      });
     }
     return newPath;
   }
-  
+
   // If avatarUrl doesn't follow the emotion pattern, try to construct path from directory
   // Extract patient directory from path (e.g., "/images/patients/franklin/base.png" -> "franklin")
   const patientDirMatch = avatarUrl.match(/\/images\/patients\/([^/]+)\//);
@@ -45,7 +53,7 @@ export function getPatientAvatarPath(
     const patientDir = patientDirMatch[1];
     return `/images/patients/${patientDir}/${emotionLower}.png`;
   }
-  
+
   // If avatarUrl doesn't follow the emotion pattern, return as is
   return avatarUrl;
 }
@@ -70,4 +78,3 @@ export function generatePatientAvatar(name: string): {
 
   return { colorClass, initials: finalInitials };
 }
-
