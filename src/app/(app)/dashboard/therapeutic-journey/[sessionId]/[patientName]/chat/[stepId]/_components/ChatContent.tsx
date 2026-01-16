@@ -217,10 +217,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         {
           elevenlabsVoiceId: typedSelectedPatient?.elevenlabsVoiceId || undefined,
           vibevoiceVoiceId: typedSelectedPatient?.vibevoiceVoiceId || undefined,
+          chatterboxVoiceId: typedSelectedPatient?.chatterboxVoiceId || undefined,
+          gender: typedSelectedPatient?.gender || undefined,
         },
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.name, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.name, hasUserInteracted]);
 
 
   useEffect(() => {

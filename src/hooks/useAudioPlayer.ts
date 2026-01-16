@@ -21,7 +21,7 @@ export interface AudioPlayerActions {
     voiceId?: string, // deprecated, kept for backwards compatibility of external callers
     emotion?: string,
     patientName?: string,
-    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string; chatterboxVoiceId?: string; gender?: string },
   ) => Promise<void>;
   togglePlayPause: () => void;
   stop: () => void;
@@ -37,7 +37,7 @@ export interface UseAudioPlayerOptions {
 
 export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayerState & AudioPlayerActions {
   const { autoPlay = true, onPlaybackEnd, onError } = options;
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [currentAudioUrl, setCurrentAudioUrl] = useState<string | null>(null);
@@ -45,7 +45,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [isTTSAvailable, setIsTTSAvailable] = useState(true);
-  
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const currentRequestRef = useRef<AbortController | null>(null);
   const listenersRef = useRef<{
@@ -110,9 +110,9 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     voiceId?: string, // deprecated
     emotion?: string,
     patientName?: string,
-    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string; chatterboxVoiceId?: string; gender?: string },
   ): Promise<string> => {
-    
+
     if (currentRequestRef.current) {
       currentRequestRef.current.abort();
     }
@@ -127,6 +127,8 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         ...(patientName && { patientName }),
         ...(options?.elevenlabsVoiceId && { elevenlabsVoiceId: options.elevenlabsVoiceId }),
         ...(options?.vibevoiceVoiceId && { vibevoiceVoiceId: options.vibevoiceVoiceId }),
+        ...(options?.chatterboxVoiceId && { chatterboxVoiceId: options.chatterboxVoiceId }),
+        ...(options?.gender && { gender: options.gender }),
       });
 
       const response = await fetch(`/api/tts/generate?${params}`, {
@@ -136,12 +138,12 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        
+
         // Handle 503 (service disabled) silently - don't throw error
         if (response.status === TTS_HTTP_STATUS.DISABLED) {
           throw new Error(TTS_ERROR_CODES.DISABLED);
         }
-        
+
         // Handle specific error cases
         if (response.status === TTS_HTTP_STATUS.NOT_CONFIGURED) {
           // Check if it's a quota issue
@@ -154,26 +156,26 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         } else if (response.status === TTS_HTTP_STATUS.RATE_LIMIT) {
           throw new Error(TTS_ERROR_CODES.RATE_LIMIT);
         }
-        
+
         throw new Error(errorData.error || `${TTS_ERROR_CODES.GENERATION_FAILED}: ${response.statusText}`);
       }
 
-      
+
       const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
-      
+
       return audioUrl;
     } catch (error) {
       if (error instanceof Error && error.name === "AbortError") {
         logger.debug("Audio generation cancelled");
         throw new Error(TTS_ERROR_CODES.CANCELLED);
       }
-      
+
       // Re-throw TTS_DISABLED error to be handled in playText
       if (isTTSDisabledError(error)) {
         throw error;
       }
-      
+
       throw error;
     } finally {
       currentRequestRef.current = null;
@@ -185,7 +187,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     voiceId?: string,
     emotion?: string,
     patientName?: string,
-    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string },
+    options?: { elevenlabsVoiceId?: string; vibevoiceVoiceId?: string; chatterboxVoiceId?: string; gender?: string },
   ) => {
     if (!text.trim()) return;
 
@@ -200,8 +202,8 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       setDuration(0);
 
       const audioUrl = await generateAudio(text, voiceId, emotion, patientName, options);
-      
-      
+
+
       setCurrentAudioUrl((prevUrl) => {
         if (prevUrl) {
           URL.revokeObjectURL(prevUrl);
@@ -211,7 +213,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
       });
       setIsTTSAvailable(true);
 
-      
+
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
 
@@ -266,7 +268,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         setIsLoading(false);
         return;
       }
-      
+
       // Handle TTS disabled case silently (no error logging)
       if (isTTSDisabledError(error)) {
         setIsTTSAvailable(false);
@@ -274,9 +276,9 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         // Don't log error or call onError - TTS is simply disabled
         return;
       }
-      
+
       const errorMessage = error instanceof Error ? error.message : "Errore nella generazione audio";
-      
+
       // Handle real TTS errors (quota, rate limit, not configured)
       if (isRealTTSError(error)) {
         setIsTTSAvailable(false);
@@ -284,7 +286,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         setIsLoading(false);
         return;
       }
-      
+
       // Only log actual errors (not TTS disabled or real TTS errors)
       logger.error("Audio generation failed", error);
       setError(errorMessage);
@@ -333,7 +335,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
   }, [duration]);
 
   return {
-    
+
     isPlaying,
     isLoading,
     currentAudioUrl,
@@ -341,7 +343,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     duration,
     error,
     isTTSAvailable,
-    
+
     playText,
     togglePlayPause,
     stop,

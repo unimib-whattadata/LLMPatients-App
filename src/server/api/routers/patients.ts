@@ -26,13 +26,14 @@ export interface Patient {
   id: string;
   name: string;
   age: number;
-  smallDescription: string; 
-  details: string; 
+  smallDescription: string;
+  details: string;
   background: string; // Derived from clinicalCase for backward compatibility
   objectives: string[];
   avatarUrl?: string | null;
   elevenlabsVoiceId?: string | null;
   vibevoiceVoiceId?: string | null;
+  chatterboxVoiceId?: string | null;
   welcomeMessage?: string | null;
   therapeuticJourney: unknown;
   difficulty: DifficultyLevel;
@@ -86,6 +87,7 @@ export const patientsRouter = createTRPCRouter({
         avatarUrl: patient.avatarUrl,
         elevenlabsVoiceId: patient.elevenlabsVoiceId,
         vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
+        chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -123,6 +125,7 @@ export const patientsRouter = createTRPCRouter({
         avatarUrl: patient.avatarUrl,
         elevenlabsVoiceId: patient.elevenlabsVoiceId,
         vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
+        chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -134,7 +137,7 @@ export const patientsRouter = createTRPCRouter({
       };
     }),
 
-    getExplorationPatients: publicProcedure
+  getExplorationPatients: publicProcedure
     .input(
       z
         .object({
@@ -153,7 +156,7 @@ export const patientsRouter = createTRPCRouter({
         offset = 0,
       } = input ?? {};
 
-      
+
       const whereConditions = [eq(patients.isActive, true)];
 
       if (difficulty.length > 0) {
@@ -175,7 +178,7 @@ export const patientsRouter = createTRPCRouter({
           offset,
         });
 
-        
+
         const patientsData = await ctx.db
           .select()
           .from(patients)
@@ -186,7 +189,7 @@ export const patientsRouter = createTRPCRouter({
 
         logger.debug("Patients retrieved from database", { count: patientsData.length });
 
-        
+
         const transformedPatients: Patient[] = patientsData.map(
           (patient: typeof patients.$inferSelect) => ({
             id: patient.id,
@@ -199,6 +202,7 @@ export const patientsRouter = createTRPCRouter({
             avatarUrl: patient.avatarUrl,
             elevenlabsVoiceId: patient.elevenlabsVoiceId,
             vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
+            chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
             welcomeMessage: patient.welcomeMessage,
             therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
             difficulty: patient.difficulty as DifficultyLevel,
@@ -219,7 +223,7 @@ export const patientsRouter = createTRPCRouter({
 
         return transformedPatients;
       } catch (error) {
-        
+
         logger.error("Database query failed for exploration patients", {
           error: error instanceof Error ? error.message : String(error),
           difficulty,
@@ -228,21 +232,21 @@ export const patientsRouter = createTRPCRouter({
           offset,
         });
 
-        
-        
+
+
         if (process.env.NODE_ENV === "production") {
           logger.warn("Returning empty array due to database error in production");
           return [];
         }
 
-        
+
         throw new Error(
           `Failed to fetch patients: ${error instanceof Error ? error.message : String(error)}`,
         );
       }
     }),
 
-    getPatientById: publicProcedure
+  getPatientById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
       const patientResult = await ctx.db
@@ -257,7 +261,7 @@ export const patientsRouter = createTRPCRouter({
 
       const patient = patientResult[0]!;
 
-      
+
       const transformedPatient: Patient = {
         id: patient.id,
         name: patient.name,
@@ -269,6 +273,7 @@ export const patientsRouter = createTRPCRouter({
         avatarUrl: patient.avatarUrl,
         elevenlabsVoiceId: patient.elevenlabsVoiceId,
         vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
+        chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
         welcomeMessage: patient.welcomeMessage,
         therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
         difficulty: patient.difficulty as DifficultyLevel,
@@ -287,18 +292,19 @@ export const patientsRouter = createTRPCRouter({
       return transformedPatient;
     }),
 
-    createPatient: protectedProcedure
+  createPatient: protectedProcedure
     .input(
       z.object({
         name: z.string().min(1).max(255),
         age: z.number().min(1).max(120),
         smallDescription: z.string().min(1).max(500),
-        details: z.string().min(1), 
+        details: z.string().min(1),
         background: z.string().min(1).max(2000),
         objectives: z.array(z.string()),
         avatarUrl: z.string().url().optional(),
         elevenlabsVoiceId: z.string().max(255).optional(),
         vibevoiceVoiceId: z.string().max(255).optional(),
+        chatterboxVoiceId: z.string().max(255).optional(),
         welcomeMessage: z.string().max(1000).optional(),
         therapeuticJourney: z.unknown().optional(),
         difficulty: z.number().min(1).max(3),
@@ -306,12 +312,12 @@ export const patientsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
+
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }
 
-      
+
       const [newPatient] = await ctx.db
         .insert(patients)
         .values({
@@ -324,6 +330,7 @@ export const patientsRouter = createTRPCRouter({
           avatarUrl: input.avatarUrl,
           elevenlabsVoiceId: input.elevenlabsVoiceId ?? null,
           vibevoiceVoiceId: input.vibevoiceVoiceId ?? null,
+          chatterboxVoiceId: input.chatterboxVoiceId ?? null,
           welcomeMessage: input.welcomeMessage ?? null,
           therapeuticJourney: JSON.stringify(input.therapeuticJourney ?? {}),
           difficulty: input.difficulty,
@@ -334,7 +341,7 @@ export const patientsRouter = createTRPCRouter({
       return { id: newPatient?.id, success: true };
     }),
 
-    updatePatient: adminProcedure
+  updatePatient: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -347,6 +354,7 @@ export const patientsRouter = createTRPCRouter({
         avatarUrl: z.string().url().optional(),
         elevenlabsVoiceId: z.string().max(255).optional().nullable(),
         vibevoiceVoiceId: z.string().max(255).optional().nullable(),
+        chatterboxVoiceId: z.string().max(255).optional().nullable(),
         welcomeMessage: z.string().max(1000).optional().nullable(),
         therapeuticJourney: z.unknown().optional(),
         difficulty: z.number().min(1).max(3),
@@ -366,6 +374,7 @@ export const patientsRouter = createTRPCRouter({
         avatarUrl,
         elevenlabsVoiceId,
         vibevoiceVoiceId,
+        chatterboxVoiceId,
         welcomeMessage,
         therapeuticJourney,
         difficulty,
@@ -385,6 +394,7 @@ export const patientsRouter = createTRPCRouter({
           avatarUrl: avatarUrl ?? null,
           elevenlabsVoiceId: elevenlabsVoiceId ?? null,
           vibevoiceVoiceId: vibevoiceVoiceId ?? null,
+          chatterboxVoiceId: chatterboxVoiceId ?? null,
           welcomeMessage: welcomeMessage ?? null,
           therapeuticJourney: JSON.stringify(therapeuticJourney ?? {}),
           difficulty,
@@ -397,7 +407,7 @@ export const patientsRouter = createTRPCRouter({
       return { success: true };
     }),
 
-    updatePatientStatus: protectedProcedure
+  updatePatientStatus: protectedProcedure
     .input(
       z.object({
         id: z.string(),
@@ -405,7 +415,7 @@ export const patientsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
+
       if (ctx.session.user.role !== "admin") {
         throw new Error("Unauthorized: Admin access required");
       }

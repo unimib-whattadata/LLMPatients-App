@@ -16,6 +16,8 @@ export interface TTSParams {
   // Provider-specific patient voice identifiers (preferred over generic voiceId)
   elevenlabsVoiceId?: string;
   vibevoiceVoiceId?: string;
+  chatterboxVoiceId?: string;
+  gender?: string;
 }
 
 export interface TTSProvider {

@@ -809,12 +809,29 @@ class TTSChecker {
 
         if (isChatterAvailable) {
             try {
-                Logger.info("  Generating audio...");
+                Logger.info("  Generating audio (Default)...");
                 const buffer = await chatterboxProvider.generateAudio({
                     text: "Hello, this is a test of Chatterbox Turbo integration.",
                     patientName: "Test Patient"
                 });
-                Logger.success(`  Chatterbox generated ${buffer.byteLength} bytes.`);
+                Logger.success(`  Chatterbox (Default) generated ${buffer.byteLength} bytes.`);
+
+                Logger.info("  Generating audio (Voice ID: mario)...");
+                const bufferVoiceId = await chatterboxProvider.generateAudio({
+                    text: "Hello, it's-a me, Mario!",
+                    patientName: "Mario",
+                    chatterboxVoiceId: "mario"
+                });
+                Logger.success(`  Chatterbox (Voice ID: mario) generated ${bufferVoiceId.byteLength} bytes.`);
+
+                Logger.info("  Generating audio (Gender: female)...");
+                const bufferGender = await chatterboxProvider.generateAudio({
+                    text: "Hello, this is a female voice test.",
+                    patientName: "Test Patient Female",
+                    gender: "female"
+                });
+                Logger.success(`  Chatterbox (Gender: female) generated ${bufferGender.byteLength} bytes.`);
+
                 // Cleanup
                 Logger.success("  Skipping file write (cleanup enabled)");
             } catch (e: any) {

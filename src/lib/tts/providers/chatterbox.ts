@@ -6,6 +6,7 @@
  */
 
 import path from "path";
+import fs from "fs";
 import crypto from "crypto";
 import { createLogger } from "~/lib/logger";
 import type { TTSProvider, TTSParams } from "./types";
@@ -47,25 +48,52 @@ export class ChatterboxProvider implements TTSProvider {
 
     async generateAudio(params: TTSParams): Promise<ArrayBuffer> {
         const bridge = getBridge();
-        // voiceId might be used as audio prompt path if we map it properly?
-        // In bridge.py we check 'audioPromptPath'.
-        // Here we pass 'voiceId' or 'audioPromptPath'?
-        // The params.voiceId is usually a name.
-        // If we want to support voice cloning, we need to map names to file paths.
-        // For now, let's keep it simple and just pass what we have.
-        // If we want to support generic 'voiceId', we might need a mapping similar to VibeVoice.
 
-        logger.info("Generating speech", { text: params.text, voice: params.voiceId });
+        // Prioritize specific chatterbox voice ID, then generic voice ID
+        const targetVoiceId = params.chatterboxVoiceId || params.voiceId;
+
+        let audioPromptPath: string | undefined;
+
+        const voicesDir = path.join(process.cwd(), "services", "chatterbox", "voices");
+        const extensions = [".wav", ".mp3", ".flac", ".ogg"];
+
+        // Helper to find voice file
+        const findVoiceFile = (name: string): string | undefined => {
+            for (const ext of extensions) {
+                const attempt = path.join(voicesDir, name + ext);
+                if (fs.existsSync(attempt)) {
+                    return attempt;
+                }
+            }
+            return undefined;
+        };
+
+        if (targetVoiceId && targetVoiceId !== "default") {
+            audioPromptPath = findVoiceFile(targetVoiceId);
+
+            if (!audioPromptPath) {
+                logger.warn(`Voice ID '${targetVoiceId}' not found in ${voicesDir}, attempting fallback based on gender.`);
+            }
+        }
+
+        // Fallback if no specific voice found or provided
+        if (!audioPromptPath) {
+            const gender = params.gender?.toLowerCase();
+            if (gender === 'female' || gender === 'f' || gender === 'donna') {
+                audioPromptPath = findVoiceFile('female') || findVoiceFile('woman');
+            } else {
+                // Default to male or generic 'default'
+                audioPromptPath = findVoiceFile('male') || findVoiceFile('man') || findVoiceFile('default');
+            }
+        }
+
+        logger.info("Generating speech", { text: params.text, voice: targetVoiceId, audioPrompt: audioPromptPath });
 
         try {
             const audioBuffer = await bridge.generateAudio({
                 requestId: crypto.randomUUID(),
                 text: params.text,
-                // If we had a mapping for voiceId -> audioPromptPath, we'd do it here.
-                // For now pass as is, maybe the python script handles it or we improve later.
-                // Actually, bridge.py expects 'audioPromptPath'. 
-                // If params.voiceId is a path, great. If not, we might need logic.
-                // Let's assume for now we don't use cloning or the user configured it.
+                audioPromptPath,
             });
 
             logger.info("Audio generated successfully", { bytes: audioBuffer.byteLength });

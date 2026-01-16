@@ -35,13 +35,13 @@ export const users = createTable(
     name: d.text({ length: 255 }),
     email: d.text({ length: 255 }).notNull(),
     password: d.text({ length: 255 }),
-    
+
     role: d.text({ length: 20 }).default("user").notNull(),
     emailVerified: d.integer({ mode: "timestamp" }).default(sql`(strftime('%s', 'now'))`),
     image: d.text({ length: 255 }),
   }),
   (t) => [
-    
+
     index("users_email_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
@@ -116,9 +116,9 @@ export const userActivities = createTable(
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    
+
     activityType: d.text({ length: 50 }).notNull(),
-    
+
     metadata: d.text(),
     createdAt: d
       .integer({ mode: "timestamp" })
@@ -144,29 +144,29 @@ export const impersonationSessions = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    
+
     adminUserId: d
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    
+
     targetUserId: d
       .text({ length: 255 })
       .notNull()
       .references(() => users.id),
-    
+
     startedAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
     endedAt: d.integer({ mode: "timestamp" }),
-    
+
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
-    
+
     sessionToken: d.text({ length: 255 }),
-    ipAddress: d.text({ length: 45 }), 
+    ipAddress: d.text({ length: 45 }),
     userAgent: d.text({ length: 500 }),
-    
+
     reason: d.text({ length: 500 }),
   }),
   (t) => [
@@ -186,23 +186,23 @@ export const impersonationAuditLog = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    
+
     impersonationSessionId: d
       .text({ length: 255 })
       .notNull()
       .references(() => impersonationSessions.id),
-    
-    actionType: d.text({ length: 50 }).notNull(), 
-    actionDetails: d.text({ length: 1000 }), 
-    
+
+    actionType: d.text({ length: 50 }).notNull(),
+    actionDetails: d.text({ length: 1000 }),
+
     performedAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(strftime('%s', 'now'))`)
       .notNull(),
-    
+
     ipAddress: d.text({ length: 45 }),
     userAgent: d.text({ length: 500 }),
-    
+
     requestPath: d.text({ length: 255 }),
     requestMethod: d.text({ length: 10 }),
   }),
@@ -252,19 +252,20 @@ export const patients = createTable(
       .$defaultFn(() => randomUUID()),
     name: d.text({ length: 255 }).notNull(),
     age: d.integer({ mode: "number" }).notNull(),
-    smallDescription: d.text({ length: 500 }).notNull(), 
+    smallDescription: d.text({ length: 500 }).notNull(),
     details: d.text().notNull(),
-    clinicalCase: d.text().notNull(), 
-    objectives: d.text({ length: 2000 }).notNull(), 
+    clinicalCase: d.text().notNull(),
+    objectives: d.text({ length: 2000 }).notNull(),
     therapeuticJourney: d.text().notNull(),
     avatarUrl: d.text({ length: 500 }),
     elevenlabsVoiceId: d.text({ length: 255 }), // New: dedicated ElevenLabs voice ID for TTS
     vibevoiceVoiceId: d.text({ length: 255 }), // New: VibeVoice voice ID for TTS
+    chatterboxVoiceId: d.text({ length: 255 }), // New: Chatterbox voice ID for TTS
     welcomeMessage: d.text({ length: 1000 }), // Optional custom welcome message
-    difficulty: d.integer({ mode: "number" }).notNull(), 
-    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(), 
+    difficulty: d.integer({ mode: "number" }).notNull(),
+    estimatedDuration: d.integer({ mode: "number" }).default(30).notNull(),
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
-    externalPatientId: d.text({ length: 255 }), 
+    externalPatientId: d.text({ length: 255 }),
     gender: d.text({ length: 50 }), // Gender for API compatibility
     diagnosis: d.text({ length: 500 }), // Diagnosis for API compatibility
     psychologicalProfile: d.text(), // Psychological profile for API compatibility
@@ -280,8 +281,8 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
-    index("virtual_patient_name_idx").on(t.name), 
-    index("virtual_patient_external_id_idx").on(t.externalPatientId), 
+    index("virtual_patient_name_idx").on(t.name),
+    index("virtual_patient_external_id_idx").on(t.externalPatientId),
   ],
 );
 
@@ -318,8 +319,8 @@ export const therapySessions = createTable(
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
-    index("therapy_session_updated_at_idx").on(t.updatedAt), 
-    index("therapy_session_completed_idx").on(t.isCompleted), 
+    index("therapy_session_updated_at_idx").on(t.updatedAt),
+    index("therapy_session_completed_idx").on(t.isCompleted),
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );
@@ -352,9 +353,9 @@ export const chat = createTable(
       .text({ length: 255 })
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer({ mode: "number" }).notNull(), 
-    messages: d.text().notNull(), 
-    done: d.integer({ mode: "boolean" }).default(false).notNull(), 
+    stepNumber: d.integer({ mode: "number" }).notNull(),
+    messages: d.text().notNull(),
+    done: d.integer({ mode: "boolean" }).default(false).notNull(),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(strftime('%s', 'now'))`)

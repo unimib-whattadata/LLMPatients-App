@@ -23,11 +23,13 @@ export interface PatientData {
   avatarUrl: string | null;
   elevenlabsVoiceId: string | null;
   vibevoiceVoiceId: string | null;
+  chatterboxVoiceId: string | null;
   welcomeMessage: string | null;
   difficulty: number;
   estimatedDuration: number;
   isActive: boolean;
   externalPatientId: string | null;
+  gender?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

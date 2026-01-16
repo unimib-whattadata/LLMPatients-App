@@ -57,7 +57,7 @@ export const users = createTable(
       .defaultNow(),
   }),
   (t) => [
-    
+
     index("users_email_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
@@ -129,19 +129,20 @@ export const patients = createTable(
       .$defaultFn(() => randomUUID()),
     name: d.text().notNull(),
     age: d.integer().notNull(),
-    smallDescription: d.text().notNull(), 
+    smallDescription: d.text().notNull(),
     details: d.text().notNull(),
     clinicalCase: d.text().notNull(),
-    objectives: d.text().notNull(), 
+    objectives: d.text().notNull(),
     therapeuticJourney: d.text().notNull(),
     avatarUrl: d.text(),
     elevenlabsVoiceId: d.text(), // New: dedicated ElevenLabs voice ID for TTS
     vibevoiceVoiceId: d.text(), // New: VibeVoice voice ID for TTS
+    chatterboxVoiceId: d.text(), // New: Chatterbox voice ID for TTS
     welcomeMessage: d.text(), // Optional custom welcome message
-    difficulty: d.integer().notNull(), 
-    estimatedDuration: d.integer().default(30).notNull(), 
+    difficulty: d.integer().notNull(),
+    estimatedDuration: d.integer().default(30).notNull(),
     isActive: d.boolean().default(true).notNull(),
-    externalPatientId: d.text(), 
+    externalPatientId: d.text(),
     gender: d.text(), // Gender for API compatibility
     diagnosis: d.text(), // Diagnosis for API compatibility
     psychologicalProfile: d.text(), // Psychological profile for API compatibility
@@ -154,8 +155,8 @@ export const patients = createTable(
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
     index("virtual_patient_created_at_idx").on(t.createdAt),
-    index("virtual_patient_name_idx").on(t.name), 
-    index("virtual_patient_external_id_idx").on(t.externalPatientId), 
+    index("virtual_patient_name_idx").on(t.name),
+    index("virtual_patient_external_id_idx").on(t.externalPatientId),
   ],
 );
 
@@ -183,8 +184,8 @@ export const therapySessions = createTable(
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
-    index("therapy_session_updated_at_idx").on(t.updatedAt), 
-    index("therapy_session_completed_idx").on(t.isCompleted), 
+    index("therapy_session_updated_at_idx").on(t.updatedAt),
+    index("therapy_session_completed_idx").on(t.isCompleted),
     uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
   ],
 );
@@ -202,9 +203,9 @@ export const chat = createTable(
       .text()
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer().notNull(), 
-    messages: d.text().notNull(), 
-    done: d.boolean().default(false).notNull(), 
+    stepNumber: d.integer().notNull(),
+    messages: d.text().notNull(),
+    done: d.boolean().default(false).notNull(),
     createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
@@ -242,26 +243,26 @@ export const impersonationSessions = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    
+
     adminUserId: d
       .text()
       .notNull()
       .references(() => users.id),
-    
+
     targetUserId: d
       .text()
       .notNull()
       .references(() => users.id),
-    
+
     startedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     endedAt: d.timestamp({ mode: "date" }),
-    
+
     isActive: d.boolean().default(true).notNull(),
-    
+
     sessionToken: d.text(),
-    ipAddress: d.text(), 
+    ipAddress: d.text(),
     userAgent: d.text(),
-    
+
     reason: d.text(),
   }),
   (t) => [
@@ -281,20 +282,20 @@ export const impersonationAuditLog = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    
+
     impersonationSessionId: d
       .text()
       .notNull()
       .references(() => impersonationSessions.id),
-    
-    actionType: d.text().notNull(), 
-    actionDetails: d.text(), 
-    
+
+    actionType: d.text().notNull(),
+    actionDetails: d.text(),
+
     performedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    
+
     ipAddress: d.text(),
     userAgent: d.text(),
-    
+
     requestPath: d.text(),
     requestMethod: d.text(),
   }),

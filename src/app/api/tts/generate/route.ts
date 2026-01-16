@@ -91,6 +91,8 @@ export async function GET(request: NextRequest) {
     const emotion = searchParams.get("emotion");
     const elevenlabsVoiceId = searchParams.get("elevenlabsVoiceId");
     const vibevoiceVoiceId = searchParams.get("vibevoiceVoiceId");
+    const chatterboxVoiceId = searchParams.get("chatterboxVoiceId");
+    const gender = searchParams.get("gender");
 
     if (!text) {
       return NextResponse.json(
@@ -105,6 +107,8 @@ export async function GET(request: NextRequest) {
       emotion: emotion || undefined,
       elevenlabsVoiceId: elevenlabsVoiceId || undefined,
       vibevoiceVoiceId: vibevoiceVoiceId || undefined,
+      chatterboxVoiceId: chatterboxVoiceId || undefined,
+      gender: gender || undefined,
     });
   } catch (error) {
     logger.error("GET request failed", error);
