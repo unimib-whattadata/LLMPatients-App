@@ -19,6 +19,7 @@ import {
   Slider,
   Breadcrumb,
 } from "~/components/ui";
+import { DashboardSection, DashboardPanel } from "~/components/dashboard/ui";
 
 const objectiveSchema = z
   .string()
@@ -298,122 +299,82 @@ export function PatientForm({
 
   if (!isMounted || isLoading) {
     return (
-      <div className="dashboard-panel-stack">
-        <section className="dashboard-section" aria-labelledby="patient-form">
-          <div className="dashboard-section__header">
-            <div>
-              <h1 id="patient-form" className="dashboard-section__title">
-                {mode === "create" ? "Create New Patient" : "Edit Patient"}
-              </h1>
-              <p className="dashboard-section__description">
-                Preparing the form, please wait...
-              </p>
+
+      <DashboardSection
+        title={mode === "create" ? "Create New Patient" : "Edit Patient"}
+        description="Preparing the form, please wait..."
+      >
+        <DashboardPanel>
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <svg
+                className="animate-spin h-8 w-8 mx-auto mb-4 text-primary-green"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              <p className="text-gray-400">Loading form...</p>
             </div>
           </div>
-      <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-            <div className="flex items-center justify-center py-12">
-              <div className="text-center">
-                <svg
-                  className="animate-spin h-8 w-8 mx-auto mb-4 text-primary-green"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-                <p className="text-gray-400">Loading form...</p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+        </DashboardPanel>
+      </DashboardSection>
     );
+
   }
 
   return (
-    <div className="dashboard-panel-stack">
-      <section className="dashboard-section" aria-labelledby="patient-form">
-        <div className="dashboard-section__header">
-          <div className="space-y-3">
-            {breadcrumbItems?.length ? (
-              <Breadcrumb items={breadcrumbItems} />
-            ) : null}
-            <h1 id="patient-form" className="dashboard-section__title">
-              {mode === "create" ? "Create New Patient" : "Edit Patient"}
-            </h1>
-            <p className="dashboard-section__description">
-              Provide structured information to manage the clinical simulation.
-            </p>
-          </div>
-        </div>
+    <DashboardSection
+      title={mode === "create" ? "Create New Patient" : "Edit Patient"}
+      description="Provide structured information to manage the clinical simulation."
+      headerSlot={breadcrumbItems?.length ? <Breadcrumb items={breadcrumbItems} /> : null}
+    >
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem className="space-y-4">
-                      <FormLabel className="label-required">Patient Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g. Maria Rossi" {...field} />
-                      </FormControl>
-                      <FormDescription>{field.value.length}/255 characters</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="smallDescription"
-                  render={({ field }) => (
-                    <FormItem className="space-y-4">
-                      <FormLabel className="label-required">Short Description</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="e.g. Generalized Anxiety Disorder"
-                          maxLength={500}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Brief clinical summary ({field.value.length}/500 characters)
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <DashboardPanel>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <FormField
                 control={form.control}
-                name="background"
+                name="name"
                 render={({ field }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="label-required">Clinical Background</FormLabel>
+                    <FormLabel className="label-required">Patient Name</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder="Describe the clinical background, history, and relevant milestones..."
-                        rows={6}
-                        maxLength={2000}
+                      <Input placeholder="e.g. Maria Rossi" {...field} />
+                    </FormControl>
+                    <FormDescription>{field.value.length}/255 characters</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="smallDescription"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormLabel className="label-required">Short Description</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="e.g. Generalized Anxiety Disorder"
+                        maxLength={500}
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      Contextual narrative ({field.value.length}/2000 characters)
+                      Brief clinical summary ({field.value.length}/500 characters)
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -421,229 +382,251 @@ export function PatientForm({
               />
             </div>
 
-            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="space-y-4">
-                {objectives.map((_, index) => (
-                  <FormField
-                    key={`objective-${index}`}
-                    control={form.control}
-                    name={`objectives.${index}`}
-                    render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1">
-                            <FormControl>
-                              <Input
-                                placeholder={`Objective ${index + 1}: e.g. Reduce anxiety symptoms through relaxation techniques`}
-                                {...field}
-                              />
-                            </FormControl>
-                          </div>
-                          <Button
-                            type="button"
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleObjectiveRemove(index)}
-                            disabled={objectives.length === 1}
-                            className="shrink-0"
-                          >
-                            Remove
-                          </Button>
+            <FormField
+              control={form.control}
+              name="background"
+              render={({ field }) => (
+                <FormItem className="space-y-4">
+                  <FormLabel className="label-required">Clinical Background</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Describe the clinical background, history, and relevant milestones..."
+                      rows={6}
+                      maxLength={2000}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Contextual narrative ({field.value.length}/2000 characters)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </DashboardPanel>
+
+          <DashboardPanel>
+            <div className="space-y-4">
+              {objectives.map((_, index) => (
+                <FormField
+                  key={`objective-${index}`}
+                  control={form.control}
+                  name={`objectives.${index}`}
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-1">
+                          <FormControl>
+                            <Input
+                              placeholder={`Objective ${index + 1}: e.g. Reduce anxiety symptoms through relaxation techniques`}
+                              {...field}
+                            />
+                          </FormControl>
                         </div>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
-
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="mt-4"
-                onClick={handleObjectiveAdd}
-              >
-                + Add Objective
-              </Button>
-            </div>
-
-            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <FormField
-                  control={form.control}
-                  name="difficulty"
-                  render={({ field }) => (
-                    <FormItem className="space-y-4">
-                      <FormLabel className="label-required">
-                        Difficulty <span className="text-xs text-gray-400">( {field.value}/3 )</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Slider
-                          min={1}
-                          max={3}
-                          step={1}
-                          value={[field.value]}
-                          onValueChange={(value) => field.onChange(value[0])}
-                          aria-label="Difficulty level"
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Complexity level: 1=Beginner, 2=Intermediate, 3=Advanced
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="estimatedDuration"
-                  render={({ field }) => (
-                    <FormItem className="space-y-4">
-                      <FormLabel className="label-required">
-                        Estimated Duration (min) <span className="text-xs text-gray-400">( {field.value} min )</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Slider
-                          min={5}
-                          max={180}
-                          step={5}
-                          value={[field.value]}
-                          onValueChange={(value) => field.onChange(value[0])}
-                          aria-label="Estimated duration in minutes"
-                        />
-                      </FormControl>
-                      <FormDescription>Expected simulation length (5–180 minutes)</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <div className="pt-4 border-t border-gray-700">
-                <FormField
-                  control={form.control}
-                  name="avatarUrl"
-                  render={({ field }) => (
-                    <FormItem className="space-y-4">
-                      <FormLabel>Avatar URL (optional)</FormLabel>
-                      <FormControl>
-                        <Input type="url" placeholder="https://example.com/avatar.jpg" {...field} />
-                      </FormControl>
-                      <FormDescription>Link to the virtual patient avatar image</FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <FormField
-                control={form.control}
-                name="details"
-                render={({ field }) => (
-                    <FormItem className="space-y-4">
-                    <div className="flex items-center justify-between mb-4">
-                      <FormLabel className="label-required">JSON Details</FormLabel>
-                      <div className="flex gap-2">
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
-                          onClick={() => setShowJsonTemplate(!showJsonTemplate)}
+                          onClick={() => handleObjectiveRemove(index)}
+                          disabled={objectives.length === 1}
+                          className="shrink-0"
                         >
-                          {showJsonTemplate ? "Hide" : "Show"} Template
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="secondary"
-                          size="sm"
-                          onClick={loadJsonTemplate}
-                        >
-                          Load Template
+                          Remove
                         </Button>
                       </div>
-                    </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              ))}
+            </div>
 
-                    {showJsonTemplate && (
-                      <div className="p-4 bg-gray-800/60 border border-gray-700 rounded-xl mb-4">
-                        <div className="flex items-center justify-between mb-3">
-                          <h4 className="font-medium text-white flex items-center gap-2">
-                            <svg
-                              className="w-4 h-4 text-primary-green"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                              />
-                            </svg>
-                            Complete JSON Template
-                          </h4>
-                          <span className="text-xs text-gray-400 bg-gray-700/50 px-2 py-1 rounded">Copy and customise</span>
-                        </div>
-                        <div className="bg-gray-900/60 rounded-lg p-4 overflow-x-auto">
-                          <pre className="text-xs text-gray-300 whitespace-pre font-mono">
-                            {JSON.stringify(jsonTemplate, null, 2)}
-                          </pre>
-                        </div>
-                      </div>
-                    )}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-4"
+              onClick={handleObjectiveAdd}
+            >
+              + Add Objective
+            </Button>
+          </DashboardPanel>
 
+          <DashboardPanel>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <FormField
+                control={form.control}
+                name="difficulty"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormLabel className="label-required">
+                      Difficulty <span className="text-xs text-gray-400">( {field.value}/3 )</span>
+                    </FormLabel>
                     <FormControl>
-                      <Textarea
-                        rows={14}
-                        className="font-mono text-sm"
-                        placeholder='{"demographicAndSocioculturalInformation": {"age": 28, "gender": "Male", ...}}'
-                        {...field}
+                      <Slider
+                        min={1}
+                        max={3}
+                        step={1}
+                        value={[field.value]}
+                        onValueChange={(value) => field.onChange(value[0])}
+                        aria-label="Difficulty level"
                       />
                     </FormControl>
+                    <FormDescription>
+                      Complexity level: 1=Beginner, 2=Intermediate, 3=Advanced
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="estimatedDuration"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormLabel className="label-required">
+                      Estimated Duration (min) <span className="text-xs text-gray-400">( {field.value} min )</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Slider
+                        min={5}
+                        max={180}
+                        step={5}
+                        value={[field.value]}
+                        onValueChange={(value) => field.onChange(value[0])}
+                        aria-label="Estimated duration in minutes"
+                      />
+                    </FormControl>
+                    <FormDescription>Expected simulation length (5–180 minutes)</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
 
-            {footerSlot}
+            <div className="pt-4 border-t border-gray-700">
+              <FormField
+                control={form.control}
+                name="avatarUrl"
+                render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormLabel>Avatar URL (optional)</FormLabel>
+                    <FormControl>
+                      <Input type="url" placeholder="https://example.com/avatar.jpg" {...field} />
+                    </FormControl>
+                    <FormDescription>Link to the virtual patient avatar image</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </DashboardPanel>
 
-            <div className="dashboard-panel bg-gray-900/40 border border-gray-800">
-              <div className="flex flex-col gap-4 sm:flex-row sm:justify-end sm:items-center">
+          <DashboardPanel>
+            <FormField
+              control={form.control}
+              name="details"
+              render={({ field }) => (
+                <FormItem className="space-y-4">
+                  <div className="flex items-center justify-between mb-4">
+                    <FormLabel className="label-required">JSON Details</FormLabel>
+                    <div className="flex gap-2">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowJsonTemplate(!showJsonTemplate)}
+                      >
+                        {showJsonTemplate ? "Hide" : "Show"} Template
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="sm"
+                        onClick={loadJsonTemplate}
+                      >
+                        Load Template
+                      </Button>
+                    </div>
+                  </div>
+
+                  {showJsonTemplate && (
+                    <div className="p-4 bg-gray-800/60 border border-gray-700 rounded-xl mb-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-medium text-white flex items-center gap-2">
+                          <svg
+                            className="w-4 h-4 text-primary-green"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                          Complete JSON Template
+                        </h4>
+                        <span className="text-xs text-gray-400 bg-gray-700/50 px-2 py-1 rounded">Copy and customise</span>
+                      </div>
+                      <div className="bg-gray-900/60 rounded-lg p-4 overflow-x-auto">
+                        <pre className="text-xs text-gray-300 whitespace-pre font-mono">
+                          {JSON.stringify(jsonTemplate, null, 2)}
+                        </pre>
+                      </div>
+                    </div>
+                  )}
+
+                  <FormControl>
+                    <Textarea
+                      rows={14}
+                      className="font-mono text-sm"
+                      placeholder='{"demographicAndSocioculturalInformation": {"age": 28, "gender": "Male", ...}}'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </DashboardPanel>
+
+          {footerSlot}
+
+          <DashboardPanel>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-end sm:items-center">
+              <Button
+                type="submit"
+                className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-white font-semibold"
+                isLoading={isSubmitting}
+                disabled={isSubmitting}
+                size="lg"
+              >
+                {isSubmitting
+                  ? mode === "create"
+                    ? "Creating..."
+                    : "Saving..."
+                  : submitLabel ?? (mode === "create" ? "Create Patient" : "Save Changes")}
+              </Button>
+              {onCancel && (
                 <Button
-                  type="submit"
-                  className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-white font-semibold"
-                  isLoading={isSubmitting}
+                  type="button"
+                  variant="outline"
+                  onClick={onCancel}
                   disabled={isSubmitting}
                   size="lg"
+                  className="flex-1 sm:flex-initial"
                 >
-                  {isSubmitting
-                    ? mode === "create"
-                      ? "Creating..."
-                      : "Saving..."
-                    : submitLabel ?? (mode === "create" ? "Create Patient" : "Save Changes")}
+                  {cancelLabel ?? "Cancel"}
                 </Button>
-                {onCancel && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={onCancel}
-                    disabled={isSubmitting}
-                    size="lg"
-                    className="flex-1 sm:flex-initial"
-                  >
-                    {cancelLabel ?? "Cancel"}
-                  </Button>
-                )}
-              </div>
+              )}
             </div>
-          </form>
-        </Form>
-      </section>
-    </div>
+          </DashboardPanel>
+        </form>
+      </Form>
+    </DashboardSection>
   );
 }
 

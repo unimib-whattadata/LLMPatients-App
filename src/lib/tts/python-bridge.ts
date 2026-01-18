@@ -134,7 +134,7 @@ export class PythonBridge {
                 }, 60000); // 1 minute allowed for model loading (it can be slow)
 
             } catch (e) {
-                reject(e);
+                reject(e instanceof Error ? e : new Error(String(e)));
             }
         });
     }
@@ -198,6 +198,15 @@ export class PythonBridge {
         } catch (e) {
             logger.error(`Generation failed in ${this.serviceName}`, e);
             throw e;
+        }
+    }
+
+    stop(): void {
+        if (this.process) {
+            logger.info(`Stopping ${this.serviceName} bridge...`);
+            this.process.kill();
+            this.process = null;
+            this.isReady = false;
         }
     }
 }

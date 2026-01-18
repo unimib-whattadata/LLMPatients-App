@@ -103,4 +103,11 @@ export class ChatterboxProvider implements TTSProvider {
             throw error;
         }
     }
+
+    cleanup(): void {
+        if (bridgeInstance) {
+            bridgeInstance.stop();
+            bridgeInstance = null;
+        }
+    }
 }

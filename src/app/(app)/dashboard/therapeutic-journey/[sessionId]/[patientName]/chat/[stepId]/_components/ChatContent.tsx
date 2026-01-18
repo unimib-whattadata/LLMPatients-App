@@ -6,6 +6,7 @@ import Image from "next/image";
 import { api } from "~/trpc/react";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
+import { DashboardPanel } from "~/components/dashboard/ui";
 import { Input } from "~/components/ui/input";
 import {
   Dialog,
@@ -222,7 +223,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         },
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.name, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.gender, typedSelectedPatient?.name, hasUserInteracted]);
 
 
   useEffect(() => {
@@ -655,15 +656,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
-          <div className="dashboard-section text-center">
-            <div className="flex flex-col items-center space-y-4">
-              <Loader2 className="h-8 w-8 animate-spin text-[var(--color-primary-green)]" />
-              <p className="text-sm text-[var(--color-text-primary)]/70">
-                Caricamento chat...
-              </p>
-            </div>
-          </div>
+        <div className="flex min-h-screen items-center justify-center bg-background">
+          <DashboardPanel className="flex flex-col items-center space-y-4 p-8 text-center max-w-md">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">
+              Caricamento chat...
+            </p>
+          </DashboardPanel>
         </div>
       </SharedLayout>
     );
@@ -677,19 +676,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <div className="flex min-h-screen items-center justify-center bg-[var(--color-page-background)]">
-          <div className="dashboard-section text-center">
-            <h2 className="text-heading-2 mb-4 text-[var(--color-text-primary)]">
+        <div className="flex min-h-screen items-center justify-center bg-background">
+          <DashboardPanel className="dashboard-section text-center p-8 max-w-md">
+            <h2 className="mb-4 text-2xl font-bold text-foreground">
               Paziente non trovato
             </h2>
-            <p className="text-body-lg mb-6 text-[var(--color-text-primary)]/70">
+            <p className="mb-6 text-muted-foreground">
               Il paziente richiesto non è disponibile.
             </p>
             <Button onClick={goBack} size="lg" className="gap-2">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Torna alla Timeline
             </Button>
-          </div>
+          </DashboardPanel>
         </div>
       </SharedLayout>
     );
@@ -701,15 +700,16 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       impersonation={impersonation}
       layoutType="dashboard"
       currentPage="/dashboard/therapeutic-journey"
+      disablePadding={true}
     >
       <div
-        className="chat-container page-background flex h-[calc(100vh-4rem)] flex-col"
+        className="flex h-[calc(100vh-4rem)] flex-col bg-background"
         role="main"
         aria-label="Chat con paziente virtuale"
       >
         { }
         <header
-          className="dashboard-section navbar-background flex-shrink-0 px-4 py-4 sm:px-6"
+          className="flex-shrink-0 px-4 py-4 sm:px-6 bg-card border-b border-border"
           role="banner"
         >
           <div className="flex items-center justify-between">
@@ -718,25 +718,25 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 variant="ghost"
                 size="sm"
                 onClick={goBack}
-                className="flex-shrink-0 hover:bg-[var(--color-primary-green)]/15"
+                className="flex-shrink-0 hover:bg-primary/10"
                 aria-label="Torna alla timeline"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
               <div className="min-w-0">
-                <h1 className="text-heading-3 truncate text-[var(--color-text-primary)]">
+                <h1 className="text-xl font-bold truncate text-foreground">
                   <span className="hidden sm:inline">
                     {typedSelectedPatient?.name} -{" "}
                   </span>
                   Sessione {stepId}
                 </h1>
-                <p className="text-sm text-[var(--color-text-primary)]/70">
+                <p className="text-sm text-muted-foreground">
                   {currentDateString}
                 </p>
               </div>
             </div>
             <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
-              <div className="pill bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] px-2 py-1 sm:px-3 w-16 text-center">
+              <div className="bg-muted text-foreground px-2 py-1 sm:px-3 w-16 text-center rounded-md">
                 <span className="text-sm font-medium">
                   {formatSessionTime(sessionTime)}
                 </span>
@@ -746,7 +746,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="flex-shrink-0 hover:bg-[var(--color-primary-green)]/15"
+                    className="flex-shrink-0 hover:bg-primary/10"
                     aria-label="Informazioni sessione"
                   >
                     <Info className="h-4 w-4" />
@@ -754,31 +754,31 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 </PopoverTrigger>
                 <PopoverContent className="w-80" align="end">
                   <div className="space-y-3">
-                    <h4 className="font-medium text-sm text-[var(--color-text-primary)]">
+                    <h4 className="font-medium text-sm text-foreground">
                       Informazioni Sessione
                     </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-[var(--color-text-secondary)]">Patient ID (interno):</span>
-                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                        <span className="text-muted-foreground">Patient ID (interno):</span>
+                        <span className="font-mono text-xs text-foreground">
                           {typedSelectedPatient?.id || "N/A"}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[var(--color-text-secondary)]">Therapy Session ID:</span>
-                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                        <span className="text-muted-foreground">Therapy Session ID:</span>
+                        <span className="font-mono text-xs text-foreground">
                           {typedTherapySession?.id || "N/A"}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[var(--color-text-secondary)]">External Patient ID:</span>
-                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                        <span className="text-muted-foreground">External Patient ID:</span>
+                        <span className="font-mono text-xs text-foreground">
                           {typedSelectedPatient?.externalPatientId || "Non inizializzato"}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[var(--color-text-secondary)]">Step ID:</span>
-                        <span className="font-mono text-xs text-[var(--color-text-primary)]">
+                        <span className="text-muted-foreground">Step ID:</span>
+                        <span className="font-mono text-xs text-foreground">
                           {stepId}
                         </span>
                       </div>

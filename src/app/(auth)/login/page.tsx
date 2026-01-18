@@ -22,6 +22,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Checkbox } from "~/components/ui/checkbox";
+import { AuthLayout } from "~/components/layout/AuthLayout";
 import { createLogger } from "~/lib/logger";
 
 const logger = createLogger("Login");
@@ -49,7 +50,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 function LoginPageComponent() {
-  
+
   const [loginState, setLoginState] = useState<LoginState>({
     phase: "loading",
     error: "",
@@ -73,10 +74,10 @@ function LoginPageComponent() {
 
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard/therapeutic-journey";
 
-  
+
   const navigate = useCallback(
     (url: string, delay: number = 100) => {
-      if (loginState.isNavigating) return; 
+      if (loginState.isNavigating) return;
 
       setLoginState((prev) => ({ ...prev, isNavigating: true }));
 
@@ -87,12 +88,12 @@ function LoginPageComponent() {
     [router, loginState.isNavigating],
   );
 
-  
+
   useEffect(() => {
     let countdownInterval: NodeJS.Timeout;
 
     const handleNavigation = () => {
-      
+
       const urlError = searchParams.get("error");
       if (urlError && loginState.phase === "loading") {
         let errorMessage =
@@ -124,9 +125,9 @@ function LoginPageComponent() {
         return;
       }
 
-      
+
       if (status === "loading") {
-        
+
         return;
       }
 
@@ -135,19 +136,19 @@ function LoginPageComponent() {
         session &&
         loginState.phase !== "redirecting"
       ) {
-        
+
         setLoginState((prev) => ({ ...prev, phase: "redirecting" }));
         navigate(callbackUrl, 0);
         return;
       }
 
       if (status === "unauthenticated" && loginState.phase === "loading") {
-        
+
         setLoginState((prev) => ({ ...prev, phase: "login" }));
         return;
       }
 
-      
+
       if (loginState.phase === "success" && loginState.redirectCountdown > 0) {
         countdownInterval = setInterval(() => {
           setLoginState((prev) => {
@@ -162,7 +163,7 @@ function LoginPageComponent() {
       }
     };
 
-    
+
     const timeoutId = setTimeout(handleNavigation, 0);
 
     return () => {
@@ -215,7 +216,7 @@ function LoginPageComponent() {
       } else if (result?.ok) {
         logger.debug("Authentication successful, verifying session");
 
-        
+
         let sessionEstablished = false;
         let retryCount = 0;
         const maxRetries = 5;
@@ -223,7 +224,7 @@ function LoginPageComponent() {
         while (!sessionEstablished && retryCount < maxRetries) {
           await new Promise((resolve) =>
             setTimeout(resolve, 200 * (retryCount + 1)),
-          ); 
+          );
 
           try {
             const freshSession = await getSession();
@@ -236,7 +237,7 @@ function LoginPageComponent() {
               sessionEstablished = true;
               logger.info("Session established successfully");
 
-              
+
               const redirectSeconds = 3;
               showSuccess(
                 "Login Successful!",
@@ -300,187 +301,166 @@ function LoginPageComponent() {
         : "Accedi";
 
   return (
-    <div className="min-h-screen flex">
-      {}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
-        <div className="max-w-md text-center">
-          <h1 className="text-4xl font-bold text-primary-green mb-6">
-            Benvenuto in LLMPatient
-          </h1>
-          <p className="text-xl text-text-secondary leading-relaxed">
-            La piattaforma che rivoluziona l&apos;apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti.
-          </p>
-          <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
-            <span>•</span>
-            <span>Simulazioni realistiche</span>
-            <span>•</span>
-            <span>Apprendimento personalizzato</span>
-            <span>•</span>
-            <span>Feedback immediato</span>
-          </div>
-        </div>
-      </div>
+    <AuthLayout
+      brandTitle="Benvenuto in LLMPatient"
+      brandSubtitle="La piattaforma che rivoluziona l'apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti."
+      brandFeatures={["Simulazioni realistiche", "Apprendimento personalizzato", "Feedback immediato"]}
+    >
+      {/* Success/Redirecting State */}
+      {loginState.phase === "success" ||
+        loginState.phase === "redirecting" ? (
+        <div className="text-center">
+          <div className="mb-6">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/20">
+              <Check className="h-8 w-8 text-primary" />
+            </div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              Login Successful!
+            </h2>
+            <p className="text-muted-foreground mb-6">
+              Welcome back! You&apos;re being redirected to your dashboard.
+            </p>
 
-      {}
-      <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
-        <div className="w-full max-w-md">
-          {}
-          {loginState.phase === "success" ||
-          loginState.phase === "redirecting" ? (
-            <div className="text-center">
-              <div className="mb-6">
-                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-                  <Check className="h-8 w-8 text-green-600" />
-                </div>
-                <h2 className="text-2xl font-bold text-white mb-2">
-                  Login Successful!
-                </h2>
-                <p className="text-text-secondary mb-6">
-                  Welcome back! You&apos;re being redirected to your dashboard.
-                </p>
-
-                <div className="bg-primary-green/20 border border-primary-green/30 rounded-lg p-4 mb-6">
-                  <div className="text-primary-green">
-                    Redirecting in {loginState.redirectCountdown} second
-                    {loginState.redirectCountdown !== 1 ? "s" : ""}...
-                  </div>
-                </div>
-
-                <Button
-                  className="w-full"
-                  disabled={loginState.isNavigating}
-                  isLoading={loginState.isNavigating}
-                  onClick={() => {
-                    if (!loginState.isNavigating) navigate(callbackUrl);
-                  }}
-                >
-                  {loginState.isNavigating ? "Redirecting..." : "Go Now"}
-                </Button>
+            <div className="bg-primary/20 border border-primary/30 rounded-lg p-4 mb-6">
+              <div className="text-primary">
+                Redirecting in {loginState.redirectCountdown} second
+                {loginState.redirectCountdown !== 1 ? "s" : ""}...
               </div>
             </div>
-          ) : (
-                        <div>
-              <h2 className="text-2xl font-bold text-white mb-2">Login</h2>
-              <p className="text-text-secondary mb-8">
-                Accedi al tuo account per continuare
-              </p>
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleLoginSubmit)}
-                  className="space-y-6"
-                >
-                  {loginState.error && (
-                    <div className="bg-error/20 border border-error/30 rounded-lg p-4">
-                      <div className="flex items-center">
-                        <X className="h-4 w-4 text-error mr-2" />
-                        <div className="text-error">{loginState.error}</div>
-                      </div>
-                    </div>
-                  )}
 
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="email">E-mail</FormLabel>
-                        <FormControl>
-                          <Input
-                            id="email"
-                            type="email"
-                            autoComplete="email"
-                            placeholder="La tua e-mail"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel htmlFor="password">Password</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              id="password"
-                              type={showPassword ? "text" : "password"}
-                              autoComplete="current-password"
-                              placeholder="La tua password"
-                              {...field}
-                            />
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary"
-                              onClick={() => setShowPassword((prev) => !prev)}
-                              aria-label={showPassword ? "Nascondi password" : "Mostra password"}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="rememberMe"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="flex items-center gap-2">
-                          <FormControl>
-                            <Checkbox
-                              id="remember-me"
-                              checked={field.value}
-                              onCheckedChange={(checked) => field.onChange(checked === true)}
-                            />
-                          </FormControl>
-                          <FormLabel
-                            htmlFor="remember-me"
-                            className="text-sm text-text-secondary font-normal"
-                          >
-                            Ricordami al prossimo accesso
-                          </FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={isProcessing}
-                    isLoading={isProcessing}
-                    aria-label="Accedi al tuo account"
-                  >
-                    {submitLabel}
-                  </Button>
-
-                  <div className="text-center text-sm text-text-secondary">
-                    <span>o </span>
-                    <Link
-                      href="/register"
-                      className="text-primary-green hover:text-primary-green/80 transition-colors"
-                    >
-                      registrati
-                    </Link>
-                    <span> subito</span>
-                  </div>
-                </form>
-              </Form>
-            </div>
-          )}
+            <Button
+              className="w-full"
+              disabled={loginState.isNavigating}
+              isLoading={loginState.isNavigating}
+              onClick={() => {
+                if (!loginState.isNavigating) navigate(callbackUrl);
+              }}
+            >
+              {loginState.isNavigating ? "Redirecting..." : "Go Now"}
+            </Button>
+          </div>
         </div>
-      </div>
-    </div>
+      ) : (
+        <div>
+          <h2 className="text-2xl font-bold text-foreground mb-2">Login</h2>
+          <p className="text-muted-foreground mb-8">
+            Accedi al tuo account per continuare
+          </p>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(handleLoginSubmit)}
+              className="space-y-6"
+            >
+              {loginState.error && (
+                <div className="bg-destructive/20 border border-destructive/30 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <X className="h-4 w-4 text-destructive mr-2" />
+                    <div className="text-destructive">{loginState.error}</div>
+                  </div>
+                </div>
+              )}
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="email">E-mail</FormLabel>
+                    <FormControl>
+                      <Input
+                        id="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="La tua e-mail"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor="password">Password</FormLabel>
+                    <FormControl>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          autoComplete="current-password"
+                          placeholder="La tua password"
+                          {...field}
+                        />
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
+                          onClick={() => setShowPassword((prev) => !prev)}
+                          aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="rememberMe"
+                render={({ field }) => (
+                  <FormItem>
+                    <div className="flex items-center gap-2">
+                      <FormControl>
+                        <Checkbox
+                          id="remember-me"
+                          checked={field.value}
+                          onCheckedChange={(checked) => field.onChange(checked === true)}
+                        />
+                      </FormControl>
+                      <FormLabel
+                        htmlFor="remember-me"
+                        className="text-sm text-muted-foreground font-normal"
+                      >
+                        Ricordami al prossimo accesso
+                      </FormLabel>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isProcessing}
+                isLoading={isProcessing}
+                aria-label="Accedi al tuo account"
+              >
+                {submitLabel}
+              </Button>
+
+              <div className="text-center text-sm text-muted-foreground">
+                <span>o </span>
+                <Link
+                  href="/register"
+                  className="text-primary hover:text-primary/80 transition-colors"
+                >
+                  registrati
+                </Link>
+                <span> subito</span>
+              </div>
+            </form>
+          </Form>
+        </div>
+      )}
+    </AuthLayout>
   );
 }
 

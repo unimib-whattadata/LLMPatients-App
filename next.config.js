@@ -6,7 +6,7 @@ const assetCacheControl = isDev
   : "public, max-age=31536000, immutable";
 
 const config = {
-  
+
   turbopack: {
     root: process.cwd(),
     resolveAlias: {
@@ -18,21 +18,21 @@ const config = {
   // Always enable React Strict Mode for better development practices
   reactStrictMode: true,
 
-  
+
   serverExternalPackages: ["bcryptjs", "ws"],
 
-  
+
   compiler: {
-    
+
     removeConsole: process.env.NODE_ENV === "production" ? {
       exclude: ["error", "warn"],
     } : false,
-    
+
     styledComponents: true,
   },
 
   // Package import optimizations (no longer experimental in Next.js 15)
-  optimizePackageImports: [
+  /* optimizePackageImports: [
     '@radix-ui/react-icons',
     '@radix-ui/react-accordion',
     '@radix-ui/react-dialog',
@@ -40,31 +40,31 @@ const config = {
     '@radix-ui/react-select',
     '@radix-ui/react-tabs',
     'lucide-react',
-  ],
+  ], */
 
-  
+
   images: {
-    
+
     formats: ["image/webp", "image/avif"],
-    
+
     remotePatterns: [
       {
         protocol: "https",
         hostname: "**.unimib.it",
       },
     ],
-    
+
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
-  
+
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          
+
           {
             key: "X-DNS-Prefetch-Control",
             value: "on",
@@ -110,25 +110,25 @@ const config = {
 
   /** @type {(config: any, context: { dev: boolean; isServer: boolean }) => any} */
   webpack: (config, { dev, isServer }) => {
-    
+
     if (dev) {
-      
+
       config.watchOptions = {
         poll: 1000,
         aggregateTimeout: 300,
       };
     }
-    
-    
+
+
     if (!dev && !isServer) {
-      
+
       config.optimization = {
         ...config.optimization,
         usedExports: true,
         sideEffects: false,
       };
 
-      
+
       config.optimization.splitChunks = {
         ...config.optimization.splitChunks,
         chunks: 'all',
@@ -152,10 +152,10 @@ const config = {
       };
     }
 
-    
+
     if (process.env.ANALYZE === "true") {
       try {
-        
+
         const { BundleAnalyzerPlugin } = eval('require')("webpack-bundle-analyzer");
         config.plugins.push(
           new BundleAnalyzerPlugin({

@@ -2,7 +2,7 @@
 
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import React, { useCallback, useMemo, memo, useEffect, useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Clock } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { SessionLoading } from "~/components/common";
@@ -24,6 +24,12 @@ import { createPatientSlug } from "~/lib/utils/slugify";
 import { KnowledgePhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/KnowledgePhaseCard";
 import { InterventionPhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/InterventionPhaseCard";
 import { ConclusionPhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/ConclusionPhaseCard";
+import {
+  getDifficultyAccessibleText,
+  getDifficultyIconClass,
+  getDifficultyIcon,
+  type DifficultyLevel,
+} from "~/lib/constants/difficulty";
 
 
 type PatientData = {
@@ -97,6 +103,17 @@ const TimelineStep = memo(
         data-step-id={step.id}
         data-step-color={step.color}
         style={{
+          position: "absolute",
+          transform: "translate(-50%, -50%)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "9999px",
+          fontWeight: 600,
+          cursor: isUnlocked ? "pointer" : "not-allowed",
+          opacity: isUnlocked ? 1 : 0.35,
+          filter: isUnlocked ? "none" : "grayscale(60%)",
+          backgroundColor: step.color,
           top: `${(step.scaledTop / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
           left: `${(step.scaledLeft / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
           width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
@@ -122,11 +139,7 @@ const TimelineStep = memo(
         aria-disabled={!isUnlocked}
         aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
       >
-        {isCompleted ? (
-          <Check className="h-4 w-4" aria-hidden="true" />
-        ) : (
-          step.id
-        )}
+        {step.id}
       </div>
     );
   },
@@ -161,7 +174,7 @@ const MobileTimelineStep = memo(
           data-step-id={step.id}
           data-step-color={step.color}
           className="timeline-mobile-step flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
-          style={{ color: "white" }}
+          style={{ color: "white", backgroundColor: step.color }}
         >
           {isCompleted ? (
             <Check className="h-2 w-2" aria-hidden="true" />
@@ -641,6 +654,41 @@ export function SessionTimelineContent({
                 più sicura nel tuo ruolo. Proprio come in un viaggio, ogni punto
                 è un piccolo traguardo. Sei pronto? Iniziamo!
               </p>
+              {typedSelectedPatient && (
+                <div className="mt-4 max-w-sm space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary text-sm">
+                      Difficoltà:
+                    </span>
+                    <div className="patient-card-difficulty">
+                      <span
+                        className={getDifficultyIconClass(
+                          typedSelectedPatient.difficulty as DifficultyLevel,
+                        )}
+                        aria-label={getDifficultyAccessibleText(
+                          typedSelectedPatient.difficulty as DifficultyLevel,
+                        )}
+                        role="img"
+                      >
+                        {getDifficultyIcon(
+                          typedSelectedPatient.difficulty as DifficultyLevel,
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary text-sm">
+                      Durata stimata:
+                    </span>
+                    <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+                      <Clock className="h-4 w-4" aria-hidden="true" />
+                      <span className="text-text-tertiary text-sm">
+                        {typedSelectedPatient.estimatedDuration} min
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
               {typedTherapySession && (
                 <div className="mt-4 flex items-center gap-4">
                   <div className="text-text-secondary text-sm">
@@ -730,7 +778,7 @@ export function SessionTimelineContent({
                     }}
                   />
                   <InterventionPhaseCard
-                    className="absolute w-[30%]"
+                    className="absolute w-[32%]"
                     style={{
                       top: '38%',
                       left: '1%'
@@ -762,7 +810,10 @@ export function SessionTimelineContent({
 
           <div className="mt-10 md:hidden">
             <div className="relative pl-8">
-              <span className="stroke-timeline-path pointer-events-none absolute top-0 left-3 h-full w-px" />
+              <span
+                className="stroke-timeline-path pointer-events-none absolute top-0 left-3 h-full w-px"
+                style={{ backgroundColor: "#3d413b" }}
+              />
               <div className="space-y-5">
                 <KnowledgePhaseCard className="w-full my-6" />
                 {TIMELINE_STEPS.map((step, index) => {

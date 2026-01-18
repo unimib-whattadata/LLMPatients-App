@@ -27,17 +27,17 @@ export function ShadcnNavbar({
   currentPage: _currentPage = "",
 }: ShadcnNavbarProps) {
 
-  
+
   const displayUser = impersonation?.isImpersonating
     ? {
-        id: impersonation.targetUserId,
-        name: impersonation.targetUserName,
-        email: impersonation.targetUserEmail,
-        role: "user" as const,
-      }
+      id: impersonation.targetUserId,
+      name: impersonation.targetUserName,
+      email: impersonation.targetUserEmail,
+      role: "user" as const,
+    }
     : user;
 
-  
+
   const handleLogout = async () => {
     try {
       const callbackUrl =
@@ -53,7 +53,7 @@ export function ShadcnNavbar({
 
 
 
-  
+
   const renderUserMenu = () => {
     if (!displayUser) return null;
 
@@ -77,14 +77,14 @@ export function ShadcnNavbar({
     );
   };
 
-  
+
   const renderAuthButtons = () => (
     <div className="flex items-center space-x-2">
       <Button
         variant="outline"
         size="sm"
         asChild
-        className="border-2 border-[var(--color-primary-yellow)] bg-[var(--color-navbar-dark)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-yellow)] hover:text-[var(--color-text-inverse)]"
+        className="border-2 border-accent bg-background text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
       >
         <Link href="/login">Accedi</Link>
       </Button>
@@ -96,11 +96,11 @@ export function ShadcnNavbar({
 
 
   return (
-    <header 
-      className="navbar-background sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-background/60"
+    <header
+      className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-md border-b border-border/50"
     >
       <div className="flex h-16 items-center px-4 w-full">
-        {}
+        { }
         <div className="flex items-center space-x-2">
           <Link href="/" className="flex items-center space-x-2">
             <Image
@@ -117,10 +117,10 @@ export function ShadcnNavbar({
           </Link>
         </div>
 
-        {}
+        { }
         <div className="flex-1" />
 
-        {}
+        { }
         <div className="flex items-center space-x-2">
           {displayUser ? renderUserMenu() : renderAuthButtons()}
         </div>

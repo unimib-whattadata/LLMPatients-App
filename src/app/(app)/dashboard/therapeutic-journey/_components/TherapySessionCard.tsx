@@ -14,6 +14,7 @@ import {
 import { Clock } from "lucide-react";
 import { Progress } from "~/components/ui/progress";
 import { Button } from "~/components/ui/button";
+import { DashboardPanel } from "~/components/dashboard/ui";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -72,15 +73,16 @@ function TherapySessionCardComponent({
     : Math.max(0, Math.min(100, Math.round((therapySession.completedStepsCount / 11) * 100)));
 
   return (
-    <article
-      className="dashboard-action-card"
+
+    <DashboardPanel
+      className="group relative overflow-hidden transition-all hover:bg-white/5 hover:border-white/10 hover:shadow-lg hover:shadow-black/20 p-2"
       role="listitem"
       itemScope
       itemType="https://schema.org/MedicalProcedure"
     >
-      <div className="dashboard-action-card-content">
-        <div className="dashboard-action-card-main">
-          {}
+      <div className="p-4 h-full flex flex-col justify-between">
+        <div className="space-y-6">
+          { }
           <div className="mb-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="therapy-session-avatar">
@@ -90,14 +92,11 @@ function TherapySessionCardComponent({
                 />
               </div>
               <div>
-                <h3
-                  className="dashboard-action-card__title mb-1"
-                  itemProp="name"
-                >
+                <h3 className="font-semibold text-lg mb-1">
                   {therapySession.patient.name}
                 </h3>
                 <p
-                  className="dashboard-action-card__description text-sm"
+                  className="text-sm text-muted-foreground line-clamp-2"
                   itemProp="description"
                 >
                   {therapySession.patient.smallDescription}
@@ -167,34 +166,36 @@ function TherapySessionCardComponent({
                 <span className="text-text-tertiary text-sm">
                   {therapySession.isCompleted
                     ? new Date(
-                        therapySession.updatedAt || therapySession.createdAt,
-                      ).toLocaleDateString("it-IT")
+                      therapySession.updatedAt || therapySession.createdAt,
+                    ).toLocaleDateString("it-IT")
                     : `${therapySession.patient.estimatedDuration} min`}
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="mt-6">
-            <Button
-              asChild
-              className="w-full"
-              size="lg"
+        </div>
+
+        <div className="mt-6 pt-4 border-t border-border/50">
+          <Button
+            asChild
+            className="w-full"
+            size="lg"
+          >
+            <Link
+              href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
             >
-              <Link
-                href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
-              >
-                {therapySession.isCompleted
-                  ? "Rivedi Percorso Completato"
-                  : sessionStatus === "started"
-                    ? "Inizia Sessione"
-                    : "Continua Sessione"}
-              </Link>
-            </Button>
-          </div>
+              {therapySession.isCompleted
+                ? "Rivedi Percorso Completato"
+                : sessionStatus === "started"
+                  ? "Inizia Sessione"
+                  : "Continua Sessione"}
+            </Link>
+          </Button>
         </div>
       </div>
-    </article>
+
+    </DashboardPanel >
   );
 }
 

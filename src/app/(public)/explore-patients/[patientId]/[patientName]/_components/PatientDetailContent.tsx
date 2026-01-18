@@ -14,6 +14,8 @@ import { Button } from "~/components/ui/button";
 import {
   getDifficultyIconClass,
   getDifficultyAccessibleText,
+  getDifficultyIcon,
+  type DifficultyLevel,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { createLogger } from "~/lib/logger";
@@ -32,19 +34,6 @@ function normalizeParam(value: unknown): string | null {
 
 export function PatientDetailContent() {
   const params = useParams();
-
-  const getDifficultyIcon = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  };
   const patientId = normalizeParam(
     (params as Record<string, unknown>).patientId,
   );
@@ -179,26 +168,38 @@ export function PatientDetailContent() {
                 {}
 
                 {}
-                <div className="patient-card-metadata mt-4">
-                  <div className="patient-card-difficulty">
-                    <span
-                      className={getDifficultyIconClass(patient.difficulty)}
-                      aria-label={getDifficultyAccessibleText(
-                        patient.difficulty,
-                      )}
-                      role="img"
-                    >
-                      {getDifficultyIcon(patient.difficulty)}
+                <div className="mt-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary text-sm">
+                      Difficoltà:
                     </span>
+                    <div className="patient-card-difficulty">
+                      <span
+                        className={getDifficultyIconClass(
+                          patient.difficulty as DifficultyLevel,
+                        )}
+                        aria-label={getDifficultyAccessibleText(
+                          patient.difficulty as DifficultyLevel,
+                        )}
+                        role="img"
+                      >
+                        {getDifficultyIcon(patient.difficulty as DifficultyLevel)}
+                      </span>
+                    </div>
                   </div>
-                  <div className="patient-card-duration">
-                    <Clock
-                      className="patient-card-duration-icon h-4 w-4"
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm">
-                      {patient.estimatedDuration} min
+                  <div className="flex items-center justify-between">
+                    <span className="text-text-secondary text-sm">
+                      Durata stimata:
                     </span>
+                    <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+                      <Clock
+                        className="h-4 w-4"
+                        aria-hidden="true"
+                      />
+                      <span className="text-text-tertiary text-sm">
+                        {patient.estimatedDuration} min
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

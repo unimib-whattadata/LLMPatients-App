@@ -4,6 +4,9 @@ import { PatientAvatar } from "~/components/features/explore-patients/PatientAva
 import { Clock } from "lucide-react";
 import {
   getDifficultyAccessibleText,
+  getDifficultyIcon,
+  getDifficultyIconClass,
+  type DifficultyLevel,
 } from "~/lib/constants/difficulty";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import {
@@ -22,19 +25,6 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
-  const getDifficultyIcon = (difficulty: number) => {
-    switch (difficulty) {
-      case 1:
-        return "•";
-      case 2:
-        return "••";
-      case 3:
-        return "•••";
-      default:
-        return "•";
-    }
-  };
-
   return (
     <Card
       className="patient-card flex h-full flex-col !bg-[#2E322B]"
@@ -95,28 +85,31 @@ export function PatientCard({ patient }: PatientCardProps) {
         </div>
 
         {}
-        <div className="flex items-center justify-between mt-4 pt-4">
-          <div className="flex items-center space-x-2">
-            <div
-              className="flex items-center"
-              aria-label={getDifficultyAccessibleText(patient.difficulty)}
-            >
-              <div 
-                className={`flex items-center space-x-1 difficulty-dots ${
-                  patient.difficulty === 1 
-                    ? 'difficulty-easy' 
-                    : patient.difficulty === 2 
-                      ? 'difficulty-medium' 
-                      : 'difficulty-hard'
-                }`}
+        <div className="mt-4 space-y-3 pt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-text-secondary text-sm">Difficoltà:</span>
+            <div className="patient-card-difficulty">
+              <span
+                className={getDifficultyIconClass(
+                  patient.difficulty as DifficultyLevel,
+                )}
+                aria-label={getDifficultyAccessibleText(
+                  patient.difficulty as DifficultyLevel,
+                )}
+                role="img"
               >
-                {getDifficultyIcon(patient.difficulty)}
-              </div>
+                {getDifficultyIcon(patient.difficulty as DifficultyLevel)}
+              </span>
             </div>
           </div>
-          <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
-            <Clock className="h-4 w-4" aria-hidden="true" />
-            <span>{patient.estimatedDuration} min</span>
+          <div className="flex items-center justify-between">
+            <span className="text-text-secondary text-sm">Durata stimata:</span>
+            <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+              <Clock className="h-4 w-4" aria-hidden="true" />
+              <span className="text-text-tertiary text-sm">
+                {patient.estimatedDuration} min
+              </span>
+            </div>
           </div>
         </div>
       </CardContent>

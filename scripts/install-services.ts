@@ -56,7 +56,7 @@ services.forEach((service) => {
     if (hasPyProject || hasRequirements) {
       // Use piped stdio to avoid spamming unless error? or 'inherit' to show progress?
       // Using inherit is better for long running installs so user sees progress
-      const cmd = hasPyProject ? "pip install -e ." : "pip install -r requirements.txt";
+      const cmd = hasPyProject ? "pip3 install -e ." : "pip3 install -r requirements.txt";
       // Try to execute in the service directory
       execSync(cmd, { cwd: servicePath, stdio: 'inherit' });
       console.log(`Dependencies installed for ${service.name}.`);

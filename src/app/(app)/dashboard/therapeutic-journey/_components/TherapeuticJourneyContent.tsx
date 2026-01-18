@@ -5,10 +5,11 @@ import Link from "next/link";
 import { TherapySessionCard } from "./TherapySessionCard";
 import { TherapySessionFilters } from "./TherapySessionFilters";
 import { TherapySessionMetrics } from "./TherapySessionMetrics";
-import { KnowledgePhaseCard } from "./KnowledgePhaseCard";
+
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Button } from "~/components/ui/button";
+import { DashboardSection, DashboardPanel, DashboardMetricCard } from "~/components/dashboard/ui";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -100,37 +101,29 @@ export function TherapeuticJourneyContent() {
   }, []);
 
   return (
-    <div className="dashboard-panel-stack">
-      { }
-      <section className="dashboard-section">
-        <div className="dashboard-section__header">
-          <div>
-            <h1 className="dashboard-section__title">
-              I tuoi percorsi terapeutici
-            </h1>
-            <p className="dashboard-section__description">
-              Seleziona un paziente per continuare il tuo percorso terapeutico o
-              inizia una nuova simulazione.
-            </p>
-          </div>
-        </div>
-
+    <div className="space-y-8">
+      <DashboardSection
+        title="I tuoi percorsi terapeutici"
+        description="Seleziona un paziente per continuare il tuo percorso terapeutico o inizia una nuova simulazione."
+      >
         {!isClient ? (
-          <div className="dashboard-metric-grid" aria-hidden="true">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="dashboard-metric-card">
-                <Skeleton variant="text" className="mb-2 h-4 w-20" />
-                <Skeleton variant="text" className="h-8 w-16" />
-              </div>
+              <DashboardMetricCard
+                key={i}
+                value={<Skeleton className="h-8 w-16" />}
+                label={<Skeleton className="h-4 w-20" />}
+              />
             ))}
           </div>
         ) : sessionsLoading ? (
-          <div className="dashboard-metric-grid" aria-hidden="true">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="dashboard-metric-card">
-                <Skeleton variant="text" className="mb-2 h-4 w-20" />
-                <Skeleton variant="text" className="h-8 w-16" />
-              </div>
+              <DashboardMetricCard
+                key={i}
+                value={<Skeleton className="h-8 w-16" />}
+                label={<Skeleton className="h-4 w-20" />}
+              />
             ))}
           </div>
         ) : typedAllTherapySessions && typedAllTherapySessions.length > 0 ? (
@@ -140,184 +133,104 @@ export function TherapeuticJourneyContent() {
             averageProgress={metrics.averageProgress}
           />
         ) : null}
-      </section>
+      </DashboardSection>
 
       { }
-      <section className="dashboard-section">
-        <div className="dashboard-section__header">
-          <div>
-            <h2 className="dashboard-section__title">Percorsi Terapeutici</h2>
-            <p className="dashboard-section__description">
-              Le tue sessioni terapeutiche in corso
-            </p>
-          </div>
-        </div>
-
-        { }
+      <DashboardSection
+        title="Percorsi Terapeutici"
+        description="Le tue sessioni terapeutiche in corso"
+      >
         <TherapySessionFilters
           activeFilter={filter}
           onFilterChange={handleFilterChange}
         />
 
         {!isClient ? (
-          <div className="dashboard-action-grid" aria-hidden="true">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="dashboard-action-card">
-                <div className="dashboard-action-card-content">
-                  <div className="dashboard-action-card-main">
-                    <div className="mb-4 flex items-start justify-between">
-                      <div className="flex-1">
-                        <Skeleton variant="text" className="mb-2 h-5 w-3/4" />
-                        <Skeleton variant="text" className="mb-1 h-4 w-1/2" />
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <Skeleton variant="avatar" className="h-6 w-20" />
-                        <Skeleton variant="text" className="h-3 w-16" />
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Skeleton variant="text" className="h-4 w-16" />
-                        <div className="flex items-center gap-2">
-                          <Skeleton variant="avatar" className="h-4 w-4" />
-                          <Skeleton variant="text" className="h-4 w-12" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="mb-1 flex items-center justify-between">
-                          <Skeleton variant="text" className="h-4 w-16" />
-                          <Skeleton variant="text" className="h-4 w-8" />
-                        </div>
-                        <Skeleton variant="text" className="h-2 w-full" />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Skeleton variant="text" className="h-4 w-20" />
-                        <Skeleton variant="text" className="h-4 w-12" />
-                      </div>
-                    </div>
-                    <div className="mt-6">
-                      <Skeleton variant="button" className="h-10 w-full" />
-                    </div>
-                  </div>
+              <DashboardPanel key={index} className="p-4 space-y-4">
+                <div className="flex justify-between">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-8 w-8 rounded-full" />
                 </div>
-              </div>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+                <Skeleton className="h-10 w-full mt-4" />
+              </DashboardPanel>
             ))}
           </div>
         ) : sessionsLoading ? (
-          <div className="dashboard-action-grid" aria-hidden="true">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="dashboard-action-card">
-                <div className="dashboard-action-card-content">
-                  <div className="dashboard-action-card-main">
-                    <div className="mb-4 flex items-start justify-between">
-                      <div className="flex-1">
-                        <Skeleton variant="text" className="mb-2 h-5 w-3/4" />
-                        <Skeleton variant="text" className="mb-1 h-4 w-1/2" />
-                      </div>
-                      <div className="flex flex-col items-end gap-2">
-                        <Skeleton variant="avatar" className="h-6 w-20" />
-                        <Skeleton variant="text" className="h-3 w-16" />
-                      </div>
-                    </div>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Skeleton variant="text" className="h-4 w-16" />
-                        <div className="flex items-center gap-2">
-                          <Skeleton variant="avatar" className="h-4 w-4" />
-                          <Skeleton variant="text" className="h-4 w-12" />
-                        </div>
-                      </div>
-                      <div>
-                        <div className="mb-1 flex items-center justify-between">
-                          <Skeleton variant="text" className="h-4 w-16" />
-                          <Skeleton variant="text" className="h-4 w-8" />
-                        </div>
-                        <Skeleton variant="text" className="h-2 w-full" />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Skeleton variant="text" className="h-4 w-20" />
-                        <Skeleton variant="text" className="h-4 w-12" />
-                      </div>
-                    </div>
-                    <div className="mt-6">
-                      <Skeleton variant="button" className="h-10 w-full" />
-                    </div>
-                  </div>
+              <DashboardPanel key={index} className="p-4 space-y-4">
+                <div className="flex justify-between">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-8 w-8 rounded-full" />
                 </div>
-              </div>
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-full" />
+                  <Skeleton className="h-4 w-2/3" />
+                </div>
+                <Skeleton className="h-10 w-full mt-4" />
+              </DashboardPanel>
             ))}
           </div>
         ) : sessionsError ? (
-          <div className="dashboard-empty-state">
-            <h3 className="text-text-primary mb-2 text-lg font-medium">
+          <DashboardPanel className="flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
+            <h3 className="text-foreground mb-2 text-lg font-medium">
               Errore nel caricamento
             </h3>
-            <p className="text-text-secondary">
+            <p className="text-muted-foreground">
               Non è stato possibile caricare le tue sessioni terapeutiche.
             </p>
-          </div>
+          </DashboardPanel>
         ) : !typedAllTherapySessions || typedAllTherapySessions.length === 0 ? (
-          <div className="dashboard-empty-state">
-            <h3 className="text-text-primary mb-2 text-lg font-medium">
+          <DashboardPanel className="flex flex-col items-center justify-center p-12 text-center min-h-[400px]">
+            <h3 className="text-foreground mb-2 text-2xl font-bold">
               Nessuna sessione avviata
             </h3>
-            <p className="text-text-secondary">
+            <p className="text-muted-foreground max-w-md mx-auto mb-8">
               Non hai ancora avviato nessuna sessione terapeutica. Vai alla
               pagina &quot;Esplora Pazienti&quot; per iniziare.
             </p>
-            <div className="mt-6">
-              <Button asChild size="lg">
-                <Link href="/explore-patients">Esplora Pazienti</Link>
-              </Button>
-            </div>
-          </div>
+            <Button asChild size="lg" className="bg-primary-green hover:bg-primary-green/90 text-white">
+              <Link href="/explore-patients">Esplora Pazienti</Link>
+            </Button>
+          </DashboardPanel>
         ) : (
           <div
-            className="dashboard-action-grid"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
             role="list"
             aria-label={`Griglia di ${filteredSessions.length} sessioni terapeutiche`}
           >
-            {(() => {
-              const items = [];
-              // We use a manual loop or flatMap to validly insert the extra card
-              for (let i = 0; i < filteredSessions.length; i++) {
-                const therapySession = filteredSessions[i];
-                if (!therapySession) continue;
-                items.push(
-                  <TherapySessionCard
-                    key={therapySession.id}
-                    therapySession={therapySession}
-                    getSessionStatus={getSessionStatus}
-                  />
-                );
-                // Insert after the second item (index 1)
-                if (i === 1) {
-                  items.push(<KnowledgePhaseCard key="knowledge-card" className="h-full min-h-[300px] w-full" />);
-                }
-              }
-              // If we have fewer than 2 items, the card hasn't been added yet. 
-              // Add it now so it always appears.
-              if (filteredSessions.length < 2) {
-                items.push(<KnowledgePhaseCard key="knowledge-card" className="h-full min-h-[300px] w-full" />);
-              }
-              return items;
-            })()}
+            {filteredSessions.map((therapySession) => (
+              <TherapySessionCard
+                key={therapySession.id}
+                therapySession={therapySession}
+                getSessionStatus={getSessionStatus}
+              />
+            ))}
           </div>
         )}
 
         {filteredSessions.length === 0 &&
           typedAllTherapySessions &&
           typedAllTherapySessions.length > 0 && (
-            <div className="dashboard-empty-state">
-              <h3 className="text-text-primary mb-2 text-lg font-medium">
+            <DashboardPanel className="col-span-1 md:col-span-3 min-h-[200px] flex flex-col items-center justify-center p-8 text-center bg-transparent border-dashed">
+              <h3 className="text-foreground mb-2 text-lg font-medium">
                 Nessuna sessione trovata
               </h3>
-              <p className="text-text-secondary">
+              <p className="text-muted-foreground">
                 Modifica i filtri per vedere più sessioni
               </p>
-            </div>
+            </DashboardPanel>
           )}
-      </section>
+
+      </DashboardSection>
     </div>
-  );
+  )
 }
+
+

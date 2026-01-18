@@ -2,6 +2,7 @@
 "use client";
 
 import { memo } from "react";
+import { DashboardMetricCard } from "~/components/dashboard/ui";
 
 interface TherapySessionMetricsProps {
   startedOrInProgress: number;
@@ -15,19 +16,19 @@ function TherapySessionMetricsComponent({
   averageProgress,
 }: TherapySessionMetricsProps) {
   return (
-    <div className="dashboard-metric-grid">
-      <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value">{startedOrInProgress}</div>
-        <div className="dashboard-metric-card__label">Iniziate o In corso</div>
-      </div>
-      <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value">{completed}</div>
-        <div className="dashboard-metric-card__label">Completate</div>
-      </div>
-      <div className="dashboard-metric-card">
-        <div className="dashboard-metric-card__value">{averageProgress}%</div>
-        <div className="dashboard-metric-card__label">Progresso Medio</div>
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <DashboardMetricCard
+        value={startedOrInProgress}
+        label="Iniziate o In corso"
+      />
+      <DashboardMetricCard
+        value={completed}
+        label="Completate"
+      />
+      <DashboardMetricCard
+        value={`${averageProgress}%`}
+        label="Progresso Medio"
+      />
     </div>
   );
 }

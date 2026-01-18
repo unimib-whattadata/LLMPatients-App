@@ -55,7 +55,6 @@ interface DiagnosticResult {
     database: boolean;
     authentication: boolean;
     userAuth: boolean;
-    build: boolean;
     permissions: boolean;
     tts: boolean; // Added TTS check
 }
@@ -797,6 +796,11 @@ class TTSChecker {
             Logger.warning("  VibeVoice not available, cannot test generation.");
         }
 
+        // Ensure bridge is stopped
+        if ('cleanup' in vibeProvider) {
+            (vibeProvider as any).cleanup();
+        }
+
         Logger.info("-".repeat(20));
 
         // Check Chatterbox
@@ -842,6 +846,11 @@ class TTSChecker {
             Logger.warning("  Chatterbox not available, cannot test generation.");
         }
 
+        // Ensure bridge is stopped
+        if ('cleanup' in chatterboxProvider) {
+            (chatterboxProvider as any).cleanup();
+        }
+
         return allPassed;
     }
 }
@@ -860,7 +869,6 @@ class SystemDiagnostics {
         database: false,
         authentication: false,
         userAuth: false,
-        build: false,
         permissions: false,
         tts: false,
     };
@@ -872,6 +880,7 @@ class SystemDiagnostics {
             await this.runAllChecks();
             this.generateSummary();
             this.showRecommendations();
+            process.exit(0);
         } catch (error) {
             Logger.error(`System diagnostics failed: ${String(error)}`);
             process.exit(1);
