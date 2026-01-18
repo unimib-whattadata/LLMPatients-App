@@ -1,204 +1,168 @@
 # LLMPatients
 
-A Next.js application for simulating patient interactions using Large Language Models.
+**LLMPatients** is an advanced educational platform designed to train psychotherapy students and clinical residents through realistic simulations with virtual patients powered by Large Language Models (LLM).
 
-## Getting Started
+The platform provides a safe, controlled environment where learners can practice clinical interviewing, diagnostic assessment, and therapeutic techniques.
+
+## ✨ Key Features
+
+- **Realistic Patient Simulations**: Interact with virtual patients that have detailed clinical histories, personalities, and psychological profiles.
+- **Therapeutic Journey**: Structured sessions that guide the student through different phases of therapy (e.g., intake, intervention, conclusion).
+- **Real-time Chat Interface**: A responsive chat interface tailored for clinical dialogue.
+- **Automated Assessment**: The system analyzes interactions to provide feedback on empathy, adherence to setting, and quality of interventions.
+- **Text-to-Speech (TTS)**: Multi-provider support including privacy-first local generation (Chatterbox, VibeVoice) and high-quality cloud options (ElevenLabs).
+- **Role-Based Access**: Specialized views for Students and Supervisors/Admins.
+- **Progress Tracking**: Detailed reports and history of past sessions.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/docs) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/docs/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/docs), [Radix UI](https://www.radix-ui.com/), [Lucide Icons](https://lucide.dev/)
+- **Database**: 
+  - **SQLite** (default) via [LibSQL](https://docs.shuttle.rs/resources/shuttle-shared-db) / [Turso](https://docs.turso.tech/).
+  - **PostgreSQL** via [Docker](https://docs.docker.com/).
+- **ORM**: [Drizzle ORM](https://orm.drizzle.team/docs/overview)
+- **Auth**: [Auth.js (NextAuth)](https://authjs.dev/)
+- **API**: [tRPC](https://trpc.io/docs) & Server Actions
+- **AI/ML**: Integration with external LLM APIs + Local Python Bridges for TTS
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm
+- **Node.js 18+**
+- **pnpm** (preferred package manager)
+- **Python 3.10+** (if using local TTS features)
+- **Git**
 
 ### Installation
 
-```bash
-pnpm install
-```
+1.  **Clone the repository**
+    ```bash
+    git clone https://github.com/your-org/llmpatient.git
+    cd llmpatient
+    ```
 
-## Database
+2.  **Install Dependencies**
+    ```bash
+    pnpm install
+    ```
 
-By default, the application uses **SQLite** for local development.
+3.  **Environment Setup**
+    Create a `.env` file in the root directory.
 
-### Initialize Database (SQLite)
+    ### 🔧 Configuration Reference
 
-1. Ensure `.env` has the correct `DATABASE_URL`:
-   ```env
-   DATABASE_URL="file:./dev.db"
-   ```
+    | Variable | Required | Default | Description |
+    |----------|:--------:|:-------:|-------------|
+    | **Core & Database** |
+    | `DATABASE_URL` | ✅ | - | Connection string (`file:./dev.db` or `postgresql://...`). |
+    | `NODE_ENV` | ❌ | `development` | `development`, `test`, or `production`. |
+    | **Authentication** |
+    | `AUTH_SECRET` | ✅ | - | Secret key for encryption (min 32 chars). |
+    | `NEXTAUTH_URL` | ✅ | `http://localhost:3000` | Canonical URL of the site. |
+    | **AI & API** |
+    | `API` | ❌ | `local` | `local` (mock) or `remote` (LLM API). |
+    | `API_BASE_URL` | ❌ | - | Base URL for the external LLM backend. |
+    | `EXTERNAL_AI_API_KEY` | ❌ | - | API Key for external AI services. |
+    | **Text-to-Speech** |
+    | `TTS_PROVIDER` | ❌ | `none` | `chatterbox`, `vibevoice`, `elevenlabs`, or `none`. |
+    | `USE_CHATTERBOX` | ❌ | `false` | `true` to auto-install Chatterbox local service. |
+    | `USE_VIBEVOICE` | ❌ | `false` | `true` to auto-install VibeVoice local service. |
+    | `ELEVENLABS_API_KEY` | ❌ | - | Required only if `TTS_PROVIDER="elevenlabs"`. |
+    | **Logging** |
+    | `LOG_LEVEL` | ❌ | `debug` | Server log level (`debug`, `info`, `warn`, `error`). |
 
-2. Push the schema to the database:
-   ```bash
-   pnpm db:push
-   ```
+4.  **Database Setup**
 
-3. (Optional) Seed the database with initial data:
-   ```bash
-   pnpm db:seed
-   ```
+    **Option A: SQLite (Default/Easiest)**
+    ```bash
+    pnpm db:push
+    pnpm db:seed
+    ```
 
-### PostgreSQL (Optional)
+    **Option B: PostgreSQL (Docker)**
+    The project includes a `docker-compose.yml` for running a local Postgres instance.
+    ```bash
+    # Start Postgres container
+    docker-compose up -d
 
-If you prefer to use PostgreSQL:
-1. Update `.env`:
-   ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
-   ```
-2. Run the specific PostgreSQL push command:
-   ```bash
-   pnpm db:push:postgres
-   ```
+    # Update .env
+    # DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
 
-### Development
+    # Push schema specifically for Postgres
+    pnpm db:push:postgres
+    pnpm db:seed
+    ```
 
-```bash
-pnpm dev
-```
+5.  **Start Development Server**
+    ```bash
+    pnpm dev
+    ```
+    *Note: The dev command automatically checks for and installs required local TTS services unless disabled in env.*
 
-The application will be available at [http://localhost:3000](http://localhost:3000).
+## 🔉 Text-to-Speech (TTS) Integration
 
-### Build
+The project features a **Python Bridge** architecture to run local TTS models directly alongside the Next.js app.
 
-```bash
-pnpm build
-```
+| Provider | Type | Description | Documentation |
+|----------|------|-------------|---------------|
+| **Chatterbox** | Local | Simple, fast, offline synthesis. Good for general testing. | [GitHub](https://github.com/resemble-ai/chatterbox) |
+| **VibeVoice** | Local | High-quality voice cloning. Requires more resources. | [GitHub](https://github.com/microsoft/VibeVoice) |
+| **ElevenLabs** | Cloud | Premium quality, requires API key and internet connection. | [Official Docs](https://elevenlabs.io/docs) |
 
-## TTS Integration (Text-to-Speech)
+**Configuration**: Modify `TTS_PROVIDER` in your `.env` to switch between them.
 
-This project supports local Text-to-Speech using **Chatterbox (Turbo)** and **VibeVoice (0.5b)** directly integrated via Python.
+## 🧪 Testing & Diagnostics
 
-### Prerequisites
-
-- Python 3.10+ (tested with 3.11)
-- `pip`
-
-### Setup Services
-
-The services are located in the `services/` directory.
-
-#### 1. Chatterbox
-
-Chatterbox requires a virtual environment and dependencies:
-
-```bash
-cd services/chatterbox
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -e .
-```
-
-#### 2. VibeVoice
-
-VibeVoice uses the system python or a compatible environment (Python 3.9+). 
-Ensure you have the necessary dependencies installed (pytorch, transformers, etc) or use the `scripts/install-services.ts` helper (note: helper might only clone repos).
-
-### Configuration
-
-Set the `TTS_PROVIDER` environment variable in `.env`:
-
-```env
-# Options: 'chatterbox', 'vibevoice', 'elevenlabs', 'none'
-TTS_PROVIDER="chatterbox"
-
-# Optional: VibeVoice URL if running remotely (default is local bridge)
-# VIBEVOICE_URL="http://localhost:3000" 
-```
-
-### Testing
-
-To run a comprehensive test of all platform functionalities (system diagnostics + TTS integration):
+A comprehensive diagnostic tool is included to verify system health, database connectivity, and TTS integration.
 
 ```bash
+# Run full system diagnostics
 pnpm test
 ```
 
-## Logger
+## 📦 Deployment & Optimization
 
-The project includes a custom logger with emoji indicators and ANSI colors for easy identification in the terminal.
-
-### Usage
-
-```typescript
-import { createLogger } from "@/lib/logger";
-
-// Create a logger with a namespace
-const logger = createLogger("MyComponent");
-
-// Log messages at different levels
-logger.debug("Debug message");     // 🔍 [MyComponent] Debug message
-logger.info("Info message");       // 📘 [MyComponent] Info message
-logger.warn("Warning message");    // ⚠️ [MyComponent] Warning message
-logger.error("Error message");     // ❌ [MyComponent] Error message
-```
-
-### Log Levels
-
-| Level   | Emoji | Color   | Description                     |
-|---------|-------|---------|----------------------------------|
-| `debug` | 🔍    | Cyan    | Detailed debugging information   |
-| `info`  | 📘    | Blue    | General information              |
-| `warn`  | ⚠️    | Yellow  | Warning messages                 |
-| `error` | ❌    | Red     | Error messages                   |
-
-### Adding Context
-
-You can add metadata to your log messages:
-
-```typescript
-const logger = createLogger("API");
-
-// Log with additional context
-logger.info("User logged in", { userId: 123, email: "user@example.com" });
-// 📘 [API] User logged in { userId: 123, email: 'user@example.com' }
-
-// Log errors with full stack trace
-logger.error("Failed to fetch data", new Error("Network timeout"));
-// ❌ [API] Failed to fetch data { error: { name: 'Error', message: 'Network timeout', stack: '...' } }
-```
-
-### Child Loggers
-
-Create child loggers with persistent context:
-
-```typescript
-const logger = createLogger("Auth");
-const userLogger = logger.child({ userId: 123 });
-
-userLogger.info("Session started");
-// 📘 [Auth] Session started { userId: 123 }
-
-userLogger.info("Permissions loaded", { roles: ["admin"] });
-// 📘 [Auth] Permissions loaded { userId: 123, roles: ['admin'] }
-```
-
-### Configuration
-
-Control the log level using environment variables:
+### Production Build
+To create an optimized production build:
 
 ```bash
-# .env or .env.local
-LOG_LEVEL=debug          # Server-side log level
-NEXT_PUBLIC_LOG_LEVEL=info  # Client-side log level
+pnpm build
+pnpm start
 ```
 
-Available levels (from most to least verbose):
-- `debug` - All logs (default in development)
-- `info` - Info, warnings, and errors
-- `warn` - Warnings and errors only (default in production)
-- `error` - Errors only
-
-### Filtering Logs in Terminal
-
-Since all app logs use the emoji prefix, you can easily filter them:
+### Bundle Analysis
+To analyze the size of the build bundles:
 
 ```bash
-# Show only your app logs
-pnpm dev 2>&1 | grep --line-buffered "🔍\|📘\|⚠️\|❌"
-
-# Show only errors and warnings
-pnpm dev 2>&1 | grep --line-buffered "⚠️\|❌"
+pnpm build:analyze
 ```
+This will open a visualizer showing which packages are taking up the most space.
 
-## License
+## 🗄️ Database Management
 
-MIT
+We use **Drizzle Kit** for database migrations and management.
 
+- **Push Schema**: `pnpm db:push`
+- **View Data (Studio)**: `pnpm db:studio` (opens at `localhost:4985`)
+- **Generate Migrations**: `pnpm db:generate`
+
+## 📂 Project Structure
+
+- `src/app` - Next.js App Router pages and layouts.
+- `src/components` - React components (UI, Dashboard, Chat).
+- `src/server` - Backend logic, Database schema, Auth configuration.
+- `src/lib` - Utilities, Logger, TTS Providers.
+- `services/` - Direct location for local Python services.
+- `scripts/` - Maintenance and testing scripts.
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+---
+
+**Developed for University of Milano-Bicocca (UNIMIB)**
+*Innovative Teaching & Clinical Simulation Project*
