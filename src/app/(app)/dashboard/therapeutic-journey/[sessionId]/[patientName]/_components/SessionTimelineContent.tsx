@@ -1,7 +1,7 @@
 "use client";
 
 import { SharedLayout } from "~/components/layout/SharedLayout";
-import { useCallback, useMemo, memo, useEffect, useState } from "react";
+import React, { useCallback, useMemo, memo, useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -21,6 +21,9 @@ import {
 import type { User, ImpersonationContext } from "~/types";
 import { api } from "~/trpc/react";
 import { createPatientSlug } from "~/lib/utils/slugify";
+import { KnowledgePhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/KnowledgePhaseCard";
+import { InterventionPhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/InterventionPhaseCard";
+import { ConclusionPhaseCard } from "~/app/(app)/dashboard/therapeutic-journey/_components/ConclusionPhaseCard";
 
 
 type PatientData = {
@@ -101,9 +104,8 @@ const TimelineStep = memo(
           fontSize: `${circleFontSize}px`,
           color: "white",
         }}
-        className={`timeline-step-positioned timeline-desktop-step ${
-          !isUnlocked ? "timeline-step-positioned--locked" : ""
-        } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
+        className={`timeline-step-positioned timeline-desktop-step ${!isUnlocked ? "timeline-step-positioned--locked" : ""
+          } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
         onClick={() => {
           if (!isUnlocked) return;
           onStepClick(step.id);
@@ -175,9 +177,8 @@ const MobileTimelineStep = memo(
         }}
         aria-expanded={isOpen}
         disabled={!isUnlocked}
-        className={`w-full rounded-2xl border border-white/5 p-4 text-left transition-colors duration-200 focus:outline-none ${
-          isUnlocked ? "" : "cursor-not-allowed opacity-40"
-        } ${isCurrent ? "ring-2 ring-white/70" : ""}`}
+        className={`w-full rounded-2xl border border-white/5 p-4 text-left transition-colors duration-200 focus:outline-none ${isUnlocked ? "" : "cursor-not-allowed opacity-40"
+          } ${isCurrent ? "ring-2 ring-white/70" : ""}`}
       >
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -240,7 +241,7 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
-  
+
   const { data: completedSteps, isLoading: completedStepsLoading } =
     api.chat.getSessionChats.useQuery(
       { therapySessionId: therapySession?.id ?? "" },
@@ -256,7 +257,7 @@ export function SessionTimelineContent({
     { enabled: Boolean(sessionId) },
   );
 
-  
+
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedCompletedSteps = completedSteps as CompletedStepData[] | undefined;
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
@@ -288,7 +289,7 @@ export function SessionTimelineContent({
     },
   });
 
-  
+
   const unlockedSteps = useMemo(() => {
     if (!typedCompletedSteps) return [FIRST_STEP_ID];
 
@@ -299,7 +300,7 @@ export function SessionTimelineContent({
 
     const unlocked = [FIRST_STEP_ID];
 
-    
+
     completedStepNumbers.forEach((completedStep) => {
       const nextStep = completedStep + 1;
       if (nextStep <= LAST_STEP_ID && !unlocked.includes(nextStep)) {
@@ -327,28 +328,28 @@ export function SessionTimelineContent({
     [typedCompletedSteps],
   );
 
-  
+
   const handleStepClick = useCallback(
     (stepId: number) => {
       if (!isStepUnlocked(stepId)) return;
 
-      
+
       if (typedSelectedPatient) {
         const patientSlug = createPatientSlug(typedSelectedPatient.name);
         router.push(
           `/dashboard/therapeutic-journey/${sessionId}/${patientSlug}/chat/${stepId}`,
         );
       } else {
-        
+
         router.push(`/dashboard/therapeutic-journey`);
       }
     },
     [isStepUnlocked, router, sessionId, typedSelectedPatient],
   );
 
-  
 
-  
+
+
   const stepPositions = useMemo(() => {
     const steps = TIMELINE_STEPS.map((step) => ({
       ...step,
@@ -361,7 +362,7 @@ export function SessionTimelineContent({
   const circleSize = TIMELINE_CONFIG.MAX_CIRCLE_SIZE;
   const circleFontSize = TIMELINE_CONFIG.MAX_FONT_SIZE;
 
-  
+
   const timelinePathD = useMemo(() => {
     if (!isMounted) return "";
 
@@ -608,7 +609,7 @@ export function SessionTimelineContent({
             <div>
               <div className="flex items-center justify-between">
                 <div>
-                  {}
+                  { }
                   <Breadcrumb
                     items={[
                       { label: "Dashboard", href: "/dashboard" },
@@ -721,6 +722,27 @@ export function SessionTimelineContent({
                 </svg>
 
                 <div className="absolute inset-0 z-10">
+                  <KnowledgePhaseCard
+                    className="absolute w-[32%]"
+                    style={{
+                      top: '8%',
+                      left: '60%'
+                    }}
+                  />
+                  <InterventionPhaseCard
+                    className="absolute w-[30%]"
+                    style={{
+                      top: '38%',
+                      left: '1%'
+                    }}
+                  />
+                  <ConclusionPhaseCard
+                    className="absolute w-[32%]"
+                    style={{
+                      top: '86%',
+                      left: '60%'
+                    }}
+                  />
                   {stepPositions.map((step) => (
                     <TimelineStep
                       key={step.id}
@@ -742,20 +764,29 @@ export function SessionTimelineContent({
             <div className="relative pl-8">
               <span className="stroke-timeline-path pointer-events-none absolute top-0 left-3 h-full w-px" />
               <div className="space-y-5">
-                {TIMELINE_STEPS.map((step) => {
+                <KnowledgePhaseCard className="w-full my-6" />
+                {TIMELINE_STEPS.map((step, index) => {
                   const details = getStepDetails(step.id);
 
                   return (
-                    <MobileTimelineStep
-                      key={`mobile-step-${step.id}`}
-                      step={step}
-                      details={details}
-                      isOpen={false}
-                      onStepClick={handleStepClick}
-                      isUnlocked={isStepUnlocked(step.id)}
-                      isCurrent={false}
-                      isCompleted={isStepCompleted(step.id)}
-                    />
+                    <React.Fragment key={`mobile-step-fragment-${step.id}`}>
+                      <MobileTimelineStep
+                        key={`mobile-step-${step.id}`}
+                        step={step}
+                        details={details}
+                        isOpen={false}
+                        onStepClick={handleStepClick}
+                        isUnlocked={isStepUnlocked(step.id)}
+                        isCurrent={false}
+                        isCompleted={isStepCompleted(step.id)}
+                      />
+                      {index === 1 && (
+                        <InterventionPhaseCard className="w-full my-6" />
+                      )}
+                      {index === TIMELINE_STEPS.length - 1 && (
+                        <ConclusionPhaseCard className="w-full my-6" />
+                      )}
+                    </React.Fragment>
                   );
                 })}
               </div>

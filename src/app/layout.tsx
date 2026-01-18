@@ -97,27 +97,27 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth">
+    <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning={true}>
       <head>
-        {}
+        { }
 
-        {}
+        { }
 
-        {}
+        { }
         <meta name="theme-color" content="#8B9769" />
         <meta name="msapplication-TileColor" content="#8B9769" />
 
-        {}
+        { }
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
 
-        {}
+        { }
         <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
         <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
 
-        {}
+        { }
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

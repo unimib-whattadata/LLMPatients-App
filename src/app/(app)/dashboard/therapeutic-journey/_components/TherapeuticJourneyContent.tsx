@@ -5,6 +5,7 @@ import Link from "next/link";
 import { TherapySessionCard } from "./TherapySessionCard";
 import { TherapySessionFilters } from "./TherapySessionFilters";
 import { TherapySessionMetrics } from "./TherapySessionMetrics";
+import { KnowledgePhaseCard } from "./KnowledgePhaseCard";
 import { api } from "~/trpc/react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { Button } from "~/components/ui/button";
@@ -29,11 +30,11 @@ type TherapySessionWithPatient = {
 };
 
 export function TherapeuticJourneyContent() {
-  
+
   const [filter, setFilter] = useState<string>("all");
   const [isClient, setIsClient] = useState(false);
 
-  
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -44,24 +45,24 @@ export function TherapeuticJourneyContent() {
     error: sessionsError,
   } = api.therapySessions.getAllForUser.useQuery();
 
-  
+
   const typedAllTherapySessions = allTherapySessions as
     | TherapySessionWithPatient[]
     | undefined;
 
-    const getSessionStatus = useCallback(
+  const getSessionStatus = useCallback(
     (therapySession: TherapySessionWithPatient) => {
-      
+
       if (therapySession.isCompleted) return "completed";
 
-      
+
       if (therapySession.sessionNumber === 1) return "started";
       return "in-progress";
     },
     [],
   );
 
-    const filteredSessions = useMemo(() => {
+  const filteredSessions = useMemo(() => {
     if (!typedAllTherapySessions) return [];
     if (filter === "all") return typedAllTherapySessions;
 
@@ -71,7 +72,7 @@ export function TherapeuticJourneyContent() {
     });
   }, [typedAllTherapySessions, filter, getSessionStatus]);
 
-    const metrics = useMemo(() => {
+  const metrics = useMemo(() => {
     if (!typedAllTherapySessions)
       return { startedOrInProgress: 0, completed: 0, averageProgress: 0 };
 
@@ -94,13 +95,13 @@ export function TherapeuticJourneyContent() {
     return { startedOrInProgress, completed, averageProgress };
   }, [typedAllTherapySessions, getSessionStatus]);
 
-    const handleFilterChange = useCallback((newFilter: string) => {
+  const handleFilterChange = useCallback((newFilter: string) => {
     setFilter(newFilter);
   }, []);
 
   return (
     <div className="dashboard-panel-stack">
-      {}
+      { }
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
@@ -141,7 +142,7 @@ export function TherapeuticJourneyContent() {
         ) : null}
       </section>
 
-      {}
+      { }
       <section className="dashboard-section">
         <div className="dashboard-section__header">
           <div>
@@ -152,7 +153,7 @@ export function TherapeuticJourneyContent() {
           </div>
         </div>
 
-        {}
+        { }
         <TherapySessionFilters
           activeFilter={filter}
           onFilterChange={handleFilterChange}
@@ -276,13 +277,31 @@ export function TherapeuticJourneyContent() {
             role="list"
             aria-label={`Griglia di ${filteredSessions.length} sessioni terapeutiche`}
           >
-            {filteredSessions.map((therapySession) => (
-              <TherapySessionCard
-                key={therapySession.id}
-                therapySession={therapySession}
-                getSessionStatus={getSessionStatus}
-              />
-            ))}
+            {(() => {
+              const items = [];
+              // We use a manual loop or flatMap to validly insert the extra card
+              for (let i = 0; i < filteredSessions.length; i++) {
+                const therapySession = filteredSessions[i];
+                if (!therapySession) continue;
+                items.push(
+                  <TherapySessionCard
+                    key={therapySession.id}
+                    therapySession={therapySession}
+                    getSessionStatus={getSessionStatus}
+                  />
+                );
+                // Insert after the second item (index 1)
+                if (i === 1) {
+                  items.push(<KnowledgePhaseCard key="knowledge-card" className="h-full min-h-[300px] w-full" />);
+                }
+              }
+              // If we have fewer than 2 items, the card hasn't been added yet. 
+              // Add it now so it always appears.
+              if (filteredSessions.length < 2) {
+                items.push(<KnowledgePhaseCard key="knowledge-card" className="h-full min-h-[300px] w-full" />);
+              }
+              return items;
+            })()}
           </div>
         )}
 
