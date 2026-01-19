@@ -18,19 +18,19 @@ interface PhaseCardProps {
 
 const PHASE_ACCENT_COLORS = {
     knowledge: {
-        base: "#8B9769",
-        background: "rgba(139, 151, 105, 0.16)",
-        border: "rgba(139, 151, 105, 0.35)",
+        base: "var(--color-primary-green)",
+        background: "color-mix(in srgb, var(--color-primary-green), transparent 84%)",
+        border: "color-mix(in srgb, var(--color-primary-green), transparent 65%)",
     },
     intervention: {
-        base: "#C69A39",
-        background: "rgba(198, 154, 57, 0.16)",
-        border: "rgba(198, 154, 57, 0.35)",
+        base: "var(--color-primary-yellow)",
+        background: "color-mix(in srgb, var(--color-primary-yellow), transparent 84%)",
+        border: "color-mix(in srgb, var(--color-primary-yellow), transparent 65%)",
     },
     conclusion: {
-        base: "#9690B6",
-        background: "rgba(150, 144, 182, 0.16)",
-        border: "rgba(150, 144, 182, 0.35)",
+        base: "var(--color-primary-violet)",
+        background: "color-mix(in srgb, var(--color-primary-violet), transparent 84%)",
+        border: "color-mix(in srgb, var(--color-primary-violet), transparent 65%)",
     },
 } as const;
 
@@ -96,8 +96,8 @@ export function PhaseCard({
                                     "flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold",
                                     variant === "available" && "bg-primary text-primary-foreground",
                                     variant === "locked" && "bg-muted text-muted-foreground",
-                                    variant === "completed" && "bg-green-500 text-white",
-                                    phaseAccent && "text-white"
+                                    variant === "completed" && "bg-primary-green text-text-inverse",
+                                    phaseAccent && "text-text-inverse"
                                 )}
                                 style={phaseAccent ? { backgroundColor: phaseAccent.base } : undefined}
                             >

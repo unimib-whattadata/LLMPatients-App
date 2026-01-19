@@ -11,13 +11,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[var(--color-primary-green)] text-[var(--color-text-primary)] hover:opacity-90",
+          "bg-[var(--color-primary-green)] text-[var(--color-text-inverse)] hover:opacity-90",
         secondary:
           "border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)] hover:bg-[var(--color-surface-muted)]",
         destructive:
           "bg-[var(--color-error)] text-white hover:bg-[var(--color-error-dark)]",
         outline:
-          "border border-[var(--color-primary-green)] bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-primary-green)] hover:text-[var(--color-text-primary)]",
+          "border border-[var(--color-primary-green)] bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-primary-green)] hover:text-[var(--color-text-inverse)]",
         ghost:
           "border-transparent bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-surface-secondary)]/60",
         link:

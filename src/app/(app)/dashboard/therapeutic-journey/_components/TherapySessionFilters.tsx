@@ -21,13 +21,13 @@ const triggerBase =
 
 const triggerVariants: Record<(typeof FILTER_OPTIONS)[number]["key"], string> = {
   all:
-    "data-[state=active]:bg-[var(--color-primary-green)] data-[state=active]:text-[var(--color-text-primary)] hover:bg-[var(--color-primary-green)]/15",
+    "data-[state=active]:bg-[var(--color-primary-green)] data-[state=active]:text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-green)]/15",
   started:
-    "data-[state=active]:bg-[var(--color-primary-green)] data-[state=active]:text-[var(--color-text-primary)] hover:bg-[var(--color-primary-green)]/15",
+    "data-[state=active]:bg-[var(--color-primary-green)] data-[state=active]:text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-green)]/15",
   "in-progress":
     "data-[state=active]:bg-[var(--color-primary-yellow)] data-[state=active]:text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-yellow)]/20",
   completed:
-    "data-[state=active]:bg-[var(--color-primary-violet)] data-[state=active]:text-[var(--color-text-primary)] hover:bg-[var(--color-primary-violet)]/20",
+    "data-[state=active]:bg-[var(--color-primary-violet)] data-[state=active]:text-[var(--color-text-inverse)] hover:bg-[var(--color-primary-violet)]/20",
 };
 
 function TherapySessionFiltersComponent({

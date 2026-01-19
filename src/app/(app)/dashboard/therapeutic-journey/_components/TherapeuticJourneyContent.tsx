@@ -195,7 +195,7 @@ export function TherapeuticJourneyContent() {
               Non hai ancora avviato nessuna sessione terapeutica. Vai alla
               pagina &quot;Esplora Pazienti&quot; per iniziare.
             </p>
-            <Button asChild size="lg" className="bg-primary-green hover:bg-primary-green/90 text-white">
+            <Button asChild size="lg" className="bg-primary-green hover:bg-primary-green/90 text-text-inverse">
               <Link href="/explore-patients">Esplora Pazienti</Link>
             </Button>
           </DashboardPanel>

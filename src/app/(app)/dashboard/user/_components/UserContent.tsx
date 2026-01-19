@@ -200,7 +200,7 @@ export const UserContent = React.memo(function UserContent() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group" onClick={() => setSelectedSection("profile")}>
-                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-green text-white">
+                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-green text-text-inverse">
                   Profilo
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-green transition-colors">
@@ -212,7 +212,7 @@ export const UserContent = React.memo(function UserContent() {
               </DashboardPanel>
 
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group" onClick={() => window.location.href = "/dashboard/therapeutic-journey"}>
-                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-violet text-white">
+                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-violet text-text-inverse">
                   Simulazioni
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-violet transition-colors">
@@ -224,7 +224,7 @@ export const UserContent = React.memo(function UserContent() {
               </DashboardPanel>
 
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group">
-                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-yellow text-white">
+                <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-yellow text-text-inverse">
                   Progressi
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-yellow transition-colors">
@@ -266,7 +266,7 @@ export const UserContent = React.memo(function UserContent() {
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
                     >
                       <div>
-                        <div className="font-medium text-white mb-1">
+                        <div className="font-medium text-text-primary mb-1">
                           {getActivityDisplayName(activity.type)}
                         </div>
                         <div className="text-xs text-gray-400">
@@ -374,7 +374,7 @@ export const UserContent = React.memo(function UserContent() {
                         <Label className="text-muted-foreground text-xs uppercase tracking-wider">
                           Nome
                         </Label>
-                        <p className="font-medium text-lg text-white">
+                        <p className="font-medium text-lg text-text-primary">
                           {typedProfile?.name || "Non specificato"}
                         </p>
                       </div>
@@ -382,7 +382,7 @@ export const UserContent = React.memo(function UserContent() {
                         <Label className="text-muted-foreground text-xs uppercase tracking-wider">
                           Email
                         </Label>
-                        <p className="font-medium text-lg text-white">
+                        <p className="font-medium text-lg text-text-primary">
                           {typedProfile?.email || "Non specificato"}
                         </p>
                       </div>
@@ -437,7 +437,7 @@ export const UserContent = React.memo(function UserContent() {
                       className="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors border border-transparent hover:border-white/10"
                     >
                       <div className="flex flex-col gap-1">
-                        <div className="font-medium text-white">
+                        <div className="font-medium text-text-primary">
                           {getActivityDisplayName(activity.type)}
                         </div>
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">

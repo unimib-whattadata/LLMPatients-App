@@ -49,15 +49,15 @@ function TherapySessionCardComponent({
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       started: {
-        class: "pill pill--sm status-tag status-tag--available bg-primary-green text-white",
+        class: "pill pill--sm status-tag status-tag--available bg-primary-green text-text-inverse",
         text: "Iniziato",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress bg-primary-yellow text-white",
+        class: "pill pill--sm status-tag status-tag--in-progress bg-primary-yellow text-text-inverse",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed bg-primary-violet text-white",
+        class: "pill pill--sm status-tag status-tag--completed bg-primary-violet text-text-inverse",
         text: "Completato",
       },
     };
@@ -159,7 +159,7 @@ function TherapySessionCardComponent({
                   ? "Completato il:"
                   : "Durata stimata:"}
               </span>
-              <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+              <div className="flex items-center space-x-1 text-sm text-primary-yellow">
                 {!therapySession.isCompleted && (
                   <Clock className="h-4 w-4" aria-hidden="true" />
                 )}

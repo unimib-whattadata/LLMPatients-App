@@ -104,8 +104,8 @@ export default function RootLayout({
         { }
 
         { }
-        <meta name="theme-color" content="#8B9769" />
-        <meta name="msapplication-TileColor" content="#8B9769" />
+        <meta name="theme-color" content="#a3e635" />
+        <meta name="msapplication-TileColor" content="#a3e635" />
 
         { }
         <meta

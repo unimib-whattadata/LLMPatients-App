@@ -21,15 +21,15 @@ export default function SignoutPage() {
       try {
         setStatus("loading");
 
-        
+
         await signOut({
           callbackUrl: "/",
-          redirect: false, 
+          redirect: false,
         });
 
         setStatus("success");
 
-        
+
         setTimeout(() => {
           router.push("/");
         }, 1500);
@@ -40,7 +40,7 @@ export default function SignoutPage() {
         );
         setStatus("error");
 
-        
+
         setTimeout(() => {
           router.push("/");
         }, 3000);
@@ -52,7 +52,7 @@ export default function SignoutPage() {
 
   return (
     <div className="min-h-screen flex">
-      {}
+      { }
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
@@ -72,16 +72,16 @@ export default function SignoutPage() {
         </div>
       </div>
 
-      {}
+      { }
       <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           <div className="text-center">
-            {}
+            { }
             <div className="mb-6">
               <div className="bg-primary-green/20 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
                 <LogOut className="h-8 w-8 text-primary-green" aria-hidden="true" />
               </div>
-              <h1 className="text-2xl font-bold text-white mb-2">
+              <h1 className="text-2xl font-bold text-text-primary mb-2">
                 Logout in corso
               </h1>
               <p className="text-text-secondary">
@@ -89,7 +89,7 @@ export default function SignoutPage() {
               </p>
             </div>
 
-            {}
+            { }
             <div className="space-y-4">
               {status === "loading" && (
                 <div className="space-y-4">
@@ -109,7 +109,7 @@ export default function SignoutPage() {
                       <Check className="h-5 w-5 text-primary-green" aria-hidden="true" />
                     </div>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-text-primary font-medium">
                     Logout completato con successo
                   </p>
                   <p className="text-text-secondary text-sm">
@@ -125,7 +125,7 @@ export default function SignoutPage() {
                       <XCircle className="h-5 w-5 text-error" aria-hidden="true" />
                     </div>
                   </div>
-                  <p className="text-white font-medium">
+                  <p className="text-text-primary font-medium">
                     Errore durante il logout
                   </p>
                   <p className="text-text-secondary text-sm">
@@ -138,11 +138,11 @@ export default function SignoutPage() {
               )}
             </div>
 
-            {}
+            { }
             <div className="mt-8 pt-6">
               <Button
                 onClick={() => router.push("/")}
-                className="w-full bg-primary-green hover:bg-primary-green/90 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
+                className="w-full bg-primary-green hover:bg-primary-green/90 text-text-inverse font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
               >
                 Vai alla Homepage
               </Button>

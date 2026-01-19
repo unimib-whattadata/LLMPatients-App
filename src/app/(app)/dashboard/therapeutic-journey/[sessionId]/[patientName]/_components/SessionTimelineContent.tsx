@@ -119,7 +119,7 @@ const TimelineStep = memo(
           width: `${(circleSize / TIMELINE_CONFIG.BASE_WIDTH) * 100}%`,
           height: `${(circleSize / TIMELINE_CONFIG.BASE_HEIGHT) * 100}%`,
           fontSize: `${circleFontSize}px`,
-          color: "white",
+          color: "var(--color-text-inverse)",
         }}
         className={`timeline-step-positioned timeline-desktop-step ${!isUnlocked ? "timeline-step-positioned--locked" : ""
           } ${isCurrent ? "timeline-step-positioned--current" : ""} ${isCompleted ? "timeline-step-positioned--completed" : ""}`}
@@ -174,7 +174,7 @@ const MobileTimelineStep = memo(
           data-step-id={step.id}
           data-step-color={step.color}
           className="timeline-mobile-step flex h-3 w-3 items-center justify-center rounded-full text-xs font-bold"
-          style={{ color: "white", backgroundColor: step.color }}
+          style={{ color: "var(--color-text-inverse)", backgroundColor: step.color }}
         >
           {isCompleted ? (
             <Check className="h-2 w-2" aria-hidden="true" />
@@ -195,16 +195,16 @@ const MobileTimelineStep = memo(
       >
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-xs font-semibold tracking-[0.32em] text-white/70 uppercase">
+            <p className="text-xs font-semibold tracking-[0.32em] text-muted-foreground uppercase">
               Sessione {step.id}
               {isCompleted ? (
                 <Check className="ml-1 inline h-3 w-3 align-text-top" aria-hidden="true" />
               ) : null}
             </p>
-            <h2 className="mt-2 text-base font-semibold text-white">
+            <h2 className="mt-2 text-base font-semibold text-foreground">
               {details.phaseTitle}
             </h2>
-            <p className="mt-1 text-xs text-white/60">
+            <p className="mt-1 text-xs text-muted-foreground">
               {isCompleted
                 ? "Sessione completata"
                 : "Clicca per aprire la sessione"}
@@ -680,7 +680,7 @@ export function SessionTimelineContent({
                     <span className="text-text-secondary text-sm">
                       Durata stimata:
                     </span>
-                    <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+                    <div className="flex items-center space-x-1 text-sm text-primary-yellow">
                       <Clock className="h-4 w-4" aria-hidden="true" />
                       <span className="text-text-tertiary text-sm">
                         {typedSelectedPatient.estimatedDuration} min

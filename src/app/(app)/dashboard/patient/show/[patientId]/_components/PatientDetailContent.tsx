@@ -95,7 +95,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
             <Eye className="mr-2 h-4 w-4" />
             Preview public page
           </Button>
-          <Button onClick={handleEdit} className="bg-primary-green text-white hover:bg-primary-green/90">
+          <Button onClick={handleEdit} className="bg-primary-green text-text-inverse hover:bg-primary-green/90">
             <Edit className="mr-2 h-4 w-4" />
             Edit patient
           </Button>
@@ -107,29 +107,29 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-400">Age</p>
-            <p className="text-lg font-semibold text-white">{patient.age}</p>
+            <p className="text-lg font-semibold text-text-primary">{patient.age}</p>
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-400">Difficulty</p>
-            <p className="text-lg font-semibold text-white">
+            <p className="text-lg font-semibold text-text-primary">
               <PatientDifficulty difficulty={patient.difficulty} />
             </p>
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-400">Estimated duration</p>
-            <p className="text-lg font-semibold text-white">
+            <p className="text-lg font-semibold text-text-primary">
               <PatientDuration duration={patient.estimatedDuration} />
             </p>
           </div>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-white mb-2">Short description</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-2">Short description</h2>
           <p className="text-sm text-gray-300">{patient.smallDescription}</p>
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-white mb-3">Therapeutic objectives</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-3">Therapeutic objectives</h2>
           <ul className="space-y-2 text-sm text-gray-300">
             {patient.objectives.map((objective, index) => (
               <li key={index} className="flex items-start gap-2">
@@ -141,14 +141,14 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
         </div>
 
         <div>
-          <h2 className="text-lg font-semibold text-white mb-3">Clinical background</h2>
+          <h2 className="text-lg font-semibold text-text-primary mb-3">Clinical background</h2>
           <p className="text-sm text-gray-300 whitespace-pre-line">{patient.background}</p>
         </div>
       </DashboardPanel>
 
       <DashboardPanel>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-white">Structured JSON details</h2>
+          <h2 className="text-lg font-semibold text-text-primary">Structured JSON details</h2>
           <Button
             variant="secondary"
             size="sm"

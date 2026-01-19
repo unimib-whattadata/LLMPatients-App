@@ -30,7 +30,7 @@ export function PatientList() {
       action={
         <Button
           onClick={() => router.push("/dashboard/patient/create")}
-          className="bg-primary-green text-white hover:bg-primary-green/90"
+          className="bg-primary-green text-text-inverse hover:bg-primary-green/90"
         >
           <Plus className="mr-2 h-4 w-4" />
           New Patient

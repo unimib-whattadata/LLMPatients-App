@@ -553,7 +553,7 @@ export function PatientForm({
                   {showJsonTemplate && (
                     <div className="p-4 bg-gray-800/60 border border-gray-700 rounded-xl mb-4">
                       <div className="flex items-center justify-between mb-3">
-                        <h4 className="font-medium text-white flex items-center gap-2">
+                        <h4 className="font-medium text-text-primary flex items-center gap-2">
                           <svg
                             className="w-4 h-4 text-primary-green"
                             fill="none"
@@ -599,7 +599,7 @@ export function PatientForm({
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-end sm:items-center">
               <Button
                 type="submit"
-                className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-white font-semibold"
+                className="flex-1 sm:flex-initial min-w-[160px] bg-primary-green hover:bg-primary-green/90 text-text-inverse font-semibold"
                 isLoading={isSubmitting}
                 disabled={isSubmitting}
                 size="lg"

@@ -51,12 +51,12 @@ export function PatientDetailContent() {
   );
 
   const initializePatientMutation = api.chat.initializePatient.useMutation();
-  
+
   const startTherapySession = api.therapySessions.start.useMutation({
     onSuccess: async (startedSession) => {
       setActionError(null);
       if (startedSession && patient) {
-        
+
         if (!patient.externalPatientId) {
           try {
             const initResponse = await initializePatientMutation.mutateAsync({
@@ -80,7 +80,7 @@ export function PatientDetailContent() {
             if (initResponse.status !== "success" || !initResponse.external_patient_id) {
               setActionError(
                 initResponse.message ||
-                  "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
+                "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
               );
               return; // Blocca il redirect
             }
@@ -94,7 +94,7 @@ export function PatientDetailContent() {
             return; // Blocca il redirect
           }
         }
-        
+
         const patientSlug = createPatientSlug(patient.name);
         router.push(
           `/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`,
@@ -111,7 +111,7 @@ export function PatientDetailContent() {
       }
       setActionError(
         mutationError.message ||
-          "Non è stato possibile avviare la sessione terapeutica.",
+        "Non è stato possibile avviare la sessione terapeutica.",
       );
     },
   });
@@ -155,7 +155,7 @@ export function PatientDetailContent() {
                 isDetailPage={true}
               />
               <div className="p-4 sm:p-6">
-                {}
+                { }
                 <header className="patient-card-header">
                   <h1 className="patient-card-title text-xl sm:text-2xl">
                     {patient.name}
@@ -165,9 +165,9 @@ export function PatientDetailContent() {
                   </span>
                 </header>
 
-                {}
+                { }
 
-                {}
+                { }
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">
@@ -191,7 +191,7 @@ export function PatientDetailContent() {
                     <span className="text-text-secondary text-sm">
                       Durata stimata:
                     </span>
-                    <div className="flex items-center space-x-1 text-sm text-[#C69A39]">
+                    <div className="flex items-center space-x-1 text-sm text-primary-yellow">
                       <Clock
                         className="h-4 w-4"
                         aria-hidden="true"

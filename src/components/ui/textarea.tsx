@@ -11,9 +11,9 @@ const textareaVariants = cva(
       state: {
         default: "",
         error:
-          "border-[var(--color-error)] bg-[color:rgba(239,68,68,0.05)] focus-visible:border-[var(--color-error)] ",
+          "border-[var(--color-error)] bg-[color:color-mix(in_srgb,var(--color-error),transparent_95%)] focus-visible:border-[var(--color-error)] ",
         success:
-          "border-[var(--color-success)] bg-[color:rgba(16,185,129,0.05)] focus-visible:border-[var(--color-success)] ",
+          "border-[var(--color-success)] bg-[color:color-mix(in_srgb,var(--color-success),transparent_95%)] focus-visible:border-[var(--color-success)] ",
       },
       size: {
         sm: "min-h-[96px] px-3 py-2 text-sm",

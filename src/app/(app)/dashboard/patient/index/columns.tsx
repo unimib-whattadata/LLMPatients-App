@@ -15,7 +15,7 @@ export const patientColumns: ColumnDef<AdminPatientSummary>[] = [
       const patient = row.original;
       return (
         <div className="flex flex-col">
-          <span className="font-medium text-white">{patient.name}</span>
+          <span className="font-medium text-text-primary">{patient.name}</span>
           <span className="text-xs text-gray-400">{patient.smallDescription}</span>
         </div>
       );
@@ -40,7 +40,7 @@ export const patientColumns: ColumnDef<AdminPatientSummary>[] = [
     accessorKey: "isActive",
     header: "Status",
     cell: ({ row }) => (
-      <span className={row.original.isActive ? "text-green-400" : "text-gray-500"}>
+      <span className={row.original.isActive ? "text-success" : "text-text-muted"}>
         {row.original.isActive ? "Active" : "Draft"}
       </span>
     ),
