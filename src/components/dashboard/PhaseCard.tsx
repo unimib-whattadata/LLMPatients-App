@@ -66,14 +66,16 @@ export function PhaseCard({
             style={
                 phaseAccent
                     ? {
+                        borderRadius: "1.1rem",
                         backgroundColor: phaseAccent.background,
                         borderColor: phaseAccent.border,
                         ...style,
                     }
-                    : style
+                    : { borderRadius: "1.1rem", ...style }
             }
             className={cn(
-                "relative flex flex-col gap-5 overflow-hidden rounded-2xl border p-5 transition-all duration-300 sm:gap-6 sm:p-6 md:p-7",
+                "relative flex flex-col gap-5 overflow-hidden border p-5 transition-all duration-300 sm:gap-6 sm:p-6 md:p-7",
+                // Use 1.1rem border-radius to match PatientCard from explore-patients
                 // Variants
                 variant === "available" && "bg-card border-border hover:shadow-lg hover:border-primary/50 cursor-pointer group",
                 variant === "locked" && "bg-muted/50 border-border/50 opacity-80",

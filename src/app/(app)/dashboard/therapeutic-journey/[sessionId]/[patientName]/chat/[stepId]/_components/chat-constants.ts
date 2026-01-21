@@ -1,13 +1,13 @@
 
 
-export type PatientEmotion = 
-  | "SEEKING" 
-  | "RAGE" 
-  | "FEAR" 
-  | "CARE" 
-  | "LUST" 
-  | "SADNESS" 
-  | "PLAY" 
+export type PatientEmotion =
+  | "SEEKING"
+  | "RAGE"
+  | "FEAR"
+  | "CARE"
+  | "LUST"
+  | "SADNESS"
+  | "PLAY"
   | "base";
 
 export const EMOTION_LABELS: Record<PatientEmotion, string> = {
@@ -22,14 +22,14 @@ export const EMOTION_LABELS: Record<PatientEmotion, string> = {
 };
 
 export const EMOTION_COLORS: Record<PatientEmotion, string> = {
-  SEEKING: "rgb(251 146 60)", 
-  RAGE: "rgb(239 68 68)", 
-  FEAR: "rgb(139 92 246)", 
-  CARE: "rgb(16 185 129)", 
-  LUST: "rgb(236 72 153)", 
-  SADNESS: "rgb(59 130 246)", 
-  PLAY: "rgb(250 204 21)", 
-  base: "rgb(156 163 175)", 
+  SEEKING: "oklch(0.75 0.183 55.934)", // orange-400
+  RAGE: "oklch(0.704 0.191 22.216)", // red-400
+  FEAR: "oklch(0.714 0.203 305.504)", // violet-400
+  CARE: "oklch(0.765 0.177 163.223)", // emerald-400
+  LUST: "oklch(0.718 0.202 349.761)", // pink-400
+  SADNESS: "oklch(0.707 0.165 254.624)", // blue-400
+  PLAY: "oklch(0.852 0.199 91.936)", // yellow-400
+  base: "oklch(0.707 0.022 261.325)", // gray-400
 };
 
 export const AVATAR_TRANSITION_DURATION_MS = 800;

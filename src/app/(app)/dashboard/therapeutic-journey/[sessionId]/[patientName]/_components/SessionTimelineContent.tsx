@@ -761,7 +761,7 @@ export function SessionTimelineContent({
                   </defs>
                   <path
                     d={timelinePathD || "M 520 100 L 520 1460"}
-                    stroke="#3d413b"
+                    stroke="var(--color-surface-secondary)"
                     strokeWidth="20"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -812,7 +812,7 @@ export function SessionTimelineContent({
             <div className="relative pl-8">
               <span
                 className="stroke-timeline-path pointer-events-none absolute top-0 left-3 h-full w-px"
-                style={{ backgroundColor: "#3d413b" }}
+                style={{ backgroundColor: "var(--color-surface-secondary)" }}
               />
               <div className="space-y-5">
                 <KnowledgePhaseCard className="w-full my-6" />

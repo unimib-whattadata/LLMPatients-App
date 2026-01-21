@@ -1,4 +1,3 @@
-
 "use client";
 
 import { memo } from "react";
@@ -13,8 +12,16 @@ import {
 } from "~/lib/constants/difficulty";
 import { Clock } from "lucide-react";
 import { Progress } from "~/components/ui/progress";
+import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
-import { DashboardPanel } from "~/components/dashboard/ui";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "~/components/ui/card";
 
 type TherapySessionWithPatient = {
   id: string;
@@ -46,158 +53,148 @@ function TherapySessionCardComponent({
 }: TherapySessionCardProps) {
   const sessionStatus = getSessionStatus(therapySession);
 
-  const getStatusBadge = (status: string) => {
+  const getStatusBadgeConfig = (status: string) => {
     const statusConfig = {
       started: {
-        class: "pill pill--sm status-tag status-tag--available bg-primary-green text-text-inverse",
+        className: "bg-primary-green text-text-inverse",
         text: "Iniziato",
       },
       "in-progress": {
-        class: "pill pill--sm status-tag status-tag--in-progress bg-primary-yellow text-text-inverse",
+        className: "bg-primary-yellow text-text-inverse",
         text: "In corso",
       },
       completed: {
-        class: "pill pill--sm status-tag status-tag--completed bg-primary-violet text-text-inverse",
+        className: "bg-primary-violet text-text-inverse",
         text: "Completato",
       },
     };
-
-    const config = statusConfig[status as keyof typeof statusConfig];
-    return <span className={config.class}>{config.text}</span>;
+    return statusConfig[status as keyof typeof statusConfig];
   };
 
-
+  const statusConfig = getStatusBadgeConfig(sessionStatus);
 
   const progressPercentage = therapySession.isCompleted
     ? 100
     : Math.max(0, Math.min(100, Math.round((therapySession.completedStepsCount / 11) * 100)));
 
   return (
-
-    <DashboardPanel
-      className="group relative overflow-hidden transition-all hover:bg-white/5 hover:border-white/10 hover:shadow-lg hover:shadow-black/20 p-2"
+    <Card
+      className="patient-card flex h-full flex-col !bg-surface-primary"
       role="listitem"
       itemScope
       itemType="https://schema.org/MedicalProcedure"
     >
-      <div className="p-4 h-full flex flex-col justify-between">
-        <div className="space-y-6">
-          { }
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="therapy-session-avatar">
-                <PatientAvatar
-                  name={therapySession.patient.name}
-                  avatarUrl={therapySession.patient.avatarUrl}
-                />
-              </div>
-              <div>
-                <h3 className="font-semibold text-lg mb-1">
-                  {therapySession.patient.name}
-                </h3>
-                <p
-                  className="text-sm text-muted-foreground line-clamp-2"
-                  itemProp="description"
-                >
-                  {therapySession.patient.smallDescription}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col items-end gap-2">
-              {getStatusBadge(sessionStatus)}
-              <span className="text-text-tertiary text-xs">
-                {therapySession.isCompleted
-                  ? "Completato (11/11)"
-                  : `${therapySession.completedStepsCount}/11 sessioni completate`}
-              </span>
-            </div>
-          </div>
+      {/* Header: Avatar + Name + Status Badge */}
+      <CardHeader className="flex flex-col items-center space-y-4 pb-4">
+        <PatientAvatar
+          name={therapySession.patient.name}
+          avatarUrl={therapySession.patient.avatarUrl}
+        />
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-text-secondary text-sm">Difficoltà:</span>
-              <div className="patient-card-difficulty">
-                <span
-                  className={getDifficultyIconClass(
-                    therapySession.patient.difficulty as DifficultyLevel,
-                  )}
-                  aria-label={getDifficultyAccessibleText(
-                    therapySession.patient.difficulty as DifficultyLevel,
-                  )}
-                  role="img"
-                >
-                  {getDifficultyIcon(therapySession.patient.difficulty as DifficultyLevel)}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-1 flex items-center justify-between">
-                <span className="text-text-secondary text-sm">
-                  {therapySession.isCompleted ? "Stato:" : "Progresso:"}
-                </span>
-                <span className="text-sm font-medium">
-                  {therapySession.isCompleted
-                    ? "Completato"
-                    : `${progressPercentage}%`}
-                </span>
-              </div>
-              <Progress
-                value={progressPercentage}
-                className="h-2 bg-gray-700"
-                aria-label={
-                  therapySession.isCompleted
-                    ? "Sessione completata al 100%"
-                    : `Progresso sessione: ${therapySession.completedStepsCount} di 11 sessioni completate (${progressPercentage}%)`
-                }
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <span className="text-text-secondary text-sm">
-                {therapySession.isCompleted
-                  ? "Completato il:"
-                  : "Durata stimata:"}
-              </span>
-              <div className="flex items-center space-x-1 text-sm text-primary-yellow">
-                {!therapySession.isCompleted && (
-                  <Clock className="h-4 w-4" aria-hidden="true" />
-                )}
-                <span className="text-text-tertiary text-sm">
-                  {therapySession.isCompleted
-                    ? new Date(
-                      therapySession.updatedAt || therapySession.createdAt,
-                    ).toLocaleDateString("it-IT")
-                    : `${therapySession.patient.estimatedDuration} min`}
-                </span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="mt-6 pt-4 border-t border-border/50">
-          <Button
-            asChild
-            className="w-full"
-            size="lg"
-          >
-            <Link
-              href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
+        {/* Name and Status */}
+        <div className="w-full">
+          <div className="flex items-center justify-between mb-2">
+            <CardTitle
+              id={`session-${therapySession.id}-title`}
+              className="text-xl text-foreground"
+              itemProp="name"
             >
-              {therapySession.isCompleted
-                ? "Rivedi Percorso Completato"
-                : sessionStatus === "started"
-                  ? "Inizia Sessione"
-                  : "Continua Sessione"}
-            </Link>
-          </Button>
-        </div>
-      </div>
+              {therapySession.patient.name}
+            </CardTitle>
+            <Badge variant="secondary" className={statusConfig.className}>
+              {statusConfig.text}
+            </Badge>
+          </div>
 
-    </DashboardPanel >
+          {/* Description */}
+          <CardDescription className="text-left text-muted-foreground" itemProp="description">
+            {therapySession.patient.smallDescription}
+          </CardDescription>
+        </div>
+      </CardHeader>
+
+      <CardContent className="flex-1 pt-0">
+        {/* Progress Section */}
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-primary-green">
+            Progresso: {therapySession.completedStepsCount}/11 sessioni
+          </p>
+          <div className="space-y-1">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Completamento</span>
+              <span className="font-medium text-foreground">{progressPercentage}%</span>
+            </div>
+            <Progress
+              value={progressPercentage}
+              className="h-2"
+              aria-label={
+                therapySession.isCompleted
+                  ? "Sessione completata al 100%"
+                  : `Progresso sessione: ${therapySession.completedStepsCount} di 11 sessioni completate (${progressPercentage}%)`
+              }
+            />
+          </div>
+        </div>
+
+        {/* Difficulty and Duration */}
+        <div className="mt-4 space-y-3 pt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-text-secondary text-sm">Difficoltà:</span>
+            <div className="patient-card-difficulty">
+              <span
+                className={getDifficultyIconClass(
+                  therapySession.patient.difficulty as DifficultyLevel,
+                )}
+                aria-label={getDifficultyAccessibleText(
+                  therapySession.patient.difficulty as DifficultyLevel,
+                )}
+                role="img"
+              >
+                {getDifficultyIcon(therapySession.patient.difficulty as DifficultyLevel)}
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-text-secondary text-sm">
+              {therapySession.isCompleted ? "Completato il:" : "Durata stimata:"}
+            </span>
+            <div className="flex items-center space-x-1 text-sm text-primary-yellow">
+              {!therapySession.isCompleted && (
+                <Clock className="h-4 w-4" aria-hidden="true" />
+              )}
+              <span className="text-text-tertiary text-sm">
+                {therapySession.isCompleted
+                  ? new Date(
+                    therapySession.updatedAt || therapySession.createdAt,
+                  ).toLocaleDateString("it-IT")
+                  : `${therapySession.patient.estimatedDuration} min`}
+              </span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-0">
+        <Button asChild className="w-full">
+          <Link
+            href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
+            aria-label={
+              therapySession.isCompleted
+                ? `Rivedi il percorso completato con ${therapySession.patient.name}`
+                : `Continua la sessione con ${therapySession.patient.name}`
+            }
+          >
+            {therapySession.isCompleted
+              ? "Rivedi Percorso"
+              : sessionStatus === "started"
+                ? "Inizia Sessione"
+                : "Continua Sessione"}
+          </Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 
-
 export const TherapySessionCard = memo(TherapySessionCardComponent);
+

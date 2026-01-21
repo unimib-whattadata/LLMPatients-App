@@ -26,7 +26,7 @@ export function DashboardMetricCard({
 }: DashboardMetricCardProps) {
     if (isLoading) {
         return (
-            <div className={cn("dashboard-metric-card p-6 rounded-2xl bg-card border border-border/50", className)}>
+            <div className={cn("dashboard-metric-card p-6 bg-card border border-border/50", className)} style={{ borderRadius: "1.1rem" }}>
                 <Skeleton className="h-4 w-24 mb-2" />
                 <Skeleton className="h-8 w-16" />
             </div>
@@ -36,10 +36,11 @@ export function DashboardMetricCard({
     return (
         <div
             className={cn(
-                "flex flex-col p-6 rounded-2xl bg-card border border-border/50 shadow-sm transition-all hover:shadow-md",
+                "flex flex-col p-6 bg-card border border-border/50 shadow-sm transition-all hover:shadow-md",
                 onClick && "cursor-pointer hover:border-primary/50",
                 className
             )}
+            style={{ borderRadius: "1.1rem" }}
             onClick={onClick}
         >
             <div className="flex items-center justify-between mb-2">

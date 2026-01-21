@@ -11,41 +11,41 @@ interface PatientAvatarProps {
 }
 
 const COLOR_SWATCHES: ReadonlyArray<string> = [
-  "#3B82F6", // Blue
-  "#10B981", // Emerald
-  "#F59E0B", // Amber
-  "#EF4444", // Red
-  "#8B5CF6", // Violet
-  "#06B6D4", // Cyan
-  "#84CC16", // Lime
-  "#F97316", // Orange
-  "#EC4899", // Pink
-  "#6366F1", // Indigo
-  "#14B8A6", // Teal
-  "#F43F5E", // Rose
-  "#A855F7", // Purple
-  "#22C55E", // Green
-  "#EAB308", // Yellow
-  "#DC2626", // Red-600
-  "#2563EB", // Blue-600
-  "#059669", // Emerald-600
-  "#D97706", // Amber-600
-  "#7C3AED", // Violet-600
-  "#0891B2", // Cyan-600
-  "#65A30D", // Lime-600
-  "#EA580C", // Orange-600
-  "#DB2777", // Pink-600
-  "#4F46E5", // Indigo-600
-  "#0D9488", // Teal-600
-  "#E11D48", // Rose-600
-  "#9333EA", // Purple-600
-  "#16A34A", // Green-600
-  "#CA8A04", // Yellow-600
-  "#B91C1C", // Red-700
-  "#1D4ED8", // Blue-700
-  "#047857", // Emerald-700
-  "#B45309", // Amber-700
-  "#6D28D9", // Violet-700
+  "oklch(0.623 0.214 259.815)", // blue-500
+  "oklch(0.765 0.177 163.223)", // emerald-400
+  "oklch(0.769 0.188 70.08)", // amber-500
+  "oklch(0.704 0.191 22.216)", // red-400
+  "oklch(0.714 0.203 305.504)", // violet-400
+  "oklch(0.789 0.154 211.53)", // cyan-400
+  "oklch(0.768 0.233 130.85)", // lime-400
+  "oklch(0.75 0.183 55.934)", // orange-400
+  "oklch(0.718 0.202 349.761)", // pink-400
+  "oklch(0.673 0.182 276.935)", // indigo-500
+  "oklch(0.777 0.152 181.912)", // teal-400
+  "oklch(0.712 0.194 13.428)", // rose-400
+  "oklch(0.714 0.203 305.504)", // purple-400
+  "oklch(0.792 0.209 151.711)", // green-400
+  "oklch(0.852 0.199 91.936)", // yellow-400
+  "oklch(0.577 0.245 27.325)", // red-600
+  "oklch(0.546 0.245 262.881)", // blue-600
+  "oklch(0.596 0.145 163.225)", // emerald-600
+  "oklch(0.666 0.179 58.318)", // amber-600
+  "oklch(0.541 0.281 293.009)", // violet-600
+  "oklch(0.609 0.126 221.723)", // cyan-600
+  "oklch(0.648 0.2 131.684)", // lime-600
+  "oklch(0.646 0.222 41.116)", // orange-600
+  "oklch(0.592 0.249 354.308)", // pink-600
+  "oklch(0.511 0.262 276.966)", // indigo-600
+  "oklch(0.6 0.118 184.704)", // teal-600
+  "oklch(0.586 0.225 17.18)", // rose-600
+  "oklch(0.558 0.288 302.321)", // purple-600
+  "oklch(0.627 0.194 149.214)", // green-600
+  "oklch(0.728 0.183 95.782)", // yellow-600
+  "oklch(0.505 0.213 27.518)", // red-700
+  "oklch(0.488 0.243 264.376)", // blue-700
+  "oklch(0.545 0.134 163.79)", // emerald-700
+  "oklch(0.555 0.163 48.998)", // amber-700
+  "oklch(0.491 0.27 292.581)", // violet-700
 ];
 
 function initialsFromName(name: string) {
@@ -58,15 +58,15 @@ function initialsFromName(name: string) {
 }
 
 function colorIndexFor(name: string) {
-  
+
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     const char = name.charCodeAt(i);
     hash = (hash << 5) - hash + char;
-    hash = hash & hash; 
+    hash = hash & hash;
   }
 
-  
+
   return Math.abs(hash) % COLOR_SWATCHES.length;
 }
 

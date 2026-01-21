@@ -4,12 +4,16 @@
   "description": "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f6f7ef",
-  "theme_color": "#8B9769",
+  "background_color": "#0c0a09",
+  "theme_color": "#84cc16",
   "orientation": "portrait-primary",
   "scope": "/",
   "lang": "it",
-  "categories": ["education", "medical", "health"],
+  "categories": [
+    "education",
+    "medical",
+    "health"
+  ],
   "icons": [
     {
       "src": "/favicon-16x16.png",

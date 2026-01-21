@@ -1,15 +1,15 @@
 @theme {
   /* Brand Colors - Mapped to Tailwind Colors */
-  --color-primary-green: var(--color-lime-400);
+  --color-primary-green: var(--color-lime-500);
   /* Accessible on dark (AAA) */
-  --color-primary-yellow: var(--color-amber-400);
-  --color-primary-violet: var(--color-violet-400);
+  --color-primary-yellow: var(--color-amber-500);
+  --color-primary-violet: var(--color-violet-300);
   --color-brand-primary: var(--color-primary-green);
   --color-brand-secondary: var(--color-primary-yellow);
   --color-brand-tertiary: var(--color-primary-violet);
 
   /* Backgrounds & Surfaces - Using Stone (Warm Gray) Palette */
-  --color-background-dark: var(--color-stone-950);
+  --color-background-dark: var(--color-stone-900);
   --color-navbar-dark: var(--color-stone-950);
   --color-page-background: var(--color-stone-950);
 
@@ -33,9 +33,9 @@
   /* High contrast (AAA vs 950/900) */
   --color-text-secondary: var(--color-stone-300);
   /* Good contrast (AA/AAA vs 950) */
-  --color-text-tertiary: var(--color-stone-400);
+  --color-text-tertiary: var(--color-stone-300);
   --color-text-inverse: var(--color-stone-950);
-  --color-text-muted: var(--color-stone-400);
+  --color-text-muted: var(--color-stone-300);
   /* Promoted to 400 for AAA (10:1) */
   --color-text-placeholder: var(--color-stone-500);
 
@@ -82,12 +82,12 @@
   --color-border-error: var(--color-error);
   --color-border-success: var(--color-success);
 
-  --color-focus-ring: color-mix(in srgb, var(--color-lime-400) 50%, transparent);
-  --color-focus-ring-strong: var(--color-lime-500);
+  --color-focus-ring: color-mix(in srgb, var(--color-lime-500) 50%, transparent);
+  --color-focus-ring-strong: var(--color-lime-600);
 
   /* Chat Bubbles */
-  --color-chat-bubble-patient: var(--color-stone-800);
-  --color-chat-bubble-user: var(--color-stone-900);
+  --color-chat-bubble-patient: var(--color-lime-900);
+  --color-chat-bubble-user: var(--color-stone-800);
 }
 
 
