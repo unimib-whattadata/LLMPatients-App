@@ -1,93 +1,52 @@
-/**
- * VibeVoice TTS Provider
- * 
- * Implementation of TTSProvider for VibeVoice local server
- * Uses persistent Python process via PythonBridge
- */
-
-import path from "path";
-import crypto from "crypto";
 import { createLogger } from "~/lib/logger";
-import type { TTSProvider, TTSParams } from "./types";
+import type { TTSProviderName, TTSParams } from "./types";
 import { getVibeVoicePreset } from "./voice-mapping";
-import { PythonBridge } from "../python-bridge";
+import { BaseTTSAPIProvider, type VoiceSettings } from "./base-api";
 
 const logger = createLogger("TTS:VibeVoice");
 
-// Singleton bridge instance to ensure persistence across provider re-creations if they happen usually
-// But since getTTSProvider forces singleton, we can keep it in the class or global.
-// Global is safer if the provider is recreated unnecessarily.
-let bridgeInstance: PythonBridge | null = null;
-
-function getBridge(): PythonBridge {
-  if (!bridgeInstance) {
-    const scriptPath = path.join(process.cwd(), "services", "vibevoice", "bridge.py");
-    const cwd = path.join(process.cwd(), "services", "vibevoice");
-    bridgeInstance = new PythonBridge("vibevoice", scriptPath, cwd);
-  }
-  return bridgeInstance;
-}
-
-export class VibeVoiceProvider implements TTSProvider {
-  name = "vibevoice" as const;
+export class VibeVoiceProvider extends BaseTTSAPIProvider {
+  name: TTSProviderName = "vibevoice";
   type = "local" as const;
+  
+  // Assuming default port 8000 for FastAPI, or configured via env
+  protected baseUrl = process.env.VIBEVOICE_API_URL || "http://127.0.0.1:8000";
+  protected apiKeyHeader = "xi-api-key";
+  protected defaultModelId = "en-Carter_man";
 
-  /**
-   * Check if VibeVoice is available (can start process)
-   */
-  async isAvailable(): Promise<boolean> {
-    // We assume if files exist, it's available. 
-    // Or we could try starting it.
-    // For now, let's assume availability if the script exists.
-    // Ideally we might want to check if python is available or just try starting.
-    // Let's try ensuring started.
-    try {
-      const bridge = getBridge();
-      await bridge.ensureStarted();
-      return true;
-    } catch (e) {
-      logger.error("VibeVoice availability check failed", e);
-      return false;
-    }
+  constructor() {
+    super("TTS:VibeVoice");
   }
 
-  /**
-   * Get the voice preset to use for a patient
-   */
-  getVoiceId(patientVoiceId?: string): string {
+  protected getApiKey(): string | undefined {
+    return process.env.VIBEVOICE_API_KEY;
+  }
+
+  getVoiceId(patientVoiceId?: string, patientName?: string): string {
     return getVibeVoicePreset(patientVoiceId);
   }
 
-  /**
-   * Generate audio from text using VibeVoice Python Bridge
-   */
-  async generateAudio(params: TTSParams): Promise<ArrayBuffer> {
-    const bridge = getBridge();
-    const voicePreset = this.getVoiceId(params.vibevoiceVoiceId);
-
-    logger.info("Generating speech", { patient: params.patientName || "(unknown)", voice: voicePreset });
-
-    try {
-      const audioBuffer = await bridge.generateAudio({
-        requestId: crypto.randomUUID(),
-        text: params.text,
-        voiceId: voicePreset
-      });
-
-      logger.info("Audio generated successfully", { bytes: audioBuffer.byteLength });
-      return audioBuffer;
-    } catch (error) {
-      logger.error("VibeVoice generation failed", error);
-      throw error;
-    }
+  protected getVoiceSettings(params: TTSParams): VoiceSettings {
+    // Use defaults from the python backend or allow customization if needed
+    // Python backend defaults: stability=0.5, similarity_boost=0.75, style=0.0
+    return {
+      stability: 0.5,
+      similarity_boost: 0.75,
+      style: 0.0,
+      use_speaker_boost: true,
+    };
   }
 
+  protected getLanguageCode(): string | undefined {
+    // VibeVoice backend snippet has language_code as optional.
+    return undefined;
+  }
+
+  // Override isAvailable to check if the API is actually reachable if we wanted to be robust
+  // but base class implementation checks if baseUrl exists.
+  // We could add a health check here if there was a /health endpoint.
+  
   cleanup(): void {
-    if (bridgeInstance) {
-      bridgeInstance.stop();
-      bridgeInstance = null;
-    }
+    // No bridge to stop anymore
   }
 }
-
-

@@ -100,7 +100,6 @@ The platform provides a safe, controlled environment where learners can practice
     ```bash
     pnpm dev
     ```
-    *Note: The dev command automatically checks for and installs required local TTS services unless disabled in env.*
 
 ## 🔉 Text-to-Speech (TTS) Integration
 
@@ -155,7 +154,6 @@ We use **Drizzle Kit** for database migrations and management.
 - `src/components` - React components (UI, Dashboard, Chat).
 - `src/server` - Backend logic, Database schema, Auth configuration.
 - `src/lib` - Utilities, Logger, TTS Providers.
-- `services/` - Direct location for local Python services.
 - `scripts/` - Maintenance and testing scripts.
 
 ## 📜 License

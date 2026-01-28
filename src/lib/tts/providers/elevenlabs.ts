@@ -1,97 +1,38 @@
-/**
- * ElevenLabs TTS Provider
- * 
- * Implementation of TTSProvider for ElevenLabs API
- */
-
 import { env } from "~/env";
-import { createLogger } from "~/lib/logger";
-import type { TTSProvider, TTSParams } from "./types";
+import type { TTSProviderName, TTSParams } from "./types";
 import { getElevenLabsVoiceId, getEmotionSettings } from "./voice-mapping";
+import { BaseTTSAPIProvider, type VoiceSettings } from "./base-api";
 
-const logger = createLogger("TTS:ElevenLabs");
-
-export class ElevenLabsProvider implements TTSProvider {
-  name = "elevenlabs" as const;
+export class ElevenLabsProvider extends BaseTTSAPIProvider {
+  name: TTSProviderName = "elevenlabs";
   type = "remote" as const;
+  
+  protected baseUrl = "https://api.elevenlabs.io";
+  protected apiKeyHeader = "xi-api-key";
+  protected defaultModelId = "eleven_flash_v2_5";
 
-  /**
-   * Check if ElevenLabs is available and configured
-   */
-  async isAvailable(): Promise<boolean> {
-    const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
-    return !!apiKey;
+  constructor() {
+    super("TTS:ElevenLabs");
   }
 
-  /**
-   * Get the voice ID to use for a patient
-   */
+  protected getApiKey(): string | undefined {
+    return process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
+  }
+
   getVoiceId(patientVoiceId?: string, patientName?: string): string {
     return getElevenLabsVoiceId(patientVoiceId, patientName);
   }
 
-  /**
-   * Generate audio from text using ElevenLabs API
-   */
-  async generateAudio(params: TTSParams): Promise<ArrayBuffer> {
-    const apiKey = process.env.ELEVENLABS_API_KEY || env.ELEVENLABS_API_KEY;
-
-    if (!apiKey) {
-      throw new Error("ElevenLabs API key not configured");
-    }
-
-    // Determine voice ID: prefer patient-specific ElevenLabs ID,
-    // then fallback mapping based on patient name.
-    const voiceId =
-      params.elevenlabsVoiceId
-        ? this.getVoiceId(params.elevenlabsVoiceId, params.patientName)
-        : this.getVoiceId(undefined, params.patientName);
-
-    // Determine emotion settings
+  protected getVoiceSettings(params: TTSParams): VoiceSettings {
     const emotionSettings = getEmotionSettings(params.emotion);
-
-    // Use flash model for better performance
-    const modelId = "eleven_flash_v2_5";
-
-    logger.info("Generating speech", { patient: params.patientName || "(unknown)", voiceId });
-
-    const elevenLabsUrl = `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`;
-    const ttsRequestBody = {
-      text: params.text,
-      model_id: modelId,
-      language_code: "it",
-      apply_text_normalization: "auto",
-      voice_settings: {
-        stability: emotionSettings.stability,
-        similarity_boost: 0.75,
-        style: emotionSettings.style,
-      },
+    return {
+      stability: emotionSettings.stability,
+      similarity_boost: 0.75,
+      style: emotionSettings.style,
     };
+  }
 
-    const response = await fetch(elevenLabsUrl, {
-      method: "POST",
-      headers: {
-        Accept: "audio/mpeg",
-        "Content-Type": "application/json",
-        "xi-api-key": apiKey,
-      },
-      body: JSON.stringify(ttsRequestBody),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      logger.error("API request failed", { status: response.status, error: errorText.substring(0, 200) });
-
-      // Re-throw with status code for error handling
-      const error = new Error(`ElevenLabs API error: ${response.status}`);
-      (error as Error & { status?: number }).status = response.status;
-      throw error;
-    }
-
-    const audioBuffer = await response.arrayBuffer();
-    logger.info("Audio generated successfully", { bytes: audioBuffer.byteLength });
-
-    return audioBuffer;
+  protected getLanguageCode(): string {
+    return "it";
   }
 }
-
