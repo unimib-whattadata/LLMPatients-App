@@ -8,6 +8,7 @@ export const env = createEnv({
         ? z.string().min(32)
         : z.string().min(32).optional(),
     NEXTAUTH_SECRET: z.string().min(32).optional(),
+    NEXTAUTH_URL: z.string().url().optional(),
     JWT_SECRET: z.string().min(32).optional(),
     DATABASE_URL: z.string().min(1).refine(
       (url) => {
@@ -35,6 +36,10 @@ export const env = createEnv({
       .default("none"),
     ELEVENLABS_API_KEY: z.string().min(1).optional(),
     VIBEVOICE_URL: z.string().url().default("http://localhost:3001"),
+    VIBEVOICE_API_KEY: z.string().min(1).optional(),
+    CHATTERBOX_URL: z.string().url().default("http://localhost:3002"),
+    CHATTERBOX_API_KEY: z.string().min(1).optional(),
+    SERVICE_URL_CHATTERBOX: z.string().url().optional(),
     // API Configuration
     API: z.enum(["local", "remote"]).default("local"),
     API_BASE_URL: z.string().url().optional(),
@@ -54,6 +59,7 @@ export const env = createEnv({
   runtimeEnv: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     JWT_SECRET: process.env.JWT_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
@@ -61,6 +67,10 @@ export const env = createEnv({
     TTS_PROVIDER: process.env.TTS_PROVIDER,
     ELEVENLABS_API_KEY: process.env.ELEVENLABS_API_KEY,
     VIBEVOICE_URL: process.env.VIBEVOICE_URL,
+    VIBEVOICE_API_KEY: process.env.VIBEVOICE_API_KEY,
+    CHATTERBOX_URL: process.env.CHATTERBOX_URL,
+    CHATTERBOX_API_KEY: process.env.CHATTERBOX_API_KEY,
+    SERVICE_URL_CHATTERBOX: process.env.SERVICE_URL_CHATTERBOX,
     // API Configuration
     API: process.env.API,
     API_BASE_URL: process.env.API_BASE_URL,

@@ -8,9 +8,9 @@ const logger = createLogger("TTS:VibeVoice");
 export class VibeVoiceProvider extends BaseTTSAPIProvider {
   name: TTSProviderName = "vibevoice";
   type = "local" as const;
-  
+
   // Assuming default port 8000 for FastAPI, or configured via env
-  protected baseUrl = process.env.VIBEVOICE_API_URL || "http://127.0.0.1:8000";
+  protected baseUrl = process.env.VIBEVOICE_URL || "http://127.0.0.1:8000";
   protected apiKeyHeader = "xi-api-key";
   protected defaultModelId = "en-Carter_man";
 
@@ -45,7 +45,7 @@ export class VibeVoiceProvider extends BaseTTSAPIProvider {
   // Override isAvailable to check if the API is actually reachable if we wanted to be robust
   // but base class implementation checks if baseUrl exists.
   // We could add a health check here if there was a /health endpoint.
-  
+
   cleanup(): void {
     // No bridge to stop anymore
   }

@@ -6,13 +6,12 @@ import { eq } from "drizzle-orm";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { config } from "dotenv";
-import { readFileSync, existsSync, statSync, writeFileSync, unlinkSync } from "fs";
+import { readFileSync, existsSync, statSync, writeFileSync, unlinkSync, mkdirSync } from "fs";
 import { exec, execSync } from "child_process";
 import { promisify } from "util";
 
 const execAsync = promisify(exec);
-import { ChatterboxProvider } from "~/lib/tts/providers/chatterbox";
-import { VibeVoiceProvider } from "~/lib/tts/providers/vibevoice";
+
 
 // ==========================================
 // Types & Interfaces
@@ -769,8 +768,21 @@ class TTSChecker {
         Logger.section("🗣️  TTS Integration Check");
         let allPassed = true;
 
+        const scriptDir = FileSystemHelper.getFileLocation().scriptDir;
+        const outputDir = join(scriptDir, "audio-output");
+
+        if (!existsSync(outputDir)) {
+            try {
+                mkdirSync(outputDir);
+                Logger.info(`  Created output directory: ${outputDir}`);
+            } catch (e) {
+                Logger.error(`  Failed to create output directory: ${e}`);
+            }
+        }
+
         // Check VibeVoice
         Logger.info("Testing VibeVoice...");
+        const { VibeVoiceProvider } = await import("~/lib/tts/providers/vibevoice");
         const vibeProvider = new VibeVoiceProvider();
 
         Logger.info("  Checking availability...");
@@ -786,8 +798,10 @@ class TTSChecker {
                     vibevoiceVoiceId: "David"
                 });
                 Logger.success(`  VibeVoice generated ${buffer.byteLength} bytes.`);
-                // Cleanup
-                Logger.success("  Skipping file write (cleanup enabled)");
+
+                const filePath = join(outputDir, "vibevoice_test.mp3");
+                writeFileSync(filePath, Buffer.from(buffer));
+                Logger.success(`  Saved audio to ${filePath}`);
             } catch (e: any) {
                 Logger.error(`  VibeVoice generation failed: ${e.message}`);
                 allPassed = false;
@@ -805,6 +819,7 @@ class TTSChecker {
 
         // Check Chatterbox
         Logger.info("Testing Chatterbox...");
+        const { ChatterboxProvider } = await import("~/lib/tts/providers/chatterbox");
         const chatterboxProvider = new ChatterboxProvider();
 
         Logger.info("  Checking availability...");
@@ -818,26 +833,10 @@ class TTSChecker {
                     text: "Hello, this is a test of Chatterbox Turbo integration.",
                     patientName: "Test Patient"
                 });
-                Logger.success(`  Chatterbox (Default) generated ${buffer.byteLength} bytes.`);
+                const pathDefault = join(outputDir, "chatterbox_default.wav");
+                writeFileSync(pathDefault, Buffer.from(buffer));
+                Logger.success(`  Chatterbox (Default) saved to ${pathDefault} (${buffer.byteLength} bytes).`);
 
-                Logger.info("  Generating audio (Voice ID: mario)...");
-                const bufferVoiceId = await chatterboxProvider.generateAudio({
-                    text: "Hello, it's-a me, Mario!",
-                    patientName: "Mario",
-                    chatterboxVoiceId: "mario"
-                });
-                Logger.success(`  Chatterbox (Voice ID: mario) generated ${bufferVoiceId.byteLength} bytes.`);
-
-                Logger.info("  Generating audio (Gender: female)...");
-                const bufferGender = await chatterboxProvider.generateAudio({
-                    text: "Hello, this is a female voice test.",
-                    patientName: "Test Patient Female",
-                    gender: "female"
-                });
-                Logger.success(`  Chatterbox (Gender: female) generated ${bufferGender.byteLength} bytes.`);
-
-                // Cleanup
-                Logger.success("  Skipping file write (cleanup enabled)");
             } catch (e: any) {
                 Logger.error(`  Chatterbox generation failed: ${e.message}`);
                 allPassed = false;

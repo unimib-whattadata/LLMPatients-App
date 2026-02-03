@@ -7,9 +7,9 @@ import { BaseTTSAPIProvider, type VoiceSettings } from "./base-api";
 export class ChatterboxProvider extends BaseTTSAPIProvider {
   name: TTSProviderName = "chatterbox";
   type = "local" as const;
-  
+
   // Assuming default port 8001 or configured
-  protected baseUrl = process.env.CHATTERBOX_API_URL || "http://127.0.0.1:8001";
+  protected baseUrl = process.env.CHATTERBOX_URL || "http://127.0.0.1:8001";
   protected apiKeyHeader = "xi-api-key"; // Assuming similar auth
   protected defaultModelId = "chatterbox_turbo";
 
@@ -34,7 +34,7 @@ export class ChatterboxProvider extends BaseTTSAPIProvider {
   }
 
   protected getLanguageCode(): string {
-    return "en"; 
+    return "en";
   }
 
   cleanup(): void {
