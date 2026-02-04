@@ -1,166 +1,236 @@
-# LLMPatients
+# LLMPatients-App - Virtual Patients for Psychotherapy Training
 
-**LLMPatients** is an advanced educational platform designed to train psychotherapy students and clinical residents through realistic simulations with virtual patients powered by Large Language Models (LLM).
+**LLMPatients** is an advanced educational platform for training psychotherapy students through realistic simulations with virtual patients powered by LLMs.
 
-The platform provides a safe, controlled environment where learners can practice clinical interviewing, diagnostic assessment, and therapeutic techniques.
+![Status](https://img.shields.io/badge/status-beta-orange)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Build](https://img.shields.io/badge/build-passing-green)
+![Node](https://img.shields.io/badge/node-18%2B-green)
 
-## ✨ Key Features
+## Table of Contents
 
-- **Realistic Patient Simulations**: Interact with virtual patients that have detailed clinical histories, personalities, and psychological profiles.
-- **Therapeutic Journey**: Structured sessions that guide the student through different phases of therapy (e.g., intake, intervention, conclusion).
-- **Real-time Chat Interface**: A responsive chat interface tailored for clinical dialogue.
-- **Automated Assessment**: The system analyzes interactions to provide feedback on empathy, adherence to setting, and quality of interventions.
-- **Text-to-Speech (TTS)**: Multi-provider support including privacy-first local generation (Chatterbox, VibeVoice) and high-quality cloud options (ElevenLabs).
-- **Role-Based Access**: Specialized views for Students and Supervisors/Admins.
-- **Progress Tracking**: Detailed reports and history of past sessions.
+- [Overview](#overview)
+- [Features](#features)
+- [Demo](#demo)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Quickstart](#quickstart)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Architecture](#architecture)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [Roadmap](#roadmap)
+- [FAQ](#faq)
+- [Security](#security)
+- [License](#license)
+- [Credits](#credits)
+- [Cite this work](#cite-this-work)
 
-## 🛠 Tech Stack
+## Overview
 
-- **Framework**: [Next.js 15](https://nextjs.org/docs) (App Router)
-- **Language**: [TypeScript](https://www.typescriptlang.org/docs/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/docs), [Radix UI](https://www.radix-ui.com/), [Lucide Icons](https://lucide.dev/)
-- **Database**: 
-  - **SQLite** (default) via [LibSQL](https://docs.shuttle.rs/resources/shuttle-shared-db) / [Turso](https://docs.turso.tech/).
-  - **PostgreSQL** via [Docker](https://docs.docker.com/).
-- **ORM**: [Drizzle ORM](https://orm.drizzle.team/docs/overview)
-- **Auth**: [Auth.js (NextAuth)](https://authjs.dev/)
-- **API**: [tRPC](https://trpc.io/docs) & Server Actions
-- **AI/ML**: Integration with external LLM APIs + Local Python Bridges for TTS
+**LLMPatients** was created to bridge the gap between theory learned in university courses and real clinical practice. Clinical psychology training often provides few opportunities to practice practical skills in safe contexts before internship.
 
-## 🚀 Getting Started
+This platform offers a **hybrid expert system** for multi-session simulation of psychotherapeutic paths. Using Large Language Models (LLMs) constrained by structured clinical profiles (based on the PDM-2 manual), the system allows students to:
 
-### Prerequisites
+- Manage a complete therapeutic journey in **11 sessions** (Intake, Intervention, Termination).
+- Face patients with complex personalities, defenses, and realistic relational patterns.
+- Receive automatic feedback on empathy, setting adherence, and clinical missteps.
 
-- **Node.js 18+**
-- **pnpm** (preferred package manager)
-- **Python 3.10+** (if using local TTS features)
-- **Git**
+The goal is to provide a "safe gym" to make mistakes and learn without risks for real patients.
 
-### Installation
+## Features
 
-1.  **Clone the repository**
+- **🧠 Parametric Clinical Profiles**: Patients based on the PDM-2 hierarchy (Personality > Mental Functioning > Symptoms), not simple narrative prompts.
+- **📅 Multi-session Continuity**: Long-term memory (RAG) that maintains narrative and clinical coherence across 11 distinct sessions.
+- **🗣️ Multimodal Interaction**: Support for text and voice chat (Text-to-Speech with Chatterbox/ElevenLabs and Speech-to-Text).
+- **📉 Adaptive Dynamics**: The patient reacts to student interventions (e.g., alliance ruptures, defenses) modifying their emotional state.
+- **📊 Detailed Reporting**: Analytical dashboards to track progress, view transcripts, and receive automatic evaluations.
+- **🔒 Privacy-First**: Architecture designed for local execution of TTS/STT models and support for local or remote LLMs.
+
+## Demo
+
+> In 10 seconds: The system simulates a therapeutic session via chat or voice, reacting emotionally to the therapist's interventions.
+
+*(Insert Dashboard and Chat Interface Screenshots or GIF here)*
+
+## Requirements
+
+- **Node.js**: v18 or higher.
+- **pnpm**: Recommended package manager.
+- **Database**: SQLite (default, included) or PostgreSQL (via Docker).
+- **Python**: v3.10+ (required only if using local TTS modules like Chatterbox/VibeVoice).
+- **API Keys**: OpenAI/Anthropic (for the patient's brain) and ElevenLabs (optional for cloud TTS).
+
+## Installation
+
+1.  **Clone the repository**:
     ```bash
-    git clone https://github.com/your-org/llmpatient.git
-    cd llmpatient
+    git clone https://github.com/unimib-whattadata/LLMPatients-App.git
+    cd LLMPatients
     ```
 
-2.  **Install Dependencies**
+2.  **Install dependencies**:
     ```bash
     pnpm install
     ```
 
-3.  **Environment Setup**
-    Create a `.env` file in the root directory.
+3.  **Configure the environment**:
+    Copy the `.env.example` file to `.env` (see [Configuration](#configuration)).
+    ```bash
+    cp .env.example .env
+    ```
 
-    ### 🔧 Configuration Reference
-
-    | Variable | Required | Default | Description |
-    |----------|:--------:|:-------:|-------------|
-    | **Core & Database** |
-    | `DATABASE_URL` | ✅ | - | Connection string (`file:./dev.db` or `postgresql://...`). |
-    | `NODE_ENV` | ❌ | `development` | `development`, `test`, or `production`. |
-    | **Authentication** |
-    | `AUTH_SECRET` | ✅ | - | Secret key for encryption (min 32 chars). |
-    | `NEXTAUTH_URL` | ✅ | `http://localhost:3000` | Canonical URL of the site. |
-    | **AI & API** |
-    | `API` | ❌ | `local` | `local` (mock) or `remote` (LLM API). |
-    | `API_BASE_URL` | ❌ | - | Base URL for the external LLM backend. |
-    | `EXTERNAL_AI_API_KEY` | ❌ | - | API Key for external AI services. |
-    | **Text-to-Speech** |
-    | `TTS_PROVIDER` | ❌ | `none` | `chatterbox`, `vibevoice`, `elevenlabs`, or `none`. |
-    | `USE_CHATTERBOX` | ❌ | `false` | `true` to auto-install Chatterbox local service. |
-    | `USE_VIBEVOICE` | ❌ | `false` | `true` to auto-install VibeVoice local service. |
-    | `ELEVENLABS_API_KEY` | ❌ | - | Required only if `TTS_PROVIDER="elevenlabs"`. |
-    | **Logging** |
-    | `LOG_LEVEL` | ❌ | `debug` | Server log level (`debug`, `info`, `warn`, `error`). |
-
-4.  **Database Setup**
-
-    **Option A: SQLite (Default/Easiest)**
+4.  **Prepare the database** (SQLite):
     ```bash
     pnpm db:push
     pnpm db:seed
     ```
 
-    **Option B: PostgreSQL (Docker)**
-    The project includes a `docker-compose.yml` for running a local Postgres instance.
-    ```bash
-    # Start Postgres container
-    docker-compose up -d
+## Quickstart
 
-    # Update .env
-    # DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres"
-
-    # Push schema specifically for Postgres
-    pnpm db:push:postgres
-    pnpm db:seed
-    ```
-
-5.  **Start Development Server**
-    ```bash
-    pnpm dev
-    ```
-
-## 🔉 Text-to-Speech (TTS) Integration
-
-The project features a **Python Bridge** architecture to run local TTS models directly alongside the Next.js app.
-
-| Provider | Type | Description | Documentation |
-|----------|------|-------------|---------------|
-| **Chatterbox** | Local | Simple, fast, offline synthesis. Good for general testing. | [GitHub](https://github.com/resemble-ai/chatterbox) |
-| **VibeVoice** | Local | High-quality voice cloning. Requires more resources. | [GitHub](https://github.com/microsoft/VibeVoice) |
-| **ElevenLabs** | Cloud | Premium quality, requires API key and internet connection. | [Official Docs](https://elevenlabs.io/docs) |
-
-**Configuration**: Modify `TTS_PROVIDER` in your `.env` to switch between them.
-
-## 🧪 Testing & Diagnostics
-
-A comprehensive diagnostic tool is included to verify system health, database connectivity, and TTS integration.
+To start the application in development mode (default SQLite):
 
 ```bash
-# Run full system diagnostics
-pnpm test
+pnpm dev
 ```
 
-## 📦 Deployment & Optimization
+Open your browser at [http://localhost:3000](http://localhost:3000).
+
+## Configuration
+
+Main environment variables in `.env`:
+
+| Variable | Description | Default |
+|-----------|-------------|---------|
+| `DATABASE_URL` | DB connection string (e.g., `file:./dev.db`) | - |
+| `AUTH_SECRET` | Secret for NextAuth (e.g., `openssl rand -base64 32`) | - |
+| `OPENAI_API_KEY` | API Key for the main LLM | - |
+| `TTS_PROVIDER` | Voice provider: `chatterbox`, `elevenlabs`, `vibevoice`, `none` | `none` |
+| `ELEVENLABS_API_KEY` | ElevenLabs API Key (if used) | - |
+| `NEXTAUTH_URL` | Base app URL | `http://localhost:3000` |
+
+### Environments
+- **Dev**: `NODE_ENV=development`
+- **Prod**: `NODE_ENV=production`
+
+## Usage
+
+### Student
+1. Log in to the platform.
+2. From the **Dashboard**, select "New Simulation".
+3. Choose a patient from the library (e.g., "Juanita", "Marco").
+4. Start **Session 1** (Intake). Conduct the interview via chat or voice.
+5. At the end, view the **Report** with automatic feedback.
+
+### API
+The system uses tRPC for client-server communication.
+Example call (internal): `trpc.session.complete.mutate({ sessionId })`.
+
+## Architecture
+
+The project is built on **Next.js 15** (App Router) and T3 stack.
+
+- **Frontend**: React, Tailwind CSS, Shadcn/UI.
+- **Backend**: Next.js Server Actions, tRPC.
+- **Database**: Drizzle ORM (SQLite/Postgres).
+- **AI Core**:
+    - `src/lib/ai`: LLM logic and prompt management.
+    - `src/services/patient`: Patient state management (P/M/S).
+    - `scripts/`: Python modules for local TTS.
+
+## Testing
+
+To verify system health and integrations:
+
+```bash
+pnpm test
+```
+This script runs a diagnosis of services (Database, TTS, API).
+
+**Coverage and Linting**:
+```bash
+pnpm lint
+pnpm typecheck
+```
+
+## Deployment
 
 ### Production Build
-To create an optimized production build:
-
 ```bash
 pnpm build
 pnpm start
 ```
 
-### Bundle Analysis
-To analyze the size of the build bundles:
-
+### Docker
+A `docker-compose.yml` is included to orchestrate PostgreSQL.
 ```bash
-pnpm build:analyze
+docker-compose up -d
 ```
-This will open a visualizer showing which packages are taking up the most space.
 
-## 🗄️ Database Management
+### Release Checklist
+- [ ] Update version in `package.json`.
+- [ ] Verify `pnpm test` and `pnpm typecheck` pass.
+- [ ] Production build (`pnpm build`) without errors.
+- [ ] Verify database migrations (`pnpm db:migrate`).
+- [ ] Git tag version.
 
-We use **Drizzle Kit** for database migrations and management.
+## Contributing
 
-- **Push Schema**: `pnpm db:push`
-- **View Data (Studio)**: `pnpm db:studio` (opens at `localhost:4985`)
-- **Generate Migrations**: `pnpm db:generate`
+We are open to contributions! To propose changes:
+1. Fork the repository.
+2. Create a feature branch (`git checkout -b feature/new-feature`).
+3. Commit changes (`git commit -m 'Add: new feature'`).
+4. Push the branch.
+5. Open a Pull Request.
 
-## 📂 Project Structure
+To report bugs, use the GitHub Issues section.
 
-- `src/app` - Next.js App Router pages and layouts.
-- `src/components` - React components (UI, Dashboard, Chat).
-- `src/server` - Backend logic, Database schema, Auth configuration.
-- `src/lib` - Utilities, Logger, TTS Providers.
-- `scripts/` - Maintenance and testing scripts.
+## Roadmap
 
-## 📜 License
+- [x] PDM-2 Patient Profile
+- [x] Long-Term Memory (RAG)
+- [x] Local TTS (Chatterbox) and Cloud TTS (ElevenLabs) Support
+- [ ] Advanced Supervisor Dashboard
+- [ ] Real-time browser Speech-to-Text integration
+- [ ] Patient library expansion
 
-This project is licensed under the MIT License.
+## FAQ
 
----
+**Q: Can I use the system offline?**
+A: Yes, if you configure a local LLM (e.g., with Ollama) and use local TTS (Chatterbox), the system can work without internet (except for installation).
 
-**Developed for University of Milano-Bicocca (UNIMIB)**
-*Innovative Teaching & Clinical Simulation Project*
+**Q: How do I add a new patient?**
+A: Patient profiles are defined in the database. Use the seed script or the administration interface (coming soon) to create new ones.
+
+## Security
+
+To report security vulnerabilities, please do not open a public issue. Send an email to [encrypted-email-or-private-contact].
+
+## License
+
+This project is distributed under the **MIT** license. See the `LICENSE` file for details.
+
+## Credits
+
+Developed at **University of Milano-Bicocca (UNIMIB)**.
+Department of Psychology & Department of Informatics, Systems and Communication.
+
+References and inspirations:
+- PDM-2 (Psychodynamic Diagnostic Manual)
+- Panksepp’s Affective Neuroscience
+
+## Cite this work
+
+If you use LLMPatients for your research, please cite the reference paper:
+
+```bibtex
+@article{llmpatient2025,
+  title={LLMPatient: un sistema esperto ibrido per la simulazione multi-sessione di pazienti virtuali nella formazione psicoterapeutica},
+  author={UNIMIB Team},
+  journal={TBD},
+  year={2025},
+  url={https://github.com/unimib-whattadata/LLMPatients}
+}
+```
