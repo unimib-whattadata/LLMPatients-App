@@ -1038,7 +1038,7 @@ function selectContextualResponse(
   const responses = getCachedResponses(patientInfo.name);
   if (responses.length === 0) {
     return {
-      message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+      message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
       emotion: "base",
       timestamp: new Date(),
     };
@@ -1365,7 +1365,7 @@ class MockExternalAIService implements ExternalAIService {
 
     const selectedResponse =
       sampleResponses[responseIndex] ||
-      "Mi dispiace, non sono sicuro di come rispondere.";
+      "I'm sorry, I'm not sure how to respond.";
     const selectedEmotion =
       emotions[emotionIndex] || "base";
     const selectedTopic =
@@ -1835,7 +1835,7 @@ export class PatientResponseGenerator {
       () => {
         const fallbackResponses = ENHANCED_PATIENT_RESPONSES[input.patientInfo.name] || [
           {
-            message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+            message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
             emotion: "base" as const,
           },
         ];
@@ -1938,7 +1938,7 @@ export class PatientResponseGenerator {
       "generateChatResponse",
       () => this.externalAI.generateChatResponse(input),
       () => ({
-        message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+        message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
         reasoning_time: 0,
         emotion: "base" as const,
         topic: "generale",
@@ -1953,7 +1953,7 @@ export class PatientResponseGenerator {
             stepId: input.step_id,
           },
           responseData: {
-            message: "Mi dispiace, non sono sicuro di come rispondere. Puoi ripetere?",
+            message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
             emotion: "base" as const,
             topic: "generale",
             reasoningTime: 0,
