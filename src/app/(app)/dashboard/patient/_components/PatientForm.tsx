@@ -18,6 +18,7 @@ import {
   FormMessage,
   Slider,
   Breadcrumb,
+  Skeleton,
 } from "~/components/ui";
 import { DashboardSection, DashboardPanel } from "~/components/dashboard/ui";
 
@@ -301,33 +302,33 @@ export function PatientForm({
     return (
 
       <DashboardSection
-        title={mode === "create" ? "Create New Patient" : "Edit Patient"}
-        description="Preparing the form, please wait..."
+        title={<Skeleton variant="heading" className="h-8 w-64" />}
+        description={<Skeleton variant="text" className="h-4 w-full max-w-md" />}
+        headerSlot={breadcrumbItems?.length ? <Skeleton variant="text" className="h-4 w-52" /> : null}
       >
-        <DashboardPanel>
-          <div className="flex items-center justify-center py-12">
-            <div className="text-center">
-              <svg
-                className="animate-spin h-8 w-8 mx-auto mb-4 text-primary-green"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              <p className="text-gray-400">Loading form...</p>
-            </div>
+        <DashboardPanel className="space-y-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} className="space-y-2">
+                <Skeleton variant="text" className="h-4 w-28" />
+                <Skeleton variant="text" className="h-10 w-full" />
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            <Skeleton variant="text" className="h-4 w-40" />
+            <Skeleton variant="text" className="h-24 w-full" />
+          </div>
+
+          <div className="space-y-3">
+            <Skeleton variant="text" className="h-4 w-44" />
+            <Skeleton variant="text" className="h-64 w-full" />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <Skeleton variant="button" className="h-10 w-24" />
+            <Skeleton variant="button" className="h-10 w-36" />
           </div>
         </DashboardPanel>
       </DashboardSection>
@@ -629,4 +630,3 @@ export function PatientForm({
     </DashboardSection>
   );
 }
-

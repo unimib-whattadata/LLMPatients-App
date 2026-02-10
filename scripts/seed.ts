@@ -50,6 +50,7 @@ type PatientSeed = {
   avatarUrl: string | null;
   elevenlabsVoiceId: string | null;
   vibevoiceVoiceId: string | null;
+  chatterboxVoiceId: string | null;
   externalPatientId: string | null;
   welcomeMessage: string | null;
   difficulty: number;
@@ -525,6 +526,10 @@ function buildPatientSeed(payload: JsonRecord, sourceFile: string): PatientSeed 
       ["voice", "vibevoiceVoiceId"],
       ["vibevoiceVoiceId"],
     ]),
+    chatterboxVoiceId: readStringFromPaths(payload, [
+      ["voice", "chatterboxVoiceId"],
+      ["chatterboxVoiceId"],
+    ]),
     externalPatientId,
     welcomeMessage: readStringFromPaths(payload, [
       ["chat", "welcomeMessage"],
@@ -667,6 +672,7 @@ async function seedPatients() {
       avatarUrl: patient.avatarUrl,
       elevenlabsVoiceId: patient.elevenlabsVoiceId,
       vibevoiceVoiceId: patient.vibevoiceVoiceId,
+      chatterboxVoiceId: patient.chatterboxVoiceId,
       externalPatientId: patient.externalPatientId,
       welcomeMessage: patient.welcomeMessage,
       difficulty: patient.difficulty,

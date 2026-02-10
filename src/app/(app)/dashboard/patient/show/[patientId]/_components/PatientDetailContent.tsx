@@ -6,6 +6,7 @@ import { Eye, Edit, ArrowLeft } from "lucide-react";
 
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
+import { Skeleton, SkeletonText } from "~/components/ui/skeleton";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { DashboardSection, DashboardPanel } from "~/components/dashboard/ui";
 import { PatientDifficulty } from "~/components/patient/PatientDifficulty";
@@ -30,11 +31,34 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
     return (
 
       <DashboardSection
-        title="Loading patient..."
-        description="Retrieving patient information"
+        title={<Skeleton variant="heading" className="h-8 w-64" />}
+        description={<Skeleton variant="text" className="h-4 w-72" />}
+        action={<Skeleton variant="button" className="h-10 w-36" />}
       >
-        <DashboardPanel className="text-center text-gray-400">
-          Retrieving patient information...
+        <DashboardPanel className="space-y-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="space-y-2">
+                <Skeleton variant="text" className="h-3 w-20" />
+                <Skeleton variant="heading" className="h-7 w-24" />
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            <Skeleton variant="heading" className="h-6 w-48" />
+            <SkeletonText lines={3} widths={["100%", "95%", "80%"]} />
+          </div>
+
+          <div className="space-y-3">
+            <Skeleton variant="heading" className="h-6 w-52" />
+            <SkeletonText lines={4} widths={["100%", "94%", "88%", "82%"]} />
+          </div>
+        </DashboardPanel>
+
+        <DashboardPanel className="space-y-4">
+          <Skeleton variant="heading" className="h-6 w-56" />
+          <SkeletonText lines={8} widths={["100%", "98%", "97%", "96%", "92%", "94%", "90%", "88%"]} />
         </DashboardPanel>
       </DashboardSection>
     );

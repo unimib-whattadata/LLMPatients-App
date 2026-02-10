@@ -96,7 +96,7 @@ To start the application in development mode (default SQLite):
 pnpm dev
 ```
 
-Open your browser at [http://localhost:3000](http://localhost:3000).
+Open your browser at [http://localhost:8080](http://localhost:8080).
 
 ## Configuration
 
@@ -109,7 +109,7 @@ Main environment variables in `.env`:
 | `OPENAI_API_KEY` | API Key for the main LLM | - |
 | `TTS_PROVIDER` | Voice provider: `chatterbox`, `elevenlabs`, `vibevoice`, `none` | `none` |
 | `ELEVENLABS_API_KEY` | ElevenLabs API Key (if used) | - |
-| `NEXTAUTH_URL` | Base app URL | `http://localhost:3000` |
+| `NEXTAUTH_URL` | Base app URL | `http://localhost:8080` |
 
 ### Environments
 - **Dev**: `NODE_ENV=development`

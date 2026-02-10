@@ -42,7 +42,9 @@ export const DEFAULT_ELEVENLABS_VOICE_ID = "EXAVITQu4vr4xnSDxMaL";
 export const ELEVENLABS_TO_VIBEVOICE_MAP: Record<string, string> = {
   // Juanita - female Italian voice
   "21m00Tcm4TlvDq8ikWAM": "it-Spk0_woman",
-  // John - male voice (assuming Italian)
+  // Alex/Josh - male voice
+  "TxGEqnHWrfWFTfGW9XjX": "it-Spk1_man",
+  // Legacy male id kept for backward compatibility.
   "TX3LPVmP7r2b3yJ8": "it-Spk1_man",
   // Default ElevenLabs voice -> default Italian female
   "EXAVITQu4vr4xnSDxMaL": "it-Spk0_woman",
@@ -54,17 +56,42 @@ export const ELEVENLABS_TO_VIBEVOICE_MAP: Record<string, string> = {
 export const DEFAULT_VIBEVOICE_VOICE = "it-Spk0_woman";
 
 /**
- * Get VibeVoice voice preset from ElevenLabs voice ID
+ * Backward-compatible aliases previously used in patient YAML files.
+ */
+const LEGACY_VIBEVOICE_ALIASES: Record<string, string> = {
+  Luna: "it-Spk0_woman",
+  Alex: "it-Spk1_man",
+};
+
+/**
+ * Native VibeVoice preset id pattern (examples: it-Spk1_man, en-Carter_man).
+ */
+const VIBEVOICE_PRESET_ID_PATTERN = /^[a-z]{2}-[A-Za-z0-9]+_(man|woman)$/;
+
+/**
+ * Resolve the VibeVoice preset from:
+ * 1) explicit VibeVoice preset IDs,
+ * 2) legacy aliases,
+ * 3) legacy ElevenLabs->VibeVoice mapping fallback.
  * 
- * @param elevenLabsVoiceId ElevenLabs voice ID (from patient record or request)
+ * @param voiceId Voice hint from patient record or request
  * @returns VibeVoice voice preset name
  */
-export function getVibeVoicePreset(elevenLabsVoiceId?: string): string {
-  if (!elevenLabsVoiceId) {
+export function getVibeVoicePreset(voiceId?: string): string {
+  if (!voiceId) {
     return DEFAULT_VIBEVOICE_VOICE;
   }
 
-  return ELEVENLABS_TO_VIBEVOICE_MAP[elevenLabsVoiceId] || DEFAULT_VIBEVOICE_VOICE;
+  if (VIBEVOICE_PRESET_ID_PATTERN.test(voiceId)) {
+    return voiceId;
+  }
+
+  const legacyPreset = LEGACY_VIBEVOICE_ALIASES[voiceId];
+  if (legacyPreset) {
+    return legacyPreset;
+  }
+
+  return ELEVENLABS_TO_VIBEVOICE_MAP[voiceId] || DEFAULT_VIBEVOICE_VOICE;
 }
 
 /**
@@ -90,4 +117,3 @@ export function getEmotionSettings(emotion?: string): { stability: number; style
   if (!emotion) return DEFAULT_EMOTION_SETTINGS;
   return EMOTION_VOICE_SETTINGS[emotion] ?? DEFAULT_EMOTION_SETTINGS;
 }
-

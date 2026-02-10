@@ -898,52 +898,14 @@
     font-size: 2rem;
   }
 
-  @keyframes pulse {
-
-    0%,
-    100% {
-      opacity: 1;
-    }
-
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-
-    100% {
-      background-position: 200% 0;
-    }
-  }
-
   .animate-pulse {
-    animation: pulse 1.5s ease-in-out infinite;
+    animation: none;
   }
 
 
   .skeleton-shimmer {
-    background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.1) 50%, transparent 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s ease-in-out infinite;
-  }
-
-
-  .animate-pulse,
-  .skeleton-shimmer {
-    will-change: opacity, background-position;
-  }
-
-
-  @media (prefers-reduced-motion: reduce) {
-
-    .animate-pulse,
-    .skeleton-shimmer {
-      animation: none;
-    }
+    background: none;
+    animation: none;
   }
 
   .loading-grid {
@@ -2203,79 +2165,11 @@
     overflow: hidden;
   }
 
-  /* Normal Shimmer */
-  .skeleton--shimmer::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.08) 25%,
-        rgba(255, 255, 255, 0.12) 50%,
-        rgba(255, 255, 255, 0.08) 75%,
-        transparent 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2.5s var(--ease-standard) infinite;
-  }
-
-  /* Subtle Shimmer - Less visible, slower */
-  .skeleton--shimmer-subtle::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.04) 25%,
-        rgba(255, 255, 255, 0.06) 50%,
-        rgba(255, 255, 255, 0.04) 75%,
-        transparent 100%);
-    background-size: 200% 100%;
-    animation: shimmer 3.0s var(--ease-standard) infinite;
-  }
-
-  /* Vibrant Shimmer - More visible, faster */
+  /* Shimmer animation disabled for all skeleton variants */
+  .skeleton--shimmer::after,
+  .skeleton--shimmer-subtle::after,
   .skeleton--shimmer-vibrant::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(255, 255, 255, 0.12) 20%,
-        rgba(255, 255, 255, 0.18) 50%,
-        rgba(255, 255, 255, 0.12) 80%,
-        transparent 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2.0s var(--ease-emphasized) infinite;
-  }
-
-  @keyframes shimmer {
-    0% {
-      background-position: 100% 0;
-    }
-
-    100% {
-      background-position: -100% 0;
-    }
-  }
-
-  /* Reduce motion for accessibility */
-  @media (prefers-reduced-motion: reduce) {
-
-    .skeleton--shimmer::after,
-    .skeleton--shimmer-subtle::after,
-    .skeleton--shimmer-vibrant::after {
-      animation: none;
-      background: rgba(255, 255, 255, 0.05);
-    }
+    content: none;
   }
 
   .sidebar-provider {

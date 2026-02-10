@@ -8,6 +8,8 @@ import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { DashboardPanel } from "~/components/dashboard/ui";
 import { Input } from "~/components/ui/input";
+import { Skeleton } from "~/components/ui/skeleton";
+import { ChatMessageSkeleton } from "~/components/ui/skeleton-variants";
 import {
   Dialog,
   DialogContent,
@@ -656,12 +658,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <div className="flex min-h-screen items-center justify-center bg-background">
-          <DashboardPanel className="flex flex-col items-center space-y-4 p-8 text-center max-w-md">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-sm text-muted-foreground">
-              Caricamento chat...
-            </p>
+        <div className="flex min-h-screen items-center justify-center bg-background px-4">
+          <DashboardPanel className="w-full max-w-3xl overflow-hidden p-0">
+            <div className="space-y-2 border-b border-border p-4 sm:p-5">
+              <Skeleton variant="heading" className="h-7 w-52" />
+              <Skeleton variant="text" className="h-4 w-full max-w-sm" />
+            </div>
+            <div className="space-y-2 p-3 sm:p-4">
+              <ChatMessageSkeleton />
+              <ChatMessageSkeleton isPatient={false} />
+              <ChatMessageSkeleton />
+            </div>
           </DashboardPanel>
         </div>
       </SharedLayout>

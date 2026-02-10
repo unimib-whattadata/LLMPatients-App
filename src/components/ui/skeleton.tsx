@@ -36,9 +36,9 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
     }
 
     const intensityClasses: Record<string, string> = {
-      subtle: 'skeleton--shimmer-subtle',
+      subtle: 'skeleton--shimmer',
       normal: 'skeleton--shimmer',
-      vibrant: 'skeleton--shimmer-vibrant'
+      vibrant: 'skeleton--shimmer'
     }
 
     const shimmerClass = shimmer ? intensityClasses[intensity] : ''
@@ -51,7 +51,7 @@ const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
       <div
         ref={ref}
         className={cn(
-          "animate-pulse transition-opacity duration-200",
+          "transition-opacity duration-200",
           shimmerClass,
           variantClasses[variant],
           className

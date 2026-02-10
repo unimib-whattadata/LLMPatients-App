@@ -15,46 +15,38 @@ export function getPatientAvatarPath(
   avatarUrl: string | null | undefined,
   emotion: PatientEmotion = "base",
 ): string {
-  // Convert emotion to lowercase for file path (files are lowercase: rage.png, sadness.png, etc.)
+  // Convert emotion to lowercase for file path (assets are lowercase).
   const emotionLower = emotion.toLowerCase();
 
-  // If no avatarUrl is provided, return a default placeholder
+  // If no avatarUrl is provided, use a safe local fallback.
   if (!avatarUrl) {
-    return `/images/patients/default/${emotionLower}.png`;
+    return "/images/patients/old/base.png";
   }
 
-  // If avatarUrl contains an emotion keyword, replace it
-  // Example: "/images/patients/franklin/base.png" -> "/images/patients/franklin/seeking.png"
-  // Pattern matches any emotion name (case-insensitive) before .png at the end
-  const emotionPattern =
-    /\/(base|seeking|rage|fear|care|lust|sadness|play)\.png$/i;
+  const isRealisticSet = avatarUrl.includes("/realistic/");
+  const mappedEmotion =
+    emotionLower === "sadness" && isRealisticSet ? "panic_grief" : emotionLower;
 
-  if (emotionPattern.test(avatarUrl)) {
-    const newPath = avatarUrl.replace(emotionPattern, `/${emotionLower}.png`);
-    // Debug logging (remove in production)
-    if (
-      typeof window !== "undefined" &&
-      process.env.NODE_ENV === "development"
-    ) {
-      console.log("[getPatientAvatarPath]", {
-        avatarUrl,
-        emotion,
-        emotionLower,
-        newPath,
-      });
-    }
-    return newPath;
+  // Replace emotion + extension keeping original directory and extension.
+  // Example:
+  // "/images/patients/crystal/realistic/base.jpeg" -> "/images/patients/crystal/realistic/seeking.jpeg"
+  const emotionWithExtensionPattern =
+    /(base|seeking|rage|fear|care|lust|sadness|panic_grief|play)\.(png|jpe?g|webp)$/i;
+  if (emotionWithExtensionPattern.test(avatarUrl)) {
+    return avatarUrl.replace(
+      emotionWithExtensionPattern,
+      `${mappedEmotion}.$2`,
+    );
   }
 
-  // If avatarUrl doesn't follow the emotion pattern, try to construct path from directory
-  // Extract patient directory from path (e.g., "/images/patients/franklin/base.png" -> "franklin")
-  const patientDirMatch = avatarUrl.match(/\/images\/patients\/([^/]+)\//);
-  if (patientDirMatch && patientDirMatch[1]) {
-    const patientDir = patientDirMatch[1];
-    return `/images/patients/${patientDir}/${emotionLower}.png`;
+  // If filename doesn't contain an emotion token, replace only the final segment.
+  const extensionMatch = avatarUrl.match(/\.(png|jpe?g|webp)$/i);
+  if (extensionMatch?.[1]) {
+    const extension = extensionMatch[1].toLowerCase();
+    return avatarUrl.replace(/[^/]+\.(png|jpe?g|webp)$/i, `${mappedEmotion}.${extension}`);
   }
 
-  // If avatarUrl doesn't follow the emotion pattern, return as is
+  // If extension cannot be inferred, keep original path.
   return avatarUrl;
 }
 

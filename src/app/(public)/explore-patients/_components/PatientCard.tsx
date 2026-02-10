@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
 import type { Patient } from "~/types";
 import { PatientAvatar } from "~/components/features/explore-patients/PatientAvatar";
 import { Clock } from "lucide-react";
@@ -25,6 +28,8 @@ interface PatientCardProps {
 }
 
 export function PatientCard({ patient }: PatientCardProps) {
+  const [areObjectivesExpanded, setAreObjectivesExpanded] = useState(false);
+
   return (
     <Card
       className="patient-card flex h-full flex-col !bg-surface-primary"
@@ -77,8 +82,31 @@ export function PatientCard({ patient }: PatientCardProps) {
               </li>
             ))}
             {patient.objectives.length > 2 && (
-              <li className="text-xs text-muted-foreground" role="listitem">
-                +{patient.objectives.length - 2} altri obiettivi
+              <li role="listitem">
+                <button
+                  type="button"
+                  className="cursor-pointer text-xs text-muted-foreground underline decoration-dashed underline-offset-4 transition-colors hover:text-foreground focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-green focus-visible:ring-offset-2"
+                  onClick={() =>
+                    setAreObjectivesExpanded((currentValue) => !currentValue)
+                  }
+                  aria-expanded={areObjectivesExpanded}
+                >
+                  +{patient.objectives.length - 2} altri obiettivi
+                </button>
+                {areObjectivesExpanded && (
+                  <ul className="mt-2 space-y-1" role="list">
+                    {patient.objectives.slice(2).map((objective, index) => (
+                      <li
+                        key={`${objective}-${index}`}
+                        className="text-sm text-muted-foreground flex items-start"
+                        role="listitem"
+                      >
+                        <span className="mr-2 mt-1 h-1 w-1 rounded-full bg-muted-foreground/40 flex-shrink-0" />
+                        <span>{objective}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </li>
             )}
           </ul>

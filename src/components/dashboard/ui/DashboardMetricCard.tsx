@@ -27,8 +27,8 @@ export function DashboardMetricCard({
     if (isLoading) {
         return (
             <div className={cn("dashboard-metric-card p-6 bg-card border border-border/50", className)} style={{ borderRadius: "1.1rem" }}>
-                <Skeleton className="h-4 w-24 mb-2" />
-                <Skeleton className="h-8 w-16" />
+                <Skeleton variant="text" className="h-4 w-24 mb-2" />
+                <Skeleton variant="heading" className="h-8 w-16" />
             </div>
         );
     }

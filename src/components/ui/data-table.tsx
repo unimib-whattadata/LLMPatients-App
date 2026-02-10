@@ -11,6 +11,7 @@ import {
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { Button } from "./button";
+import { TableSkeleton } from "./skeleton-variants";
 
 interface DataTableProps<TData> {
   columns: ColumnDef<TData, unknown>[];
@@ -37,6 +38,14 @@ export function DataTable<TData>({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  if (isLoading) {
+    return (
+      <div className="space-y-4">
+        <TableSkeleton columns={Math.max(columns.length, 1)} rows={10} />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div className="overflow-hidden rounded-xl border border-gray-800">
@@ -58,13 +67,7 @@ export function DataTable<TData>({
             ))}
           </TableHeader>
           <TableBody>
-            {isLoading ? (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="text-center text-sm text-gray-400">
-                  Loading patients...
-                </TableCell>
-              </TableRow>
-            ) : table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (

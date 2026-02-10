@@ -1,17 +1,25 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
 import { Suspense } from "react";
-import { Loader2 } from "lucide-react";
+import { Skeleton } from "~/components/ui/skeleton";
+import { DashboardPanel } from "~/components/dashboard/ui";
 
 export const dynamic = 'force-dynamic';
 
 function DashboardLoadingComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center">
-      <div className="flex flex-col items-center space-y-4">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        <p className="text-sm text-muted-foreground">Caricamento dashboard...</p>
-      </div>
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <DashboardPanel className="w-full max-w-xl space-y-5">
+        <div className="space-y-2">
+          <Skeleton variant="heading" className="h-8 w-48" />
+          <Skeleton variant="text" className="h-4 w-full max-w-sm" />
+        </div>
+        <div className="space-y-3">
+          <Skeleton variant="text" className="h-4 w-full" />
+          <Skeleton variant="text" className="h-4 w-5/6" />
+          <Skeleton variant="button" className="h-10 w-40" />
+        </div>
+      </DashboardPanel>
     </div>
   );
 }
