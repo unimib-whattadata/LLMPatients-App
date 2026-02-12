@@ -7,7 +7,7 @@ profile:
   age: 30
   gender: other
   smallDescription: 30-year-old psychologically healthy adult using the platform to practice therapeutic communication in non-clinical scenarios.
-  avatarUrl: /images/patients/old/base.png
+  avatarUrl: /images/patients/alex_carter/base.png
   diagnosis: No psychiatric diagnosis
   psychologicalProfile: Within normal limits
 voice:

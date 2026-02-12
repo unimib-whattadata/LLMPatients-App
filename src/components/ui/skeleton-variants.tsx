@@ -419,24 +419,151 @@ export function ChatMessageSkeleton({
   isPatient?: boolean
   className?: string
 }) {
+  const textWidths = isPatient ? ['95%', '78%', '56%'] : ['88%', '72%', '50%']
+
   return (
     <div
       className={cn(
-        "flex gap-3 p-4",
-        isPatient ? "justify-start" : "justify-end flex-row-reverse",
+        "flex px-2 py-1 sm:px-3",
+        isPatient ? "justify-start" : "justify-end",
         className
       )}
     >
-      {isPatient && <SkeletonAvatar size="sm" />}
       <div
         className={cn(
-          "max-w-[70%] p-4 rounded-2xl",
-          isPatient
-            ? "bg-[var(--color-chat-bubble-patient)]/50 rounded-bl-md"
-            : "bg-[var(--color-chat-bubble-user)] rounded-br-md"
+          "flex max-w-2xl items-end gap-3",
+          isPatient ? "flex-row" : "flex-row-reverse"
         )}
       >
-        <SkeletonText lines={2} widths={['100%', '60%']} />
+        {isPatient && (
+          <div className="flex flex-col items-center gap-2 pb-1">
+            <SkeletonAvatar size="sm" className="h-9 w-9" />
+            <Skeleton
+              variant="badge"
+              className="h-1.5 w-1.5 bg-[var(--color-primary-green)]/40"
+              intensity="subtle"
+            />
+          </div>
+        )}
+
+        <div
+          className={cn(
+            "space-y-3 rounded-lg px-3 py-3.5 sm:px-4",
+            isPatient
+              ? "bg-[var(--color-chat-bubble-patient)]/45 rounded-bl-md"
+              : "bg-[var(--color-chat-bubble-user)]/90 rounded-br-md"
+          )}
+        >
+          <div className="space-y-2.5">
+            <Skeleton
+              variant="text"
+              className="h-3.5 bg-white/20"
+              style={{ width: textWidths[0] }}
+              intensity="subtle"
+            />
+            <Skeleton
+              variant="text"
+              className="h-3.5 bg-white/20"
+              style={{ width: textWidths[1] }}
+              intensity="subtle"
+            />
+            <Skeleton
+              variant="text"
+              className="h-3.5 bg-white/20"
+              style={{ width: textWidths[2] }}
+              intensity="subtle"
+            />
+          </div>
+
+          <div className={cn("flex", isPatient ? "justify-start" : "justify-end")}>
+            <Skeleton
+              variant="text"
+              className="h-2.5 w-14 rounded-full bg-white/15"
+              intensity="subtle"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/**
+ * Chat Page Skeleton
+ * Full-page loading state that mirrors the chat layout
+ */
+export function ChatPageSkeleton({
+  className
+}: {
+  className?: string
+}) {
+  return (
+    <div className={cn("flex h-[calc(100vh-4rem)] flex-col bg-background", className)}>
+      <header className="flex-shrink-0 border-b border-border bg-card px-4 py-4 sm:px-6">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
+            <Skeleton variant="button" className="h-9 w-9 rounded-md" />
+            <div className="min-w-0 space-y-2">
+              <Skeleton variant="heading" className="h-6 w-56 sm:w-72" />
+              <Skeleton variant="text" className="h-4 w-24" />
+            </div>
+          </div>
+
+          <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
+            <Skeleton variant="badge" className="h-8 w-16 rounded-md" />
+            <Skeleton variant="button" className="h-9 w-9 rounded-md" />
+            <Skeleton variant="button" className="hidden h-9 w-24 rounded-md sm:block" />
+          </div>
+        </div>
+      </header>
+
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <aside className="page-background hidden w-48 flex-shrink-0 p-4 lg:flex" aria-hidden="true">
+          <div className="flex w-full flex-col items-center gap-3 pt-4">
+            <div className="rounded-[1.1rem] bg-[var(--color-primary-green)]/40 p-[3px]">
+              <SkeletonAvatar size="xl" className="h-24 w-24 rounded-[calc(1.1rem-3px)] ring-0" />
+            </div>
+            <Skeleton variant="text" className="h-3 w-24" intensity="subtle" />
+            <Skeleton variant="badge" className="h-7 w-28 rounded-full" />
+          </div>
+        </aside>
+
+        <div className="page-background relative flex flex-1 flex-col">
+          <div className="flex-1 overflow-hidden">
+            <div className="mx-auto w-full max-w-4xl space-y-4 p-4 sm:space-y-6 sm:p-6">
+              <ChatMessageSkeleton />
+              <ChatMessageSkeleton isPatient={false} />
+              <ChatMessageSkeleton />
+
+              <div className="flex justify-start pl-3">
+                <div className="rounded-lg bg-[var(--color-chat-bubble-patient)]/45 px-4 py-3">
+                  <div className="flex items-center gap-1.5">
+                    <Skeleton variant="badge" className="h-2 w-2 bg-white/70" />
+                    <Skeleton variant="badge" className="h-2 w-2 bg-white/70" />
+                    <Skeleton variant="badge" className="h-2 w-2 bg-white/70" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="sticky bottom-0 left-0 right-0 z-20 bg-transparent p-4 sm:p-6">
+            <div className="mx-auto max-w-4xl space-y-3">
+              <div className="rounded-lg border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/35 px-4 py-3">
+                <Skeleton variant="text" className="h-3 w-60" intensity="subtle" />
+              </div>
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Skeleton
+                  variant="text"
+                  className="h-11 flex-1 rounded-lg bg-[var(--color-surface-primary)]/70"
+                />
+                <Skeleton variant="button" className="h-11 w-11 rounded-lg" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="page-background hidden w-48 flex-shrink-0 lg:block" aria-hidden="true" />
       </div>
     </div>
   )

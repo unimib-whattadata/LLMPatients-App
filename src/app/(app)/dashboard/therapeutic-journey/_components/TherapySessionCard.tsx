@@ -4,6 +4,7 @@ import { memo } from "react";
 import Link from "next/link";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { PatientAvatar } from "~/components/features/explore-patients/PatientAvatar";
+import { getBasePatientAvatarUrl } from "~/lib/utils/patient-avatar";
 import {
   getDifficultyAccessibleText,
   getDifficultyIconClass,
@@ -88,7 +89,7 @@ function TherapySessionCardComponent({
       <CardHeader className="flex flex-col items-center space-y-4 pb-4">
         <PatientAvatar
           name={therapySession.patient.name}
-          avatarUrl={therapySession.patient.avatarUrl}
+          avatarUrl={getBasePatientAvatarUrl(therapySession.patient.avatarUrl)}
         />
 
         {/* Name and Status */}
@@ -197,4 +198,3 @@ function TherapySessionCardComponent({
 }
 
 export const TherapySessionCard = memo(TherapySessionCardComponent);
-

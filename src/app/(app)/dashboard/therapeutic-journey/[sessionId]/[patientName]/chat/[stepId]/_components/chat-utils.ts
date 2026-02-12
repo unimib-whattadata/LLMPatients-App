@@ -1,6 +1,8 @@
 import type { PatientEmotion } from "./chat-constants";
 import { AVATAR_COLOR_CLASSES } from "./chat-constants";
 
+const FALLBACK_AVATAR_URL = "/images/patients/alex_carter/base.png";
+
 export function formatSessionTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -17,37 +19,41 @@ export function getPatientAvatarPath(
 ): string {
   // Convert emotion to lowercase for file path (assets are lowercase).
   const emotionLower = emotion.toLowerCase();
+  const resolvedAvatarUrl = avatarUrl ?? FALLBACK_AVATAR_URL;
 
-  // If no avatarUrl is provided, use a safe local fallback.
-  if (!avatarUrl) {
-    return "/images/patients/old/base.png";
-  }
-
-  const isRealisticSet = avatarUrl.includes("/realistic/");
+  const isRealisticSet = resolvedAvatarUrl.includes("/realistic/");
+  const isDanielSet = resolvedAvatarUrl.includes("/daniel_isherwood/");
+  const requestedEmotion = emotionLower === "base" ? "listening" : emotionLower;
   const mappedEmotion =
-    emotionLower === "sadness" && isRealisticSet ? "panic_grief" : emotionLower;
+    requestedEmotion === "sadness"
+      ? isDanielSet
+        ? "pain-grief"
+        : isRealisticSet
+          ? "panic_grief"
+          : "sadness"
+      : requestedEmotion;
 
   // Replace emotion + extension keeping original directory and extension.
   // Example:
-  // "/images/patients/crystal/realistic/base.jpeg" -> "/images/patients/crystal/realistic/seeking.jpeg"
+  // "/images/patients/crystal_smith/realistic/base.png" -> "/images/patients/crystal_smith/realistic/seeking.png"
   const emotionWithExtensionPattern =
-    /(base|seeking|rage|fear|care|lust|sadness|panic_grief|play)\.(png|jpe?g|webp)$/i;
-  if (emotionWithExtensionPattern.test(avatarUrl)) {
-    return avatarUrl.replace(
+    /(base|listening|seeking|rage|fear|care|lust|sadness|panic_grief|pain-grief|play)\.(png|jpe?g|webp)$/i;
+  if (emotionWithExtensionPattern.test(resolvedAvatarUrl)) {
+    return resolvedAvatarUrl.replace(
       emotionWithExtensionPattern,
       `${mappedEmotion}.$2`,
     );
   }
 
   // If filename doesn't contain an emotion token, replace only the final segment.
-  const extensionMatch = avatarUrl.match(/\.(png|jpe?g|webp)$/i);
+  const extensionMatch = resolvedAvatarUrl.match(/\.(png|jpe?g|webp)$/i);
   if (extensionMatch?.[1]) {
     const extension = extensionMatch[1].toLowerCase();
-    return avatarUrl.replace(/[^/]+\.(png|jpe?g|webp)$/i, `${mappedEmotion}.${extension}`);
+    return resolvedAvatarUrl.replace(/[^/]+\.(png|jpe?g|webp)$/i, `${mappedEmotion}.${extension}`);
   }
 
   // If extension cannot be inferred, keep original path.
-  return avatarUrl;
+  return resolvedAvatarUrl;
 }
 
 export function generatePatientAvatar(name: string): {

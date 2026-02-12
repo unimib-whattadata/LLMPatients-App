@@ -51,6 +51,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 function LoginPageComponent() {
 
+  const isDev = process.env.NODE_ENV !== "production";
   const [loginState, setLoginState] = useState<LoginState>({
     phase: "loading",
     error: "",
@@ -61,8 +62,8 @@ function LoginPageComponent() {
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: isDev ? "admin@example.com" : "",
+      password: isDev ? "Qwerty123!" : "",
       rememberMe: false,
     },
   });

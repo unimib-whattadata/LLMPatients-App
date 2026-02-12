@@ -224,7 +224,8 @@ export function SharedLayout({
         <main
           id="main-content"
           className={cn(
-            "flex-1 transition-all duration-300",
+            "flex-1",
+            disablePadding ? "transition-none" : "transition-all duration-300",
             layoutConfig.showSidebar ? "lg:ml-64" : "w-full",
             layoutConfig.showSidebar && !disablePadding && "p-8"
           )}

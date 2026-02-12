@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Patient } from "~/types";
 import { PatientAvatar } from "~/components/features/explore-patients/PatientAvatar";
+import { getBasePatientAvatarUrl } from "~/lib/utils/patient-avatar";
 import { Clock } from "lucide-react";
 import {
   getDifficultyAccessibleText,
@@ -41,7 +42,7 @@ export function PatientCard({ patient }: PatientCardProps) {
       <CardHeader className="flex flex-col items-center space-y-4 pb-4">
         <PatientAvatar
           name={patient.name}
-          avatarUrl={patient.avatarUrl}
+          avatarUrl={getBasePatientAvatarUrl(patient.avatarUrl)}
         />
 
         { }

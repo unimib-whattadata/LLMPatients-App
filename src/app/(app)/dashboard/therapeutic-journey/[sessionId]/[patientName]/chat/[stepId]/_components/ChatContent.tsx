@@ -8,8 +8,7 @@ import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { DashboardPanel } from "~/components/dashboard/ui";
 import { Input } from "~/components/ui/input";
-import { Skeleton } from "~/components/ui/skeleton";
-import { ChatMessageSkeleton } from "~/components/ui/skeleton-variants";
+import { ChatPageSkeleton } from "~/components/ui/skeleton-variants";
 import {
   Dialog,
   DialogContent,
@@ -29,7 +28,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
-import { ArrowLeft, Check, Loader2, Send, Mic, X, CheckCircle2, Maximize2, Info, Code2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  Loader2,
+  Send,
+  Mic,
+  X,
+  CheckCircle2,
+  Maximize2,
+  Info,
+  Code2,
+  FileDown,
+} from "lucide-react";
+import { jsPDF } from "jspdf";
+import autoTable, { type RowInput } from "jspdf-autotable";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import type {
   ChatMessage,
@@ -73,6 +86,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [showTTSWarning, setShowTTSWarning] = useState(true);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [extractedText, setExtractedText] = useState<string | null>(null);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
+  const [stepCompletionOverride, setStepCompletionOverride] = useState(false);
+  const [pdfHeaderAvatarDataUrl, setPdfHeaderAvatarDataUrl] = useState<string | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -133,6 +149,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedExistingChat = existingChat as ChatStepData | undefined;
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
+  const selectedPatientId = typedSelectedPatient?.id;
+  const selectedPatientAvatarUrl = typedSelectedPatient?.avatarUrl ?? null;
 
 
   const saveChatMutation = api.chat.saveChatStep.useMutation();
@@ -155,13 +173,142 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [typedSelectedPatient],
   );
 
+  useEffect(() => {
+    if (!selectedPatientId) {
+      setPdfHeaderAvatarDataUrl(null);
+      return;
+    }
+
+    const rawAvatarPath = selectedPatientAvatarUrl ?? "/images/patients/alex_carter/base.png";
+    if (!rawAvatarPath) {
+      setPdfHeaderAvatarDataUrl(null);
+      return;
+    }
+
+    const avatarUrl = rawAvatarPath.startsWith("http")
+      ? rawAvatarPath
+      : rawAvatarPath.startsWith("/")
+        ? `${window.location.origin}${rawAvatarPath}`
+        : `${window.location.origin}/${rawAvatarPath}`;
+
+    let cancelled = false;
+    const image = new window.Image();
+    image.crossOrigin = "anonymous";
+
+    image.onload = () => {
+      if (cancelled) return;
+
+      const minSide = Math.min(image.naturalWidth, image.naturalHeight);
+      if (!minSide) {
+        setPdfHeaderAvatarDataUrl(null);
+        return;
+      }
+
+      const canvas = document.createElement("canvas");
+      canvas.width = minSide;
+      canvas.height = minSide;
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        setPdfHeaderAvatarDataUrl(null);
+        return;
+      }
+
+      const sourceX = Math.max((image.naturalWidth - minSide) / 2, 0);
+      const sourceY = Math.max((image.naturalHeight - minSide) / 2, 0);
+      context.drawImage(
+        image,
+        sourceX,
+        sourceY,
+        minSide,
+        minSide,
+        0,
+        0,
+        minSide,
+        minSide,
+      );
+
+      try {
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
+        if (!cancelled) {
+          setPdfHeaderAvatarDataUrl(dataUrl);
+        }
+      } catch {
+        if (!cancelled) {
+          setPdfHeaderAvatarDataUrl(null);
+        }
+      }
+    };
+
+    image.onerror = () => {
+      if (!cancelled) {
+        setPdfHeaderAvatarDataUrl(null);
+      }
+    };
+
+    image.src = avatarUrl;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [selectedPatientId, selectedPatientAvatarUrl]);
+
 
   const isStepCompleted = useMemo(() => {
+    if (stepCompletionOverride) return true;
+
+    if (typedExistingChat?.done) return true;
+
     if (!typedCompletedSteps) return false;
+
     return typedCompletedSteps.some(
       (step) => step.stepNumber === stepId && step.done,
     );
-  }, [typedCompletedSteps, stepId]);
+  }, [stepCompletionOverride, typedExistingChat?.done, typedCompletedSteps, stepId]);
+
+  const questionAnswerRows = useMemo(() => {
+    const rows: Array<{ question: string; answer: string }> = [];
+    let pendingQuestion: string | null = null;
+
+    messages.forEach((message) => {
+      const normalizedContent = message.content.trim();
+      if (!normalizedContent) return;
+
+      if (message.sender === "user") {
+        if (pendingQuestion) {
+          rows.push({
+            question: pendingQuestion,
+            answer: "",
+          });
+        }
+        pendingQuestion = normalizedContent;
+        return;
+      }
+
+      if (pendingQuestion) {
+        rows.push({
+          question: pendingQuestion,
+          answer: normalizedContent,
+        });
+        pendingQuestion = null;
+        return;
+      }
+
+      rows.push({
+        question: "",
+        answer: normalizedContent,
+      });
+    });
+
+    if (pendingQuestion) {
+      rows.push({
+        question: pendingQuestion,
+        answer: "",
+      });
+    }
+
+    return rows;
+  }, [messages]);
 
   // Helper function to extract and remove text in parentheses
   const extractAndRemoveParentheses = useCallback((text: string): { cleanedText: string; extractedText: string | null } => {
@@ -594,6 +741,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         stepNumber: stepId,
       });
 
+      setStepCompletionOverride(true);
+
 
       await utils.chat.getSessionChats.invalidate({
         therapySessionId: typedTherapySession.id,
@@ -618,6 +767,348 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
     }
   }, [typedTherapySession, stepId, markStepDoneMutation, utils]);
+
+  const handleDownloadSessionPdf = useCallback(() => {
+    if (!typedSelectedPatient) return;
+    setIsExportingPdf(true);
+
+    const normalizeText = (value: string | null | undefined): string => {
+      if (!value?.trim()) return "N/A";
+      return value
+        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+    };
+
+    try {
+      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const marginX = 14;
+      const exportDateTime = new Date().toLocaleString("en-US");
+
+      const metadataRows: RowInput[] = [
+        ["Patient Name", normalizeText(typedSelectedPatient.name)],
+        ["Internal Patient ID", normalizeText(typedSelectedPatient.id)],
+        [
+          "External Patient ID",
+          normalizeText(typedSelectedPatient.externalPatientId),
+        ],
+        ["Therapy Session ID", normalizeText(typedTherapySession?.id)],
+        ["Session Number", String(typedTherapySession?.sessionNumber ?? "N/A")],
+        ["Session Step", `Session ${stepId}`],
+        ["Therapist", normalizeText(user.name ?? user.email)],
+        ["Duration", formatSessionTime(sessionTime)],
+        ["Total Messages", String(messages.length)],
+        ["Status", isStepCompleted ? "Completed" : "In Progress"],
+        ["Export Date", exportDateTime],
+      ];
+
+      doc.setFillColor(28, 25, 23);
+      doc.rect(0, 0, pageWidth, 36, "F");
+      doc.setFillColor(132, 204, 22);
+      doc.rect(0, 34, pageWidth, 2, "F");
+
+      const headerAvatarSize = 20;
+      const headerAvatarX = pageWidth - marginX - headerAvatarSize;
+      const headerAvatarY = 8;
+      const headerTextMaxWidth = headerAvatarX - marginX - 5;
+
+      doc.setDrawColor(132, 204, 22);
+      doc.setLineWidth(0.8);
+      doc.rect(
+        headerAvatarX - 1,
+        headerAvatarY - 1,
+        headerAvatarSize + 2,
+        headerAvatarSize + 2,
+        "S",
+      );
+
+      if (pdfHeaderAvatarDataUrl) {
+        const imageFormat = pdfHeaderAvatarDataUrl.startsWith("data:image/png")
+          ? "PNG"
+          : "JPEG";
+        doc.addImage(
+          pdfHeaderAvatarDataUrl,
+          imageFormat,
+          headerAvatarX,
+          headerAvatarY,
+          headerAvatarSize,
+          headerAvatarSize,
+        );
+      } else {
+        doc.setFillColor(68, 64, 60);
+        doc.rect(
+          headerAvatarX,
+          headerAvatarY,
+          headerAvatarSize,
+          headerAvatarSize,
+          "F",
+        );
+        doc.setTextColor(245, 245, 244);
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(8);
+        doc.text(
+          patientAvatar.initials,
+          headerAvatarX + headerAvatarSize / 2,
+          headerAvatarY + headerAvatarSize / 2 + 1,
+          { align: "center" },
+        );
+      }
+
+      doc.setTextColor(245, 245, 244);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text("Therapy Conversation Report", marginX, 14, {
+        maxWidth: headerTextMaxWidth,
+      });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(
+        `${normalizeText(typedSelectedPatient.name)} · Session ${stepId}`,
+        marginX,
+        21,
+        { maxWidth: headerTextMaxWidth },
+      );
+      doc.text(`Generated on ${exportDateTime}`, marginX, 27, {
+        maxWidth: headerTextMaxWidth,
+      });
+
+      autoTable(doc, {
+        startY: 42,
+        margin: { left: marginX, right: marginX },
+        theme: "grid",
+        head: [["Field", "Value"]],
+        body: metadataRows,
+        styles: {
+          fontSize: 8.5,
+          cellPadding: 2.8,
+          textColor: [41, 37, 36],
+          lineColor: [214, 211, 209],
+          lineWidth: 0.2,
+          valign: "middle",
+        },
+        headStyles: {
+          fillColor: [54, 83, 20],
+          textColor: [245, 245, 244],
+          fontStyle: "bold",
+        },
+        alternateRowStyles: {
+          fillColor: [250, 250, 249],
+        },
+        columnStyles: {
+          0: {
+            cellWidth: 48,
+            fontStyle: "bold",
+            fillColor: [245, 245, 244],
+          },
+          1: {
+            cellWidth: pageWidth - marginX * 2 - 48,
+          },
+        },
+      });
+
+      const docWithTableState = doc as typeof doc & {
+        lastAutoTable?: { finalY?: number };
+      };
+      let contentY = (docWithTableState.lastAutoTable?.finalY ?? 94) + 8;
+
+      const addTextSection = (title: string, rawText: string | null | undefined) => {
+        const sectionText = normalizeText(rawText);
+        if (sectionText === "N/A") return;
+
+        const maxWidth = pageWidth - marginX * 2;
+        const titleLines = doc.splitTextToSize(title, maxWidth) as string[];
+        const bodyLines = doc.splitTextToSize(sectionText, maxWidth) as string[];
+        const requiredHeight = titleLines.length * 5 + bodyLines.length * 4.8 + 5;
+
+        if (contentY + requiredHeight > pageHeight - 24) {
+          doc.addPage();
+          contentY = 18;
+        }
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.setTextColor(28, 25, 23);
+        doc.text(titleLines, marginX, contentY);
+        contentY += titleLines.length * 5;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(68, 64, 60);
+        doc.text(bodyLines, marginX, contentY);
+        contentY += bodyLines.length * 4.8 + 4;
+      };
+
+      const addBulletListSection = (title: string, items: string[]) => {
+        const normalizedItems = items
+          .map((item) => normalizeText(item))
+          .filter((item) => item !== "N/A");
+        if (normalizedItems.length === 0) return;
+
+        const maxWidth = pageWidth - marginX * 2;
+        const bulletIndent = 4;
+        const bulletTextWidth = maxWidth - bulletIndent;
+        const titleLines = doc.splitTextToSize(title, maxWidth) as string[];
+        const bulletLineGroups = normalizedItems.map(
+          (item) => doc.splitTextToSize(item, bulletTextWidth) as string[],
+        );
+        const bulletContentHeight = bulletLineGroups.reduce(
+          (height, lines) => height + lines.length * 4.8 + 1,
+          0,
+        );
+        const requiredHeight = titleLines.length * 5 + bulletContentHeight + 4;
+
+        if (contentY + requiredHeight > pageHeight - 24) {
+          doc.addPage();
+          contentY = 18;
+        }
+
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(10);
+        doc.setTextColor(28, 25, 23);
+        doc.text(titleLines, marginX, contentY);
+        contentY += titleLines.length * 5;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(68, 64, 60);
+
+        bulletLineGroups.forEach((lines) => {
+          const bulletHeight = lines.length * 4.8 + 1;
+          if (contentY + bulletHeight > pageHeight - 24) {
+            doc.addPage();
+            contentY = 18;
+          }
+          doc.text("•", marginX, contentY);
+          doc.text(lines, marginX + bulletIndent, contentY);
+          contentY += bulletHeight;
+        });
+
+        contentY += 3;
+      };
+
+      addTextSection("Patient Description", typedSelectedPatient.smallDescription);
+      addTextSection("Background", typedSelectedPatient.background);
+      addBulletListSection(
+        "Therapeutic Goals",
+        typedSelectedPatient.objectives,
+      );
+
+      if (contentY > pageHeight - 90) {
+        doc.addPage();
+        contentY = 18;
+      }
+
+      doc.setFillColor(54, 83, 20);
+      doc.rect(marginX, contentY - 4.5, pageWidth - marginX * 2, 9, "F");
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(245, 245, 244);
+      doc.text("Session Transcript", marginX + 3, contentY + 1.2);
+
+      const tableBody: RowInput[] =
+        questionAnswerRows.length > 0
+          ? questionAnswerRows.map((row, index) => [
+            String(index + 1),
+            row.question || " ",
+            row.answer || " ",
+            " ",
+          ])
+          : [["1", "No questions recorded", "No responses recorded", " "]];
+      const tableContentWidth = pageWidth - marginX * 2;
+      const indexColumnWidth = tableContentWidth * 0.08;
+      const questionColumnWidth = tableContentWidth * 0.31;
+      const answerColumnWidth = tableContentWidth * 0.31;
+      const analysisColumnWidth =
+        tableContentWidth - indexColumnWidth - questionColumnWidth - answerColumnWidth;
+
+      autoTable(doc, {
+        startY: contentY + 8,
+        margin: { left: marginX, right: marginX },
+        theme: "grid",
+        tableWidth: tableContentWidth,
+        head: [["#", "Question", "Answer", "Therapist Analysis"]],
+        body: tableBody,
+        styles: {
+          fontSize: 8.2,
+          cellPadding: 2.5,
+          valign: "top",
+          overflow: "linebreak",
+          textColor: [28, 25, 23],
+          minCellHeight: 12,
+          lineColor: [214, 211, 209],
+          lineWidth: 0.2,
+        },
+        headStyles: {
+          fillColor: [132, 204, 22],
+          textColor: [12, 10, 9],
+          fontStyle: "bold",
+          halign: "left",
+        },
+        alternateRowStyles: {
+          fillColor: [250, 250, 249],
+        },
+        columnStyles: {
+          0: { cellWidth: indexColumnWidth, halign: "center" },
+          1: { cellWidth: questionColumnWidth },
+          2: { cellWidth: answerColumnWidth },
+          3: { cellWidth: analysisColumnWidth, minCellHeight: 20 },
+        },
+      });
+
+      const totalPages = doc.getNumberOfPages();
+      for (let page = 1; page <= totalPages; page += 1) {
+        doc.setPage(page);
+        doc.setDrawColor(214, 211, 209);
+        doc.line(marginX, pageHeight - 12, pageWidth - marginX, pageHeight - 12);
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(120, 113, 108);
+        doc.text(
+          `LLMPatients App · ${normalizeText(typedSelectedPatient.name)}`,
+          marginX,
+          pageHeight - 7,
+        );
+        doc.text(`Page ${page}/${totalPages}`, pageWidth - marginX, pageHeight - 7, {
+          align: "right",
+        });
+      }
+
+      const safePatientName = normalizeText(typedSelectedPatient.name)
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "");
+      const filename = `report-${safePatientName || "patient"}-session-${stepId}.pdf`;
+      const pdfBlob = doc.output("blob");
+      const downloadUrl = URL.createObjectURL(pdfBlob);
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = filename;
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(downloadUrl), 2000);
+    } catch (error) {
+      alert("Errore durante l'esportazione PDF. Riprova.");
+    } finally {
+      setIsExportingPdf(false);
+    }
+  }, [
+    typedSelectedPatient,
+    typedTherapySession,
+    stepId,
+    user.name,
+    user.email,
+    sessionTime,
+    messages.length,
+    isStepCompleted,
+    questionAnswerRows,
+    pdfHeaderAvatarDataUrl,
+    patientAvatar.initials,
+  ]);
 
   const handleCloseSuccessDialog = useCallback(() => {
     setIsSuccessDialogOpen(false);
@@ -657,20 +1148,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         impersonation={impersonation}
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
+        disablePadding={true}
       >
-        <div className="flex min-h-screen items-center justify-center bg-background px-4">
-          <DashboardPanel className="w-full max-w-3xl overflow-hidden p-0">
-            <div className="space-y-2 border-b border-border p-4 sm:p-5">
-              <Skeleton variant="heading" className="h-7 w-52" />
-              <Skeleton variant="text" className="h-4 w-full max-w-sm" />
-            </div>
-            <div className="space-y-2 p-3 sm:p-4">
-              <ChatMessageSkeleton />
-              <ChatMessageSkeleton isPatient={false} />
-              <ChatMessageSkeleton />
-            </div>
-          </DashboardPanel>
-        </div>
+        <ChatPageSkeleton />
       </SharedLayout>
     );
   }
@@ -1353,12 +1833,30 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
                     <div className="mx-auto max-w-4xl text-center">
                       <div className="pill bg-primary-green text-text-inverse px-4 py-3">
-                        <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                          <Check className="h-4 w-4" aria-hidden="true" />
-                          <span>
-                            Sessione {stepId} completata - La conversazione è in modalità sola lettura
-                          </span>
-                        </p>
+                        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
+                          <p className="flex items-center justify-center gap-2 text-sm font-medium">
+                            <Check className="h-4 w-4" aria-hidden="true" />
+                            <span>
+                              Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                            </span>
+                          </p>
+                          <Button
+                            type="button"
+                            onClick={() => void handleDownloadSessionPdf()}
+                            disabled={isExportingPdf}
+                            size="sm"
+                            variant="secondary"
+                            className="h-8 gap-2 border border-stone-800 bg-white/90 px-3 text-xs font-semibold text-stone-900 hover:bg-white"
+                            aria-label="Scarica report PDF della sessione"
+                          >
+                            {isExportingPdf ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <FileDown className="h-4 w-4" />
+                            )}
+                            <span>PDF</span>
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
