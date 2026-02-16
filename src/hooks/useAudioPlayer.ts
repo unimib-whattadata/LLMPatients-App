@@ -138,10 +138,17 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        const errorMessage =
+          typeof errorData.error === "string"
+            ? errorData.error.toLowerCase()
+            : "";
 
-        // Handle 503 (service disabled) silently - don't throw error
+        // Distinguish between provider disabled and temporary service failures.
         if (response.status === TTS_HTTP_STATUS.DISABLED) {
-          throw new Error(TTS_ERROR_CODES.DISABLED);
+          if (errorMessage.includes("disabled")) {
+            throw new Error(TTS_ERROR_CODES.DISABLED);
+          }
+          throw new Error(TTS_ERROR_CODES.CONNECTION_ERROR);
         }
 
         // Handle specific error cases
@@ -194,7 +201,6 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     try {
       setIsLoading(true);
       setError(null);
-      setIsTTSAvailable(true);
       cleanupAudio();
       revokeCurrentAudioUrl();
       setCurrentAudioUrl(null);
@@ -274,6 +280,16 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         setIsTTSAvailable(false);
         setIsLoading(false);
         // Don't log error or call onError - TTS is simply disabled
+        return;
+      }
+
+      if (
+        error instanceof Error &&
+        error.message === TTS_ERROR_CODES.CONNECTION_ERROR
+      ) {
+        setIsTTSAvailable(false);
+        logger.warn("TTS service temporarily unavailable");
+        setIsLoading(false);
         return;
       }
 

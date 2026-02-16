@@ -3,6 +3,29 @@ import type { User, ImpersonationContext } from "~/types";
 import type { PatientEmotion } from "./chat-constants";
 import type { ResponseMetadata } from "~/server/services/patient-response-generator";
 
+export interface EmotionSnapshot {
+  dominant: string;
+  intensity: number;
+  vector: Record<string, number>;
+  event?: string | null;
+  salience?: number | null;
+  description: string;
+}
+
+export interface EmotionTimelinePoint {
+  turn_index: number;
+  timestamp: string;
+  emotion: string;
+  intensity: number;
+}
+
+export interface EmotionVectorTimelinePoint {
+  turn_index: number;
+  timestamp: string;
+  dominant: string;
+  vector: Record<string, number>;
+}
+
 export interface ChatMessage {
   id: string;
   content: string;
@@ -58,4 +81,3 @@ export interface ChatContentProps {
   user: User;
   impersonation?: ImpersonationContext;
 }
-

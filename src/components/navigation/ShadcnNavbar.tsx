@@ -105,14 +105,14 @@ export function ShadcnNavbar({
           <Link href="/" className="flex items-center space-x-2">
             <Image
               src="/images/logo.png"
-              alt="LLMPatient"
+              alt="LLMPatients"
               width={32}
               height={32}
               className="rounded-lg"
               style={{ width: 32, height: 32 }}
             />
             <span className="hidden text-lg font-bold sm:inline-block">
-              LLMPatient
+              LLMPatients
             </span>
           </Link>
         </div>

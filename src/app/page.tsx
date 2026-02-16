@@ -48,7 +48,7 @@ export default async function Home() {
             <div className="home-footer-brand">
               <Image
                 src="/images/logo.webp"
-                alt="llmpatient Logo"
+                alt="LLMPatients Logo"
                 className="home-footer-brand-logo image-auto-size"
                 itemProp="logo"
                 width={48}
@@ -57,7 +57,7 @@ export default async function Home() {
               />
               <div>
                 <p className="home-footer-brand-name" itemProp="name">
-                  llmpatient
+                  LLMPatients
                 </p>
                 <p className="home-footer-brand-caption" itemProp="description">
                   Un progetto dedicato alla formazione e alla valutazione delle

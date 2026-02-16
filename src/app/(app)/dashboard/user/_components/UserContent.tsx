@@ -462,7 +462,7 @@ export const UserContent = React.memo(function UserContent() {
               <DashboardPanel className="py-12 flex flex-col items-center justify-center text-center text-gray-400">
                 <div className="text-4xl mb-4 opacity-20">📝</div>
                 <p>
-                  Le tue attività verranno registrate automaticamente mentre utilizzi llmpatient.
+                  Le tue attività verranno registrate automaticamente mentre utilizzi LLMPatients.
                 </p>
               </DashboardPanel>
             )}

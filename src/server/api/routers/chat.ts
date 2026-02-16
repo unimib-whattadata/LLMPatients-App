@@ -13,7 +13,7 @@ import type { ResponseMetadata } from "~/server/services/patient-response-genera
 const logger = createLogger("Chat");
 
 // Helper to normalize emotion string to match PatientEmotion type
-function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "SADNESS" | "PLAY" | "base" {
+function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "PANIC_GRIEF" | "SADNESS" | "PLAY" | "base" {
   if (!emotion || typeof emotion !== "string") {
     return "base";
   }
@@ -28,6 +28,7 @@ function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE
     "FEAR",
     "CARE",
     "LUST",
+    "PANIC_GRIEF",
     "SADNESS",
     "PLAY",
     "base",
@@ -59,7 +60,7 @@ export interface ChatMessage {
   sender: "user" | "patient";
   timestamp: Date;
   stepId: number;
-  emotion?: "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "SADNESS" | "PLAY" | "base";
+  emotion?: "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "PANIC_GRIEF" | "SADNESS" | "PLAY" | "base";
   metadata?: ResponseMetadata;
 }
 
@@ -136,7 +137,7 @@ export const chatRouter = createTRPCRouter({
             sender: z.enum(["user", "patient"]),
             timestamp: z.date(),
             stepId: z.number(),
-            emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "SADNESS", "PLAY", "base"]).optional(),
+            emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "PANIC_GRIEF", "SADNESS", "PLAY", "base"]).optional(),
             metadata: z.object({
               apiType: z.enum(["MOCK", "REAL"]),
               endpoint: z.string().optional(),
@@ -150,12 +151,30 @@ export const chatRouter = createTRPCRouter({
               }).optional(),
               responseData: z.object({
                 message: z.string().optional(),
-                emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "SADNESS", "PLAY", "base"]).optional(),
+                emotion: z.string().optional(),
                 topic: z.string().optional(),
                 reasoningTime: z.number().optional(),
                 status: z.string().optional(),
                 code: z.string().optional(),
                 externalPatientId: z.string().optional(),
+                patientName: z.string().nullable().optional(),
+                avatarUrl: z.string().nullable().optional(),
+                emotionSnapshot: z.object({
+                  dominant: z.string(),
+                  intensity: z.number(),
+                  vector: z.record(z.string(), z.number()),
+                  event: z.string().nullable().optional(),
+                  salience: z.number().nullable().optional(),
+                  description: z.string(),
+                }).nullable().optional(),
+                emotionTimeline: z.array(
+                  z.object({
+                    turn_index: z.number(),
+                    timestamp: z.string(),
+                    emotion: z.string(),
+                    intensity: z.number(),
+                  }),
+                ).optional(),
               }).optional(),
               rawResponseJson: z.string().optional(),
               duration: z.number().optional(),

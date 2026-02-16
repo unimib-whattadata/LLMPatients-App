@@ -16,6 +16,7 @@ export const EMOTION_VOICE_SETTINGS: Record<string, { stability: number; style: 
   FEAR: { stability: 0.4, style: 0.7 },
   CARE: { stability: 0.8, style: 0.4 },
   LUST: { stability: 0.4, style: 0.8 },
+  PANIC_GRIEF: { stability: 0.6, style: 0.5 },
   SADNESS: { stability: 0.6, style: 0.4 },
   PLAY: { stability: 0.4, style: 0.8 },
 };

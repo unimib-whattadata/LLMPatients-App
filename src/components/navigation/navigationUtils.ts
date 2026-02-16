@@ -1,5 +1,5 @@
 import type { User, ImpersonationContext, NavItem, NavSection } from "~/types";
-import { Search, Users, Map, FileText, UserPlus, BookOpen } from "lucide-react";
+import { Search, Users, Map, FileText, UserPlus } from "lucide-react";
 
 export function getNavSections(
   user: User | undefined,
@@ -79,16 +79,6 @@ export function getNavSections(
           },
         ],
       },
-      {
-        title: "API",
-        items: [
-          {
-            label: "Patient Response Generator",
-            href: "/docs/patient-response-generator",
-            icon: BookOpen,
-          },
-        ],
-      },
     ];
   } else {
     
@@ -141,16 +131,6 @@ export function getNavSections(
             label: "Schema di Valutazione",
             href: "/dashboard/patient/attributes",
             icon: FileText,
-          },
-        ],
-      },
-      {
-        title: "API",
-        items: [
-          {
-            label: "Patient Response Generator",
-            href: "/docs/patient-response-generator",
-            icon: BookOpen,
           },
         ],
       },

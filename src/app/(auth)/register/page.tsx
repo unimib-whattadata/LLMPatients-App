@@ -124,7 +124,7 @@ export default function RegisterPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
-            Unisciti a LLMPatient
+            Unisciti a LLMPatients
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed">
             Inizia il tuo percorso di apprendimento medico con simulazioni interattive e pazienti virtuali intelligenti.

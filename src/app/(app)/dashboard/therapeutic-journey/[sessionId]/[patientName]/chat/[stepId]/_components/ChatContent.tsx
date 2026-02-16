@@ -50,8 +50,12 @@ import type {
   TherapySessionData,
   ChatStepData,
   ChatContentProps,
+  EmotionSnapshot,
+  EmotionTimelinePoint,
+  EmotionVectorTimelinePoint,
 } from "./chat-types";
 import type { PatientEmotion } from "./chat-constants";
+import { EmotionTrendPanel } from "./EmotionTrendPanel";
 import {
   EMOTION_COLORS,
   EMOTION_LABELS,
@@ -61,9 +65,390 @@ import {
   formatSessionTime,
   getPatientAvatarPath,
   generatePatientAvatar,
+  sanitizePatientAvatarUrl,
 } from "./chat-utils";
 import { useAudioPlayer } from "~/hooks/useAudioPlayer";
 import { useTTSStatus } from "~/hooks/useTTSStatus";
+
+type ChatResponseEmotionPayload = {
+  patient_name?: string | null;
+  avatar_url?: string | null;
+  emotion_snapshot?: EmotionSnapshot | null;
+  emotion_timeline?: EmotionTimelinePoint[] | null;
+};
+
+function clampTimelineIntensity(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+  return Math.max(0, Math.min(1, value));
+}
+
+function normalizeEmotionToken(value: string): string {
+  const token = value.trim();
+  if (!token) return "BASE";
+  return token.replace(/\s+/g, "_").toUpperCase();
+}
+
+function normalizePatientEmotion(value: unknown): PatientEmotion | null {
+  if (typeof value !== "string" || !value.trim()) {
+    return null;
+  }
+
+  const token = normalizeEmotionToken(value).replace(/-/g, "_");
+  switch (token) {
+    case "SEEKING":
+    case "RAGE":
+    case "FEAR":
+    case "CARE":
+    case "LUST":
+    case "PANIC_GRIEF":
+    case "SADNESS":
+    case "PLAY":
+      return token;
+    case "BASE":
+      return "base";
+    default:
+      return null;
+  }
+}
+
+function resolveEmotionForDisplay(
+  payload: ChatResponseEmotionPayload,
+  fallbackEmotion?: PatientEmotion,
+): PatientEmotion {
+  const snapshotEmotion = payload.emotion_snapshot
+    ? normalizePatientEmotion(payload.emotion_snapshot.dominant)
+    : null;
+  if (snapshotEmotion) {
+    return snapshotEmotion;
+  }
+
+  const latestTimelinePoint = Array.isArray(payload.emotion_timeline)
+    ? payload.emotion_timeline[payload.emotion_timeline.length - 1]
+    : null;
+  const timelineEmotion = latestTimelinePoint
+    ? normalizePatientEmotion(latestTimelinePoint.emotion)
+    : null;
+
+  return timelineEmotion ?? fallbackEmotion ?? "base";
+}
+
+function normalizeEmotionVector(
+  vector: Record<string, number> | null | undefined,
+): Record<string, number> {
+  if (!vector || typeof vector !== "object") {
+    return {};
+  }
+
+  const normalized: Record<string, number> = {};
+  Object.entries(vector).forEach(([key, rawValue]) => {
+    const normalizedKey = normalizeEmotionToken(key);
+    const numericValue =
+      typeof rawValue === "number" ? rawValue : Number(rawValue);
+    if (!Number.isFinite(numericValue)) return;
+    normalized[normalizedKey] = clampTimelineIntensity(numericValue);
+  });
+
+  return normalized;
+}
+
+function normalizeSnapshot(snapshot: EmotionSnapshot): EmotionSnapshot {
+  const dominant = normalizeEmotionToken(snapshot.dominant);
+  const intensity = clampTimelineIntensity(snapshot.intensity);
+  const vector = normalizeEmotionVector(snapshot.vector);
+
+  if (!(dominant in vector)) {
+    vector[dominant] = intensity;
+  }
+
+  return {
+    ...snapshot,
+    dominant,
+    intensity,
+    vector,
+  };
+}
+
+function normalizeTimeline(
+  timeline: EmotionTimelinePoint[],
+): EmotionTimelinePoint[] {
+  if (!Array.isArray(timeline) || timeline.length === 0) {
+    return [];
+  }
+
+  const pointsByTurn = new Map<number, EmotionTimelinePoint>();
+  timeline.forEach((point) => {
+    if (!Number.isFinite(point.turn_index)) return;
+
+    pointsByTurn.set(point.turn_index, {
+      ...point,
+      intensity: clampTimelineIntensity(point.intensity),
+    });
+  });
+
+  return [...pointsByTurn.values()].sort((a, b) => a.turn_index - b.turn_index);
+}
+
+function normalizeVectorTimeline(
+  timeline: EmotionVectorTimelinePoint[],
+): EmotionVectorTimelinePoint[] {
+  if (!Array.isArray(timeline) || timeline.length === 0) {
+    return [];
+  }
+
+  const pointsByTurn = new Map<number, EmotionVectorTimelinePoint>();
+  timeline.forEach((point) => {
+    if (!point || !Number.isFinite(point.turn_index)) return;
+
+    const dominant = normalizeEmotionToken(point.dominant);
+    const vector = normalizeEmotionVector(point.vector);
+    if (!(dominant in vector)) {
+      vector[dominant] = 0;
+    }
+
+    pointsByTurn.set(point.turn_index, {
+      turn_index: point.turn_index,
+      timestamp:
+        typeof point.timestamp === "string" && point.timestamp.trim()
+          ? point.timestamp
+          : new Date().toISOString(),
+      dominant,
+      vector,
+    });
+  });
+
+  return [...pointsByTurn.values()].sort((a, b) => a.turn_index - b.turn_index);
+}
+
+function mergeTimelineState(
+  currentTimeline: EmotionTimelinePoint[],
+  incomingTimeline: EmotionTimelinePoint[],
+): EmotionTimelinePoint[] {
+  if (incomingTimeline.length === 0) {
+    return currentTimeline;
+  }
+
+  return normalizeTimeline([...currentTimeline, ...incomingTimeline]);
+}
+
+function mergeVectorTimelineState(
+  currentTimeline: EmotionVectorTimelinePoint[],
+  incomingTimeline: EmotionVectorTimelinePoint[],
+): EmotionVectorTimelinePoint[] {
+  if (incomingTimeline.length === 0) {
+    return currentTimeline;
+  }
+
+  return normalizeVectorTimeline([...currentTimeline, ...incomingTimeline]);
+}
+
+function appendSnapshotToTimeline(
+  currentTimeline: EmotionTimelinePoint[],
+  snapshot: EmotionSnapshot,
+): EmotionTimelinePoint[] {
+  const lastTurnIndex =
+    currentTimeline.length > 0
+      ? currentTimeline[currentTimeline.length - 1]!.turn_index
+      : 0;
+
+  const fallbackPoint: EmotionTimelinePoint = {
+    turn_index: lastTurnIndex + 1,
+    timestamp: new Date().toISOString(),
+    emotion: snapshot.dominant,
+    intensity: clampTimelineIntensity(snapshot.intensity),
+  };
+
+  return mergeTimelineState(currentTimeline, [fallbackPoint]);
+}
+
+function appendSnapshotToVectorTimeline(
+  currentTimeline: EmotionVectorTimelinePoint[],
+  snapshot: EmotionSnapshot,
+  turnIndexHint?: number,
+  timestampHint?: string,
+): EmotionVectorTimelinePoint[] {
+  const normalizedSnapshot = normalizeSnapshot(snapshot);
+  const lastTurnIndex =
+    currentTimeline.length > 0
+      ? currentTimeline[currentTimeline.length - 1]!.turn_index
+      : 0;
+
+  const fallbackPoint: EmotionVectorTimelinePoint = {
+    turn_index:
+      typeof turnIndexHint === "number" && Number.isFinite(turnIndexHint)
+        ? turnIndexHint
+        : lastTurnIndex + 1,
+    timestamp:
+      typeof timestampHint === "string" && timestampHint.trim()
+        ? timestampHint
+        : new Date().toISOString(),
+    dominant: normalizedSnapshot.dominant,
+    vector: normalizedSnapshot.vector,
+  };
+
+  return mergeVectorTimelineState(currentTimeline, [fallbackPoint]);
+}
+
+function buildVectorTimelineFromMessages(
+  messages: ChatMessage[],
+): EmotionVectorTimelinePoint[] {
+  const restoredTimeline: EmotionVectorTimelinePoint[] = [];
+  let nextTurnIndex = 1;
+
+  messages.forEach((message) => {
+    if (message.sender !== "patient") return;
+    const responseData = message.metadata?.responseData;
+    const snapshot = responseData?.emotionSnapshot;
+    if (!snapshot) return;
+
+    const lastTimelinePoint = Array.isArray(responseData?.emotionTimeline)
+      ? responseData.emotionTimeline[responseData.emotionTimeline.length - 1]
+      : null;
+    const turnIndex =
+      typeof lastTimelinePoint?.turn_index === "number" &&
+      Number.isFinite(lastTimelinePoint.turn_index)
+        ? lastTimelinePoint.turn_index
+        : nextTurnIndex;
+    const normalizedSnapshot = normalizeSnapshot(snapshot);
+
+    restoredTimeline.push({
+      turn_index: turnIndex,
+      timestamp:
+        message.timestamp instanceof Date
+          ? message.timestamp.toISOString()
+          : typeof message.timestamp === "string" && message.timestamp.trim()
+            ? message.timestamp
+            : new Date().toISOString(),
+      dominant: normalizedSnapshot.dominant,
+      vector: normalizedSnapshot.vector,
+    });
+
+    nextTurnIndex = Math.max(nextTurnIndex, turnIndex + 1);
+  });
+
+  return normalizeVectorTimeline(restoredTimeline);
+}
+
+type PdfRgb = [number, number, number];
+
+interface PdfEmotionChartPoint {
+  turnIndex: number;
+  dominant: string;
+  values: Record<string, number>;
+  dominantIntensity: number;
+}
+
+const PDF_VECTOR_ORDER = [
+  "SEEKING",
+  "CARE",
+  "PLAY",
+  "FEAR",
+  "RAGE",
+  "PANIC_GRIEF",
+  "SADNESS",
+  "LUST",
+  "BASE",
+] as const;
+
+const PDF_SERIES_META: Record<string, { label: string; color: PdfRgb }> = {
+  SEEKING: { label: "Ricerca", color: [249, 115, 22] },
+  CARE: { label: "Cura", color: [16, 185, 129] },
+  PLAY: { label: "Gioco", color: [234, 179, 8] },
+  FEAR: { label: "Paura", color: [167, 139, 250] },
+  RAGE: { label: "Rabbia", color: [248, 113, 113] },
+  PANIC_GRIEF: { label: "Panico/Lutto", color: [96, 165, 250] },
+  SADNESS: { label: "Tristezza", color: [96, 165, 250] },
+  LUST: { label: "Desiderio", color: [244, 114, 182] },
+  BASE: { label: "Neutro", color: [163, 163, 163] },
+};
+
+function prettifyEmotionLabel(value: string): string {
+  return value
+    .trim()
+    .replace(/_/g, " ")
+    .toLowerCase()
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function getPdfSeriesLabel(key: string): string {
+  return PDF_SERIES_META[key]?.label ?? prettifyEmotionLabel(key);
+}
+
+function getPdfSeriesColor(key: string): PdfRgb {
+  return PDF_SERIES_META[key]?.color ?? [120, 113, 108];
+}
+
+function getPdfSeriesKeys(points: EmotionVectorTimelinePoint[]): string[] {
+  if (points.length === 0) return [];
+
+  const keys = new Set<string>();
+  points.forEach((point) => {
+    keys.add(normalizeEmotionToken(point.dominant));
+    Object.keys(point.vector).forEach((key) => {
+      keys.add(normalizeEmotionToken(key));
+    });
+  });
+
+  const ordered = PDF_VECTOR_ORDER.filter((key) => keys.has(key));
+  const orderedSet = new Set<string>(PDF_VECTOR_ORDER);
+  const extras = [...keys]
+    .filter((key) => !orderedSet.has(key))
+    .sort((a, b) => a.localeCompare(b));
+
+  return [...ordered, ...extras];
+}
+
+function buildPdfStepScopedVectorTimeline(
+  messages: ChatMessage[],
+  currentStepId: number,
+): EmotionVectorTimelinePoint[] {
+  const points: EmotionVectorTimelinePoint[] = [];
+  let localTurn = 1;
+
+  messages.forEach((message) => {
+    if (message.sender !== "patient") return;
+    if (message.stepId !== currentStepId) return;
+
+    const responseData = message.metadata?.responseData;
+    const timestamp =
+      message.timestamp instanceof Date
+        ? message.timestamp.toISOString()
+        : typeof message.timestamp === "string" && message.timestamp.trim()
+          ? message.timestamp
+          : new Date().toISOString();
+
+    const snapshot = responseData?.emotionSnapshot;
+    if (snapshot) {
+      const normalizedSnapshot = normalizeSnapshot(snapshot);
+      points.push({
+        turn_index: localTurn,
+        timestamp,
+        dominant: normalizedSnapshot.dominant,
+        vector: normalizedSnapshot.vector,
+      });
+      localTurn += 1;
+      return;
+    }
+
+    const timeline = Array.isArray(responseData?.emotionTimeline)
+      ? normalizeTimeline(responseData.emotionTimeline)
+      : [];
+    const lastPoint = timeline[timeline.length - 1];
+    if (!lastPoint) return;
+
+    const dominant = normalizeEmotionToken(lastPoint.emotion);
+    points.push({
+      turn_index: localTurn,
+      timestamp,
+      dominant,
+      vector: {
+        [dominant]: clampTimelineIntensity(lastPoint.intensity),
+      },
+    });
+    localTurn += 1;
+  });
+
+  return normalizeVectorTimeline(points);
+}
 
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
@@ -89,11 +474,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [stepCompletionOverride, setStepCompletionOverride] = useState(false);
   const [pdfHeaderAvatarDataUrl, setPdfHeaderAvatarDataUrl] = useState<string | null>(null);
+  const [emotionSnapshot, setEmotionSnapshot] = useState<EmotionSnapshot | null>(null);
+  const [emotionTimeline, setEmotionTimeline] = useState<EmotionTimelinePoint[]>([]);
+  const [emotionVectorTimeline, setEmotionVectorTimeline] = useState<EmotionVectorTimelinePoint[]>([]);
+  const [responsePatientName, setResponsePatientName] = useState<string | null>(null);
+  const [responseAvatarUrl, setResponseAvatarUrl] = useState<string | null>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const lastProcessedMessageIdRef = useRef<string | null>(null);
   const isInitialLoad = useRef(true);
+  const timerStorageKey = useMemo(
+    () => `llmpatients:chat-timer:${user.id}:${sessionId}:${stepId}`,
+    [user.id, sessionId, stepId],
+  );
 
 
   // TTS status management
@@ -150,7 +544,16 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const typedExistingChat = existingChat as ChatStepData | undefined;
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
   const selectedPatientId = typedSelectedPatient?.id;
-  const selectedPatientAvatarUrl = typedSelectedPatient?.avatarUrl ?? null;
+  const basePatientAvatarUrl = typedSelectedPatient?.avatarUrl ?? null;
+  const effectivePatientName = responsePatientName ?? typedSelectedPatient?.name ?? "Paziente";
+  const selectedPatientAvatarUrl = sanitizePatientAvatarUrl(
+    responseAvatarUrl ?? basePatientAvatarUrl,
+    basePatientAvatarUrl,
+  );
+  const shouldShowEmotionTrend =
+    Boolean(emotionSnapshot) ||
+    emotionTimeline.length > 0 ||
+    emotionVectorTimeline.length > 0;
 
 
   const saveChatMutation = api.chat.saveChatStep.useMutation();
@@ -347,7 +750,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
 
   useEffect(() => {
-    if (messages.length === 0 || !hasUserInteracted) return;
+    if (
+      messages.length === 0 ||
+      !hasUserInteracted ||
+      isTTSEnabled === false ||
+      !audioPlayer.isTTSAvailable
+    ) {
+      return;
+    }
 
     const lastMessage = messages[messages.length - 1];
 
@@ -372,7 +782,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         },
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.gender, typedSelectedPatient?.name, hasUserInteracted]);
+  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.gender, typedSelectedPatient?.name, hasUserInteracted, isTTSEnabled]);
 
 
   useEffect(() => {
@@ -383,6 +793,26 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl, scrollToBottom]);
 
 
+
+
+  useEffect(() => {
+    try {
+      const storedTimer = window.localStorage.getItem(timerStorageKey);
+      if (!storedTimer) {
+        setSessionTime(0);
+        return;
+      }
+
+      const parsedTimer = Number.parseInt(storedTimer, 10);
+      if (Number.isFinite(parsedTimer) && parsedTimer >= 0) {
+        setSessionTime(parsedTimer);
+      } else {
+        setSessionTime(0);
+      }
+    } catch {
+      setSessionTime(0);
+    }
+  }, [timerStorageKey]);
 
 
   useEffect(() => {
@@ -398,6 +828,15 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
     };
   }, []);
+
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(timerStorageKey, String(sessionTime));
+    } catch {
+      // Ignore storage write failures and keep timer in memory.
+    }
+  }, [sessionTime, timerStorageKey]);
 
 
 
@@ -437,10 +876,48 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           .reverse()
           .find((msg) => msg.sender === "patient" && msg.emotion);
 
-        if (lastPatientMessage?.emotion) {
-          setCurrentEmotion(lastPatientMessage.emotion);
+        const lastPatientWithMetadata = [...messagesWithDates]
+          .reverse()
+          .find((msg) => msg.sender === "patient" && msg.metadata?.responseData);
+        const restoredSnapshot = lastPatientWithMetadata?.metadata?.responseData?.emotionSnapshot
+          ? normalizeSnapshot(lastPatientWithMetadata.metadata.responseData.emotionSnapshot)
+          : null;
+        const restoredTimeline = Array.isArray(
+          lastPatientWithMetadata?.metadata?.responseData?.emotionTimeline,
+        )
+          ? normalizeTimeline(lastPatientWithMetadata.metadata.responseData.emotionTimeline)
+          : [];
+        const restoredVectorTimeline = buildVectorTimelineFromMessages(messagesWithDates);
+        const restoredDisplayEmotion =
+          normalizePatientEmotion(restoredSnapshot?.dominant) ??
+          (restoredTimeline.length > 0
+            ? normalizePatientEmotion(
+                restoredTimeline[restoredTimeline.length - 1]?.emotion,
+              )
+            : null) ??
+          lastPatientMessage?.emotion ??
+          null;
+
+        setEmotionSnapshot(restoredSnapshot);
+        setEmotionVectorTimeline(restoredVectorTimeline);
+        if (restoredDisplayEmotion) {
+          setCurrentEmotion(restoredDisplayEmotion);
           setNextEmotion(null);
           setIsAvatarTransitioning(false);
+        }
+        if (restoredTimeline.length > 0) {
+          setEmotionTimeline(restoredTimeline);
+        } else if (restoredVectorTimeline.length > 0) {
+          setEmotionTimeline(
+            restoredVectorTimeline.map((point) => ({
+              turn_index: point.turn_index,
+              timestamp: point.timestamp,
+              emotion: point.dominant,
+              intensity: clampTimelineIntensity(point.vector[point.dominant] ?? 0),
+            })),
+          );
+        } else {
+          setEmotionTimeline([]);
         }
 
 
@@ -473,6 +950,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         setCurrentEmotion("base");
         setNextEmotion(null);
         setIsAvatarTransitioning(false);
+        setEmotionSnapshot(null);
+        setEmotionTimeline([]);
+        setEmotionVectorTimeline([]);
 
 
         setTimeout(() => {
@@ -522,6 +1002,57 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       triggerAvatarEmotionChange(lastMessage.emotion);
     }
   }, [messages, triggerAvatarEmotionChange]);
+
+  const applyEmotionPayload = useCallback(
+    (payload: ChatResponseEmotionPayload) => {
+      if (typeof payload.patient_name === "string" && payload.patient_name.trim()) {
+        setResponsePatientName(payload.patient_name);
+      }
+
+      if (typeof payload.avatar_url === "string" && payload.avatar_url.trim()) {
+        setResponseAvatarUrl(
+          sanitizePatientAvatarUrl(payload.avatar_url, basePatientAvatarUrl),
+        );
+      } else if (payload.avatar_url === null) {
+        setResponseAvatarUrl(null);
+      }
+
+      const normalizedIncomingTimeline = Array.isArray(payload.emotion_timeline)
+        ? normalizeTimeline(payload.emotion_timeline)
+        : [];
+
+      if (normalizedIncomingTimeline.length > 0) {
+        setEmotionTimeline((currentTimeline) =>
+          mergeTimelineState(currentTimeline, normalizedIncomingTimeline),
+        );
+      }
+
+      if (payload.emotion_snapshot) {
+        const normalizedSnapshot = normalizeSnapshot(payload.emotion_snapshot);
+        const latestIncomingPoint =
+          normalizedIncomingTimeline.length > 0
+            ? normalizedIncomingTimeline[normalizedIncomingTimeline.length - 1]
+            : null;
+
+        setEmotionSnapshot(normalizedSnapshot);
+        setEmotionVectorTimeline((currentTimeline) =>
+          appendSnapshotToVectorTimeline(
+            currentTimeline,
+            normalizedSnapshot,
+            latestIncomingPoint?.turn_index,
+            latestIncomingPoint?.timestamp,
+          ),
+        );
+
+        if (normalizedIncomingTimeline.length === 0) {
+          setEmotionTimeline((currentTimeline) =>
+            appendSnapshotToTimeline(currentTimeline, normalizedSnapshot),
+          );
+        }
+      }
+    },
+    [basePatientAvatarUrl],
+  );
 
   const handleSendMessage = useCallback(async () => {
     if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
@@ -586,7 +1117,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           therapist_id: user.id,
         });
 
-        triggerAvatarEmotionChange(response.emotion);
+        const responseEmotion = resolveEmotionForDisplay(response, response.emotion);
+        applyEmotionPayload(response);
+        triggerAvatarEmotionChange(responseEmotion);
 
         // Extract and remove text in parentheses
         const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
@@ -600,7 +1133,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           sender: "patient",
           timestamp: new Date(response.timestamp),
           stepId,
-          emotion: response.emotion,
+          emotion: responseEmotion,
           metadata: response.metadata,
         };
 
@@ -654,7 +1187,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           })),
         });
 
-        triggerAvatarEmotionChange(response.emotion);
+        const responseEmotion = normalizePatientEmotion(response.emotion) ?? "base";
+        triggerAvatarEmotionChange(responseEmotion);
 
         // Extract and remove text in parentheses
         const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
@@ -668,7 +1202,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           sender: "patient",
           timestamp: response.timestamp || new Date(),
           stepId,
-          emotion: response.emotion,
+          emotion: responseEmotion,
           metadata: response.metadata,
         };
 
@@ -719,6 +1253,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     generateResponseMutation,
     generateChatResponseMutation,
     triggerAvatarEmotionChange,
+    applyEmotionPayload,
     hasUserInteracted,
     extractAndRemoveParentheses,
   ]);
@@ -995,6 +1530,216 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         typedSelectedPatient.objectives,
       );
 
+      const addEmotionTrendSection = () => {
+        const normalizedVectorTimeline = buildPdfStepScopedVectorTimeline(
+          messages,
+          stepId,
+        );
+        if (normalizedVectorTimeline.length === 0) return;
+
+        const seriesKeys = getPdfSeriesKeys(normalizedVectorTimeline);
+        if (seriesKeys.length === 0) return;
+
+        const chartPoints: PdfEmotionChartPoint[] = normalizedVectorTimeline.map((point) => {
+          const values: Record<string, number> = {};
+          seriesKeys.forEach((seriesKey) => {
+            values[seriesKey] = clampTimelineIntensity(point.vector[seriesKey] ?? 0);
+          });
+
+          const dominant = normalizeEmotionToken(point.dominant);
+          const dominantIntensity =
+            values[dominant] ?? Math.max(0, ...Object.values(values));
+
+          return {
+            turnIndex: point.turn_index,
+            dominant,
+            values,
+            dominantIntensity,
+          };
+        });
+
+        if (chartPoints.length === 0) return;
+
+        const chartWidth = pageWidth - marginX * 2;
+        const chartHeight = 46;
+        const chartPadding = { top: 4, right: 6, bottom: 9, left: 14 };
+        const legendLineHeight = 4.6;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(7.2);
+
+        let legendRows = 1;
+        let occupiedLegendWidth = 0;
+        seriesKeys.forEach((seriesKey) => {
+          const label = getPdfSeriesLabel(seriesKey);
+          const itemWidth = 8 + doc.getTextWidth(label);
+          if (
+            occupiedLegendWidth > 0 &&
+            occupiedLegendWidth + itemWidth > chartWidth
+          ) {
+            legendRows += 1;
+            occupiedLegendWidth = itemWidth;
+            return;
+          }
+
+          occupiedLegendWidth += itemWidth;
+        });
+
+        const latestPoint = chartPoints[chartPoints.length - 1]!;
+        const requiredHeight =
+          6 + chartHeight + 4 + legendRows * legendLineHeight + 6.5;
+
+        if (contentY + requiredHeight > pageHeight - 24) {
+          doc.addPage();
+          contentY = 18;
+        }
+
+        doc.setFillColor(54, 83, 20);
+        doc.rect(marginX, contentY - 4.5, pageWidth - marginX * 2, 9, "F");
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(11);
+        doc.setTextColor(245, 245, 244);
+        doc.text("Emotion Trend", marginX + 3, contentY + 1.2);
+        contentY += 8;
+
+        const chartX = marginX;
+        const chartY = contentY;
+        const chartInnerX = chartX + chartPadding.left;
+        const chartInnerY = chartY + chartPadding.top;
+        const chartInnerWidth = chartWidth - chartPadding.left - chartPadding.right;
+        const chartInnerHeight = chartHeight - chartPadding.top - chartPadding.bottom;
+
+        doc.setFillColor(250, 250, 249);
+        doc.rect(chartX, chartY, chartWidth, chartHeight, "F");
+        doc.setDrawColor(214, 211, 209);
+        doc.setLineWidth(0.25);
+        doc.rect(chartX, chartY, chartWidth, chartHeight, "S");
+
+        const yGridValues = [1, 0.5, 0];
+        yGridValues.forEach((value) => {
+          const y = chartInnerY + (1 - value) * chartInnerHeight;
+          doc.setDrawColor(231, 229, 228);
+          doc.setLineWidth(0.2);
+          doc.line(chartInnerX, y, chartInnerX + chartInnerWidth, y);
+
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(6.5);
+          doc.setTextColor(120, 113, 108);
+          doc.text(value.toFixed(1), chartInnerX - 1.8, y + 1.2, {
+            align: "right",
+          });
+        });
+
+        doc.setDrawColor(168, 162, 158);
+        doc.setLineWidth(0.3);
+        doc.line(
+          chartInnerX,
+          chartInnerY + chartInnerHeight,
+          chartInnerX + chartInnerWidth,
+          chartInnerY + chartInnerHeight,
+        );
+
+        const minTurn = chartPoints[0]!.turnIndex;
+        const maxTurn = chartPoints[chartPoints.length - 1]!.turnIndex;
+        const turnRange = maxTurn - minTurn;
+        const dominantSnapshotKey = latestPoint.dominant;
+        const getPointX = (turnIndex: number) =>
+          turnRange === 0
+            ? chartInnerX + chartInnerWidth / 2
+            : chartInnerX + ((turnIndex - minTurn) / turnRange) * chartInnerWidth;
+        const getPointY = (value: number) =>
+          chartInnerY + (1 - clampTimelineIntensity(value)) * chartInnerHeight;
+
+        seriesKeys.forEach((seriesKey) => {
+          const [r, g, b] = getPdfSeriesColor(seriesKey);
+          doc.setDrawColor(r, g, b);
+          doc.setLineWidth(seriesKey === dominantSnapshotKey ? 0.9 : 0.55);
+
+          for (let index = 1; index < chartPoints.length; index += 1) {
+            const previousPoint = chartPoints[index - 1]!;
+            const currentPoint = chartPoints[index]!;
+            doc.line(
+              getPointX(previousPoint.turnIndex),
+              getPointY(previousPoint.values[seriesKey] ?? 0),
+              getPointX(currentPoint.turnIndex),
+              getPointY(currentPoint.values[seriesKey] ?? 0),
+            );
+          }
+        });
+
+        const [dominantR, dominantG, dominantB] = getPdfSeriesColor(
+          latestPoint.dominant,
+        );
+        doc.setFillColor(dominantR, dominantG, dominantB);
+        doc.circle(
+          getPointX(latestPoint.turnIndex),
+          getPointY(latestPoint.dominantIntensity),
+          1.1,
+          "F",
+        );
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(6.5);
+        doc.setTextColor(120, 113, 108);
+        if (turnRange === 0) {
+          doc.text(`Turn ${minTurn}`, chartInnerX + chartInnerWidth / 2, chartY + chartHeight - 1.5, {
+            align: "center",
+          });
+        } else {
+          doc.text(`Turn ${minTurn}`, chartInnerX, chartY + chartHeight - 1.5);
+          doc.text(
+            `Turn ${maxTurn}`,
+            chartInnerX + chartInnerWidth,
+            chartY + chartHeight - 1.5,
+            {
+              align: "right",
+            },
+          );
+        }
+
+        contentY += chartHeight + 4;
+
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(7.2);
+        let legendX = marginX;
+        let legendY = contentY;
+
+        seriesKeys.forEach((seriesKey) => {
+          const label = getPdfSeriesLabel(seriesKey);
+          const labelWidth = doc.getTextWidth(label);
+          const itemWidth = 8 + labelWidth;
+
+          if (legendX > marginX && legendX + itemWidth > marginX + chartWidth) {
+            legendX = marginX;
+            legendY += legendLineHeight;
+          }
+
+          const [r, g, b] = getPdfSeriesColor(seriesKey);
+          doc.setFillColor(r, g, b);
+          doc.rect(legendX, legendY - 1.6, 2.2, 2.2, "F");
+          doc.setTextColor(68, 64, 60);
+          doc.text(label, legendX + 3.2, legendY);
+          legendX += itemWidth;
+        });
+
+        contentY = legendY + 4.5;
+        const latestDominantLabel = getPdfSeriesLabel(latestPoint.dominant);
+        const latestDominantIntensity = Math.round(
+          clampTimelineIntensity(latestPoint.dominantIntensity) * 100,
+        );
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(68, 64, 60);
+        doc.text(
+          `Latest dominant emotion: ${latestDominantLabel} (${latestDominantIntensity}%)`,
+          marginX,
+          contentY,
+        );
+        contentY += 6;
+      };
+
+      addEmotionTrendSection();
+
       if (contentY > pageHeight - 90) {
         doc.addPage();
         contentY = 18;
@@ -1010,12 +1755,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       const tableBody: RowInput[] =
         questionAnswerRows.length > 0
           ? questionAnswerRows.map((row, index) => [
-            String(index + 1),
+            String(index),
             row.question || " ",
             row.answer || " ",
             " ",
           ])
-          : [["1", "No questions recorded", "No responses recorded", " "]];
+          : [["0", "No questions recorded", "No responses recorded", " "]];
       const tableContentWidth = pageWidth - marginX * 2;
       const indexColumnWidth = tableContentWidth * 0.08;
       const questionColumnWidth = tableContentWidth * 0.31;
@@ -1103,7 +1848,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     user.name,
     user.email,
     sessionTime,
-    messages.length,
+    messages,
     isStepCompleted,
     questionAnswerRows,
     pdfHeaderAvatarDataUrl,
@@ -1213,7 +1958,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               <div className="min-w-0">
                 <h1 className="text-xl font-bold truncate text-foreground">
                   <span className="hidden sm:inline">
-                    {typedSelectedPatient?.name} -{" "}
+                    {effectivePatientName} -{" "}
                   </span>
                   Sessione {stepId}
                 </h1>
@@ -1301,7 +2046,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         { }
         <div className="flex-1 flex min-h-0 overflow-hidden">
           { }
-          <div className="hidden lg:flex flex-col items-center justify-start w-48 flex-shrink-0 p-4 page-background">
+          <div className="hidden lg:flex flex-col items-center justify-start w-64 flex-shrink-0 p-4 page-background">
             <div className="flex flex-col items-center w-full space-y-3 pt-4">
               <div
                 className="relative rounded-[1.1rem]"
@@ -1320,11 +2065,12 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       { }
                       <Image
                         key={`current-${currentEmotion}`}
-                        src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, currentEmotion)}
-                        alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                        src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
+                        alt={`Avatar di ${effectivePatientName} - ${currentEmotion}`}
                         width={100}
                         height={100}
                         className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full"
+                        priority
                         style={{
                           opacity:
                             nextEmotion && nextEmotion !== currentEmotion
@@ -1338,8 +2084,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       {nextEmotion && nextEmotion !== currentEmotion && (
                         <Image
                           key={`next-${nextEmotion}`}
-                          src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, nextEmotion)}
-                          alt={`Avatar di ${typedSelectedPatient.name} - ${nextEmotion}`}
+                          src={getPatientAvatarPath(selectedPatientAvatarUrl, nextEmotion)}
+                          alt={`Avatar di ${effectivePatientName} - ${nextEmotion}`}
                           width={100}
                           height={100}
                           className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full absolute inset-0"
@@ -1371,6 +2117,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </Button>
                 </div>
               </div>
+              <p className="mt-1 text-sm font-semibold text-[var(--color-text-primary)] text-center break-words">
+                {effectivePatientName}
+              </p>
               { }
               {extractedText && (
                 <div className="flex flex-col items-center w-full mt-2 px-2">
@@ -1404,12 +2153,41 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             ref={messagesContainerRef}
             className="flex-1 flex overflow-y-auto chat-scrollbar"
           >
-            <div className="flex flex-1 min-h-full">
+            <div className="flex flex-1 min-h-full items-stretch">
               { }
-              <div className="flex-1 flex flex-col page-background relative">
+              <div className="flex-1 flex min-h-full flex-col page-background relative">
                 { }
                 <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
                   <div className="w-full max-w-4xl mx-auto">
+                    {shouldShowEmotionTrend && (
+                      <div className="sticky top-2 z-20 mb-4 rounded-xl border border-[var(--color-border-secondary)] bg-[var(--color-surface-primary)]/80 p-3 backdrop-blur-sm lg:hidden">
+                        <div className="mb-3 flex items-center gap-3">
+                          <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-[var(--color-border-secondary)]">
+                            <Image
+                              src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
+                              alt={`Avatar di ${effectivePatientName}`}
+                              width={48}
+                              height={48}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="truncate text-sm font-semibold text-[var(--color-text-primary)]">
+                              {effectivePatientName}
+                            </p>
+                            <p className="text-xs text-[var(--color-text-secondary)]">
+                              {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
+                            </p>
+                          </div>
+                        </div>
+                        <EmotionTrendPanel
+                          snapshot={emotionSnapshot}
+                          timeline={emotionTimeline}
+                          vectorTimeline={emotionVectorTimeline}
+                          compact={true}
+                        />
+                      </div>
+                    )}
                     <div className="space-y-4 sm:space-y-6">
                       {messages.map((message) => (
                         <div
@@ -1662,7 +2440,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                             <div className="message-content">
                               <div className="message-title">Audio non disponibile</div>
                               <div className="message-text">
-                                La quota del servizio di sintesi vocale è esaurita. I messaggi del paziente verranno mostrati solo come testo.
+                                Il servizio di sintesi vocale non è disponibile al momento. I messaggi del paziente verranno mostrati solo come testo.
                               </div>
                             </div>
                             <Button
@@ -1829,7 +2607,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 )}
 
                 { }
-                {isStepCompleted && (
+              {isStepCompleted && (
                   <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
                     <div className="mx-auto max-w-4xl text-center">
                       <div className="pill bg-primary-green text-text-inverse px-4 py-3">
@@ -1862,9 +2640,19 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
 
-              { }
-              <div className="hidden lg:block w-48 flex-shrink-0 page-background" aria-hidden="true"></div>
+          { }
+          <div className="hidden lg:flex w-64 flex-shrink-0 self-start flex-col page-background p-4">
+            <div className="sticky top-4 w-full max-h-[calc(100vh-7rem)] overflow-y-auto chat-scrollbar pr-1 pt-4">
+              {shouldShowEmotionTrend && (
+                <EmotionTrendPanel
+                  snapshot={emotionSnapshot}
+                  timeline={emotionTimeline}
+                  vectorTimeline={emotionVectorTimeline}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -1884,7 +2672,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             </DialogTitle>
             <DialogDescription className="text-center pt-2">
               Hai completato con successo la Sessione {stepId} con{" "}
-              {typedSelectedPatient?.name}.
+              {effectivePatientName}.
               <br />
               <span className="text-sm text-[var(--color-text-primary)]/60 mt-2 block">
                 Le tue note sono state salvate e puoi rivederle in qualsiasi momento.
@@ -1907,13 +2695,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
         <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
           <DialogHeader className="sr-only">
-            <DialogTitle>Avatar del paziente {typedSelectedPatient?.name}</DialogTitle>
+            <DialogTitle>Avatar del paziente {effectivePatientName}</DialogTitle>
           </DialogHeader>
           <div className="relative">
             {typedSelectedPatient ? (
               <Image
-                src={getPatientAvatarPath(typedSelectedPatient.avatarUrl, currentEmotion)}
-                alt={`Avatar di ${typedSelectedPatient.name} - ${currentEmotion}`}
+                src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
+                alt={`Avatar di ${effectivePatientName} - ${currentEmotion}`}
                 width={600}
                 height={600}
                 className="w-full h-auto object-cover"

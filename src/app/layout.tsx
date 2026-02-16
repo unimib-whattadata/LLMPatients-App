@@ -13,8 +13,8 @@ const isDev = env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {
-    default: "LLMPatient - Piattaforma di Simulazione di Pazienti",
-    template: "%s | LLMPatient",
+    default: "LLMPatients - Piattaforma di Simulazione di Pazienti",
+    template: "%s | LLMPatients",
   },
   description:
     "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     url: "https://llmpatient.whattadata.it",
-    siteName: "LLMPatient",
-    title: "LLMPatient - Piattaforma di Simulazione di Pazienti",
+    siteName: "LLMPatients",
+    title: "LLMPatients - Piattaforma di Simulazione di Pazienti",
     description:
       "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
     images: [
@@ -52,13 +52,13 @@ export const metadata: Metadata = {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "LLMPatient - Piattaforma di Simulazione di Pazienti",
+        alt: "LLMPatients - Piattaforma di Simulazione di Pazienti",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LLMPatient - Piattaforma di Simulazione di Pazienti",
+    title: "LLMPatients - Piattaforma di Simulazione di Pazienti",
     description:
       "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria.",
     images: ["/images/twitter-image.png"],

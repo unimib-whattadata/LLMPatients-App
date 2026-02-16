@@ -59,7 +59,7 @@ export default function SignoutPage() {
             Arrivederci!
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed">
-            Grazie per aver utilizzato LLMPatient. La tua sessione è stata terminata in sicurezza.
+            Grazie per aver utilizzato LLMPatients. La tua sessione è stata terminata in sicurezza.
           </p>
           <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
             <span>•</span>

@@ -6,6 +6,7 @@ export type PatientEmotion =
   | "FEAR"
   | "CARE"
   | "LUST"
+  | "PANIC_GRIEF"
   | "SADNESS"
   | "PLAY"
   | "base";
@@ -16,6 +17,7 @@ export const EMOTION_LABELS: Record<PatientEmotion, string> = {
   FEAR: "Paura",
   CARE: "Cura",
   LUST: "Desiderio",
+  PANIC_GRIEF: "Panico/Lutto",
   SADNESS: "Tristezza",
   PLAY: "Gioco",
   base: "Neutro",
@@ -27,6 +29,7 @@ export const EMOTION_COLORS: Record<PatientEmotion, string> = {
   FEAR: "oklch(0.714 0.203 305.504)", // violet-400
   CARE: "oklch(0.765 0.177 163.223)", // emerald-400
   LUST: "oklch(0.718 0.202 349.761)", // pink-400
+  PANIC_GRIEF: "oklch(0.707 0.165 254.624)", // blue-400
   SADNESS: "oklch(0.707 0.165 254.624)", // blue-400
   PLAY: "oklch(0.852 0.199 91.936)", // yellow-400
   base: "oklch(0.707 0.022 261.325)", // gray-400
@@ -51,4 +54,3 @@ export const AVATAR_COLOR_CLASSES = [
   "avatar-color-pink",
   "avatar-color-orange",
 ];
-

@@ -303,7 +303,7 @@ function LoginPageComponent() {
 
   return (
     <AuthLayout
-      brandTitle="Benvenuto in LLMPatient"
+      brandTitle="Benvenuto in LLMPatients"
       brandSubtitle="La piattaforma che rivoluziona l'apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti."
       brandFeatures={["Simulazioni realistiche", "Apprendimento personalizzato", "Feedback immediato"]}
     >

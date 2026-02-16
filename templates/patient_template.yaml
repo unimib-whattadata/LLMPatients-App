@@ -1,0 +1,157 @@
+# Patient YAML template with all fields detected in standard patient files
+identifiers:
+  patientId: null
+  externalPatientId: null
+  disorderId: null
+profile:
+  name: null
+  age: null
+  gender: null
+  smallDescription: null
+  avatarUrl: null
+  diagnosis: null
+  psychologicalProfile: null
+voice:
+  voiceId: null
+  elevenlabsVoiceId: null
+  vibevoiceVoiceId: null
+  chatterboxVoiceId: null
+chat:
+  welcomeMessage: null
+therapy:
+  objectives: []
+  difficulty: null
+  estimatedDuration: null
+clinical:
+  clinicalCase: null
+  currentMedications: []
+  emotionTraits:
+    volatility_level: null
+    trait_baseline:
+      SEEKING: null
+      RAGE: null
+      FEAR: null
+      CARE: null
+      LUST: null
+      SADNESS: null
+      PLAY: null
+      ANGER: null
+      PANIC_GRIEF: null
+  details:
+    demographicAndSocioculturalInformation:
+      age: null
+      gender: null
+      maritalStatus: null
+      culturalBackground: null
+      religiousBeliefs: null
+      spokenLanguage: null
+      migrationStatus: null
+    familyHistory:
+      familyDynamicsDuringDevelopment: null
+      familyPsychiatricIllnesses: null
+      currentRelationshipWithParents:
+        mother: null
+        father: null
+      childhoodExperiences: null
+      significantDevelopmentalExperiences: null
+    educationAndEmployment:
+      educationLevel: null
+      workHistory: null
+      housingStability: null
+      financialSituation: null
+      hobbiesAndInterests: null
+    socialRelationshipsAndInteractions:
+      friendships: null
+      romanticRelationships: null
+      sexualRelationships: null
+      familyInteractions: null
+      relationshipsWithPeersAndColleagues: null
+      socialMediaUseAndImpact: null
+    treatmentsAndInterventions:
+      previousTherapeuticExperiences: null
+      treatmentResistance: null
+      therapeuticGoals: []
+      medicationHistory: []
+      responseToMedications: null
+      previousHospitalizations: null
+      emergencyDepartmentVisits: null
+      previousDropouts: null
+      previousPsychiatricDiagnoses: []
+    medicalAndPhysicalHistory:
+      preExistingMedicalConditions: null
+      pharmacologicalTreatments: null
+      lifestyle: null
+      generalPhysicalHealth: null
+      sleepPatterns: null
+      eatingHabits: null
+    behaviorDuringTestAdministration:
+      recurringDynamicsTransferenceCountertransference: null
+      expressedEmotionsAndCongruence: null
+      speechCharacteristics: null
+      nonVerbalBehavior: null
+      appearanceSelfCareOrientation: null
+    clinicalFunctioning:
+      personalityAndSymptomAxis:
+        identity:
+          impairmentLevel: null
+          description: null
+        objectRelations:
+          impairmentLevel: null
+          description: null
+        defensiveLevel:
+          level: null
+          description: null
+        realityTesting:
+          level: null
+          description: null
+        overallPersonalityOrganization:
+          organization: null
+          severityRange: null
+          description: null
+        personalitySyndrome: null
+        symptomPatterns:
+          S00: null
+          S22: null
+          S62: null
+          S41: null
+          S63: null
+          S31: null
+          S42.1: null
+        comorbidity: null
+      mentalFunctioningAxis:
+        affectExperienceAndRegulation:
+          impairment: null
+          description: null
+        identityIntegration:
+          impairment: null
+          description: null
+        selfEsteemRegulation:
+          impairment: null
+          description: null
+        attentionAndLearning:
+          impairment: null
+          description: null
+        defensiveFunctioning:
+          impairment: null
+          description: null
+        impulseControl:
+          impairment: null
+          description: null
+        moralStandardsAndIdeals:
+          impairment: null
+          description: null
+        relationshipsAndIntimacy:
+          impairment: null
+          description: null
+        mentalization:
+          impairment: null
+          description: null
+        selfObservation:
+          impairment: null
+          description: null
+        adaptationAndResilience:
+          impairment: null
+          description: null
+        meaningAndDirectionality:
+          impairment: null
+          description: null

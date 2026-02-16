@@ -2,6 +2,79 @@ import type { PatientEmotion } from "./chat-constants";
 import { AVATAR_COLOR_CLASSES } from "./chat-constants";
 
 const FALLBACK_AVATAR_URL = "/images/patients/alex_carter/base.png";
+const AVATAR_FILENAME_PATTERN =
+  /(base|listening|seeking|rage|fear|care|lust|sadness|panic_grief|panic-grief|pain-grief|play)\.(png|jpe?g|webp)$/i;
+const LOCAL_PATIENT_AVATAR_PATH_PATTERN =
+  /^\/images\/patients\/[a-z0-9_-]+\/(base|listening|seeking|rage|fear|care|lust|sadness|panic_grief|panic-grief|pain-grief|play)\.(png|jpe?g|webp)([?#].*)?$/i;
+
+function resolveFallbackAvatarUrl(
+  fallbackAvatarUrl: string | null | undefined,
+): string {
+  if (typeof fallbackAvatarUrl !== "string" || !fallbackAvatarUrl.trim()) {
+    return FALLBACK_AVATAR_URL;
+  }
+
+  const normalized =
+    fallbackAvatarUrl.trim().startsWith("/")
+      ? fallbackAvatarUrl.trim()
+      : `/${fallbackAvatarUrl.trim()}`;
+
+  return LOCAL_PATIENT_AVATAR_PATH_PATTERN.test(normalized)
+    ? normalized
+    : FALLBACK_AVATAR_URL;
+}
+
+function extractAvatarDirectory(avatarUrl: string): string | null {
+  const withoutSuffix = avatarUrl.split(/[?#]/)[0] ?? avatarUrl;
+  const match = withoutSuffix.match(/^(.+\/)[^/]+\.(png|jpe?g|webp)$/i);
+  return match?.[1] ?? null;
+}
+
+export function sanitizePatientAvatarUrl(
+  avatarUrl: string | null | undefined,
+  fallbackAvatarUrl?: string | null,
+): string {
+  const safeFallback = resolveFallbackAvatarUrl(fallbackAvatarUrl);
+
+  if (typeof avatarUrl !== "string" || !avatarUrl.trim()) {
+    return safeFallback;
+  }
+
+  const raw = avatarUrl.trim();
+  if (/^https?:\/\//i.test(raw)) {
+    return raw;
+  }
+
+  const normalized = raw.startsWith("/") ? raw : `/${raw}`;
+  if (
+    LOCAL_PATIENT_AVATAR_PATH_PATTERN.test(normalized) &&
+    !normalized.includes("/images/patients/old/")
+  ) {
+    return normalized;
+  }
+
+  const fallbackDirectory = extractAvatarDirectory(safeFallback);
+  if (!fallbackDirectory) {
+    return safeFallback;
+  }
+
+  const fileCandidate = normalized.replace(/^\/+/, "");
+  if (
+    normalized.includes("/images/patients/old/") &&
+    AVATAR_FILENAME_PATTERN.test(normalized)
+  ) {
+    const oldPathFilename = normalized.split("/").pop();
+    if (oldPathFilename && AVATAR_FILENAME_PATTERN.test(oldPathFilename)) {
+      return `${fallbackDirectory}${oldPathFilename}`;
+    }
+  }
+
+  if (AVATAR_FILENAME_PATTERN.test(fileCandidate)) {
+    return `${fallbackDirectory}${fileCandidate}`;
+  }
+
+  return safeFallback;
+}
 
 export function formatSessionTime(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
@@ -19,25 +92,31 @@ export function getPatientAvatarPath(
 ): string {
   // Convert emotion to lowercase for file path (assets are lowercase).
   const emotionLower = emotion.toLowerCase();
-  const resolvedAvatarUrl = avatarUrl ?? FALLBACK_AVATAR_URL;
+  const resolvedAvatarUrl = sanitizePatientAvatarUrl(avatarUrl, FALLBACK_AVATAR_URL);
 
-  const isRealisticSet = resolvedAvatarUrl.includes("/realistic/");
   const isDanielSet = resolvedAvatarUrl.includes("/daniel_isherwood/");
+  const prefersHyphenPanicGrief =
+    resolvedAvatarUrl.includes("/jason_smith/") ||
+    resolvedAvatarUrl.includes("/juanita_delgado/");
   const requestedEmotion = emotionLower === "base" ? "listening" : emotionLower;
+  const isPanicGriefEmotion =
+    requestedEmotion === "sadness" ||
+    requestedEmotion === "panic_grief" ||
+    requestedEmotion === "panic-grief" ||
+    requestedEmotion === "pain-grief";
   const mappedEmotion =
-    requestedEmotion === "sadness"
+    isPanicGriefEmotion
       ? isDanielSet
         ? "pain-grief"
-        : isRealisticSet
-          ? "panic_grief"
-          : "sadness"
+        : prefersHyphenPanicGrief
+          ? "panic-grief"
+          : "panic_grief"
       : requestedEmotion;
 
   // Replace emotion + extension keeping original directory and extension.
   // Example:
-  // "/images/patients/crystal_smith/realistic/base.png" -> "/images/patients/crystal_smith/realistic/seeking.png"
-  const emotionWithExtensionPattern =
-    /(base|listening|seeking|rage|fear|care|lust|sadness|panic_grief|pain-grief|play)\.(png|jpe?g|webp)$/i;
+  // "/images/patients/crystal_smith/base.png" -> "/images/patients/crystal_smith/seeking.png"
+  const emotionWithExtensionPattern = AVATAR_FILENAME_PATTERN;
   if (emotionWithExtensionPattern.test(resolvedAvatarUrl)) {
     return resolvedAvatarUrl.replace(
       emotionWithExtensionPattern,

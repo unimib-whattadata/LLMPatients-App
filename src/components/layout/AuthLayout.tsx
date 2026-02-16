@@ -29,7 +29,7 @@ export function AuthLayout({
                         <div className="p-4 bg-background/50 rounded-2xl border border-border/50 shadow-sm backdrop-blur-sm">
                             <Image
                                 src="/images/logo.png"
-                                alt="LLMPatient Logo"
+                                alt="LLMPatients Logo"
                                 width={80}
                                 height={80}
                                 className="mx-auto"
@@ -72,7 +72,7 @@ export function AuthLayout({
                             height={32}
                             className="rounded-lg"
                         />
-                        <span className="font-bold text-lg">LLMPatient</span>
+                        <span className="font-bold text-lg">LLMPatients</span>
                     </Link>
                 </div>
 

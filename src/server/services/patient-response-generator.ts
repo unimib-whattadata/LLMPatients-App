@@ -9,6 +9,7 @@ export type PatientEmotion =
   | "FEAR"
   | "CARE"
   | "LUST"
+  | "PANIC_GRIEF"
   | "SADNESS"
   | "PLAY"
   | "base";
@@ -18,6 +19,22 @@ export type ResponseStatus = "success" | "error";
 export type ServiceType = "mock" | "real";
 
 export type LogLevel = "info" | "warn" | "error" | "debug";
+
+export interface EmotionSnapshot {
+  dominant: string;
+  intensity: number;
+  vector: Record<string, number>;
+  event?: string | null;
+  salience?: number | null;
+  description: string;
+}
+
+export interface EmotionTimelinePoint {
+  turn_index: number;
+  timestamp: string;
+  emotion: string;
+  intensity: number;
+}
 
 export interface ResponseMetadata {
   apiType: "MOCK" | "REAL";
@@ -33,12 +50,16 @@ export interface ResponseMetadata {
   };
   responseData?: {
     message?: string;
-    emotion?: PatientEmotion;
+    emotion?: string;
     topic?: string;
     reasoningTime?: number;
     status?: string;
     code?: string;
     externalPatientId?: string;
+    patientName?: string | null;
+    avatarUrl?: string | null;
+    emotionSnapshot?: EmotionSnapshot | null;
+    emotionTimeline?: EmotionTimelinePoint[];
   };
   rawResponseJson?: string;
   duration?: number;
@@ -66,6 +87,10 @@ export interface ChatResponse {
   emotion: PatientEmotion;
   topic: string;
   timestamp: string;
+  patient_name?: string | null;
+  avatar_url?: string | null;
+  emotion_snapshot?: EmotionSnapshot | null;
+  emotion_timeline?: EmotionTimelinePoint[];
   metadata?: ResponseMetadata;
 }
 
@@ -208,6 +233,7 @@ class PatientResponseLogger {
     FEAR: "magenta",
     CARE: "brightGreen",
     LUST: "brightMagenta",
+    PANIC_GRIEF: "blue",
     SADNESS: "blue",
     PLAY: "brightYellow",
     base: "gray",
@@ -727,6 +753,7 @@ function normalizeEmotion(emotion: unknown): PatientEmotion {
     "FEAR",
     "CARE",
     "LUST",
+    "PANIC_GRIEF",
     "SADNESS",
     "PLAY",
     "base",
@@ -738,6 +765,148 @@ function normalizeEmotion(emotion: unknown): PatientEmotion {
   );
   
   return matchedEmotion ?? "base";
+}
+
+function clampUnitValue(value: unknown, fallback: number = 0): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return fallback;
+  }
+  return Math.max(0, Math.min(1, value));
+}
+
+function normalizeEmotionToken(value: unknown): string {
+  if (typeof value !== "string" || !value.trim()) {
+    return "base";
+  }
+  return value.trim().toUpperCase();
+}
+
+function parseEmotionVector(value: unknown): Record<string, number> {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  const parsedVector: Record<string, number> = {};
+  for (const [key, entry] of Object.entries(value as Record<string, unknown>)) {
+    parsedVector[key] = clampUnitValue(entry);
+  }
+
+  return parsedVector;
+}
+
+function parseEmotionSnapshot(value: unknown): EmotionSnapshot | null {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return null;
+  }
+
+  const snapshot = value as Record<string, unknown>;
+  const dominant = normalizeEmotionToken(snapshot.dominant);
+  const intensity = clampUnitValue(snapshot.intensity);
+  const description =
+    typeof snapshot.description === "string" && snapshot.description.trim()
+      ? snapshot.description
+      : `Dominant emotion: ${dominant}`;
+
+  return {
+    dominant,
+    intensity,
+    vector: parseEmotionVector(snapshot.vector),
+    event:
+      typeof snapshot.event === "string"
+        ? snapshot.event
+        : snapshot.event === null
+          ? null
+          : undefined,
+    salience:
+      (typeof snapshot.salience === "number" && Number.isFinite(snapshot.salience)) ||
+      snapshot.salience === null
+        ? (snapshot.salience as number | null)
+        : undefined,
+    description,
+  };
+}
+
+function parseEmotionTimeline(value: unknown): EmotionTimelinePoint[] {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((entry) => {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        return null;
+      }
+
+      const point = entry as Record<string, unknown>;
+      if (
+        typeof point.turn_index !== "number" ||
+        !Number.isFinite(point.turn_index)
+      ) {
+        return null;
+      }
+
+      return {
+        turn_index: Number(point.turn_index),
+        timestamp:
+          typeof point.timestamp === "string" && point.timestamp.trim()
+            ? point.timestamp
+            : new Date().toISOString(),
+        emotion: normalizeEmotionToken(point.emotion),
+        intensity: clampUnitValue(point.intensity),
+      } satisfies EmotionTimelinePoint;
+    })
+    .filter((point): point is EmotionTimelinePoint => Boolean(point))
+    .sort((a, b) => a.turn_index - b.turn_index);
+}
+
+function createEmotionVector(
+  dominantEmotion: string,
+  dominantIntensity: number,
+): Record<string, number> {
+  const vectorKeys = [
+    "SEEKING",
+    "FEAR",
+    "RAGE",
+    "LUST",
+    "CARE",
+    "PANIC_GRIEF",
+    "PLAY",
+  ] as const;
+  const normalizedDominant = normalizeEmotionToken(dominantEmotion);
+  const normalizedIntensity = clampUnitValue(dominantIntensity, 0.25);
+
+  const vector: Record<string, number> = {};
+  vectorKeys.forEach((key) => {
+    const baseline = Math.max(0.02, Math.random() * 0.2);
+    vector[key] = key === normalizedDominant ? normalizedIntensity : baseline;
+  });
+
+  return vector;
+}
+
+function mergeEmotionTimeline(
+  previousTimeline: EmotionTimelinePoint[],
+  incomingTimeline: EmotionTimelinePoint[],
+): EmotionTimelinePoint[] {
+  const mergedByTurn = new Map<number, EmotionTimelinePoint>();
+
+  previousTimeline.forEach((point) => {
+    mergedByTurn.set(point.turn_index, {
+      ...point,
+      intensity: clampUnitValue(point.intensity),
+      emotion: normalizeEmotionToken(point.emotion),
+    });
+  });
+
+  incomingTimeline.forEach((point) => {
+    mergedByTurn.set(point.turn_index, {
+      ...point,
+      intensity: clampUnitValue(point.intensity),
+      emotion: normalizeEmotionToken(point.emotion),
+    });
+  });
+
+  return [...mergedByTurn.values()].sort((a, b) => a.turn_index - b.turn_index);
 }
 
 // Helper for parsing response based on API mode
@@ -953,9 +1122,11 @@ const ENHANCED_PATIENT_RESPONSES: Record<string, PatientResponse[]> = {
 
 const responseCache = new Map<string, PatientResponse[]>();
 const contextCache = new Map<string, PatientResponse[]>();
+const mockTimelineCache = new Map<string, EmotionTimelinePoint[]>();
 
 const CACHE_CONFIG = {
   MAX_CONTEXT_CACHE_SIZE: 100, 
+  MAX_MOCK_TIMELINE_CACHE_SIZE: 100,
   CACHE_CLEANUP_INTERVAL: 300000, // 5 minutes
 } as const;
 
@@ -976,6 +1147,16 @@ function cleanupCache(): void {
     if (keysToDelete.length > 0) {
       PatientResponseLogger.logCacheCleanup(`Cleared ${keysToDelete.length} entries from contextual response cache`);
     }
+  }
+
+  if (mockTimelineCache.size > CACHE_CONFIG.MAX_MOCK_TIMELINE_CACHE_SIZE) {
+    const entriesToDelete =
+      mockTimelineCache.size - CACHE_CONFIG.MAX_MOCK_TIMELINE_CACHE_SIZE;
+    const keysToDelete = Array.from(mockTimelineCache.keys()).slice(
+      0,
+      entriesToDelete,
+    );
+    keysToDelete.forEach((key) => mockTimelineCache.delete(key));
   }
 
   lastCacheCleanup = now;
@@ -1135,6 +1316,45 @@ function performContextualAnalysis(
   }
 
   return responses;
+}
+
+function resolveTrendEmotionToken(emotion: unknown): string {
+  const normalized = normalizeEmotionToken(emotion);
+  if (normalized === "SADNESS") return "PANIC_GRIEF";
+  if (normalized === "BASE") return "SEEKING";
+  return normalized;
+}
+
+function buildEmotionSnapshot(
+  dominantEmotion: unknown,
+  intensity: number,
+): EmotionSnapshot {
+  const trendEmotion = resolveTrendEmotionToken(dominantEmotion);
+  const safeIntensity = clampUnitValue(intensity, 0.35);
+
+  return {
+    dominant: trendEmotion,
+    intensity: safeIntensity,
+    vector: createEmotionVector(trendEmotion, safeIntensity),
+    description: `${trendEmotion.replace(/_/g, " ")} is currently dominant.`,
+  };
+}
+
+function getMockTimelineKey(input: ChatRequest): string {
+  return `${input.session_id}:${input.external_patient_id}`;
+}
+
+function appendMockTimelinePoint(
+  input: ChatRequest,
+  point: EmotionTimelinePoint,
+): EmotionTimelinePoint[] {
+  cleanupCache();
+
+  const timelineKey = getMockTimelineKey(input);
+  const existingTimeline = mockTimelineCache.get(timelineKey) ?? [];
+  const mergedTimeline = mergeEmotionTimeline(existingTimeline, [point]);
+  mockTimelineCache.set(timelineKey, mergedTimeline);
+  return mergedTimeline;
 }
 
 export interface ExternalAIService {
@@ -1335,6 +1555,7 @@ class MockExternalAIService implements ExternalAIService {
       "FEAR",
       "PLAY",
       "LUST",
+      "PANIC_GRIEF",
       "base",
     ];
 
@@ -1362,12 +1583,12 @@ class MockExternalAIService implements ExternalAIService {
     const responseIndex = Math.floor(Math.random() * sampleResponses.length);
     const emotionIndex = Math.floor(Math.random() * emotions.length);
     const topicIndex = Math.floor(Math.random() * topics.length);
+    const reasoningTime = Math.floor(Math.random() * 3) + 1;
 
     const selectedResponse =
       sampleResponses[responseIndex] ||
       "I'm sorry, I'm not sure how to respond.";
-    const selectedEmotion =
-      emotions[emotionIndex] || "base";
+    const selectedEmotion = (emotions[emotionIndex] || "base") as PatientEmotion;
     const selectedTopic =
       topics[topicIndex] || "generale";
     
@@ -1375,27 +1596,51 @@ class MockExternalAIService implements ExternalAIService {
       `Chat (${sampleResponses.length} responses)`,
       sampleResponses.length,
       responseIndex,
-      selectedEmotion as PatientEmotion,
+      selectedEmotion,
       selectedTopic,
     );
 
     const endTime = Date.now();
     const duration = endTime - startTime;
+    const responseTimestamp = new Date().toISOString();
+
+    const intensityByEmotion: Record<PatientEmotion, number> = {
+      SEEKING: 0.62,
+      RAGE: 0.78,
+      FEAR: 0.74,
+      CARE: 0.58,
+      LUST: 0.6,
+      PANIC_GRIEF: 0.72,
+      SADNESS: 0.7,
+      PLAY: 0.52,
+      base: 0.45,
+    };
+    const sampledIntensity = clampUnitValue(
+      intensityByEmotion[selectedEmotion] + (Math.random() * 0.24 - 0.08),
+      0.35,
+    );
+    const emotionSnapshot = buildEmotionSnapshot(selectedEmotion, sampledIntensity);
+
+    const timelineKey = getMockTimelineKey(input);
+    const previousTimeline = mockTimelineCache.get(timelineKey) ?? [];
+    const previousTurn = previousTimeline[previousTimeline.length - 1]?.turn_index ?? 0;
+    const emotionTimeline = appendMockTimelinePoint(input, {
+      turn_index: previousTurn + 1,
+      timestamp: responseTimestamp,
+      emotion: emotionSnapshot.dominant,
+      intensity: sampledIntensity,
+    });
 
     const mockResponseData = {
       message: selectedResponse,
-      reasoning_time: Math.floor(Math.random() * 3) + 1,
-      emotion: selectedEmotion as
-        | "SEEKING"
-        | "RAGE"
-        | "FEAR"
-        | "CARE"
-        | "LUST"
-        | "SADNESS"
-        | "PLAY"
-        | "base",
+      reasoning_time: reasoningTime,
+      emotion: selectedEmotion,
       topic: selectedTopic,
-      timestamp: new Date().toISOString(),
+      timestamp: responseTimestamp,
+      patient_name: null,
+      avatar_url: null,
+      emotion_snapshot: emotionSnapshot,
+      emotion_timeline: emotionTimeline,
     };
     const mockResponseJson = JSON.stringify(mockResponseData, null, 2);
 
@@ -1413,9 +1658,13 @@ class MockExternalAIService implements ExternalAIService {
         },
         responseData: {
           message: selectedResponse,
-          emotion: selectedEmotion as PatientEmotion,
+          emotion: selectedEmotion,
           topic: selectedTopic,
-          reasoningTime: Math.floor(Math.random() * 3) + 1,
+          reasoningTime,
+          patientName: null,
+          avatarUrl: null,
+          emotionSnapshot,
+          emotionTimeline,
         },
         rawResponseJson: mockResponseJson,
         duration,
@@ -1704,13 +1953,39 @@ class RealExternalAIService implements ExternalAIService {
         },
       },
       (data) => {
-        const response = data as ChatResponse;
+        const response = data as Record<string, unknown>;
+        const parsedSnapshot = parseEmotionSnapshot(response.emotion_snapshot);
+        const parsedTimeline = parseEmotionTimeline(response.emotion_timeline);
         return {
-          message: response.message,
-          reasoning_time: response.reasoning_time,
+          message:
+            typeof response.message === "string"
+              ? response.message
+              : "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+          reasoning_time:
+            typeof response.reasoning_time === "number" &&
+            Number.isFinite(response.reasoning_time)
+              ? response.reasoning_time
+              : 0,
           emotion: normalizeEmotion(response.emotion),
-          topic: response.topic,
-          timestamp: response.timestamp,
+          topic: typeof response.topic === "string" ? response.topic : "generale",
+          timestamp:
+            typeof response.timestamp === "string" && response.timestamp.trim()
+              ? response.timestamp
+              : new Date().toISOString(),
+          patient_name:
+            typeof response.patient_name === "string"
+              ? response.patient_name
+              : response.patient_name === null
+                ? null
+                : null,
+          avatar_url:
+            typeof response.avatar_url === "string"
+              ? response.avatar_url
+              : response.avatar_url === null
+                ? null
+                : null,
+          emotion_snapshot: parsedSnapshot,
+          emotion_timeline: parsedTimeline,
         };
       },
     );
@@ -1734,6 +2009,10 @@ class RealExternalAIService implements ExternalAIService {
           emotion: result.emotion,
           topic: result.topic,
           reasoningTime: result.reasoning_time,
+          patientName: result.patient_name ?? null,
+          avatarUrl: result.avatar_url ?? null,
+          emotionSnapshot: result.emotion_snapshot ?? null,
+          emotionTimeline: result.emotion_timeline ?? [],
         },
         rawResponseJson: rawJson,
         duration,
@@ -1937,30 +2216,42 @@ export class PatientResponseGenerator {
     return this.executeWithFallback(
       "generateChatResponse",
       () => this.externalAI.generateChatResponse(input),
-      () => ({
-        message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
-        reasoning_time: 0,
-        emotion: "base" as const,
-        topic: "generale",
-        timestamp: new Date().toISOString(),
-        metadata: {
-          apiType: "MOCK" as const,
-          endpoint: "FALLBACK",
-          requestData: {
-            externalPatientId: input.external_patient_id,
-            userMessage: input.user_message,
-            sessionId: input.session_id,
-            stepId: input.step_id,
+      () => {
+        const fallbackTimestamp = new Date().toISOString();
+        const fallbackSnapshot = buildEmotionSnapshot("base", 0.4);
+        return {
+          message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+          reasoning_time: 0,
+          emotion: "base" as const,
+          topic: "generale",
+          timestamp: fallbackTimestamp,
+          patient_name: null,
+          avatar_url: null,
+          emotion_snapshot: fallbackSnapshot,
+          emotion_timeline: [],
+          metadata: {
+            apiType: "MOCK" as const,
+            endpoint: "FALLBACK",
+            requestData: {
+              externalPatientId: input.external_patient_id,
+              userMessage: input.user_message,
+              sessionId: input.session_id,
+              stepId: input.step_id,
+            },
+            responseData: {
+              message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+              emotion: "base" as const,
+              topic: "generale",
+              reasoningTime: 0,
+              patientName: null,
+              avatarUrl: null,
+              emotionSnapshot: fallbackSnapshot,
+              emotionTimeline: [],
+            },
+            timestamp: fallbackTimestamp,
           },
-          responseData: {
-            message: "I'm sorry, I'm not sure how to respond. Could you repeat that?",
-            emotion: "base" as const,
-            topic: "generale",
-            reasoningTime: 0,
-          },
-          timestamp: new Date().toISOString(),
-        },
-      }),
+        };
+      },
       {
         externalPatientId: input.external_patient_id,
         sessionId: input.session_id,

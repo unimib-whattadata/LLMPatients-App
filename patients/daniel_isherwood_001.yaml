@@ -7,7 +7,7 @@ profile:
   age: 55
   gender: male
   smallDescription: 55-year-old married man with recurrent binge-eating episodes (2–3/week), shame and post-binge fatigue, and concern about weight gain despite normal BMI.
-  avatarUrl: /images/patients/daniel_isherwood/base.png
+  avatarUrl: /images/patients/old/base.png
   diagnosis: Binge-eating disorder, mild
   psychologicalProfile: Neurotic level of personality organization
 voice:
@@ -39,7 +39,7 @@ clinical:
       FEAR: 0.45
       CARE: 0.6
       LUST: 0.45
-      SADNESS: 0.4
+      SADNESS: 0.55
       PLAY: 0.45
   details:
     demographicAndSocioculturalInformation:
@@ -104,14 +104,14 @@ clinical:
     clinicalFunctioning:
       personalityAndSymptomAxis:
         identity:
-          impairmentLevel: 8/10
+          impairmentLevel: 7/10
           description: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight.
         objectRelations:
           impairmentLevel: 8/10
           description: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships.
         defensiveLevel:
           level: 7/10
-          description: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol limited to binge eating.
+          description: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating.
         realityTesting:
           level: 10/10
           description: Reality testing intact; no psychosis, confusion, or cognitive deficits reported.
@@ -121,28 +121,28 @@ clinical:
           description: Generally high functioning with good insight and intact relational and occupational capacity; main impairment is impulse-control failure around binge eating under stress/solitude.
         personalitySyndrome: Neurotic level of personality organization
         symptomPatterns:
-          S41: "Binge-eating pattern (mild): recurrent episodes of eating large amounts with loss of control, rapid eating, eating alone, and eating to discomfort, followed by distress and disgust, without compensatory behaviors."
-          S63: "Weight/shape concern: distress about weight gain despite normal BMI, with efforts to regulate weight through frequent exercise."
+          S61: "Feeding and Eating Disorders."
+          
         comorbidity: None indicated
       mentalFunctioningAxis:
         affectExperienceAndRegulation:
           impairment: mild_to_moderate
-          description: Affect generally regulated, but distress and shame can precipitate urges to binge; post-binge fatigue and disgust are prominent.
+          description: Affect generally regulated, but distress and shame can overwhelm regulation under stress and precipitate urges to binge; post-binge fatigue and disgust are prominent.
         identityIntegration:
           impairment: mild
           description: Identity integration intact; self-evaluation becomes harsh primarily in relation to perceived loss of control over eating.
         selfEsteemRegulation:
-          impairment: mild_to_moderate
+          impairment: moderate
           description: Self-esteem is vulnerable to weight and performance standards; binges trigger disproportionate self-criticism.
         attentionAndLearning:
           impairment: none_to_mild
           description: Cognition and attention appear intact; can reflect on patterns and triggers.
         defensiveFunctioning:
-          impairment: mild
-          description: Uses organized coping strategies in most areas; under stress, coping narrows and binge eating becomes an avoidant/soothing behavior.
+          impairment: mild_to_moderate
+          description: Uses organized coping strategies in most areas; under stress, coping narrows and binge eating becomes a repetitive avoidant/soothing behavior (behavioral acting out).
         impulseControl:
           impairment: moderate
-          description: Impulse control is generally intact except during binge episodes, which are experienced as uncontrollable and followed by distress.
+          description: Impulse control is generally intact in most domains but becomes significantly compromised during binge episodes, which are experienced as uncontrollable and followed by distress and self-reproach.
         moralStandardsAndIdeals:
           impairment: mild
           description: Holds achievement- and health-oriented standards that can become rigid; moralizes lapses in eating control.
@@ -150,14 +150,14 @@ clinical:
           impairment: none_to_mild
           description: Relational capacity preserved; bingeing occurs primarily in private and is associated with secrecy and shame.
         mentalization:
-          impairment: none_to_mild
-          description: Good reflective functioning; can describe internal states and contextual triggers.
+          impairment: mild
+          description: Generally good reflective functioning; however, under affective stress (fatigue, shame, solitude) the capacity to use reflection in the moment diminishes, and behavior precedes elaboration.
         selfObservation:
           impairment: none_to_mild
           description: Adequate self-observation and motivation for change; recognizes the loss-of-control quality of binges.
         adaptationAndResilience:
-          impairment: none_to_mild
-          description: High baseline functioning with consistent health behaviors; stress and solitude remain key risk contexts.
+          impairment: mild
+          description: High baseline functioning with consistent adaptive behaviors; stress and solitude remain key risk contexts.
         meaningAndDirectionality:
           impairment: none_to_mild
           description: Life direction appears stable; current concern focuses on health, aging, and maintaining control over eating and routines.
