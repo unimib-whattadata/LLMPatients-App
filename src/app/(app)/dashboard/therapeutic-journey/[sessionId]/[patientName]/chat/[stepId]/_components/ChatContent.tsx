@@ -816,12 +816,20 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
 
   useEffect(() => {
+    if (isStepCompleted) return;
+
     const interval = setInterval(() => {
       setSessionTime((prev) => prev + 1);
     }, 1000);
 
     return () => {
       clearInterval(interval);
+    };
+  }, [isStepCompleted]);
+
+
+  useEffect(() => {
+    return () => {
       if (avatarTransitionTimeoutRef.current) {
         clearTimeout(avatarTransitionTimeoutRef.current);
         avatarTransitionTimeoutRef.current = null;
