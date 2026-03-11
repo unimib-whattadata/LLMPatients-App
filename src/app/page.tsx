@@ -18,19 +18,19 @@ export default async function Home() {
 
   const processSteps = [
     {
-      title: "Simulazione realistica",
+      title: "Lifelike clinical simulations",
       description:
-        "Entra in un ambiente virtuale dove puoi interagire con pazienti simulati. Ogni colloquio e costruito per ricreare fedelmente le dinamiche di una seduta clinica, con particolare attenzione agli aspetti relazionali, comunicativi ed emotivi.",
+        "Practice in realistic therapeutic scenarios with virtual patients that react to your choices. Each session is designed to train alliance-building, communication, and emotional attunement.",
     },
     {
-      title: "Valutazione automatica e strutturata",
+      title: "Structured, evidence-based feedback",
       description:
-        "Al termine di ogni simulazione riceverai una valutazione automatizzata basata sui criteri clinici validati. Il sistema analizza la tua performance in termini di empatia, uso delle tecniche, aderenza al setting e qualita delle domande.",
+        "At the end of each simulation, you receive a clear assessment based on validated criteria. The platform evaluates empathy, interviewing quality, technique use, and respect for therapeutic setting.",
     },
     {
-      title: "Report e riflessione guidata",
+      title: "Progress tracking and guided reflection",
       description:
-        "Tutte le attivita vengono registrate e trasformate in report chiari e accessibili, che permettono di osservare l'andamento delle tue competenze nel tempo e di identificare le aree di miglioramento.",
+        "Each practice is transformed into actionable reports so you can monitor growth over time, identify recurring gaps, and focus your next training sessions.",
     },
   ];
 
@@ -40,7 +40,7 @@ export default async function Home() {
       itemScope
       itemType="https://schema.org/Organization"
       role="contentinfo"
-      aria-label="Informazioni di contatto e link utili"
+      aria-label="Contact details and useful links"
     >
       <div className="home-footer-main">
         <div className="section-container">
@@ -60,20 +60,20 @@ export default async function Home() {
                   LLMPatients
                 </p>
                 <p className="home-footer-brand-caption" itemProp="description">
-                  Un progetto dedicato alla formazione e alla valutazione delle
-                  competenze cliniche.
+                  Platform for psychotherapy simulation, assessment, and
+                  reflective learning.
                 </p>
               </div>
             </div>
 
             <div className="home-footer-column">
-              <h3 id="footer-contacts">Contatti</h3>
+              <h3 id="footer-contacts">Contact</h3>
               <p>
                 <a
-                  href="mailto:llmpatient@unimib.it"
-                  aria-label="Invia email"
+                  href="mailto:info@whattadata.it"
+                  aria-label="Send email"
                 >
-                  llmpatient@unimib.it
+                  info@whattadata.it
                 </a>
               </p>
             </div>
@@ -83,19 +83,19 @@ export default async function Home() {
             <nav
               className="home-footer-links"
               role="navigation"
-              aria-label="Link utili"
+              aria-label="Useful links"
             >
-              <Link href="/privacy" aria-label="Leggi la privacy policy">
+              <Link href="/privacy" aria-label="Read privacy policy">
                 Privacy Policy
               </Link>
-              <Link href="/terms" aria-label="Leggi i termini e condizioni">
-                Termini e condizioni
+              <Link href="/terms" aria-label="Read terms and conditions">
+                Terms and Conditions
               </Link>
               <Link
                 href="/cookies"
-                aria-label="Gestisci le impostazioni cookie"
+                aria-label="Manage cookie settings"
               >
-                Impostazioni cookie
+                Cookie Settings
               </Link>
             </nav>
           </div>
@@ -110,7 +110,7 @@ export default async function Home() {
       itemScope
       itemType="https://schema.org/WebApplication"
       role="main"
-      aria-label="Contenuto principale"
+      aria-label="Main content"
     >
       <section
         className="home-hero"
@@ -126,29 +126,30 @@ export default async function Home() {
             itemProp="name"
             aria-describedby="hero-description"
           >
-            Simula. Valuta. Impara.
+            Train Clinical Skills with AI Patients
           </h1>
           <p
             id="hero-description"
             className="home-hero-subtitle"
             itemProp="description"
             role="complementary"
-            aria-label="Descrizione della piattaforma"
+            aria-label="Platform description"
           >
-            Uno strumento per l&apos;addestramento alla psicoterapia, progettato
-            per studenti universitari e tutor clinici.
+            LLMPatients helps psychotherapy students and clinical tutors run
+            realistic simulations, receive structured feedback, and accelerate
+            reflective learning.
           </p>
           <div
             className="flex flex-col sm:flex-row gap-4 mt-8"
             role="group"
-            aria-label="Azioni principali"
+            aria-label="Main actions"
           >
             <Button asChild size="lg" className="font-semibold">
               <Link
                 href="/register"
                 aria-describedby="hero-description"
               >
-                Inizia subito
+                Create account
               </Link>
             </Button>
             <Button
@@ -159,9 +160,9 @@ export default async function Home() {
             >
               <Link
                 href="/explore-patients"
-                aria-label="Esplora i pazienti virtuali disponibili"
+                aria-label="Explore available patient scenarios"
               >
-                Esplora pazienti
+                Explore scenarios
               </Link>
             </Button>
           </div>
@@ -194,12 +195,12 @@ export default async function Home() {
               itemProp="name"
               aria-describedby="process-description"
             >
-              Il tuo percorso formativo, passo dopo passo
+              How your training path works
             </h2>
             <meta
               id="process-description"
               itemProp="description"
-              content="Processo formativo per l'addestramento alla psicoterapia con pazienti virtuali"
+              content="A step-by-step workflow for psychotherapy training with virtual patients"
             />
           </header>
 
@@ -207,7 +208,7 @@ export default async function Home() {
             className="home-process-list"
             role="list"
             itemProp="step"
-            aria-label="Passaggi del processo formativo"
+            aria-label="Learning process steps"
           >
             {processSteps.map((step, index) => (
               <li
@@ -239,7 +240,7 @@ export default async function Home() {
                 <div
                   className={`home-process-number home-process-number--${index + 1}`}
                   itemProp="position"
-                  aria-label={`Passaggio ${index + 1}`}
+                  aria-label={`Step ${index + 1}`}
                   role="img"
                 >
                   {index + 1}
@@ -254,7 +255,7 @@ export default async function Home() {
                 href="/register"
                 aria-describedby="process-description"
               >
-                Inizia subito
+                Start training
               </Link>
             </Button>
           </footer>

@@ -230,7 +230,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         onPlaybackEnd?.();
       };
       const handleErrorEvent = () => {
-        const errorMsg = "Errore durante la riproduzione audio";
+        const errorMsg = "Error during audio playback";
         setError(errorMsg);
         setIsPlaying(false);
         setIsLoading(false);
@@ -241,7 +241,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         if (autoPlay) {
           audio.play().catch((playError) => {
             logger.error("Audio playback failed", playError);
-            setError("Errore durante la riproduzione");
+            setError("Playback error");
             setIsLoading(false);
           });
         }
@@ -293,7 +293,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
         return;
       }
 
-      const errorMessage = error instanceof Error ? error.message : "Errore nella generazione audio";
+      const errorMessage = error instanceof Error ? error.message : "Audio generation error";
 
       // Handle real TTS errors (quota, rate limit, not configured)
       if (isRealTTSError(error)) {
@@ -320,7 +320,7 @@ export function useAudioPlayer(options: UseAudioPlayerOptions = {}): AudioPlayer
     } else {
       audio.play().catch((error) => {
         logger.error("Audio playback failed", error);
-        setError("Errore durante la riproduzione");
+        setError("Playback error");
       });
     }
   }, [isPlaying]);

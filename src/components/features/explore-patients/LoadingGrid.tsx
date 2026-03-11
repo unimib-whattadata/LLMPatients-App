@@ -7,7 +7,7 @@ export function LoadingGrid() {
       className="grid gap-6 grid-cols-1 sm:grid-cols-2"
       role="status"
       aria-live="polite"
-      aria-label="Caricamento pazienti in corso"
+      aria-label="Loading patients"
     >
       {Array.from({ length: 6 }).map((_, index) => (
         <PatientCardSkeleton
@@ -17,7 +17,7 @@ export function LoadingGrid() {
         />
       ))}
 
-      <span className="sr-only">Caricamento pazienti virtuali in corso...</span>
+      <span className="sr-only">Loading virtual patients...</span>
     </div>
   );
 }

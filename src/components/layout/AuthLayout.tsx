@@ -78,6 +78,33 @@ export function AuthLayout({
 
                 <div className="w-full max-w-md space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
                     {children}
+                    <footer
+                        className="pt-2 text-center text-xs text-muted-foreground"
+                        aria-label="Legal links"
+                    >
+                        <nav className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+                            <Link
+                                href="/privacy"
+                                className="underline underline-offset-4 hover:text-foreground transition-colors"
+                            >
+                                Privacy Policy
+                            </Link>
+                            <span aria-hidden="true">•</span>
+                            <Link
+                                href="/terms"
+                                className="underline underline-offset-4 hover:text-foreground transition-colors"
+                            >
+                                Terms and Conditions
+                            </Link>
+                            <span aria-hidden="true">•</span>
+                            <Link
+                                href="/cookies"
+                                className="underline underline-offset-4 hover:text-foreground transition-colors"
+                            >
+                                Cookie Settings
+                            </Link>
+                        </nav>
+                    </footer>
                 </div>
             </div>
         </div>

@@ -39,11 +39,11 @@ interface LoginState {
 const loginSchema = z.object({
   email: z
     .string()
-    .min(1, "L'email è obbligatoria")
-    .email("Inserisci un'email valida"),
+    .min(1, "Email is required")
+    .email("Enter a valid email"),
   password: z
     .string()
-    .min(6, "La password deve contenere almeno 6 caratteri"),
+    .min(6, "Password must contain at least 6 characters"),
   rememberMe: z.boolean(),
 });
 
@@ -296,16 +296,16 @@ function LoginPageComponent() {
 
   const submitLabel =
     loginState.phase === "authenticating"
-      ? "Accesso in corso..."
+      ? "Signing in..."
       : loginState.isNavigating || loginState.phase === "redirecting"
-        ? "Reindirizzamento..."
-        : "Accedi";
+        ? "Redirecting..."
+        : "Sign in";
 
   return (
     <AuthLayout
-      brandTitle="Benvenuto in LLMPatients"
-      brandSubtitle="La piattaforma che rivoluziona l'apprendimento medico attraverso simulazioni interattive con pazienti virtuali intelligenti."
-      brandFeatures={["Simulazioni realistiche", "Apprendimento personalizzato", "Feedback immediato"]}
+      brandTitle="Welcome to LLMPatients"
+      brandSubtitle="The platform that transforms medical learning through interactive simulations with intelligent virtual patients."
+      brandFeatures={["Realistic simulations", "Personalized learning", "Immediate feedback"]}
     >
       {/* Success/Redirecting State */}
       {loginState.phase === "success" ||
@@ -345,7 +345,7 @@ function LoginPageComponent() {
         <div>
           <h2 className="text-2xl font-bold text-foreground mb-2">Login</h2>
           <p className="text-muted-foreground mb-8">
-            Accedi al tuo account per continuare
+            Sign in to your account to continue
           </p>
           <Form {...form}>
             <form
@@ -366,13 +366,13 @@ function LoginPageComponent() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="email">E-mail</FormLabel>
+                    <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
                       <Input
                         id="email"
                         type="email"
                         autoComplete="email"
-                        placeholder="La tua e-mail"
+                        placeholder="Your email"
                         {...field}
                       />
                     </FormControl>
@@ -393,7 +393,7 @@ function LoginPageComponent() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           autoComplete="current-password"
-                          placeholder="La tua password"
+                          placeholder="Your password"
                           {...field}
                         />
                         <Button
@@ -402,7 +402,7 @@ function LoginPageComponent() {
                           size="icon"
                           className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground"
                           onClick={() => setShowPassword((prev) => !prev)}
-                          aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -430,7 +430,7 @@ function LoginPageComponent() {
                         htmlFor="remember-me"
                         className="text-sm text-muted-foreground font-normal"
                       >
-                        Ricordami al prossimo accesso
+                        Remember me next time
                       </FormLabel>
                     </div>
                   </FormItem>
@@ -442,7 +442,7 @@ function LoginPageComponent() {
                 className="w-full"
                 disabled={isProcessing}
                 isLoading={isProcessing}
-                aria-label="Accedi al tuo account"
+                aria-label="Sign in to your account"
               >
                 {submitLabel}
               </Button>
@@ -453,9 +453,9 @@ function LoginPageComponent() {
                   href="/register"
                   className="text-primary hover:text-primary/80 transition-colors"
                 >
-                  registrati
+                  sign up
                 </Link>
-                <span> subito</span>
+                <span> now</span>
               </div>
             </form>
           </Form>
@@ -471,7 +471,7 @@ export default function LoginPage() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center space-y-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          <p className="text-sm text-muted-foreground">Caricamento...</p>
+          <p className="text-sm text-muted-foreground">Loading...</p>
         </div>
       </div>
     }>

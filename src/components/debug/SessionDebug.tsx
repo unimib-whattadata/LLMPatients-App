@@ -77,7 +77,7 @@ function SessionDebug({ enabled = false }: SessionDebugProps) {
               className="text-text-tertiary hover:text-text-primary"
             >
               <X className="h-4 w-4" aria-hidden="true" />
-              <span className="sr-only">Chiudi pannello</span>
+              <span className="sr-only">Close panel</span>
             </button>
           </div>
 

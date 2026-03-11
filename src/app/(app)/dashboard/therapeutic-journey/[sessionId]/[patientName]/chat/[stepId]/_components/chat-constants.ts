@@ -12,15 +12,15 @@ export type PatientEmotion =
   | "base";
 
 export const EMOTION_LABELS: Record<PatientEmotion, string> = {
-  SEEKING: "Ricerca",
-  RAGE: "Rabbia",
-  FEAR: "Paura",
-  CARE: "Cura",
-  LUST: "Desiderio",
-  PANIC_GRIEF: "Panico/Lutto",
-  SADNESS: "Tristezza",
-  PLAY: "Gioco",
-  base: "Neutro",
+  SEEKING: "Seeking",
+  RAGE: "Rage",
+  FEAR: "Fear",
+  CARE: "Care",
+  LUST: "Desire",
+  PANIC_GRIEF: "Panic/Grief",
+  SADNESS: "Sadness",
+  PLAY: "Play",
+  base: "Neutral",
 };
 
 export const EMOTION_COLORS: Record<PatientEmotion, string> = {

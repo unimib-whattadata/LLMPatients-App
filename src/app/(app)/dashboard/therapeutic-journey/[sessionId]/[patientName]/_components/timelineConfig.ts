@@ -58,24 +58,24 @@ export const TIMELINE_STEPS = timelineSteps;
 
 const TIPS_CONFIG = {
   KNOWLEDGE: [
-    "Ascolta attivamente il paziente senza interrompere.",
-    "Mantieni un atteggiamento empatico e non giudicante.",
-    "Fai domande aperte per approfondire la comprensione.",
-    "Osserva il linguaggio del corpo e le emozioni.",
+    "Listen actively to the patient without interrupting.",
+    "Maintain an empathic, non-judgmental attitude.",
+    "Ask open-ended questions to deepen understanding.",
+    "Observe body language and emotions.",
   ],
   INTERVENTION: [
-    "Utilizza tecniche di riformulazione per chiarire i concetti.",
-    "Proponi strategie concrete e personalizzate per il paziente.",
-    "Mantieni un approccio collaborativo e coinvolgente.",
-    "Monitora i progressi e adatta l'intervento di conseguenza.",
-    "Fornisci feedback costruttivo e incoraggiante.",
-    "Documenta accuratamente le osservazioni e i progressi.",
+    "Use reframing techniques to clarify concepts.",
+    "Propose concrete, personalized strategies for the patient.",
+    "Maintain a collaborative and engaging approach.",
+    "Monitor progress and adapt interventions accordingly.",
+    "Provide constructive and encouraging feedback.",
+    "Document observations and progress accurately.",
   ],
   CONCLUSION: [
-    "Riassumi i punti chiave emersi durante il percorso.",
-    "Valuta l'efficacia delle strategie implementate.",
-    "Pianifica eventuali follow-up o approfondimenti.",
-    "Celebra i progressi e i successi ottenuti.",
+    "Summarize the key points that emerged during the journey.",
+    "Assess the effectiveness of the implemented strategies.",
+    "Plan possible follow-ups or deep dives.",
+    "Celebrate progress and achieved successes.",
   ],
 } as const;
 
@@ -91,8 +91,8 @@ export type StepDetails = {
 
 const STEP_DETAILS_CONFIG = {
   CONCLUSION: {
-    phaseTitle: "Conclusione",
-    sessionLabel: "Seduta 11",
+    phaseTitle: "Conclusion",
+    sessionLabel: "Session 11",
     tips: TIPS_CONFIG.CONCLUSION,
     backgroundColor: "",
     textColor: "",
@@ -100,8 +100,8 @@ const STEP_DETAILS_CONFIG = {
     bodyColor: "",
   },
   INTERVENTION: {
-    phaseTitle: "Fase di Intervento",
-    sessionLabel: "Sedute 3-10",
+    phaseTitle: "Intervention Phase",
+    sessionLabel: "Sessions 3-10",
     tips: TIPS_CONFIG.INTERVENTION,
     backgroundColor: "",
     textColor: "",
@@ -109,8 +109,8 @@ const STEP_DETAILS_CONFIG = {
     bodyColor: "",
   },
   KNOWLEDGE: {
-    phaseTitle: "Fase di Conoscenza",
-    sessionLabel: "Sedute 1-2",
+    phaseTitle: "Knowledge Phase",
+    sessionLabel: "Sessions 1-2",
     tips: TIPS_CONFIG.KNOWLEDGE,
     backgroundColor: "",
     textColor: "",

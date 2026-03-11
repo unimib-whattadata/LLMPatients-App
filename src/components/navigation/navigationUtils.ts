@@ -40,40 +40,40 @@ export function getNavSections(
       
       
       {
-        title: "Gestione Utenti",
+        title: "User Management",
         items: [
           {
-            label: "Gestione Utenti",
+            label: "User Management",
             href: "/admin/manage-users",
             icon: Users,
           },
         ],
       },
       {
-        title: "Gestione Pazienti",
+        title: "Patient Management",
         items: [
           {
-            label: "Gestione Pazienti",
+            label: "Patient Management",
             href: "/dashboard/patient",
             icon: UserPlus,
           },
           {
-            label: "Schema di Valutazione",
+            label: "Assessment Schema",
             href: "/dashboard/patient/attributes",
             icon: FileText,
           },
         ],
       },
       {
-        title: "Percorso Terapeutico",
+        title: "Therapeutic Journey",
         items: [
           {
-            label: "Esplora Pazienti",
+            label: "Explore Patients",
             href: "/explore-patients",
             icon: Search,
           },
           {
-            label: "Percorso Terapeutico",
+            label: "Therapeutic Journey",
             href: "/dashboard/therapeutic-journey",
             icon: Map,
           },
@@ -105,30 +105,30 @@ export function getNavSections(
       
       
       {
-        title: "Percorso Terapeutico",
+        title: "Therapeutic Journey",
         items: [
           {
-            label: "Esplora Pazienti",
+            label: "Explore Patients",
             href: "/explore-patients",
             icon: Search,
           },
           {
-            label: "Percorso Terapeutico",
+            label: "Therapeutic Journey",
             href: "/dashboard/therapeutic-journey",
             icon: Map,
           },
         ],
       },
       {
-        title: "Gestione Pazienti",
+        title: "Patient Management",
         items: [
           {
-            label: "Gestione Pazienti",
+            label: "Patient Management",
             href: "/dashboard/patient",
             icon: UserPlus,
           },
           {
-            label: "Schema di Valutazione",
+            label: "Assessment Schema",
             href: "/dashboard/patient/attributes",
             icon: FileText,
           },

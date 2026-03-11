@@ -23,7 +23,7 @@ export function LoadingCard({
       className={cn("grid gap-6 grid-cols-1 sm:grid-cols-2", className)}
       role="status"
       aria-live="polite"
-      aria-label="Caricamento contenuto in corso"
+      aria-label="Loading content"
     >
       {Array.from({ length: count }).map((_, index) => (
         <PatientCardSkeleton
@@ -33,7 +33,7 @@ export function LoadingCard({
         />
       ))}
 
-      <span className="sr-only">Caricamento contenuto in corso...</span>
+      <span className="sr-only">Loading content...</span>
     </div>
   );
 }

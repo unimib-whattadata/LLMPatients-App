@@ -58,15 +58,15 @@ function TherapySessionCardComponent({
     const statusConfig = {
       started: {
         className: "bg-primary-green text-text-inverse",
-        text: "Iniziato",
+        text: "Started",
       },
       "in-progress": {
         className: "bg-primary-yellow text-text-inverse",
-        text: "In corso",
+        text: "In progress",
       },
       completed: {
         className: "bg-primary-violet text-text-inverse",
-        text: "Completato",
+        text: "Completed",
       },
     };
     return statusConfig[status as keyof typeof statusConfig];
@@ -118,11 +118,11 @@ function TherapySessionCardComponent({
         {/* Progress Section */}
         <div className="space-y-2">
           <p className="text-sm font-medium text-primary-green">
-            Progresso: {therapySession.completedStepsCount}/11 sessioni
+            Progress: {therapySession.completedStepsCount}/11 sessions
           </p>
           <div className="space-y-1">
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Completamento</span>
+              <span className="text-muted-foreground">Completion</span>
               <span className="font-medium text-foreground">{progressPercentage}%</span>
             </div>
             <Progress
@@ -130,8 +130,8 @@ function TherapySessionCardComponent({
               className="h-2"
               aria-label={
                 therapySession.isCompleted
-                  ? "Sessione completata al 100%"
-                  : `Progresso sessione: ${therapySession.completedStepsCount} di 11 sessioni completate (${progressPercentage}%)`
+                  ? "Session completed at 100%"
+                  : `Session progress: ${therapySession.completedStepsCount} of 11 sessions completed (${progressPercentage}%)`
               }
             />
           </div>
@@ -140,7 +140,7 @@ function TherapySessionCardComponent({
         {/* Difficulty and Duration */}
         <div className="mt-4 space-y-3 pt-4">
           <div className="flex items-center justify-between">
-            <span className="text-text-secondary text-sm">Difficoltà:</span>
+            <span className="text-text-secondary text-sm">Difficulty:</span>
             <div className="patient-card-difficulty">
               <span
                 className={getDifficultyIconClass(
@@ -157,7 +157,7 @@ function TherapySessionCardComponent({
           </div>
           <div className="flex items-center justify-between">
             <span className="text-text-secondary text-sm">
-              {therapySession.isCompleted ? "Completato il:" : "Durata stimata:"}
+              {therapySession.isCompleted ? "Completed on:" : "Estimated duration:"}
             </span>
             <div className="flex items-center space-x-1 text-sm text-primary-yellow">
               {!therapySession.isCompleted && (
@@ -167,7 +167,7 @@ function TherapySessionCardComponent({
                 {therapySession.isCompleted
                   ? new Date(
                     therapySession.updatedAt || therapySession.createdAt,
-                  ).toLocaleDateString("it-IT")
+                  ).toLocaleDateString("en-US")
                   : `${therapySession.patient.estimatedDuration} min`}
               </span>
             </div>
@@ -181,15 +181,15 @@ function TherapySessionCardComponent({
             href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
             aria-label={
               therapySession.isCompleted
-                ? `Rivedi il percorso completato con ${therapySession.patient.name}`
-                : `Continua la sessione con ${therapySession.patient.name}`
+                ? `Review the completed journey with ${therapySession.patient.name}`
+                : `Continue the session with ${therapySession.patient.name}`
             }
           >
             {therapySession.isCompleted
-              ? "Rivedi Percorso"
+              ? "Review Journey"
               : sessionStatus === "started"
-                ? "Inizia Sessione"
-                : "Continua Sessione"}
+                ? "Start Session"
+                : "Continue Session"}
           </Link>
         </Button>
       </CardFooter>

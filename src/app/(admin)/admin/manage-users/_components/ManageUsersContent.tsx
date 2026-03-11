@@ -77,15 +77,15 @@ interface User {
 }
 
 const createUserSchema = z.object({
-  name: z.string().min(1, "Il nome è obbligatorio"),
-  email: z.string().email("Inserisci un'email valida"),
-  password: z.string().min(6, "La password deve contenere almeno 6 caratteri"),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email"),
+  password: z.string().min(6, "Password must contain at least 6 characters"),
   role: z.enum(["admin", "user"]),
 });
 
 const editUserSchema = z.object({
-  name: z.string().min(1, "Il nome è obbligatorio"),
-  email: z.string().email("Inserisci un'email valida"),
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email"),
 });
 
 type CreateUserValues = z.infer<typeof createUserSchema>;
@@ -518,7 +518,7 @@ export function ManageUsersContent() {
               description={
                 searchTerm
                   ? "No users match your current search."
-                  : "Non ci sono utenti registrati al momento."
+                  : "There are currently no registered users."
               }
               action={
                 <Button onClick={() => setIsCreateDialogOpen(true)}>
@@ -613,7 +613,7 @@ export function ManageUsersContent() {
           <DialogHeader>
             <DialogTitle>Create New User</DialogTitle>
             <DialogDescription>
-              Compila i campi per creare un nuovo account.
+              Fill in the fields to create a new account.
             </DialogDescription>
           </DialogHeader>
           <Form {...createUserForm}>
@@ -720,7 +720,7 @@ export function ManageUsersContent() {
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
             <DialogDescription>
-              Aggiorna le informazioni dell&apos;utente selezionato.
+              Update the selected user&apos;s information.
             </DialogDescription>
           </DialogHeader>
           <Form {...editUserForm}>
@@ -786,19 +786,19 @@ export function ManageUsersContent() {
       >
         <AlertDialogContent className="bg-[var(--color-surface-secondary)] text-[var(--color-text-primary)]">
           <AlertDialogHeader>
-            <AlertDialogTitle>Elimina utente</AlertDialogTitle>
+            <AlertDialogTitle>Delete user</AlertDialogTitle>
             <AlertDialogDescription>
-              Questa azione è irreversibile. L&apos;utente selezionato verrà
-              rimosso in modo permanente.
+              This action is irreversible. The selected user will be
+              permanently removed.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Annulla</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => void confirmDeleteUser()}
               disabled={deleteUserMutation.isPending}
             >
-              {deleteUserMutation.isPending ? "Eliminazione..." : "Elimina"}
+              {deleteUserMutation.isPending ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

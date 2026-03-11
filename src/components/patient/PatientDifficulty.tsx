@@ -17,7 +17,7 @@ export function PatientDifficulty({ difficulty, showLabel = false, className }: 
 
     return (
         <div className={cn("flex items-center gap-2", className)}>
-            {showLabel && <span className="text-sm text-muted-foreground">Difficoltà:</span>}
+            {showLabel && <span className="text-sm text-muted-foreground">Difficulty:</span>}
             <div
                 className={cn("flex items-center", getDifficultyIconClass(diffLevel))}
                 aria-label={getDifficultyAccessibleText(diffLevel)}

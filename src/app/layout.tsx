@@ -13,19 +13,19 @@ const isDev = env.NODE_ENV === "development";
 
 export const metadata: Metadata = {
   title: {
-    default: "LLMPatients - Piattaforma di Simulazione di Pazienti",
+    default: "LLMPatients - Patient Simulation Platform",
     template: "%s | LLMPatients",
   },
   description:
-    "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali per studenti universitari e tutor clinici.",
+    "Advanced patient simulation platform for healthcare training. Psychotherapy training with virtual patients for university students and clinical tutors.",
   keywords: [
-    "simulazione medica",
-    "formazione sanitaria",
+    "medical simulation",
+    "healthcare training",
     "psicoterapia",
-    "pazienti virtuali",
-    "educazione medica",
-    "training clinico",
-    "simulazione psicologica",
+    "virtual patients",
+    "medical education",
+    "clinical training",
+    "psychological simulation",
   ],
   authors: [{ name: "Marco Cremaschi", url: "https://unimib.it" }],
   creator: "Università degli Studi di Milano-Bicocca",
@@ -41,26 +41,26 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "it_IT",
+    locale: "en_US",
     url: "https://llmpatient.whattadata.it",
     siteName: "LLMPatients",
-    title: "LLMPatients - Piattaforma di Simulazione di Pazienti",
+    title: "LLMPatients - Patient Simulation Platform",
     description:
-      "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria. Addestramento alla psicoterapia con pazienti virtuali.",
+      "Advanced patient simulation platform for healthcare training. Psychotherapy training with virtual patients.",
     images: [
       {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "LLMPatients - Piattaforma di Simulazione di Pazienti",
+        alt: "LLMPatients - Patient Simulation Platform",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "LLMPatients - Piattaforma di Simulazione di Pazienti",
+    title: "LLMPatients - Patient Simulation Platform",
     description:
-      "Piattaforma avanzata di simulazione di pazienti per la formazione sanitaria.",
+      "Advanced patient simulation platform for healthcare training.",
     images: ["/images/twitter-image.png"],
   },
   robots: {
@@ -97,7 +97,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it" className={`${inter.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning={true}>
+    <html lang="en" className={`${inter.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning={true}>
       <head>
         { }
 

@@ -64,8 +64,8 @@ export function PatientDetailContent() {
                 id: patient.id,
                 name: patient.name,
                 age: patient.age,
-                gender: patient.gender || "non specificato",
-                diagnosis: patient.diagnosis || "Non specificato",
+                gender: patient.gender || "not specified",
+                diagnosis: patient.diagnosis || "Not specified",
                 difficulty: patient.difficulty,
                 psychologicalProfile: patient.psychologicalProfile || patient.background,
                 background: patient.background,
@@ -76,22 +76,22 @@ export function PatientDetailContent() {
               sessionId: startedSession.id,
             });
 
-            // Verifica se l'inizializzazione è fallita
+            // Check whether initialization failed
             if (initResponse.status !== "success" || !initResponse.external_patient_id) {
               setActionError(
                 initResponse.message ||
-                "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
+                "Error while initializing the patient in the external system. The therapeutic journey cannot be started."
               );
-              return; // Blocca il redirect
+              return; // Block redirect
             }
           } catch (error) {
             logger.error("Patient initialization failed", error);
             setActionError(
               error instanceof Error
                 ? error.message
-                : "Errore durante l'inizializzazione del paziente nel sistema esterno. Il percorso terapeutico non può essere avviato."
+                : "Error while initializing the patient in the external system. The therapeutic journey cannot be started."
             );
-            return; // Blocca il redirect
+            return; // Block redirect
           }
         }
 
@@ -111,7 +111,7 @@ export function PatientDetailContent() {
       }
       setActionError(
         mutationError.message ||
-        "Non è stato possibile avviare la sessione terapeutica.",
+        "Unable to start the therapeutic session.",
       );
     },
   });
@@ -124,8 +124,8 @@ export function PatientDetailContent() {
     return (
       <div className="bg-background-primary flex min-h-screen items-center justify-center px-4">
         <NotFoundCard
-          title="Paziente non trovato"
-          description="Il paziente richiesto non e disponibile o non esiste."
+          title="Patient not found"
+          description="The requested patient is not available or does not exist."
         />
       </div>
     );
@@ -133,7 +133,7 @@ export function PatientDetailContent() {
 
   const breadcrumbs = [
     { label: "Home", href: "/" },
-    { label: "Esplora Pazienti", href: "/explore-patients" },
+    { label: "Explore Patients", href: "/explore-patients" },
     { label: patient.name, isActive: true },
   ];
 
@@ -161,7 +161,7 @@ export function PatientDetailContent() {
                     {patient.name}
                   </h1>
                   <span className="patient-card-age text-sm sm:text-base">
-                    {patient.age} anni
+                    {patient.age} years
                   </span>
                 </header>
 
@@ -171,7 +171,7 @@ export function PatientDetailContent() {
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">
-                      Difficoltà:
+                      Difficulty:
                     </span>
                     <div className="patient-card-difficulty">
                       <span
@@ -189,7 +189,7 @@ export function PatientDetailContent() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">
-                      Durata stimata:
+                      Estimated duration:
                     </span>
                     <div className="flex items-center space-x-1 text-sm text-primary-yellow">
                       <Clock
@@ -209,7 +209,7 @@ export function PatientDetailContent() {
           <section className="space-y-4 sm:space-y-6 lg:col-span-2">
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
               <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
-                Descrizione
+                Description
               </h2>
               <p className="patient-card-condition text-sm leading-relaxed sm:text-base">
                 {patient.smallDescription}
@@ -218,7 +218,7 @@ export function PatientDetailContent() {
 
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
               <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
-                Obiettivi di apprendimento
+                Learning objectives
               </h2>
               <div className="patient-card-objectives">
                 <ul className="patient-card-objective-list space-y-2">
@@ -236,14 +236,14 @@ export function PatientDetailContent() {
 
             <article className="bg-background-secondary rounded-lg p-4 sm:p-6">
               <h2 className="text-text-primary mb-3 text-lg font-semibold sm:mb-4 sm:text-xl">
-                Inizia la simulazione
+                Start simulation
               </h2>
               {session ? (
                 <>
                   <p className="text-text-secondary mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">
-                    Sei pronto a iniziare l&apos;interazione con {patient.name}?
-                    La simulazione ti permette di mettere in pratica le tue
-                    competenze cliniche in un ambiente sicuro e controllato.
+                    Are you ready to start interacting with {patient.name}?
+                    This simulation lets you practice your clinical skills in a
+                    safe and controlled environment.
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <Button
@@ -260,12 +260,12 @@ export function PatientDetailContent() {
                       aria-disabled={startTherapySession.isPending}
                       isLoading={startTherapySession.isPending}
                     >
-                      Inizia simulazione
+                      Start simulation
                     </Button>
                   </div>
                   {actionError && (
                     <Alert variant="destructive" className="mt-3 sm:mt-4">
-                      <AlertTitle>Errore di inizializzazione</AlertTitle>
+                      <AlertTitle>Initialization error</AlertTitle>
                       <AlertDescription>{actionError}</AlertDescription>
                     </Alert>
                   )}
@@ -273,24 +273,23 @@ export function PatientDetailContent() {
               ) : (
                 <>
                   <p className="text-text-secondary mb-4 text-sm leading-relaxed sm:mb-6 sm:text-base">
-                    Per iniziare l&apos;interazione con {patient.name} e
-                    accedere alla simulazione terapeutica, è necessario
-                    effettuare l&apos;accesso. La simulazione ti permetterà di
-                    mettere in pratica le tue competenze cliniche in un ambiente
-                    sicuro e controllato.
+                    To start interacting with {patient.name} and access the
+                    therapeutic simulation, you need to sign in first. The
+                    simulation lets you practice your clinical skills in a safe
+                    and controlled environment.
                   </p>
                   <div className="flex flex-col gap-3 sm:gap-4">
                     <Link
                       href={`/login?callbackUrl=${encodeURIComponent(`/explore-patients/${patientId}/${createPatientSlug(patient.name)}`)}`}
                       className="patient-card-button py-3 text-center text-sm sm:py-4 sm:text-base"
                     >
-                      Accedi per iniziare la simulazione
+                      Sign in to start the simulation
                     </Link>
                     <Link
                       href="/register"
                       className="patient-card-button bg-background-tertiary text-text-primary hover:bg-background-quaternary py-3 text-center text-sm sm:py-4 sm:text-base"
                     >
-                      Registrati
+                      Sign up
                     </Link>
                   </div>
                 </>
@@ -319,7 +318,7 @@ function NotFoundCard({
         href="/explore-patients"
         className="bg-primary-600 text-text-primary hover:bg-primary-700 inline-flex items-center justify-center rounded-md px-5 py-2"
       >
-        Torna all&apos;esplorazione
+        Back to exploration
       </Link>
     </div>
   );

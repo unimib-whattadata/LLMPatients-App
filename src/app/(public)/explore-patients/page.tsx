@@ -34,7 +34,7 @@ export default async function ExplorePatientsPage() {
           <main
             className="patients-main"
             role="main"
-            aria-label="Catalogo pazienti virtuali"
+            aria-label="Virtual patient catalog"
           >
             <section
               className="patients-hero"
@@ -48,20 +48,20 @@ export default async function ExplorePatientsPage() {
                     <Button asChild variant="ghost" size="sm" className="gap-2">
                       <Link href="/dashboard/therapeutic-journey">
                         <ArrowLeft className="h-4 w-4" />
-                        Torna al percorso terapeutico
+                        Back to therapeutic journey
                       </Link>
                     </Button>
                   </div>
                 )}
                 <header>
-                  <h1 id="patients-title">I pazienti</h1>
+                  <h1 id="patients-title">Patients</h1>
                   <p
                     id="patients-description"
                     aria-describedby="patients-title"
                   >
-                    Un catalogo di pazienti virtuali progettato per allenare
-                    empatia clinica, gestione emotiva e decisioni terapeutiche
-                    in ambienti sicuri.
+                    A catalog of virtual patients designed to train clinical
+                    empathy, emotional regulation, and therapeutic decision-making
+                    in safe environments.
                   </p>
                 </header>
               </div>

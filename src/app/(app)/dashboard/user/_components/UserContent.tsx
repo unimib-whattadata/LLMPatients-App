@@ -41,12 +41,12 @@ const profileSchema = z.object({
   name: z
     .string()
     .trim()
-    .min(2, "Il nome deve contenere almeno 2 caratteri")
-    .max(50, "Il nome deve contenere meno di 50 caratteri"),
+    .min(2, "Name must contain at least 2 characters")
+    .max(50, "Name must contain fewer than 50 characters"),
   email: z
     .string()
     .trim()
-    .email("Inserisci un'email valida"),
+    .email("Enter a valid email"),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -137,7 +137,7 @@ export const UserContent = React.memo(function UserContent() {
   const formatDate = (timestamp: Date | number) => {
     const date =
       typeof timestamp === "number" ? new Date(timestamp * 1000) : timestamp;
-    return date.toLocaleDateString("it-IT", {
+    return date.toLocaleDateString("en-US", {
       day: "2-digit",
       month: "short",
       year: "numeric",
@@ -149,13 +149,13 @@ export const UserContent = React.memo(function UserContent() {
   const getActivityDisplayName = (type: string) => {
     switch (type) {
       case "login":
-        return "Accesso effettuato";
+        return "Signed in";
       case "profile_update":
-        return "Profilo aggiornato";
+        return "Profile updated";
       case "dashboard_view":
-        return "Dashboard visualizzata";
+        return "Dashboard viewed";
       case "simulation":
-        return "Simulazione completata";
+        return "Simulation completed";
       default:
         return type;
     }
@@ -187,51 +187,51 @@ export const UserContent = React.memo(function UserContent() {
         }
       >
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="overview">Panoramica</TabsTrigger>
-          <TabsTrigger value="profile">Profilo</TabsTrigger>
-          <TabsTrigger value="activities">Attività</TabsTrigger>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="activities">Activities</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
           <DashboardSection
-            title="Panoramica"
-            description="Qui trovi un riepilogo rapido del tuo profilo, delle attività e delle simulazioni disponibili per continuare il tuo percorso formativo."
+            title="Overview"
+            description="Here you can find a quick summary of your profile, activities, and available simulations to continue your learning journey."
           >
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group" onClick={() => setSelectedSection("profile")}>
                 <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-green text-text-inverse">
-                  Profilo
+                  Profile
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-green transition-colors">
-                  Mantieni aggiornate le tue informazioni
+                  Keep your information updated
                 </h3>
                 <p className="text-sm text-gray-400">
-                  Modifica nome, email e preferenze per ricevere suggerimenti più pertinenti.
+                  Edit your name, email, and preferences to receive more relevant suggestions.
                 </p>
               </DashboardPanel>
 
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group" onClick={() => window.location.href = "/dashboard/therapeutic-journey"}>
                 <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-violet text-text-inverse">
-                  Simulazioni
+                  Simulations
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-violet transition-colors">
-                  Accedi alle sessioni attive
+                  Access active sessions
                 </h3>
                 <p className="text-sm text-gray-400">
-                  Prosegui con le simulazioni in corso o esplora nuovi scenari clinici.
+                  Continue ongoing simulations or explore new clinical scenarios.
                 </p>
               </DashboardPanel>
 
               <DashboardPanel className="p-6 hover:bg-card/50 transition-all cursor-pointer group">
                 <div className="mb-4 inline-flex px-2 py-1 rounded text-xs font-semibold bg-primary-yellow text-text-inverse">
-                  Progressi
+                  Progress
                 </div>
                 <h3 className="text-lg font-semibold mb-2 group-hover:text-primary-yellow transition-colors">
-                  Analizza la tua evoluzione
+                  Analyze your growth
                 </h3>
                 <p className="text-sm text-gray-400">
-                  Consulta le valutazioni ricevute e monitora la crescita delle tue competenze.
+                  Review your evaluations and monitor the growth of your skills.
                 </p>
               </DashboardPanel>
             </div>
@@ -239,22 +239,22 @@ export const UserContent = React.memo(function UserContent() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <DashboardMetricCard
                 value={typedActivities?.length ?? 0}
-                label="Attività registrate"
+                label="Recorded activities"
               />
               <DashboardMetricCard
                 value={simulationsCompleted}
-                label="Simulazioni completate"
+                label="Completed simulations"
               />
               <DashboardMetricCard
-                value={typedProfile?.role === "admin" ? "Admin" : "Utente"}
-                label="Ruolo account"
+                value={typedProfile?.role === "admin" ? "Admin" : "User"}
+                label="Account role"
               />
             </div>
           </DashboardSection>
 
           <DashboardSection
-            title="Attività Recenti"
-            description="Una selezione delle ultime azioni registrate mentre utilizzi la piattaforma."
+            title="Recent Activities"
+            description="A selection of the latest actions recorded while using the platform."
           >
 
             {typedActivities && typedActivities.length > 0 ? (
@@ -284,7 +284,7 @@ export const UserContent = React.memo(function UserContent() {
               <DashboardPanel className="py-12 flex flex-col items-center justify-center text-center text-gray-400">
                 <div className="text-4xl mb-4 opacity-20">📝</div>
                 <p>
-                  Le tue attività appariranno qui appena inizierai ad utilizzare la piattaforma.
+                  Your activities will appear here as soon as you start using the platform.
                 </p>
               </DashboardPanel>
             )}
@@ -313,8 +313,8 @@ export const UserContent = React.memo(function UserContent() {
             </DashboardSection>
           ) : (
             <DashboardSection
-              title="Profilo Utente"
-              description="Gestisci le informazioni del tuo account"
+              title="User Profile"
+              description="Manage your account information"
             >
               <DashboardPanel>
                 {isEditingProfile ? (
@@ -355,14 +355,14 @@ export const UserContent = React.memo(function UserContent() {
                           isLoading={updateProfile.isPending}
                           disabled={updateProfile.isPending}
                         >
-                          {updateProfile.isPending ? "Salvando..." : "Salva"}
+                          {updateProfile.isPending ? "Saving..." : "Save"}
                         </Button>
                         <Button
                           type="button"
                           variant="outline"
                           onClick={handleCancelEdit}
                         >
-                          Annulla
+                          Cancel
                         </Button>
                       </div>
                     </form>
@@ -372,10 +372,10 @@ export const UserContent = React.memo(function UserContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-1">
                         <Label className="text-muted-foreground text-xs uppercase tracking-wider">
-                          Nome
+                          Name
                         </Label>
                         <p className="font-medium text-lg text-text-primary">
-                          {typedProfile?.name || "Non specificato"}
+                          {typedProfile?.name || "Not specified"}
                         </p>
                       </div>
                       <div className="space-y-1">
@@ -383,23 +383,23 @@ export const UserContent = React.memo(function UserContent() {
                           Email
                         </Label>
                         <p className="font-medium text-lg text-text-primary">
-                          {typedProfile?.email || "Non specificato"}
+                          {typedProfile?.email || "Not specified"}
                         </p>
                       </div>
                       <div className="space-y-1">
                         <Label className="text-muted-foreground text-xs uppercase tracking-wider">
-                          Ruolo
+                          Role
                         </Label>
                         <div>
                           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary text-secondary-foreground">
-                            {typedProfile?.role === "admin" ? "Admin" : "Utente"}
+                            {typedProfile?.role === "admin" ? "Admin" : "User"}
                           </span>
                         </div>
                       </div>
                     </div>
                     <div className="flex justify-end pt-4 border-t border-border/50">
                       <Button onClick={handleEditProfile}>
-                        Modifica Profilo
+                        Edit Profile
                       </Button>
                     </div>
                   </div>
@@ -411,8 +411,8 @@ export const UserContent = React.memo(function UserContent() {
 
         <TabsContent value="activities" className="space-y-6">
           <DashboardSection
-            title="Attività Recenti"
-            description="Cronologia delle tue attività sulla piattaforma"
+            title="Recent Activities"
+            description="History of your activity on the platform"
           >
             {activitiesLoading ? (
               <DashboardPanel>
@@ -462,7 +462,7 @@ export const UserContent = React.memo(function UserContent() {
               <DashboardPanel className="py-12 flex flex-col items-center justify-center text-center text-gray-400">
                 <div className="text-4xl mb-4 opacity-20">📝</div>
                 <p>
-                  Le tue attività verranno registrate automaticamente mentre utilizzi LLMPatients.
+                  Your activities will be recorded automatically while using LLMPatients.
                 </p>
               </DashboardPanel>
             )}

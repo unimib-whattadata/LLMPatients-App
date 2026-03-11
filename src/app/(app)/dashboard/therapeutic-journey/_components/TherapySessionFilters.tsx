@@ -10,10 +10,10 @@ interface TherapySessionFiltersProps {
 }
 
 const FILTER_OPTIONS = [
-  { key: "all", label: "Tutti" },
-  { key: "started", label: "Iniziato" },
-  { key: "in-progress", label: "In corso" },
-  { key: "completed", label: "Completato" },
+  { key: "all", label: "All" },
+  { key: "started", label: "Started" },
+  { key: "in-progress", label: "In progress" },
+  { key: "completed", label: "Completed" },
 ] as const;
 
 const triggerBase =
@@ -40,7 +40,7 @@ function TherapySessionFiltersComponent({
       onValueChange={onFilterChange}
       className="mb-6"
     >
-      <TabsList className="grid grid-cols-2 gap-2 md:flex md:gap-3 !bg-transparent !p-0" aria-label="Filtri percorsi terapeutici">
+      <TabsList className="grid grid-cols-2 gap-2 md:flex md:gap-3 !bg-transparent !p-0" aria-label="Therapeutic journey filters">
         {FILTER_OPTIONS.map((tab) => (
           <TabsTrigger
             key={tab.key}

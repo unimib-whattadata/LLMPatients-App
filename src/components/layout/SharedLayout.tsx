@@ -115,7 +115,7 @@ export function SharedLayout({
               role="heading"
               aria-level={3}
             >
-              Sessione Impersonificata
+              Impersonated Session
             </p>
           )}
 

@@ -149,7 +149,7 @@ const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<"span"
     {...props}
   >
     <MoreHorizontal className="size-4" aria-hidden="true" />
-    <span className="sr-only">Più elementi</span>
+    <span className="sr-only">More items</span>
   </span>
 )
 BreadcrumbEllipsis.displayName = "BreadcrumbEllipsis"

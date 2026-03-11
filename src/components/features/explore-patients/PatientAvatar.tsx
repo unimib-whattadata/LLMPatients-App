@@ -99,7 +99,7 @@ export function PatientAvatar({
     >
       <Image
         src={showPlaceholder ? placeholder : avatarUrl}
-        alt={`Avatar di ${name}`}
+        alt={`Avatar of ${name}`}
         width={400}
         height={400}
         className="patient-avatar-image image-auto-size"
@@ -113,7 +113,7 @@ export function PatientAvatar({
       {hasError && avatarUrl && (
         <div className="patient-avatar-error">
           <AlertTriangle className="mb-2 h-8 w-8" />
-          <span className="text-center text-xs">Immagine non disponibile</span>
+          <span className="text-center text-xs">Image unavailable</span>
         </div>
       )}
     </div>

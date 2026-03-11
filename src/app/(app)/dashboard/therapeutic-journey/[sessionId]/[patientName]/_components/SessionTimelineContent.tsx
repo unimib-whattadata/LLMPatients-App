@@ -137,7 +137,7 @@ const TimelineStep = memo(
         role="button"
         tabIndex={isUnlocked ? 0 : -1}
         aria-disabled={!isUnlocked}
-        aria-label={`Apri sessione ${step.id}${isUnlocked ? "" : " non disponibile"}${isCompleted ? " - Completata" : ""}`}
+        aria-label={`Open session ${step.id}${isUnlocked ? "" : " not available"}${isCompleted ? " - Completed" : ""}`}
       >
         {step.id}
       </div>
@@ -196,7 +196,7 @@ const MobileTimelineStep = memo(
         <div className="flex items-start justify-between gap-3">
           <div>
             <p className="text-xs font-semibold tracking-[0.32em] text-muted-foreground uppercase">
-              Sessione {step.id}
+              Session {step.id}
               {isCompleted ? (
                 <Check className="ml-1 inline h-3 w-3 align-text-top" aria-hidden="true" />
               ) : null}
@@ -206,8 +206,8 @@ const MobileTimelineStep = memo(
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
               {isCompleted
-                ? "Sessione completata"
-                : "Clicca per aprire la sessione"}
+                ? "Session completed"
+                : "Click to open session"}
             </p>
           </div>
         </div>
@@ -417,25 +417,25 @@ export function SessionTimelineContent({
                   items={[
                     { label: "Dashboard", href: "/dashboard" },
                     {
-                      label: "Percorso Terapeutico",
+                      label: "Therapeutic Journey",
                       href: "/dashboard/therapeutic-journey",
                     },
-                    { label: "Sessione non trovata", isActive: true },
+                    { label: "Session not found", isActive: true },
                   ]}
                 />
 
                 <h1 className="dashboard-section__title">
-                  Sessione non trovata
+                  Session not found
                 </h1>
                 <p className="dashboard-section__description">
-                  La sessione richiesta non esiste o non è disponibile.
+                  The requested session does not exist or is not available.
                 </p>
                 <div className="mt-6">
                   <Link
                     href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
-                    Torna al Percorso Terapeutico
+                    Back to Therapeutic Journey
                   </Link>
                 </div>
               </div>
@@ -475,27 +475,27 @@ export function SessionTimelineContent({
                   items={[
                     { label: "Dashboard", href: "/dashboard" },
                     {
-                      label: "Percorso Terapeutico",
+                      label: "Therapeutic Journey",
                       href: "/dashboard/therapeutic-journey",
                     },
-                    { label: "Percorso non disponibile", isActive: true },
+                    { label: "Journey unavailable", isActive: true },
                   ]}
                 />
 
                 <h1 className="dashboard-section__title">
-                  Percorso non disponibile
+                  Journey unavailable
                 </h1>
                 <p className="dashboard-section__description">
-                  Non abbiamo trovato una sessione terapeutica per questo
-                  paziente. Avvia una nuova simulazione dalla pagina del
-                  paziente per iniziare il percorso.
+                  We did not find a therapeutic session for this patient.
+                  Start a new simulation from the patient page to begin
+                  the journey.
                 </p>
                 <div className="mt-6">
                   <Link
                     href="/dashboard/therapeutic-journey"
                     className="bg-primary-600 hover:bg-primary-700 inline-block rounded-md px-6 py-3 font-medium text-white transition-colors"
                   >
-                    Torna al Percorso Terapeutico
+                    Back to Therapeutic Journey
                   </Link>
                 </div>
               </div>
@@ -506,7 +506,7 @@ export function SessionTimelineContent({
     );
   }
 
-  // Verifica se il paziente è stato inizializzato nell'API esterna
+  // Check whether the patient has been initialized in the external API
   if (typedSelectedPatient && !typedSelectedPatient.externalPatientId) {
     return (
       <SharedLayout
@@ -523,7 +523,7 @@ export function SessionTimelineContent({
                   items={[
                     { label: "Dashboard", href: "/dashboard" },
                     {
-                      label: "Percorso Terapeutico",
+                      label: "Therapeutic Journey",
                       href: "/dashboard/therapeutic-journey",
                     },
                     {
@@ -534,11 +534,11 @@ export function SessionTimelineContent({
                 />
 
                 <h1 className="dashboard-section__title">
-                  Percorso Terapeutico non disponibile
+                  Therapeutic Journey unavailable
                 </h1>
                 <p className="dashboard-section__description">
-                  Il paziente non è stato inizializzato correttamente nel sistema esterno.
-                  L&apos;inizializzazione è necessaria per avviare il percorso terapeutico.
+                  The patient was not initialized correctly in the external system.
+                  Initialization is required to start the therapeutic journey.
                 </p>
                 <div className="mt-6">
                   <article className="dashboard-action-card">
@@ -562,11 +562,11 @@ export function SessionTimelineContent({
                           </div>
                           <div className="flex-1">
                             <h3 className="dashboard-action-card__title mb-1.5 text-red-400 text-base">
-                              Errore di inizializzazione
+                              Initialization error
                             </h3>
                             <p className="dashboard-action-card__description text-sm leading-snug">
-                              Si è verificato un errore durante la chiamata all&apos;API esterna per l&apos;inizializzazione del paziente.
-                              Il percorso terapeutico non può essere avviato fino a quando questo problema non sarà risolto.
+                              An error occurred while calling the external API for patient initialization.
+                              The therapeutic journey cannot start until this issue is resolved.
                             </p>
                           </div>
                         </div>
@@ -584,7 +584,7 @@ export function SessionTimelineContent({
                             size="sm"
                             className="flex-1"
                           >
-                            Torna alla pagina del paziente
+                            Back to patient page
                           </Button>
                           <Button
                             asChild
@@ -593,7 +593,7 @@ export function SessionTimelineContent({
                             className="flex-1"
                           >
                             <Link href="/dashboard/therapeutic-journey">
-                              Torna al Percorso Terapeutico
+                              Back to Therapeutic Journey
                             </Link>
                           </Button>
                         </div>
@@ -627,13 +627,13 @@ export function SessionTimelineContent({
                     items={[
                       { label: "Dashboard", href: "/dashboard" },
                       {
-                        label: "Percorso Terapeutico",
+                        label: "Therapeutic Journey",
                         href: "/dashboard/therapeutic-journey",
                       },
                       {
                         label: typedSelectedPatient
                           ? typedSelectedPatient.name
-                          : "Sessione",
+                          : "Session",
                         isActive: true,
                       },
                     ]}
@@ -641,24 +641,24 @@ export function SessionTimelineContent({
 
                   <h1 className="dashboard-section__title">
                     {typedSelectedPatient
-                      ? `Il tuo percorso con ${typedSelectedPatient.name}`
-                      : "Il tuo percorso terapeutico"}
+                      ? `Your journey with ${typedSelectedPatient.name}`
+                      : "Your therapeutic journey"}
                   </h1>
                 </div>
               </div>
               <p className="dashboard-section__description">
-                Inizia il tuo percorso terapeutico passo dopo passo. Ogni tappa
-                rappresenta una seduta con il tuo &quot;paziente virtuale&quot;.
-                Procedi con calma: ogni sessione ti aiuterà a sviluppare nuove
-                competenze, riflettere su ciò che hai appreso e sentirti sempre
-                più sicura nel tuo ruolo. Proprio come in un viaggio, ogni punto
-                è un piccolo traguardo. Sei pronto? Iniziamo!
+                Start your therapeutic journey step by step. Each milestone
+                represents a session with your &quot;virtual patient&quot;.
+                Take your time: each session helps you build new skills,
+                reflect on what you learned, and feel increasingly confident
+                in your role. Just like a journey, each point is a small goal.
+                Ready? Let&apos;s begin!
               </p>
               {typedSelectedPatient && (
                 <div className="mt-4 max-w-sm space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">
-                      Difficoltà:
+                      Difficulty:
                     </span>
                     <div className="patient-card-difficulty">
                       <span
@@ -678,7 +678,7 @@ export function SessionTimelineContent({
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-text-secondary text-sm">
-                      Durata stimata:
+                      Estimated duration:
                     </span>
                     <div className="flex items-center space-x-1 text-sm text-primary-yellow">
                       <Clock className="h-4 w-4" aria-hidden="true" />
@@ -692,7 +692,7 @@ export function SessionTimelineContent({
               {typedTherapySession && (
                 <div className="mt-4 flex items-center gap-4">
                   <div className="text-text-secondary text-sm">
-                    Sessione corrente:{" "}
+                    Current session:{" "}
                     <span className="text-text-primary font-semibold">
                       {typedTherapySession.sessionNumber}/{LAST_STEP_ID}
                     </span>
@@ -707,7 +707,7 @@ export function SessionTimelineContent({
                       disabled={advanceSession.isPending}
                       className="bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white"
                     >
-                      Avanza alla prossima sessione
+                      Advance to next session
                     </Button>
                   )}
                 </div>

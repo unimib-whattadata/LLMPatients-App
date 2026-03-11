@@ -7,13 +7,13 @@ export function InterventionPhaseCard({ className, style }: { className?: string
         <PhaseCard
             phase={2}
             variant="intervention"
-            title="Fase di Intervento"
-            subtitle="Sedute 3-10"
+            title="Intervention Phase"
+            subtitle="Sessions 3-10"
             items={[
-                "Utilizza tecniche di riformulazione per chiarire i concetti.",
-                "Proponi strategie concrete e personalizzate per il paziente.",
-                "Mantieni un approccio collaborativo e coinvolgente.",
-                "Monitora i progressi e adatta l'intervento di conseguenza."
+                "Use reframing techniques to clarify key concepts.",
+                "Propose concrete, personalized strategies for the patient.",
+                "Maintain a collaborative and engaging approach.",
+                "Monitor progress and adapt interventions accordingly."
             ]}
             className={className}
             style={style}

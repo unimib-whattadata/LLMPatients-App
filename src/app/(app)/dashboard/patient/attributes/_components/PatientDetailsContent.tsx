@@ -47,46 +47,46 @@ export function PatientDetailsContent() {
   
   const getSectionDisplayName = (key: string): string => {
     const displayNames: Record<string, string> = {
-      "personal-info": "Informazioni Personali",
-      "medical-history": "Storia Medica",
-      "psychological-assessment": "Valutazione Psicologica",
-      "behavioral-patterns": "Pattern Comportamentali",
-      "social-context": "Contesto Sociale",
-      "treatment-history": "Storia del Trattamento",
+      "personal-info": "Personal Information",
+      "medical-history": "Medical History",
+      "psychological-assessment": "Psychological Assessment",
+      "behavioral-patterns": "Behavioral Patterns",
+      "social-context": "Social Context",
+      "treatment-history": "Treatment History",
     };
     return displayNames[key] || key.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
     const getFieldDisplayName = (key: string): string => {
     const displayNames: Record<string, string> = {
-      "first-name": "Nome",
-      "last-name": "Cognome",
-      "age": "Età",
-      "gender": "Genere",
-      "date-of-birth": "Data di Nascita",
-      "contact-info": "Informazioni di Contatto",
-      "emergency-contact": "Contatto di Emergenza",
-      "medical-conditions": "Condizioni Mediche",
-      "medications": "Farmaci",
-      "allergies": "Allergie",
-      "family-history": "Storia Familiare",
-      "surgical-history": "Storia Chirurgica",
-      "current-symptoms": "Sintomi Attuali",
-      "mood-assessment": "Valutazione dell'Umore",
-      "anxiety-levels": "Livelli di Ansia",
-      "depression-indicators": "Indicatori di Depressione",
-      "cognitive-function": "Funzione Cognitiva",
-      "sleep-patterns": "Pattern del Sonno",
-      "eating-habits": "Abitudini Alimentari",
-      "substance-use": "Uso di Sostanze",
-      "social-support": "Supporto Sociale",
-      "living-situation": "Situazione Abitativa",
-      "occupation": "Occupazione",
-      "education": "Istruzione",
-      "previous-therapy": "Terapia Precedente",
-      "current-treatment": "Trattamento Attuale",
-      "treatment-goals": "Obiettivi del Trattamento",
-      "progress-notes": "Note di Progresso",
+      "first-name": "First Name",
+      "last-name": "Last Name",
+      "age": "Age",
+      "gender": "Gender",
+      "date-of-birth": "Date of Birth",
+      "contact-info": "Contact Information",
+      "emergency-contact": "Emergency Contact",
+      "medical-conditions": "Medical Conditions",
+      "medications": "Medications",
+      "allergies": "Allergies",
+      "family-history": "Family History",
+      "surgical-history": "Surgical History",
+      "current-symptoms": "Current Symptoms",
+      "mood-assessment": "Mood Assessment",
+      "anxiety-levels": "Anxiety Levels",
+      "depression-indicators": "Depression Indicators",
+      "cognitive-function": "Cognitive Function",
+      "sleep-patterns": "Sleep Patterns",
+      "eating-habits": "Eating Habits",
+      "substance-use": "Substance Use",
+      "social-support": "Social Support",
+      "living-situation": "Living Situation",
+      "occupation": "Occupation",
+      "education": "Education",
+      "previous-therapy": "Previous Therapy",
+      "current-treatment": "Current Treatment",
+      "treatment-goals": "Treatment Goals",
+      "progress-notes": "Progress Notes",
     };
     return displayNames[key] || key.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
@@ -186,8 +186,8 @@ export function PatientDetailsContent() {
         
         {hasEnum && (
           <div className="text-sm text-muted-foreground">
-            Valori: {fieldDef.enum!.join(", ")}
-            {fieldDef.enum!.length > 6 && ` (+${fieldDef.enum!.length - 6} altri)`}
+            Values: {fieldDef.enum!.join(", ")}
+            {fieldDef.enum!.length > 6 && ` (+${fieldDef.enum!.length - 6} more)`}
           </div>
         )}
 
@@ -224,7 +224,7 @@ export function PatientDetailsContent() {
             <div className="flex items-center gap-4">
               <h3 className="font-semibold text-lg text-left">{sectionName}</h3>
               <span className="text-sm text-muted-foreground">
-                {fieldCount} campi
+                {fieldCount} fields
               </span>
             </div>
             {isExpanded ? (
@@ -244,7 +244,7 @@ export function PatientDetailsContent() {
             </div>
           ) : (
             <p className="text-sm text-muted-foreground italic">
-              Nessun campo disponibile in questa sezione
+              No fields available in this section
             </p>
           )}
         </CollapsibleContent>
@@ -261,10 +261,10 @@ export function PatientDetailsContent() {
         <div className="dashboard-section__header">
           <div>
             <h2 id="patient-attributes-schema" className="dashboard-section__title">
-              Schema di Valutazione Psicologica
+              Psychological Assessment Schema
             </h2>
             <p className="dashboard-section__description">
-              Visualizza tutti i campi disponibili per la valutazione psicologica strutturata dei pazienti
+              View all available fields for structured patient psychological assessment
             </p>
           </div>
         </div>
@@ -273,7 +273,7 @@ export function PatientDetailsContent() {
           <div className="space-y-6">
             {}
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Tutte le Sezioni</h3>
+              <h3 className="text-lg font-semibold">All Sections</h3>
               <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
@@ -281,7 +281,7 @@ export function PatientDetailsContent() {
                   onClick={toggleAllSections}
                 >
                   {allExpanded ? <ChevronUp className="h-4 w-4 mr-2" /> : <ChevronDown className="h-4 w-4 mr-2" />}
-                  {allExpanded ? "Chiudi Tutte" : "Apri Tutte"}
+                  {allExpanded ? "Collapse All" : "Expand All"}
                 </Button>
                 <Button
                   variant="outline"
@@ -289,7 +289,7 @@ export function PatientDetailsContent() {
                   onClick={() => setShowFieldTypes(!showFieldTypes)}
                 >
                   {showFieldTypes ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
-                  {showFieldTypes ? "Nascondi" : "Mostra"} Tipi
+                  {showFieldTypes ? "Hide" : "Show"} Types
                 </Button>
               </div>
             </div>
@@ -297,7 +297,7 @@ export function PatientDetailsContent() {
             {}
             <div>
               <Input
-                placeholder="Cerca sezioni, campi o valori..."
+                placeholder="Search sections, fields, or values..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -314,7 +314,7 @@ export function PatientDetailsContent() {
                   <div className="text-center py-8">
                     <Search className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">
-                      Nessuna sezione trovata per &quot;{searchTerm}&quot;
+                      No sections found for &quot;{searchTerm}&quot;
                     </p>
                   </div>
                 )}

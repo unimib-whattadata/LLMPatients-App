@@ -47,15 +47,15 @@ const VECTOR_ORDER = [
 ] as const;
 
 const SERIES_META: Record<string, { label: string; color: string }> = {
-  SEEKING: { label: "Ricerca", color: EMOTION_COLORS.SEEKING },
-  CARE: { label: "Cura", color: EMOTION_COLORS.CARE },
-  PLAY: { label: "Gioco", color: EMOTION_COLORS.PLAY },
-  FEAR: { label: "Paura", color: EMOTION_COLORS.FEAR },
-  RAGE: { label: "Rabbia", color: EMOTION_COLORS.RAGE },
-  PANIC_GRIEF: { label: "Panico/Lutto", color: EMOTION_COLORS.PANIC_GRIEF },
-  SADNESS: { label: "Tristezza", color: EMOTION_COLORS.SADNESS },
-  LUST: { label: "Desiderio", color: EMOTION_COLORS.LUST },
-  BASE: { label: "Neutro", color: EMOTION_COLORS.base },
+  SEEKING: { label: "Seeking", color: EMOTION_COLORS.SEEKING },
+  CARE: { label: "Care", color: EMOTION_COLORS.CARE },
+  PLAY: { label: "Play", color: EMOTION_COLORS.PLAY },
+  FEAR: { label: "Fear", color: EMOTION_COLORS.FEAR },
+  RAGE: { label: "Rage", color: EMOTION_COLORS.RAGE },
+  PANIC_GRIEF: { label: "Panic/Grief", color: EMOTION_COLORS.PANIC_GRIEF },
+  SADNESS: { label: "Sadness", color: EMOTION_COLORS.SADNESS },
+  LUST: { label: "Desire", color: EMOTION_COLORS.LUST },
+  BASE: { label: "Neutral", color: EMOTION_COLORS.base },
 };
 
 const RADAR_LEVELS = [0.25, 0.5, 0.75, 1] as const;
@@ -108,7 +108,7 @@ function getSeriesLabel(key: string): string {
 }
 
 function getAxisLabel(key: string): string {
-  if (key === "PANIC_GRIEF") return "Panico";
+  if (key === "PANIC_GRIEF") return "Panic";
   return getSeriesLabel(key);
 }
 
@@ -418,13 +418,13 @@ export function EmotionTrendPanel({
       {axisPoints.length > 0 ? (
         <div
           className="w-full rounded-lg border border-[var(--color-border-secondary)]/80 bg-[var(--color-surface-secondary)]/35 p-2"
-          aria-label="Radar emozionale corrente"
+          aria-label="Current emotional radar"
         >
           <svg
             viewBox={`0 0 ${radarSize} ${radarSize}`}
             className="mx-auto h-auto w-full max-w-[248px]"
             role="img"
-            aria-label="Grafico radar emozioni correnti"
+            aria-label="Current emotions radar chart"
           >
             {levelPolygons.map((polygonPoints, index) => (
               <polygon
@@ -516,7 +516,7 @@ export function EmotionTrendPanel({
         </div>
       ) : (
         <p className="text-xs text-[var(--color-text-secondary)]">
-          Dati emotivi non disponibili.
+          Emotional data unavailable.
         </p>
       )}
 

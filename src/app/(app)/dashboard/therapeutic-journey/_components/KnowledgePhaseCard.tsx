@@ -6,12 +6,12 @@ export function KnowledgePhaseCard({ className, style }: { className?: string; s
         <PhaseCard
             phase={1}
             variant="knowledge"
-            title="Consigli per essere un buon terapeuta"
-            subtitle="Sedute 1-2"
+            title="Tips to be a good therapist"
+            subtitle="Sessions 1-2"
             items={[
-                "Ascolta attivamente il paziente senza interrompere la narrazione.",
-                "Costruisci un'alleanza terapeutica basata sulla fiducia e l'accoglienza.",
-                "Mantieni un atteggiamento empatico e non giudicante per favorire l'apertura."
+                "Listen actively to the patient without interrupting their narrative.",
+                "Build a therapeutic alliance based on trust and acceptance.",
+                "Maintain an empathic, non-judgmental attitude to encourage openness."
             ]}
             className={className}
             style={style}

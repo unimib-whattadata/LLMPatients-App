@@ -7,12 +7,12 @@ export function ConclusionPhaseCard({ className, style }: { className?: string; 
         <PhaseCard
             phase={3}
             variant="conclusion"
-            title="Conclusione"
-            subtitle="Seduta 11"
+            title="Conclusion"
+            subtitle="Session 11"
             items={[
-                "Riassumi i punti chiave emersi durante l'intero percorso terapeutico.",
-                "Valuta insieme al paziente l'efficacia delle strategie implementate.",
-                "Pianifica eventuali follow-up o approfondimenti post-terapia."
+                "Summarize the key points that emerged throughout the therapeutic journey.",
+                "Evaluate with the patient the effectiveness of the implemented strategies.",
+                "Plan possible follow-ups or post-therapy deep dives."
             ]}
             className={className}
             style={style}

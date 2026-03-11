@@ -103,8 +103,8 @@ export function TherapeuticJourneyContent() {
   return (
     <div className="space-y-8">
       <DashboardSection
-        title="I tuoi percorsi terapeutici"
-        description="Seleziona un paziente per continuare il tuo percorso terapeutico o inizia una nuova simulazione."
+        title="Your therapeutic journeys"
+        description="Select a patient to continue your therapeutic journey or start a new simulation."
       >
         {!isClient ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -137,8 +137,8 @@ export function TherapeuticJourneyContent() {
 
       { }
       <DashboardSection
-        title="Percorsi Terapeutici"
-        description="Le tue sessioni terapeutiche in corso"
+        title="Therapeutic Journeys"
+        description="Your ongoing therapeutic sessions"
       >
         <TherapySessionFilters
           activeFilter={filter}
@@ -180,30 +180,30 @@ export function TherapeuticJourneyContent() {
         ) : sessionsError ? (
           <DashboardPanel className="flex flex-col items-center justify-center p-8 text-center min-h-[300px]">
             <h3 className="text-foreground mb-2 text-lg font-medium">
-              Errore nel caricamento
+              Loading error
             </h3>
             <p className="text-muted-foreground">
-              Non è stato possibile caricare le tue sessioni terapeutiche.
+              Unable to load your therapeutic sessions.
             </p>
           </DashboardPanel>
         ) : !typedAllTherapySessions || typedAllTherapySessions.length === 0 ? (
           <DashboardPanel className="flex flex-col items-center justify-center p-12 text-center min-h-[400px]">
             <h3 className="text-foreground mb-2 text-2xl font-bold">
-              Nessuna sessione avviata
+              No session started
             </h3>
             <p className="text-muted-foreground max-w-md mx-auto mb-8">
-              Non hai ancora avviato nessuna sessione terapeutica. Vai alla
-              pagina &quot;Esplora Pazienti&quot; per iniziare.
+              You have not started any therapeutic session yet. Go to the
+              &quot;Explore Patients&quot; page to begin.
             </p>
             <Button asChild size="lg" className="bg-primary-green hover:bg-primary-green/90 text-text-inverse">
-              <Link href="/explore-patients">Esplora Pazienti</Link>
+              <Link href="/explore-patients">Explore Patients</Link>
             </Button>
           </DashboardPanel>
         ) : (
           <div
             className="grid grid-cols-1 md:grid-cols-3 gap-6"
             role="list"
-            aria-label={`Griglia di ${filteredSessions.length} sessioni terapeutiche`}
+            aria-label={`Grid of ${filteredSessions.length} therapeutic sessions`}
           >
             {filteredSessions.map((therapySession) => (
               <TherapySessionCard
@@ -220,10 +220,10 @@ export function TherapeuticJourneyContent() {
           typedAllTherapySessions.length > 0 && (
             <DashboardPanel className="col-span-1 md:col-span-3 min-h-[200px] flex flex-col items-center justify-center p-8 text-center bg-transparent border-dashed">
               <h3 className="text-foreground mb-2 text-lg font-medium">
-                Nessuna sessione trovata
+                No sessions found
               </h3>
               <p className="text-muted-foreground">
-                Modifica i filtri per vedere più sessioni
+                Adjust filters to see more sessions
               </p>
             </DashboardPanel>
           )}
@@ -232,5 +232,4 @@ export function TherapeuticJourneyContent() {
     </div>
   )
 }
-
 

@@ -22,7 +22,7 @@ export function PatientGrid({
         <Alert variant="destructive" className="max-w-md">
           <AlertDescription className="space-y-4">
             <div>
-              <h3 className="font-semibold">Errore nel caricamento</h3>
+              <h3 className="font-semibold">Loading error</h3>
               <p>{error}</p>
             </div>
             <Button
@@ -30,7 +30,7 @@ export function PatientGrid({
               variant="outline"
               size="sm"
             >
-              Riprova
+              Retry
             </Button>
           </AlertDescription>
         </Alert>
@@ -49,9 +49,9 @@ export function PatientGrid({
       <div className="flex min-h-[400px] items-center justify-center p-4">
         <div className="text-center space-y-4">
           <div className="text-6xl">🔍</div>
-          <h3 className="text-lg font-semibold">Nessun paziente trovato</h3>
+          <h3 className="text-lg font-semibold">No patient found</h3>
           <p className="text-muted-foreground">
-            Non ci sono pazienti virtuali disponibili al momento.
+            There are no virtual patients available at the moment.
           </p>
         </div>
       </div>
@@ -61,7 +61,7 @@ export function PatientGrid({
   return (
     <div
       className="grid gap-6 grid-cols-1 sm:grid-cols-2"
-      aria-label={`Griglia di ${patients.length} pazienti virtuali`}
+      aria-label={`Grid of ${patients.length} virtual patients`}
       role="list"
     >
       {patients.map((patient) => (

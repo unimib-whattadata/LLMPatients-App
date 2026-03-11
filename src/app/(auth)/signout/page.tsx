@@ -36,7 +36,7 @@ export default function SignoutPage() {
       } catch (err) {
         logger.error("Signout failed", err);
         setError(
-          "Si è verificato un errore durante il logout. Verrai reindirizzato alla homepage.",
+          "An error occurred during sign out. You will be redirected to the homepage.",
         );
         setStatus("error");
 
@@ -56,18 +56,18 @@ export default function SignoutPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
-            Arrivederci!
+            Goodbye!
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed">
-            Grazie per aver utilizzato LLMPatients. La tua sessione è stata terminata in sicurezza.
+            Thanks for using LLMPatients. Your session has been securely ended.
           </p>
           <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
             <span>•</span>
-            <span>Sessione terminata</span>
+            <span>Session ended</span>
             <span>•</span>
-            <span>Dati protetti</span>
+            <span>Data protected</span>
             <span>•</span>
-            <span>Arrivederci a presto</span>
+            <span>See you soon</span>
           </div>
         </div>
       </div>
@@ -82,10 +82,10 @@ export default function SignoutPage() {
                 <LogOut className="h-8 w-8 text-primary-green" aria-hidden="true" />
               </div>
               <h1 className="text-2xl font-bold text-text-primary mb-2">
-                Logout in corso
+                Signing out
               </h1>
               <p className="text-text-secondary">
-                Stai per essere disconnesso dal sistema
+                You are about to be signed out
               </p>
             </div>
 
@@ -97,7 +97,7 @@ export default function SignoutPage() {
                     <Loader2 className="h-8 w-8 animate-spin text-primary-green" aria-hidden="true" />
                   </div>
                   <p className="text-text-secondary">
-                    Disconnessione in corso...
+                    Signing out...
                   </p>
                 </div>
               )}
@@ -110,10 +110,10 @@ export default function SignoutPage() {
                     </div>
                   </div>
                   <p className="text-text-primary font-medium">
-                    Logout completato con successo
+                    Signed out successfully
                   </p>
                   <p className="text-text-secondary text-sm">
-                    Verrai reindirizzato alla homepage...
+                    You will be redirected to the homepage...
                   </p>
                 </div>
               )}
@@ -126,13 +126,13 @@ export default function SignoutPage() {
                     </div>
                   </div>
                   <p className="text-text-primary font-medium">
-                    Errore durante il logout
+                    Sign-out error
                   </p>
                   <p className="text-text-secondary text-sm">
-                    {error || "Si è verificato un errore imprevisto."}
+                    {error || "An unexpected error occurred."}
                   </p>
                   <p className="text-text-tertiary text-xs">
-                    Verrai comunque reindirizzato alla homepage...
+                    You will still be redirected to the homepage...
                   </p>
                 </div>
               )}
@@ -144,7 +144,7 @@ export default function SignoutPage() {
                 onClick={() => router.push("/")}
                 className="w-full bg-primary-green hover:bg-primary-green/90 text-text-inverse font-medium py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
               >
-                Vai alla Homepage
+                Go to Homepage
               </Button>
             </div>
           </div>

@@ -69,7 +69,7 @@ export function ShadcnNavbar({
           variant="ghost"
           size="sm"
           onClick={handleLogout}
-          title="Esci"
+          title="Sign out"
         >
           <LogOut className="h-4 w-4" />
         </Button>
@@ -86,10 +86,10 @@ export function ShadcnNavbar({
         asChild
         className="border-2 border-accent bg-background text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
       >
-        <Link href="/login">Accedi</Link>
+        <Link href="/login">Sign in</Link>
       </Button>
       <Button size="sm" asChild>
-        <Link href="/register">Registrati</Link>
+        <Link href="/register">Sign up</Link>
       </Button>
     </div>
   );

@@ -56,7 +56,7 @@ export function PatientCard({ patient }: PatientCardProps) {
               {patient.name}
             </CardTitle>
             <Badge variant="secondary" itemProp="age" className="bg-primary-green text-text-inverse">
-              {patient.age} anni
+              {patient.age} years
             </Badge>
           </div>
 
@@ -70,7 +70,7 @@ export function PatientCard({ patient }: PatientCardProps) {
       <CardContent className="flex-1 pt-0">
         { }
         <div className="space-y-2">
-          <p className="text-sm font-medium text-primary-green">Obiettivi:</p>
+          <p className="text-sm font-medium text-primary-green">Goals:</p>
           <ul className="space-y-1" role="list">
             {patient.objectives.slice(0, 2).map((objective, index) => (
               <li
@@ -92,7 +92,7 @@ export function PatientCard({ patient }: PatientCardProps) {
                   }
                   aria-expanded={areObjectivesExpanded}
                 >
-                  +{patient.objectives.length - 2} altri obiettivi
+                  +{patient.objectives.length - 2} more goals
                 </button>
                 {areObjectivesExpanded && (
                   <ul className="mt-2 space-y-1" role="list">
@@ -116,7 +116,7 @@ export function PatientCard({ patient }: PatientCardProps) {
         { }
         <div className="mt-4 space-y-3 pt-4">
           <div className="flex items-center justify-between">
-            <span className="text-text-secondary text-sm">Difficoltà:</span>
+            <span className="text-text-secondary text-sm">Difficulty:</span>
             <div className="patient-card-difficulty">
               <span
                 className={getDifficultyIconClass(
@@ -132,7 +132,7 @@ export function PatientCard({ patient }: PatientCardProps) {
             </div>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-text-secondary text-sm">Durata stimata:</span>
+            <span className="text-text-secondary text-sm">Estimated duration:</span>
             <div className="flex items-center space-x-1 text-sm text-primary-yellow">
               <Clock className="h-4 w-4" aria-hidden="true" />
               <span className="text-text-tertiary text-sm">
@@ -147,9 +147,9 @@ export function PatientCard({ patient }: PatientCardProps) {
         <Button asChild className="w-full">
           <Link
             href={`/explore-patients/${patient.id}/${createPatientSlug(patient.name)}`}
-            aria-label={`Inizia simulazione con ${patient.name}`}
+            aria-label={`Start simulation with ${patient.name}`}
           >
-            Continua con {patient.name}
+            Continue with {patient.name}
           </Link>
         </Button>
       </CardFooter>

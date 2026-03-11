@@ -602,6 +602,18 @@ function loadPatientsFromYamlFiles(): PatientSeed[] {
 
 const PATIENTS: PatientSeed[] = loadPatientsFromYamlFiles();
 
+function getPatientIdentityKey(params: {
+  externalPatientId: string | null | undefined;
+  name: string;
+}): string {
+  const externalId = readNonEmptyString(params.externalPatientId);
+  if (externalId) {
+    return `external:${externalId}`;
+  }
+
+  return `name:${params.name.trim().toLowerCase()}`;
+}
+
 async function seedDatabase() {
   const targetEmails = SEED_USERS.map((user) => user.email);
   const existingUsers = await db
@@ -648,18 +660,55 @@ async function seedDatabase() {
 }
 
 async function seedPatients() {
-  console.log("[INFO] Removing existing therapy sessions and patients...");
-
-  // Delete dependent records first to avoid foreign key violations.
-  await db.delete(therapySessions);
-  await db.delete(patients);
-
   if (PATIENTS.length === 0) {
     console.warn("[WARN] No patients to insert.");
     return;
   }
 
-  const rows = PATIENTS.map((patient) => {
+  const existingPatients = await db
+    .select({
+      name: patients.name,
+      externalPatientId: patients.externalPatientId,
+    })
+    .from(patients);
+
+  const existingPatientKeys = new Set<string>(
+    existingPatients.map((patient: { name: string; externalPatientId: string | null }) =>
+      getPatientIdentityKey({
+        name: patient.name,
+        externalPatientId: patient.externalPatientId,
+      }),
+    ),
+  );
+
+  const yamlPatientKeys = new Set<string>();
+  const patientsToInsert = PATIENTS.filter((patient) => {
+    const key = getPatientIdentityKey({
+      name: patient.name,
+      externalPatientId: patient.externalPatientId,
+    });
+
+    if (existingPatientKeys.has(key)) {
+      return false;
+    }
+
+    if (yamlPatientKeys.has(key)) {
+      console.warn(
+        `[WARN] Duplicate patient in YAML payload (same identity key), skipping: ${patient.sourceFile}`,
+      );
+      return false;
+    }
+
+    yamlPatientKeys.add(key);
+    return true;
+  });
+
+  if (patientsToInsert.length === 0) {
+    console.log("👌 Nessun nuovo paziente da importare");
+    return;
+  }
+
+  const rows = patientsToInsert.map((patient) => {
     const details = patient.details;
 
     return {
@@ -692,7 +741,9 @@ async function seedPatients() {
 
   await db.insert(patients).values(rows);
 
-  console.log(`[INFO] Pazienti virtuali pronti (${rows.length} totali)`);
+  console.log(
+    `[INFO] Pazienti importati: ${rows.length} nuovi, ${PATIENTS.length - rows.length} già presenti`,
+  );
 }
 
 async function runSeeding() {

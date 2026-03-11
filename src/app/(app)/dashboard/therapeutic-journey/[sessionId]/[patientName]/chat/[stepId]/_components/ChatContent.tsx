@@ -350,15 +350,15 @@ const PDF_VECTOR_ORDER = [
 ] as const;
 
 const PDF_SERIES_META: Record<string, { label: string; color: PdfRgb }> = {
-  SEEKING: { label: "Ricerca", color: [249, 115, 22] },
-  CARE: { label: "Cura", color: [16, 185, 129] },
-  PLAY: { label: "Gioco", color: [234, 179, 8] },
-  FEAR: { label: "Paura", color: [167, 139, 250] },
-  RAGE: { label: "Rabbia", color: [248, 113, 113] },
-  PANIC_GRIEF: { label: "Panico/Lutto", color: [96, 165, 250] },
-  SADNESS: { label: "Tristezza", color: [96, 165, 250] },
-  LUST: { label: "Desiderio", color: [244, 114, 182] },
-  BASE: { label: "Neutro", color: [163, 163, 163] },
+  SEEKING: { label: "Seeking", color: [249, 115, 22] },
+  CARE: { label: "Care", color: [16, 185, 129] },
+  PLAY: { label: "Play", color: [234, 179, 8] },
+  FEAR: { label: "Fear", color: [167, 139, 250] },
+  RAGE: { label: "Rage", color: [248, 113, 113] },
+  PANIC_GRIEF: { label: "Panic/Grief", color: [96, 165, 250] },
+  SADNESS: { label: "Sadness", color: [96, 165, 250] },
+  LUST: { label: "Desire", color: [244, 114, 182] },
+  BASE: { label: "Neutral", color: [163, 163, 163] },
 };
 
 function prettifyEmotionLabel(value: string): string {
@@ -545,7 +545,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
   const selectedPatientId = typedSelectedPatient?.id;
   const basePatientAvatarUrl = typedSelectedPatient?.avatarUrl ?? null;
-  const effectivePatientName = responsePatientName ?? typedSelectedPatient?.name ?? "Paziente";
+  const effectivePatientName = responsePatientName ?? typedSelectedPatient?.name ?? "Patient";
   const selectedPatientAvatarUrl = sanitizePatientAvatarUrl(
     responseAvatarUrl ?? basePatientAvatarUrl,
     basePatientAvatarUrl,
@@ -930,7 +930,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         isInitialLoad.current = false;
         // Use welcome message from database, or generate a default one
         const welcomeContent = typedSelectedPatient.welcomeMessage ||
-          `Ciao! Sono ${typedSelectedPatient.name}. Sono qui per aiutarti a esplorare la sessione ${stepId} del nostro percorso terapeutico.`;
+          `Hi! I’m ${typedSelectedPatient.name}. I’m here to help you explore session ${stepId} of our therapeutic journey.`;
 
         // Extract and remove text in parentheses from welcome message
         const { cleanedText, extractedText } = extractAndRemoveParentheses(welcomeContent);
@@ -1169,9 +1169,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             name: typedSelectedPatient?.name || "",
             age: 45,
             gender: "male",
-            diagnosis: "Disturbo d'ansia generalizzato",
+            diagnosis: "Generalized anxiety disorder",
             difficulty: typedSelectedPatient?.difficulty || 1,
-            psychologicalProfile: typedSelectedPatient?.background || "Profilo psicologico standard",
+            psychologicalProfile: typedSelectedPatient?.background || "Standard psychological profile",
             background: typedSelectedPatient?.background || "",
             currentMedications: [],
             therapyGoals: typedSelectedPatient?.objectives || [],
@@ -1233,7 +1233,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
     } catch (error) {
       setIsTyping(false);
-      alert("Errore nella generazione della risposta. Riprova.");
+      alert("Error generating response. Please try again.");
 
 
       setTimeout(() => {
@@ -1292,13 +1292,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           error.message.includes("access denied")
         ) {
           alert(
-            "Sessione non trovata o accesso negato. Ricarica la pagina e riprova.",
+            "Session not found or access denied. Reload the page and try again.",
           );
         } else {
-          alert(`Errore nel completare la sessione: ${error.message}`);
+          alert(`Error completing session: ${error.message}`);
         }
       } else {
-        alert("Errore nel completare la sessione. Riprova.");
+        alert("Error completing session. Please try again.");
       }
     }
   }, [typedTherapySession, stepId, markStepDoneMutation, utils]);
@@ -1837,7 +1837,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       link.remove();
       setTimeout(() => URL.revokeObjectURL(downloadUrl), 2000);
     } catch (error) {
-      alert("Errore durante l'esportazione PDF. Riprova.");
+      alert("Error exporting PDF. Please try again.");
     } finally {
       setIsExportingPdf(false);
     }
@@ -1882,7 +1882,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
 
   const currentDateString = useMemo(
-    () => new Date().toLocaleDateString("it-IT"),
+    () => new Date().toLocaleDateString("en-US"),
     [],
   );
 
@@ -1911,14 +1911,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         <div className="flex min-h-screen items-center justify-center bg-background">
           <DashboardPanel className="dashboard-section text-center p-8 max-w-md">
             <h2 className="mb-4 text-2xl font-bold text-foreground">
-              Paziente non trovato
+              Patient not found
             </h2>
             <p className="mb-6 text-muted-foreground">
-              Il paziente richiesto non è disponibile.
+              The requested patient is not available.
             </p>
             <Button onClick={goBack} size="lg" className="gap-2">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Torna alla Timeline
+              Back to Timeline
             </Button>
           </DashboardPanel>
         </div>
@@ -1937,7 +1937,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       <div
         className="flex h-[calc(100vh-4rem)] flex-col bg-background"
         role="main"
-        aria-label="Chat con paziente virtuale"
+        aria-label="Chat with virtual patient"
       >
         { }
         <header
@@ -1951,7 +1951,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 size="sm"
                 onClick={goBack}
                 className="flex-shrink-0 hover:bg-primary/10"
-                aria-label="Torna alla timeline"
+                aria-label="Back to timeline"
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
@@ -1960,7 +1960,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   <span className="hidden sm:inline">
                     {effectivePatientName} -{" "}
                   </span>
-                  Sessione {stepId}
+                  Session {stepId}
                 </h1>
                 <p className="text-sm text-muted-foreground">
                   {currentDateString}
@@ -1979,7 +1979,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     variant="ghost"
                     size="sm"
                     className="flex-shrink-0 hover:bg-primary/10"
-                    aria-label="Informazioni sessione"
+                    aria-label="Session information"
                   >
                     <Info className="h-4 w-4" />
                   </Button>
@@ -1987,11 +1987,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 <PopoverContent className="w-80" align="end">
                   <div className="space-y-3">
                     <h4 className="font-medium text-sm text-foreground">
-                      Informazioni Sessione
+                      Session Information
                     </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Patient ID (interno):</span>
+                        <span className="text-muted-foreground">Patient ID (internal):</span>
                         <span className="font-mono text-xs text-foreground">
                           {typedSelectedPatient?.id || "N/A"}
                         </span>
@@ -2005,7 +2005,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">External Patient ID:</span>
                         <span className="font-mono text-xs text-foreground">
-                          {typedSelectedPatient?.externalPatientId || "Non inizializzato"}
+                          {typedSelectedPatient?.externalPatientId || "Not initialized"}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -2029,13 +2029,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                   isLoading={markStepDoneMutation.isPending}
                   size="sm"
                   className="px-2 text-xs sm:px-4 sm:text-sm"
-                  aria-label="Completa sessione"
+                  aria-label="Complete session"
                 >
                   <span className="hidden sm:inline">
-                    {markStepDoneMutation.isPending ? "Completando..." : "Fine"}
+                    {markStepDoneMutation.isPending ? "Completing..." : "Complete"}
                   </span>
                   <span className="sm:hidden">
-                    {markStepDoneMutation.isPending ? "..." : "Fine"}
+                    {markStepDoneMutation.isPending ? "..." : "Done"}
                   </span>
                 </Button>
               )}
@@ -2066,7 +2066,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                       <Image
                         key={`current-${currentEmotion}`}
                         src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                        alt={`Avatar di ${effectivePatientName} - ${currentEmotion}`}
+                        alt={`Avatar of ${effectivePatientName} - ${currentEmotion}`}
                         width={100}
                         height={100}
                         className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full"
@@ -2085,7 +2085,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                         <Image
                           key={`next-${nextEmotion}`}
                           src={getPatientAvatarPath(selectedPatientAvatarUrl, nextEmotion)}
-                          alt={`Avatar di ${effectivePatientName} - ${nextEmotion}`}
+                          alt={`Avatar of ${effectivePatientName} - ${nextEmotion}`}
                           width={100}
                           height={100}
                           className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full absolute inset-0"
@@ -2111,7 +2111,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                     onClick={() => setIsAvatarExpanded(true)}
                     className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
                     style={{ zIndex: 3 }}
-                    aria-label="Espandi avatar"
+                    aria-label="Expand avatar"
                   >
                     <Maximize2 className="h-3 w-3 text-white" />
                   </Button>
@@ -2165,7 +2165,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-[var(--color-border-secondary)]">
                             <Image
                               src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                              alt={`Avatar di ${effectivePatientName}`}
+                              alt={`Avatar of ${effectivePatientName}`}
                               width={48}
                               height={48}
                               className="h-full w-full object-cover"
@@ -2219,7 +2219,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     <TooltipTrigger asChild>
                                       <button
                                         className="flex-shrink-0 opacity-70 hover:opacity-100 transition-all mt-0.5 p-1 rounded hover:bg-white/20 hover:scale-110"
-                                        aria-label="Informazioni tecniche risposta"
+                                        aria-label="Technical response details"
                                         type="button"
                                       >
                                         <Code2 className="h-4 w-4 text-white" />
@@ -2233,7 +2233,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                       <div className="space-y-3 max-w-full">
                                         <div>
                                           <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                            Informazioni Tecniche
+                                            Technical Information
                                           </h4>
                                           <div className="space-y-2 text-xs">
                                             <div className="flex justify-between">
@@ -2257,7 +2257,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                             )}
                                             {message.metadata.duration !== undefined && (
                                               <div className="flex justify-between">
-                                                <span className="text-[var(--color-text-secondary)]">Durata:</span>
+                                                <span className="text-[var(--color-text-secondary)]">Duration:</span>
                                                 <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
                                                   {message.metadata.duration < 1000
                                                     ? `${message.metadata.duration}ms`
@@ -2269,7 +2269,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                               <div className="flex justify-between">
                                                 <span className="text-[var(--color-text-secondary)]">Timestamp:</span>
                                                 <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("it-IT")}
+                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("en-US")}
                                                 </span>
                                               </div>
                                             )}
@@ -2279,7 +2279,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                         {message.metadata.requestData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
                                             <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                              Dati Inviati
+                                              Sent Data
                                             </h4>
                                             <div className="space-y-2 text-xs">
                                               {message.metadata.requestData.patientId && (
@@ -2339,7 +2339,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                         {message.metadata.responseData && (
                                           <div className="border-t border-[var(--color-border-secondary)] pt-3">
                                             <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                              Dati Ricevuti
+                                              Received Data
                                             </h4>
                                             <div className="space-y-2 text-xs">
                                               {message.metadata.responseData.emotion && (
@@ -2390,7 +2390,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                             {message.metadata.rawResponseJson && (
                                               <div className="mt-3 border-t border-[var(--color-border-secondary)] pt-3">
                                                 <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                                  JSON Risposta
+                                                  Response JSON
                                                 </h4>
                                                 <pre className="text-[10px] font-mono text-[var(--color-text-primary)] bg-[var(--color-surface-primary)] p-2 rounded border border-[var(--color-border-secondary)] overflow-auto max-h-32">
                                                   {message.metadata.rawResponseJson}
@@ -2438,9 +2438,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                               </svg>
                             </div>
                             <div className="message-content">
-                              <div className="message-title">Audio non disponibile</div>
+                              <div className="message-title">Audio unavailable</div>
                               <div className="message-text">
-                                Il servizio di sintesi vocale non è disponibile al momento. I messaggi del paziente verranno mostrati solo come testo.
+                                The text-to-speech service is currently unavailable. Patient messages will be shown as text only.
                               </div>
                             </div>
                             <Button
@@ -2448,7 +2448,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                               variant="ghost"
                               size="icon"
                               className="message-dismiss"
-                              aria-label="Chiudi avviso"
+                              aria-label="Close notice"
                             >
                               <X className="h-4 w-4" />
                             </Button>
@@ -2466,9 +2466,9 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                               </svg>
                             </div>
                             <div className="message-content">
-                              <div className="message-title">Riproduzione audio automatica</div>
+                              <div className="message-title">Automatic audio playback</div>
                               <div className="message-text">
-                                Invia un messaggio o clicca play per abilitare la riproduzione automatica dell&apos;audio dei messaggi del paziente.
+                                Send a message or click play to enable automatic playback of patient message audio.
                               </div>
                             </div>
                           </div>
@@ -2484,7 +2484,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                 <div className="flex items-center justify-center flex-1 h-20">
                                   <Loader2 className="h-6 w-6 animate-spin text-[var(--color-primary-green)]" />
                                   <span className="ml-2 text-sm text-[var(--color-text-secondary)]">
-                                    Generazione audio...
+                                    Generating audio...
                                   </span>
                                 </div>
                               ) : (
@@ -2556,8 +2556,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                                     <div className="flex items-center justify-center flex-1 h-20">
                                       <span className="text-sm text-[var(--color-text-secondary)]">
                                         {audioPlayer.isPlaying
-                                          ? "Riproduzione in corso..."
-                                          : "Audio pronto - Clicca play per ascoltare"
+                                          ? "Playing..."
+                                          : "Audio ready - Click play to listen"
                                         }
                                       </span>
                                     </div>
@@ -2571,7 +2571,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                               size="sm"
                               onClick={audioPlayer.clear}
                               className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                              aria-label="Chiudi audio player"
+                              aria-label="Close audio player"
                               disabled={audioPlayer.isLoading}
                             >
                               <X className="h-4 w-4" />
@@ -2587,17 +2587,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                             value={inputMessage}
                             onChange={(e) => setInputMessage(e.target.value)}
                             onKeyPress={handleKeyPress}
-                            placeholder="Inizia la conversazione"
+                            placeholder="Start the conversation"
                             disabled={isTyping}
                             className="flex-1 text-sm sm:text-base h-11"
-                            aria-label="Messaggio da inviare"
+                            aria-label="Message to send"
                           />
                         </div>
                         <Button
                           onClick={() => void handleSendMessage()}
                           disabled={!inputMessage.trim() || isTyping}
                           className="chat-send-button h-11 w-11"
-                          aria-label="Invia messaggio"
+                          aria-label="Send message"
                         >
                           <Send className="h-4 w-4" />
                         </Button>
@@ -2615,7 +2615,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                           <p className="flex items-center justify-center gap-2 text-sm font-medium">
                             <Check className="h-4 w-4" aria-hidden="true" />
                             <span>
-                              Sessione {stepId} completata - La conversazione è in modalità sola lettura
+                              Session {stepId} completed - Conversation is in read-only mode
                             </span>
                           </p>
                           <Button
@@ -2625,7 +2625,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                             size="sm"
                             variant="secondary"
                             className="h-8 gap-2 border border-stone-800 bg-white/90 px-3 text-xs font-semibold text-stone-900 hover:bg-white"
-                            aria-label="Scarica report PDF della sessione"
+                            aria-label="Download session PDF report"
                           >
                             {isExportingPdf ? (
                               <Loader2 className="h-4 w-4 animate-spin" />
@@ -2668,14 +2668,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               </div>
             </div>
             <DialogTitle className="text-center text-xl">
-              Sessione Completata!
+              Session Completed!
             </DialogTitle>
             <DialogDescription className="text-center pt-2">
-              Hai completato con successo la Sessione {stepId} con{" "}
+              You successfully completed Session {stepId} with{" "}
               {effectivePatientName}.
               <br />
               <span className="text-sm text-[var(--color-text-primary)]/60 mt-2 block">
-                Le tue note sono state salvate e puoi rivederle in qualsiasi momento.
+                Your notes have been saved and can be reviewed at any time.
               </span>
             </DialogDescription>
           </DialogHeader>
@@ -2685,7 +2685,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               className="w-full sm:w-auto"
               size="lg"
             >
-              Torna alla Timeline
+              Back to Timeline
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -2695,13 +2695,13 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
         <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
           <DialogHeader className="sr-only">
-            <DialogTitle>Avatar del paziente {effectivePatientName}</DialogTitle>
+            <DialogTitle>Patient avatar {effectivePatientName}</DialogTitle>
           </DialogHeader>
           <div className="relative">
             {typedSelectedPatient ? (
               <Image
                 src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                alt={`Avatar di ${effectivePatientName} - ${currentEmotion}`}
+                alt={`Avatar of ${effectivePatientName} - ${currentEmotion}`}
                 width={600}
                 height={600}
                 className="w-full h-auto object-cover"
@@ -2718,7 +2718,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
               size="sm"
               onClick={() => setIsAvatarExpanded(false)}
               className="absolute top-2 right-2 h-8 w-8 p-0 bg-black/40 hover:bg-black/60"
-              aria-label="Chiudi"
+              aria-label="Close"
             >
               <X className="h-4 w-4 text-white" />
             </Button>

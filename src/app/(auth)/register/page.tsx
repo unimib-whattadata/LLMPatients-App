@@ -27,32 +27,32 @@ const registerSchema = z
     name: z
       .string()
       .trim()
-      .min(2, "Il nome deve avere almeno 2 caratteri")
-      .max(50, "Il nome deve avere meno di 50 caratteri"),
+      .min(2, "Name must have at least 2 characters")
+      .max(50, "Name must have fewer than 50 characters"),
     email: z
       .string()
       .trim()
-      .email("Inserisci un'email valida"),
+      .email("Enter a valid email"),
     password: z
       .string()
-      .min(8, "La password deve contenere almeno 8 caratteri")
-      .regex(/[A-Z]/, "La password deve contenere una lettera maiuscola")
-      .regex(/[a-z]/, "La password deve contenere una lettera minuscola")
-      .regex(/\d/, "La password deve contenere un numero")
+      .min(8, "Password must contain at least 8 characters")
+      .regex(/[A-Z]/, "Password must contain an uppercase letter")
+      .regex(/[a-z]/, "Password must contain a lowercase letter")
+      .regex(/\d/, "Password must contain a number")
       .regex(
         /[!@#$%^&*(),.?":{}|<>]/,
-        "La password deve contenere un carattere speciale",
+        "Password must contain a special character",
       ),
-    confirmPassword: z.string().min(1, "Conferma password obbligatoria"),
+    confirmPassword: z.string().min(1, "Password confirmation is required"),
     acceptTerms: z
       .boolean()
       .refine((value) => value === true, {
-        message: "Devi accettare i termini e le condizioni",
+        message: "You must accept terms and conditions",
       }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
-    message: "Le password non corrispondono",
+    message: "Passwords do not match",
   });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -105,15 +105,15 @@ export default function RegisterPage() {
 
       if (!response.ok) {
         setServerError(
-          data?.error || "Registrazione fallita. Riprova più tardi.",
+          data?.error || "Registration failed. Try again later.",
         );
         return;
       }
 
-      router.push("/login?message=Registrazione avvenuta con successo! Accedi.");
+      router.push("/login?message=Registration completed successfully! Sign in.");
     } catch {
       setServerError(
-        "Si è verificato un errore inatteso. Riprova più tardi.",
+        "An unexpected error occurred. Try again later.",
       );
     }
   });
@@ -124,18 +124,18 @@ export default function RegisterPage() {
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-primary-green/10 to-primary-violet/10 items-center justify-center p-12">
         <div className="max-w-md text-center">
           <h1 className="text-4xl font-bold text-primary-green mb-6">
-            Unisciti a LLMPatients
+            Join LLMPatients
           </h1>
           <p className="text-xl text-text-secondary leading-relaxed">
-            Inizia il tuo percorso di apprendimento medico con simulazioni interattive e pazienti virtuali intelligenti.
+            Start your medical learning journey with interactive simulations and intelligent virtual patients.
           </p>
           <div className="mt-8 flex items-center justify-center space-x-4 text-sm text-text-tertiary">
             <span>•</span>
-            <span>Formazione avanzata</span>
+            <span>Advanced training</span>
             <span>•</span>
-            <span>Simulazioni realistiche</span>
+            <span>Realistic simulations</span>
             <span>•</span>
-            <span>Progressi tracciati</span>
+            <span>Progress tracking</span>
           </div>
         </div>
       </div>
@@ -143,9 +143,9 @@ export default function RegisterPage() {
       {}
       <div className="w-full lg:w-1/2 bg-[var(--color-navbar-dark)] flex items-center justify-center p-8">
         <div className="w-full max-w-md">
-          <h2 className="text-2xl font-bold text-white mb-2">Registrazione</h2>
+          <h2 className="text-2xl font-bold text-white mb-2">Sign up</h2>
           <p className="text-text-secondary mb-8">
-            Unisciti alla nostra piattaforma di allenamento con pazienti virtuali
+            Join our virtual patient training platform
           </p>
           <Form {...form}>
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -163,12 +163,12 @@ export default function RegisterPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="name">Nome completo</FormLabel>
+                    <FormLabel htmlFor="name">Full name</FormLabel>
                     <FormControl>
                       <Input
                         id="name"
                         autoComplete="name"
-                        placeholder="Il tuo nome completo"
+                        placeholder="Your full name"
                         {...field}
                       />
                     </FormControl>
@@ -182,13 +182,13 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="email">E-mail</FormLabel>
+                    <FormLabel htmlFor="email">Email</FormLabel>
                     <FormControl>
                       <Input
                         id="email"
                         type="email"
                         autoComplete="email"
-                        placeholder="La tua e-mail"
+                        placeholder="Your email"
                         {...field}
                       />
                     </FormControl>
@@ -209,7 +209,7 @@ export default function RegisterPage() {
                           id="password"
                           type={showPassword ? "text" : "password"}
                           autoComplete="new-password"
-                          placeholder="Crea una password sicura"
+                          placeholder="Create a secure password"
                           {...field}
                         />
                         <Button
@@ -218,7 +218,7 @@ export default function RegisterPage() {
                           size="icon"
                           className="absolute right-2 top-1/2 -translate-y-1/2 text-text-tertiary"
                           onClick={() => setShowPassword((prev) => !prev)}
-                          aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                          aria-label={showPassword ? "Hide password" : "Show password"}
                         >
                           <Eye className="h-4 w-4" />
                         </Button>
@@ -234,14 +234,14 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="confirm-password">Conferma password</FormLabel>
+                    <FormLabel htmlFor="confirm-password">Confirm password</FormLabel>
                     <FormControl>
                       <div className="relative">
                         <Input
                           id="confirm-password"
                           type={showConfirmPassword ? "text" : "password"}
                           autoComplete="new-password"
-                          placeholder="Conferma la tua password"
+                          placeholder="Confirm your password"
                           {...field}
                         />
                         <Button
@@ -252,8 +252,8 @@ export default function RegisterPage() {
                           onClick={() => setShowConfirmPassword((prev) => !prev)}
                           aria-label={
                             showConfirmPassword
-                              ? "Nascondi conferma password"
-                              : "Mostra conferma password"
+                              ? "Hide password confirmation"
+                              : "Show password confirmation"
                           }
                         >
                           <Eye className="h-4 w-4" />
@@ -282,18 +282,20 @@ export default function RegisterPage() {
                         htmlFor="terms"
                         className="text-sm font-normal text-text-secondary"
                       >
-                        Accetto i
-                        <a
+                        I accept the
+                        <Link
                           href="/terms"
                           target="_blank"
-                          rel="noreferrer"
+                          rel="noopener noreferrer"
                           className="text-primary-green hover:text-primary-green/80 transition-colors mx-1"
                         >
-                          termini e condizioni
-                        </a>
-                        della piattaforma e la
+                          terms and conditions
+                        </Link>
+                        of the platform and the
                         <Link
                           href="/privacy"
+                          target="_blank"
+                          rel="noopener noreferrer"
                           className="text-primary-green hover:text-primary-green/80 transition-colors ml-1"
                         >
                           privacy policy
@@ -310,18 +312,48 @@ export default function RegisterPage() {
                 className="w-full"
                 disabled={isSubmitting}
                 isLoading={isSubmitting}
-                aria-label="Registra il tuo account"
+                aria-label="Register your account"
               >
-                {isSubmitting ? "Registrazione in corso..." : "Registrati"}
+                {isSubmitting ? "Registering..." : "Sign up"}
               </Button>
 
               <div className="text-center text-sm text-text-secondary">
-                Hai già un account?
+                Already have an account?
                 <Link
                   href="/login"
                   className="text-primary-green hover:text-primary-green/80 transition-colors ml-1"
                 >
-                  Accedi qui
+                  Sign in here
+                </Link>
+              </div>
+
+              <div
+                className="pt-4 text-center text-xs text-text-tertiary"
+                aria-label="Legal links"
+              >
+                <Link
+                  href="/privacy"
+                  className="underline underline-offset-4 hover:text-text-secondary transition-colors"
+                >
+                  Privacy Policy
+                </Link>
+                <span className="mx-2" aria-hidden="true">
+                  •
+                </span>
+                <Link
+                  href="/terms"
+                  className="underline underline-offset-4 hover:text-text-secondary transition-colors"
+                >
+                  Terms and Conditions
+                </Link>
+                <span className="mx-2" aria-hidden="true">
+                  •
+                </span>
+                <Link
+                  href="/cookies"
+                  className="underline underline-offset-4 hover:text-text-secondary transition-colors"
+                >
+                  Cookie Settings
                 </Link>
               </div>
             </form>

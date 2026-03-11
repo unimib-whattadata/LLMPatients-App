@@ -19,15 +19,15 @@ function TherapySessionMetricsComponent({
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <DashboardMetricCard
         value={startedOrInProgress}
-        label="Iniziate o In corso"
+        label="Started or In Progress"
       />
       <DashboardMetricCard
         value={completed}
-        label="Completate"
+        label="Completed"
       />
       <DashboardMetricCard
         value={`${averageProgress}%`}
-        label="Progresso Medio"
+        label="Average Progress"
       />
     </div>
   );
