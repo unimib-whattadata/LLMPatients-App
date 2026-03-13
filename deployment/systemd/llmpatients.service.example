@@ -1,0 +1,22 @@
+[Unit]
+Description=LLMPatients Next.js application (Linux alternative, not used on the macOS production host)
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+User=llmpatients
+Group=llmpatients
+WorkingDirectory=/srv/llmpatients/current
+Environment=NODE_ENV=production
+Environment=PORT=8080
+EnvironmentFile=/srv/llmpatients/current/.env
+ExecStart=/usr/bin/env pnpm start
+Restart=always
+RestartSec=5
+TimeoutStartSec=60
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

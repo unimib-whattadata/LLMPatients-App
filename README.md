@@ -163,10 +163,40 @@ pnpm build
 pnpm start
 ```
 
+To bind the app to a different port in production:
+
+```bash
+PORT=8080 pnpm start
+```
+
 ### Docker
 A `docker-compose.yml` is included to orchestrate PostgreSQL.
 ```bash
 docker-compose up -d
+```
+
+### Reverse Proxy And Process Manager
+- Production macOS `launchd` example: `deployment/launchd/it.whattadata.llmpatients.plist.example`
+- Remote `nginx` site config example: `deployment/nginx/llmpatient.conf.example`
+- Linux-only alternative `systemd` unit: `deployment/systemd/llmpatients.service.example`
+
+Production topology for the current deployment:
+- The Next.js app runs on this Mac and listens on `149.132.178.114:8080`.
+- Public HTTPS is terminated on the external proxy host `149.132.176.51`.
+- The proxy forwards `llmpatient.whattadata.it` traffic to `http://149.132.178.114:8080`.
+
+Recommended production checks:
+- Make sure the `launchd` service and the `nginx` upstream use the same port.
+- Keep `PORT` explicit in the service definition instead of relying on shell defaults.
+- Do not use `0.0.0.0` in `API_BASE_URL` or other outbound service URLs. It is valid for binding a server, not for reaching another service over HTTP.
+- On macOS, load the user service with `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/it.whattadata.llmpatients.plist`.
+- Enable and restart it with `launchctl enable gui/$(id -u)/it.whattadata.llmpatients` and `launchctl kickstart -k gui/$(id -u)/it.whattadata.llmpatients`.
+- After deploy, verify both the local upstream and the public domain:
+
+```bash
+curl -I http://127.0.0.1:8080
+curl -I http://149.132.178.114:8080
+curl -I https://llmpatient.whattadata.it/
 ```
 
 ### Release Checklist
