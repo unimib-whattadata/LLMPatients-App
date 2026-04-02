@@ -4,6 +4,7 @@ import { impersonationRouter } from "~/server/api/routers/impersonation";
 import { patientsRouter } from "~/server/api/routers/patients";
 import { therapySessionsRouter } from "~/server/api/routers/therapy-sessions";
 import { chatRouter } from "~/server/api/routers/chat";
+import { stepEvaluationsRouter } from "~/server/api/routers/step-evaluations";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 export const appRouter = createTRPCRouter({
@@ -13,6 +14,7 @@ export const appRouter = createTRPCRouter({
   patients: patientsRouter, 
   therapySessions: therapySessionsRouter,
   chat: chatRouter, 
+  stepEvaluations: stepEvaluationsRouter,
 });
 
 

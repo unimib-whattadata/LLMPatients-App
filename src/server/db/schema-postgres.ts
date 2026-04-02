@@ -228,6 +228,40 @@ export const chat = createTable(
   ],
 );
 
+export const chatStepEvaluations = createTable(
+  "chat_step_evaluation",
+  (d: any) => ({
+    id: d
+      .text()
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    therapySessionId: d
+      .text()
+      .notNull()
+      .references(() => therapySessions.id, { onDelete: "cascade" }),
+    stepNumber: d.integer().notNull(),
+    status: d.text().notNull().default("processing"),
+    analysisMode: d.text().notNull().default("heuristic"),
+    modelName: d.text(),
+    detectorVersion: d.text().notNull(),
+    resultJson: d.text(),
+    errorMessage: d.text(),
+    analyzedAt: d.timestamp({ mode: "date" }),
+    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
+    updatedAt: d.timestamp({ mode: "date" }),
+  }),
+  (t) => [
+    index("chat_step_evaluation_session_idx").on(t.therapySessionId),
+    index("chat_step_evaluation_status_idx").on(t.status),
+    index("chat_step_evaluation_analyzed_at_idx").on(t.analyzedAt),
+    uniqueIndex("chat_step_evaluation_session_step_idx").on(
+      t.therapySessionId,
+      t.stepNumber,
+    ),
+  ],
+);
+
 export const userActivities = createTable(
   "userActivity",
   (d: any) => ({
@@ -356,6 +390,7 @@ export const therapySessionsRelations = relations(
       references: [patients.id],
     }),
     chats: many(chat),
+    chatStepEvaluations: many(chatStepEvaluations),
   }),
 );
 
@@ -365,6 +400,16 @@ export const chatRelations = relations(chat, ({ one }) => ({
     references: [therapySessions.id],
   }),
 }));
+
+export const chatStepEvaluationsRelations = relations(
+  chatStepEvaluations,
+  ({ one }) => ({
+    therapySession: one(therapySessions, {
+      fields: [chatStepEvaluations.therapySessionId],
+      references: [therapySessions.id],
+    }),
+  }),
+);
 
 export const usersRelations = relations(users, ({ many: _many }) => ({}));
 

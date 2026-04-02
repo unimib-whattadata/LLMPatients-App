@@ -34,6 +34,7 @@
     "clean": "rm -rf .next && rm -rf out && rm -rf dist"
   },
   "dependencies": {
+    "@google/genai": "^1.48.0",
     "@hookform/resolvers": "^5.2.2",
     "@libsql/client": "^0.15.15",
     "@radix-ui/react-alert-dialog": "^1.1.15",

@@ -601,6 +601,17 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     router.push("/dashboard/therapeutic-journey");
   }, [router, therapySessionId, typedSelectedPatient]);
 
+  const goToMisstepAnalysis = useCallback(() => {
+    if (!typedSelectedPatient) {
+      return;
+    }
+
+    const patientSlug = createPatientSlug(typedSelectedPatient.name);
+    router.push(
+      `/dashboard/therapeutic-journey/${therapySessionId}/${patientSlug}/chat/${stepId}/missteps`,
+    );
+  }, [router, stepId, therapySessionId, typedSelectedPatient]);
+
   const handleCompleteStep = useCallback(async () => {
     if (!typedTherapySession) return;
 
@@ -819,6 +830,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
                 stepId={stepId}
                 isExportingPdf={isExportingPdf}
                 onDownloadPdf={() => void handleDownloadSessionPdf()}
+                onOpenMisstepAnalysis={goToMisstepAnalysis}
               />
             </div>
           </div>
@@ -843,6 +855,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         effectivePatientName={effectivePatientName}
         onOpenChange={setIsSuccessDialogOpen}
         onBackToTimeline={handleCloseSuccessDialog}
+        onOpenMisstepAnalysis={goToMisstepAnalysis}
       />
 
       <ExpandedAvatarDialog

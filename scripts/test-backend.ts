@@ -20,6 +20,7 @@ function buildBaseEnv() {
       process.env.NEXTAUTH_SECRET ??
       "test-nextauth-secret-which-is-long-enough-12345",
     API: process.env.API ?? "local",
+    MISSTEP_ANALYSIS_MODE: process.env.MISSTEP_ANALYSIS_MODE ?? "heuristic",
   };
 }
 

@@ -36,7 +36,7 @@ This platform offers a **hybrid expert system** for multi-session simulation of 
 
 - Manage a complete therapeutic journey in **11 sessions** (Intake, Intervention, Termination).
 - Face patients with complex personalities, defenses, and realistic relational patterns.
-- Receive automatic feedback on empathy, setting adherence, and clinical missteps.
+- Receive automatic, step-level feedback on empathy, setting adherence, and clinical missteps after completing each chat step.
 
 The goal is to provide a "safe gym" to make mistakes and learn without risks for real patients.
 
@@ -46,7 +46,9 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 - **📅 Multi-session Continuity**: Long-term memory (RAG) that maintains narrative and clinical coherence across 11 distinct sessions.
 - **🗣️ Multimodal Interaction**: Support for text and voice chat (Text-to-Speech with Chatterbox/ElevenLabs and Speech-to-Text).
 - **📉 Adaptive Dynamics**: The patient reacts to student interventions (e.g., alliance ruptures, defenses) modifying their emotional state.
-- **📊 Detailed Reporting**: Analytical dashboards to track progress, view transcripts, and receive automatic evaluations.
+- **🧪 Step-Level Misstep Analysis**: Every completed chat step can trigger an automatic misstep report with `Detected/Not detected`, confidence, and transcript evidence for 16 therapist misstep categories.
+- **📊 Detailed Reporting**: Analytical dashboards to track progress, view transcripts, export PDFs, and review automatic evaluations.
+- **☁️ Optional Vertex AI Judge**: The misstep detector works heuristically by default and can optionally refine results through Vertex AI structured-output judging.
 - **🔒 Privacy-First**: Architecture designed for local execution of TTS/STT models and support for local or remote LLMs.
 
 ## Demo
@@ -61,7 +63,8 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 - **pnpm**: Recommended package manager.
 - **Database**: SQLite (default, included) or PostgreSQL (via Docker).
 - **Python**: v3.10+ (required only if using local TTS modules like Chatterbox/VibeVoice).
-- **API Keys**: OpenAI/Anthropic (for the patient's brain) and ElevenLabs (optional for cloud TTS).
+- **External patient service**: Optional remote API credentials if `API=remote`.
+- **Vertex AI**: Optional Google Cloud credentials if you want hybrid LLM judging for misstep analysis.
 
 ## Installation
 
@@ -77,10 +80,11 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
     ```
 
 3.  **Configure the environment**:
-    Copy the `.env.example` file to `.env` (see [Configuration](#configuration)).
+    Create a `.env` file in the project root and populate it with the variables listed in [Configuration](#configuration).
     ```bash
-    cp .env.example .env
+    touch .env
     ```
+    If you prefer, you can also create `.env` manually from scratch.
 
 4.  **Prepare the database** (SQLite):
     ```bash
@@ -106,10 +110,27 @@ Main environment variables in `.env`:
 |-----------|-------------|---------|
 | `DATABASE_URL` | DB connection string (e.g., `file:./dev.db`) | - |
 | `AUTH_SECRET` | Secret for NextAuth (e.g., `openssl rand -base64 32`) | - |
-| `OPENAI_API_KEY` | API Key for the main LLM | - |
+| `NEXTAUTH_SECRET` | Optional explicit NextAuth secret | - |
+| `API` | Patient generation mode: `local` or `remote` | `local` |
+| `EXTERNAL_AI_API_KEY` | Bearer token used when `API=remote` | - |
+| `API_BASE_URL` | Base URL for the external patient/orchestrator service | - |
+| `API_INITIALIZE_PATIENT_ENDPOINT` | Remote endpoint for patient initialization | `/patient` or custom |
+| `API_CHAT_RESPONSE_ENDPOINT` | Remote endpoint for patient chat responses | `/chat-response` or custom |
 | `TTS_PROVIDER` | Voice provider: `chatterbox`, `elevenlabs`, `vibevoice`, `none` | `none` |
 | `ELEVENLABS_API_KEY` | ElevenLabs API Key (if used) | - |
-| `NEXTAUTH_URL` | Base app URL | `http://localhost:8080` |
+| `NEXTAUTH_URL` | Optional stable public app URL | request host in dev |
+| `MISSTEP_ANALYSIS_MODE` | Misstep detector mode: `hybrid` or `heuristic` | `hybrid` |
+| `VERTEX_MODEL_ID` | Vertex/Gemini model used for structured judging | `gemini-2.5-flash` |
+| `GOOGLE_CLOUD_PROJECT` | GCP project for Vertex AI | - |
+| `GOOGLE_CLOUD_LOCATION` | Vertex AI location | `global` |
+| `GOOGLE_GENAI_USE_VERTEXAI` | Enable Vertex AI through `@google/genai` | `true` |
+
+### Misstep analysis modes
+
+- `heuristic`: use only the built-in detector based on transcript features and rules.
+- `hybrid`: run the heuristic detector first, then optionally refine results with a Vertex AI structured-output judge when Google Cloud is configured.
+
+If `MISSTEP_ANALYSIS_MODE=hybrid` but Vertex credentials are missing or the call fails, the app automatically falls back to `heuristic`.
 
 ### Environments
 - **Dev**: `NODE_ENV=development`
@@ -122,11 +143,17 @@ Main environment variables in `.env`:
 2. From the **Dashboard**, select "New Simulation".
 3. Choose a patient from the library (e.g., "Juanita", "Marco").
 4. Start **Session 1** (Intake). Conduct the interview via chat or voice.
-5. At the end, view the **Report** with automatic feedback.
+5. Mark the current chat step as completed.
+6. Open the **Misstep Analysis** report for that completed step.
+7. Continue across the 11-session journey until the therapy session is completed.
 
 ### API
 The system uses tRPC for client-server communication.
-Example call (internal): `trpc.session.complete.mutate({ sessionId })`.
+Key internal calls for the step-evaluation flow:
+
+- `trpc.chat.markStepDone.mutate({ therapySessionId, stepNumber })`
+- `trpc.stepEvaluations.getByStep.query({ therapySessionId, stepNumber })`
+- `trpc.stepEvaluations.retryByStep.mutate({ therapySessionId, stepNumber })`
 
 ## Architecture
 
@@ -136,9 +163,10 @@ The project is built on **Next.js 15** (App Router) and T3 stack.
 - **Backend**: Next.js Server Actions, tRPC.
 - **Database**: Drizzle ORM (SQLite/Postgres).
 - **AI Core**:
-    - `src/lib/ai`: LLM logic and prompt management.
-    - `src/services/patient`: Patient state management (P/M/S).
-    - `scripts/`: Python modules for local TTS.
+    - `src/server/services/patient-response-generator.ts`: patient orchestration and remote/local chat generation.
+    - `src/server/services/misstep-evaluator.ts`: heuristic + optional Vertex AI misstep scoring for a single completed chat step.
+    - `src/server/services/step-misstep-evaluations.ts`: persistence, queueing, and retry logic for step evaluations.
+    - `scripts/`: auxiliary scripts and backend scenario tests.
 
 ## Testing
 
@@ -148,6 +176,14 @@ To verify system health and integrations:
 pnpm test
 ```
 This script runs a diagnosis of services (Database, TTS, API).
+
+To run the backend integration scenario used by this project:
+
+```bash
+pnpm test:backend
+```
+
+This covers core persistence flows across SQLite and, when available, PostgreSQL, including chat-step completion and misstep evaluation persistence.
 
 **Coverage and Linting**:
 ```bash
@@ -222,6 +258,7 @@ To report bugs, use the GitHub Issues section.
 - [x] PDM-2 Patient Profile
 - [x] Long-Term Memory (RAG)
 - [x] Local TTS (Chatterbox) and Cloud TTS (ElevenLabs) Support
+- [x] Step-level misstep analysis with persisted reports
 - [ ] Advanced Supervisor Dashboard
 - [ ] Real-time browser Speech-to-Text integration
 - [ ] Patient library expansion

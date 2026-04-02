@@ -382,6 +382,7 @@ export const therapySessionsRelations = relations(
       references: [patients.id],
     }),
     chats: many(chat),
+    chatStepEvaluations: many(chatStepEvaluations),
   }),
 );
 
@@ -415,12 +416,59 @@ export const chat = createTable(
   ],
 );
 
+export const chatStepEvaluations = createTable(
+  "chat_step_evaluation",
+  (d) => ({
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    therapySessionId: d
+      .text({ length: 255 })
+      .notNull()
+      .references(() => therapySessions.id, { onDelete: "cascade" }),
+    stepNumber: d.integer({ mode: "number" }).notNull(),
+    status: d.text({ length: 32 }).notNull().default("processing"),
+    analysisMode: d.text({ length: 32 }).notNull().default("heuristic"),
+    modelName: d.text({ length: 255 }),
+    detectorVersion: d.text({ length: 64 }).notNull(),
+    resultJson: d.text(),
+    errorMessage: d.text(),
+    analyzedAt: d.integer({ mode: "timestamp" }),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(strftime('%s', 'now'))`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }),
+  }),
+  (t) => [
+    index("chat_step_evaluation_session_idx").on(t.therapySessionId),
+    index("chat_step_evaluation_status_idx").on(t.status),
+    index("chat_step_evaluation_analyzed_at_idx").on(t.analyzedAt),
+    uniqueIndex("chat_step_evaluation_session_step_idx").on(
+      t.therapySessionId,
+      t.stepNumber,
+    ),
+  ],
+);
+
 export const chatRelations = relations(chat, ({ one }) => ({
   therapySession: one(therapySessions, {
     fields: [chat.therapySessionId],
     references: [therapySessions.id],
   }),
 }));
+
+export const chatStepEvaluationsRelations = relations(
+  chatStepEvaluations,
+  ({ one }) => ({
+    therapySession: one(therapySessions, {
+      fields: [chatStepEvaluations.therapySessionId],
+      references: [therapySessions.id],
+    }),
+  }),
+);
 
 export const extendedUsersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),

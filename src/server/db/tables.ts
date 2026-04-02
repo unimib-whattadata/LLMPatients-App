@@ -20,6 +20,7 @@ export const {
   patients,
   therapySessions,
   chat,
+  chatStepEvaluations,
   accountsRelations,
   sessionsRelations,
   userActivitiesRelations,
@@ -28,6 +29,7 @@ export const {
   patientsRelations,
   therapySessionsRelations,
   chatRelations,
+  chatStepEvaluationsRelations,
   usersRelations,
   extendedUsersRelations,
 } = activeSchema;

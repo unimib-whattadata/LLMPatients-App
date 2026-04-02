@@ -50,6 +50,11 @@ export const env = createEnv({
     API_TIMEOUT_INITIALIZE_PATIENT: z.string().optional(),
     API_TIMEOUT_CHAT_RESPONSE: z.string().optional(),
     EXTERNAL_AI_API_KEY: z.string().min(1).optional(),
+    MISSTEP_ANALYSIS_MODE: z.enum(["hybrid", "heuristic"]).default("hybrid"),
+    VERTEX_MODEL_ID: z.string().min(1).default("gemini-2.5-flash"),
+    GOOGLE_CLOUD_PROJECT: z.string().min(1).optional(),
+    GOOGLE_CLOUD_LOCATION: z.string().min(1).default("global"),
+    GOOGLE_GENAI_USE_VERTEXAI: z.enum(["true", "false"]).default("true"),
   },
 
   client: {
@@ -81,6 +86,11 @@ export const env = createEnv({
     API_TIMEOUT_INITIALIZE_PATIENT: process.env.API_TIMEOUT_INITIALIZE_PATIENT,
     API_TIMEOUT_CHAT_RESPONSE: process.env.API_TIMEOUT_CHAT_RESPONSE,
     EXTERNAL_AI_API_KEY: process.env.EXTERNAL_AI_API_KEY,
+    MISSTEP_ANALYSIS_MODE: process.env.MISSTEP_ANALYSIS_MODE,
+    VERTEX_MODEL_ID: process.env.VERTEX_MODEL_ID,
+    GOOGLE_CLOUD_PROJECT: process.env.GOOGLE_CLOUD_PROJECT,
+    GOOGLE_CLOUD_LOCATION: process.env.GOOGLE_CLOUD_LOCATION,
+    GOOGLE_GENAI_USE_VERTEXAI: process.env.GOOGLE_GENAI_USE_VERTEXAI,
   },
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,
   emptyStringAsUndefined: true,

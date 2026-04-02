@@ -5,6 +5,10 @@ import type { AppDb } from "~/server/db";
 import { withDatabaseLockRetry } from "~/server/db/errors";
 import { chat, therapySessions, patients } from "~/server/db/tables";
 import {
+  analyzeAndPersistStepEvaluation,
+  queueStepEvaluation,
+} from "~/server/services/step-misstep-evaluations";
+import {
   patientResponseGenerator,
   type InitializePatientInput,
 } from "~/server/services/patient-response-generator";
@@ -415,6 +419,26 @@ export const chatRouter = createTRPCRouter({
 
       if (!savedChat) {
         throw new Error("Failed to mark chat step as done");
+      }
+
+      try {
+        const queuedEvaluation = await queueStepEvaluation(ctx.db, {
+          therapySessionId: input.therapySessionId,
+          stepNumber: input.stepNumber,
+        });
+
+        if (queuedEvaluation.shouldStartAnalysis) {
+          void analyzeAndPersistStepEvaluation(ctx.db, {
+            therapySessionId: input.therapySessionId,
+            stepNumber: input.stepNumber,
+          });
+        }
+      } catch (error) {
+        logger.error("Unable to queue step misstep evaluation", {
+          sessionId: input.therapySessionId,
+          step: input.stepNumber,
+          error: error instanceof Error ? error.message : String(error),
+        });
       }
 
       return {

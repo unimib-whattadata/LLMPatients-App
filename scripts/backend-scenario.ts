@@ -14,6 +14,7 @@ processEnv.AUTH_SECRET ??= "test-auth-secret-which-is-long-enough-12345";
 processEnv.NEXTAUTH_SECRET ??=
   "test-nextauth-secret-which-is-long-enough-12345";
 processEnv.API ??= "local";
+processEnv.MISSTEP_ANALYSIS_MODE ??= "heuristic";
 
 type Dialect = "sqlite" | "postgres";
 
@@ -116,7 +117,15 @@ async function main() {
     await applyPostgresMigrations(databaseUrl);
   }
 
-  const [{ POST }, { authConfig }, { validateUserAccountStatus }, { createCaller }, { db }, tables] =
+  const [
+    { POST },
+    { authConfig },
+    { validateUserAccountStatus },
+    { createCaller },
+    { db },
+    tables,
+    { evaluateStepMissteps },
+  ] =
     await Promise.all([
       import("../src/app/api/auth/register/route"),
       import("../src/server/auth/config"),
@@ -124,10 +133,12 @@ async function main() {
       import("../src/server/api/root"),
       import("../src/server/db"),
       import("../src/server/db/tables"),
+      import("../src/server/services/misstep-evaluator"),
     ]);
 
   const {
     chat,
+    chatStepEvaluations,
     impersonationSessions,
     patients,
     therapySessions,
@@ -136,6 +147,45 @@ async function main() {
   } = tables as Record<string, any>;
 
   const dbAny = db as any;
+
+  const waitForStepEvaluation = async (
+    therapySessionId: string,
+    stepNumber: number,
+  ) => {
+    const startedAt = Date.now();
+
+    while (Date.now() - startedAt < 5000) {
+      const evaluationRows = await dbAny
+        .select()
+        .from(chatStepEvaluations)
+        .where(
+          and(
+            eq(chatStepEvaluations.therapySessionId, therapySessionId),
+            eq(chatStepEvaluations.stepNumber, stepNumber),
+          ),
+        );
+
+      const evaluation = evaluationRows[0];
+      if (evaluation && evaluation.status !== "processing") {
+        return evaluation;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    }
+
+    throw new Error(
+      `Timed out waiting for misstep evaluation for ${therapySessionId}:${stepNumber}`,
+    );
+  };
+
+  const assertCategoryPresent = (
+    result: Awaited<ReturnType<typeof evaluateStepMissteps>>,
+    categoryId: string,
+  ) => {
+    const category = result.categories.find((item) => item.id === categoryId);
+    assert.ok(category, `Category ${categoryId} should exist`);
+    assert.equal(category?.present, true, `${categoryId} should be present`);
+  };
   const authCallbacks = authConfig.callbacks as unknown as {
     jwt?: (params: Record<string, unknown>) => Promise<Record<string, unknown> | null>;
     session?: (params: Record<string, unknown>) => Promise<{
@@ -615,6 +665,21 @@ async function main() {
     );
   assert.equal(chatRows.length, 1);
 
+  const preCompletionEvaluation = await userCaller.stepEvaluations.getByStep({
+    therapySessionId: therapySession.id,
+    stepNumber: 11,
+  });
+  assert.equal(preCompletionEvaluation, null);
+
+  await assert.rejects(
+    () =>
+      userCaller.stepEvaluations.retryByStep({
+        therapySessionId: therapySession.id,
+        stepNumber: 11,
+      }),
+    /must be completed/i,
+  );
+
   await Promise.all([
     userCaller.chat.markStepDone({
       therapySessionId: therapySession.id,
@@ -644,6 +709,186 @@ async function main() {
     .where(eq(therapySessions.id, therapySession.id));
   assert.equal(sessionRows[0]?.isCompleted, true);
   assert.equal(sessionRows[0]?.activePatientSessionKey ?? null, null);
+
+  const completedEvaluation = await waitForStepEvaluation(therapySession.id, 11);
+  assert.equal(completedEvaluation.status, "completed");
+  assert.equal(completedEvaluation.detectorVersion, "step-missteps-v1");
+  assert.ok(completedEvaluation.resultJson);
+
+  const evaluationRows = await dbAny
+    .select()
+    .from(chatStepEvaluations)
+    .where(
+      and(
+        eq(chatStepEvaluations.therapySessionId, therapySession.id),
+        eq(chatStepEvaluations.stepNumber, 11),
+      ),
+    );
+  assert.equal(evaluationRows.length, 1);
+
+  const evaluationPayload = JSON.parse(completedEvaluation.resultJson);
+  assert.equal(Array.isArray(evaluationPayload.categories), true);
+  assert.equal(typeof evaluationPayload.summary.detectedCount, "number");
+
+  const evaluationFromRouter = await userCaller.stepEvaluations.getByStep({
+    therapySessionId: therapySession.id,
+    stepNumber: 11,
+  });
+  assert.equal(evaluationFromRouter?.status, "completed");
+
+  const structureResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-1",
+    stepNumber: 3,
+    patient: {
+      id: "patient-1",
+      name: "Synthetic Patient",
+      background: "Mild anxiety, no acute safety risk.",
+      objectives: ["Explore recent stressors"],
+    },
+    messages: [
+      {
+        id: "m1",
+        content: "I had a hard week and felt overwhelmed.",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "m2",
+        content: "Tell me more.",
+        sender: "user",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "m3",
+        content: "It kept getting worse at work.",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "m4",
+        content: "That sounds difficult.",
+        sender: "user",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(structureResult, "lack_of_structure");
+
+  const harmfulResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-2",
+    stepNumber: 3,
+    patient: {
+      id: "patient-2",
+      name: "Synthetic Patient",
+      background: "Mild anxiety, no acute safety risk.",
+      objectives: ["Reduce avoidance"],
+    },
+    messages: [
+      {
+        id: "h1",
+        content: "I panic when I have to speak up.",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "h2",
+        content: "You should just stop overreacting and do it.",
+        sender: "user",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(harmfulResult, "harmful_attitudes");
+
+  const disclosureResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-3",
+    stepNumber: 3,
+    patient: {
+      id: "patient-3",
+      name: "Synthetic Patient",
+      background: "Difficulty trusting others.",
+      objectives: ["Build alliance"],
+    },
+    messages: [
+      {
+        id: "d1",
+        content: "I feel alone in this.",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "d2",
+        content: "I also went through this in my life, so I know exactly what you mean.",
+        sender: "user",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(disclosureResult, "inappropriate_self_disclosure");
+
+  const suicidePlanResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-4",
+    stepNumber: 4,
+    patient: {
+      id: "patient-4",
+      name: "Synthetic Patient",
+      background: "Recent hopelessness and withdrawal.",
+      objectives: ["Assess safety"],
+    },
+    messages: [
+      {
+        id: "s1",
+        content: "Sometimes I think I don't want to live anymore and I've thought about killing myself.",
+        sender: "patient",
+        stepId: 4,
+        timestamp: new Date(),
+      },
+      {
+        id: "s2",
+        content: "Let's go back to your childhood for a moment.",
+        sender: "user",
+        stepId: 4,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(suicidePlanResult, "missing_suicide_plan");
+
+  const boundaryResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-5",
+    stepNumber: 5,
+    patient: {
+      id: "patient-5",
+      name: "Synthetic Patient",
+      background: "Relationship instability.",
+      objectives: ["Stabilize boundaries"],
+    },
+    messages: [
+      {
+        id: "b1",
+        content: "I worry I am too much for people.",
+        sender: "patient",
+        stepId: 5,
+        timestamp: new Date(),
+      },
+      {
+        id: "b2",
+        content: "You can text me anytime outside session if things get messy.",
+        sender: "user",
+        stepId: 5,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(boundaryResult, "professional_boundary_violation");
 
   const restartedSession = await userCaller.therapySessions.start({
     patientId: patient.id,

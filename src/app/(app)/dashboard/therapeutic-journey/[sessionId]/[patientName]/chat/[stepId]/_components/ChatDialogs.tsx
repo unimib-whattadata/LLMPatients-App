@@ -1,7 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { Check, CheckCircle2, FileDown, Loader2, X } from "lucide-react";
+import {
+  Brain,
+  Check,
+  CheckCircle2,
+  FileDown,
+  Loader2,
+  X,
+} from "lucide-react";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -21,6 +28,7 @@ interface ChatCompletionFooterProps {
   stepId: number;
   isExportingPdf: boolean;
   onDownloadPdf: () => void;
+  onOpenMisstepAnalysis: () => void;
 }
 
 export function ChatCompletionFooter({
@@ -28,6 +36,7 @@ export function ChatCompletionFooter({
   stepId,
   isExportingPdf,
   onDownloadPdf,
+  onOpenMisstepAnalysis,
 }: ChatCompletionFooterProps) {
   if (!isStepCompleted) {
     return null;
@@ -44,22 +53,34 @@ export function ChatCompletionFooter({
                 Session {stepId} completed - Conversation is in read-only mode
               </span>
             </p>
-            <Button
-              type="button"
-              onClick={onDownloadPdf}
-              disabled={isExportingPdf}
-              variant="secondary"
-              size="sm"
-              className="min-w-[96px] shrink-0"
-              aria-label="Download session PDF report"
-            >
-              {isExportingPdf ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <FileDown className="h-4 w-4" />
-              )}
-              <span>PDF</span>
-            </Button>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-end">
+              <Button
+                type="button"
+                onClick={onOpenMisstepAnalysis}
+                variant="secondary"
+                size="sm"
+                className="min-w-[164px] shrink-0"
+              >
+                <Brain className="h-4 w-4" />
+                <span>Missteps</span>
+              </Button>
+              <Button
+                type="button"
+                onClick={onDownloadPdf}
+                disabled={isExportingPdf}
+                variant="secondary"
+                size="sm"
+                className="min-w-[96px] shrink-0"
+                aria-label="Download session PDF report"
+              >
+                {isExportingPdf ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <FileDown className="h-4 w-4" />
+                )}
+                <span>PDF</span>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
@@ -73,6 +94,7 @@ interface ChatSuccessDialogProps {
   effectivePatientName: string;
   onOpenChange: (value: boolean) => void;
   onBackToTimeline: () => void;
+  onOpenMisstepAnalysis: () => void;
 }
 
 export function ChatSuccessDialog({
@@ -81,6 +103,7 @@ export function ChatSuccessDialog({
   effectivePatientName,
   onOpenChange,
   onBackToTimeline,
+  onOpenMisstepAnalysis,
 }: ChatSuccessDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -99,11 +122,21 @@ export function ChatSuccessDialog({
             {effectivePatientName}.
             <br />
             <span className="mt-2 block text-sm text-[var(--color-text-primary)]/60">
-              Your notes have been saved and can be reviewed at any time.
+              Your notes have been saved and the misstep analysis is now being
+              prepared for review.
             </span>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="sm:justify-center">
+          <Button
+            onClick={onOpenMisstepAnalysis}
+            className="w-full sm:w-auto"
+            size="lg"
+            variant="outline"
+          >
+            <Brain className="h-4 w-4" />
+            Open Misstep Analysis
+          </Button>
           <Button
             onClick={onBackToTimeline}
             className="w-full sm:w-auto"
