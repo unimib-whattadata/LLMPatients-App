@@ -1,9 +1,8 @@
 
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import {
   createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
   adminProcedure,
 } from "~/server/api/trpc";
 import {
@@ -17,7 +16,7 @@ import {
 import { eq, asc, and, or, like, count } from "drizzle-orm";
 import bcrypt from "bcryptjs";
 import { createLogger } from "~/lib/logger";
-import { env } from "~/env";
+import { isUniqueConstraintError } from "~/server/db/errors";
 
 const logger = createLogger("UserManagement");
 
@@ -34,7 +33,8 @@ export const userManagementRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
       const { limit, offset, search, role } = input;
 
-      
+      // Build the filter list incrementally so search/role can be combined
+      // without duplicating query branches.
       const conditions = [];
 
       if (search) {
@@ -50,26 +50,24 @@ export const userManagementRouter = createTRPCRouter({
       const whereClause =
         conditions.length > 0 ? and(...conditions) : undefined;
 
-      const userList = await (ctx.db as any)
-        .select({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
-          
-          
-        })
-        .from(users)
-        .where(whereClause)
-        .orderBy(asc((users as any).name)) 
-        .limit(limit)
-        .offset(offset);
-
-      
-      const totalCountResult = await (ctx.db as any)
-        .select({ count: count() })
-        .from(users)
-        .where(whereClause);
+      const [userList, totalCountResult] = await Promise.all([
+        (ctx.db as any)
+          .select({
+            id: (users as any).id,
+            name: (users as any).name,
+            email: (users as any).email,
+            role: (users as any).role,
+          })
+          .from(users)
+          .where(whereClause)
+          .orderBy(asc((users as any).name))
+          .limit(limit)
+          .offset(offset),
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(users)
+          .where(whereClause),
+      ]);
 
       const totalCount = Number(totalCountResult[0]?.count ?? 0);
 
@@ -92,40 +90,38 @@ export const userManagementRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { name, email, role, password } = input;
 
-      
-      const existingUser = await (ctx.db as any)
-        .select()
-        .from(users)
-        .where(eq((users as any).email, email))
-        .limit(1);
-
-      if (existingUser.length > 0) {
-        throw new Error("User with this email already exists");
-      }
-
       const saltRounds = process.env.NODE_ENV === "production" ? 12 : 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      
-      const newUser = await (ctx.db as any)
-        .insert(users)
-        .values({
-          name,
-          email,
-          role,
-          password: hashedPassword,
-        })
-        .returning({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
-          
-        });
+      try {
+        // We rely on the DB unique constraint for correctness so concurrent
+        // admin-created users cannot bypass the duplicate-email check.
+        const newUser = await (ctx.db as any)
+          .insert(users)
+          .values({
+            name,
+            email,
+            role,
+            password: hashedPassword,
+          })
+          .returning({
+            id: (users as any).id,
+            name: (users as any).name,
+            email: (users as any).email,
+            role: (users as any).role,
+          });
 
-      
-      
-      return newUser[0];
+        return newUser[0];
+      } catch (error) {
+        if (isUniqueConstraintError(error, "email")) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "User with this email already exists",
+          });
+        }
+
+        throw error;
+      }
     }),
 
     updateUserRole: adminProcedure
@@ -166,7 +162,7 @@ export const userManagementRouter = createTRPCRouter({
       return updatedUser[0];
     }),
 
-    updateUserProfile: protectedProcedure
+    updateUserProfile: adminProcedure
     .input(
       z.object({
         userId: z.string(),
@@ -175,71 +171,56 @@ export const userManagementRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { userId, name, email } = input;
 
-      
-      const existingUser = await (ctx.db as any)
-        .select()
-        .from(users)
-        .where(
-          and(eq((users as any).email, email), eq((users as any).id, userId)),
-        )
-        .limit(1);
+      try {
+        // As with self-service profile updates, the database remains the source
+        // of truth for email uniqueness and we translate that into a conflict.
+        const updatedUser = await (ctx.db as any)
+          .update(users)
+          .set({
+            name,
+            email,
+          })
+          .where(eq((users as any).id, userId))
+          .returning({
+            id: (users as any).id,
+            name: (users as any).name,
+            email: (users as any).email,
+            role: (users as any).role,
+          });
 
-      if (existingUser.length === 0) {
-        
-        const emailTaken = await (ctx.db as any)
-          .select()
-          .from(users)
-          .where(eq((users as any).email, email))
-          .limit(1);
-
-        if (emailTaken.length > 0) {
-          throw new Error("Email is already taken by another user");
+        if (updatedUser.length === 0) {
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "User not found",
+          });
         }
+
+        return updatedUser[0];
+      } catch (error) {
+        if (error instanceof TRPCError) {
+          throw error;
+        }
+
+        if (isUniqueConstraintError(error, "email")) {
+          throw new TRPCError({
+            code: "CONFLICT",
+            message: "Email is already taken by another user",
+          });
+        }
+
+        throw error;
       }
-
-      
-      const updatedUser = await (ctx.db as any)
-        .update(users)
-        .set({
-          name,
-          email,
-          
-        })
-        .where(eq((users as any).id, userId))
-        .returning({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
-          
-        });
-
-      if (updatedUser.length === 0) {
-        throw new Error("User not found");
-      }
-
-      return updatedUser[0];
     }),
 
-    deleteUser: protectedProcedure
+    deleteUser: adminProcedure
     .input(
       z.object({
         userId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { userId } = input;
 
       
@@ -248,9 +229,11 @@ export const userManagementRouter = createTRPCRouter({
       }
 
       try {
-        
+        // Delete dependent rows in one transaction so partial cleanup does not
+        // leave orphaned auth or impersonation records behind.
         const result = await (ctx.db as any).transaction(async (tx: any) => {
-          
+          // Audit rows depend on impersonation sessions, so they must be removed
+          // first for databases that do not enforce cascading deletes here.
           const userImpersonationSessions = await tx
             .select({ id: (impersonationSessions as any).id })
             .from(impersonationSessions)
@@ -326,18 +309,13 @@ export const userManagementRouter = createTRPCRouter({
       }
     }),
 
-    getUserById: protectedProcedure
+    getUserById: adminProcedure
     .input(
       z.object({
         userId: z.string(),
       }),
     )
     .query(async ({ ctx, input }) => {
-      
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       const { userId } = input;
 
       const user = await (ctx.db as any)
@@ -360,28 +338,21 @@ export const userManagementRouter = createTRPCRouter({
       return user[0];
     }),
 
-    getUserStats: protectedProcedure.query(async ({ ctx }) => {
-    
-    if (ctx.session.user.role !== "admin") {
-      throw new Error("Unauthorized: Admin access required");
-    }
-
-    
-    const totalUsersResult = await (ctx.db as any)
-      .select({ count: count() })
-      .from(users);
-
-    
-    const adminUsersResult = await (ctx.db as any)
-      .select({ count: count() })
-      .from(users)
-      .where(eq((users as any).role, "admin"));
-
-    
-    const regularUsersResult = await (ctx.db as any)
-      .select({ count: count() })
-      .from(users)
-      .where(eq((users as any).role, "user"));
+    getUserStats: adminProcedure.query(async ({ ctx }) => {
+    const [totalUsersResult, adminUsersResult, regularUsersResult] =
+      await Promise.all([
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(users),
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(users)
+          .where(eq((users as any).role, "admin")),
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(users)
+          .where(eq((users as any).role, "user")),
+      ]);
 
     return {
       totalUsers: totalUsersResult[0]?.count ?? 0,
@@ -389,90 +360,4 @@ export const userManagementRouter = createTRPCRouter({
       regularUsers: regularUsersResult[0]?.count ?? 0,
     };
   }),
-
-    getPublicUserList: publicProcedure
-    .input(
-      z.object({
-        specialKey: z.string(),
-        limit: z.number().min(1).max(100).default(50),
-      }),
-    )
-    .query(async ({ ctx, input }) => {
-      
-      if (
-        process.env.NODE_ENV !== "development" ||
-        input.specialKey !== "DavideIsTesting"
-      ) {
-        throw new Error("Unauthorized: Development access only");
-      }
-
-      const userList = await (ctx.db as any)
-        .select({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
-          
-        })
-        .from(users)
-        .orderBy(asc((users as any).name)) 
-        .limit(input.limit);
-
-      return userList;
-    }),
-
-    createPublicUser: publicProcedure
-    .input(
-      z.object({
-        specialKey: z.string(),
-        name: z.string().min(1),
-        email: z.string().email(),
-        password: z.string().min(6),
-        role: z.enum(["admin", "user"]).default("user"),
-      }),
-    )
-    .mutation(async ({ ctx, input }) => {
-      
-      if (
-        process.env.NODE_ENV !== "development" ||
-        input.specialKey !== "DavideIsTesting"
-      ) {
-        throw new Error("Unauthorized: Development access only");
-      }
-
-      const { name, email, role } = input;
-
-      
-      const existingUser = await (ctx.db as any)
-        .select()
-        .from(users)
-        .where(eq((users as any).email, email))
-        .limit(1);
-
-      if (existingUser.length > 0) {
-        throw new Error("User with this email already exists");
-      }
-
-      const saltRounds = env.NODE_ENV === "production" ? 12 : 10;
-      const hashedPassword = await bcrypt.hash(input.password, saltRounds);
-
-      
-      const newUser = await (ctx.db as any)
-        .insert(users)
-        .values({
-          name,
-          email,
-          role,
-          password: hashedPassword,
-        })
-        .returning({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
-          
-        });
-
-      return newUser[0];
-    }),
 });

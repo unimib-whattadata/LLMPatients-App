@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { eq, and } from "drizzle-orm";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import type { AppDb } from "~/server/db";
+import { withDatabaseLockRetry } from "~/server/db/errors";
 import { chat, therapySessions, patients } from "~/server/db/tables";
 import {
   patientResponseGenerator,
@@ -52,6 +54,138 @@ function normalizeChatMessages(messages: unknown): ChatMessage[] {
     ...msg,
     emotion: msg.emotion ? normalizeEmotion(msg.emotion) : undefined,
   })) as ChatMessage[];
+}
+
+async function ensureTherapySessionAccess(
+  dbClient: AppDb,
+  therapySessionId: string,
+  userId: string,
+): Promise<{
+  id: string;
+  patientId: string;
+  externalPatientId: string | null;
+}> {
+  const therapySession = await dbClient
+    .select({
+      id: therapySessions.id,
+      patientId: therapySessions.patientId,
+      externalPatientId: therapySessions.externalPatientId,
+    })
+    .from(therapySessions)
+    .where(
+      and(
+        eq(therapySessions.id, therapySessionId),
+        eq(therapySessions.userId, userId),
+      ),
+    )
+    .limit(1);
+
+  if (therapySession.length === 0) {
+    throw new Error("Therapy session not found or access denied");
+  }
+
+  return therapySession[0]!;
+}
+
+function parseJsonStringArray(value: string | null | undefined): string[] {
+  if (!value) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed)
+      ? parsed.filter((entry): entry is string => typeof entry === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+async function buildInitializePatientInput(
+  dbClient: AppDb,
+  therapySessionId: string,
+  userId: string,
+): Promise<{
+  therapySession: {
+    id: string;
+    patientId: string;
+    externalPatientId: string | null;
+  };
+  initInput: InitializePatientInput;
+}> {
+  const therapySession = await ensureTherapySessionAccess(
+    dbClient,
+    therapySessionId,
+    userId,
+  );
+
+  const patientResult = await dbClient
+    .select({
+      id: patients.id,
+      name: patients.name,
+      age: patients.age,
+      gender: patients.gender,
+      diagnosis: patients.diagnosis,
+      difficulty: patients.difficulty,
+      psychologicalProfile: patients.psychologicalProfile,
+      clinicalCase: patients.clinicalCase,
+      currentMedications: patients.currentMedications,
+      objectives: patients.objectives,
+      previousSessions: patients.previousSessions,
+    })
+    .from(patients)
+    .where(eq(patients.id, therapySession.patientId))
+    .limit(1);
+
+  const patient = patientResult[0];
+  if (!patient) {
+    throw new Error("Patient not found for therapy session");
+  }
+
+  return {
+    therapySession,
+    initInput: {
+      sessionId: therapySession.id,
+      patientInfo: {
+        id: patient.id,
+        name: patient.name,
+        age: patient.age,
+        gender: patient.gender ?? "not specified",
+        diagnosis: patient.diagnosis ?? "Not specified",
+        difficulty: patient.difficulty,
+        psychologicalProfile:
+          patient.psychologicalProfile ?? patient.clinicalCase,
+        background: patient.clinicalCase,
+        currentMedications: parseJsonStringArray(patient.currentMedications),
+        therapyGoals: parseJsonStringArray(patient.objectives),
+        previousSessions: patient.previousSessions ?? 0,
+      },
+    },
+  };
+}
+
+async function markSessionCompletedIfNeeded(
+  dbClient: AppDb,
+  therapySessionId: string,
+  stepNumber: number,
+): Promise<void> {
+  // Step 11 is the terminal step of the therapeutic flow. Keeping this in one
+  // helper avoids scattering the completion rule across write paths.
+  if (stepNumber !== 11) {
+    return;
+  }
+
+  await dbClient
+    .update(therapySessions)
+    .set({
+      isCompleted: true,
+      activePatientSessionKey: null,
+      updatedAt: new Date(),
+    })
+    .where(eq(therapySessions.id, therapySessionId));
+
+  logger.info("Therapy session completed", { step: 11 });
 }
 
 export interface ChatMessage {
@@ -185,83 +319,47 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      await ensureTherapySessionAccess(
+        ctx.db,
+        input.therapySessionId,
+        ctx.session.user.id,
+      );
 
-      const therapySession = await ctx.db
-        .select()
-        .from(therapySessions)
-        .where(
-          and(
-            eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id),
-          ),
-        )
-        .limit(1);
-
-      if (therapySession.length === 0) {
-        throw new Error("Therapy session not found or access denied");
-      }
-
-      const existingChat = await ctx.db
-        .select()
-        .from(chat)
-        .where(
-          and(
-            eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber),
-          ),
-        )
-        .limit(1);
-
-      const chatData = {
-        therapySessionId: input.therapySessionId,
-        stepNumber: input.stepNumber,
-        messages: JSON.stringify(input.messages),
-        done: false,
-        updatedAt: new Date(),
-      };
-
-      if (existingChat.length === 0) {
-
-        const [newChat] = await ctx.db
+      const serializedMessages = JSON.stringify(input.messages);
+      const savedChat = await withDatabaseLockRetry(async () => {
+        // The pair (therapySessionId, stepNumber) is unique, so an upsert keeps
+        // repeated saves idempotent across both SQLite and PostgreSQL.
+        const savedChats = (await (ctx.db as any)
           .insert(chat)
-          .values(chatData)
-          .returning();
-
-        if (!newChat) {
-          throw new Error("Failed to create chat step");
-        }
-
-        const parsedMessagesNew = JSON.parse(newChat.messages) as ChatMessage[];
-        return {
-          ...newChat,
-          messages: normalizeChatMessages(parsedMessagesNew),
-        };
-      } else {
-
-        const existingChatData = existingChat[0];
-        if (!existingChatData) {
-          throw new Error("Chat step not found");
-        }
-
-        const [updatedChat] = await ctx.db
-          .update(chat)
-          .set({
-            messages: JSON.stringify(input.messages),
+          .values({
+            therapySessionId: input.therapySessionId,
+            stepNumber: input.stepNumber,
+            messages: serializedMessages,
+            done: false,
             updatedAt: new Date(),
           })
-          .where(eq(chat.id, existingChatData.id))
-          .returning();
+          .onConflictDoUpdate({
+            target: [chat.therapySessionId, chat.stepNumber],
+            set: {
+              messages: serializedMessages,
+              done: false,
+              updatedAt: new Date(),
+            },
+          })
+          .returning()) as any[];
 
-        if (!updatedChat) {
-          throw new Error("Failed to update chat step");
-        }
+        return savedChats[0];
+      });
 
-        const parsedMessagesUpdated = JSON.parse(updatedChat.messages) as ChatMessage[];
-        return {
-          ...updatedChat,
-          messages: normalizeChatMessages(parsedMessagesUpdated),
-        };
+      if (!savedChat) {
+        throw new Error("Failed to save chat step");
       }
+
+      const parsedMessages = JSON.parse(savedChat.messages) as ChatMessage[];
+      return {
+        ...savedChat,
+        messages: normalizeChatMessages(parsedMessages),
+      };
     }),
 
 
@@ -279,80 +377,16 @@ export const chatRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       });
 
+      await ensureTherapySessionAccess(
+        ctx.db,
+        input.therapySessionId,
+        ctx.session.user.id,
+      );
 
-      const therapySession = await ctx.db
-        .select()
-        .from(therapySessions)
-        .where(
-          and(
-            eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id),
-          ),
-        )
-        .limit(1);
-
-      logger.debug("Therapy session lookup completed", { found: therapySession.length > 0 });
-
-      if (therapySession.length === 0) {
-        throw new Error("Therapy session not found or access denied");
-      }
-
-
-      const existingChat = await ctx.db
-        .select()
-        .from(chat)
-        .where(
-          and(
-            eq(chat.therapySessionId, input.therapySessionId),
-            eq(chat.stepNumber, input.stepNumber),
-          ),
-        )
-        .limit(1);
-
-      if (existingChat.length > 0) {
-        const existingChatData = existingChat[0];
-        if (!existingChatData) {
-          throw new Error("Chat step not found");
-        }
-
-        logger.debug("Updating existing chat step to done", { chatId: existingChatData.id });
-
-        const [updatedChat] = await ctx.db
-          .update(chat)
-          .set({
-            done: true,
-            updatedAt: new Date(),
-          })
-          .where(eq(chat.id, existingChatData.id))
-          .returning();
-
-        if (!updatedChat) {
-          throw new Error("Failed to update chat step");
-        }
-
-        logger.debug("Chat step updated successfully");
-
-
-        if (input.stepNumber === 11) {
-          await ctx.db
-            .update(therapySessions)
-            .set({
-              isCompleted: true,
-              updatedAt: new Date(),
-            })
-            .where(eq(therapySessions.id, input.therapySessionId));
-
-          logger.info("Therapy session completed", { step: 11 });
-        }
-
-        return {
-          ...updatedChat,
-          messages: JSON.parse(updatedChat.messages) as ChatMessage[],
-        };
-      } else {
-        logger.debug("Creating new chat step as completed");
-
-        const [newChat] = await ctx.db
+      const savedChat = await withDatabaseLockRetry(async () => {
+        // "Done" can arrive before or after messages have been saved. This
+        // upsert guarantees the row exists without wiping an existing payload.
+        const savedChats = (await (ctx.db as any)
           .insert(chat)
           .values({
             therapySessionId: input.therapySessionId,
@@ -361,32 +395,34 @@ export const chatRouter = createTRPCRouter({
             done: true,
             updatedAt: new Date(),
           })
-          .returning();
-
-        if (!newChat) {
-          throw new Error("Failed to create chat step");
-        }
-
-        logger.debug("New chat step created", { chatId: newChat.id });
-
-
-        if (input.stepNumber === 11) {
-          await ctx.db
-            .update(therapySessions)
-            .set({
-              isCompleted: true,
+          .onConflictDoUpdate({
+            target: [chat.therapySessionId, chat.stepNumber],
+            set: {
+              done: true,
               updatedAt: new Date(),
-            })
-            .where(eq(therapySessions.id, input.therapySessionId));
+            },
+          })
+          .returning()) as any[];
 
-          logger.info("Therapy session completed", { step: 11 });
-        }
+        await markSessionCompletedIfNeeded(
+          ctx.db,
+          input.therapySessionId,
+          input.stepNumber,
+        );
 
-        return {
-          ...newChat,
-          messages: [] as ChatMessage[],
-        };
+        return savedChats[0];
+      });
+
+      if (!savedChat) {
+        throw new Error("Failed to mark chat step as done");
       }
+
+      return {
+        ...savedChat,
+        messages: normalizeChatMessages(
+          JSON.parse(savedChat.messages) as ChatMessage[],
+        ),
+      };
     }),
 
 
@@ -413,7 +449,7 @@ export const chatRouter = createTRPCRouter({
         return [];
       }
 
-      const chatSteps = await (ctx.db as any)
+      const chatSteps = await ctx.db
         .select()
         .from(chat)
         .where(eq(chat.therapySessionId, input.therapySessionId))
@@ -453,7 +489,7 @@ export const chatRouter = createTRPCRouter({
         return false;
       }
 
-      const chatStep = await (ctx.db as any)
+      const chatStep = await ctx.db
         .select({ done: chat.done })
         .from(chat)
         .where(
@@ -506,58 +542,69 @@ export const chatRouter = createTRPCRouter({
   generateChatResponse: protectedProcedure
     .input(
       z.object({
-        external_patient_id: z.string(),
+        therapySessionId: z.string(),
         user_message: z.string(),
-        session_id: z.string(),
         step_id: z.number(),
-        therapist_id: z.string(),
       }),
     )
-    .mutation(async ({ input }) => {
-      return await patientResponseGenerator.generateChatResponse(input);
+    .mutation(async ({ ctx, input }) => {
+      const therapySession = await ensureTherapySessionAccess(
+        ctx.db,
+        input.therapySessionId,
+        ctx.session.user.id,
+      );
+
+      if (!therapySession.externalPatientId) {
+        throw new Error("Patient not initialized for this therapy session");
+      }
+
+      return await patientResponseGenerator.generateChatResponse({
+        external_patient_id: therapySession.externalPatientId,
+        user_message: input.user_message,
+        session_id: therapySession.id,
+        step_id: input.step_id,
+        therapist_id: ctx.session.user.id,
+      });
     }),
 
 
   initializePatient: protectedProcedure
     .input(
       z.object({
-        patientInfo: z.object({
-          id: z.string(),
-          name: z.string(),
-          age: z.number(),
-          gender: z.string(),
-          diagnosis: z.string(),
-          difficulty: z.number(),
-          psychologicalProfile: z.string(),
-          background: z.string(),
-          currentMedications: z.array(z.string()).optional(),
-          therapyGoals: z.array(z.string()).optional(),
-          previousSessions: z.number().optional(),
-        }),
-        sessionId: z.string(),
+        therapySessionId: z.string(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
+      const { therapySession, initInput } = await buildInitializePatientInput(
+        ctx.db,
+        input.therapySessionId,
+        ctx.session.user.id,
+      );
 
-      const initInput: InitializePatientInput = {
-        patientInfo: input.patientInfo,
-        sessionId: input.sessionId,
-      };
+      if (therapySession.externalPatientId) {
+        return {
+          status: "success" as const,
+          code: "PATIENT_ALREADY_INITIALIZED",
+          external_patient_id: therapySession.externalPatientId,
+          message: "Patient already initialized for this therapy session",
+          timestamp: new Date().toISOString(),
+        };
+      }
+
       const initResponse =
         await patientResponseGenerator.initializePatient(initInput);
-
 
       if (
         initResponse.status === "success" &&
         initResponse.external_patient_id
       ) {
         await ctx.db
-          .update(patients)
+          .update(therapySessions)
           .set({
             externalPatientId: initResponse.external_patient_id,
             updatedAt: new Date(),
           })
-          .where(eq(patients.id, input.patientInfo.id));
+          .where(eq(therapySessions.id, therapySession.id));
       }
 
       return initResponse;

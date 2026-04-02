@@ -1,25 +1,24 @@
-
-import { z } from "zod";
-import { eq, and, desc, or, like, count } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { and, count, desc, eq, inArray, like, or } from "drizzle-orm";
+import { z } from "zod";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  adminProcedure,
-} from "~/server/api/trpc";
-import { db } from "~/server/db";
-import {
-  users,
-  impersonationSessions,
-  impersonationAuditLog,
-} from "~/server/db/tables";
 import { createLogger } from "~/lib/logger";
+import { createTRPCRouter, adminProcedure, protectedProcedure } from "~/server/api/trpc";
+import {
+  isUniqueConstraintError,
+  withDatabaseLockRetry,
+} from "~/server/db/errors";
+import {
+  impersonationAuditLog,
+  impersonationSessions,
+  users,
+} from "~/server/db/tables";
+import { closeActiveImpersonationInExecutor } from "~/server/impersonation/service";
 
 const logger = createLogger("Impersonation");
 
 export const impersonationRouter = createTRPCRouter({
-    startImpersonation: adminProcedure
+  startImpersonation: adminProcedure
     .input(
       z.object({
         targetUserId: z.string().min(1, "Target user ID is required"),
@@ -39,111 +38,121 @@ export const impersonationRouter = createTRPCRouter({
       });
 
       try {
-        
-        const targetUser = await db
-          .select()
-          .from(users)
-          .where(eq(users.id, targetUserId))
-          .limit(1);
+        return await withDatabaseLockRetry(() =>
+          ctx.db.transaction(async (tx) => {
+            const targetUser = await tx
+              .select({
+                id: users.id,
+                email: users.email,
+                name: users.name,
+                role: users.role,
+                isActive: users.isActive,
+              })
+              .from(users)
+              .where(eq(users.id, targetUserId))
+              .limit(1);
 
-        if (targetUser.length === 0) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "Target user not found",
-          });
-        }
+            const target = targetUser[0];
+            if (!target) {
+              throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Target user not found",
+              });
+            }
 
-        const target = targetUser[0]!;
+            if (!target.isActive) {
+              throw new TRPCError({
+                code: "FORBIDDEN",
+                message: "Cannot impersonate an inactive user",
+              });
+            }
 
-        
-        if (target.role === "admin") {
-          throw new TRPCError({
-            code: "FORBIDDEN",
-            message: "Cannot impersonate another admin user",
-          });
-        }
+            if (target.role === "admin") {
+              throw new TRPCError({
+                code: "FORBIDDEN",
+                message: "Cannot impersonate another admin user",
+              });
+            }
 
-        
-        if (targetUserId === adminUserId) {
-          throw new TRPCError({
-            code: "BAD_REQUEST",
-            message: "Cannot impersonate yourself",
-          });
-        }
+            if (targetUserId === adminUserId) {
+              throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "Cannot impersonate yourself",
+              });
+            }
 
-        
-        const existingActiveSession = await db
-          .select()
-          .from(impersonationSessions)
-          .where(
-            and(
-              eq(impersonationSessions.adminUserId, adminUserId),
-              eq(impersonationSessions.isActive, true),
-            ),
-          )
-          .limit(1);
+            const sessionId = crypto.randomUUID();
+            const sessionToken = crypto.randomUUID();
+            const startedAt = new Date();
 
-        if (existingActiveSession.length > 0) {
-          throw new TRPCError({
-            code: "CONFLICT",
-            message:
-              "You already have an active impersonation session. Please end it first.",
-          });
-        }
+            try {
+              await tx.insert(impersonationSessions).values({
+                id: sessionId,
+                adminUserId,
+                targetUserId,
+                startedAt,
+                isActive: true,
+                // This denormalized key is what enforces "one active
+                // impersonation per admin" across both DB engines.
+                activeAdminSessionKey: adminUserId,
+                sessionToken,
+                ipAddress,
+                userAgent,
+                reason,
+              });
+            } catch (error) {
+              if (isUniqueConstraintError(error, "activeadminsessionkey")) {
+                throw new TRPCError({
+                  code: "CONFLICT",
+                  message:
+                    "You already have an active impersonation session. Please end it first.",
+                });
+              }
 
-        
-        const sessionId = crypto.randomUUID();
-        const sessionToken = crypto.randomUUID();
-        const startedAt = new Date();
+              throw error;
+            }
 
-        await db.insert(impersonationSessions).values({
-          id: sessionId,
-          adminUserId,
-          targetUserId,
-          startedAt: startedAt,
-          isActive: true,
-          sessionToken,
-          ipAddress,
-          userAgent,
-          reason,
-        });
+            await tx.insert(impersonationAuditLog).values({
+              id: crypto.randomUUID(),
+              impersonationSessionId: sessionId,
+              actionType: "START",
+              actionDetails: JSON.stringify({
+                adminUserId,
+                targetUserId,
+                targetUserEmail: target.email,
+                targetUserName: target.name,
+                reason,
+              }),
+              performedAt: startedAt,
+              ipAddress,
+              userAgent,
+            });
 
-        
-        await db.insert(impersonationAuditLog).values({
-          id: crypto.randomUUID(),
-          impersonationSessionId: sessionId,
-          actionType: "START",
-          actionDetails: JSON.stringify({
-            adminUserId,
-            targetUserId,
-            targetUserEmail: target.email,
-            targetUserName: target.name,
-            reason,
+            logger.info("Impersonation session created", {
+              sessionId,
+              admin: adminUserId,
+              targetEmail: target.email,
+            });
+
+            return {
+              success: true,
+              sessionId,
+              targetUser: {
+                id: target.id,
+                email: target.email,
+                name: target.name,
+                role: target.role,
+              },
+              startedAt,
+            };
           }),
-          performedAt: startedAt,
-          ipAddress,
-          userAgent,
-        });
-
-        logger.info("Impersonation session created", {
-          sessionId,
-          admin: adminUserId,
-          targetEmail: target.email,
-        });
-
-        return {
-          success: true,
-          sessionId,
-          targetUser: {
-            id: target.id,
-            email: target.email,
-            name: target.name,
-            role: target.role,
-          },
-          startedAt,
-        };
+        );
       } catch (error) {
-        logger.error("Failed to start impersonation", { admin: adminUserId, target: targetUserId, error });
+        logger.error("Failed to start impersonation", {
+          admin: adminUserId,
+          target: targetUserId,
+          error,
+        });
 
         if (error instanceof TRPCError) {
           throw error;
@@ -156,7 +165,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-    endImpersonation: protectedProcedure
+  endImpersonation: protectedProcedure
     .input(
       z.object({
         ipAddress: z.string().optional(),
@@ -165,8 +174,6 @@ export const impersonationRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       const { ipAddress, userAgent } = input;
-
-      
       const isImpersonated = !!ctx.session.impersonation?.isImpersonating;
       const adminUserId = isImpersonated
         ? ctx.session.impersonation!.originalAdminId
@@ -182,85 +189,35 @@ export const impersonationRouter = createTRPCRouter({
       });
 
       try {
-        
-        let activeSession;
+        return await withDatabaseLockRetry(() =>
+          ctx.db.transaction(async (tx) => {
+            const closedSession = await closeActiveImpersonationInExecutor(tx, {
+              sessionId,
+              adminUserId,
+              endedBy: isImpersonated ? "impersonated_user" : "original_admin",
+              ipAddress,
+              userAgent,
+            });
 
-        if (sessionId) {
-          
-          activeSession = await db
-            .select()
-            .from(impersonationSessions)
-            .where(
-              and(
-                eq(impersonationSessions.id, sessionId),
-                eq(impersonationSessions.isActive, true),
-              ),
-            )
-            .limit(1);
-        } else {
-          
-          activeSession = await db
-            .select()
-            .from(impersonationSessions)
-            .where(
-              and(
-                eq(impersonationSessions.adminUserId, adminUserId),
-                eq(impersonationSessions.isActive, true),
-              ),
-            )
-            .limit(1);
-        }
+            if (!closedSession) {
+              throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "No active impersonation session found",
+              });
+            }
 
-        if (activeSession.length === 0) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: "No active impersonation session found",
-          });
-        }
+            logger.info("Impersonation session ended", {
+              sessionId: closedSession.sessionId,
+              duration: `${closedSession.duration}s`,
+            });
 
-        const session = activeSession[0]!;
-
-        
-        const endedAt = new Date();
-
-        await db
-          .update(impersonationSessions)
-          .set({
-            endedAt,
-            isActive: false,
-          })
-          .where(eq(impersonationSessions.id, session.id));
-
-        
-        await db.insert(impersonationAuditLog).values({
-          id: crypto.randomUUID(),
-          impersonationSessionId: session.id,
-          actionType: "END",
-          actionDetails: JSON.stringify({
-            adminUserId: session.adminUserId,
-            targetUserId: session.targetUserId,
-            duration: Math.floor(
-              (endedAt.getTime() - session.startedAt.getTime()) / 1000,
-            ),
-            endedBy: isImpersonated ? "impersonated_user" : "original_admin",
+            return {
+              success: true,
+              sessionId: closedSession.sessionId,
+              duration: closedSession.duration,
+            };
           }),
-          performedAt: endedAt,
-          ipAddress,
-          userAgent,
-        });
-
-        logger.info("Impersonation session ended", {
-          sessionId: session.id,
-          duration: `${Math.floor((endedAt.getTime() - session.startedAt.getTime()) / 1000)}s`,
-        });
-
-        return {
-          success: true,
-          sessionId: session.id,
-          duration: Math.floor(
-            (endedAt.getTime() - session.startedAt.getTime()) / 1000,
-          ),
-        };
+        );
       } catch (error) {
         logger.error("Failed to end impersonation", { sessionId, error });
 
@@ -275,7 +232,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-    getCurrentImpersonation: protectedProcedure.query(async ({ ctx }) => {
+  getCurrentImpersonation: protectedProcedure.query(async ({ ctx }) => {
     const isImpersonated = !!ctx.session.impersonation?.isImpersonating;
 
     if (!isImpersonated) {
@@ -288,22 +245,27 @@ export const impersonationRouter = createTRPCRouter({
     const impersonationData = ctx.session.impersonation!;
 
     try {
-      
-      const sessionData = await db
+      const sessionData = await ctx.db
         .select()
         .from(impersonationSessions)
-        .where(eq(impersonationSessions.id, impersonationData.sessionId))
+        .where(
+          and(
+            eq(impersonationSessions.id, impersonationData.sessionId),
+            eq(impersonationSessions.isActive, true),
+          ),
+        )
         .limit(1);
 
-      if (sessionData.length === 0) {
-        logger.warn("Impersonation session not found in database", { sessionId: impersonationData.sessionId });
+      const session = sessionData[0];
+      if (!session) {
+        logger.warn("Impersonation session not found in database", {
+          sessionId: impersonationData.sessionId,
+        });
         return {
           isImpersonating: false,
           session: null,
         };
       }
-
-      const session = sessionData[0]!;
 
       return {
         isImpersonating: true,
@@ -326,7 +288,7 @@ export const impersonationRouter = createTRPCRouter({
     }
   }),
 
-    getImpersonationHistory: adminProcedure
+  getImpersonationHistory: adminProcedure
     .input(
       z.object({
         page: z.number().min(1).default(1),
@@ -335,96 +297,79 @@ export const impersonationRouter = createTRPCRouter({
         targetUserId: z.string().optional(),
       }),
     )
-    .query(async ({ ctx: _ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const { page, limit, adminUserId, targetUserId } = input;
       const offset = (page - 1) * limit;
 
       try {
-        
         const whereConditions = [];
 
         if (adminUserId) {
-          whereConditions.push(
-            eq(impersonationSessions.adminUserId, adminUserId),
-          );
+          whereConditions.push(eq(impersonationSessions.adminUserId, adminUserId));
         }
 
         if (targetUserId) {
-          whereConditions.push(
-            eq(impersonationSessions.targetUserId, targetUserId),
-          );
+          whereConditions.push(eq(impersonationSessions.targetUserId, targetUserId));
         }
 
-        
-        const sessions = await (db as any)
-          .select({
-            session: impersonationSessions,
-            adminUser: {
-              id: (users as any).id,
-              email: (users as any).email,
-              name: (users as any).name,
-            },
-          })
-          .from(impersonationSessions)
-          .leftJoin(users, eq(impersonationSessions.adminUserId, users.id))
-          .where(
-            whereConditions.length > 0 ? and(...whereConditions) : undefined,
-          )
-          .orderBy(desc(impersonationSessions.startedAt))
-          .limit(limit)
-          .offset(offset);
-
-        
-        const sessionsWithTargetUsers = await Promise.all(
-          sessions.map(
-            async (item: {
-              session: typeof impersonationSessions.$inferSelect;
+        const [sessions, totalCountResult] = await Promise.all([
+          ctx.db
+            .select({
+              session: impersonationSessions,
               adminUser: {
-                id: string;
-                email: string;
-                name: string | null;
-              } | null;
-            }) => {
-              const targetUser = await (db as any)
+                id: users.id,
+                email: users.email,
+                name: users.name,
+              },
+            })
+            .from(impersonationSessions)
+            .leftJoin(users, eq(impersonationSessions.adminUserId, users.id))
+            .where(
+              whereConditions.length > 0 ? and(...whereConditions) : undefined,
+            )
+            .orderBy(desc(impersonationSessions.startedAt))
+            .limit(limit)
+            .offset(offset),
+          ctx.db
+            .select({ count: count() })
+            .from(impersonationSessions)
+            .where(
+              whereConditions.length > 0 ? and(...whereConditions) : undefined,
+            ),
+        ]);
+
+        const targetUserIds = [...new Set(sessions.map((item) => item.session.targetUserId))];
+        const targetUsers =
+          targetUserIds.length > 0
+            ? await ctx.db
                 .select({
-                  id: (users as any).id,
-                  email: (users as any).email,
-                  name: (users as any).name,
+                  id: users.id,
+                  email: users.email,
+                  name: users.name,
                 })
                 .from(users)
-                .where(eq(users.id, item.session.targetUserId))
-                .limit(1);
+                .where(inArray(users.id, targetUserIds))
+            : [];
 
-              return {
-                ...item.session,
-                adminUser: item.adminUser,
-                targetUser: targetUser[0] ?? null,
-                duration:
-                  item.session.endedAt && item.session.startedAt
-                    ? Math.floor(
-                        (item.session.endedAt.getTime() -
-                          item.session.startedAt.getTime()) /
-                          1000,
-                      )
-                    : null,
-              };
-            },
-          ),
-        );
-
-        
-        const totalCountResult = await (db as any)
-          .select({ count: count() })
-          .from(impersonationSessions)
-          .where(
-            whereConditions.length > 0 ? and(...whereConditions) : undefined,
-          );
+        const targetUserById = new Map(targetUsers.map((user) => [user.id, user]));
 
         const totalCount = Number(totalCountResult[0]?.count ?? 0);
         const totalPages = Math.ceil(totalCount / limit);
 
         return {
-          sessions: sessionsWithTargetUsers,
+          sessions: sessions.map((item) => ({
+            ...item.session,
+            adminUser: item.adminUser,
+            targetUser: targetUserById.get(item.session.targetUserId) ?? null,
+            duration:
+              item.session.endedAt && item.session.startedAt
+                ? Math.floor(
+                    (item.session.endedAt.getTime() -
+                      item.session.startedAt.getTime()) /
+                      1000,
+                  )
+                : null,
+          })),
           pagination: {
             page,
             limit,
@@ -443,7 +388,7 @@ export const impersonationRouter = createTRPCRouter({
       }
     }),
 
-    getUsersForImpersonation: adminProcedure
+  getUsersForImpersonation: adminProcedure
     .input(
       z.object({
         search: z.string().optional(),
@@ -456,52 +401,39 @@ export const impersonationRouter = createTRPCRouter({
       const offset = (page - 1) * limit;
 
       try {
-        
-        const whereConditions: Parameters<typeof and>[number][] = [
-          eq(users.role, "user"), 
-        ];
+        const whereConditions = [eq(users.role, "user"), eq(users.isActive, true)];
 
-        
         if (search?.trim()) {
-          
-          
           const term = `%${search.trim()}%`;
-          whereConditions.push(
-            or(like(users.name, term), like(users.email, term)),
-          );
+          const searchCondition = or(like(users.name, term), like(users.email, term));
+          if (searchCondition) {
+            whereConditions.push(searchCondition);
+          }
         }
 
-        
-        const usersQuery = (db as any)
-          .select({
-            id: (users as any).id,
-            email: (users as any).email,
-            name: (users as any).name,
-            role: (users as any).role,
-          })
-          .from(users)
-          .where(and(...whereConditions))
-          .limit(limit)
-          .offset(offset);
-
-        const usersList = await usersQuery;
-
-        
-        const filteredUsers = usersList.filter(
-          (user: any) => user.id !== ctx.session.user.id,
-        );
-
-        
-        const totalCountResult = await (db as any)
-          .select({ count: count() })
-          .from(users)
-          .where(and(...whereConditions));
+        const [usersList, totalCountResult] = await Promise.all([
+          ctx.db
+            .select({
+              id: users.id,
+              email: users.email,
+              name: users.name,
+              role: users.role,
+            })
+            .from(users)
+            .where(and(...whereConditions))
+            .limit(limit)
+            .offset(offset),
+          ctx.db
+            .select({ count: count() })
+            .from(users)
+            .where(and(...whereConditions)),
+        ]);
 
         const totalCount = Number(totalCountResult[0]?.count ?? 0);
         const totalPages = Math.ceil(totalCount / limit);
 
         return {
-          users: filteredUsers,
+          users: usersList.filter((user) => user.id !== ctx.session.user.id),
           pagination: {
             page,
             limit,

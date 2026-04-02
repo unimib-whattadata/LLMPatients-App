@@ -7,8 +7,6 @@ export default auth((req) => {
   const session = req.auth;
   const isAuthenticated = !!(session?.user?.id && session?.user?.email);
   const pathname = req.nextUrl.pathname;
-  const searchParams = req.nextUrl.searchParams;
-  const specialKey = searchParams.get("specialKey");
 
   
   const impersonationContext = session?.impersonation;
@@ -58,7 +56,6 @@ export default auth((req) => {
       isPublicPatientRoute,
       isPublicHomeRoute,
       isPublicAuthRoute,
-      specialKey: specialKey || "none",
       
       isImpersonating: isImpersonating || false,
       originalAdminId: originalAdminId || "none",
@@ -69,18 +66,6 @@ export default auth((req) => {
 
   
   if (isAdminRoute) {
-    
-    if (
-      process.env.NODE_ENV === "development" &&
-      specialKey === "DavideIsTesting"
-    ) {
-      console.log(
-        "Middleware - Allowing admin route access via development bypass",
-      );
-      return NextResponse.next();
-    }
-
-    
     if (!isAuthenticated) {
       console.log(
         "Middleware - Redirecting unauthenticated user from admin route to login",

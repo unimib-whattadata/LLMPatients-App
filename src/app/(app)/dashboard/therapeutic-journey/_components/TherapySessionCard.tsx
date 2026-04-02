@@ -178,7 +178,7 @@ function TherapySessionCardComponent({
       <CardFooter className="pt-0">
         <Button asChild className="w-full">
           <Link
-            href={`/dashboard/therapeutic-journey/${therapySession.patientId}/${createPatientSlug(therapySession.patient.name)}`}
+            href={`/dashboard/therapeutic-journey/${therapySession.id}/${createPatientSlug(therapySession.patient.name)}`}
             aria-label={
               therapySession.isCompleted
                 ? `Review the completed journey with ${therapySession.patient.name}`

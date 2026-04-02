@@ -1,31 +1,191 @@
 import { eq } from "drizzle-orm";
+
+import type { UserRole } from "~/server/db/contracts";
 import { db } from "~/server/db";
 import { users } from "~/server/db/tables";
 
+type UserQueryRow = {
+  id: string;
+  email: string;
+  name: string | null;
+  role: string | null;
+  image: string | null;
+  isActive: boolean;
+};
+
+type UserCredentialsQueryRow = UserQueryRow & {
+  password: string | null;
+};
+
+type ValidatedUser = {
+  id: string;
+  email: string;
+  name: string | null;
+  role: UserRole;
+  image: string | null;
+  isActive: boolean;
+};
+
+export type CredentialsValidatedUser = ValidatedUser & {
+  passwordHash: string | null;
+};
 
 export interface UserValidationResult {
   isValid: boolean;
-  user?: {
-    id: string;
-    email: string;
-    name: string | null;
-    role: string;
-    image: string | null;
-  };
+  user?: ValidatedUser;
+  error?: string;
+}
+
+export interface UserCredentialsValidationResult {
+  isValid: boolean;
+  user?: CredentialsValidatedUser;
   error?: string;
 }
 
 export interface DatabaseValidationOptions {
-  timeout?: number; 
-  retries?: number; 
-  skipCache?: boolean; 
+  timeout?: number;
+  retries?: number;
+  skipCache?: boolean;
+}
+
+function mapValidatedUser(user: UserQueryRow): ValidatedUser {
+  return {
+    id: user.id,
+    email: user.email,
+    name: user.name,
+    role: (user.role ?? "user") as UserRole,
+    image: user.image,
+    isActive: user.isActive,
+  };
+}
+
+function mapCredentialsValidatedUser(
+  user: UserCredentialsQueryRow,
+): CredentialsValidatedUser {
+  return {
+    ...mapValidatedUser(user),
+    passwordHash: user.password,
+  };
+}
+
+async function withTimeout<T>(
+  promise: Promise<T>,
+  timeout: number,
+): Promise<T> {
+  let timeoutId: NodeJS.Timeout | undefined;
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(
+          () => reject(new Error("Database query timeout")),
+          timeout,
+        );
+      }),
+    ]);
+  } finally {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  }
+}
+
+async function fetchValidatedUser(
+  where: ReturnType<typeof eq>,
+  timeout: number,
+): Promise<ValidatedUser | null> {
+  const userResults = (await withTimeout(
+    (db as any)
+      .select({
+        id: (users as any).id,
+        email: (users as any).email,
+        name: (users as any).name,
+        role: (users as any).role,
+        image: (users as any).image,
+        isActive: (users as any).isActive,
+      })
+      .from(users)
+      .where(where)
+      .limit(1),
+    timeout,
+  )) as UserQueryRow[];
+
+  const user = userResults[0];
+  return user ? mapValidatedUser(user) : null;
+}
+
+async function fetchValidatedCredentialsUser(
+  email: string,
+  timeout: number,
+): Promise<CredentialsValidatedUser | null> {
+  const userResults = (await withTimeout(
+    (db as any)
+      .select({
+        id: (users as any).id,
+        email: (users as any).email,
+        name: (users as any).name,
+        role: (users as any).role,
+        image: (users as any).image,
+        isActive: (users as any).isActive,
+        password: (users as any).password,
+      })
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1),
+    timeout,
+  )) as UserCredentialsQueryRow[];
+
+  const user = userResults[0];
+  return user ? mapCredentialsValidatedUser(user) : null;
+}
+
+async function runValidation<T>(
+  fetcher: () => Promise<T | null>,
+  retries: number,
+  missingError: string,
+): Promise<{ isValid: boolean; user?: T; error?: string }> {
+  let lastError: Error | null = null;
+  const totalAttempts = Math.max(1, retries + 1);
+
+  for (let attempt = 1; attempt <= totalAttempts; attempt++) {
+    try {
+      const user = await fetcher();
+
+      if (!user) {
+        return {
+          isValid: false,
+          error: missingError,
+        };
+      }
+
+      return {
+        isValid: true,
+        user,
+      };
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+
+      if (attempt === totalAttempts) {
+        break;
+      }
+
+      const delay = Math.min(250 * Math.pow(2, attempt - 1), 1000);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+  }
+
+  return {
+    isValid: false,
+    error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
+  };
 }
 
 export async function validateUserById(
   userId: string,
   options: DatabaseValidationOptions = {},
 ): Promise<UserValidationResult> {
-  const { timeout = 5000, retries = 3 } = options;
+  const { timeout = 5000, retries = 0 } = options;
 
   if (!userId) {
     return {
@@ -34,70 +194,18 @@ export async function validateUserById(
     };
   }
 
-  let lastError: Error | null = null;
-
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("Database query timeout")), timeout);
-      });
-
-      const queryPromise = (db as any)
-        .select({
-          id: (users as any).id,
-          email: (users as any).email,
-          name: (users as any).name,
-          role: (users as any).role,
-          image: (users as any).image,
-        })
-        .from(users)
-        .where(eq((users as any).id, userId))
-        .limit(1);
-
-      const userResults = await Promise.race([queryPromise, timeoutPromise]);
-
-      if (userResults.length === 0) {
-        return {
-          isValid: false,
-          error: "User not found in database",
-        };
-      }
-
-      const user = userResults[0]!;
-
-      return {
-        isValid: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role ?? "user",
-          image: user.image,
-        },
-      };
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-
-      if (attempt === retries) {
-        break;
-      }
-
-      const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
-  }
-
-  return {
-    isValid: false,
-    error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
-  };
+  return runValidation(
+    () => fetchValidatedUser(eq(users.id, userId), timeout),
+    retries,
+    "User not found in database",
+  );
 }
 
 export async function validateUserByEmail(
   email: string,
   options: DatabaseValidationOptions = {},
 ): Promise<UserValidationResult> {
-  const { timeout = 5000, retries = 3 } = options;
+  const { timeout = 5000, retries = 0 } = options;
 
   if (!email) {
     return {
@@ -106,63 +214,31 @@ export async function validateUserByEmail(
     };
   }
 
-  let lastError: Error | null = null;
+  return runValidation(
+    () => fetchValidatedUser(eq(users.email, email), timeout),
+    retries,
+    "User not found in database",
+  );
+}
 
-  for (let attempt = 1; attempt <= retries; attempt++) {
-    try {
-      const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("Database query timeout")), timeout);
-      });
+export async function validateUserByEmailForAuth(
+  email: string,
+  options: DatabaseValidationOptions = {},
+): Promise<UserCredentialsValidationResult> {
+  const { timeout = 5000, retries = 0 } = options;
 
-      const queryPromise = (db as any)
-        .select({
-          id: (users as any).id,
-          email: (users as any).email,
-          name: (users as any).name,
-          role: (users as any).role,
-          image: (users as any).image,
-        })
-        .from(users)
-        .where(eq((users as any).email, email))
-        .limit(1);
-
-      const userResults = await Promise.race([queryPromise, timeoutPromise]);
-
-      if (userResults.length === 0) {
-        return {
-          isValid: false,
-          error: "User not found in database",
-        };
-      }
-
-      const user = userResults[0]!;
-
-      return {
-        isValid: true,
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role ?? "user",
-          image: user.image,
-        },
-      };
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(String(error));
-
-      if (attempt === retries) {
-        break;
-      }
-
-      const delay = Math.min(1000 * Math.pow(2, attempt - 1), 5000);
-      await new Promise((resolve) => setTimeout(resolve, delay));
-    }
+  if (!email) {
+    return {
+      isValid: false,
+      error: "Email is required for validation",
+    };
   }
 
-  return {
-    isValid: false,
-    error: `Database validation failed: ${lastError?.message ?? "Unknown error"}`,
-  };
+  return runValidation(
+    () => fetchValidatedCredentialsUser(email, timeout),
+    retries,
+    "User not found in database",
+  );
 }
 
 export async function checkUserRoleChange(
@@ -209,11 +285,10 @@ export async function validateUserAccountStatus(
     };
   }
 
-  
-  
   return {
-    isActive: true,
-    status: "active",
+    isActive: validation.user.isActive,
+    status: validation.user.isActive ? "active" : "inactive",
+    error: validation.user.isActive ? undefined : "User account is inactive",
   };
 }
 
@@ -228,46 +303,28 @@ export async function comprehensiveUserValidation(
   accountActive: boolean;
   errors: string[];
 }> {
+  const validation = await validateUserById(userId, options);
   const errors: string[] = [];
-  let roleChanged = false;
-  let accountActive = false;
 
-  
-  const userValidation = await validateUserById(userId, options);
-  if (!userValidation.isValid || !userValidation.user) {
-    errors.push(userValidation.error ?? "User validation failed");
+  if (!validation.isValid || !validation.user) {
     return {
       isValid: false,
       roleChanged: false,
       accountActive: false,
-      errors,
+      errors: [validation.error ?? "User validation failed"],
     };
   }
 
-  const user: UserValidationResult["user"] = userValidation.user;
+  const user = validation.user;
+  const roleChanged = expectedRole ? user.role !== expectedRole : false;
+  const accountActive = user.isActive;
 
-  
-  if (expectedRole) {
-    const roleCheck = await checkUserRoleChange(userId, expectedRole, options);
-    if (roleCheck.error) {
-      errors.push(roleCheck.error);
-    } else {
-      roleChanged = roleCheck.hasChanged;
-    }
+  if (!accountActive) {
+    errors.push("User account is inactive");
   }
-
-  
-  const statusCheck = await validateUserAccountStatus(userId, options);
-  if (statusCheck.error) {
-    errors.push(statusCheck.error);
-  } else {
-    accountActive = statusCheck.isActive;
-  }
-
-  const isValid = errors.length === 0 && accountActive;
 
   return {
-    isValid,
+    isValid: accountActive,
     user,
     roleChanged,
     accountActive,
@@ -281,8 +338,8 @@ export function createValidationConfig(
   const isDevelopment = process.env.NODE_ENV === "development";
 
   return {
-    timeout: isDevelopment ? 10000 : 5000, 
-    retries: isDevelopment ? 5 : 3, 
+    timeout: isDevelopment ? 7000 : 3000,
+    retries: isDevelopment ? 1 : 0,
     skipCache: false,
     ...overrides,
   };

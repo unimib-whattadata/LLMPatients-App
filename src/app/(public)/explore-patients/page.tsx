@@ -1,32 +1,21 @@
 
-import { auth } from "~/server/auth";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { PatientGridWrapper } from "./_components/PatientGridWrapper";
 import { HydrateClient } from "~/trpc/server";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { getAppSession, getLayoutSessionProps } from "~/server/auth/session";
 
 export default async function ExplorePatientsPage() {
-  
-  const session = await auth();
-
-  
-  const user = session?.user
-    ? {
-        id: session.user.id,
-        name: session.user.name ?? null,
-        email: session.user.email!,
-        role: session.user.role || "user",
-        image: session.user.image,
-      }
-    : undefined;
+  const session = await getAppSession();
+  const { user, impersonation } = getLayoutSessionProps(session);
 
   return (
     <HydrateClient>
       <SharedLayout
         user={user}
-        impersonation={session?.impersonation ?? undefined}
+        impersonation={impersonation}
         layoutType="home"
         currentPage="/explore-patients"
       >

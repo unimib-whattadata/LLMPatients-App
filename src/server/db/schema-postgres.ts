@@ -4,13 +4,10 @@ import {
   primaryKey,
   pgTableCreator,
   uniqueIndex,
-  text,
-  timestamp,
-  boolean,
-  integer,
-  json,
-  serial,
 } from "drizzle-orm/pg-core";
+import {
+  USER_ROLES,
+} from "./contracts";
 // Generate UUID using Web Crypto API (Edge Runtime compatible)
 const randomUUID = () => crypto.randomUUID();
 
@@ -37,15 +34,15 @@ export const users = createTable(
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    name: d.text("name").notNull(),
+    name: d.text("name"),
     email: d.text("email").notNull().unique(),
     emailVerified: d.timestamp("emailVerified", { mode: "date" }),
     image: d.text("image"),
     password: d.text("password"),
     role: d
-      .text("role", { enum: ["admin", "therapist", "patient"] })
+      .text("role", { enum: USER_ROLES })
       .notNull()
-      .default("patient"),
+      .default("user"),
     isActive: d.boolean("isActive").notNull().default(true),
     createdAt: d
       .timestamp("createdAt", { mode: "date" })
@@ -157,6 +154,11 @@ export const patients = createTable(
     index("virtual_patient_created_at_idx").on(t.createdAt),
     index("virtual_patient_name_idx").on(t.name),
     index("virtual_patient_external_id_idx").on(t.externalPatientId),
+    index("virtual_patient_active_difficulty_name_idx").on(
+      t.isActive,
+      t.difficulty,
+      t.name,
+    ),
   ],
 );
 
@@ -178,6 +180,8 @@ export const therapySessions = createTable(
       .references(() => patients.id),
     sessionNumber: d.integer().default(1).notNull(),
     isCompleted: d.boolean().default(false).notNull(),
+    externalPatientId: d.text(),
+    activePatientSessionKey: d.text(),
     createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
     updatedAt: d.timestamp({ mode: "date" }),
   }),
@@ -186,7 +190,14 @@ export const therapySessions = createTable(
     index("therapy_session_patient_idx").on(t.patientId),
     index("therapy_session_updated_at_idx").on(t.updatedAt),
     index("therapy_session_completed_idx").on(t.isCompleted),
-    uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
+    index("therapy_session_user_patient_created_idx").on(
+      t.userId,
+      t.patientId,
+      t.createdAt,
+    ),
+    uniqueIndex("therapy_session_active_user_patient_idx").on(
+      t.activePatientSessionKey,
+    ),
   ],
 );
 
@@ -217,22 +228,38 @@ export const chat = createTable(
   ],
 );
 
-export const userActivities = createTable("userActivity", (d: any) => ({
-  id: d
-    .text("id")
-    .primaryKey()
-    .$defaultFn(() => randomUUID()),
-  userId: d
-    .text("userId")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  action: d.text("action").notNull(),
-  resource: d.text("resource"),
-  details: d.json("details"),
-  ipAddress: d.text("ipAddress"),
-  userAgent: d.text("userAgent"),
-  createdAt: d.timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
-}));
+export const userActivities = createTable(
+  "userActivity",
+  (d: any) => ({
+    id: d
+      .text("id")
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
+    userId: d
+      .text("userId")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    activityType: d.text("activityType").notNull(),
+    metadata: d.text("metadata"),
+    ipAddress: d.text("ipAddress"),
+    userAgent: d.text("userAgent"),
+    createdAt: d
+      .timestamp("createdAt", { mode: "date" })
+      .notNull()
+      .defaultNow(),
+  }),
+  (t) => [
+    index("user_activity_user_id_idx").on(t.userId),
+    index("user_activity_type_idx").on(t.activityType),
+    index("user_activity_created_at_idx").on(t.createdAt),
+    index("user_activity_type_created_user_idx").on(
+      t.activityType,
+      t.createdAt,
+      t.userId,
+    ),
+    index("user_activity_user_created_idx").on(t.userId, t.createdAt),
+  ],
+);
 
 
 export const impersonationSessions = createTable(
@@ -258,6 +285,7 @@ export const impersonationSessions = createTable(
     endedAt: d.timestamp({ mode: "date" }),
 
     isActive: d.boolean().default(true).notNull(),
+    activeAdminSessionKey: d.text(),
 
     sessionToken: d.text(),
     ipAddress: d.text(),
@@ -270,6 +298,11 @@ export const impersonationSessions = createTable(
     index("impersonation_target_user_idx").on(t.targetUserId),
     index("impersonation_active_idx").on(t.isActive),
     index("impersonation_started_at_idx").on(t.startedAt),
+    index("impersonation_admin_started_idx").on(t.adminUserId, t.startedAt),
+    index("impersonation_target_started_idx").on(t.targetUserId, t.startedAt),
+    uniqueIndex("impersonation_active_admin_key_idx").on(
+      t.activeAdminSessionKey,
+    ),
   ],
 );
 

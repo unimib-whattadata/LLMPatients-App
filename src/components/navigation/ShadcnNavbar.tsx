@@ -2,14 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { signOut } from "next-auth/react";
-import { LogOut } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { Badge } from "~/components/ui/badge";
-import { createLogger } from "~/lib/logger";
+import { useAppToast } from "~/hooks/useAppToast";
+import { useLogout } from "~/hooks/useLogout";
 import type { User, ImpersonationContext } from "~/types";
-
-const logger = createLogger("ShadcnNavbar");
 
 type LayoutType = "dashboard" | "home";
 
@@ -26,7 +24,8 @@ export function ShadcnNavbar({
   layoutType: _layoutType,
   currentPage: _currentPage = "",
 }: ShadcnNavbarProps) {
-
+  const { error } = useAppToast();
+  const { isLoggingOut, logout } = useLogout();
 
   const displayUser = impersonation?.isImpersonating
     ? {
@@ -39,15 +38,13 @@ export function ShadcnNavbar({
 
 
   const handleLogout = async () => {
-    try {
-      const callbackUrl =
-        typeof window !== "undefined" ? window.location.origin : "/";
-      await signOut({ callbackUrl });
-    } catch (error) {
-      logger.error("Logout failed", error);
-      if (typeof window !== "undefined") {
-        window.location.href = "/";
-      }
+    const result = await logout({ callbackUrl: "/" });
+
+    if (!result.ok) {
+      error(
+        "Sign out failed",
+        "The session is still active. Please try again.",
+      );
     }
   };
 
@@ -69,9 +66,14 @@ export function ShadcnNavbar({
           variant="ghost"
           size="sm"
           onClick={handleLogout}
+          disabled={isLoggingOut}
           title="Sign out"
         >
-          <LogOut className="h-4 w-4" />
+          {isLoggingOut ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <LogOut className="h-4 w-4" />
+          )}
         </Button>
       </div>
     );

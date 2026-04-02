@@ -1,17 +1,14 @@
 
 import { redirect } from "next/navigation";
-import { auth } from "~/server/auth";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { ManageUsersContent } from "./_components/ManageUsersContent";
+import {
+  getLayoutSessionProps,
+  requireAppSession,
+} from "~/server/auth/session";
 
 export default async function AdminUserManagementPage() {
-  
-  const session = await auth();
-
-  
-  if (!session || !session.user) {
-    redirect("/login");
-  }
+  const session = await requireAppSession();
 
   
   if (session.user.role !== "admin") {
@@ -20,14 +17,7 @@ export default async function AdminUserManagementPage() {
 
   return (
     <SharedLayout
-      user={{
-        id: session.user.id,
-        name: session.user.name ?? null,
-        email: session.user.email!,
-        role: session.user.role,
-        image: session.user.image,
-      }}
-      impersonation={session.impersonation ?? undefined}
+      {...getLayoutSessionProps(session)}
       layoutType="dashboard"
       currentPage="/admin/manage-users"
     >

@@ -17,20 +17,11 @@ import {
   getDifficultyIcon,
   type DifficultyLevel,
 } from "~/lib/constants/difficulty";
+import { normalizeParam } from "~/lib/utils";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { createLogger } from "~/lib/logger";
 
 const logger = createLogger("PatientDetail");
-
-function normalizeParam(value: unknown): string | null {
-  if (typeof value === "string") {
-    return value;
-  }
-  if (Array.isArray(value)) {
-    return (value[0] as string) ?? null;
-  }
-  return null;
-}
 
 export function PatientDetailContent() {
   const params = useParams();
@@ -56,24 +47,10 @@ export function PatientDetailContent() {
     onSuccess: async (startedSession) => {
       setActionError(null);
       if (startedSession && patient) {
-
-        if (!patient.externalPatientId) {
+        if (!startedSession.externalPatientId) {
           try {
             const initResponse = await initializePatientMutation.mutateAsync({
-              patientInfo: {
-                id: patient.id,
-                name: patient.name,
-                age: patient.age,
-                gender: patient.gender || "not specified",
-                diagnosis: patient.diagnosis || "Not specified",
-                difficulty: patient.difficulty,
-                psychologicalProfile: patient.psychologicalProfile || patient.background,
-                background: patient.background,
-                currentMedications: patient.currentMedications || [],
-                therapyGoals: patient.objectives,
-                previousSessions: patient.previousSessions || 0,
-              },
-              sessionId: startedSession.id,
+              therapySessionId: startedSession.id,
             });
 
             // Check whether initialization failed
@@ -97,7 +74,7 @@ export function PatientDetailContent() {
 
         const patientSlug = createPatientSlug(patient.name);
         router.push(
-          `/dashboard/therapeutic-journey/${startedSession.patientId}/${patientSlug}`,
+          `/dashboard/therapeutic-journey/${startedSession.id}/${patientSlug}`,
         );
       }
     },

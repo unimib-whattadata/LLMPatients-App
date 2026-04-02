@@ -4,6 +4,10 @@ import { env } from "~/env";
 
 const isPostgres = env.DATABASE_URL.startsWith("postgres");
 
+// Drizzle exposes different static types for the two dialects, but the app
+// expects one runtime contract. We pick the active schema once here and keep
+// the rest of the code importing from a single place.
+const activeSchema = (isPostgres ? postgresSchema : sqliteSchema) as any;
 
 export const {
   users,
@@ -26,4 +30,4 @@ export const {
   chatRelations,
   usersRelations,
   extendedUsersRelations,
-} = isPostgres ? postgresSchema : sqliteSchema;
+} = activeSchema;

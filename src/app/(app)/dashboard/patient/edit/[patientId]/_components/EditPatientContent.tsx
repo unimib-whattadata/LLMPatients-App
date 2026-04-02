@@ -2,9 +2,9 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 import { PatientForm, type PatientFormValues } from "../../../_components/PatientForm";
+import { useAppToast } from "~/hooks/useAppToast";
 import { api } from "~/trpc/react";
 
 interface EditPatientContentProps {
@@ -13,6 +13,7 @@ interface EditPatientContentProps {
 
 export function EditPatientContent({ patientId }: EditPatientContentProps) {
   const router = useRouter();
+  const { success, error: showError } = useAppToast();
 
   const utils = api.useUtils();
 
@@ -24,27 +25,21 @@ export function EditPatientContent({ patientId }: EditPatientContentProps) {
 
   const updateMutation = api.patients.updatePatient.useMutation({
     onSuccess: async () => {
-      toast.success("Patient updated", {
-        description: "Changes have been saved successfully",
-      });
+      success("Patient updated", "Changes have been saved successfully");
       await utils.patients.getAdminPatients.invalidate();
       await utils.patients.getAdminPatientById.invalidate({ id: patientId });
       router.push(`/dashboard/patient/show/${patientId}`);
     },
     onError: (mutationError) => {
-      toast.error("Failed to update patient", {
-        description: mutationError.message,
-      });
+      showError("Failed to update patient", mutationError.message);
     },
   });
 
   useEffect(() => {
     if (error) {
-      toast.error("Unable to load patient", {
-        description: error.message,
-      });
+      showError("Unable to load patient", error.message);
     }
-  }, [error]);
+  }, [error, showError]);
 
   const handleSubmit = async (values: PatientFormValues & { age: number }) => {
     if (!patient) {
@@ -88,4 +83,3 @@ export function EditPatientContent({ patientId }: EditPatientContentProps) {
     />
   );
 }
-

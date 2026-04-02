@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Check, Eye, X } from "lucide-react";
-import { useToast } from "~/components/common/ToastProvider";
+import { useAppToast } from "~/hooks/useAppToast";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -71,7 +71,7 @@ function LoginPageComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
-  const { showSuccess, showError } = useToast();
+  const { success, error: showError } = useAppToast();
 
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard/therapeutic-journey";
 
@@ -240,7 +240,7 @@ function LoginPageComponent() {
 
 
               const redirectSeconds = 3;
-              showSuccess(
+              success(
                 "Login Successful!",
                 `Welcome back! Redirecting you to your dashboard in ${redirectSeconds} seconds...`,
                 { duration: 3000 },

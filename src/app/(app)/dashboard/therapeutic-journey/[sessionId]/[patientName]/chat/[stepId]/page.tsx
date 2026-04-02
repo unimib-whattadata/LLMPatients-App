@@ -1,26 +1,12 @@
-
-import { redirect } from "next/navigation";
-import { auth } from "~/server/auth";
 import { ChatContent } from "./_components/ChatContent";
+import { requireAppSession, toAppUser } from "~/server/auth/session";
 
 export default async function ChatPage() {
-  
-  const session = await auth();
-
-  
-  if (!session || !session.user) {
-    redirect("/login");
-  }
+  const session = await requireAppSession();
 
   return (
     <ChatContent
-      user={{
-        id: session.user.id,
-        name: session.user.name ?? null,
-        email: session.user.email!,
-        role: session.user.role || "user",
-        image: session.user.image,
-      }}
+      user={toAppUser(session.user)}
       impersonation={session.impersonation ?? undefined}
     />
   );

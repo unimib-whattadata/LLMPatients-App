@@ -1,21 +1,32 @@
-
-import { z } from "zod";
-import { eq, desc, count, and, gte, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { and, count, desc, eq, gte, ne, sql } from "drizzle-orm";
+import { z } from "zod";
 
 import {
+  adminProcedure,
   createTRPCRouter,
   protectedProcedure,
-  adminProcedure,
 } from "~/server/api/trpc";
-import { users, userActivities } from "~/server/db/tables";
+import { userActivities, users } from "~/server/db/tables";
+
+function parseActivityMetadata(metadata: string | null) {
+  // Metadata is stored as JSON text across both dialects. A bad row should not
+  // take down the dashboard, so malformed payloads are treated as missing.
+  if (!metadata) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(metadata) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
 
 export const dashboardRouter = createTRPCRouter({
-  
-
-    getAllUsers: adminProcedure.query(async ({ ctx }) => {
+  getAllUsers: adminProcedure.query(async ({ ctx }) => {
     try {
-      const allUsers = await (ctx.db as any)
+      return await (ctx.db as any)
         .select({
           id: users.id,
           name: users.name,
@@ -26,8 +37,6 @@ export const dashboardRouter = createTRPCRouter({
         })
         .from(users)
         .orderBy(desc(users.name));
-
-      return allUsers;
     } catch {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
@@ -36,7 +45,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-    updateUserRole: adminProcedure
+  updateUserRole: adminProcedure
     .input(
       z.object({
         userId: z.string().min(1, "User ID is required"),
@@ -47,7 +56,6 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        
         if (input.userId === ctx.session.user.id && input.role === "user") {
           throw new TRPCError({
             code: "BAD_REQUEST",
@@ -73,7 +81,6 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        
         await (ctx.db as any).insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "role_update",
@@ -86,7 +93,10 @@ export const dashboardRouter = createTRPCRouter({
 
         return updatedUser[0]!;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
+        if (error instanceof TRPCError) {
+          throw error;
+        }
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to update user role",
@@ -94,61 +104,57 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-    getSystemStats: adminProcedure.query(async ({ ctx }) => {
+  getSystemStats: adminProcedure.query(async ({ ctx }) => {
     try {
-      
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      
-      const totalUsersResult = await (ctx.db as any)
-        .select({ count: count() })
-        .from(users);
-
-      
-      const activeUsersQuery = await (ctx.db as any)
-        .select({ userId: userActivities.userId })
-        .from(userActivities)
-        .where(
-          and(
-            eq((userActivities as any).activityType, "login"),
-            gte((userActivities as any).createdAt, thirtyDaysAgo),
-          ),
-        )
-        .groupBy(userActivities.userId);
-
-      
-      const adminUsersResult = await (ctx.db as any)
-        .select({ count: count() })
-        .from(users)
-        .where(eq(users.role, "admin"));
-
-      
-      const recentActivities = await (ctx.db as any)
-        .select({
-          id: (userActivities as any).id,
-          activityType: (userActivities as any).activityType,
-          metadata: (userActivities as any).metadata,
-          createdAt: (userActivities as any).createdAt,
-          userName: users.name,
-        })
-        .from(userActivities)
-        .leftJoin(users, eq(userActivities.userId, users.id))
-        .orderBy(desc(userActivities.createdAt))
-        .limit(10);
+      const [totalUsersResult, activeUsersResult, adminUsersResult, recentActivities] =
+        await Promise.all([
+          (ctx.db as any)
+            .select({ count: count() })
+            .from(users),
+          (ctx.db as any)
+            .select({
+              count: sql<number>`count(distinct ${userActivities.userId})`,
+            })
+            .from(userActivities)
+            .where(
+              and(
+                eq((userActivities as any).activityType, "login"),
+                gte((userActivities as any).createdAt, thirtyDaysAgo),
+              ),
+            ),
+          (ctx.db as any)
+            .select({ count: count() })
+            .from(users)
+            .where(eq(users.role, "admin")),
+          (ctx.db as any)
+            .select({
+              id: (userActivities as any).id,
+              activityType: (userActivities as any).activityType,
+              metadata: (userActivities as any).metadata,
+              createdAt: (userActivities as any).createdAt,
+              userName: users.name,
+            })
+            .from(userActivities)
+            .leftJoin(users, eq(userActivities.userId, users.id))
+            .orderBy(desc(userActivities.createdAt))
+            .limit(10),
+        ]);
 
       return {
-        totalUsers: totalUsersResult[0]?.count ?? 0,
-        activeUsers: activeUsersQuery.length,
-        adminUsers: adminUsersResult[0]?.count ?? 0,
+        totalUsers: Number(totalUsersResult[0]?.count ?? 0),
+        // "Active" here means "logged in during the last 30 days". It is an
+        // engagement metric, not the same thing as the auth-level isActive flag.
+        activeUsers: Number(activeUsersResult[0]?.count ?? 0),
+        adminUsers: Number(adminUsersResult[0]?.count ?? 0),
         recentActivities: recentActivities.map((activity: any) => ({
           id: activity.id,
           type: activity.activityType,
           createdAt: activity.createdAt,
           userName: activity.userName ?? "Unknown User",
-          metadata: activity.metadata
-            ? (JSON.parse(activity.metadata) as Record<string, unknown>)
-            : null,
+          metadata: parseActivityMetadata(activity.metadata),
         })),
       };
     } catch {
@@ -159,9 +165,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-  
-
-    getUserProfile: protectedProcedure.query(async ({ ctx }) => {
+  getUserProfile: protectedProcedure.query(async ({ ctx }) => {
     try {
       const userProfile = await (ctx.db as any)
         .select({
@@ -185,7 +189,10 @@ export const dashboardRouter = createTRPCRouter({
 
       return userProfile[0]!;
     } catch (error) {
-      if (error instanceof TRPCError) throw error;
+      if (error instanceof TRPCError) {
+        throw error;
+      }
+
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
         message: "Failed to fetch user profile",
@@ -193,7 +200,7 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-    updateProfile: protectedProcedure
+  updateProfile: protectedProcedure
     .input(
       z.object({
         name: z.string().min(1, "Name is required").max(255, "Name too long"),
@@ -216,7 +223,8 @@ export const dashboardRouter = createTRPCRouter({
           )
           .limit(1);
 
-        
+        // Keep the conflict message explicit for UX, while the DB unique index
+        // remains the hard guarantee against duplicates.
         if (existingUser.length > 0) {
           throw new TRPCError({
             code: "CONFLICT",
@@ -257,7 +265,10 @@ export const dashboardRouter = createTRPCRouter({
 
         return updatedUser[0]!;
       } catch (error) {
-        if (error instanceof TRPCError) throw error;
+        if (error instanceof TRPCError) {
+          throw error;
+        }
+
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
           message: "Failed to update profile",
@@ -265,7 +276,7 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-    getUserActivity: protectedProcedure
+  getUserActivity: protectedProcedure
     .input(
       z.object({
         limit: z.number().min(1).max(50).default(10),
@@ -286,12 +297,10 @@ export const dashboardRouter = createTRPCRouter({
           .limit(input.limit);
 
         return activities.map((activity: any) => ({
-          id: activity.id,
+          id: String(activity.id),
           type: activity.activityType,
           createdAt: activity.createdAt,
-          metadata: activity.metadata
-            ? (JSON.parse(activity.metadata) as Record<string, unknown>)
-            : null,
+          metadata: parseActivityMetadata(activity.metadata),
         }));
       } catch {
         throw new TRPCError({
@@ -301,7 +310,7 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-    recordActivity: protectedProcedure
+  recordActivity: protectedProcedure
     .input(
       z.object({
         activityType: z.enum(
@@ -337,66 +346,80 @@ export const dashboardRouter = createTRPCRouter({
       }
     }),
 
-    getStudentStats: adminProcedure.query(async ({ ctx }) => {
+  getStudentStats: adminProcedure.query(async ({ ctx }) => {
     try {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      
-      const totalStudentsResult = await (ctx.db as any)
-        .select({ count: count() })
-        .from(users)
-        .where(eq(users.role, "user"));
-
-      
-      const activeStudentsQuery = await (ctx.db as any)
-        .select({ userId: userActivities.userId })
-        .from(userActivities)
-        .innerJoin(users, eq(userActivities.userId, users.id))
-        .where(
-          and(
-            eq((userActivities as any).activityType, "login"),
-            eq(users.role, "user"),
-            gte((userActivities as any).createdAt, thirtyDaysAgo),
+      const [
+        totalStudentsResult,
+        activeStudentsResult,
+        studentsWithSimulationsResult,
+        totalSimulationsResult,
+      ] = await Promise.all([
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(users)
+          .where(eq(users.role, "user")),
+        (ctx.db as any)
+          .select({
+            count: sql<number>`count(distinct ${userActivities.userId})`,
+          })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq((userActivities as any).activityType, "login"),
+              eq(users.role, "user"),
+              gte((userActivities as any).createdAt, thirtyDaysAgo),
+            ),
           ),
-        )
-        .groupBy(userActivities.userId);
-
-      
-      
-      const simulationActivities = await (ctx.db as any)
-        .select({ userId: userActivities.userId })
-        .from(userActivities)
-        .innerJoin(users, eq(userActivities.userId, users.id))
-        .where(
-          and(
-            eq((userActivities as any).activityType, "simulation"),
-            eq(users.role, "user"),
+        // We currently only know whether a student produced at least one
+        // simulation event, so completionRate is intentionally a coarse proxy.
+        (ctx.db as any)
+          .select({
+            count: sql<number>`count(distinct ${userActivities.userId})`,
+          })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq((userActivities as any).activityType, "simulation"),
+              eq(users.role, "user"),
+            ),
           ),
-        )
-        .groupBy(userActivities.userId);
+        (ctx.db as any)
+          .select({ count: count() })
+          .from(userActivities)
+          .innerJoin(users, eq(userActivities.userId, users.id))
+          .where(
+            and(
+              eq((userActivities as any).activityType, "simulation"),
+              eq(users.role, "user"),
+            ),
+          ),
+      ]);
 
-      
-      
-      const totalStudentsCount = totalStudentsResult[0]?.count ?? 0;
+      const totalStudentsCount = Number(totalStudentsResult[0]?.count ?? 0);
+      const studentsWithSimulationsCount = Number(
+        studentsWithSimulationsResult[0]?.count ?? 0,
+      );
       const completionRate =
         totalStudentsCount > 0
-          ? Math.round((simulationActivities.length / totalStudentsCount) * 100)
-          : 0;
-
-      
-      
-      const averageScore =
-        simulationActivities.length > 0
-          ? Math.round(70 + Math.random() * 20) 
+          ? Math.round(
+              (studentsWithSimulationsCount / totalStudentsCount) * 100,
+            )
           : 0;
 
       return {
         totalStudents: totalStudentsCount,
-        activeStudents: activeStudentsQuery.length,
-        completionRate: Math.min(completionRate, 100), 
-        averageScore: averageScore,
-        totalSimulations: simulationActivities.length * 2, 
+        activeStudents: Number(activeStudentsResult[0]?.count ?? 0),
+        completionRate: Math.min(completionRate, 100),
+        // No persisted scoring model exists yet. Returning null plus a status
+        // flag is safer than inventing a synthetic average.
+        averageScore: null,
+        totalSimulations: Number(totalSimulationsResult[0]?.count ?? 0),
+        metricsStatus: "partial",
       };
     } catch {
       throw new TRPCError({
@@ -406,33 +429,16 @@ export const dashboardRouter = createTRPCRouter({
     }
   }),
 
-    getStudentEvaluationStats: adminProcedure.query(async ({ ctx }) => {
+  getStudentEvaluationStats: adminProcedure.query(async () => {
     try {
-      const studentsWithSimulations = await (ctx.db as any)
-        .select({ userId: userActivities.userId })
-        .from(userActivities)
-        .innerJoin(users, eq(userActivities.userId, users.id))
-        .where(
-          and(
-            eq((userActivities as any).activityType, "simulation"),
-            eq(users.role, "user"),
-          ),
-        )
-        .groupBy(userActivities.userId);
-
-      
-      
-      const totalEvaluations = studentsWithSimulations.length * 3; 
-      const completedEvaluations = Math.round(totalEvaluations * 0.75); 
-      const inProgressEvaluations = Math.round(totalEvaluations * 0.15); 
-      const successRate = Math.round(completedEvaluations * 0.85); 
-
       return {
-        totalEvaluations,
-        completedEvaluations,
-        inProgressEvaluations,
-        successRate:
-          Math.round((successRate / completedEvaluations) * 100) || 0,
+        // These fields stay explicitly unavailable until evaluation data is
+        // stored in the database and can be derived honestly.
+        totalEvaluations: null,
+        completedEvaluations: null,
+        inProgressEvaluations: null,
+        successRate: null,
+        status: "not_available",
       };
     } catch {
       throw new TRPCError({

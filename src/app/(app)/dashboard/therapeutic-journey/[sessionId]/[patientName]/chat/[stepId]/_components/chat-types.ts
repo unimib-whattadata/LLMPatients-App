@@ -63,6 +63,7 @@ export interface TherapySessionData {
   patientId: string;
   sessionNumber: number;
   isCompleted: boolean;
+  externalPatientId?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

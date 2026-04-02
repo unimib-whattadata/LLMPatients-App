@@ -2,16 +2,22 @@ import { type DefaultSession, type NextAuthConfig } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
 
-import { db } from "~/server/db";
-import { users } from "~/server/db/tables";
+import { USER_ROLES, type UserRole } from "~/server/db/contracts";
 import {
-  validateUserById,
-  validateUserByEmail,
   comprehensiveUserValidation,
   createValidationConfig,
+  validateUserByEmailForAuth,
+  validateUserById,
 } from "~/server/auth/user-validation";
+import { cleanupImpersonationForSignOutToken } from "~/server/impersonation/service";
+
+const ONE_DAY_IN_SECONDS = 24 * 60 * 60;
+const THIRTY_DAYS_IN_SECONDS = 30 * ONE_DAY_IN_SECONDS;
+
+function getSessionLifetimeMs(rememberMe: boolean): number {
+  return (rememberMe ? THIRTY_DAYS_IN_SECONDS : ONE_DAY_IN_SECONDS) * 1000;
+}
 
 const extractRememberMe = (candidate: unknown): boolean => {
   if (
@@ -28,14 +34,129 @@ const extractRememberMe = (candidate: unknown): boolean => {
   return false;
 };
 
+const isUserRole = (value: unknown): value is UserRole =>
+  typeof value === "string" &&
+  (USER_ROLES as readonly string[]).includes(value);
+
+type TokenUserPayload = {
+  id: string;
+  email: string;
+  name: string | null;
+  image: string | null;
+  role: UserRole;
+  isActive: boolean;
+};
+
+function getStringField(
+  candidate: unknown,
+  field: string,
+): string | null | undefined {
+  if (
+    typeof candidate === "object" &&
+    candidate !== null &&
+    field in candidate
+  ) {
+    const value = (candidate as Record<string, unknown>)[field];
+    if (typeof value === "string") {
+      return value;
+    }
+    if (value === null || value === undefined) {
+      return value;
+    }
+  }
+
+  return undefined;
+}
+
+function hasTokenUserPayload(candidate: unknown): candidate is TokenUserPayload {
+  return (
+    typeof candidate === "object" &&
+    candidate !== null &&
+    typeof getStringField(candidate, "id") === "string" &&
+    typeof getStringField(candidate, "email") === "string" &&
+    isUserRole((candidate as Record<string, unknown>).role) &&
+    typeof (candidate as Record<string, unknown>).isActive === "boolean"
+  );
+}
+
+async function resolveTokenUserPayload(
+  candidate: unknown,
+): Promise<TokenUserPayload | null> {
+  if (hasTokenUserPayload(candidate)) {
+    return {
+      id: candidate.id,
+      email: candidate.email,
+      name: candidate.name ?? null,
+      image: candidate.image ?? null,
+      role: candidate.role,
+      isActive: candidate.isActive,
+    };
+  }
+
+  const userId = getStringField(candidate, "id");
+  if (!userId) {
+    return null;
+  }
+
+  const validation = await validateUserById(
+    userId,
+    createValidationConfig({ timeout: 2000, retries: 0 }),
+  );
+
+  if (!validation.isValid || !validation.user) {
+    return null;
+  }
+
+  return {
+    id: validation.user.id,
+    email: validation.user.email,
+    name: validation.user.name,
+    image: validation.user.image,
+    role: validation.user.role,
+    isActive: validation.user.isActive,
+  };
+}
+
+function applyUserToToken(
+  token: Record<string, unknown>,
+  user: TokenUserPayload,
+  validatedAt = Date.now(),
+) {
+  token.id = user.id;
+  token.role = user.role;
+  token.email = user.email;
+  token.name = user.name ?? undefined;
+  token.image = user.image ?? undefined;
+  token.isActive = user.isActive;
+  token.lastValidated = validatedAt;
+}
+
+function applyTokenToSession(
+  session: DefaultSession & {
+    user: {
+      id: string;
+      role: UserRole;
+      isActive: boolean;
+    } & DefaultSession["user"];
+  },
+  token: Record<string, unknown>,
+) {
+  session.user.id = (token.id as string) ?? "";
+  session.user.role = (token.role as UserRole) ?? "user";
+  session.user.email = (token.email as string) ?? "";
+  session.user.name = (token.name as string | null | undefined) ?? null;
+  session.user.image = (token.image as string | null | undefined) ?? null;
+  session.user.isActive = token.isActive === false ? false : true;
+}
+
 declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      role: "admin" | "user"; 
-      
+      role: UserRole;
+      isActive: boolean;
     } & DefaultSession["user"];
-    
+
     impersonation?: {
       isImpersonating: boolean;
       originalAdminId: string;
@@ -52,27 +173,25 @@ declare module "next-auth" {
     name?: string | null;
     email?: string | null;
     image?: string | null;
-    role: "admin" | "user"; 
-    
+    role: UserRole;
+    isActive?: boolean;
   }
 }
 
-
 declare module "next-auth" {
   interface JWT {
-    
     id?: string;
-    role?: string;
+    role?: UserRole;
     email?: string;
     name?: string;
     image?: string;
+    isActive?: boolean;
     lastValidated?: number;
     accessToken?: string;
     provider?: string;
-    maxAge?: number; 
-    rememberMe?: boolean; 
+    rememberMe?: boolean;
+    sessionExpiresAt?: number;
 
-    
     impersonation?: {
       originalAdminId: string;
       targetUserId: string;
@@ -100,55 +219,26 @@ export const authConfig = {
         }
 
         try {
-          const userValidation = await validateUserByEmail(
+          const validation = await validateUserByEmailForAuth(
             credentials.email as string,
-            createValidationConfig({ timeout: 5000, retries: 2 }),
+            createValidationConfig({ timeout: 3000, retries: 0 }),
           );
 
-          if (!userValidation.isValid || !userValidation.user) {
+          if (!validation.isValid || !validation.user) {
             return null;
           }
 
-          const user = userValidation.user;
-
-          
-          const fullUserResults = await db
-            .select()
-            .from(users)
-            .where(eq(users.email, credentials.email as string))
-            .limit(1);
-
-          if (fullUserResults.length === 0) {
-            return null;
-          }
-
-          const fullUser = fullUserResults[0]!;
-
-          
-          if (!fullUser.password) {
+          const user = validation.user;
+          if (!user.passwordHash || !user.isActive) {
             return null;
           }
 
           const isValidPassword = await bcrypt.compare(
             credentials.password as string,
-            fullUser.password as string,
+            user.passwordHash,
           );
 
           if (!isValidPassword) {
-            return null;
-          }
-
-          
-          const comprehensiveValidation = await comprehensiveUserValidation(
-            user.id,
-            user.role,
-            createValidationConfig({ timeout: 3000, retries: 1 }),
-          );
-
-          if (
-            !comprehensiveValidation.isValid ||
-            !comprehensiveValidation.accountActive
-          ) {
             return null;
           }
 
@@ -157,139 +247,104 @@ export const authConfig = {
             email: user.email,
             name: user.name,
             image: user.image,
-            role: user.role as "admin" | "user",
+            role: user.role,
+            isActive: user.isActive,
             rememberMe:
               credentials.rememberMe === "true" ||
               credentials.rememberMe === true,
           };
-        } catch (error) {
+        } catch {
           return null;
         }
       },
     }),
     DiscordProvider,
-      ],
+  ],
 
   trustHost: true,
   secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET,
 
-  
-  
-
-  
   session: {
-    strategy: "jwt" as const, 
-    maxAge: 30 * 24 * 60 * 60, 
-    updateAge: 24 * 60 * 60, 
+    strategy: "jwt" as const,
+    maxAge: THIRTY_DAYS_IN_SECONDS,
+    updateAge: ONE_DAY_IN_SECONDS,
   },
 
-  
   jwt: {
-    maxAge: 30 * 24 * 60 * 60, 
+    maxAge: THIRTY_DAYS_IN_SECONDS,
   },
 
-  
   pages: {
     signIn: "/login",
-    signOut: "/signout", 
-    error: "/login", 
+    signOut: "/signout",
+    error: "/login",
   },
 
   callbacks: {
-    
     jwt: async ({ token, user, account, trigger }) => {
       if (user?.id) {
-        const validation = await validateUserById(
-          user.id,
-          createValidationConfig({ timeout: 3000 }),
-        );
-
-        if (!validation.isValid || !validation.user) {
-          return null; 
+        const tokenUser = await resolveTokenUserPayload(user);
+        if (!tokenUser) {
+          return null;
         }
 
-        
-        token.id = validation.user.id;
-        token.role = validation.user.role;
-        token.email = validation.user.email;
-        token.name = validation.user.name ?? undefined;
-        token.image = validation.user.image ?? undefined;
-        token.lastValidated = Date.now(); 
+        applyUserToToken(token as Record<string, unknown>, tokenUser);
 
-        
         const rememberMe = extractRememberMe(user);
         token.rememberMe = rememberMe;
-        if (rememberMe) {
-          
-          token.maxAge = 30 * 24 * 60 * 60; 
-        } else {
-          
-          token.maxAge = 24 * 60 * 60; 
-        }
-
+        token.sessionExpiresAt = Date.now() + getSessionLifetimeMs(rememberMe);
       }
 
-      
       if (account) {
         token.accessToken = account.access_token;
         token.provider = account.provider;
-
-        
-        if (token.id) {
-          const validation = await validateUserById(
-            token.id as string,
-            createValidationConfig({ timeout: 3000 }),
-          );
-          if (validation.isValid && validation.user) {
-            token.role = validation.user.role;
-            token.email = validation.user.email;
-            token.name = validation.user.name ?? undefined;
-            token.image = validation.user.image ?? undefined;
-            token.lastValidated = Date.now();
-          }
-        }
       }
 
-      
       if (token.id) {
         const currentTime = Date.now();
-        const lastValidated = token.lastValidated ?? 0;
-        const validationInterval = 5 * 60 * 1000; 
+        if (
+          typeof token.sessionExpiresAt === "number" &&
+          currentTime >= token.sessionExpiresAt
+        ) {
+          return null;
+        }
+
+        const lastValidated = (token.lastValidated as number | undefined) ?? 0;
+        const validationInterval = 5 * 60 * 1000;
         const shouldValidate =
-          trigger === "update" ||
-          currentTime - ((lastValidated as number) ?? 0) > validationInterval;
+          trigger === "update" || currentTime - lastValidated > validationInterval;
 
         if (shouldValidate) {
           try {
             const validation = await comprehensiveUserValidation(
               token.id as string,
-              token.role as string,
+              token.role as string | undefined,
               createValidationConfig({
-                timeout: trigger === "update" ? 5000 : 3000,
-                retries: trigger === "update" ? 3 : 2,
+                timeout: trigger === "update" ? 3000 : 2000,
+                retries: trigger === "update" ? 1 : 0,
               }),
             );
 
             if (!validation.isValid || !validation.user) {
               if (
-                validation.errors.some((error) => error.includes("not found"))
+                validation.errors.some(
+                  (error) =>
+                    error.includes("not found") || error.includes("inactive"),
+                )
               ) {
-                return null; 
+                return null;
               }
+
               return token;
             }
 
-            if (!validation.accountActive) {
-              return null;
-            }
-
-            token.role = validation.user.role;
-            token.email = validation.user.email;
-            token.name = validation.user.name ?? undefined;
-            token.image = validation.user.image ?? undefined;
-            token.lastValidated = currentTime;
-          } catch (error) {
-            token.lastValidated = currentTime - validationInterval / 2; 
+            applyUserToToken(
+              token as Record<string, unknown>,
+              validation.user,
+              currentTime,
+            );
+          } catch {
+            token.lastValidated = currentTime - validationInterval / 2;
           }
         }
       }
@@ -297,60 +352,18 @@ export const authConfig = {
       return token;
     },
 
-    
     session: async ({ session, token }) => {
       if (!token || !session.user) {
         return session;
       }
 
-      
-      const currentTime = Date.now();
-      const lastValidated = token.lastValidated ?? 0;
-      const validationAge = currentTime - ((lastValidated as number) ?? 0);
-      const maxValidationAge = 10 * 60 * 1000; 
-
-      
-      if (validationAge > maxValidationAge) {
-        try {
-          const validation = await validateUserById(
-            (token.id as string) ?? "",
-            createValidationConfig({ timeout: 2000, retries: 1 }),
-          );
-
-          if (!validation.isValid || !validation.user) {
-            if (validation.error?.includes("not found")) {
-              return {
-                ...session,
-                user: {
-                  id: "",
-                  email: "",
-                  name: "",
-                  image: "",
-                  role: "user" as const,
-                },
-              };
-            }
-          } else {
-            session.user.id = validation.user.id;
-            session.user.role =
-              (validation.user.role as "admin" | "user") || "user";
-            session.user.email = validation.user.email;
-            session.user.name = validation.user.name ?? undefined;
-            session.user.image = validation.user.image;
-          }
-        } catch (error) {
-          // Silent catch
-        }
-      } else {
-        
-        session.user.id = (token.id as string) ?? "";
-        session.user.role = (token.role as "admin" | "user") || "user";
-        session.user.email = (token.email as string) ?? "";
-        session.user.name = (token.name as string) ?? "";
-        session.user.image = (token.image as string) ?? "";
+      applyTokenToSession(session as typeof session & { user: any }, token);
+      if (typeof token.sessionExpiresAt === "number") {
+        (session as unknown as Record<string, unknown>).expires = new Date(
+          token.sessionExpiresAt,
+        ).toISOString();
       }
 
-      
       if (
         token.impersonation &&
         typeof token.impersonation === "object" &&
@@ -358,25 +371,25 @@ export const authConfig = {
         token.impersonation.isActive
       ) {
         const impersonation = token.impersonation as Record<string, unknown>;
-        if (impersonation && typeof impersonation === "object") {
-          session.user.id = (impersonation.targetUserId as string) || "";
-          session.user.email = (impersonation.targetUserEmail as string) || "";
-          session.user.name = (impersonation.targetUserName as string) || "";
-          session.user.role = "user"; 
+        session.user.id = (impersonation.targetUserId as string) || "";
+        session.user.email = (impersonation.targetUserEmail as string) || "";
+        session.user.name = (impersonation.targetUserName as string) || "";
+        session.user.role = "user";
+        session.user.isActive = true;
 
-          
-          session.impersonation = {
-            isImpersonating: true,
-            originalAdminId: (impersonation.originalAdminId as string) || "",
-            targetUserId: (impersonation.targetUserId as string) || "",
-            targetUserEmail: (impersonation.targetUserEmail as string) || "",
-            targetUserName: (impersonation.targetUserName as string) || "",
-            startedAt: new Date(
-              (impersonation.startedAt as string) || new Date(),
-            ),
-            sessionId: (impersonation.sessionId as string) || "",
-          };
-        }
+        session.impersonation = {
+          isImpersonating: true,
+          originalAdminId: (impersonation.originalAdminId as string) || "",
+          targetUserId: (impersonation.targetUserId as string) || "",
+          targetUserEmail: (impersonation.targetUserEmail as string) || "",
+          targetUserName: (impersonation.targetUserName as string) || "",
+          startedAt: new Date(
+            typeof impersonation.startedAt === "number"
+              ? impersonation.startedAt
+              : Date.now(),
+          ),
+          sessionId: (impersonation.sessionId as string) || "",
+        };
       } else {
         session.impersonation = undefined;
       }
@@ -384,38 +397,50 @@ export const authConfig = {
       return session;
     },
 
-    
     async redirect({ url, baseUrl }) {
       if (url.startsWith("/")) return `${baseUrl}${url}`;
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
 
-    
     async signIn({
       user,
       account,
       profile: _profile,
       email: _email,
-      credentials,
+      credentials: _credentials,
     }) {
       if (account?.provider === "credentials") {
-        return true; 
+        return true;
       }
 
       if (user?.id) {
         try {
           const validation = await validateUserById(
             user.id,
-            createValidationConfig({ timeout: 3000, retries: 2 }),
+            createValidationConfig({ timeout: 2000, retries: 0 }),
           );
 
-          if (!validation.isValid) {
+          if (!validation.isValid || !validation.user?.isActive) {
             return false;
           }
 
+          const mutableUser = user as typeof user & {
+            role?: UserRole;
+            isActive?: boolean;
+            email?: string | null;
+            name?: string | null;
+            image?: string | null;
+          };
+
+          mutableUser.role = validation.user.role;
+          mutableUser.isActive = validation.user.isActive;
+          mutableUser.email = validation.user.email;
+          mutableUser.name = validation.user.name;
+          mutableUser.image = validation.user.image;
+
           return true;
-        } catch (error) {
+        } catch {
           return false;
         }
       }
@@ -424,8 +449,13 @@ export const authConfig = {
     },
   },
 
-  events: {},
+  events: {
+    async signOut(message) {
+      if ("token" in message) {
+        await cleanupImpersonationForSignOutToken(message.token);
+      }
+    },
+  },
 
-  
   debug: process.env.NODE_ENV === "development",
 } satisfies NextAuthConfig;

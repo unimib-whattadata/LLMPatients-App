@@ -4,9 +4,11 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, Edit, ArrowLeft } from "lucide-react";
 
+import { useAppToast } from "~/hooks/useAppToast";
 import { api } from "~/trpc/react";
 import { Button } from "~/components/ui/button";
 import { Skeleton, SkeletonText } from "~/components/ui/skeleton";
+import { copyToClipboard } from "~/lib/utils";
 import { createPatientSlug } from "~/lib/utils/slugify";
 import { DashboardSection, DashboardPanel } from "~/components/dashboard/ui";
 import { PatientDifficulty } from "~/components/patient/PatientDifficulty";
@@ -18,8 +20,13 @@ interface PatientDetailContentProps {
 
 export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
   const router = useRouter();
+  const { success, error: showError } = useAppToast();
 
-  const { data: patient, isLoading, error } = api.patients.getAdminPatientById.useQuery({ id: patientId });
+  const {
+    data: patient,
+    isLoading,
+    error: patientError,
+  } = api.patients.getAdminPatientById.useQuery({ id: patientId });
 
   const previewUrl = useMemo(() => {
     if (!patient) return "";
@@ -65,7 +72,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
 
   }
 
-  if (error || !patient) {
+  if (patientError || !patient) {
     return (
 
       <DashboardSection
@@ -99,6 +106,20 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
       return;
     }
     window.open(previewUrl, "_blank", "noopener,noreferrer");
+  };
+
+  const handleCopyJson = async () => {
+    const copied = await copyToClipboard(patient.details);
+
+    if (!copied) {
+      showError(
+        "Unable to copy JSON",
+        "Clipboard access is unavailable in this browser.",
+      );
+      return;
+    }
+
+    success("JSON copied", "Patient details have been copied to the clipboard.");
   };
 
   return (
@@ -176,7 +197,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
           <Button
             variant="secondary"
             size="sm"
-            onClick={() => navigator.clipboard.writeText(patient.details)}
+            onClick={() => void handleCopyJson()}
           >
             Copy JSON
           </Button>

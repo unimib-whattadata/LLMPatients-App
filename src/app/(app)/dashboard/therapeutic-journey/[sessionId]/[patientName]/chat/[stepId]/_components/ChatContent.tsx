@@ -2,525 +2,133 @@
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
+
 import { api } from "~/trpc/react";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { DashboardPanel } from "~/components/dashboard/ui";
-import { Input } from "~/components/ui/input";
 import { ChatPageSkeleton } from "~/components/ui/skeleton-variants";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~/components/ui/dialog";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "~/components/ui/popover";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "~/components/ui/tooltip";
-import {
-  ArrowLeft,
-  Check,
-  Loader2,
-  Send,
-  Mic,
-  X,
-  CheckCircle2,
-  Maximize2,
-  Info,
-  Code2,
-  FileDown,
-} from "lucide-react";
-import { jsPDF } from "jspdf";
-import autoTable, { type RowInput } from "jspdf-autotable";
+import { useAudioPlayer } from "~/hooks/useAudioPlayer";
+import { useAppToast } from "~/hooks/useAppToast";
+import { useTTSStatus } from "~/hooks/useTTSStatus";
+import { createLogger } from "~/lib/logger";
+import { getErrorMessage } from "~/lib/utils";
 import { createPatientSlug } from "~/lib/utils/slugify";
+
+import { EmotionTrendPanel } from "./EmotionTrendPanel";
+import { ChatComposer } from "./ChatComposer";
+import {
+  ChatCompletionFooter,
+  ChatSuccessDialog,
+  ExpandedAvatarDialog,
+} from "./ChatDialogs";
+import { ChatMessagesPane } from "./ChatMessagesPane";
+import { ChatPatientSidebar } from "./ChatPatientSidebar";
+import { ChatSessionHeader } from "./ChatSessionHeader";
+import {
+  appendSnapshotToTimeline,
+  appendSnapshotToVectorTimeline,
+  mergeTimelineState,
+  normalizePatientEmotion,
+  normalizeSnapshot,
+  normalizeTimeline,
+  resolveEmotionForDisplay,
+  type ChatResponseEmotionPayload,
+} from "./chat-emotion-utils";
+import { buildQuestionAnswerRows, extractAndRemoveParentheses } from "./chat-message-utils";
+import { exportChatStepPdf } from "./chat-pdf";
 import type {
-  ChatMessage,
-  PatientData,
-  TherapySessionData,
-  ChatStepData,
   ChatContentProps,
+  ChatMessage,
+  ChatStepData,
   EmotionSnapshot,
   EmotionTimelinePoint,
   EmotionVectorTimelinePoint,
+  PatientData,
+  TherapySessionData,
 } from "./chat-types";
-import type { PatientEmotion } from "./chat-constants";
-import { EmotionTrendPanel } from "./EmotionTrendPanel";
 import {
-  EMOTION_COLORS,
-  EMOTION_LABELS,
   AVATAR_TRANSITION_DURATION_MS,
+  type PatientEmotion,
 } from "./chat-constants";
 import {
   formatSessionTime,
-  getPatientAvatarPath,
   generatePatientAvatar,
   sanitizePatientAvatarUrl,
 } from "./chat-utils";
-import { useAudioPlayer } from "~/hooks/useAudioPlayer";
-import { useTTSStatus } from "~/hooks/useTTSStatus";
+import { useChatSessionTimer } from "./useChatSessionTimer";
+import { usePdfHeaderAvatarDataUrl } from "./usePdfHeaderAvatarDataUrl";
+import { useChatBootstrap } from "./useChatBootstrap";
 
-type ChatResponseEmotionPayload = {
-  patient_name?: string | null;
-  avatar_url?: string | null;
-  emotion_snapshot?: EmotionSnapshot | null;
-  emotion_timeline?: EmotionTimelinePoint[] | null;
-};
-
-function clampTimelineIntensity(value: number): number {
-  if (!Number.isFinite(value)) return 0;
-  return Math.max(0, Math.min(1, value));
-}
-
-function normalizeEmotionToken(value: string): string {
-  const token = value.trim();
-  if (!token) return "BASE";
-  return token.replace(/\s+/g, "_").toUpperCase();
-}
-
-function normalizePatientEmotion(value: unknown): PatientEmotion | null {
-  if (typeof value !== "string" || !value.trim()) {
-    return null;
-  }
-
-  const token = normalizeEmotionToken(value).replace(/-/g, "_");
-  switch (token) {
-    case "SEEKING":
-    case "RAGE":
-    case "FEAR":
-    case "CARE":
-    case "LUST":
-    case "PANIC_GRIEF":
-    case "SADNESS":
-    case "PLAY":
-      return token;
-    case "BASE":
-      return "base";
-    default:
-      return null;
-  }
-}
-
-function resolveEmotionForDisplay(
-  payload: ChatResponseEmotionPayload,
-  fallbackEmotion?: PatientEmotion,
-): PatientEmotion {
-  const snapshotEmotion = payload.emotion_snapshot
-    ? normalizePatientEmotion(payload.emotion_snapshot.dominant)
-    : null;
-  if (snapshotEmotion) {
-    return snapshotEmotion;
-  }
-
-  const latestTimelinePoint = Array.isArray(payload.emotion_timeline)
-    ? payload.emotion_timeline[payload.emotion_timeline.length - 1]
-    : null;
-  const timelineEmotion = latestTimelinePoint
-    ? normalizePatientEmotion(latestTimelinePoint.emotion)
-    : null;
-
-  return timelineEmotion ?? fallbackEmotion ?? "base";
-}
-
-function normalizeEmotionVector(
-  vector: Record<string, number> | null | undefined,
-): Record<string, number> {
-  if (!vector || typeof vector !== "object") {
-    return {};
-  }
-
-  const normalized: Record<string, number> = {};
-  Object.entries(vector).forEach(([key, rawValue]) => {
-    const normalizedKey = normalizeEmotionToken(key);
-    const numericValue =
-      typeof rawValue === "number" ? rawValue : Number(rawValue);
-    if (!Number.isFinite(numericValue)) return;
-    normalized[normalizedKey] = clampTimelineIntensity(numericValue);
-  });
-
-  return normalized;
-}
-
-function normalizeSnapshot(snapshot: EmotionSnapshot): EmotionSnapshot {
-  const dominant = normalizeEmotionToken(snapshot.dominant);
-  const intensity = clampTimelineIntensity(snapshot.intensity);
-  const vector = normalizeEmotionVector(snapshot.vector);
-
-  if (!(dominant in vector)) {
-    vector[dominant] = intensity;
-  }
-
-  return {
-    ...snapshot,
-    dominant,
-    intensity,
-    vector,
-  };
-}
-
-function normalizeTimeline(
-  timeline: EmotionTimelinePoint[],
-): EmotionTimelinePoint[] {
-  if (!Array.isArray(timeline) || timeline.length === 0) {
-    return [];
-  }
-
-  const pointsByTurn = new Map<number, EmotionTimelinePoint>();
-  timeline.forEach((point) => {
-    if (!Number.isFinite(point.turn_index)) return;
-
-    pointsByTurn.set(point.turn_index, {
-      ...point,
-      intensity: clampTimelineIntensity(point.intensity),
-    });
-  });
-
-  return [...pointsByTurn.values()].sort((a, b) => a.turn_index - b.turn_index);
-}
-
-function normalizeVectorTimeline(
-  timeline: EmotionVectorTimelinePoint[],
-): EmotionVectorTimelinePoint[] {
-  if (!Array.isArray(timeline) || timeline.length === 0) {
-    return [];
-  }
-
-  const pointsByTurn = new Map<number, EmotionVectorTimelinePoint>();
-  timeline.forEach((point) => {
-    if (!point || !Number.isFinite(point.turn_index)) return;
-
-    const dominant = normalizeEmotionToken(point.dominant);
-    const vector = normalizeEmotionVector(point.vector);
-    if (!(dominant in vector)) {
-      vector[dominant] = 0;
-    }
-
-    pointsByTurn.set(point.turn_index, {
-      turn_index: point.turn_index,
-      timestamp:
-        typeof point.timestamp === "string" && point.timestamp.trim()
-          ? point.timestamp
-          : new Date().toISOString(),
-      dominant,
-      vector,
-    });
-  });
-
-  return [...pointsByTurn.values()].sort((a, b) => a.turn_index - b.turn_index);
-}
-
-function mergeTimelineState(
-  currentTimeline: EmotionTimelinePoint[],
-  incomingTimeline: EmotionTimelinePoint[],
-): EmotionTimelinePoint[] {
-  if (incomingTimeline.length === 0) {
-    return currentTimeline;
-  }
-
-  return normalizeTimeline([...currentTimeline, ...incomingTimeline]);
-}
-
-function mergeVectorTimelineState(
-  currentTimeline: EmotionVectorTimelinePoint[],
-  incomingTimeline: EmotionVectorTimelinePoint[],
-): EmotionVectorTimelinePoint[] {
-  if (incomingTimeline.length === 0) {
-    return currentTimeline;
-  }
-
-  return normalizeVectorTimeline([...currentTimeline, ...incomingTimeline]);
-}
-
-function appendSnapshotToTimeline(
-  currentTimeline: EmotionTimelinePoint[],
-  snapshot: EmotionSnapshot,
-): EmotionTimelinePoint[] {
-  const lastTurnIndex =
-    currentTimeline.length > 0
-      ? currentTimeline[currentTimeline.length - 1]!.turn_index
-      : 0;
-
-  const fallbackPoint: EmotionTimelinePoint = {
-    turn_index: lastTurnIndex + 1,
-    timestamp: new Date().toISOString(),
-    emotion: snapshot.dominant,
-    intensity: clampTimelineIntensity(snapshot.intensity),
-  };
-
-  return mergeTimelineState(currentTimeline, [fallbackPoint]);
-}
-
-function appendSnapshotToVectorTimeline(
-  currentTimeline: EmotionVectorTimelinePoint[],
-  snapshot: EmotionSnapshot,
-  turnIndexHint?: number,
-  timestampHint?: string,
-): EmotionVectorTimelinePoint[] {
-  const normalizedSnapshot = normalizeSnapshot(snapshot);
-  const lastTurnIndex =
-    currentTimeline.length > 0
-      ? currentTimeline[currentTimeline.length - 1]!.turn_index
-      : 0;
-
-  const fallbackPoint: EmotionVectorTimelinePoint = {
-    turn_index:
-      typeof turnIndexHint === "number" && Number.isFinite(turnIndexHint)
-        ? turnIndexHint
-        : lastTurnIndex + 1,
-    timestamp:
-      typeof timestampHint === "string" && timestampHint.trim()
-        ? timestampHint
-        : new Date().toISOString(),
-    dominant: normalizedSnapshot.dominant,
-    vector: normalizedSnapshot.vector,
-  };
-
-  return mergeVectorTimelineState(currentTimeline, [fallbackPoint]);
-}
-
-function buildVectorTimelineFromMessages(
-  messages: ChatMessage[],
-): EmotionVectorTimelinePoint[] {
-  const restoredTimeline: EmotionVectorTimelinePoint[] = [];
-  let nextTurnIndex = 1;
-
-  messages.forEach((message) => {
-    if (message.sender !== "patient") return;
-    const responseData = message.metadata?.responseData;
-    const snapshot = responseData?.emotionSnapshot;
-    if (!snapshot) return;
-
-    const lastTimelinePoint = Array.isArray(responseData?.emotionTimeline)
-      ? responseData.emotionTimeline[responseData.emotionTimeline.length - 1]
-      : null;
-    const turnIndex =
-      typeof lastTimelinePoint?.turn_index === "number" &&
-      Number.isFinite(lastTimelinePoint.turn_index)
-        ? lastTimelinePoint.turn_index
-        : nextTurnIndex;
-    const normalizedSnapshot = normalizeSnapshot(snapshot);
-
-    restoredTimeline.push({
-      turn_index: turnIndex,
-      timestamp:
-        message.timestamp instanceof Date
-          ? message.timestamp.toISOString()
-          : typeof message.timestamp === "string" && message.timestamp.trim()
-            ? message.timestamp
-            : new Date().toISOString(),
-      dominant: normalizedSnapshot.dominant,
-      vector: normalizedSnapshot.vector,
-    });
-
-    nextTurnIndex = Math.max(nextTurnIndex, turnIndex + 1);
-  });
-
-  return normalizeVectorTimeline(restoredTimeline);
-}
-
-type PdfRgb = [number, number, number];
-
-interface PdfEmotionChartPoint {
-  turnIndex: number;
-  dominant: string;
-  values: Record<string, number>;
-  dominantIntensity: number;
-}
-
-const PDF_VECTOR_ORDER = [
-  "SEEKING",
-  "CARE",
-  "PLAY",
-  "FEAR",
-  "RAGE",
-  "PANIC_GRIEF",
-  "SADNESS",
-  "LUST",
-  "BASE",
-] as const;
-
-const PDF_SERIES_META: Record<string, { label: string; color: PdfRgb }> = {
-  SEEKING: { label: "Seeking", color: [249, 115, 22] },
-  CARE: { label: "Care", color: [16, 185, 129] },
-  PLAY: { label: "Play", color: [234, 179, 8] },
-  FEAR: { label: "Fear", color: [167, 139, 250] },
-  RAGE: { label: "Rage", color: [248, 113, 113] },
-  PANIC_GRIEF: { label: "Panic/Grief", color: [96, 165, 250] },
-  SADNESS: { label: "Sadness", color: [96, 165, 250] },
-  LUST: { label: "Desire", color: [244, 114, 182] },
-  BASE: { label: "Neutral", color: [163, 163, 163] },
-};
-
-function prettifyEmotionLabel(value: string): string {
-  return value
-    .trim()
-    .replace(/_/g, " ")
-    .toLowerCase()
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-}
-
-function getPdfSeriesLabel(key: string): string {
-  return PDF_SERIES_META[key]?.label ?? prettifyEmotionLabel(key);
-}
-
-function getPdfSeriesColor(key: string): PdfRgb {
-  return PDF_SERIES_META[key]?.color ?? [120, 113, 108];
-}
-
-function getPdfSeriesKeys(points: EmotionVectorTimelinePoint[]): string[] {
-  if (points.length === 0) return [];
-
-  const keys = new Set<string>();
-  points.forEach((point) => {
-    keys.add(normalizeEmotionToken(point.dominant));
-    Object.keys(point.vector).forEach((key) => {
-      keys.add(normalizeEmotionToken(key));
-    });
-  });
-
-  const ordered = PDF_VECTOR_ORDER.filter((key) => keys.has(key));
-  const orderedSet = new Set<string>(PDF_VECTOR_ORDER);
-  const extras = [...keys]
-    .filter((key) => !orderedSet.has(key))
-    .sort((a, b) => a.localeCompare(b));
-
-  return [...ordered, ...extras];
-}
-
-function buildPdfStepScopedVectorTimeline(
-  messages: ChatMessage[],
-  currentStepId: number,
-): EmotionVectorTimelinePoint[] {
-  const points: EmotionVectorTimelinePoint[] = [];
-  let localTurn = 1;
-
-  messages.forEach((message) => {
-    if (message.sender !== "patient") return;
-    if (message.stepId !== currentStepId) return;
-
-    const responseData = message.metadata?.responseData;
-    const timestamp =
-      message.timestamp instanceof Date
-        ? message.timestamp.toISOString()
-        : typeof message.timestamp === "string" && message.timestamp.trim()
-          ? message.timestamp
-          : new Date().toISOString();
-
-    const snapshot = responseData?.emotionSnapshot;
-    if (snapshot) {
-      const normalizedSnapshot = normalizeSnapshot(snapshot);
-      points.push({
-        turn_index: localTurn,
-        timestamp,
-        dominant: normalizedSnapshot.dominant,
-        vector: normalizedSnapshot.vector,
-      });
-      localTurn += 1;
-      return;
-    }
-
-    const timeline = Array.isArray(responseData?.emotionTimeline)
-      ? normalizeTimeline(responseData.emotionTimeline)
-      : [];
-    const lastPoint = timeline[timeline.length - 1];
-    if (!lastPoint) return;
-
-    const dominant = normalizeEmotionToken(lastPoint.emotion);
-    points.push({
-      turn_index: localTurn,
-      timestamp,
-      dominant,
-      vector: {
-        [dominant]: clampTimelineIntensity(lastPoint.intensity),
-      },
-    });
-    localTurn += 1;
-  });
-
-  return normalizeVectorTimeline(points);
-}
+const logger = createLogger("ChatContent");
 
 export function ChatContent({ user, impersonation }: ChatContentProps) {
   const params = useParams();
   const router = useRouter();
-  const sessionId = params.sessionId as string;
-  const stepId = parseInt(params.stepId as string);
-
+  const { error: showError } = useAppToast();
+  const therapySessionId = params.sessionId as string;
+  const stepId = Number.parseInt(params.stepId as string, 10);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
-  const [sessionTime, setSessionTime] = useState(0);
-  const [isAudioPlayerOpen, setIsAudioPlayerOpen] = useState(false);
+  const [isWaitingForResponse, setIsWaitingForResponse] = useState(false);
+  const [isTypingVisible, setIsTypingVisible] = useState(false);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isAvatarExpanded, setIsAvatarExpanded] = useState(false);
   const [currentEmotion, setCurrentEmotion] = useState<PatientEmotion>("base");
   const [nextEmotion, setNextEmotion] = useState<PatientEmotion | null>(null);
   const [isAvatarTransitioning, setIsAvatarTransitioning] = useState(false);
-  const [showAudioWaveform, setShowAudioWaveform] = useState(true);
   const [showTTSWarning, setShowTTSWarning] = useState(true);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const [extractedText, setExtractedText] = useState<string | null>(null);
   const [isExportingPdf, setIsExportingPdf] = useState(false);
   const [stepCompletionOverride, setStepCompletionOverride] = useState(false);
-  const [pdfHeaderAvatarDataUrl, setPdfHeaderAvatarDataUrl] = useState<string | null>(null);
   const [emotionSnapshot, setEmotionSnapshot] = useState<EmotionSnapshot | null>(null);
   const [emotionTimeline, setEmotionTimeline] = useState<EmotionTimelinePoint[]>([]);
-  const [emotionVectorTimeline, setEmotionVectorTimeline] = useState<EmotionVectorTimelinePoint[]>([]);
+  const [emotionVectorTimeline, setEmotionVectorTimeline] = useState<
+    EmotionVectorTimelinePoint[]
+  >([]);
   const [responsePatientName, setResponsePatientName] = useState<string | null>(null);
   const [responseAvatarUrl, setResponseAvatarUrl] = useState<string | null>(null);
+
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const avatarTransitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingIndicatorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const lastProcessedMessageIdRef = useRef<string | null>(null);
   const isInitialLoad = useRef(true);
+
   const timerStorageKey = useMemo(
-    () => `llmpatients:chat-timer:${user.id}:${sessionId}:${stepId}`,
-    [user.id, sessionId, stepId],
+    () => `llmpatients:chat-timer:${user.id}:${therapySessionId}:${stepId}`,
+    [stepId, therapySessionId, user.id],
   );
 
-
-  // TTS status management
-  const { isTTSEnabled, ttsStatus } = useTTSStatus(true);
-
+  const { isTTSEnabled } = useTTSStatus(true);
   const audioPlayer = useAudioPlayer({
     autoPlay: true,
   });
 
-  // Update warning visibility based on TTS availability
   useEffect(() => {
     if (audioPlayer.isTTSAvailable) {
       setShowTTSWarning(true);
     }
   }, [audioPlayer.isTTSAvailable]);
 
+  const { data: therapySession, isLoading: therapySessionLoading } =
+    api.therapySessions.getById.useQuery(
+      { therapySessionId },
+      { enabled: Boolean(therapySessionId) },
+    );
 
   const {
     data: selectedPatient,
     isLoading: patientLoading,
     error: patientError,
   } = api.patients.getPatientById.useQuery(
-    { id: sessionId },
-    { enabled: Boolean(sessionId) },
+    { id: therapySession?.patientId ?? "" },
+    { enabled: Boolean(therapySession?.patientId) },
   );
-
-
-  const { data: therapySession, isLoading: therapySessionLoading } =
-    api.therapySessions.getByPatient.useQuery(
-      { patientId: sessionId },
-      { enabled: Boolean(sessionId) },
-    );
-
 
   const { data: existingChat, isLoading: chatLoading } =
     api.chat.getChatStep.useQuery(
@@ -531,21 +139,21 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       { enabled: Boolean(therapySession?.id) },
     );
 
-
   const { data: completedSteps, isLoading: completedStepsLoading } =
     api.chat.getSessionChats.useQuery(
       { therapySessionId: therapySession?.id ?? "" },
       { enabled: Boolean(therapySession?.id) },
     );
 
-
   const typedSelectedPatient = selectedPatient as PatientData | undefined;
   const typedTherapySession = therapySession as TherapySessionData | undefined;
   const typedExistingChat = existingChat as ChatStepData | undefined;
   const typedCompletedSteps = completedSteps as ChatStepData[] | undefined;
+
   const selectedPatientId = typedSelectedPatient?.id;
   const basePatientAvatarUrl = typedSelectedPatient?.avatarUrl ?? null;
-  const effectivePatientName = responsePatientName ?? typedSelectedPatient?.name ?? "Patient";
+  const effectivePatientName =
+    responsePatientName ?? typedSelectedPatient?.name ?? "Patient";
   const selectedPatientAvatarUrl = sanitizePatientAvatarUrl(
     responseAvatarUrl ?? basePatientAvatarUrl,
     basePatientAvatarUrl,
@@ -555,18 +163,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     emotionTimeline.length > 0 ||
     emotionVectorTimeline.length > 0;
 
-
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
   const generateResponseMutation = api.chat.generatePatientResponse.useMutation();
   const generateChatResponseMutation = api.chat.generateChatResponse.useMutation();
-
-
-
-
-
   const utils = api.useUtils();
-
 
   const patientAvatar = useMemo(
     () =>
@@ -576,178 +177,42 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [typedSelectedPatient],
   );
 
-  useEffect(() => {
-    if (!selectedPatientId) {
-      setPdfHeaderAvatarDataUrl(null);
-      return;
-    }
-
-    const rawAvatarPath = selectedPatientAvatarUrl ?? "/images/patients/alex_carter/base.png";
-    if (!rawAvatarPath) {
-      setPdfHeaderAvatarDataUrl(null);
-      return;
-    }
-
-    const avatarUrl = rawAvatarPath.startsWith("http")
-      ? rawAvatarPath
-      : rawAvatarPath.startsWith("/")
-        ? `${window.location.origin}${rawAvatarPath}`
-        : `${window.location.origin}/${rawAvatarPath}`;
-
-    let cancelled = false;
-    const image = new window.Image();
-    image.crossOrigin = "anonymous";
-
-    image.onload = () => {
-      if (cancelled) return;
-
-      const minSide = Math.min(image.naturalWidth, image.naturalHeight);
-      if (!minSide) {
-        setPdfHeaderAvatarDataUrl(null);
-        return;
-      }
-
-      const canvas = document.createElement("canvas");
-      canvas.width = minSide;
-      canvas.height = minSide;
-      const context = canvas.getContext("2d");
-
-      if (!context) {
-        setPdfHeaderAvatarDataUrl(null);
-        return;
-      }
-
-      const sourceX = Math.max((image.naturalWidth - minSide) / 2, 0);
-      const sourceY = Math.max((image.naturalHeight - minSide) / 2, 0);
-      context.drawImage(
-        image,
-        sourceX,
-        sourceY,
-        minSide,
-        minSide,
-        0,
-        0,
-        minSide,
-        minSide,
-      );
-
-      try {
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.92);
-        if (!cancelled) {
-          setPdfHeaderAvatarDataUrl(dataUrl);
-        }
-      } catch {
-        if (!cancelled) {
-          setPdfHeaderAvatarDataUrl(null);
-        }
-      }
-    };
-
-    image.onerror = () => {
-      if (!cancelled) {
-        setPdfHeaderAvatarDataUrl(null);
-      }
-    };
-
-    image.src = avatarUrl;
-
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedPatientId, selectedPatientAvatarUrl]);
-
-
   const isStepCompleted = useMemo(() => {
     if (stepCompletionOverride) return true;
-
     if (typedExistingChat?.done) return true;
-
     if (!typedCompletedSteps) return false;
 
     return typedCompletedSteps.some(
-      (step) => step.stepNumber === stepId && step.done,
+      (completedStep) => completedStep.stepNumber === stepId && completedStep.done,
     );
-  }, [stepCompletionOverride, typedExistingChat?.done, typedCompletedSteps, stepId]);
+  }, [stepCompletionOverride, stepId, typedCompletedSteps, typedExistingChat?.done]);
 
-  const questionAnswerRows = useMemo(() => {
-    const rows: Array<{ question: string; answer: string }> = [];
-    let pendingQuestion: string | null = null;
+  const { sessionTime } = useChatSessionTimer(timerStorageKey, isStepCompleted);
+  const pdfHeaderAvatarDataUrl = usePdfHeaderAvatarDataUrl(
+    selectedPatientId,
+    selectedPatientAvatarUrl,
+  );
 
-    messages.forEach((message) => {
-      const normalizedContent = message.content.trim();
-      if (!normalizedContent) return;
+  const questionAnswerRows = useMemo(
+    () => buildQuestionAnswerRows(messages),
+    [messages],
+  );
 
-      if (message.sender === "user") {
-        if (pendingQuestion) {
-          rows.push({
-            question: pendingQuestion,
-            answer: "",
-          });
-        }
-        pendingQuestion = normalizedContent;
-        return;
-      }
-
-      if (pendingQuestion) {
-        rows.push({
-          question: pendingQuestion,
-          answer: normalizedContent,
-        });
-        pendingQuestion = null;
-        return;
-      }
-
-      rows.push({
-        question: "",
-        answer: normalizedContent,
-      });
-    });
-
-    if (pendingQuestion) {
-      rows.push({
-        question: pendingQuestion,
-        answer: "",
-      });
-    }
-
-    return rows;
-  }, [messages]);
-
-  // Helper function to extract and remove text in parentheses
-  const extractAndRemoveParentheses = useCallback((text: string): { cleanedText: string; extractedText: string | null } => {
-    const parenthesesRegex = /\(([^)]+)\)/g;
-    const matches: string[] = [];
-    let match;
-
-    // Extract all text in parentheses
-    while ((match = parenthesesRegex.exec(text)) !== null) {
-      matches.push(match[1]!);
-    }
-
-    // Remove all text in parentheses from the original text
-    const cleanedText = text.replace(parenthesesRegex, '').trim();
-
-    // Join all extracted texts
-    const extractedText = matches.length > 0 ? matches.join(' ') : null;
-
-    return { cleanedText, extractedText };
-  }, []);
-
-
-  const scrollToBottom = useCallback((delay = 100) => {
-    setTimeout(() => {
-      const container = messagesContainerRef.current;
-      if (container) {
+  const scrollToBottom = useCallback(
+    (delay = 100) => {
+      window.setTimeout(() => {
+        const container = messagesContainerRef.current;
+        if (!container) return;
 
         const extraSpace = audioPlayer.currentAudioUrl ? 120 : 0;
         container.scrollTo({
           top: container.scrollHeight + extraSpace,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
-      }
-    }, delay);
-  }, [audioPlayer.currentAudioUrl]);
-
+      }, delay);
+    },
+    [audioPlayer.currentAudioUrl],
+  );
 
   useEffect(() => {
     if (
@@ -768,7 +233,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     ) {
       lastProcessedMessageIdRef.current = lastMessage.id;
 
-      // Use provider-specific voice IDs from database for TTS
       void audioPlayer.playText(
         lastMessage.content,
         undefined,
@@ -782,54 +246,30 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         },
       );
     }
-  }, [messages, audioPlayer, typedSelectedPatient?.elevenlabsVoiceId, typedSelectedPatient?.vibevoiceVoiceId, typedSelectedPatient?.chatterboxVoiceId, typedSelectedPatient?.gender, typedSelectedPatient?.name, hasUserInteracted, isTTSEnabled]);
-
+  }, [
+    audioPlayer,
+    hasUserInteracted,
+    isTTSEnabled,
+    messages,
+    typedSelectedPatient?.chatterboxVoiceId,
+    typedSelectedPatient?.elevenlabsVoiceId,
+    typedSelectedPatient?.gender,
+    typedSelectedPatient?.name,
+    typedSelectedPatient?.vibevoiceVoiceId,
+  ]);
 
   useEffect(() => {
     if (audioPlayer.isPlaying || audioPlayer.currentAudioUrl) {
-
       scrollToBottom(100);
     }
-  }, [audioPlayer.isPlaying, audioPlayer.currentAudioUrl, scrollToBottom]);
-
-
-
-
-  useEffect(() => {
-    try {
-      const storedTimer = window.localStorage.getItem(timerStorageKey);
-      if (!storedTimer) {
-        setSessionTime(0);
-        return;
-      }
-
-      const parsedTimer = Number.parseInt(storedTimer, 10);
-      if (Number.isFinite(parsedTimer) && parsedTimer >= 0) {
-        setSessionTime(parsedTimer);
-      } else {
-        setSessionTime(0);
-      }
-    } catch {
-      setSessionTime(0);
-    }
-  }, [timerStorageKey]);
-
-
-  useEffect(() => {
-    if (isStepCompleted) return;
-
-    const interval = setInterval(() => {
-      setSessionTime((prev) => prev + 1);
-    }, 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, [isStepCompleted]);
-
+  }, [audioPlayer.currentAudioUrl, audioPlayer.isPlaying, scrollToBottom]);
 
   useEffect(() => {
     return () => {
+      if (typingIndicatorTimeoutRef.current) {
+        clearTimeout(typingIndicatorTimeoutRef.current);
+        typingIndicatorTimeoutRef.current = null;
+      }
       if (avatarTransitionTimeoutRef.current) {
         clearTimeout(avatarTransitionTimeoutRef.current);
         avatarTransitionTimeoutRef.current = null;
@@ -837,139 +277,46 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     };
   }, []);
 
+  const showTypingIndicator = useCallback(() => {
+    setIsWaitingForResponse(true);
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(timerStorageKey, String(sessionTime));
-    } catch {
-      // Ignore storage write failures and keep timer in memory.
+    if (typingIndicatorTimeoutRef.current) {
+      clearTimeout(typingIndicatorTimeoutRef.current);
     }
-  }, [sessionTime, timerStorageKey]);
 
+    typingIndicatorTimeoutRef.current = setTimeout(() => {
+      setIsTypingVisible(true);
+      scrollToBottom(50);
+      typingIndicatorTimeoutRef.current = null;
+    }, 200);
+  }, [scrollToBottom]);
 
-
-  useEffect(() => {
-    if (typedExistingChat && typedExistingChat.messages.length > 0) {
-      if (isInitialLoad.current) {
-        isInitialLoad.current = false;
-
-        const messagesWithDates = typedExistingChat.messages.map((msg) => {
-          // Extract and remove text in parentheses for patient messages
-          if (msg.sender === "patient") {
-            const { cleanedText, extractedText } = extractAndRemoveParentheses(msg.content);
-            if (extractedText) {
-              setExtractedText(extractedText);
-            }
-            return {
-              ...msg,
-              content: cleanedText,
-              timestamp:
-                typeof msg.timestamp === "string"
-                  ? new Date(msg.timestamp)
-                  : msg.timestamp,
-            };
-          }
-          return {
-            ...msg,
-            timestamp:
-              typeof msg.timestamp === "string"
-                ? new Date(msg.timestamp)
-                : msg.timestamp,
-          };
-        });
-        setMessages(messagesWithDates);
-
-
-        const lastPatientMessage = [...messagesWithDates]
-          .reverse()
-          .find((msg) => msg.sender === "patient" && msg.emotion);
-
-        const lastPatientWithMetadata = [...messagesWithDates]
-          .reverse()
-          .find((msg) => msg.sender === "patient" && msg.metadata?.responseData);
-        const restoredSnapshot = lastPatientWithMetadata?.metadata?.responseData?.emotionSnapshot
-          ? normalizeSnapshot(lastPatientWithMetadata.metadata.responseData.emotionSnapshot)
-          : null;
-        const restoredTimeline = Array.isArray(
-          lastPatientWithMetadata?.metadata?.responseData?.emotionTimeline,
-        )
-          ? normalizeTimeline(lastPatientWithMetadata.metadata.responseData.emotionTimeline)
-          : [];
-        const restoredVectorTimeline = buildVectorTimelineFromMessages(messagesWithDates);
-        const restoredDisplayEmotion =
-          normalizePatientEmotion(restoredSnapshot?.dominant) ??
-          (restoredTimeline.length > 0
-            ? normalizePatientEmotion(
-                restoredTimeline[restoredTimeline.length - 1]?.emotion,
-              )
-            : null) ??
-          lastPatientMessage?.emotion ??
-          null;
-
-        setEmotionSnapshot(restoredSnapshot);
-        setEmotionVectorTimeline(restoredVectorTimeline);
-        if (restoredDisplayEmotion) {
-          setCurrentEmotion(restoredDisplayEmotion);
-          setNextEmotion(null);
-          setIsAvatarTransitioning(false);
-        }
-        if (restoredTimeline.length > 0) {
-          setEmotionTimeline(restoredTimeline);
-        } else if (restoredVectorTimeline.length > 0) {
-          setEmotionTimeline(
-            restoredVectorTimeline.map((point) => ({
-              turn_index: point.turn_index,
-              timestamp: point.timestamp,
-              emotion: point.dominant,
-              intensity: clampTimelineIntensity(point.vector[point.dominant] ?? 0),
-            })),
-          );
-        } else {
-          setEmotionTimeline([]);
-        }
-
-
-        setTimeout(() => {
-          scrollToBottom(100);
-        }, 200);
-      }
-    } else if (typedSelectedPatient && !chatLoading && !typedExistingChat) {
-      if (isInitialLoad.current) {
-        isInitialLoad.current = false;
-        // Use welcome message from database, or generate a default one
-        const welcomeContent = typedSelectedPatient.welcomeMessage ||
-          `Hi! I’m ${typedSelectedPatient.name}. I’m here to help you explore session ${stepId} of our therapeutic journey.`;
-
-        // Extract and remove text in parentheses from welcome message
-        const { cleanedText, extractedText } = extractAndRemoveParentheses(welcomeContent);
-        if (extractedText) {
-          setExtractedText(extractedText);
-        }
-
-        const welcomeMessage: ChatMessage = {
-          id: `welcome-${Date.now()}`,
-          content: cleanedText,
-          sender: "patient",
-          timestamp: new Date(),
-          stepId,
-          emotion: "base",
-        };
-        setMessages([welcomeMessage]);
-        setCurrentEmotion("base");
-        setNextEmotion(null);
-        setIsAvatarTransitioning(false);
-        setEmotionSnapshot(null);
-        setEmotionTimeline([]);
-        setEmotionVectorTimeline([]);
-
-
-        setTimeout(() => {
-          scrollToBottom(100);
-        }, 200);
-      }
+  const clearTypingIndicator = useCallback(() => {
+    if (typingIndicatorTimeoutRef.current) {
+      clearTimeout(typingIndicatorTimeoutRef.current);
+      typingIndicatorTimeoutRef.current = null;
     }
-  }, [typedExistingChat, typedSelectedPatient, stepId, chatLoading, scrollToBottom, extractAndRemoveParentheses]);
 
+    setIsWaitingForResponse(false);
+    setIsTypingVisible(false);
+  }, []);
+
+  useChatBootstrap({
+    existingChat: typedExistingChat,
+    selectedPatient: typedSelectedPatient,
+    stepId,
+    chatLoading,
+    isInitialLoad,
+    scrollToBottom,
+    setMessages,
+    setExtractedText,
+    setEmotionSnapshot,
+    setEmotionTimeline,
+    setEmotionVectorTimeline,
+    setCurrentEmotion,
+    setNextEmotion,
+    setIsAvatarTransitioning,
+  });
 
   const triggerAvatarEmotionChange = useCallback(
     (emotion: PatientEmotion) => {
@@ -980,11 +327,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       }
 
       setNextEmotion(emotion);
-
-
       requestAnimationFrame(() => {
         setIsAvatarTransitioning(true);
-
 
         avatarTransitionTimeoutRef.current = setTimeout(() => {
           setCurrentEmotion(emotion);
@@ -995,7 +339,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     },
     [currentEmotion, nextEmotion],
   );
-
 
   useEffect(() => {
     if (!messages.length) {
@@ -1062,9 +405,37 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     [basePatientAvatarUrl],
   );
 
-  const handleSendMessage = useCallback(async () => {
-    if (!inputMessage.trim() || isTyping || !typedTherapySession) return;
+  const focusInputLater = useCallback(() => {
+    window.setTimeout(() => {
+      inputRef.current?.focus();
+    }, 300);
+  }, []);
 
+  const persistMessages = useCallback(
+    async (nextMessages: ChatMessage[]) => {
+      if (!typedTherapySession) {
+        return;
+      }
+
+      await saveChatMutation.mutateAsync({
+        therapySessionId: typedTherapySession.id,
+        stepNumber: stepId,
+        messages: nextMessages.map((message) => ({
+          ...message,
+          timestamp:
+            message.timestamp instanceof Date
+              ? message.timestamp
+              : new Date(message.timestamp),
+        })),
+      });
+    },
+    [saveChatMutation, stepId, typedTherapySession],
+  );
+
+  const handleSendMessage = useCallback(async () => {
+    if (!inputMessage.trim() || isWaitingForResponse || !typedTherapySession) {
+      return;
+    }
 
     if (!hasUserInteracted) {
       setHasUserInteracted(true);
@@ -1072,7 +443,6 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
     const messageText = inputMessage.trim();
     setInputMessage("");
-
 
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -1082,57 +452,36 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       stepId,
     };
 
-
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
-
-
     scrollToBottom(50);
-
-
-    setTimeout(() => {
-      setIsTyping(true);
-      scrollToBottom(50);
-    }, 200);
-
+    showTypingIndicator();
 
     try {
-      await saveChatMutation.mutateAsync({
-        therapySessionId: typedTherapySession.id,
-        stepNumber: stepId,
-        messages: updatedMessages.map((msg) => ({
-          ...msg,
-          timestamp:
-            msg.timestamp instanceof Date
-              ? msg.timestamp
-              : new Date(msg.timestamp),
-        })),
-      });
+      await persistMessages(updatedMessages);
     } catch (error) {
-      // Silent catch
+      logger.error("Unable to persist user message before response", error);
     }
 
-
     try {
-
-      if (typedSelectedPatient?.externalPatientId) {
-
+      if (typedTherapySession.externalPatientId) {
         const response = await generateChatResponseMutation.mutateAsync({
-          external_patient_id: typedSelectedPatient.externalPatientId,
+          therapySessionId: typedTherapySession.id,
           user_message: messageText,
-          session_id: typedTherapySession?.id || "",
           step_id: stepId,
-          therapist_id: user.id,
         });
 
-        const responseEmotion = resolveEmotionForDisplay(response, response.emotion);
+        const responseEmotion = resolveEmotionForDisplay(
+          response,
+          response.emotion,
+        );
         applyEmotionPayload(response);
         triggerAvatarEmotionChange(responseEmotion);
 
-        // Extract and remove text in parentheses
-        const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
-        if (extractedText) {
-          setExtractedText(extractedText);
+        const { cleanedText, extractedText: extractedCopy } =
+          extractAndRemoveParentheses(response.message);
+        if (extractedCopy) {
+          setExtractedText(extractedCopy);
         }
 
         const patientMessage: ChatMessage = {
@@ -1145,135 +494,112 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           metadata: response.metadata,
         };
 
-
         const finalMessages = [...updatedMessages, patientMessage];
         setMessages(finalMessages);
-        setIsTyping(false);
-
+        clearTypingIndicator();
         scrollToBottom(100);
-
-
-        setTimeout(() => {
-          inputRef.current?.focus();
-        }, 300);
-
-
-        saveChatMutation.mutate({
-          therapySessionId: typedTherapySession.id,
-          stepNumber: stepId,
-          messages: finalMessages.map((msg) => ({
-            ...msg,
-            timestamp:
-              msg.timestamp instanceof Date
-                ? msg.timestamp
-                : new Date(msg.timestamp),
-          })),
+        focusInputLater();
+        void persistMessages(finalMessages).catch((error) => {
+          logger.error("Unable to persist generated chat response", error);
         });
-      } else {
-
-        const response = await generateResponseMutation.mutateAsync({
-          patientInfo: {
-            id: typedSelectedPatient?.id || "",
-            name: typedSelectedPatient?.name || "",
-            age: 45,
-            gender: "male",
-            diagnosis: "Generalized anxiety disorder",
-            difficulty: typedSelectedPatient?.difficulty || 1,
-            psychologicalProfile: typedSelectedPatient?.background || "Standard psychological profile",
-            background: typedSelectedPatient?.background || "",
-            currentMedications: [],
-            therapyGoals: typedSelectedPatient?.objectives || [],
-            previousSessions: 0,
-          },
-          userMessage: messageText,
-          stepId,
-          sessionId: typedTherapySession?.id || "",
-          conversationHistory: messages.slice(-5).map(msg => ({
-            content: msg.content,
-            sender: msg.sender,
-            timestamp: msg.timestamp instanceof Date ? msg.timestamp : new Date(msg.timestamp),
-          })),
-        });
-
-        const responseEmotion = normalizePatientEmotion(response.emotion) ?? "base";
-        triggerAvatarEmotionChange(responseEmotion);
-
-        // Extract and remove text in parentheses
-        const { cleanedText, extractedText } = extractAndRemoveParentheses(response.message);
-        if (extractedText) {
-          setExtractedText(extractedText);
-        }
-
-        const patientMessage: ChatMessage = {
-          id: `patient-${Date.now()}`,
-          content: cleanedText,
-          sender: "patient",
-          timestamp: response.timestamp || new Date(),
-          stepId,
-          emotion: responseEmotion,
-          metadata: response.metadata,
-        };
-
-
-        const finalMessages = [...updatedMessages, patientMessage];
-        setMessages(finalMessages);
-        setIsTyping(false);
-
-        scrollToBottom(100);
-
-
-        setTimeout(() => {
-          inputRef.current?.focus();
-        }, 300);
-
-
-        saveChatMutation.mutate({
-          therapySessionId: typedTherapySession.id,
-          stepNumber: stepId,
-          messages: finalMessages.map((msg) => ({
-            ...msg,
-            timestamp:
-              msg.timestamp instanceof Date
-                ? msg.timestamp
-                : new Date(msg.timestamp),
-          })),
-        });
+        return;
       }
+
+      const response = await generateResponseMutation.mutateAsync({
+        patientInfo: {
+          id: typedSelectedPatient?.id || "",
+          name: typedSelectedPatient?.name || "",
+          age: 45,
+          gender: "male",
+          diagnosis: "Generalized anxiety disorder",
+          difficulty: typedSelectedPatient?.difficulty || 1,
+          psychologicalProfile:
+            typedSelectedPatient?.background || "Standard psychological profile",
+          background: typedSelectedPatient?.background || "",
+          currentMedications: [],
+          therapyGoals: typedSelectedPatient?.objectives || [],
+          previousSessions: 0,
+        },
+        userMessage: messageText,
+        stepId,
+        sessionId: typedTherapySession.id,
+        conversationHistory: messages.slice(-5).map((message) => ({
+          content: message.content,
+          sender: message.sender,
+          timestamp:
+            message.timestamp instanceof Date
+              ? message.timestamp
+              : new Date(message.timestamp),
+        })),
+      });
+
+      const responseEmotion = normalizePatientEmotion(response.emotion) ?? "base";
+      triggerAvatarEmotionChange(responseEmotion);
+
+      const { cleanedText, extractedText: extractedCopy } =
+        extractAndRemoveParentheses(response.message);
+      if (extractedCopy) {
+        setExtractedText(extractedCopy);
+      }
+
+      const patientMessage: ChatMessage = {
+        id: `patient-${Date.now()}`,
+        content: cleanedText,
+        sender: "patient",
+        timestamp: response.timestamp || new Date(),
+        stepId,
+        emotion: responseEmotion,
+        metadata: response.metadata,
+      };
+
+      const finalMessages = [...updatedMessages, patientMessage];
+      setMessages(finalMessages);
+      clearTypingIndicator();
+      scrollToBottom(100);
+      focusInputLater();
+      void persistMessages(finalMessages).catch((error) => {
+        logger.error("Unable to persist fallback generated response", error);
+      });
     } catch (error) {
-      setIsTyping(false);
-      alert("Error generating response. Please try again.");
-
-
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 300);
+      logger.error("Error generating patient response", error);
+      clearTypingIndicator();
+      showError(
+        "Unable to generate response",
+        getErrorMessage(error, "Error generating response. Please try again."),
+      );
+      focusInputLater();
     }
   }, [
-    inputMessage,
-    isTyping,
-    typedTherapySession,
-    stepId,
-    user.id,
-    messages,
-    scrollToBottom,
-    typedSelectedPatient,
-    saveChatMutation,
-    generateResponseMutation,
-    generateChatResponseMutation,
-    triggerAvatarEmotionChange,
     applyEmotionPayload,
+    focusInputLater,
+    generateChatResponseMutation,
+    generateResponseMutation,
     hasUserInteracted,
-    extractAndRemoveParentheses,
+    inputMessage,
+    isWaitingForResponse,
+    clearTypingIndicator,
+    messages,
+    persistMessages,
+    scrollToBottom,
+    showError,
+    showTypingIndicator,
+    stepId,
+    triggerAvatarEmotionChange,
+    typedSelectedPatient,
+    typedTherapySession,
   ]);
 
   const goBack = useCallback(() => {
     if (typedSelectedPatient) {
       const patientSlug = createPatientSlug(typedSelectedPatient.name);
-      router.push(`/dashboard/therapeutic-journey/${sessionId}/${patientSlug}`);
-    } else {
-      router.push(`/dashboard/therapeutic-journey`);
+      router.push(
+        `/dashboard/therapeutic-journey/${therapySessionId}/${patientSlug}`,
+      );
+      return;
     }
-  }, [typedSelectedPatient, sessionId, router]);
+
+    router.push("/dashboard/therapeutic-journey");
+  }, [router, therapySessionId, typedSelectedPatient]);
 
   const handleCompleteStep = useCallback(async () => {
     if (!typedTherapySession) return;
@@ -1285,582 +611,60 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       });
 
       setStepCompletionOverride(true);
-
-
       await utils.chat.getSessionChats.invalidate({
         therapySessionId: typedTherapySession.id,
       });
-
-
       setIsSuccessDialogOpen(true);
     } catch (error) {
-      if (error instanceof Error) {
-        if (
-          error.message.includes("not found") ||
-          error.message.includes("access denied")
-        ) {
-          alert(
-            "Session not found or access denied. Reload the page and try again.",
-          );
-        } else {
-          alert(`Error completing session: ${error.message}`);
-        }
-      } else {
-        alert("Error completing session. Please try again.");
-      }
+      showError(
+        "Unable to complete session",
+        error instanceof Error &&
+          (error.message.includes("not found") ||
+            error.message.includes("access denied"))
+          ? "Session not found or access denied. Reload the page and try again."
+          : getErrorMessage(error, "Error completing session. Please try again."),
+      );
     }
-  }, [typedTherapySession, stepId, markStepDoneMutation, utils]);
+  }, [markStepDoneMutation, showError, stepId, typedTherapySession, utils]);
 
-  const handleDownloadSessionPdf = useCallback(() => {
+  const handleDownloadSessionPdf = useCallback(async () => {
     if (!typedSelectedPatient) return;
+
     setIsExportingPdf(true);
-
-    const normalizeText = (value: string | null | undefined): string => {
-      if (!value?.trim()) return "N/A";
-      return value
-        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "")
-        .replace(/\s+/g, " ")
-        .trim();
-    };
-
     try {
-      const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const marginX = 14;
-      const exportDateTime = new Date().toLocaleString("en-US");
-
-      const metadataRows: RowInput[] = [
-        ["Patient Name", normalizeText(typedSelectedPatient.name)],
-        ["Internal Patient ID", normalizeText(typedSelectedPatient.id)],
-        [
-          "External Patient ID",
-          normalizeText(typedSelectedPatient.externalPatientId),
-        ],
-        ["Therapy Session ID", normalizeText(typedTherapySession?.id)],
-        ["Session Number", String(typedTherapySession?.sessionNumber ?? "N/A")],
-        ["Session Step", `Session ${stepId}`],
-        ["Therapist", normalizeText(user.name ?? user.email)],
-        ["Duration", formatSessionTime(sessionTime)],
-        ["Total Messages", String(messages.length)],
-        ["Status", isStepCompleted ? "Completed" : "In Progress"],
-        ["Export Date", exportDateTime],
-      ];
-
-      doc.setFillColor(28, 25, 23);
-      doc.rect(0, 0, pageWidth, 36, "F");
-      doc.setFillColor(132, 204, 22);
-      doc.rect(0, 34, pageWidth, 2, "F");
-
-      const headerAvatarSize = 20;
-      const headerAvatarX = pageWidth - marginX - headerAvatarSize;
-      const headerAvatarY = 8;
-      const headerTextMaxWidth = headerAvatarX - marginX - 5;
-
-      doc.setDrawColor(132, 204, 22);
-      doc.setLineWidth(0.8);
-      doc.rect(
-        headerAvatarX - 1,
-        headerAvatarY - 1,
-        headerAvatarSize + 2,
-        headerAvatarSize + 2,
-        "S",
-      );
-
-      if (pdfHeaderAvatarDataUrl) {
-        const imageFormat = pdfHeaderAvatarDataUrl.startsWith("data:image/png")
-          ? "PNG"
-          : "JPEG";
-        doc.addImage(
-          pdfHeaderAvatarDataUrl,
-          imageFormat,
-          headerAvatarX,
-          headerAvatarY,
-          headerAvatarSize,
-          headerAvatarSize,
-        );
-      } else {
-        doc.setFillColor(68, 64, 60);
-        doc.rect(
-          headerAvatarX,
-          headerAvatarY,
-          headerAvatarSize,
-          headerAvatarSize,
-          "F",
-        );
-        doc.setTextColor(245, 245, 244);
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(8);
-        doc.text(
-          patientAvatar.initials,
-          headerAvatarX + headerAvatarSize / 2,
-          headerAvatarY + headerAvatarSize / 2 + 1,
-          { align: "center" },
-        );
-      }
-
-      doc.setTextColor(245, 245, 244);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.text("Therapy Conversation Report", marginX, 14, {
-        maxWidth: headerTextMaxWidth,
+      await exportChatStepPdf({
+        patient: typedSelectedPatient,
+        therapySession: typedTherapySession,
+        stepId,
+        user,
+        sessionTime,
+        messages,
+        isStepCompleted,
+        questionAnswerRows,
+        pdfHeaderAvatarDataUrl,
+        patientAvatarInitials: patientAvatar.initials,
       });
-      doc.setFont("helvetica", "normal");
-      doc.setFontSize(10);
-      doc.text(
-        `${normalizeText(typedSelectedPatient.name)} · Session ${stepId}`,
-        marginX,
-        21,
-        { maxWidth: headerTextMaxWidth },
-      );
-      doc.text(`Generated on ${exportDateTime}`, marginX, 27, {
-        maxWidth: headerTextMaxWidth,
-      });
-
-      autoTable(doc, {
-        startY: 42,
-        margin: { left: marginX, right: marginX },
-        theme: "grid",
-        head: [["Field", "Value"]],
-        body: metadataRows,
-        styles: {
-          fontSize: 8.5,
-          cellPadding: 2.8,
-          textColor: [41, 37, 36],
-          lineColor: [214, 211, 209],
-          lineWidth: 0.2,
-          valign: "middle",
-        },
-        headStyles: {
-          fillColor: [54, 83, 20],
-          textColor: [245, 245, 244],
-          fontStyle: "bold",
-        },
-        alternateRowStyles: {
-          fillColor: [250, 250, 249],
-        },
-        columnStyles: {
-          0: {
-            cellWidth: 48,
-            fontStyle: "bold",
-            fillColor: [245, 245, 244],
-          },
-          1: {
-            cellWidth: pageWidth - marginX * 2 - 48,
-          },
-        },
-      });
-
-      const docWithTableState = doc as typeof doc & {
-        lastAutoTable?: { finalY?: number };
-      };
-      let contentY = (docWithTableState.lastAutoTable?.finalY ?? 94) + 8;
-
-      const addTextSection = (title: string, rawText: string | null | undefined) => {
-        const sectionText = normalizeText(rawText);
-        if (sectionText === "N/A") return;
-
-        const maxWidth = pageWidth - marginX * 2;
-        const titleLines = doc.splitTextToSize(title, maxWidth) as string[];
-        const bodyLines = doc.splitTextToSize(sectionText, maxWidth) as string[];
-        const requiredHeight = titleLines.length * 5 + bodyLines.length * 4.8 + 5;
-
-        if (contentY + requiredHeight > pageHeight - 24) {
-          doc.addPage();
-          contentY = 18;
-        }
-
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(10);
-        doc.setTextColor(28, 25, 23);
-        doc.text(titleLines, marginX, contentY);
-        contentY += titleLines.length * 5;
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(9);
-        doc.setTextColor(68, 64, 60);
-        doc.text(bodyLines, marginX, contentY);
-        contentY += bodyLines.length * 4.8 + 4;
-      };
-
-      const addBulletListSection = (title: string, items: string[]) => {
-        const normalizedItems = items
-          .map((item) => normalizeText(item))
-          .filter((item) => item !== "N/A");
-        if (normalizedItems.length === 0) return;
-
-        const maxWidth = pageWidth - marginX * 2;
-        const bulletIndent = 4;
-        const bulletTextWidth = maxWidth - bulletIndent;
-        const titleLines = doc.splitTextToSize(title, maxWidth) as string[];
-        const bulletLineGroups = normalizedItems.map(
-          (item) => doc.splitTextToSize(item, bulletTextWidth) as string[],
-        );
-        const bulletContentHeight = bulletLineGroups.reduce(
-          (height, lines) => height + lines.length * 4.8 + 1,
-          0,
-        );
-        const requiredHeight = titleLines.length * 5 + bulletContentHeight + 4;
-
-        if (contentY + requiredHeight > pageHeight - 24) {
-          doc.addPage();
-          contentY = 18;
-        }
-
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(10);
-        doc.setTextColor(28, 25, 23);
-        doc.text(titleLines, marginX, contentY);
-        contentY += titleLines.length * 5;
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(9);
-        doc.setTextColor(68, 64, 60);
-
-        bulletLineGroups.forEach((lines) => {
-          const bulletHeight = lines.length * 4.8 + 1;
-          if (contentY + bulletHeight > pageHeight - 24) {
-            doc.addPage();
-            contentY = 18;
-          }
-          doc.text("•", marginX, contentY);
-          doc.text(lines, marginX + bulletIndent, contentY);
-          contentY += bulletHeight;
-        });
-
-        contentY += 3;
-      };
-
-      addTextSection("Patient Description", typedSelectedPatient.smallDescription);
-      addTextSection("Background", typedSelectedPatient.background);
-      addBulletListSection(
-        "Therapeutic Goals",
-        typedSelectedPatient.objectives,
-      );
-
-      const addEmotionTrendSection = () => {
-        const normalizedVectorTimeline = buildPdfStepScopedVectorTimeline(
-          messages,
-          stepId,
-        );
-        if (normalizedVectorTimeline.length === 0) return;
-
-        const seriesKeys = getPdfSeriesKeys(normalizedVectorTimeline);
-        if (seriesKeys.length === 0) return;
-
-        const chartPoints: PdfEmotionChartPoint[] = normalizedVectorTimeline.map((point) => {
-          const values: Record<string, number> = {};
-          seriesKeys.forEach((seriesKey) => {
-            values[seriesKey] = clampTimelineIntensity(point.vector[seriesKey] ?? 0);
-          });
-
-          const dominant = normalizeEmotionToken(point.dominant);
-          const dominantIntensity =
-            values[dominant] ?? Math.max(0, ...Object.values(values));
-
-          return {
-            turnIndex: point.turn_index,
-            dominant,
-            values,
-            dominantIntensity,
-          };
-        });
-
-        if (chartPoints.length === 0) return;
-
-        const chartWidth = pageWidth - marginX * 2;
-        const chartHeight = 46;
-        const chartPadding = { top: 4, right: 6, bottom: 9, left: 14 };
-        const legendLineHeight = 4.6;
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(7.2);
-
-        let legendRows = 1;
-        let occupiedLegendWidth = 0;
-        seriesKeys.forEach((seriesKey) => {
-          const label = getPdfSeriesLabel(seriesKey);
-          const itemWidth = 8 + doc.getTextWidth(label);
-          if (
-            occupiedLegendWidth > 0 &&
-            occupiedLegendWidth + itemWidth > chartWidth
-          ) {
-            legendRows += 1;
-            occupiedLegendWidth = itemWidth;
-            return;
-          }
-
-          occupiedLegendWidth += itemWidth;
-        });
-
-        const latestPoint = chartPoints[chartPoints.length - 1]!;
-        const requiredHeight =
-          6 + chartHeight + 4 + legendRows * legendLineHeight + 6.5;
-
-        if (contentY + requiredHeight > pageHeight - 24) {
-          doc.addPage();
-          contentY = 18;
-        }
-
-        doc.setFillColor(54, 83, 20);
-        doc.rect(marginX, contentY - 4.5, pageWidth - marginX * 2, 9, "F");
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(11);
-        doc.setTextColor(245, 245, 244);
-        doc.text("Emotion Trend", marginX + 3, contentY + 1.2);
-        contentY += 8;
-
-        const chartX = marginX;
-        const chartY = contentY;
-        const chartInnerX = chartX + chartPadding.left;
-        const chartInnerY = chartY + chartPadding.top;
-        const chartInnerWidth = chartWidth - chartPadding.left - chartPadding.right;
-        const chartInnerHeight = chartHeight - chartPadding.top - chartPadding.bottom;
-
-        doc.setFillColor(250, 250, 249);
-        doc.rect(chartX, chartY, chartWidth, chartHeight, "F");
-        doc.setDrawColor(214, 211, 209);
-        doc.setLineWidth(0.25);
-        doc.rect(chartX, chartY, chartWidth, chartHeight, "S");
-
-        const yGridValues = [1, 0.5, 0];
-        yGridValues.forEach((value) => {
-          const y = chartInnerY + (1 - value) * chartInnerHeight;
-          doc.setDrawColor(231, 229, 228);
-          doc.setLineWidth(0.2);
-          doc.line(chartInnerX, y, chartInnerX + chartInnerWidth, y);
-
-          doc.setFont("helvetica", "normal");
-          doc.setFontSize(6.5);
-          doc.setTextColor(120, 113, 108);
-          doc.text(value.toFixed(1), chartInnerX - 1.8, y + 1.2, {
-            align: "right",
-          });
-        });
-
-        doc.setDrawColor(168, 162, 158);
-        doc.setLineWidth(0.3);
-        doc.line(
-          chartInnerX,
-          chartInnerY + chartInnerHeight,
-          chartInnerX + chartInnerWidth,
-          chartInnerY + chartInnerHeight,
-        );
-
-        const minTurn = chartPoints[0]!.turnIndex;
-        const maxTurn = chartPoints[chartPoints.length - 1]!.turnIndex;
-        const turnRange = maxTurn - minTurn;
-        const dominantSnapshotKey = latestPoint.dominant;
-        const getPointX = (turnIndex: number) =>
-          turnRange === 0
-            ? chartInnerX + chartInnerWidth / 2
-            : chartInnerX + ((turnIndex - minTurn) / turnRange) * chartInnerWidth;
-        const getPointY = (value: number) =>
-          chartInnerY + (1 - clampTimelineIntensity(value)) * chartInnerHeight;
-
-        seriesKeys.forEach((seriesKey) => {
-          const [r, g, b] = getPdfSeriesColor(seriesKey);
-          doc.setDrawColor(r, g, b);
-          doc.setLineWidth(seriesKey === dominantSnapshotKey ? 0.9 : 0.55);
-
-          for (let index = 1; index < chartPoints.length; index += 1) {
-            const previousPoint = chartPoints[index - 1]!;
-            const currentPoint = chartPoints[index]!;
-            doc.line(
-              getPointX(previousPoint.turnIndex),
-              getPointY(previousPoint.values[seriesKey] ?? 0),
-              getPointX(currentPoint.turnIndex),
-              getPointY(currentPoint.values[seriesKey] ?? 0),
-            );
-          }
-        });
-
-        const [dominantR, dominantG, dominantB] = getPdfSeriesColor(
-          latestPoint.dominant,
-        );
-        doc.setFillColor(dominantR, dominantG, dominantB);
-        doc.circle(
-          getPointX(latestPoint.turnIndex),
-          getPointY(latestPoint.dominantIntensity),
-          1.1,
-          "F",
-        );
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(6.5);
-        doc.setTextColor(120, 113, 108);
-        if (turnRange === 0) {
-          doc.text(`Turn ${minTurn}`, chartInnerX + chartInnerWidth / 2, chartY + chartHeight - 1.5, {
-            align: "center",
-          });
-        } else {
-          doc.text(`Turn ${minTurn}`, chartInnerX, chartY + chartHeight - 1.5);
-          doc.text(
-            `Turn ${maxTurn}`,
-            chartInnerX + chartInnerWidth,
-            chartY + chartHeight - 1.5,
-            {
-              align: "right",
-            },
-          );
-        }
-
-        contentY += chartHeight + 4;
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(7.2);
-        let legendX = marginX;
-        let legendY = contentY;
-
-        seriesKeys.forEach((seriesKey) => {
-          const label = getPdfSeriesLabel(seriesKey);
-          const labelWidth = doc.getTextWidth(label);
-          const itemWidth = 8 + labelWidth;
-
-          if (legendX > marginX && legendX + itemWidth > marginX + chartWidth) {
-            legendX = marginX;
-            legendY += legendLineHeight;
-          }
-
-          const [r, g, b] = getPdfSeriesColor(seriesKey);
-          doc.setFillColor(r, g, b);
-          doc.rect(legendX, legendY - 1.6, 2.2, 2.2, "F");
-          doc.setTextColor(68, 64, 60);
-          doc.text(label, legendX + 3.2, legendY);
-          legendX += itemWidth;
-        });
-
-        contentY = legendY + 4.5;
-        const latestDominantLabel = getPdfSeriesLabel(latestPoint.dominant);
-        const latestDominantIntensity = Math.round(
-          clampTimelineIntensity(latestPoint.dominantIntensity) * 100,
-        );
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(8);
-        doc.setTextColor(68, 64, 60);
-        doc.text(
-          `Latest dominant emotion: ${latestDominantLabel} (${latestDominantIntensity}%)`,
-          marginX,
-          contentY,
-        );
-        contentY += 6;
-      };
-
-      addEmotionTrendSection();
-
-      if (contentY > pageHeight - 90) {
-        doc.addPage();
-        contentY = 18;
-      }
-
-      doc.setFillColor(54, 83, 20);
-      doc.rect(marginX, contentY - 4.5, pageWidth - marginX * 2, 9, "F");
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(11);
-      doc.setTextColor(245, 245, 244);
-      doc.text("Session Transcript", marginX + 3, contentY + 1.2);
-
-      const tableBody: RowInput[] =
-        questionAnswerRows.length > 0
-          ? questionAnswerRows.map((row, index) => [
-            String(index),
-            row.question || " ",
-            row.answer || " ",
-            " ",
-          ])
-          : [["0", "No questions recorded", "No responses recorded", " "]];
-      const tableContentWidth = pageWidth - marginX * 2;
-      const indexColumnWidth = tableContentWidth * 0.08;
-      const questionColumnWidth = tableContentWidth * 0.31;
-      const answerColumnWidth = tableContentWidth * 0.31;
-      const analysisColumnWidth =
-        tableContentWidth - indexColumnWidth - questionColumnWidth - answerColumnWidth;
-
-      autoTable(doc, {
-        startY: contentY + 8,
-        margin: { left: marginX, right: marginX },
-        theme: "grid",
-        tableWidth: tableContentWidth,
-        head: [["#", "Question", "Answer", "Therapist Analysis"]],
-        body: tableBody,
-        styles: {
-          fontSize: 8.2,
-          cellPadding: 2.5,
-          valign: "top",
-          overflow: "linebreak",
-          textColor: [28, 25, 23],
-          minCellHeight: 12,
-          lineColor: [214, 211, 209],
-          lineWidth: 0.2,
-        },
-        headStyles: {
-          fillColor: [132, 204, 22],
-          textColor: [12, 10, 9],
-          fontStyle: "bold",
-          halign: "left",
-        },
-        alternateRowStyles: {
-          fillColor: [250, 250, 249],
-        },
-        columnStyles: {
-          0: { cellWidth: indexColumnWidth, halign: "center" },
-          1: { cellWidth: questionColumnWidth },
-          2: { cellWidth: answerColumnWidth },
-          3: { cellWidth: analysisColumnWidth, minCellHeight: 20 },
-        },
-      });
-
-      const totalPages = doc.getNumberOfPages();
-      for (let page = 1; page <= totalPages; page += 1) {
-        doc.setPage(page);
-        doc.setDrawColor(214, 211, 209);
-        doc.line(marginX, pageHeight - 12, pageWidth - marginX, pageHeight - 12);
-
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(8);
-        doc.setTextColor(120, 113, 108);
-        doc.text(
-          `LLMPatients App · ${normalizeText(typedSelectedPatient.name)}`,
-          marginX,
-          pageHeight - 7,
-        );
-        doc.text(`Page ${page}/${totalPages}`, pageWidth - marginX, pageHeight - 7, {
-          align: "right",
-        });
-      }
-
-      const safePatientName = normalizeText(typedSelectedPatient.name)
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
-      const filename = `report-${safePatientName || "patient"}-session-${stepId}.pdf`;
-      const pdfBlob = doc.output("blob");
-      const downloadUrl = URL.createObjectURL(pdfBlob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = filename;
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(downloadUrl), 2000);
     } catch (error) {
-      alert("Error exporting PDF. Please try again.");
+      logger.error("Error exporting session PDF", error);
+      showError(
+        "Unable to export PDF",
+        getErrorMessage(error, "Error exporting PDF. Please try again."),
+      );
     } finally {
       setIsExportingPdf(false);
     }
   }, [
+    isStepCompleted,
+    messages,
+    patientAvatar.initials,
+    pdfHeaderAvatarDataUrl,
+    questionAnswerRows,
+    sessionTime,
+    showError,
+    stepId,
     typedSelectedPatient,
     typedTherapySession,
-    stepId,
-    user.name,
-    user.email,
-    sessionTime,
-    messages,
-    isStepCompleted,
-    questionAnswerRows,
-    pdfHeaderAvatarDataUrl,
-    patientAvatar.initials,
+    user,
   ]);
 
   const handleCloseSuccessDialog = useCallback(() => {
@@ -1869,15 +673,14 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
   }, [goBack]);
 
   const handleKeyPress = useCallback(
-    async (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
+    async (event: React.KeyboardEvent) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
         await handleSendMessage();
       }
     },
     [handleSendMessage],
   );
-
 
   const isLoading = useMemo(
     () =>
@@ -1885,9 +688,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       therapySessionLoading ||
       chatLoading ||
       completedStepsLoading,
-    [patientLoading, therapySessionLoading, chatLoading, completedStepsLoading],
+    [chatLoading, completedStepsLoading, patientLoading, therapySessionLoading],
   );
-
 
   const currentDateString = useMemo(
     () => new Date().toLocaleDateString("en-US"),
@@ -1917,7 +719,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         currentPage="/dashboard/therapeutic-journey"
       >
         <div className="flex min-h-screen items-center justify-center bg-background">
-          <DashboardPanel className="dashboard-section text-center p-8 max-w-md">
+          <DashboardPanel className="dashboard-section max-w-md p-8 text-center">
             <h2 className="mb-4 text-2xl font-bold text-foreground">
               Patient not found
             </h2>
@@ -1947,713 +749,82 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         role="main"
         aria-label="Chat with virtual patient"
       >
-        { }
-        <header
-          className="flex-shrink-0 px-4 py-4 sm:px-6 bg-card border-b border-border"
-          role="banner"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex min-w-0 flex-1 items-center space-x-2 sm:space-x-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={goBack}
-                className="flex-shrink-0 hover:bg-primary/10"
-                aria-label="Back to timeline"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <div className="min-w-0">
-                <h1 className="text-xl font-bold truncate text-foreground">
-                  <span className="hidden sm:inline">
-                    {effectivePatientName} -{" "}
-                  </span>
-                  Session {stepId}
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  {currentDateString}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-shrink-0 items-center space-x-2 sm:space-x-4">
-              <div className="bg-muted text-foreground px-2 py-1 sm:px-3 w-16 text-center rounded-md">
-                <span className="text-sm font-medium">
-                  {formatSessionTime(sessionTime)}
-                </span>
-              </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="flex-shrink-0 hover:bg-primary/10"
-                    aria-label="Session information"
-                  >
-                    <Info className="h-4 w-4" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80" align="end">
-                  <div className="space-y-3">
-                    <h4 className="font-medium text-sm text-foreground">
-                      Session Information
-                    </h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Patient ID (internal):</span>
-                        <span className="font-mono text-xs text-foreground">
-                          {typedSelectedPatient?.id || "N/A"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Therapy Session ID:</span>
-                        <span className="font-mono text-xs text-foreground">
-                          {typedTherapySession?.id || "N/A"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">External Patient ID:</span>
-                        <span className="font-mono text-xs text-foreground">
-                          {typedSelectedPatient?.externalPatientId || "Not initialized"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">Step ID:</span>
-                        <span className="font-mono text-xs text-foreground">
-                          {stepId}
-                        </span>
-                      </div>
-                    </div>
+        <ChatSessionHeader
+          effectivePatientName={effectivePatientName}
+          stepId={stepId}
+          currentDateString={currentDateString}
+          sessionTimeLabel={formatSessionTime(sessionTime)}
+          patientId={typedSelectedPatient.id}
+          therapySessionId={typedTherapySession?.id}
+          externalPatientId={typedTherapySession?.externalPatientId}
+          isStepCompleted={isStepCompleted}
+          isCompleting={markStepDoneMutation.isPending}
+          onBack={goBack}
+          onCompleteStep={() => void handleCompleteStep()}
+        />
 
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <ChatPatientSidebar
+            hasPatientAvatar={true}
+            patientAvatarColorClass={patientAvatar.colorClass}
+            patientAvatarInitials={patientAvatar.initials}
+            selectedPatientAvatarUrl={selectedPatientAvatarUrl}
+            currentEmotion={currentEmotion}
+            nextEmotion={nextEmotion}
+            isAvatarTransitioning={isAvatarTransitioning}
+            effectivePatientName={effectivePatientName}
+            extractedText={extractedText}
+            onExpandAvatar={() => setIsAvatarExpanded(true)}
+          />
 
+          <div className="flex min-h-0 flex-1 overflow-hidden">
+            <div className="flex min-h-full flex-1 flex-col page-background">
+              <ChatMessagesPane
+                messagesContainerRef={messagesContainerRef}
+                messages={messages}
+                isTyping={isTypingVisible}
+                shouldShowEmotionTrend={shouldShowEmotionTrend}
+                selectedPatientAvatarUrl={selectedPatientAvatarUrl}
+                currentEmotion={currentEmotion}
+                nextEmotion={nextEmotion}
+                effectivePatientName={effectivePatientName}
+                emotionSnapshot={emotionSnapshot}
+                emotionTimeline={emotionTimeline}
+                emotionVectorTimeline={emotionVectorTimeline}
+                hasAudioPlayer={
+                  audioPlayer.isLoading || Boolean(audioPlayer.currentAudioUrl)
+                }
+              />
 
+              <ChatComposer
+                isStepCompleted={isStepCompleted}
+                audioPlayer={audioPlayer}
+                showTTSWarning={showTTSWarning}
+                setShowTTSWarning={setShowTTSWarning}
+                isTTSEnabled={isTTSEnabled}
+                hasUserInteracted={hasUserInteracted}
+                onFirstAudioInteraction={() => setHasUserInteracted(true)}
+                showAudioWaveform={true}
+                inputMessage={inputMessage}
+                onInputMessageChange={setInputMessage}
+                onSendMessage={() => void handleSendMessage()}
+                onKeyPress={handleKeyPress}
+                inputRef={inputRef}
+                isTyping={isTypingVisible}
+                isWaitingForResponse={isWaitingForResponse}
+              />
 
-                  </div>
-                </PopoverContent>
-              </Popover>
-              {!isStepCompleted && (
-                <Button
-                  onClick={handleCompleteStep}
-                  disabled={markStepDoneMutation.isPending}
-                  isLoading={markStepDoneMutation.isPending}
-                  size="sm"
-                  className="px-2 text-xs sm:px-4 sm:text-sm"
-                  aria-label="Complete session"
-                >
-                  <span className="hidden sm:inline">
-                    {markStepDoneMutation.isPending ? "Completing..." : "Complete"}
-                  </span>
-                  <span className="sm:hidden">
-                    {markStepDoneMutation.isPending ? "..." : "Done"}
-                  </span>
-                </Button>
-              )}
-            </div>
-          </div>
-        </header>
-
-        { }
-        <div className="flex-1 flex min-h-0 overflow-hidden">
-          { }
-          <div className="hidden lg:flex flex-col items-center justify-start w-64 flex-shrink-0 p-4 page-background">
-            <div className="flex flex-col items-center w-full space-y-3 pt-4">
-              <div
-                className="relative rounded-[1.1rem]"
-                style={{
-                  padding: isAvatarTransitioning ? '4px' : '3px',
-                  background: EMOTION_COLORS[nextEmotion ?? currentEmotion],
-                  boxShadow: isAvatarTransitioning
-                    ? `0 0 35px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}90, 0 0 70px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}50`
-                    : `0 0 20px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}40`,
-                  transition: `all ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-                }}
-              >
-                <div className="therapy-session-avatar-large relative group rounded-[calc(1.1rem-3px)] overflow-hidden">
-                  {typedSelectedPatient ? (
-                    <div className="relative w-full h-full">
-                      { }
-                      <Image
-                        key={`current-${currentEmotion}`}
-                        src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                        alt={`Avatar of ${effectivePatientName} - ${currentEmotion}`}
-                        width={100}
-                        height={100}
-                        className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full"
-                        priority
-                        style={{
-                          opacity:
-                            nextEmotion && nextEmotion !== currentEmotion
-                              ? isAvatarTransitioning
-                                ? 0
-                                : 1
-                              : 1,
-                          transition: `opacity ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-                        }}
-                      />
-                      {nextEmotion && nextEmotion !== currentEmotion && (
-                        <Image
-                          key={`next-${nextEmotion}`}
-                          src={getPatientAvatarPath(selectedPatientAvatarUrl, nextEmotion)}
-                          alt={`Avatar of ${effectivePatientName} - ${nextEmotion}`}
-                          width={100}
-                          height={100}
-                          className="rounded-[calc(1.1rem-3px)] object-cover shadow-lg w-full h-full absolute inset-0"
-                          style={{
-                            opacity: isAvatarTransitioning ? 1 : 0,
-                            transition: `opacity ${AVATAR_TRANSITION_DURATION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-                          }}
-                          priority
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <div
-                      className={`flex h-25 w-25 items-center justify-center rounded-[calc(1.1rem-3px)] font-bold text-white text-3xl shadow-lg ${patientAvatar?.colorClass || "avatar-color-default"}`}
-                    >
-                      {patientAvatar?.initials}
-                    </div>
-                  )}
-                  { }
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setIsAvatarExpanded(true)}
-                    className="absolute top-1 right-1 h-6 w-6 p-0 bg-black/40 hover:bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-md"
-                    style={{ zIndex: 3 }}
-                    aria-label="Expand avatar"
-                  >
-                    <Maximize2 className="h-3 w-3 text-white" />
-                  </Button>
-                </div>
-              </div>
-              <p className="mt-1 text-sm font-semibold text-[var(--color-text-primary)] text-center break-words">
-                {effectivePatientName}
-              </p>
-              { }
-              {extractedText && (
-                <div className="flex flex-col items-center w-full mt-2 px-2">
-                  <div
-                    className="text-xs text-[var(--color-text-secondary)] text-center break-words max-w-full italic"
-                    style={{
-                      animation: 'fadeIn 0.5s ease-in-out',
-                    }}
-                  >
-                    {extractedText}
-                  </div>
-                </div>
-              )}
-              { }
-              <div className="flex flex-col items-center w-full mt-2">
-                <div
-                  className="px-3 py-1.5 rounded-full text-xs font-medium text-white transition-all duration-300"
-                  style={{
-                    backgroundColor: EMOTION_COLORS[nextEmotion ?? currentEmotion],
-                    boxShadow: `0 2px 8px ${EMOTION_COLORS[nextEmotion ?? currentEmotion]}60`,
-                  }}
-                >
-                  {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
-                </div>
-              </div>
+              <ChatCompletionFooter
+                isStepCompleted={isStepCompleted}
+                stepId={stepId}
+                isExportingPdf={isExportingPdf}
+                onDownloadPdf={() => void handleDownloadSessionPdf()}
+              />
             </div>
           </div>
 
-          { }
-          <div
-            ref={messagesContainerRef}
-            className="flex-1 flex overflow-y-auto chat-scrollbar"
-          >
-            <div className="flex flex-1 min-h-full items-stretch">
-              { }
-              <div className="flex-1 flex min-h-full flex-col page-background relative">
-                { }
-                <div className={`flex-1 p-4 sm:p-6 ${audioPlayer.currentAudioUrl ? 'pb-40' : 'pb-24'}`}>
-                  <div className="w-full max-w-4xl mx-auto">
-                    {shouldShowEmotionTrend && (
-                      <div className="sticky top-2 z-20 mb-4 rounded-xl border border-[var(--color-border-secondary)] bg-[var(--color-surface-primary)]/80 p-3 backdrop-blur-sm lg:hidden">
-                        <div className="mb-3 flex items-center gap-3">
-                          <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-[var(--color-border-secondary)]">
-                            <Image
-                              src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                              alt={`Avatar of ${effectivePatientName}`}
-                              width={48}
-                              height={48}
-                              className="h-full w-full object-cover"
-                            />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="truncate text-sm font-semibold text-[var(--color-text-primary)]">
-                              {effectivePatientName}
-                            </p>
-                            <p className="text-xs text-[var(--color-text-secondary)]">
-                              {EMOTION_LABELS[nextEmotion ?? currentEmotion]}
-                            </p>
-                          </div>
-                        </div>
-                        <EmotionTrendPanel
-                          snapshot={emotionSnapshot}
-                          timeline={emotionTimeline}
-                          vectorTimeline={emotionVectorTimeline}
-                          compact={true}
-                        />
-                      </div>
-                    )}
-                    <div className="space-y-4 sm:space-y-6">
-                      {messages.map((message) => (
-                        <div
-                          key={message.id}
-                          className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"
-                            }`}
-                        >
-                          <div
-                            className={`flex max-w-2xl space-x-3 ${message.sender === "user"
-                              ? "flex-row-reverse space-x-reverse"
-                              : "flex-row"
-                              }`}
-                          >
-                            { }
-                            <div
-                              className={`flex items-start gap-2 max-w-xs rounded-lg px-3 py-2 text-white sm:max-w-sm sm:px-4 sm:py-3 ${message.sender === "patient"
-                                ? "chat-bubble--patient"
-                                : message.sender === "user"
-                                  ? "chat-bubble--user"
-                                  : ""
-                                }`}
-                            >
-                              <p className="text-body text-sm sm:text-base flex-1">
-                                {message.content}
-                              </p>
-                              {message.sender === "patient" && message.metadata && (
-                                <TooltipProvider>
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <button
-                                        className="flex-shrink-0 opacity-70 hover:opacity-100 transition-all mt-0.5 p-1 rounded hover:bg-white/20 hover:scale-110"
-                                        aria-label="Technical response details"
-                                        type="button"
-                                      >
-                                        <Code2 className="h-4 w-4 text-white" />
-                                      </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent
-                                      side={message.sender === "patient" ? "right" : "left"}
-                                      className="max-w-xs w-full rounded-[var(--radius-lg)] border border-[var(--color-border-secondary)] bg-[var(--color-surface-secondary)] p-3 text-xs text-[var(--color-text-primary)] max-h-[70vh] overflow-y-auto"
-                                      sideOffset={8}
-                                    >
-                                      <div className="space-y-3 max-w-full">
-                                        <div>
-                                          <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                            Technical Information
-                                          </h4>
-                                          <div className="space-y-2 text-xs">
-                                            <div className="flex justify-between">
-                                              <span className="text-[var(--color-text-secondary)]">API Type:</span>
-                                              <span className={`font-mono text-[10px] text-[var(--color-text-primary)] ${message.metadata.apiType === "REAL"
-                                                ? "text-green-400"
-                                                : "text-yellow-400"
-                                                }`}>
-                                                {message.metadata.apiType}
-                                              </span>
-                                            </div>
-                                            {message.metadata.endpoint && (
-                                              <div className="flex flex-col gap-1.5">
-                                                <span className="text-[var(--color-text-secondary)]">Endpoint:</span>
-                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
-                                                  {message.metadata.endpoint.length > 30
-                                                    ? `${message.metadata.endpoint.substring(0, 30)}...`
-                                                    : message.metadata.endpoint}
-                                                </span>
-                                              </div>
-                                            )}
-                                            {message.metadata.duration !== undefined && (
-                                              <div className="flex justify-between">
-                                                <span className="text-[var(--color-text-secondary)]">Duration:</span>
-                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                  {message.metadata.duration < 1000
-                                                    ? `${message.metadata.duration}ms`
-                                                    : `${(message.metadata.duration / 1000).toFixed(2)}s`}
-                                                </span>
-                                              </div>
-                                            )}
-                                            {message.metadata.timestamp && (
-                                              <div className="flex justify-between">
-                                                <span className="text-[var(--color-text-secondary)]">Timestamp:</span>
-                                                <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                  {new Date(message.metadata.timestamp).toLocaleTimeString("en-US")}
-                                                </span>
-                                              </div>
-                                            )}
-                                          </div>
-                                        </div>
-
-                                        {message.metadata.requestData && (
-                                          <div className="border-t border-[var(--color-border-secondary)] pt-3">
-                                            <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                              Sent Data
-                                            </h4>
-                                            <div className="space-y-2 text-xs">
-                                              {message.metadata.requestData.patientId && (
-                                                <div className="flex flex-col gap-1.5">
-                                                  <span className="text-[var(--color-text-secondary)]">Patient ID:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
-                                                    {message.metadata.requestData.patientId.substring(0, 20)}...
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.requestData.patientName && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Patient Name:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                    {message.metadata.requestData.patientName}
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.requestData.externalPatientId && (
-                                                <div className="flex flex-col gap-1.5">
-                                                  <span className="text-[var(--color-text-secondary)]">External ID:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
-                                                    {message.metadata.requestData.externalPatientId.substring(0, 20)}...
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.requestData.userMessage && (
-                                                <div className="flex flex-col gap-1.5">
-                                                  <span className="text-[var(--color-text-secondary)]">User Message:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-words leading-tight">
-                                                    {message.metadata.requestData.userMessage.length > 50
-                                                      ? `${message.metadata.requestData.userMessage.substring(0, 50)}...`
-                                                      : message.metadata.requestData.userMessage}
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.requestData.sessionId && (
-                                                <div className="flex flex-col gap-1.5">
-                                                  <span className="text-[var(--color-text-secondary)]">Session ID:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] break-all">
-                                                    {message.metadata.requestData.sessionId.substring(0, 20)}...
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.requestData.stepId !== undefined && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Step ID:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                    {message.metadata.requestData.stepId}
-                                                  </span>
-                                                </div>
-                                              )}
-                                            </div>
-                                          </div>
-                                        )}
-
-                                        {message.metadata.responseData && (
-                                          <div className="border-t border-[var(--color-border-secondary)] pt-3">
-                                            <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                              Received Data
-                                            </h4>
-                                            <div className="space-y-2 text-xs">
-                                              {message.metadata.responseData.emotion && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Emotion:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)] capitalize">
-                                                    {message.metadata.responseData.emotion}
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.responseData.topic && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Topic:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                    {message.metadata.responseData.topic}
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.responseData.reasoningTime !== undefined && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Reasoning Time:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                    {message.metadata.responseData.reasoningTime}s
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.responseData.status && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Status:</span>
-                                                  <span className={`font-mono text-[10px] ${message.metadata.responseData.status === "success"
-                                                    ? "text-green-400"
-                                                    : "text-red-400"
-                                                    }`}>
-                                                    {message.metadata.responseData.status}
-                                                  </span>
-                                                </div>
-                                              )}
-                                              {message.metadata.responseData.code && (
-                                                <div className="flex justify-between">
-                                                  <span className="text-[var(--color-text-secondary)]">Code:</span>
-                                                  <span className="font-mono text-[10px] text-[var(--color-text-primary)]">
-                                                    {message.metadata.responseData.code}
-                                                  </span>
-                                                </div>
-                                              )}
-                                            </div>
-
-                                            {message.metadata.rawResponseJson && (
-                                              <div className="mt-3 border-t border-[var(--color-border-secondary)] pt-3">
-                                                <h4 className="font-medium text-xs text-[var(--color-text-primary)] mb-2">
-                                                  Response JSON
-                                                </h4>
-                                                <pre className="text-[10px] font-mono text-[var(--color-text-primary)] bg-[var(--color-surface-primary)] p-2 rounded border border-[var(--color-border-secondary)] overflow-auto max-h-32">
-                                                  {message.metadata.rawResponseJson}
-                                                </pre>
-                                              </div>
-                                            )}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </TooltipProvider>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-
-                      {isTyping && (
-                        <div className="mb-4 flex justify-start">
-                          <div className="chat-typing-indicator rounded-lg px-4 py-3">
-                            <div className="flex space-x-1">
-                              <div className="chat-typing-dot h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                              <div className="chat-typing-dot--delay-1 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                              <div className="chat-typing-dot--delay-2 h-2 w-2 animate-bounce rounded-full bg-white/80"></div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                { }
-                {!isStepCompleted && (
-                  <div className="sticky bottom-0 left-0 right-0 z-20 p-4 sm:p-6 bg-transparent">
-                    <div className="mx-auto max-w-4xl bg-transparent">
-                      { }
-                      {!audioPlayer.isTTSAvailable && showTTSWarning && isTTSEnabled !== false && (
-                        <div className="mb-4">
-                          <div className="message message-warning">
-                            <div className="message-icon">
-                              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                            <div className="message-content">
-                              <div className="message-title">Audio unavailable</div>
-                              <div className="message-text">
-                                The text-to-speech service is currently unavailable. Patient messages will be shown as text only.
-                              </div>
-                            </div>
-                            <Button
-                              onClick={() => setShowTTSWarning(false)}
-                              variant="ghost"
-                              size="icon"
-                              className="message-dismiss"
-                              aria-label="Close notice"
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      { }
-                      {!hasUserInteracted && audioPlayer.isTTSAvailable && isTTSEnabled !== false && (
-                        <div className="mb-4">
-                          <div className="message message-info">
-                            <div className="message-icon">
-                              <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                              </svg>
-                            </div>
-                            <div className="message-content">
-                              <div className="message-title">Automatic audio playback</div>
-                              <div className="message-text">
-                                Send a message or click play to enable automatic playback of patient message audio.
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-
-                      { }
-                      {(audioPlayer.isLoading || audioPlayer.currentAudioUrl) && (
-                        <div className="mb-4 p-4 bg-transparent">
-                          <div className="flex space-x-2 sm:space-x-3">
-                            <div className="flex-1 flex items-center rounded-lg px-3 py-2 bg-[var(--color-surface-primary)]/50 backdrop-blur-sm">
-                              {audioPlayer.isLoading ? (
-                                <div className="flex items-center justify-center flex-1 h-20">
-                                  <Loader2 className="h-6 w-6 animate-spin text-[var(--color-primary-green)]" />
-                                  <span className="ml-2 text-sm text-[var(--color-text-secondary)]">
-                                    Generating audio...
-                                  </span>
-                                </div>
-                              ) : (
-                                <>
-                                  { }
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => {
-
-                                      if (!hasUserInteracted) {
-                                        setHasUserInteracted(true);
-                                      }
-                                      audioPlayer.togglePlayPause();
-                                    }}
-                                    className="h-16 w-16 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                                    aria-label={audioPlayer.isPlaying ? "Pausa" : "Play"}
-                                  >
-                                    {audioPlayer.isPlaying ? (
-                                      <X className="h-6 w-6 text-[var(--color-primary-green)]" />
-                                    ) : (
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        fill="currentColor"
-                                        className="h-6 w-6 text-[var(--color-primary-green)]"
-                                      >
-                                        <path d="M8 5v14l11-7z" />
-                                      </svg>
-                                    )}
-                                  </Button>
-
-                                  { }
-                                  {audioPlayer.isPlaying && showAudioWaveform && (
-                                    <div className="flex items-center justify-between flex-1 space-x-1 h-20 px-4">
-                                      {Array.from({ length: 60 }, (_, i) => {
-
-                                        const progress = audioPlayer.duration > 0
-                                          ? (audioPlayer.currentTime / audioPlayer.duration)
-                                          : 0;
-                                        const barProgress = i / 60;
-                                        const isPast = barProgress < progress;
-                                        const baseHeight = 6;
-                                        const animatedHeight = isPast
-                                          ? baseHeight + (Math.sin(i * 0.5) * 15)
-                                          : baseHeight + (Math.sin(i * 0.3 + Date.now() * 0.002) * 20);
-
-                                        return (
-                                          <div
-                                            key={i}
-                                            className="w-1 rounded-full transition-all duration-200"
-                                            style={{
-                                              height: `${animatedHeight}px`,
-                                              background: isPast
-                                                ? "linear-gradient(135deg, var(--color-primary-green), var(--color-chat-bubble-patient))"
-                                                : "linear-gradient(135deg, var(--color-chat-bubble-patient), var(--color-primary-green))",
-                                              animation: !isPast ? `audioWave 1.2s ease-in-out infinite ${i * 0.02}s` : "none",
-                                              transformOrigin: "center",
-                                              opacity: isPast ? 0.5 : 0.8 + (Math.sin(i * 0.2) * 0.2),
-                                            }}
-                                          />
-                                        );
-                                      })}
-                                    </div>
-                                  )}
-
-                                  { }
-                                  {(!audioPlayer.isPlaying || !showAudioWaveform) && audioPlayer.currentAudioUrl && (
-                                    <div className="flex items-center justify-center flex-1 h-20">
-                                      <span className="text-sm text-[var(--color-text-secondary)]">
-                                        {audioPlayer.isPlaying
-                                          ? "Playing..."
-                                          : "Audio ready - Click play to listen"
-                                        }
-                                      </span>
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            </div>
-
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={audioPlayer.clear}
-                              className="h-20 w-11 p-0 hover:bg-[var(--color-primary-green)]/10 flex-shrink-0"
-                              aria-label="Close audio player"
-                              disabled={audioPlayer.isLoading}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-
-                      <div className="flex space-x-2 sm:space-x-3 bg-transparent">
-                        <div className="relative flex-1">
-                          <Input
-                            ref={inputRef}
-                            value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Start the conversation"
-                            disabled={isTyping}
-                            className="flex-1 text-sm sm:text-base h-11"
-                            aria-label="Message to send"
-                          />
-                        </div>
-                        <Button
-                          onClick={() => void handleSendMessage()}
-                          disabled={!inputMessage.trim() || isTyping}
-                          className="chat-send-button h-11 w-11"
-                          aria-label="Send message"
-                        >
-                          <Send className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                { }
-              {isStepCompleted && (
-                  <div className="sticky bottom-0 left-0 right-0 z-20 navbar-background p-6">
-                    <div className="mx-auto max-w-4xl text-center">
-                      <div className="pill bg-primary-green text-text-inverse px-4 py-3">
-                        <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
-                          <p className="flex items-center justify-center gap-2 text-sm font-medium">
-                            <Check className="h-4 w-4" aria-hidden="true" />
-                            <span>
-                              Session {stepId} completed - Conversation is in read-only mode
-                            </span>
-                          </p>
-                          <Button
-                            type="button"
-                            onClick={() => void handleDownloadSessionPdf()}
-                            disabled={isExportingPdf}
-                            size="sm"
-                            variant="secondary"
-                            className="h-8 gap-2 border border-stone-800 bg-white/90 px-3 text-xs font-semibold text-stone-900 hover:bg-white"
-                            aria-label="Download session PDF report"
-                          >
-                            {isExportingPdf ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <FileDown className="h-4 w-4" />
-                            )}
-                            <span>PDF</span>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          { }
-          <div className="hidden lg:flex w-64 flex-shrink-0 self-start flex-col page-background p-4">
-            <div className="sticky top-4 w-full max-h-[calc(100vh-7rem)] overflow-y-auto chat-scrollbar pr-1 pt-4">
+          <div className="page-background hidden w-64 flex-shrink-0 self-start p-4 lg:flex">
+            <div className="chat-scrollbar sticky top-4 max-h-[calc(100vh-7rem)] w-full overflow-y-auto pr-1 pt-4">
               {shouldShowEmotionTrend && (
                 <EmotionTrendPanel
                   snapshot={emotionSnapshot}
@@ -2666,73 +837,24 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
         </div>
       </div>
 
-      { }
-      <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
-        <DialogContent className="sm:max-w-md [&>div]:!animate-none !animate-none">
-          <DialogHeader>
-            <div className="flex items-center justify-center mb-4">
-              <div className="rounded-full bg-[var(--color-primary-green)]/10 p-3">
-                <CheckCircle2 className="h-8 w-8 text-[var(--color-primary-green)]" />
-              </div>
-            </div>
-            <DialogTitle className="text-center text-xl">
-              Session Completed!
-            </DialogTitle>
-            <DialogDescription className="text-center pt-2">
-              You successfully completed Session {stepId} with{" "}
-              {effectivePatientName}.
-              <br />
-              <span className="text-sm text-[var(--color-text-primary)]/60 mt-2 block">
-                Your notes have been saved and can be reviewed at any time.
-              </span>
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="sm:justify-center">
-            <Button
-              onClick={handleCloseSuccessDialog}
-              className="w-full sm:w-auto"
-              size="lg"
-            >
-              Back to Timeline
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ChatSuccessDialog
+        open={isSuccessDialogOpen}
+        stepId={stepId}
+        effectivePatientName={effectivePatientName}
+        onOpenChange={setIsSuccessDialogOpen}
+        onBackToTimeline={handleCloseSuccessDialog}
+      />
 
-      { }
-      <Dialog open={isAvatarExpanded} onOpenChange={setIsAvatarExpanded}>
-        <DialogContent className="sm:max-w-2xl p-0 overflow-hidden">
-          <DialogHeader className="sr-only">
-            <DialogTitle>Patient avatar {effectivePatientName}</DialogTitle>
-          </DialogHeader>
-          <div className="relative">
-            {typedSelectedPatient ? (
-              <Image
-                src={getPatientAvatarPath(selectedPatientAvatarUrl, currentEmotion)}
-                alt={`Avatar of ${effectivePatientName} - ${currentEmotion}`}
-                width={600}
-                height={600}
-                className="w-full h-auto object-cover"
-              />
-            ) : (
-              <div
-                className={`flex w-full aspect-square items-center justify-center font-bold text-white text-9xl ${patientAvatar?.colorClass || "avatar-color-default"}`}
-              >
-                {patientAvatar?.initials}
-              </div>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsAvatarExpanded(false)}
-              className="absolute top-2 right-2 h-8 w-8 p-0 bg-black/40 hover:bg-black/60"
-              aria-label="Close"
-            >
-              <X className="h-4 w-4 text-white" />
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ExpandedAvatarDialog
+        open={isAvatarExpanded}
+        onOpenChange={setIsAvatarExpanded}
+        hasPatientAvatar={true}
+        selectedPatientAvatarUrl={selectedPatientAvatarUrl}
+        currentEmotion={currentEmotion}
+        effectivePatientName={effectivePatientName}
+        patientAvatarColorClass={patientAvatar.colorClass}
+        patientAvatarInitials={patientAvatar.initials}
+      />
     </SharedLayout>
   );
 }

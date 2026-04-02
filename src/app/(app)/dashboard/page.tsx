@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { auth } from "~/server/auth";
 import { Suspense } from "react";
 import { Skeleton } from "~/components/ui/skeleton";
 import { DashboardPanel } from "~/components/dashboard/ui";
+import { requireAppSession } from "~/server/auth/session";
 
 export const dynamic = 'force-dynamic';
 
@@ -26,16 +26,9 @@ function DashboardLoadingComponent() {
 
 async function DashboardRouter() {
   try {
-    let session = await auth();
-
-    if (!session && typeof window !== "undefined") {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      session = await auth();
-    }
-
-    if (!session?.user?.id || !session?.user?.email) {
-      redirect("/login?error=session-invalid&from=dashboard");
-    }
+    const session = await requireAppSession(
+      "/login?error=session-invalid&from=dashboard",
+    );
 
     const userRole = session.user.role ?? "user";
 

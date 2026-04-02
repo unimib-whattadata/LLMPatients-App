@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 import { db } from "~/server/db";
+import { isUniqueConstraintError } from "~/server/db/errors";
 import { users } from "~/server/db/tables";
 import {
   validateUserByEmail,
@@ -13,7 +14,6 @@ import {
   logAuthError,
   createAuthError,
   AuthErrorType,
-  handleAuthErrorWithRetry,
 } from "~/server/auth/error-handling";
 import { createLogger } from "~/lib/logger";
 
@@ -34,10 +34,7 @@ const registerSchema = z.object({
     .string()
     .toLowerCase()
     .trim()
-    .refine((email) => {
-      
-      return email === "admin" || z.string().email().safeParse(email).success;
-    }, "Please enter a valid email address or 'admin'"),
+    .email("Please enter a valid email address"),
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
@@ -46,7 +43,7 @@ const registerSchema = z.object({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/,
       "Password must contain uppercase, lowercase, number, and special character",
     ),
-  role: z.enum(["admin", "user"]).optional().default("user"), 
+  role: z.enum(["admin", "user"]).optional().default("user"),
 });
 
 export async function POST(request: NextRequest) {
@@ -83,54 +80,6 @@ export async function POST(request: NextRequest) {
       throw error;
     }
 
-    
-    reqLogger.debug("Checking if user already exists", { email: validatedData.email });
-    const userExistsResult = await handleAuthErrorWithRetry(
-      async () => {
-        return await validateUserByEmail(
-          validatedData.email,
-          createValidationConfig({ timeout: 5000, retries: 2 }),
-        );
-      },
-      (error) => handleDatabaseError(error),
-      2, 
-      {
-        operation: "user_existence_check",
-        email: validatedData.email,
-        requestId,
-      },
-    );
-
-    if (!userExistsResult.success) {
-      reqLogger.error("Database error checking user existence", userExistsResult.error);
-
-      
-      if (userExistsResult.error) {
-        logAuthError(userExistsResult.error, {
-          operation: "registration",
-          requestId,
-        });
-      }
-
-      return NextResponse.json(
-        {
-          error:
-            "Unable to process registration at this time. Please try again later.",
-        },
-        { status: 503 }, 
-      );
-    }
-
-    
-    if (userExistsResult.result?.isValid) {
-      reqLogger.warn("Registration rejected - user exists", { email: validatedData.email });
-      return NextResponse.json(
-        { error: "User with this email already exists" },
-        { status: 409 }, 
-      );
-    }
-
-    
     reqLogger.debug("Hashing password");
     let hashedPassword: string;
     try {
@@ -146,65 +95,58 @@ export async function POST(request: NextRequest) {
 
     
     reqLogger.debug("Creating user in database");
-    const createUserResult = await handleAuthErrorWithRetry(
-      async () => {
-        const newUser = await (db as any)
-          .insert(users)
-          .values({
-            name: validatedData.name,
-            email: validatedData.email,
-            password: hashedPassword,
-            role: validatedData.role, 
-          })
-          .returning({
-            id: users.id,
-            name: users.name,
-            email: users.email,
-            role: users.role,
-          });
-
-        if (newUser.length === 0) {
-          throw new Error("User creation returned no records");
+    let newUser:
+      | {
+          id: string;
+          name: string | null;
+          email: string;
+          role: string | null;
         }
+      | undefined;
 
-        return newUser[0]!;
-      },
-      (error) => {
-        
-        if (error.message.includes("UNIQUE constraint")) {
-          return createAuthError(
-            AuthErrorType.DATABASE_QUERY_FAILED,
-            "User with this email already exists",
-            error.message,
-            undefined,
-            false,
-            "low",
-          );
-        }
-        return handleDatabaseError(error);
-      },
-      2, 
-      { operation: "user_creation", email: validatedData.email, requestId },
-    );
+    try {
+      const insertedUsers = await (db as any)
+        .insert(users)
+        .values({
+          name: validatedData.name,
+          email: validatedData.email,
+          password: hashedPassword,
+          // Public self-registration is intentionally limited to standard users.
+          role: "user",
+        })
+        .returning({
+          id: (users as any).id,
+          name: (users as any).name,
+          email: (users as any).email,
+          role: (users as any).role,
+        });
 
-    if (!createUserResult.success || !createUserResult.result) {
-      reqLogger.error("Failed to create user", createUserResult.error);
-
-      
-      if (createUserResult.error?.message.includes("already exists")) {
+      newUser = insertedUsers[0] as
+        | {
+            id: string;
+            name: string | null;
+            email: string;
+            role: string | null;
+          }
+        | undefined;
+    } catch (error) {
+      if (isUniqueConstraintError(error, "email")) {
+        reqLogger.warn("Registration rejected - user exists", {
+          email: validatedData.email,
+        });
         return NextResponse.json(
           { error: "User with this email already exists" },
           { status: 409 },
         );
       }
 
-      
-      if (createUserResult.error) {
-        logAuthError(createUserResult.error, {
-          operation: "registration",
-          requestId,
-        });
-      }
+      const authError = handleDatabaseError(
+        error instanceof Error ? error : new Error(String(error)),
+      );
+      logAuthError(authError, {
+        operation: "registration",
+        requestId,
+      });
 
       return NextResponse.json(
         { error: "Failed to create user account. Please try again." },
@@ -212,7 +154,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newUser = createUserResult.result;
+    if (!newUser) {
+      const authError = createAuthError(
+        AuthErrorType.DATABASE_QUERY_FAILED,
+        "User creation returned no records",
+        undefined,
+        undefined,
+        false,
+        "medium",
+      );
+
+      logAuthError(authError, {
+        operation: "registration",
+        requestId,
+      });
+
+      return NextResponse.json(
+        { error: "Failed to create user account. Please try again." },
+        { status: 500 },
+      );
+    }
+
     reqLogger.info("User created successfully", { id: newUser.id, email: newUser.email, role: newUser.role });
 
     

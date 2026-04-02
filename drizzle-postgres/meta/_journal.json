@@ -15,6 +15,27 @@
       "when": 1766491535461,
       "tag": "0001_stiff_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1775041237687,
+      "tag": "0002_blushing_zombie",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1775048134035,
+      "tag": "0003_windy_the_phantom",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1775134500000,
+      "tag": "0004_mighty_warpath",
+      "breakpoints": true
     }
   ]
 }

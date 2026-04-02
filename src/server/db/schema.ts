@@ -5,6 +5,10 @@ import {
   sqliteTableCreator,
   uniqueIndex,
 } from "drizzle-orm/sqlite-core";
+import {
+  type UserActivityType,
+  type UserRole,
+} from "./contracts";
 // Generate UUID using Web Crypto API
 const randomUUID = () => crypto.randomUUID();
 
@@ -35,16 +39,23 @@ export const users = createTable(
     name: d.text({ length: 255 }),
     email: d.text({ length: 255 }).notNull(),
     password: d.text({ length: 255 }),
-
-    role: d.text({ length: 20 }).default("user").notNull(),
-    emailVerified: d.integer({ mode: "timestamp" }).default(sql`(strftime('%s', 'now'))`),
+    role: d.text({ length: 20 }).$type<UserRole>().default("user").notNull(),
+    isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
+    emailVerified: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(strftime('%s', 'now'))`),
     image: d.text({ length: 255 }),
+    createdAt: d
+      .integer({ mode: "timestamp" })
+      .default(sql`(strftime('%s', 'now'))`)
+      .notNull(),
+    updatedAt: d.integer({ mode: "timestamp" }),
   }),
   (t) => [
-
-    index("users_email_idx").on(t.email),
+    uniqueIndex("users_email_unique_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
+    index("users_active_idx").on(t.isActive),
   ],
 );
 
@@ -111,15 +122,22 @@ export const verificationTokens = createTable(
 export const userActivities = createTable(
   "user_activity",
   (d) => ({
-    id: d.integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
+    id: d
+      .text({ length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => randomUUID()),
     userId: d
       .text({ length: 255 })
       .notNull()
-      .references(() => users.id),
-
-    activityType: d.text({ length: 50 }).notNull(),
-
+      .references(() => users.id, { onDelete: "cascade" }),
+    activityType: d
+      .text({ length: 50 })
+      .$type<UserActivityType>()
+      .notNull(),
     metadata: d.text(),
+    ipAddress: d.text({ length: 45 }),
+    userAgent: d.text({ length: 500 }),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(strftime('%s', 'now'))`)
@@ -128,6 +146,13 @@ export const userActivities = createTable(
   (t) => [
     index("user_activity_user_id_idx").on(t.userId),
     index("user_activity_type_idx").on(t.activityType),
+    index("user_activity_created_at_idx").on(t.createdAt),
+    index("user_activity_type_created_user_idx").on(
+      t.activityType,
+      t.createdAt,
+      t.userId,
+    ),
+    index("user_activity_user_created_idx").on(t.userId, t.createdAt),
   ],
 );
 
@@ -162,6 +187,7 @@ export const impersonationSessions = createTable(
     endedAt: d.integer({ mode: "timestamp" }),
 
     isActive: d.integer({ mode: "boolean" }).default(true).notNull(),
+    activeAdminSessionKey: d.text({ length: 255 }),
 
     sessionToken: d.text({ length: 255 }),
     ipAddress: d.text({ length: 45 }),
@@ -174,6 +200,11 @@ export const impersonationSessions = createTable(
     index("impersonation_target_user_idx").on(t.targetUserId),
     index("impersonation_active_idx").on(t.isActive),
     index("impersonation_started_at_idx").on(t.startedAt),
+    index("impersonation_admin_started_idx").on(t.adminUserId, t.startedAt),
+    index("impersonation_target_started_idx").on(t.targetUserId, t.startedAt),
+    uniqueIndex("impersonation_active_admin_key_idx").on(
+      t.activeAdminSessionKey,
+    ),
   ],
 );
 
@@ -283,6 +314,11 @@ export const patients = createTable(
     index("virtual_patient_created_at_idx").on(t.createdAt),
     index("virtual_patient_name_idx").on(t.name),
     index("virtual_patient_external_id_idx").on(t.externalPatientId),
+    index("virtual_patient_active_difficulty_name_idx").on(
+      t.isActive,
+      t.difficulty,
+      t.name,
+    ),
   ],
 );
 
@@ -310,6 +346,8 @@ export const therapySessions = createTable(
       .references(() => patients.id),
     sessionNumber: d.integer({ mode: "number" }).default(1).notNull(),
     isCompleted: d.integer({ mode: "boolean" }).default(false).notNull(),
+    externalPatientId: d.text({ length: 255 }),
+    activePatientSessionKey: d.text({ length: 255 }),
     createdAt: d
       .integer({ mode: "timestamp" })
       .default(sql`(strftime('%s', 'now'))`)
@@ -321,7 +359,14 @@ export const therapySessions = createTable(
     index("therapy_session_patient_idx").on(t.patientId),
     index("therapy_session_updated_at_idx").on(t.updatedAt),
     index("therapy_session_completed_idx").on(t.isCompleted),
-    uniqueIndex("therapy_session_user_patient_idx").on(t.userId, t.patientId),
+    index("therapy_session_user_patient_created_idx").on(
+      t.userId,
+      t.patientId,
+      t.createdAt,
+    ),
+    uniqueIndex("therapy_session_active_user_patient_idx").on(
+      t.activePatientSessionKey,
+    ),
   ],
 );
 
