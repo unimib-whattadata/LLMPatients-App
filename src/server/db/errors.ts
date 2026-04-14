@@ -91,6 +91,21 @@ export function isDatabaseLockedError(error: unknown): boolean {
   );
 }
 
+export function isSchemaOutOfDateError(error: unknown): boolean {
+  const message = getDbErrorMessage(error).toLowerCase();
+  const code = getDbErrorCode(error);
+
+  return (
+    code === "42P01" ||
+    code === "42703" ||
+    message.includes("no such table") ||
+    message.includes("no such column") ||
+    message.includes("has no column named") ||
+    message.includes("relation") && message.includes("does not exist") ||
+    message.includes("column") && message.includes("does not exist")
+  );
+}
+
 type RetryOptions = {
   maxAttempts?: number;
   initialDelayMs?: number;

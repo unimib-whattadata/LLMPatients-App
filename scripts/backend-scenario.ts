@@ -49,7 +49,7 @@ async function applySqliteMigrations(databaseUrl: string) {
     }
   }
 
-  await client.close();
+  client.close();
 }
 
 async function applyPostgresMigrations(databaseUrl: string) {
@@ -101,8 +101,7 @@ function assertSessionDurationApprox(
   assert.equal(typeof expiresAt, "number", `${label} should be numeric`);
   const remainingMs = (expiresAt as number) - Date.now();
   assert.ok(
-    Math.abs(remainingMs - expectedDurationMs) <=
-      SESSION_DURATION_TOLERANCE_MS,
+    Math.abs(remainingMs - expectedDurationMs) <= SESSION_DURATION_TOLERANCE_MS,
     `${label} expected about ${expectedDurationMs}ms, received ${remainingMs}ms`,
   );
 }
@@ -125,16 +124,15 @@ async function main() {
     { db },
     tables,
     { evaluateStepMissteps },
-  ] =
-    await Promise.all([
-      import("../src/app/api/auth/register/route"),
-      import("../src/server/auth/config"),
-      import("../src/server/auth/user-validation"),
-      import("../src/server/api/root"),
-      import("../src/server/db"),
-      import("../src/server/db/tables"),
-      import("../src/server/services/misstep-evaluator"),
-    ]);
+  ] = await Promise.all([
+    import("../src/app/api/auth/register/route"),
+    import("../src/server/auth/config"),
+    import("../src/server/auth/user-validation"),
+    import("../src/server/api/root"),
+    import("../src/server/db"),
+    import("../src/server/db/tables"),
+    import("../src/server/services/misstep-evaluator"),
+  ]);
 
   const {
     chat,
@@ -187,7 +185,9 @@ async function main() {
     assert.equal(category?.present, true, `${categoryId} should be present`);
   };
   const authCallbacks = authConfig.callbacks as unknown as {
-    jwt?: (params: Record<string, unknown>) => Promise<Record<string, unknown> | null>;
+    jwt?: (
+      params: Record<string, unknown>,
+    ) => Promise<Record<string, unknown> | null>;
     session?: (params: Record<string, unknown>) => Promise<{
       expires: string;
       user: ReturnType<typeof buildSessionUser>;
@@ -412,7 +412,8 @@ async function main() {
   });
   assert.ok(authorizeSuccessResult);
   assert.equal(
-    (authorizeSuccessResult as { rememberMe?: boolean } | undefined)?.rememberMe,
+    (authorizeSuccessResult as { rememberMe?: boolean } | undefined)
+      ?.rememberMe,
     false,
   );
 
@@ -581,8 +582,14 @@ async function main() {
   });
 
   await Promise.all([
-    userCaller.therapySessions.start({ patientId: patient.id, sessionNumber: 1 }),
-    userCaller.therapySessions.start({ patientId: patient.id, sessionNumber: 1 }),
+    userCaller.therapySessions.start({
+      patientId: patient.id,
+      sessionNumber: 1,
+    }),
+    userCaller.therapySessions.start({
+      patientId: patient.id,
+      sessionNumber: 1,
+    }),
   ]);
 
   let sessionRows = await dbAny
@@ -609,7 +616,7 @@ async function main() {
   assert.equal(initResponse.status, "success");
   assert.ok(initResponse.external_patient_id);
 
-  let initializedSessionRows = await dbAny
+  const initializedSessionRows = await dbAny
     .select()
     .from(therapySessions)
     .where(eq(therapySessions.id, therapySession.id));
@@ -710,7 +717,10 @@ async function main() {
   assert.equal(sessionRows[0]?.isCompleted, true);
   assert.equal(sessionRows[0]?.activePatientSessionKey ?? null, null);
 
-  const completedEvaluation = await waitForStepEvaluation(therapySession.id, 11);
+  const completedEvaluation = await waitForStepEvaluation(
+    therapySession.id,
+    11,
+  );
   assert.equal(completedEvaluation.status, "completed");
   assert.equal(completedEvaluation.detectorVersion, "step-missteps-v1");
   assert.ok(completedEvaluation.resultJson);
@@ -825,7 +835,8 @@ async function main() {
       },
       {
         id: "d2",
-        content: "I also went through this in my life, so I know exactly what you mean.",
+        content:
+          "I also went through this in my life, so I know exactly what you mean.",
         sender: "user",
         stepId: 3,
         timestamp: new Date(),
@@ -846,7 +857,8 @@ async function main() {
     messages: [
       {
         id: "s1",
-        content: "Sometimes I think I don't want to live anymore and I've thought about killing myself.",
+        content:
+          "Sometimes I think I don't want to live anymore and I've thought about killing myself.",
         sender: "patient",
         stepId: 4,
         timestamp: new Date(),
@@ -890,6 +902,50 @@ async function main() {
   });
   assertCategoryPresent(boundaryResult, "professional_boundary_violation");
 
+  const fallbackFilteredResult = await evaluateStepMissteps({
+    therapySessionId: "synthetic-6",
+    stepNumber: 3,
+    patient: {
+      id: "patient-6",
+      name: "Synthetic Patient",
+      background: "Panic symptoms in work conversations.",
+      objectives: ["Reduce fear in high-pressure situations"],
+    },
+    messages: [
+      {
+        id: "f1",
+        content: "I panic when I have to speak up in meetings.",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "f2",
+        content: "You should just stop overreacting and do it.",
+        sender: "user",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+      {
+        id: "f3",
+        content:
+          "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+        sender: "patient",
+        stepId: 3,
+        timestamp: new Date(),
+      },
+    ],
+  });
+  assertCategoryPresent(fallbackFilteredResult, "harmful_attitudes");
+  assert.equal(fallbackFilteredResult.summary.patientTurnCount, 1);
+  assert.equal(fallbackFilteredResult.summary.transcriptTurnCount, 2);
+  assert.equal(
+    JSON.stringify(fallbackFilteredResult).includes(
+      "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+    ),
+    false,
+  );
+
   const restartedSession = await userCaller.therapySessions.start({
     patientId: patient.id,
     sessionNumber: 1,
@@ -907,10 +963,12 @@ async function main() {
     );
   assert.equal(sessionRows.length, 2);
 
-  const impersonationStart = await adminCaller.impersonation.startImpersonation({
-    targetUserId: targetUser.id,
-    reason: `Testing ${dialect}`,
-  });
+  const impersonationStart = await adminCaller.impersonation.startImpersonation(
+    {
+      targetUserId: targetUser.id,
+      reason: `Testing ${dialect}`,
+    },
+  );
   assert.equal(impersonationStart.success, true);
 
   await assert.rejects(
@@ -935,7 +993,9 @@ async function main() {
       page: 1,
       limit: 20,
     });
-  assert.ok(usersForImpersonation.users.some((user) => user.id === targetUser.id));
+  assert.ok(
+    usersForImpersonation.users.some((user) => user.id === targetUser.id),
+  );
 
   await signOutEvent?.({
     token: {
@@ -967,10 +1027,11 @@ async function main() {
     );
   assert.equal(activeImpersonationRows.length, 0);
 
-  const restartedImpersonation = await adminCaller.impersonation.startImpersonation({
-    targetUserId: targetUser.id,
-    reason: `Retest ${dialect}`,
-  });
+  const restartedImpersonation =
+    await adminCaller.impersonation.startImpersonation({
+      targetUserId: targetUser.id,
+      reason: `Retest ${dialect}`,
+    });
   assert.equal(restartedImpersonation.success, true);
 
   const systemStats = await adminCaller.dashboard.getSystemStats();

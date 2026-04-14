@@ -276,6 +276,10 @@ const WHITESPACE = /\s+/g;
 
 const THERAPIST = "user";
 const PATIENT = "patient";
+const DEFAULT_PATIENT_FALLBACK_MESSAGES = [
+  "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+  "I'm sorry, I'm not sure how to respond.",
+] as const;
 
 type StoredChatMessage = {
   id: string;
@@ -332,7 +336,11 @@ type HeuristicSummary = {
 let cachedGenAIClient: GoogleGenAI | null = null;
 
 function normalizeText(value: string): string {
-  return value.toLowerCase().replace(OMITTABLE_PUNCTUATION, " ").replace(WHITESPACE, " ").trim();
+  return value
+    .toLowerCase()
+    .replace(OMITTABLE_PUNCTUATION, " ")
+    .replace(WHITESPACE, " ")
+    .trim();
 }
 
 function countWords(value: string): number {
@@ -379,9 +387,7 @@ function therapistEvidence(
   turn: TherapistTurn,
   reason: string,
 ): MisstepEvidence {
-  const parts = [
-    `Therapist: ${truncateText(turn.message.content, 180)}`,
-  ];
+  const parts = [`Therapist: ${truncateText(turn.message.content, 180)}`];
 
   if (turn.afterPatient) {
     parts.push(`Patient: ${truncateText(turn.afterPatient.content, 140)}`);
@@ -395,7 +401,10 @@ function therapistEvidence(
   };
 }
 
-function patientEvidence(message: NormalizedMessage, reason: string): MisstepEvidence {
+function patientEvidence(
+  message: NormalizedMessage,
+  reason: string,
+): MisstepEvidence {
   return {
     excerpt: `Patient: ${truncateText(message.content, 220)}`,
     reason,
@@ -468,7 +477,8 @@ function buildTherapistTurns(messages: NormalizedMessage[]): TherapistTurn[] {
       const nextMessages = messages.slice(index + 1);
       const beforePatient =
         previousMessages.find((entry) => entry.sender === PATIENT) ?? null;
-      const afterPatient = nextMessages.find((entry) => entry.sender === PATIENT) ?? null;
+      const afterPatient =
+        nextMessages.find((entry) => entry.sender === PATIENT) ?? null;
 
       return {
         index,
@@ -506,7 +516,9 @@ function computeHeuristics(
     matchesAny(turn.message.content, CLOSED_QUESTION_PATTERNS),
   ).length;
   const openQuestionRatio =
-    therapistQuestions.length > 0 ? openQuestions / therapistQuestions.length : 0;
+    therapistQuestions.length > 0
+      ? openQuestions / therapistQuestions.length
+      : 0;
   const validationTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, VALIDATION_PATTERNS),
   );
@@ -578,7 +590,8 @@ function computeHeuristics(
     ) || /suicid/i.test(input.patient.diagnosis ?? "");
 
   const openingTherapistTurn = therapistTurns[0] ?? null;
-  const closingTherapistTurn = therapistTurns[therapistTurns.length - 1] ?? null;
+  const closingTherapistTurn =
+    therapistTurns[therapistTurns.length - 1] ?? null;
 
   const categories: Record<MisstepCategoryId, HeuristicCategory> = {
     alliance_failure: finalizeCategory(
@@ -650,7 +663,9 @@ function computeHeuristics(
       "premature_interpretation",
       interpretationTurns.reduce((total, turn) => {
         const priorPatientTurns = patientTurns.filter(
-          (message) => new Date(message.timestamp).getTime() <= new Date(turn.message.timestamp).getTime(),
+          (message) =>
+            new Date(message.timestamp).getTime() <=
+            new Date(turn.message.timestamp).getTime(),
         ).length;
         return total + (priorPatientTurns <= 1 ? 0.72 : 0.56);
       }, 0),
@@ -707,7 +722,8 @@ function computeHeuristics(
     ),
     missing_suicide_plan: finalizeCategory(
       "missing_suicide_plan",
-      (patientRiskTurns.length > 0 || patientProfileRisk) && safetyTurns.length === 0
+      (patientRiskTurns.length > 0 || patientProfileRisk) &&
+        safetyTurns.length === 0
         ? 0.92
         : 0,
       [
@@ -717,7 +733,9 @@ function computeHeuristics(
             "The patient disclosed a safety-relevant cue in this step.",
           ),
         ),
-        ...(closingTherapistTurn && (patientRiskTurns.length > 0 || patientProfileRisk) && safetyTurns.length === 0
+        ...(closingTherapistTurn &&
+        (patientRiskTurns.length > 0 || patientProfileRisk) &&
+        safetyTurns.length === 0
           ? [
               therapistEvidence(
                 closingTherapistTurn,
@@ -778,7 +796,9 @@ function computeHeuristics(
           NIHILISTIC_PATTERNS,
           "Therapist wording sounds hopeless or demotivating.",
         ),
-        ...(closingTherapistTurn && input.stepNumber >= 3 && hopeTurns.length === 0
+        ...(closingTherapistTurn &&
+        input.stepNumber >= 3 &&
+        hopeTurns.length === 0
           ? [
               therapistEvidence(
                 closingTherapistTurn,
@@ -843,7 +863,9 @@ function heuristicResultFromSummary(
     const heuristic = summary.categories[category.id];
     const present = heuristic.score >= 0.58;
     const confidence = roundToTwo(
-      present ? Math.max(heuristic.score, 0.58) : Math.max(0.55, 1 - heuristic.score),
+      present
+        ? Math.max(heuristic.score, 0.58)
+        : Math.max(0.55, 1 - heuristic.score),
     );
 
     return {
@@ -881,7 +903,8 @@ function buildEvaluationResult(input: {
     detectorVersion: MISSTEP_DETECTOR_VERSION,
     computedAt: new Date().toISOString(),
     summary: {
-      detectedCount: input.categories.filter((category) => category.present).length,
+      detectedCount: input.categories.filter((category) => category.present)
+        .length,
       highSeverityDetectedCount: input.categories.filter(
         (category) => category.present && category.severity === 3,
       ).length,
@@ -896,8 +919,25 @@ function buildEvaluationResult(input: {
 }
 
 function normalizeMessages(messages: StoredChatMessage[]): NormalizedMessage[] {
+  const ignoredPatientMessages = new Set(
+    DEFAULT_PATIENT_FALLBACK_MESSAGES.map((message) => normalizeText(message)),
+  );
+
   return messages
-    .filter((message) => message.content.trim().length > 0)
+    .filter((message) => {
+      if (message.content.trim().length === 0) {
+        return false;
+      }
+
+      if (
+        message.sender === PATIENT &&
+        ignoredPatientMessages.has(normalizeText(message.content))
+      ) {
+        return false;
+      }
+
+      return true;
+    })
     .map((message) => ({
       ...message,
       normalized: normalizeText(message.content),
@@ -915,7 +955,9 @@ function shouldUseHybridEvaluation(): boolean {
 
 function getGenAIClient(): GoogleGenAI {
   if (!env.GOOGLE_CLOUD_PROJECT) {
-    throw new Error("GOOGLE_CLOUD_PROJECT is required for Vertex AI evaluation");
+    throw new Error(
+      "GOOGLE_CLOUD_PROJECT is required for Vertex AI evaluation",
+    );
   }
 
   if (!cachedGenAIClient) {
@@ -937,8 +979,7 @@ function buildCandidateEvidenceText(summary: HeuristicSummary): string {
         ? "- none"
         : heuristic.evidence
             .map(
-              (item, index) =>
-                `${index + 1}. ${item.reason}\n${item.excerpt}`,
+              (item, index) => `${index + 1}. ${item.reason}\n${item.excerpt}`,
             )
             .join("\n");
 
@@ -1073,7 +1114,9 @@ function parseVertexResult(
 
   const categories = MISSTEP_CATEGORIES.map((category) => {
     const heuristic = summary.categories[category.id];
-    const fromModel = parsed.categories?.find((item) => item.id === category.id);
+    const fromModel = parsed.categories?.find(
+      (item) => item.id === category.id,
+    );
     const present =
       typeof fromModel?.present === "boolean"
         ? fromModel.present

@@ -1,23 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
   AlertTriangle,
   ArrowLeft,
-  Brain,
+  CheckCircle2,
+  ChevronDown,
   Loader2,
   RefreshCw,
   ShieldAlert,
+  Sparkles,
 } from "lucide-react";
 
 import {
+  getMisstepDefinition,
+  type MisstepCategoryResult,
   type StepMisstepEvaluationResult,
   type StepMisstepEvaluationStatus,
 } from "~/lib/missteps";
 import { SharedLayout } from "~/components/layout/SharedLayout";
-import { SessionLoading } from "~/components/common";
 import { Breadcrumb, Badge } from "~/components/ui";
 import { Button } from "~/components/ui/button";
 import {
@@ -27,6 +30,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { MisstepReportSkeleton } from "~/components/ui/skeleton-variants";
 import { DashboardPanel } from "~/components/dashboard/ui";
 import { api } from "~/trpc/react";
 import type { ImpersonationContext, User } from "~/types";
@@ -61,7 +65,25 @@ interface StepMisstepReportContentProps {
   impersonation?: ImpersonationContext | undefined;
 }
 
+interface CompactMetricProps {
+  label: string;
+  value: string;
+  hint: string;
+  valueClassName?: string;
+}
+
+type EvidenceSpeaker = "user" | "patient" | "transcript";
+
+type EvidenceTurn = {
+  speaker: EvidenceSpeaker;
+  content: string;
+};
+
 function formatConfidence(value: number) {
+  return `${Math.round(value * 100)}%`;
+}
+
+function formatPercent(value: number) {
   return `${Math.round(value * 100)}%`;
 }
 
@@ -71,8 +93,277 @@ function getSeverityVariant(severity: number) {
   return "secondary";
 }
 
+function getSeverityLabel(severity: number) {
+  if (severity >= 3) return "Critical";
+  if (severity === 2) return "Elevated";
+  return "Baseline";
+}
+
 function formatAnalysisMode(value: "hybrid" | "heuristic") {
   return value === "hybrid" ? "Hybrid" : "Heuristic";
+}
+
+function formatTimestamp(value: Date | string | null | undefined) {
+  if (!value) return "Unavailable";
+
+  const date = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(date.getTime())) return "Unavailable";
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
+function getQuestionStyleLabel(openQuestionRatio: number) {
+  if (openQuestionRatio >= 0.7) return "Exploratory";
+  if (openQuestionRatio >= 0.45) return "Mixed";
+  return "Directive";
+}
+
+function getTalkShareLabel(therapistTalkShare: number) {
+  if (therapistTalkShare >= 0.62) return "Therapist-heavy";
+  if (therapistTalkShare <= 0.38) return "Patient-led";
+  return "Balanced";
+}
+
+function getDetectedCategoryAccent(category: MisstepCategoryResult) {
+  if (category.severity >= 3) {
+    return {
+      panelClass:
+        "border border-rose-500/30 bg-rose-500/5 shadow-sm shadow-rose-500/10",
+    };
+  }
+
+  if (category.severity === 2) {
+    return {
+      panelClass:
+        "border border-amber-500/30 bg-amber-500/5 shadow-sm shadow-amber-500/10",
+    };
+  }
+
+  return {
+    panelClass:
+      "border border-yellow-500/25 bg-yellow-500/5 shadow-sm shadow-yellow-500/10",
+  };
+}
+
+function CompactMetric({
+  label,
+  value,
+  hint,
+  valueClassName,
+}: CompactMetricProps) {
+  return (
+    <div className="border-border/60 bg-background/45 rounded-2xl border p-4">
+      <p className="text-muted-foreground text-[0.72rem] font-medium tracking-[0.18em] uppercase">
+        {label}
+      </p>
+      <p
+        className={`mt-3 text-2xl font-semibold ${valueClassName ?? "text-foreground"}`}
+      >
+        {value}
+      </p>
+      <p className="text-muted-foreground mt-1 text-sm">{hint}</p>
+    </div>
+  );
+}
+
+function parseEvidenceTurns(
+  excerpt: string,
+  speaker?: "user" | "patient",
+): EvidenceTurn[] {
+  const normalizedLines = excerpt
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const turns: EvidenceTurn[] = [];
+  let currentTurn: EvidenceTurn | null = null;
+
+  for (const line of normalizedLines) {
+    const therapistMatch = line.match(/^Therapist:\s*(.*)$/i);
+    if (therapistMatch) {
+      if (currentTurn) {
+        turns.push(currentTurn);
+      }
+
+      currentTurn = {
+        speaker: "user",
+        content: therapistMatch[1]?.trim() ?? "",
+      };
+      continue;
+    }
+
+    const patientMatch = line.match(/^Patient:\s*(.*)$/i);
+    if (patientMatch) {
+      if (currentTurn) {
+        turns.push(currentTurn);
+      }
+
+      currentTurn = {
+        speaker: "patient",
+        content: patientMatch[1]?.trim() ?? "",
+      };
+      continue;
+    }
+
+    if (currentTurn) {
+      currentTurn.content = `${currentTurn.content}\n${line}`.trim();
+      continue;
+    }
+
+    currentTurn = {
+      speaker: speaker ?? "transcript",
+      content: line,
+    };
+  }
+
+  if (currentTurn) {
+    turns.push(currentTurn);
+  }
+
+  return turns.filter((turn) => turn.content.trim().length > 0);
+}
+
+function formatEvidenceSpeakerLabel(speaker: EvidenceSpeaker) {
+  if (speaker === "user") return "Therapist";
+  if (speaker === "patient") return "Patient";
+  return "Transcript";
+}
+
+function EvidenceSnippetChat({
+  excerpt,
+  reason,
+  speaker,
+}: {
+  excerpt: string;
+  reason: string;
+  speaker?: "user" | "patient";
+}) {
+  const turns = parseEvidenceTurns(excerpt, speaker);
+
+  return (
+    <div className="space-y-3">
+      <p className="text-muted-foreground text-xs">{reason}</p>
+
+      <div className="space-y-3">
+        {turns.map((turn, index) => {
+          const isTherapist = turn.speaker === "user";
+          const isPatient = turn.speaker === "patient";
+          const alignmentClass = isTherapist ? "justify-end" : "justify-start";
+          const rowDirectionClass = isTherapist
+            ? "flex-row-reverse space-x-reverse"
+            : "flex-row";
+          const bubbleToneClass = isPatient
+            ? "chat-bubble--patient text-white"
+            : isTherapist
+              ? "chat-bubble--user text-white"
+              : "border border-border bg-card text-foreground";
+
+          return (
+            <div
+              key={`${turn.speaker}-${index}`}
+              className={`flex ${alignmentClass}`}
+            >
+              <div className={`flex max-w-2xl space-x-3 ${rowDirectionClass}`}>
+                <div className="max-w-xs min-w-0 space-y-2 sm:max-w-sm">
+                  <div
+                    className={`flex flex-wrap items-center gap-2 ${isTherapist ? "justify-end" : "justify-start"}`}
+                  >
+                    <Badge
+                      variant="outline"
+                      className="px-2 py-0.5 text-[0.68rem]"
+                    >
+                      {formatEvidenceSpeakerLabel(turn.speaker)}
+                    </Badge>
+                  </div>
+
+                  <div
+                    className={`flex items-start gap-2 rounded-lg px-3 py-2 sm:px-4 sm:py-3 ${bubbleToneClass}`}
+                  >
+                    <p className="text-body flex-1 text-sm break-words whitespace-pre-wrap sm:text-base">
+                      {turn.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function MisstepCategoryCard({
+  category,
+}: {
+  category: MisstepCategoryResult;
+}) {
+  const accent = getDetectedCategoryAccent(category);
+  const categoryDefinition = getMisstepDefinition(category.id);
+
+  return (
+    <Card className={accent.panelClass}>
+      <CardHeader className="gap-3 pb-4">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-2">
+            <CardTitle className="text-base leading-6">
+              {categoryDefinition.label}
+            </CardTitle>
+            <CardDescription className="max-w-2xl leading-6">
+              {categoryDefinition.definition}
+            </CardDescription>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Badge
+              variant={getSeverityVariant(category.severity)}
+              className="px-3 py-1"
+            >
+              {getSeverityLabel(category.severity)}
+            </Badge>
+            <Badge variant="outline" className="px-3 py-1">
+              Confidence {formatConfidence(category.confidence)}
+            </Badge>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {category.evidence.length > 0 ? (
+          <details className="group border-border/60 bg-background/65 rounded-2xl border p-4">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+              <div>
+                <span className="text-foreground text-sm font-medium">
+                  Evidence snippets
+                </span>
+                <span className="text-muted-foreground ml-2 text-xs">
+                  {category.evidence.length} retained
+                </span>
+              </div>
+              <ChevronDown className="text-muted-foreground h-4 w-4 transition-transform group-open:rotate-180" />
+            </summary>
+
+            <div className="mt-5 space-y-5">
+              {category.evidence.map((evidence, index) => (
+                <EvidenceSnippetChat
+                  key={`${category.id}-${index}`}
+                  excerpt={evidence.excerpt}
+                  reason={evidence.reason}
+                  speaker={evidence.speaker}
+                />
+              ))}
+            </div>
+          </details>
+        ) : (
+          <div className="border-border/60 bg-background/40 text-muted-foreground rounded-2xl border border-dashed p-4 text-sm leading-6">
+            The detector flagged this category, but it did not retain a compact
+            excerpt.
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
 }
 
 export function StepMisstepReportContent({
@@ -80,7 +371,6 @@ export function StepMisstepReportContent({
   impersonation,
 }: StepMisstepReportContentProps) {
   const params = useParams();
-  const router = useRouter();
   const utils = api.useUtils();
 
   const therapySessionId = params.sessionId as string;
@@ -97,13 +387,11 @@ export function StepMisstepReportContent({
 
   const typedTherapySession = therapySession as TherapySessionData | undefined;
 
-  const {
-    data: patient,
-    isLoading: patientLoading,
-  } = api.patients.getPatientById.useQuery(
-    { id: typedTherapySession?.patientId ?? "" },
-    { enabled: Boolean(typedTherapySession?.patientId) },
-  );
+  const { data: patient, isLoading: patientLoading } =
+    api.patients.getPatientById.useQuery(
+      { id: typedTherapySession?.patientId ?? "" },
+      { enabled: Boolean(typedTherapySession?.patientId) },
+    );
 
   const { data: chatStep, isLoading: chatStepLoading } =
     api.chat.getChatStep.useQuery(
@@ -127,22 +415,34 @@ export function StepMisstepReportContent({
     },
   });
 
-  const { data: evaluation, isLoading: evaluationLoading } =
-    api.stepEvaluations.getByStep.useQuery(
-      {
-        therapySessionId,
-        stepNumber: stepId,
+  const {
+    data: evaluation,
+    isLoading: evaluationLoading,
+    error: evaluationError,
+  } = api.stepEvaluations.getByStep.useQuery(
+    {
+      therapySessionId,
+      stepNumber: stepId,
+    },
+    {
+      enabled: Boolean(therapySessionId && stepId && isStepCompleted),
+      retry: (failureCount, error) => {
+        if (error.message.toLowerCase().includes("latest database migration")) {
+          return false;
+        }
+
+        return failureCount < 3;
       },
-      {
-        enabled: Boolean(therapySessionId && stepId && isStepCompleted),
-        refetchInterval: (query) => {
-          const data = query.state.data as StepEvaluationData | null | undefined;
-          return data?.status === "processing" ? 2500 : false;
-        },
+      refetchInterval: (query) => {
+        const data = query.state.data as StepEvaluationData | null | undefined;
+        return data?.status === "processing" ? 2500 : false;
       },
-    );
+    },
+  );
 
   const typedEvaluation = evaluation as StepEvaluationData | null | undefined;
+  const loadErrorMessage =
+    evaluationError?.message ?? retryMutation.error?.message ?? null;
 
   useEffect(() => {
     if (!therapySessionId || !stepId || !isStepCompleted || autoQueued) {
@@ -178,11 +478,57 @@ export function StepMisstepReportContent({
     [patientSlug, therapySessionId],
   );
 
+  const triggerReanalysis = () =>
+    retryMutation.mutate({
+      therapySessionId,
+      stepNumber: stepId,
+    });
+
   const isLoading =
     therapySessionLoading ||
     patientLoading ||
     chatStepLoading ||
     (isStepCompleted && evaluationLoading);
+
+  const isProcessing =
+    retryMutation.isPending ||
+    typedEvaluation?.status === "processing" ||
+    (!typedEvaluation && autoQueued && !retryMutation.isError);
+
+  const completedResult =
+    typedEvaluation?.status === "completed" ? typedEvaluation.result : null;
+
+  const sortedCategories = useMemo(() => {
+    if (!completedResult) {
+      return [];
+    }
+
+    return [...completedResult.categories].sort((left, right) => {
+      if (left.present !== right.present) {
+        return Number(right.present) - Number(left.present);
+      }
+
+      if (left.severity !== right.severity) {
+        return right.severity - left.severity;
+      }
+
+      if (left.confidence !== right.confidence) {
+        return right.confidence - left.confidence;
+      }
+
+      return left.label.localeCompare(right.label);
+    });
+  }, [completedResult]);
+
+  const detectedCategories = useMemo(
+    () => sortedCategories.filter((category) => category.present),
+    [sortedCategories],
+  );
+
+  const clearCategories = useMemo(
+    () => sortedCategories.filter((category) => !category.present),
+    [sortedCategories],
+  );
 
   if (isLoading) {
     return (
@@ -192,7 +538,7 @@ export function StepMisstepReportContent({
         layoutType="dashboard"
         currentPage="/dashboard/therapeutic-journey"
       >
-        <SessionLoading />
+        <MisstepReportSkeleton />
       </SharedLayout>
     );
   }
@@ -265,8 +611,8 @@ export function StepMisstepReportContent({
                   Step analysis not available yet
                 </h1>
                 <p className="dashboard-section__description">
-                  This page is available only after the current chat step has been
-                  marked as completed.
+                  This page is available only after the current chat step has
+                  been marked as completed.
                 </p>
               </div>
             </div>
@@ -281,11 +627,6 @@ export function StepMisstepReportContent({
       </SharedLayout>
     );
   }
-
-  const isProcessing =
-    retryMutation.isPending ||
-    typedEvaluation?.status === "processing" ||
-    (!typedEvaluation && autoQueued);
 
   return (
     <SharedLayout
@@ -319,7 +660,19 @@ export function StepMisstepReportContent({
                 profile only.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
+              <Button
+                variant="outline"
+                onClick={triggerReanalysis}
+                disabled={retryMutation.isPending || isProcessing}
+              >
+                {retryMutation.isPending || isProcessing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <RefreshCw className="h-4 w-4" />
+                )}
+                Re-run analysis
+              </Button>
               <Button asChild variant="outline">
                 <Link href={backToChatHref}>
                   <ArrowLeft className="h-4 w-4" />
@@ -335,14 +688,14 @@ export function StepMisstepReportContent({
           {isProcessing ? (
             <DashboardPanel className="p-8">
               <div className="flex flex-col items-center justify-center gap-4 text-center">
-                <div className="rounded-full bg-primary/10 p-4">
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                <div className="bg-primary/10 rounded-full p-4">
+                  <Loader2 className="text-primary h-8 w-8 animate-spin" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold text-foreground">
+                  <h2 className="text-foreground text-xl font-semibold">
                     Analysis in progress
                   </h2>
-                  <p className="mt-2 max-w-2xl text-muted-foreground">
+                  <p className="text-muted-foreground mt-2 max-w-2xl">
                     The step has already been completed. We are generating the
                     misstep report and this page will refresh automatically.
                   </p>
@@ -366,17 +719,12 @@ export function StepMisstepReportContent({
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground">
+                <p className="text-muted-foreground text-sm">
                   {typedEvaluation.errorMessage ??
                     "An unexpected error interrupted the analysis pipeline."}
                 </p>
                 <Button
-                  onClick={() =>
-                    retryMutation.mutate({
-                      therapySessionId,
-                      stepNumber: stepId,
-                    })
-                  }
+                  onClick={triggerReanalysis}
                   disabled={retryMutation.isPending}
                 >
                   {retryMutation.isPending ? (
@@ -390,131 +738,219 @@ export function StepMisstepReportContent({
             </Card>
           ) : null}
 
-          {typedEvaluation?.status === "completed" && typedEvaluation.result ? (
-            <>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardDescription>Detected missteps</CardDescription>
-                    <CardTitle className="text-3xl">
-                      {typedEvaluation.result.summary.detectedCount}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardDescription>High severity</CardDescription>
-                    <CardTitle className="text-3xl">
-                      {typedEvaluation.result.summary.highSeverityDetectedCount}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardDescription>Analysis mode</CardDescription>
-                    <CardTitle className="text-2xl">
-                      {formatAnalysisMode(typedEvaluation.result.analysisMode)}
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardDescription>Question style</CardDescription>
-                    <CardTitle className="text-2xl">
-                      {Math.round(
-                        typedEvaluation.result.summary.openQuestionRatio * 100,
-                      )}
-                      %
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
-              </div>
+          {loadErrorMessage ? (
+            <Card className="border-red-500/30 bg-red-500/5">
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <ShieldAlert className="h-5 w-5 text-red-400" />
+                  <div>
+                    <CardTitle>Unable to load analysis</CardTitle>
+                    <CardDescription>
+                      The report request did not complete successfully.
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-muted-foreground text-sm">
+                  {loadErrorMessage}
+                </p>
+                <Button
+                  onClick={triggerReanalysis}
+                  disabled={retryMutation.isPending}
+                >
+                  {retryMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-4 w-4" />
+                  )}
+                  Retry analysis
+                </Button>
+              </CardContent>
+            </Card>
+          ) : null}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Step-level summary</CardTitle>
-                  <CardDescription>
-                    Therapist turns:{" "}
-                    {typedEvaluation.result.summary.therapistTurnCount} | Patient
-                    turns: {typedEvaluation.result.summary.patientTurnCount} |
-                    Therapist talk share:{" "}
-                    {Math.round(
-                      typedEvaluation.result.summary.therapistTalkShare * 100,
-                    )}
-                    %
-                  </CardDescription>
+          {typedEvaluation?.status === "completed" && completedResult ? (
+            <>
+              <Card className="border-border/60 border shadow-sm">
+                <CardHeader className="gap-4">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Badge
+                      variant="outline"
+                      className="border-border/60 bg-background/60 px-3 py-1"
+                    >
+                      Step {stepId}
+                    </Badge>
+                    <Badge
+                      variant={
+                        completedResult.summary.detectedCount > 0
+                          ? "warning"
+                          : "success"
+                      }
+                      className="px-3 py-1"
+                    >
+                      {completedResult.summary.detectedCount > 0
+                        ? "Review recommended"
+                        : "No issues flagged"}
+                    </Badge>
+                    <Badge
+                      variant="outline"
+                      className="border-border/60 bg-background/60 px-3 py-1"
+                    >
+                      {formatAnalysisMode(completedResult.analysisMode)}
+                    </Badge>
+                  </div>
+
+                  <div className="space-y-2">
+                    <CardTitle className="text-2xl">Step summary</CardTitle>
+                  </div>
                 </CardHeader>
+
+                <CardContent className="space-y-4">
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    <CompactMetric
+                      label="Flagged"
+                      value={`${completedResult.summary.detectedCount}`}
+                      hint="Needs review"
+                      valueClassName={
+                        completedResult.summary.detectedCount > 0
+                          ? "text-foreground"
+                          : "text-emerald-300"
+                      }
+                    />
+                    <CompactMetric
+                      label="Critical"
+                      value={`${completedResult.summary.highSeverityDetectedCount}`}
+                      hint="Safety or boundary risk"
+                      valueClassName={
+                        completedResult.summary.highSeverityDetectedCount > 0
+                          ? "text-rose-200"
+                          : "text-foreground"
+                      }
+                    />
+                    <CompactMetric
+                      label="Open questions"
+                      value={formatPercent(
+                        completedResult.summary.openQuestionRatio,
+                      )}
+                      hint={getQuestionStyleLabel(
+                        completedResult.summary.openQuestionRatio,
+                      )}
+                    />
+                    <CompactMetric
+                      label="Talk share"
+                      value={formatPercent(
+                        completedResult.summary.therapistTalkShare,
+                      )}
+                      hint={getTalkShareLabel(
+                        completedResult.summary.therapistTalkShare,
+                      )}
+                    />
+                  </div>
+
+                  <div className="border-border/60 bg-background/40 text-muted-foreground mt-1 flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border px-4 py-3 text-sm">
+                    <span>
+                      Analyzed{" "}
+                      {formatTimestamp(
+                        typedEvaluation.analyzedAt ??
+                          completedResult.computedAt,
+                      )}
+                    </span>
+                    <span>
+                      {completedResult.summary.therapistTurnCount} therapist
+                      turns
+                    </span>
+                    <span>
+                      {completedResult.summary.patientTurnCount} patient turns
+                    </span>
+                    <span>
+                      {completedResult.modelName
+                        ? completedResult.modelName
+                        : "Heuristic only"}
+                    </span>
+                  </div>
+                </CardContent>
               </Card>
 
-              <div className="grid grid-cols-1 gap-4">
-                {typedEvaluation.result.categories.map((category) => (
-                  <Card key={category.id}>
-                    <CardHeader className="gap-3">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div>
-                          <CardTitle className="text-lg">
-                            {category.label}
-                          </CardTitle>
-                          <CardDescription>{category.definition}</CardDescription>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                          <Badge
-                            variant={
-                              category.present ? "destructive" : "success"
-                            }
-                          >
-                            {category.present ? "Detected" : "Not detected"}
-                          </Badge>
-                          <Badge variant={getSeverityVariant(category.severity)}>
-                            Severity {category.severity}
-                          </Badge>
-                          <Badge variant="outline">
-                            Confidence {formatConfidence(category.confidence)}
-                          </Badge>
-                        </div>
+              <div className="space-y-4">
+                <div className="flex flex-wrap items-end justify-between gap-3">
+                  <div>
+                    <h2 className="text-foreground text-xl font-semibold">
+                      Detected missteps
+                    </h2>
+                    <p className="text-muted-foreground mt-1 text-sm">
+                      Showing only the categories that were flagged.
+                    </p>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="border-border/60 px-3 py-1"
+                  >
+                    {detectedCategories.length} flagged
+                  </Badge>
+                </div>
+
+                {detectedCategories.length > 0 ? (
+                  <div className="space-y-4">
+                    {detectedCategories.map((category) => (
+                      <MisstepCategoryCard
+                        key={category.id}
+                        category={category}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <DashboardPanel className="border border-emerald-500/20 bg-emerald-500/5 p-8 text-center">
+                    <div className="mx-auto max-w-2xl space-y-3">
+                      <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
+                        <CheckCircle2 className="h-6 w-6" />
                       </div>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {category.evidence.length > 0 ? (
-                        <details className="rounded-lg border border-border/60 bg-muted/20 p-4">
-                          <summary className="cursor-pointer list-none font-medium text-foreground">
-                            Evidence ({category.evidence.length})
-                          </summary>
-                          <div className="mt-4 space-y-3">
-                            {category.evidence.map((evidence, index) => (
-                              <div
-                                key={`${category.id}-${index}`}
-                                className="rounded-md border border-border/50 bg-background/80 p-3"
-                              >
-                                <p className="text-sm font-medium text-foreground">
-                                  {evidence.reason}
-                                </p>
-                                <pre className="mt-2 whitespace-pre-wrap break-words font-sans text-sm text-muted-foreground">
-                                  {evidence.excerpt}
-                                </pre>
-                              </div>
-                            ))}
-                          </div>
-                        </details>
-                      ) : (
-                        <div className="rounded-lg border border-dashed border-border/60 p-4 text-sm text-muted-foreground">
-                          {category.present
-                            ? "The detector flagged this category without a compact evidence excerpt."
-                            : "No supporting evidence was retained for this category."}
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
+                      <h3 className="text-foreground text-lg font-semibold">
+                        No detected missteps
+                      </h3>
+                      <p className="text-muted-foreground text-sm leading-6">
+                        The detector did not flag any category in this step.
+                      </p>
+                    </div>
+                  </DashboardPanel>
+                )}
               </div>
 
-              <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                <Brain className="h-4 w-4" />
+              {clearCategories.length > 0 ? (
+                <details className="group border-border/60 bg-card/70 rounded-2xl border p-4">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
+                    <div>
+                      <span className="text-foreground text-sm font-medium">
+                        Clear categories
+                      </span>
+                      <span className="text-muted-foreground ml-2 text-xs">
+                        {clearCategories.length} screened with no issue
+                      </span>
+                    </div>
+                    <ChevronDown className="text-muted-foreground h-4 w-4 transition-transform group-open:rotate-180" />
+                  </summary>
+
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {clearCategories.map((category) => (
+                      <Badge
+                        key={category.id}
+                        variant="outline"
+                        className="border-border/60 bg-background/40 px-3 py-1"
+                      >
+                        {getMisstepDefinition(category.id).label}
+                      </Badge>
+                    ))}
+                  </div>
+                </details>
+              ) : null}
+
+              <div className="border-border/60 bg-card/80 text-muted-foreground flex flex-wrap items-center gap-3 rounded-2xl border px-4 py-3 text-sm">
+                <Sparkles className="text-primary h-4 w-4" />
                 <span>
-                  Detector version: {typedEvaluation.detectorVersion}
-                  {typedEvaluation.result.modelName
-                    ? ` | Model: ${typedEvaluation.result.modelName}`
-                    : ""}
+                  Detector version {typedEvaluation.detectorVersion}
+                  {completedResult.modelName
+                    ? ` using ${completedResult.modelName}`
+                    : " with heuristic-only scoring"}
                 </span>
               </div>
             </>
@@ -522,11 +958,12 @@ export function StepMisstepReportContent({
 
           {!isProcessing &&
           !typedEvaluation &&
-          !retryMutation.isPending ? (
+          !retryMutation.isPending &&
+          !loadErrorMessage ? (
             <Card>
               <CardHeader>
                 <div className="flex items-center gap-3">
-                  <AlertTriangle className="h-5 w-5 text-primary-yellow" />
+                  <AlertTriangle className="text-primary-yellow h-5 w-5" />
                   <div>
                     <CardTitle>No analysis found yet</CardTitle>
                     <CardDescription>
@@ -536,14 +973,7 @@ export function StepMisstepReportContent({
                 </div>
               </CardHeader>
               <CardContent>
-                <Button
-                  onClick={() =>
-                    retryMutation.mutate({
-                      therapySessionId,
-                      stepNumber: stepId,
-                    })
-                  }
-                >
+                <Button onClick={triggerReanalysis}>
                   <RefreshCw className="h-4 w-4" />
                   Generate analysis
                 </Button>
