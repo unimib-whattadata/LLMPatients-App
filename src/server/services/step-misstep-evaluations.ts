@@ -1,6 +1,5 @@
 import { and, eq } from "drizzle-orm";
 
-import { env } from "~/env";
 import {
   MISSTEP_DETECTOR_VERSION,
   type StepMisstepEvaluationResult,
@@ -23,7 +22,7 @@ type StepEvaluationRow = {
   therapySessionId: string;
   stepNumber: number;
   status: "processing" | "completed" | "failed";
-  analysisMode: "hybrid" | "heuristic";
+  analysisMode: "vertex";
   modelName: string | null;
   detectorVersion: string;
   resultJson: string | null;
@@ -63,7 +62,7 @@ function parseStepEvaluation(row: StepEvaluationRow): ParsedStepEvaluation {
 }
 
 function currentRequestedMode() {
-  return env.MISSTEP_ANALYSIS_MODE;
+  return "vertex" as const;
 }
 
 export async function getStepEvaluationByStep(

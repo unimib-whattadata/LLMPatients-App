@@ -11,11 +11,9 @@ import {
   Loader2,
   RefreshCw,
   ShieldAlert,
-  Sparkles,
 } from "lucide-react";
 
 import {
-  getMisstepDefinition,
   type MisstepCategoryResult,
   type StepMisstepEvaluationResult,
   type StepMisstepEvaluationStatus,
@@ -52,7 +50,7 @@ type ChatStepData = {
 type StepEvaluationData = {
   id: string;
   status: StepMisstepEvaluationStatus;
-  analysisMode: "hybrid" | "heuristic";
+  analysisMode: "vertex";
   modelName: string | null;
   detectorVersion: string;
   errorMessage: string | null;
@@ -79,6 +77,12 @@ type EvidenceTurn = {
   content: string;
 };
 
+const HIDDEN_MISSTEP_CATEGORY_IDS = new Set([
+  "therapist_seductiveness",
+  "inappropriate_self_disclosure",
+  "unmanaged_countertransference",
+]);
+
 function formatConfidence(value: number) {
   return `${Math.round(value * 100)}%`;
 }
@@ -97,10 +101,6 @@ function getSeverityLabel(severity: number) {
   if (severity >= 3) return "Critical";
   if (severity === 2) return "Elevated";
   return "Baseline";
-}
-
-function formatAnalysisMode(value: "hybrid" | "heuristic") {
-  return value === "hybrid" ? "Hybrid" : "Heuristic";
 }
 
 function formatTimestamp(value: Date | string | null | undefined) {
@@ -226,12 +226,6 @@ function parseEvidenceTurns(
   return turns.filter((turn) => turn.content.trim().length > 0);
 }
 
-function formatEvidenceSpeakerLabel(speaker: EvidenceSpeaker) {
-  if (speaker === "user") return "Therapist";
-  if (speaker === "patient") return "Patient";
-  return "Transcript";
-}
-
 function EvidenceSnippetChat({
   excerpt,
   reason,
@@ -269,17 +263,6 @@ function EvidenceSnippetChat({
               <div className={`flex max-w-2xl space-x-3 ${rowDirectionClass}`}>
                 <div className="max-w-xs min-w-0 space-y-2 sm:max-w-sm">
                   <div
-                    className={`flex flex-wrap items-center gap-2 ${isTherapist ? "justify-end" : "justify-start"}`}
-                  >
-                    <Badge
-                      variant="outline"
-                      className="px-2 py-0.5 text-[0.68rem]"
-                    >
-                      {formatEvidenceSpeakerLabel(turn.speaker)}
-                    </Badge>
-                  </div>
-
-                  <div
                     className={`flex items-start gap-2 rounded-lg px-3 py-2 sm:px-4 sm:py-3 ${bubbleToneClass}`}
                   >
                     <p className="text-body flex-1 text-sm break-words whitespace-pre-wrap sm:text-base">
@@ -302,18 +285,15 @@ function MisstepCategoryCard({
   category: MisstepCategoryResult;
 }) {
   const accent = getDetectedCategoryAccent(category);
-  const categoryDefinition = getMisstepDefinition(category.id);
 
   return (
     <Card className={accent.panelClass}>
       <CardHeader className="gap-3 pb-4">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-2">
-            <CardTitle className="text-base leading-6">
-              {categoryDefinition.label}
-            </CardTitle>
+            <CardTitle className="text-base leading-6">{category.label}</CardTitle>
             <CardDescription className="max-w-2xl leading-6">
-              {categoryDefinition.definition}
+              {category.definition}
             </CardDescription>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -503,21 +483,23 @@ export function StepMisstepReportContent({
       return [];
     }
 
-    return [...completedResult.categories].sort((left, right) => {
-      if (left.present !== right.present) {
-        return Number(right.present) - Number(left.present);
-      }
+    return [...completedResult.categories]
+      .filter((category) => !HIDDEN_MISSTEP_CATEGORY_IDS.has(category.id))
+      .sort((left, right) => {
+        if (left.present !== right.present) {
+          return Number(right.present) - Number(left.present);
+        }
 
-      if (left.severity !== right.severity) {
-        return right.severity - left.severity;
-      }
+        if (left.severity !== right.severity) {
+          return right.severity - left.severity;
+        }
 
-      if (left.confidence !== right.confidence) {
-        return right.confidence - left.confidence;
-      }
+        if (left.confidence !== right.confidence) {
+          return right.confidence - left.confidence;
+        }
 
-      return left.label.localeCompare(right.label);
-    });
+        return left.label.localeCompare(right.label);
+      });
   }, [completedResult]);
 
   const detectedCategories = useMemo(
@@ -529,6 +511,11 @@ export function StepMisstepReportContent({
     () => sortedCategories.filter((category) => !category.present),
     [sortedCategories],
   );
+
+  const detectedCount = detectedCategories.length;
+  const highSeverityDetectedCount = detectedCategories.filter(
+    (category) => category.severity === 3,
+  ).length;
 
   if (isLoading) {
     return (
@@ -673,15 +660,6 @@ export function StepMisstepReportContent({
                 )}
                 Re-run analysis
               </Button>
-              <Button asChild variant="outline">
-                <Link href={backToChatHref}>
-                  <ArrowLeft className="h-4 w-4" />
-                  Back to Chat
-                </Link>
-              </Button>
-              <Button asChild variant="outline">
-                <Link href={backToTimelineHref}>Back to Timeline</Link>
-              </Button>
             </div>
           </div>
 
@@ -775,30 +753,6 @@ export function StepMisstepReportContent({
               <Card className="border-border/60 border shadow-sm">
                 <CardHeader className="gap-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className="border-border/60 bg-background/60 px-3 py-1"
-                    >
-                      Step {stepId}
-                    </Badge>
-                    <Badge
-                      variant={
-                        completedResult.summary.detectedCount > 0
-                          ? "warning"
-                          : "success"
-                      }
-                      className="px-3 py-1"
-                    >
-                      {completedResult.summary.detectedCount > 0
-                        ? "Review recommended"
-                        : "No issues flagged"}
-                    </Badge>
-                    <Badge
-                      variant="outline"
-                      className="border-border/60 bg-background/60 px-3 py-1"
-                    >
-                      {formatAnalysisMode(completedResult.analysisMode)}
-                    </Badge>
                   </div>
 
                   <div className="space-y-2">
@@ -810,20 +764,20 @@ export function StepMisstepReportContent({
                   <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                     <CompactMetric
                       label="Flagged"
-                      value={`${completedResult.summary.detectedCount}`}
+                      value={`${detectedCount}`}
                       hint="Needs review"
                       valueClassName={
-                        completedResult.summary.detectedCount > 0
+                        detectedCount > 0
                           ? "text-foreground"
                           : "text-emerald-300"
                       }
                     />
                     <CompactMetric
                       label="Critical"
-                      value={`${completedResult.summary.highSeverityDetectedCount}`}
+                      value={`${highSeverityDetectedCount}`}
                       hint="Safety or boundary risk"
                       valueClassName={
-                        completedResult.summary.highSeverityDetectedCount > 0
+                        highSeverityDetectedCount > 0
                           ? "text-rose-200"
                           : "text-foreground"
                       }
@@ -866,13 +820,13 @@ export function StepMisstepReportContent({
                     <span>
                       {completedResult.modelName
                         ? completedResult.modelName
-                        : "Heuristic only"}
+                        : "Vertex AI"}
                     </span>
                   </div>
                 </CardContent>
               </Card>
 
-              <div className="space-y-4">
+              <div className="mt-6 space-y-4">
                 <div className="flex flex-wrap items-end justify-between gap-3">
                   <div>
                     <h2 className="text-foreground text-xl font-semibold">
@@ -917,7 +871,7 @@ export function StepMisstepReportContent({
               </div>
 
               {clearCategories.length > 0 ? (
-                <details className="group border-border/60 bg-card/70 rounded-2xl border p-4">
+                <details className="group border-border/60 bg-card/70 mt-4 rounded-2xl border p-4">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-3">
                     <div>
                       <span className="text-foreground text-sm font-medium">
@@ -937,22 +891,12 @@ export function StepMisstepReportContent({
                         variant="outline"
                         className="border-border/60 bg-background/40 px-3 py-1"
                       >
-                        {getMisstepDefinition(category.id).label}
+                        {category.label}
                       </Badge>
                     ))}
                   </div>
                 </details>
               ) : null}
-
-              <div className="border-border/60 bg-card/80 text-muted-foreground flex flex-wrap items-center gap-3 rounded-2xl border px-4 py-3 text-sm">
-                <Sparkles className="text-primary h-4 w-4" />
-                <span>
-                  Detector version {typedEvaluation.detectorVersion}
-                  {completedResult.modelName
-                    ? ` using ${completedResult.modelName}`
-                    : " with heuristic-only scoring"}
-                </span>
-              </div>
             </>
           ) : null}
 

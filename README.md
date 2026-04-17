@@ -46,9 +46,9 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 - **📅 Multi-session Continuity**: Long-term memory (RAG) that maintains narrative and clinical coherence across 11 distinct sessions.
 - **🗣️ Multimodal Interaction**: Support for text and voice chat (Text-to-Speech with Chatterbox/ElevenLabs and Speech-to-Text).
 - **📉 Adaptive Dynamics**: The patient reacts to student interventions (e.g., alliance ruptures, defenses) modifying their emotional state.
-- **🧪 Step-Level Misstep Analysis**: Every completed chat step can trigger an automatic misstep report with `Detected/Not detected`, confidence, and transcript evidence for 16 therapist misstep categories.
+- **🧪 Step-Level Misstep Analysis**: Every completed chat step can trigger an automatic misstep report with `Detected/Not detected`, confidence, and transcript evidence for 13 therapist misstep categories.
 - **📊 Detailed Reporting**: Analytical dashboards to track progress, view transcripts, export PDFs, and review automatic evaluations.
-- **☁️ Optional Vertex AI Judge**: The misstep detector works heuristically by default and can optionally refine results through Vertex AI structured-output judging.
+- **☁️ Vertex AI Misstep Judge**: The misstep detector uses Vertex AI structured-output judging for every completed step analysis.
 - **🔒 Privacy-First**: Architecture designed for local execution of TTS/STT models and support for local or remote LLMs.
 
 ## Demo
@@ -64,7 +64,7 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 - **Database**: SQLite (default, included) or PostgreSQL (via Docker).
 - **Python**: v3.10+ (required only if using local TTS modules like Chatterbox/VibeVoice).
 - **External patient service**: Optional remote API credentials if `API=remote`.
-- **Vertex AI**: Optional Google Cloud credentials if you want hybrid LLM judging for misstep analysis.
+- **Vertex AI**: Google Cloud credentials required for misstep analysis.
 
 ## Installation
 
@@ -119,18 +119,10 @@ Main environment variables in `.env`:
 | `TTS_PROVIDER` | Voice provider: `chatterbox`, `elevenlabs`, `vibevoice`, `none` | `none` |
 | `ELEVENLABS_API_KEY` | ElevenLabs API Key (if used) | - |
 | `NEXTAUTH_URL` | Optional stable public app URL | request host in dev |
-| `MISSTEP_ANALYSIS_MODE` | Misstep detector mode: `hybrid` or `heuristic` | `hybrid` |
 | `VERTEX_MODEL_ID` | Vertex/Gemini model used for structured judging | `gemini-2.5-flash` |
 | `GOOGLE_CLOUD_PROJECT` | GCP project for Vertex AI | - |
 | `GOOGLE_CLOUD_LOCATION` | Vertex AI location | `global` |
 | `GOOGLE_GENAI_USE_VERTEXAI` | Enable Vertex AI through `@google/genai` | `true` |
-
-### Misstep analysis modes
-
-- `heuristic`: use only the built-in detector based on transcript features and rules.
-- `hybrid`: run the heuristic detector first, then optionally refine results with a Vertex AI structured-output judge when Google Cloud is configured.
-
-If `MISSTEP_ANALYSIS_MODE=hybrid` but Vertex credentials are missing or the call fails, the app automatically falls back to `heuristic`.
 
 ### Environments
 - **Dev**: `NODE_ENV=development`
@@ -164,7 +156,7 @@ The project is built on **Next.js 15** (App Router) and T3 stack.
 - **Database**: Drizzle ORM (SQLite/Postgres).
 - **AI Core**:
     - `src/server/services/patient-response-generator.ts`: patient orchestration and remote/local chat generation.
-    - `src/server/services/misstep-evaluator.ts`: heuristic + optional Vertex AI misstep scoring for a single completed chat step.
+    - `src/server/services/misstep-evaluator.ts`: Vertex AI misstep scoring for a single completed chat step.
     - `src/server/services/step-misstep-evaluations.ts`: persistence, queueing, and retry logic for step evaluations.
     - `scripts/`: auxiliary scripts and backend scenario tests.
 

@@ -9,7 +9,7 @@ export const STEP_MISSTEP_EVALUATION_STATUSES = [
 export type StepMisstepEvaluationStatus =
   (typeof STEP_MISSTEP_EVALUATION_STATUSES)[number];
 
-export const STEP_MISSTEP_ANALYSIS_MODES = ["hybrid", "heuristic"] as const;
+export const STEP_MISSTEP_ANALYSIS_MODES = ["vertex"] as const;
 
 export type StepMisstepAnalysisMode =
   (typeof STEP_MISSTEP_ANALYSIS_MODES)[number];
@@ -72,20 +72,6 @@ export const MISSTEP_CATEGORIES = [
       "Failing to assess risk or establish a safety plan when relevant warning signs emerge.",
   },
   {
-    id: "unmanaged_countertransference",
-    label: "Unmanaged countertransference",
-    severity: 2,
-    definition:
-      "Therapist reactions that are unrecognized or unmanaged, leading to escalation or defensiveness.",
-  },
-  {
-    id: "therapist_seductiveness",
-    label: "Therapist seductiveness",
-    severity: 3,
-    definition:
-      "Seductive or suggestive behavior, including eroticizing the therapeutic setting.",
-  },
-  {
     id: "financial_boundary_issues",
     label: "Financial or fee boundary issues",
     severity: 2,
@@ -114,13 +100,6 @@ export const MISSTEP_CATEGORIES = [
       "Using shame, guilt, or fear as a motivational lever, even implicitly.",
   },
   {
-    id: "inappropriate_self_disclosure",
-    label: "Inappropriate self-disclosure",
-    severity: 2,
-    definition:
-      "Self-disclosure that is not clinically useful or shifts the focus away from the patient.",
-  },
-  {
     id: "professional_boundary_violation",
     label: "Professional boundary violations",
     severity: 3,
@@ -136,6 +115,7 @@ export type MisstepCategoryDefinition = (typeof MISSTEP_CATEGORIES)[number];
 export interface MisstepEvidence {
   excerpt: string;
   reason: string;
+  turnIds?: number[];
   messageId?: string;
   speaker?: "user" | "patient";
 }

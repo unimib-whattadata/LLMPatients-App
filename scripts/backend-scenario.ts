@@ -14,7 +14,6 @@ processEnv.AUTH_SECRET ??= "test-auth-secret-which-is-long-enough-12345";
 processEnv.NEXTAUTH_SECRET ??=
   "test-nextauth-secret-which-is-long-enough-12345";
 processEnv.API ??= "local";
-processEnv.MISSTEP_ANALYSIS_MODE ??= "heuristic";
 
 type Dialect = "sqlite" | "postgres";
 
@@ -815,35 +814,6 @@ async function main() {
     ],
   });
   assertCategoryPresent(harmfulResult, "harmful_attitudes");
-
-  const disclosureResult = await evaluateStepMissteps({
-    therapySessionId: "synthetic-3",
-    stepNumber: 3,
-    patient: {
-      id: "patient-3",
-      name: "Synthetic Patient",
-      background: "Difficulty trusting others.",
-      objectives: ["Build alliance"],
-    },
-    messages: [
-      {
-        id: "d1",
-        content: "I feel alone in this.",
-        sender: "patient",
-        stepId: 3,
-        timestamp: new Date(),
-      },
-      {
-        id: "d2",
-        content:
-          "I also went through this in my life, so I know exactly what you mean.",
-        sender: "user",
-        stepId: 3,
-        timestamp: new Date(),
-      },
-    ],
-  });
-  assertCategoryPresent(disclosureResult, "inappropriate_self_disclosure");
 
   const suicidePlanResult = await evaluateStepMissteps({
     therapySessionId: "synthetic-4",
