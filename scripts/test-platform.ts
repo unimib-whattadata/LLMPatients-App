@@ -759,6 +759,13 @@ class PermissionsChecker {
 class TTSChecker {
     static async check(): Promise<boolean> {
         Logger.section("🗣️  TTS Integration Check");
+        const configuredProvider = (process.env.TTS_PROVIDER || "none").trim().toLowerCase();
+
+        if (configuredProvider === "none") {
+            Logger.success("TTS_PROVIDER=none; skipping provider generation checks.");
+            return true;
+        }
+
         let allPassed = true;
 
         const scriptDir = FileSystemHelper.getFileLocation().scriptDir;
@@ -773,74 +780,82 @@ class TTSChecker {
             }
         }
 
-        // Check VibeVoice
-        Logger.info("Testing VibeVoice...");
-        const { VibeVoiceProvider } = await import("~/lib/tts/providers/vibevoice");
-        const vibeProvider = new VibeVoiceProvider();
+        const shouldTestVibeVoice = configuredProvider === "vibevoice";
+        const shouldTestChatterbox = configuredProvider === "chatterbox";
 
-        Logger.info("  Checking availability...");
-        const isVibeAvailable = await vibeProvider.isAvailable();
-        Logger.info(`  Is Available: ${isVibeAvailable}`);
+        if (!shouldTestVibeVoice && !shouldTestChatterbox) {
+            Logger.warning(`No diagnostic generation check is implemented for TTS_PROVIDER=${configuredProvider}.`);
+            return true;
+        }
 
-        if (isVibeAvailable) {
-            try {
-                Logger.info("  Generating audio...");
-                const buffer = await vibeProvider.generateAudio({
-                    text: "Hello, this is a test of VibeVoice integration.",
-                    patientName: "Test Patient",
-                    vibevoiceVoiceId: "David"
-                });
-                Logger.success(`  VibeVoice generated ${buffer.byteLength} bytes.`);
+        if (shouldTestVibeVoice) {
+            Logger.info("Testing VibeVoice...");
+            const { VibeVoiceProvider } = await import("~/lib/tts/providers/vibevoice");
+            const vibeProvider = new VibeVoiceProvider();
 
-                const filePath = join(outputDir, "vibevoice_test.mp3");
-                writeFileSync(filePath, Buffer.from(buffer));
-                Logger.success(`  Saved audio to ${filePath}`);
-            } catch (e: any) {
-                Logger.error(`  VibeVoice generation failed: ${e.message}`);
-                allPassed = false;
+            Logger.info("  Checking availability...");
+            const isVibeAvailable = await vibeProvider.isAvailable();
+            Logger.info(`  Is Available: ${isVibeAvailable}`);
+
+            if (isVibeAvailable) {
+                try {
+                    Logger.info("  Generating audio...");
+                    const buffer = await vibeProvider.generateAudio({
+                        text: "Hello, this is a test of VibeVoice integration.",
+                        patientName: "Test Patient",
+                        vibevoiceVoiceId: "David"
+                    });
+                    Logger.success(`  VibeVoice generated ${buffer.byteLength} bytes.`);
+
+                    const filePath = join(outputDir, "vibevoice_test.mp3");
+                    writeFileSync(filePath, Buffer.from(buffer));
+                    Logger.success(`  Saved audio to ${filePath}`);
+                } catch (e: any) {
+                    Logger.error(`  VibeVoice generation failed: ${e.message}`);
+                    allPassed = false;
+                }
+            } else {
+                Logger.warning("  VibeVoice not available, cannot test generation.");
             }
-        } else {
-            Logger.warning("  VibeVoice not available, cannot test generation.");
-        }
 
-        // Ensure bridge is stopped
-        if ('cleanup' in vibeProvider) {
-            (vibeProvider as any).cleanup();
-        }
-
-        Logger.info("-".repeat(20));
-
-        // Check Chatterbox
-        Logger.info("Testing Chatterbox...");
-        const { ChatterboxProvider } = await import("~/lib/tts/providers/chatterbox");
-        const chatterboxProvider = new ChatterboxProvider();
-
-        Logger.info("  Checking availability...");
-        const isChatterAvailable = await chatterboxProvider.isAvailable();
-        Logger.info(`  Is Available: ${isChatterAvailable}`);
-
-        if (isChatterAvailable) {
-            try {
-                Logger.info("  Generating audio (Default)...");
-                const buffer = await chatterboxProvider.generateAudio({
-                    text: "Hello, this is a test of Chatterbox Turbo integration.",
-                    patientName: "Test Patient"
-                });
-                const pathDefault = join(outputDir, "chatterbox_default.wav");
-                writeFileSync(pathDefault, Buffer.from(buffer));
-                Logger.success(`  Chatterbox (Default) saved to ${pathDefault} (${buffer.byteLength} bytes).`);
-
-            } catch (e: any) {
-                Logger.error(`  Chatterbox generation failed: ${e.message}`);
-                allPassed = false;
+            // Ensure bridge is stopped
+            if ('cleanup' in vibeProvider) {
+                (vibeProvider as any).cleanup();
             }
-        } else {
-            Logger.warning("  Chatterbox not available, cannot test generation.");
         }
 
-        // Ensure bridge is stopped
-        if ('cleanup' in chatterboxProvider) {
-            (chatterboxProvider as any).cleanup();
+        if (shouldTestChatterbox) {
+            Logger.info("Testing Chatterbox...");
+            const { ChatterboxProvider } = await import("~/lib/tts/providers/chatterbox");
+            const chatterboxProvider = new ChatterboxProvider();
+
+            Logger.info("  Checking availability...");
+            const isChatterAvailable = await chatterboxProvider.isAvailable();
+            Logger.info(`  Is Available: ${isChatterAvailable}`);
+
+            if (isChatterAvailable) {
+                try {
+                    Logger.info("  Generating audio (Default)...");
+                    const buffer = await chatterboxProvider.generateAudio({
+                        text: "Hello, this is a test of Chatterbox Turbo integration.",
+                        patientName: "Test Patient"
+                    });
+                    const pathDefault = join(outputDir, "chatterbox_default.wav");
+                    writeFileSync(pathDefault, Buffer.from(buffer));
+                    Logger.success(`  Chatterbox (Default) saved to ${pathDefault} (${buffer.byteLength} bytes).`);
+
+                } catch (e: any) {
+                    Logger.error(`  Chatterbox generation failed: ${e.message}`);
+                    allPassed = false;
+                }
+            } else {
+                Logger.warning("  Chatterbox not available, cannot test generation.");
+            }
+
+            // Ensure bridge is stopped
+            if ('cleanup' in chatterboxProvider) {
+                (chatterboxProvider as any).cleanup();
+            }
         }
 
         return allPassed;

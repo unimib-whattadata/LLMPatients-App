@@ -49,13 +49,13 @@ The application is designed around one database backend: **PostgreSQL**. SQLite 
 - **Auth**: NextAuth v5 beta
 - **Database**: PostgreSQL 18, Drizzle ORM, `postgres` client
 - **Package manager**: pnpm 10.12.4
-- **Container support**: Dockerfile for the app, Docker Compose for PostgreSQL
+- **Container support**: Dockerfile for the app, Docker Compose for the app and PostgreSQL
 
 ## Requirements
 
 - Node.js 22
 - pnpm 10.12.4, preferably through Corepack
-- Docker and Docker Compose for the local PostgreSQL container
+- Docker and Docker Compose for local containers
 - PostgreSQL connection string in `DATABASE_URL`
 - Optional Python 3.10+ only for local TTS service integrations
 - Optional Google Cloud credentials for Vertex AI hybrid misstep judging
@@ -159,12 +159,15 @@ Open [http://localhost:8080](http://localhost:8080).
 | `NEXTAUTH_URL` | Recommended | Public base URL of the app. In local dev use `http://localhost:8080`. |
 | `JWT_SECRET` | Optional | Legacy/internal JWT secret when needed by auth flows. |
 | `API` | Optional | Patient response mode: `local` or `remote`. Defaults to `local`. |
-| `EXTERNAL_AI_API_KEY` | Remote only | Bearer token for the external patient/orchestrator API. |
+| `EXTERNAL_AI_API_KEY` | Protected remote only | Optional bearer token for the external patient/orchestrator API. Local LLMPatients-Agent does not require it. |
 | `API_BASE_URL` | Remote only | Base URL for the external patient/orchestrator API. |
 | `API_INITIALIZE_PATIENT_ENDPOINT` | Remote only | Remote endpoint for patient initialization. |
 | `API_CHAT_RESPONSE_ENDPOINT` | Remote only | Remote endpoint for chat responses. |
-| `API_TIMEOUT_INITIALIZE_PATIENT` | Optional | Initialization timeout in milliseconds. |
-| `API_TIMEOUT_CHAT_RESPONSE` | Optional | Chat response timeout in milliseconds. |
+| `API_SESSION_END_ENDPOINT` | Remote only | Remote endpoint for session finalization. |
+| `API_TIMEOUT_GENERATE_RESPONSE` | Optional | Legacy response-generation timeout in milliseconds. Defaults to `120000`. |
+| `API_TIMEOUT_INITIALIZE_PATIENT` | Optional | Initialization timeout in milliseconds. Defaults to `120000`. |
+| `API_TIMEOUT_CHAT_RESPONSE` | Optional | Chat response timeout in milliseconds. Defaults to `120000`. |
+| `API_TIMEOUT_SESSION_END` | Optional | Session-finalization timeout in milliseconds. Defaults to `120000`. |
 | `TTS_PROVIDER` | Optional | `none`, `elevenlabs`, `vibevoice`, or `chatterbox`. Defaults to `none`. |
 | `ELEVENLABS_API_KEY` | Provider only | Required when `TTS_PROVIDER=elevenlabs`. |
 | `VIBEVOICE_URL` | Provider only | VibeVoice service URL. Defaults to `http://localhost:3001`. |
@@ -290,9 +293,9 @@ When the app and database run on the same Compose network, use:
 DATABASE_URL="postgresql://postgres:postgres@postgres:5432/postgres"
 ```
 
-### Docker Compose database
+### Docker Compose
 
-The current `docker-compose.yml` manages the database only:
+The default Compose command starts PostgreSQL only, which is useful before running migrations and seed scripts from the host:
 The Compose project is named `llmpatients-app`.
 
 ```bash
@@ -302,6 +305,18 @@ docker compose down
 ```
 
 Database data is stored in `./pg__data`.
+
+To run the production Next.js app container as well, enable the `app` profile:
+
+```bash
+docker compose --profile app up -d --build
+```
+
+By default the app container uses PostgreSQL on the Compose network and starts on [http://localhost:8080](http://localhost:8080). To pair it with a local LLMPatients-Agent container, set:
+
+```bash
+API=remote API_BASE_URL=http://host.docker.internal:8000 docker compose --profile app up -d --build
+```
 
 ### Deployment notes
 

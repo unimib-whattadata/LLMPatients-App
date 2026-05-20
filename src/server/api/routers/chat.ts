@@ -223,7 +223,7 @@ export const chatRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       });
 
-      await requireOwnedTherapySession(ctx.db, {
+      const therapySession = await requireOwnedTherapySession(ctx.db, {
         therapySessionId: input.therapySessionId,
         userId: ctx.session.user.id,
       });
@@ -260,6 +260,29 @@ export const chatRouter = createTRPCRouter({
 
       if (!savedChat) {
         throw new Error("Failed to mark chat step as done");
+      }
+
+      if (input.stepNumber === 11 && therapySession.externalPatientId) {
+        void patientResponseGenerator
+          .finalizeSession({
+            external_patient_id: therapySession.externalPatientId,
+            session_id: therapySession.id,
+            therapist_id: ctx.session.user.id,
+          })
+          .then((response) => {
+            logger.info("External patient session finalized", {
+              sessionId: therapySession.id,
+              externalPatientId: therapySession.externalPatientId,
+              status: response.status,
+            });
+          })
+          .catch((error) => {
+            logger.error("Unable to finalize external patient session", {
+              sessionId: therapySession.id,
+              externalPatientId: therapySession.externalPatientId,
+              error: error instanceof Error ? error.message : String(error),
+            });
+          });
       }
 
       try {

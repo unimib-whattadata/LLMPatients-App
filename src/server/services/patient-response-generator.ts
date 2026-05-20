@@ -102,6 +102,18 @@ export interface ChatRequest {
   therapist_id: string;
 }
 
+export interface FinalizeSessionInput {
+  external_patient_id: string;
+  session_id: string;
+  therapist_id: string;
+}
+
+export interface SessionFinalizationResponse {
+  status: "finalized" | "not_found" | "error";
+  message: string;
+  timestamp: string;
+}
+
 export interface PatientInfo {
   id: string;
   name: string;
@@ -149,15 +161,17 @@ const getApiConfig = () => {
       GENERATE_RESPONSE: isRemote ? (env.API_GENERATE_RESPONSE_ENDPOINT || "/api/message") : "/mock/generate-response",
       INITIALIZE_PATIENT: isRemote ? (env.API_INITIALIZE_PATIENT_ENDPOINT || "/patient") : "/mock/initialise-patient",
       CHAT_RESPONSE: isRemote ? (env.API_CHAT_RESPONSE_ENDPOINT || "/chat-response") : "/mock/chat-response",
+      SESSION_END: isRemote ? (env.API_SESSION_END_ENDPOINT || "/session-end") : "/mock/session-end",
     },
     HEADERS: {
       "Content-Type": "application/json",
       "X-API-Version": "1.0",
     },
     TIMEOUTS: {
-      GENERATE_RESPONSE: parseInt(env.API_TIMEOUT_GENERATE_RESPONSE || "5000"),
-      INITIALIZE_PATIENT: parseInt(env.API_TIMEOUT_INITIALIZE_PATIENT || "3000"),
-      CHAT_RESPONSE: parseInt(env.API_TIMEOUT_CHAT_RESPONSE || "8000"),
+      GENERATE_RESPONSE: parseInt(env.API_TIMEOUT_GENERATE_RESPONSE || "120000"),
+      INITIALIZE_PATIENT: parseInt(env.API_TIMEOUT_INITIALIZE_PATIENT || "120000"),
+      CHAT_RESPONSE: parseInt(env.API_TIMEOUT_CHAT_RESPONSE || "120000"),
+      SESSION_END: parseInt(env.API_TIMEOUT_SESSION_END || "120000"),
     },
     IS_REMOTE: isRemote,
   } as const;
@@ -1363,6 +1377,9 @@ export interface ExternalAIService {
     input: InitializePatientInput,
   ): Promise<PatientInitializationResponse>;
   generateChatResponse(input: ChatRequest): Promise<ChatResponse>;
+  finalizeSession(
+    input: FinalizeSessionInput,
+  ): Promise<SessionFinalizationResponse>;
 }
 
 class MockExternalAIService implements ExternalAIService {
@@ -1684,15 +1701,54 @@ class MockExternalAIService implements ExternalAIService {
 
     return response;
   }
+
+  async finalizeSession(
+    input: FinalizeSessionInput,
+  ): Promise<SessionFinalizationResponse> {
+    const startTime = Date.now();
+    const requestId = generateRequestId();
+
+    PatientResponseLogger.logServiceCall(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "finalizeSession",
+      requestId,
+      {
+        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SESSION_END}`,
+        patientInfo: {
+          id: input.external_patient_id,
+        },
+        sessionInfo: {
+          sessionId: input.session_id,
+        },
+      },
+    );
+
+    mockTimelineCache.delete(`${input.session_id}:${input.external_patient_id}`);
+
+    const response = {
+      status: "finalized" as const,
+      message: "Mock session memory finalized.",
+      timestamp: new Date().toISOString(),
+    };
+
+    PatientResponseLogger.logServiceResponse(
+      LOG_CONFIG.PREFIXES.MOCK_AI,
+      "finalizeSession",
+      requestId,
+      Date.now() - startTime,
+      response,
+      "success",
+    );
+
+    return response;
+  }
 }
 
 class RealExternalAIService implements ExternalAIService {
   private readonly apiKey = env.EXTERNAL_AI_API_KEY;
 
-  private ensureApiKey(): void {
-    if (!this.apiKey) {
-      throw new APIConfigurationError("External AI API key not configured");
-    }
+  private getAuthHeaders(): Record<string, string> {
+    return this.apiKey ? { Authorization: `Bearer ${this.apiKey}` } : {};
   }
 
   private async makeApiRequest<T>(
@@ -1727,7 +1783,7 @@ class RealExternalAIService implements ExternalAIService {
           method: "POST",
           headers: {
             ...API_CONFIG.HEADERS,
-            Authorization: `Bearer ${this.apiKey}`,
+            ...this.getAuthHeaders(),
           },
           body: JSON.stringify(requestBody),
         },
@@ -1823,8 +1879,6 @@ class RealExternalAIService implements ExternalAIService {
   async generateResponse(
     input: GenerateResponseInput,
   ): Promise<PatientResponse> {
-    this.ensureApiKey();
-
     const requestId = generateRequestId();
     const requestBody = createGenerateResponseBody(input, API_CONFIG.IS_REMOTE);
     const startTime = Date.now();
@@ -1880,8 +1934,6 @@ class RealExternalAIService implements ExternalAIService {
   async initializePatient(
     input: InitializePatientInput,
   ): Promise<PatientInitializationResponse> {
-    this.ensureApiKey();
-
     const requestId = generateRequestId();
     const requestBody = {
       id: input.patientInfo.id,
@@ -1930,8 +1982,6 @@ class RealExternalAIService implements ExternalAIService {
   }
 
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
-    this.ensureApiKey();
-
     const requestId = generateRequestId();
     const startTime = Date.now();
     const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
@@ -2020,6 +2070,48 @@ class RealExternalAIService implements ExternalAIService {
       },
     };
   }
+
+  async finalizeSession(
+    input: FinalizeSessionInput,
+  ): Promise<SessionFinalizationResponse> {
+    const requestId = generateRequestId();
+
+    const { result } = await this.makeApiRequest<SessionFinalizationResponse>(
+      API_CONFIG.ENDPOINTS.SESSION_END,
+      "finalizeSession",
+      requestId,
+      input,
+      API_CONFIG.TIMEOUTS.SESSION_END,
+      {
+        patientInfo: {
+          id: input.external_patient_id,
+        },
+        sessionInfo: {
+          sessionId: input.session_id,
+        },
+      },
+      (data) => {
+        const response = data as Partial<SessionFinalizationResponse>;
+        const status =
+          response.status === "finalized" || response.status === "not_found"
+            ? response.status
+            : "error";
+        return {
+          status,
+          message:
+            typeof response.message === "string"
+              ? response.message
+              : "Session finalization returned an unexpected response.",
+          timestamp:
+            typeof response.timestamp === "string" && response.timestamp.trim()
+              ? response.timestamp
+              : new Date().toISOString(),
+        };
+      },
+    );
+
+    return result;
+  }
 }
 
 export class PatientResponseGenerator {
@@ -2029,13 +2121,8 @@ export class PatientResponseGenerator {
   constructor(useExternalAI?: boolean) {
     // Use environment variable if not explicitly provided
     const shouldUseExternal = useExternalAI ?? env.API === "remote";
-    
-    // Fallback to MOCK AI if REAL AI is requested but API key is not configured
-    this.useExternalAI = shouldUseExternal && !!env.EXTERNAL_AI_API_KEY;
-    
-    if (shouldUseExternal && !this.useExternalAI) {
-      PatientResponseLogger.logWarning("EXTERNAL_AI_API_KEY not configured. Falling back to MOCK AI.");
-    }
+
+    this.useExternalAI = shouldUseExternal;
     
     this.externalAI = this.useExternalAI
       ? new RealExternalAIService()
@@ -2176,7 +2263,7 @@ export class PatientResponseGenerator {
   setUseExternalAI(use: boolean): void {
     this.useExternalAI = use;
     // Reinitialize service if switching modes
-    if (use && env.EXTERNAL_AI_API_KEY) {
+    if (use) {
       this.externalAI = new RealExternalAIService();
     } else if (!use) {
       this.externalAI = new MockExternalAIService();
@@ -2263,6 +2350,28 @@ export class PatientResponseGenerator {
         emotion: result.emotion,
         topic: result.topic,
         reasoning_time: result.reasoning_time,
+      }),
+    );
+  }
+
+  async finalizeSession(
+    input: FinalizeSessionInput,
+  ): Promise<SessionFinalizationResponse> {
+    return this.executeWithFallback(
+      "finalizeSession",
+      () => this.externalAI.finalizeSession(input),
+      () => ({
+        status: "error" as const,
+        message: "Unable to finalize external patient session.",
+        timestamp: new Date().toISOString(),
+      }),
+      {
+        externalPatientId: input.external_patient_id,
+        sessionId: input.session_id,
+      },
+      (result) => ({
+        status: result.status,
+        message: result.message,
       }),
     );
   }
