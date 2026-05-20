@@ -249,12 +249,12 @@ export function ChatMessagesPane({
   return (
     <div
       ref={messagesContainerRef}
-      className="chat-scrollbar flex flex-1 overflow-y-auto"
+      className="chat-scrollbar flex min-w-0 flex-1 overflow-y-auto"
     >
-      <div className="flex min-h-full flex-1 items-stretch">
-        <div className="page-background relative flex min-h-full flex-1 flex-col">
+      <div className="flex min-h-full min-w-0 flex-1 items-stretch">
+        <div className="page-background relative flex min-h-full min-w-0 flex-1 flex-col">
           <div className={`flex-1 p-4 sm:p-6 ${hasAudioPlayer ? "pb-40" : "pb-24"}`}>
-            <div className="mx-auto w-full max-w-4xl">
+            <div className="mx-auto w-full min-w-0 max-w-4xl">
               {shouldShowEmotionTrend && (
                 <div className="sticky top-2 z-20 mb-4 rounded-xl border border-[var(--color-border-secondary)] bg-[var(--color-surface-primary)]/80 p-3 backdrop-blur-sm lg:hidden">
                   <div className="mb-3 flex items-center gap-3">

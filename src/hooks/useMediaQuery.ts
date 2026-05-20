@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 const isWindowAvailable = () => typeof window !== "undefined";
 
 export function useMediaQuery(query: string): boolean {
-  const getMatches = () => {
-    if (!isWindowAvailable()) return false;
-    return window.matchMedia(query).matches;
-  };
-
-  const [matches, setMatches] = useState<boolean>(getMatches);
+  const [matches, setMatches] = useState(false);
 
   useEffect(() => {
     if (!isWindowAvailable()) return;

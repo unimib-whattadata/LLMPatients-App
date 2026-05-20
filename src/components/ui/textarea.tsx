@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "~/lib/utils"
 
 const textareaVariants = cva(
-  "block w-full rounded-[var(--radius-lg)] border-2 border-transparent bg-[color:var(--color-input-background)] px-4 py-3 text-base text-[var(--color-text-primary)] transition-[background-color,border-color] duration-[var(--duration-fast)] ease-[var(--ease-standard)] placeholder:text-[color:var(--color-text-placeholder)] focus-visible:border-[var(--color-primary-green)] focus-visible:bg-[color:var(--color-input-background-focus)] focus-visible:outline-none    focus-visible: hover:bg-[color:var(--color-input-background-hover)] disabled:cursor-not-allowed disabled:border-transparent disabled:bg-[color:var(--color-input-background-disabled)] disabled:opacity-50",
+  "block w-full rounded-[var(--radius-lg)] border-2 border-transparent bg-[color:var(--color-input-background)] px-4 py-3 text-base text-[var(--color-text-primary)] transition-[background-color,border-color] duration-[var(--duration-fast)] ease-[var(--ease-standard)] placeholder:text-[color:var(--color-text-placeholder)] focus-visible:border-[var(--color-primary-green)] focus-visible:bg-[color:var(--color-input-background-focus)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-focus-ring-strong)] hover:bg-[color:var(--color-input-background-hover)] disabled:cursor-not-allowed disabled:border-transparent disabled:bg-[color:var(--color-input-background-disabled)] disabled:opacity-50",
   {
     variants: {
       state: {

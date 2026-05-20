@@ -171,10 +171,10 @@ export function PatientDetailsContent() {
 
     return (
       <div key={fieldKey} className={`space-y-1 py-2 ${indentClass}`}>
-        <div className="flex items-center justify-between">
-          <span className="font-medium text-sm">{fieldName}</span>
+        <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <span className="break-words text-sm font-medium">{fieldName}</span>
           {showFieldTypes && (
-            <span className="text-xs text-muted-foreground">
+            <span className="shrink-0 text-xs text-muted-foreground">
               {fieldDef.type}
             </span>
           )}
@@ -221,9 +221,9 @@ export function PatientDetailsContent() {
             variant="ghost"
             className="w-full justify-between p-2 h-auto"
           >
-            <div className="flex items-center gap-4">
-              <h3 className="font-semibold text-lg text-left">{sectionName}</h3>
-              <span className="text-sm text-muted-foreground">
+            <div className="flex min-w-0 flex-1 flex-col gap-1 text-left sm:flex-row sm:items-center sm:gap-4">
+              <h3 className="break-words text-left text-lg font-semibold">{sectionName}</h3>
+              <span className="shrink-0 text-sm text-muted-foreground">
                 {fieldCount} fields
               </span>
             </div>
@@ -272,9 +272,9 @@ export function PatientDetailsContent() {
         <div className="dashboard-panel">
           <div className="space-y-6">
             {}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <h3 className="text-lg font-semibold">All Sections</h3>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"

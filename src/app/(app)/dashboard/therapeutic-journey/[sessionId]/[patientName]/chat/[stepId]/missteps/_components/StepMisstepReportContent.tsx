@@ -319,7 +319,7 @@ export function StepMisstepReportContent({
                 profile only.
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap gap-3">
               <Button asChild variant="outline">
                 <Link href={backToChatHref}>
                   <ArrowLeft className="h-4 w-4" />

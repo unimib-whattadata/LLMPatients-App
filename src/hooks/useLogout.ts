@@ -1,16 +1,9 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
-
-import { createLogger } from "~/lib/logger";
-import { api } from "~/trpc/react";
-
-const logger = createLogger("Logout");
 
 interface LogoutOptions {
   callbackUrl?: string;
-  redirect?: boolean;
 }
 
 interface LogoutSuccessResult {
@@ -25,29 +18,7 @@ interface LogoutFailureResult {
 
 type LogoutResult = LogoutSuccessResult | LogoutFailureResult;
 
-function isAlreadyClosedImpersonationError(error: unknown): boolean {
-  return (
-    error instanceof Error &&
-    /no active impersonation session found/i.test(error.message)
-  );
-}
-
-function extractSignOutUrl(response: unknown): string | null {
-  if (
-    typeof response === "object" &&
-    response !== null &&
-    "url" in response &&
-    typeof (response as { url?: unknown }).url === "string"
-  ) {
-    return (response as { url: string }).url;
-  }
-
-  return null;
-}
-
 export function useLogout() {
-  const { data: session } = useSession();
-  const endImpersonation = api.impersonation.endImpersonation.useMutation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -64,48 +35,16 @@ export function useLogout() {
       setErrorMessage(null);
 
       try {
-        if (session?.impersonation?.isImpersonating) {
-          try {
-            await endImpersonation.mutateAsync({});
-          } catch (error) {
-            if (isAlreadyClosedImpersonationError(error)) {
-              logger.warn("Impersonation already closed before logout");
-            } else {
-              // The auth sign-out event performs the same cleanup on the server,
-              // so a client-side failure should not block the logout itself.
-              logger.warn(
-                "Failed to close impersonation before logout, relying on sign-out cleanup",
-                error,
-              );
-            }
-          }
-        }
-
         const callbackUrl = options.callbackUrl ?? "/";
-        if (options.redirect === false) {
-          const response = await signOut({
-            callbackUrl,
-            redirect: false,
-          });
-
-          return {
-            ok: true,
-            url: extractSignOutUrl(response),
-          };
-        }
-
-        await signOut({
-          callbackUrl,
-          redirect: true,
-        });
+        const signoutUrl = new URL("/signout", window.location.origin);
+        signoutUrl.searchParams.set("callbackUrl", callbackUrl);
+        window.location.assign(signoutUrl.toString());
 
         return {
           ok: true,
-          url: null,
+          url: callbackUrl,
         };
       } catch (error) {
-        logger.error("Logout failed", error);
-
         setErrorMessage("Unable to sign out right now. Please retry.");
 
         return {
@@ -116,7 +55,7 @@ export function useLogout() {
         setIsLoggingOut(false);
       }
     },
-    [endImpersonation, isLoggingOut, session],
+    [isLoggingOut],
   );
 
   const clearError = useCallback(() => {

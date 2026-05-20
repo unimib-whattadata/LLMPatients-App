@@ -20,7 +20,7 @@ export function DashboardPanel({
     return (
         <div
             className={cn(
-                "rounded-2xl transition-all",
+                "min-w-0 rounded-2xl transition-all",
                 variants[variant],
                 variant !== "ghost" && "p-6",
                 className

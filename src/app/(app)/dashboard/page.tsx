@@ -1,30 +1,9 @@
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { Skeleton } from "~/components/ui/skeleton";
-import { DashboardPanel } from "~/components/dashboard/ui";
 import { requireAppSession } from "~/server/auth/session";
 
 export const dynamic = 'force-dynamic';
 
-function DashboardLoadingComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <DashboardPanel className="w-full max-w-xl space-y-5">
-        <div className="space-y-2">
-          <Skeleton variant="heading" className="h-8 w-48" />
-          <Skeleton variant="text" className="h-4 w-full max-w-sm" />
-        </div>
-        <div className="space-y-3">
-          <Skeleton variant="text" className="h-4 w-full" />
-          <Skeleton variant="text" className="h-4 w-5/6" />
-          <Skeleton variant="button" className="h-10 w-40" />
-        </div>
-      </DashboardPanel>
-    </div>
-  );
-}
-
-async function DashboardRouter() {
+export default async function DashboardPage() {
   try {
     const session = await requireAppSession(
       "/login?error=session-invalid&from=dashboard",
@@ -50,12 +29,4 @@ async function DashboardRouter() {
   }
 
   return null;
-}
-
-export default function DashboardPage() {
-  return (
-    <Suspense fallback={<DashboardLoadingComponent />}>
-      <DashboardRouter />
-    </Suspense>
-  );
 }

@@ -34,6 +34,16 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
     return `/explore-patients/${patientId}/${slug}`;
   }, [patient, patientId]);
 
+  const formattedPatientDetails = useMemo(() => {
+    if (!patient?.details) return "";
+
+    try {
+      return JSON.stringify(JSON.parse(patient.details), null, 2);
+    } catch {
+      return patient.details;
+    }
+  }, [patient?.details]);
+
   if (isLoading) {
     return (
 
@@ -127,7 +137,7 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
       title={patient.name}
       description="Administrative detail view for the clinical case."
       action={
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <Button variant="outline" onClick={() => router.push("/dashboard/patient/index")}
             className="border-gray-700 text-gray-200 hover:bg-gray-800"
           >
@@ -156,15 +166,15 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-400">Difficulty</p>
-            <p className="text-lg font-semibold text-text-primary">
+            <div className="text-lg font-semibold text-text-primary">
               <PatientDifficulty difficulty={patient.difficulty} />
-            </p>
+            </div>
           </div>
           <div>
             <p className="text-xs uppercase tracking-wide text-gray-400">Estimated duration</p>
-            <p className="text-lg font-semibold text-text-primary">
+            <div className="text-lg font-semibold text-text-primary">
               <PatientDuration duration={patient.estimatedDuration} />
-            </p>
+            </div>
           </div>
         </div>
 
@@ -202,8 +212,8 @@ export function PatientDetailContent({ patientId }: PatientDetailContentProps) {
             Copy JSON
           </Button>
         </div>
-        <pre className="max-h-[400px] overflow-auto rounded-lg bg-black/40 p-4 text-xs text-gray-300">
-          {patient.details}
+        <pre className="max-h-[400px] max-w-full overflow-auto whitespace-pre-wrap break-words rounded-lg bg-black/40 p-4 text-xs text-gray-300">
+          {formattedPatientDetails}
         </pre>
       </DashboardPanel>
     </DashboardSection>

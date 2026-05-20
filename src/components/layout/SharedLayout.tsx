@@ -208,7 +208,7 @@ export function SharedLayout({
       />
 
       { }
-      <div className="flex flex-1">
+      <div className="flex min-w-0 flex-1">
         { }
         {/* Mobile sidebar overlay */}
         {layoutConfig.showSidebar && mobileSidebarOpen && (
@@ -224,17 +224,21 @@ export function SharedLayout({
         <main
           id="main-content"
           className={cn(
-            "flex-1",
+            "min-w-0",
             disablePadding ? "transition-none" : "transition-all duration-300",
-            layoutConfig.showSidebar ? "lg:ml-64" : "w-full",
-            layoutConfig.showSidebar && !disablePadding && "p-8"
+            layoutConfig.showSidebar
+              ? "w-full lg:ml-64 lg:w-[calc(100%-16rem)] lg:flex-none"
+              : "w-full flex-1",
+            layoutConfig.showSidebar &&
+            !disablePadding &&
+            "px-4 py-6 sm:p-6 lg:p-8"
           )}
           role="main"
           aria-label="Main content"
           tabIndex={-1}
         >
           {layoutType === "dashboard" && !disablePadding ? (
-            <div className="mx-auto w-full max-w-7xl space-y-8">
+            <div className="mx-auto w-full max-w-7xl min-w-0 space-y-8">
               {children}
             </div>
           ) : (

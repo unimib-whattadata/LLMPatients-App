@@ -756,7 +756,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
       disablePadding={true}
     >
       <div
-        className="flex h-[calc(100vh-4rem)] flex-col bg-background"
+        className="flex h-[calc(100vh-4rem)] w-full min-w-0 flex-col bg-background"
         role="main"
         aria-label="Chat with virtual patient"
       >
@@ -774,7 +774,7 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
           onCompleteStep={() => void handleCompleteStep()}
         />
 
-        <div className="flex min-h-0 flex-1 overflow-hidden">
+        <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
           <ChatPatientSidebar
             hasPatientAvatar={true}
             patientAvatarColorClass={patientAvatar.colorClass}
@@ -788,8 +788,8 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
             onExpandAvatar={() => setIsAvatarExpanded(true)}
           />
 
-          <div className="flex min-h-0 flex-1 overflow-hidden">
-            <div className="flex min-h-full flex-1 flex-col page-background">
+          <div className="flex min-h-0 min-w-0 flex-1 overflow-hidden">
+            <div className="page-background flex min-h-full min-w-0 flex-1 flex-col">
               <ChatMessagesPane
                 messagesContainerRef={messagesContainerRef}
                 messages={messages}

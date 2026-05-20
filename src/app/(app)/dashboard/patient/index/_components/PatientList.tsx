@@ -38,16 +38,16 @@ export function PatientList() {
       }
     >
       <DashboardPanel>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-6">
-          <div className="flex flex-1 flex-col gap-2">
+        <div className="mb-6 flex min-w-0 flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="flex min-w-0 flex-1 flex-col gap-2">
             <Label htmlFor="patient-search">Search patients</Label>
-            <div className="flex gap-2">
+            <div className="flex min-w-0 flex-col gap-2 sm:flex-row">
               <Input
                 id="patient-search"
                 placeholder="Search by name..."
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                className="max-w-md"
+                wrapperClassName="min-w-0 flex-1 sm:max-w-md"
               />
               <Button variant="outline" onClick={() => void refetch()}
                 disabled={isLoading}
