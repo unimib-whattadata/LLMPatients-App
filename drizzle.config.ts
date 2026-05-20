@@ -1,7 +1,8 @@
 
+import "dotenv/config";
 import { type Config } from "drizzle-kit";
 
-const config: Config = {
+export default {
   schema: "./src/server/db/schema-postgres.ts",
   out: "./drizzle-postgres",
   dialect: "postgresql",
@@ -11,6 +12,4 @@ const config: Config = {
       "postgresql://user:password@localhost:5432/dbname",
   },
   tablesFilter: ["llmpatient_*"],
-};
-
-export default config;
+} satisfies Config;

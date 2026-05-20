@@ -17,7 +17,7 @@ import {
   type StepMisstepEvaluationStatus,
 } from "~/lib/missteps";
 import { SharedLayout } from "~/components/layout/SharedLayout";
-import { SessionLoading } from "~/components/common";
+import { SessionLoading } from "~/components/common/SessionLoading";
 import { Breadcrumb, Badge } from "~/components/ui";
 import { Button } from "~/components/ui/button";
 import {

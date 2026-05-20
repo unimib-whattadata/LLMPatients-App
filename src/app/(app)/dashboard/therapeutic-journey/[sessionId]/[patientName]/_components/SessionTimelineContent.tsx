@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import { SessionLoading } from "~/components/common";
+import { SessionLoading } from "~/components/common/SessionLoading";
 import { SharedLayout } from "~/components/layout/SharedLayout";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";

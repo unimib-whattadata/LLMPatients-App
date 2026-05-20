@@ -44,7 +44,6 @@
   ],
   "exclude": [
     "node_modules",
-    "services/VibeVoice/venv",
-    "scripts/check-wcag-contrast.js"
+    "services/VibeVoice/venv"
   ]
 }

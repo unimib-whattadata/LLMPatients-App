@@ -11,5 +11,3 @@ export function SessionDebugWrapper({ enabled }: SessionDebugWrapperProps) {
 
   return <SessionDebug enabled={enabled} />;
 }
-
-export default SessionDebugWrapper;

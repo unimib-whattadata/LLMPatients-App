@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ToastProvider } from "~/components/common/ToastProvider";
-import SessionDebugWrapper from "~/components/debug/SessionDebugWrapper";
+import { SessionDebugWrapper } from "~/components/debug/SessionDebugWrapper";
 import { env } from "~/env";
 
 const isDev = env.NODE_ENV === "development";

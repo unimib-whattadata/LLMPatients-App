@@ -1,296 +1,385 @@
-# LLMPatients-App - Virtual Patients for Psychotherapy Training
+# LLMPatients-App
 
-**LLMPatients** is an advanced educational platform for training psychotherapy students through realistic simulations with virtual patients powered by LLMs.
+Virtual patient simulations for psychotherapy training, built with Next.js, tRPC, Drizzle ORM and PostgreSQL.
 
 ![Status](https://img.shields.io/badge/status-beta-orange)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![Build](https://img.shields.io/badge/build-passing-green)
-![Node](https://img.shields.io/badge/node-18%2B-green)
+![Node](https://img.shields.io/badge/node-22-green)
+![Package%20manager](https://img.shields.io/badge/pnpm-10.12.4-blue)
+![Database](https://img.shields.io/badge/database-PostgreSQL%2018-blue)
 
-## Table of Contents
+## Contents
 
 - [Overview](#overview)
-- [Features](#features)
-- [Demo](#demo)
+- [Core Features](#core-features)
+- [Tech Stack](#tech-stack)
 - [Requirements](#requirements)
-- [Installation](#installation)
-- [Quickstart](#quickstart)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Environment Variables](#environment-variables)
+- [Database Workflow](#database-workflow)
+- [Useful Commands](#useful-commands)
 - [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [Roadmap](#roadmap)
-- [FAQ](#faq)
+- [Production](#production)
+- [Project Structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
 - [Security](#security)
-- [License](#license)
-- [Credits](#credits)
-- [Cite this work](#cite-this-work)
+- [Citation](#citation)
 
 ## Overview
 
-**LLMPatients** was created to bridge the gap between theory learned in university courses and real clinical practice. Clinical psychology training often provides few opportunities to practice practical skills in safe contexts before internship.
+LLMPatients is an educational platform for psychotherapy students. It lets students practice multi-session therapeutic journeys with structured virtual patients, receive automatic feedback on clinical missteps, and review progress through dashboards and persisted reports.
 
-This platform offers a **hybrid expert system** for multi-session simulation of psychotherapeutic paths. Using Large Language Models (LLMs) constrained by structured clinical profiles (based on the PDM-2 manual), the system allows students to:
+The application is designed around one database backend: **PostgreSQL**. SQLite is no longer supported by the runtime, scripts, Drizzle config, or migrations.
 
-- Manage a complete therapeutic journey in **11 sessions** (Intake, Intervention, Termination).
-- Face patients with complex personalities, defenses, and realistic relational patterns.
-- Receive automatic, step-level feedback on empathy, setting adherence, and clinical missteps after completing each chat step.
+## Core Features
 
-The goal is to provide a "safe gym" to make mistakes and learn without risks for real patients.
+- Structured virtual patients with clinical profiles, objectives, difficulty and therapeutic journey data.
+- Multi-step therapeutic simulations with chat, session state and progress tracking.
+- Step-level misstep analysis with persisted reports and retry support.
+- Optional hybrid misstep judging with Vertex AI; heuristic mode is available without cloud credentials.
+- Optional TTS providers: `none`, `elevenlabs`, `vibevoice`, `chatterbox`.
+- Admin/user flows, impersonation support and seeded demo accounts for local development.
+- PostgreSQL migrations managed by Drizzle Kit in `drizzle-postgres/`.
 
-## Features
+## Tech Stack
 
-- **🧠 Parametric Clinical Profiles**: Patients based on the PDM-2 hierarchy (Personality > Mental Functioning > Symptoms), not simple narrative prompts.
-- **📅 Multi-session Continuity**: Long-term memory (RAG) that maintains narrative and clinical coherence across 11 distinct sessions.
-- **🗣️ Multimodal Interaction**: Support for text and voice chat (Text-to-Speech with Chatterbox/ElevenLabs and Speech-to-Text).
-- **📉 Adaptive Dynamics**: The patient reacts to student interventions (e.g., alliance ruptures, defenses) modifying their emotional state.
-- **🧪 Step-Level Misstep Analysis**: Every completed chat step can trigger an automatic misstep report with `Detected/Not detected`, confidence, and transcript evidence for 16 therapist misstep categories.
-- **📊 Detailed Reporting**: Analytical dashboards to track progress, view transcripts, export PDFs, and review automatic evaluations.
-- **☁️ Optional Vertex AI Judge**: The misstep detector works heuristically by default and can optionally refine results through Vertex AI structured-output judging.
-- **🔒 Privacy-First**: Architecture designed for local execution of TTS/STT models and support for local or remote LLMs.
-
-## Demo
-
-> In 10 seconds: The system simulates a therapeutic session via chat or voice, reacting emotionally to the therapist's interventions.
-
-*(Insert Dashboard and Chat Interface Screenshots or GIF here)*
+- **Runtime**: Node.js 22
+- **Framework**: Next.js 15 App Router
+- **UI**: React 19, Tailwind CSS 4, Radix UI primitives
+- **API**: tRPC
+- **Auth**: NextAuth v5 beta
+- **Database**: PostgreSQL 18, Drizzle ORM, `postgres` client
+- **Package manager**: pnpm 10.12.4
+- **Container support**: Dockerfile for the app, Docker Compose for PostgreSQL
 
 ## Requirements
 
-- **Node.js**: v18 or higher.
-- **pnpm**: Recommended package manager.
-- **Database**: PostgreSQL.
-- **Python**: v3.10+ (required only if using local TTS modules like Chatterbox/VibeVoice).
-- **External patient service**: Optional remote API credentials if `API=remote`.
-- **Vertex AI**: Optional Google Cloud credentials if you want hybrid LLM judging for misstep analysis.
+- Node.js 22
+- pnpm 10.12.4, preferably through Corepack
+- Docker and Docker Compose for the local PostgreSQL container
+- PostgreSQL connection string in `DATABASE_URL`
+- Optional Python 3.10+ only for local TTS service integrations
+- Optional Google Cloud credentials for Vertex AI hybrid misstep judging
 
-## Installation
+## Quick Start
 
-1.  **Clone the repository**:
-    ```bash
-    git clone https://github.com/unimib-whattadata/LLMPatients-App.git
-    cd LLMPatients
-    ```
+### 1. Clone and install
 
-2.  **Install dependencies**:
-    ```bash
-    pnpm install
-    ```
+```bash
+git clone https://github.com/unimib-whattadata/LLMPatients-App.git
+cd LLMPatients-App
 
-3.  **Configure the environment**:
-    Create a `.env` file in the project root and populate it with the variables listed in [Configuration](#configuration).
-    ```bash
-    touch .env
-    ```
-    If you prefer, you can also create `.env` manually from scratch.
+corepack enable
+corepack prepare pnpm@10.12.4 --activate
+pnpm install
+```
 
-4.  **Prepare the database** (PostgreSQL):
-    ```bash
-    pnpm db:push
-    pnpm db:seed
-    ```
+### 2. Start PostgreSQL
 
-## Quickstart
+The included `docker-compose.yml` starts PostgreSQL 18 on host port `5432`.
 
-To start the application in development mode:
+```bash
+docker compose up -d pg_bitbrand
+```
+
+Local connection string when the Next.js app runs on your host machine:
+
+```txt
+postgresql://postgres:postgres@127.0.0.1:5432/postgres
+```
+
+If the app runs in another container on the same Compose network, use the service name instead:
+
+```txt
+postgresql://postgres:postgres@pg_bitbrand:5432/postgres
+```
+
+### 3. Create `.env`
+
+Create `.env` in the repository root:
+
+```bash
+touch .env
+```
+
+Minimum local configuration:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/postgres"
+
+AUTH_SECRET="replace-with-openssl-rand-base64-32"
+NEXTAUTH_SECRET="replace-with-openssl-rand-base64-32"
+NEXTAUTH_URL="http://localhost:8080"
+
+API="local"
+TTS_PROVIDER="none"
+MISSTEP_ANALYSIS_MODE="heuristic"
+GOOGLE_GENAI_USE_VERTEXAI="false"
+```
+
+Generate secrets with:
+
+```bash
+openssl rand -base64 32
+```
+
+### 4. Prepare the database
+
+For a fresh local database, apply migrations and seed demo data:
+
+```bash
+pnpm db:migrate
+pnpm db:seed
+```
+
+The seed script creates local demo users:
+
+```txt
+admin@example.com / Qwerty123!
+user@example.com  / Qwerty123!
+```
+
+These credentials are for local development only.
+
+### 5. Run the app
 
 ```bash
 pnpm dev
 ```
 
-Open your browser at [http://localhost:8080](http://localhost:8080).
+Open [http://localhost:8080](http://localhost:8080).
 
-## Configuration
+## Environment Variables
 
-Main environment variables in `.env`:
+| Variable | Required | Description |
+| --- | --- | --- |
+| `DATABASE_URL` | Yes | PostgreSQL URL. Must start with `postgres://` or `postgresql://`. |
+| `AUTH_SECRET` | Production | NextAuth secret. Use a strong random value. |
+| `NEXTAUTH_SECRET` | Recommended | Explicit NextAuth secret. Use a strong random value. |
+| `NEXTAUTH_URL` | Recommended | Public base URL of the app. In local dev use `http://localhost:8080`. |
+| `JWT_SECRET` | Optional | Legacy/internal JWT secret when needed by auth flows. |
+| `API` | Optional | Patient response mode: `local` or `remote`. Defaults to `local`. |
+| `EXTERNAL_AI_API_KEY` | Remote only | Bearer token for the external patient/orchestrator API. |
+| `API_BASE_URL` | Remote only | Base URL for the external patient/orchestrator API. |
+| `API_INITIALIZE_PATIENT_ENDPOINT` | Remote only | Remote endpoint for patient initialization. |
+| `API_CHAT_RESPONSE_ENDPOINT` | Remote only | Remote endpoint for chat responses. |
+| `API_TIMEOUT_INITIALIZE_PATIENT` | Optional | Initialization timeout in milliseconds. |
+| `API_TIMEOUT_CHAT_RESPONSE` | Optional | Chat response timeout in milliseconds. |
+| `TTS_PROVIDER` | Optional | `none`, `elevenlabs`, `vibevoice`, or `chatterbox`. Defaults to `none`. |
+| `ELEVENLABS_API_KEY` | Provider only | Required when `TTS_PROVIDER=elevenlabs`. |
+| `VIBEVOICE_URL` | Provider only | VibeVoice service URL. Defaults to `http://localhost:3001`. |
+| `CHATTERBOX_URL` | Provider only | Chatterbox service URL. Defaults to `http://localhost:3002`. |
+| `MISSTEP_ANALYSIS_MODE` | Optional | `heuristic` or `hybrid`. Defaults to `hybrid`. |
+| `VERTEX_MODEL_ID` | Hybrid only | Vertex/Gemini model for structured judging. |
+| `GOOGLE_CLOUD_PROJECT` | Hybrid only | Google Cloud project for Vertex AI. |
+| `GOOGLE_CLOUD_LOCATION` | Hybrid only | Vertex AI location. Defaults to `global`. |
+| `GOOGLE_GENAI_USE_VERTEXAI` | Hybrid only | Set to `true` to use Vertex AI through `@google/genai`. |
 
-| Variable | Description | Default |
-|-----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string (e.g., `postgresql://postgres:postgres@127.0.0.1:5432/postgres`) | - |
-| `AUTH_SECRET` | Secret for NextAuth (e.g., `openssl rand -base64 32`) | - |
-| `NEXTAUTH_SECRET` | Optional explicit NextAuth secret | - |
-| `API` | Patient generation mode: `local` or `remote` | `local` |
-| `EXTERNAL_AI_API_KEY` | Bearer token used when `API=remote` | - |
-| `API_BASE_URL` | Base URL for the external patient/orchestrator service | - |
-| `API_INITIALIZE_PATIENT_ENDPOINT` | Remote endpoint for patient initialization | `/patient` or custom |
-| `API_CHAT_RESPONSE_ENDPOINT` | Remote endpoint for patient chat responses | `/chat-response` or custom |
-| `TTS_PROVIDER` | Voice provider: `chatterbox`, `elevenlabs`, `vibevoice`, `none` | `none` |
-| `ELEVENLABS_API_KEY` | ElevenLabs API Key (if used) | - |
-| `NEXTAUTH_URL` | Optional stable public app URL | request host in dev |
-| `MISSTEP_ANALYSIS_MODE` | Misstep detector mode: `hybrid` or `heuristic` | `hybrid` |
-| `VERTEX_MODEL_ID` | Vertex/Gemini model used for structured judging | `gemini-2.5-flash` |
-| `GOOGLE_CLOUD_PROJECT` | GCP project for Vertex AI | - |
-| `GOOGLE_CLOUD_LOCATION` | Vertex AI location | `global` |
-| `GOOGLE_GENAI_USE_VERTEXAI` | Enable Vertex AI through `@google/genai` | `true` |
+### Misstep Analysis Modes
 
-### Misstep analysis modes
+- `heuristic`: local rule-based analysis only. Best for local development and CI.
+- `hybrid`: run heuristic analysis first, then refine with Vertex AI when Google Cloud credentials are available.
 
-- `heuristic`: use only the built-in detector based on transcript features and rules.
-- `hybrid`: run the heuristic detector first, then optionally refine results with a Vertex AI structured-output judge when Google Cloud is configured.
+If `hybrid` is configured but Vertex credentials are missing or the remote call fails, the app falls back to heuristic output.
 
-If `MISSTEP_ANALYSIS_MODE=hybrid` but Vertex credentials are missing or the call fails, the app automatically falls back to `heuristic`.
+## Database Workflow
 
-### Environments
-- **Dev**: `NODE_ENV=development`
-- **Prod**: `NODE_ENV=production`
+The canonical Drizzle config is `drizzle.config.ts`.
 
-## Usage
+```bash
+pnpm db:generate   # generate a new migration from schema changes
+pnpm db:migrate    # apply migrations from drizzle-postgres/
+pnpm db:push       # push schema directly, useful for local prototyping only
+pnpm db:studio     # open Drizzle Studio on localhost:4986
+pnpm db:seed       # seed users, patients and initial data
+```
 
-### Student
-1. Log in to the platform.
-2. From the **Dashboard**, select "New Simulation".
-3. Choose a patient from the library (e.g., "Juanita", "Marco").
-4. Start **Session 1** (Intake). Conduct the interview via chat or voice.
-5. Mark the current chat step as completed.
-6. Open the **Misstep Analysis** report for that completed step.
-7. Continue across the 11-session journey until the therapy session is completed.
+Rules for this repository:
 
-### API
-The system uses tRPC for client-server communication.
-Key internal calls for the step-evaluation flow:
+- Keep schema changes in `src/server/db/schema-postgres.ts`.
+- Keep generated migrations in `drizzle-postgres/`.
+- Do not add SQLite URLs, SQLite migrations, local `.db` files, or alternate Drizzle configs.
+- Prefer `pnpm db:migrate` for environments that should mirror production.
+- Use `pnpm db:push` only for short-lived local experiments.
 
-- `trpc.chat.markStepDone.mutate({ therapySessionId, stepNumber })`
-- `trpc.stepEvaluations.getByStep.query({ therapySessionId, stepNumber })`
-- `trpc.stepEvaluations.retryByStep.mutate({ therapySessionId, stepNumber })`
+## Useful Commands
 
-## Architecture
-
-The project is built on **Next.js 15** (App Router) and T3 stack.
-
-- **Frontend**: React, Tailwind CSS, Shadcn/UI.
-- **Backend**: Next.js Server Actions, tRPC.
-- **Database**: Drizzle ORM with PostgreSQL.
-- **AI Core**:
-    - `src/server/services/patient-response-generator.ts`: patient orchestration and remote/local chat generation.
-    - `src/server/services/misstep-evaluator.ts`: heuristic + optional Vertex AI misstep scoring for a single completed chat step.
-    - `src/server/services/step-misstep-evaluations.ts`: persistence, queueing, and retry logic for step evaluations.
-    - `scripts/`: auxiliary scripts and backend scenario tests.
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start Next.js in development mode on port `8080`. |
+| `pnpm dev:no-turbo` | Start development server without Turbopack. |
+| `pnpm build` | Create a production build. |
+| `pnpm start` | Start the production Next.js server on port `8080` by default. |
+| `pnpm preview` | Build and start the app locally. |
+| `pnpm typecheck` | Run TypeScript checks. |
+| `pnpm lint` | Run Next/ESLint checks. |
+| `pnpm format:check` | Check Prettier formatting. |
+| `pnpm format:write` | Apply Prettier formatting. |
+| `pnpm test` | Run the platform diagnostic script. |
+| `pnpm test:backend` | Run the PostgreSQL backend scenario test. |
+| `pnpm system:diagnose` | Alias for the platform diagnostic script. |
+| `pnpm audit:performance` | Build, start and run Lighthouse against localhost. |
 
 ## Testing
 
-To verify system health and integrations:
+Recommended local validation before pushing:
+
+```bash
+pnpm typecheck
+pnpm build
+```
+
+Service and integration checks:
 
 ```bash
 pnpm test
-```
-This script runs a diagnosis of services (Database, TTS, API).
-
-To run the backend integration scenario used by this project:
-
-```bash
 pnpm test:backend
 ```
 
-This covers core PostgreSQL persistence flows, including chat-step completion and misstep evaluation persistence.
+`pnpm test:backend` expects a reachable PostgreSQL admin database. By default it tries:
 
-**Coverage and Linting**:
-```bash
-pnpm lint
-pnpm typecheck
+```txt
+postgresql://postgres:postgres@127.0.0.1:5432/postgres
 ```
 
-## Deployment
+Override it with:
 
-### Production Build
 ```bash
+TEST_POSTGRES_ADMIN_URL="postgresql://postgres:postgres@127.0.0.1:5432/postgres" pnpm test:backend
+```
+
+## Production
+
+### Build and start without Docker
+
+```bash
+pnpm install --frozen-lockfile
+pnpm db:migrate
 pnpm build
-pnpm start
-```
-
-To bind the app to a different port in production:
-
-```bash
 PORT=8080 pnpm start
 ```
 
-### Docker
-A `docker-compose.yml` is included to orchestrate PostgreSQL.
-```bash
-docker-compose up -d
-```
+Set production secrets and a production PostgreSQL `DATABASE_URL` before running migrations or starting the app.
 
-### Reverse Proxy And Process Manager
-- Production macOS `launchd` example: `deployment/launchd/it.whattadata.llmpatients.plist.example`
-- Remote `nginx` site config example: `deployment/nginx/llmpatient.conf.example`
-- Linux-only alternative `systemd` unit: `deployment/systemd/llmpatients.service.example`
+### Docker image
 
-Production topology for the current deployment:
-- The Next.js app runs on this Mac and listens on `149.132.178.114:8080`.
-- Public HTTPS is terminated on the external proxy host `149.132.176.51`.
-- The proxy forwards `llmpatient.whattadata.it` traffic to `http://149.132.178.114:8080`.
-
-Recommended production checks:
-- Make sure the `launchd` service and the `nginx` upstream use the same port.
-- Keep `PORT` explicit in the service definition instead of relying on shell defaults.
-- Do not use `0.0.0.0` in `API_BASE_URL` or other outbound service URLs. It is valid for binding a server, not for reaching another service over HTTP.
-- On macOS, load the user service with `launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/it.whattadata.llmpatients.plist`.
-- Enable and restart it with `launchctl enable gui/$(id -u)/it.whattadata.llmpatients` and `launchctl kickstart -k gui/$(id -u)/it.whattadata.llmpatients`.
-- After deploy, verify both the local upstream and the public domain:
+The repository includes a multi-stage `Dockerfile` for the Next.js app:
 
 ```bash
-curl -I http://127.0.0.1:8080
-curl -I http://149.132.178.114:8080
-curl -I https://llmpatient.whattadata.it/
+docker build -t llmpatients-app .
 ```
 
-### Release Checklist
-- [ ] Update version in `package.json`.
-- [ ] Verify `pnpm test` and `pnpm typecheck` pass.
-- [ ] Production build (`pnpm build`) without errors.
-- [ ] Verify database migrations (`pnpm db:migrate`).
-- [ ] Git tag version.
+Run it with an environment file:
 
-## Contributing
+```bash
+docker run --rm \
+  --env-file .env \
+  -p 8080:8080 \
+  llmpatients-app
+```
 
-We are open to contributions! To propose changes:
-1. Fork the repository.
-2. Create a feature branch (`git checkout -b feature/new-feature`).
-3. Commit changes (`git commit -m 'Add: new feature'`).
-4. Push the branch.
-5. Open a Pull Request.
+When the app container must reach PostgreSQL running on the Docker host, use a reachable host name in `DATABASE_URL`, for example `host.docker.internal` on Docker Desktop:
 
-To report bugs, use the GitHub Issues section.
+```env
+DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5432/postgres"
+```
 
-## Roadmap
+When the app and database run on the same Compose network, use:
 
-- [x] PDM-2 Patient Profile
-- [x] Long-Term Memory (RAG)
-- [x] Local TTS (Chatterbox) and Cloud TTS (ElevenLabs) Support
-- [x] Step-level misstep analysis with persisted reports
-- [ ] Advanced Supervisor Dashboard
-- [ ] Real-time browser Speech-to-Text integration
-- [ ] Patient library expansion
+```env
+DATABASE_URL="postgresql://postgres:postgres@pg_bitbrand:5432/postgres"
+```
 
-## FAQ
+### Docker Compose database
 
-**Q: Can I use the system offline?**
-A: Yes, if you configure a local LLM (e.g., with Ollama) and use local TTS (Chatterbox), the system can work without internet (except for installation).
+The current `docker-compose.yml` manages the database only:
 
-**Q: How do I add a new patient?**
-A: Patient profiles are defined in the database. Use the seed script or the administration interface (coming soon) to create new ones.
+```bash
+docker compose up -d pg_bitbrand
+docker compose logs -f pg_bitbrand
+docker compose down
+```
+
+Database data is stored in `./pg__data`.
+
+### Deployment notes
+
+- Run `pnpm db:migrate` before deploying a version that depends on new schema changes.
+- Keep `NEXTAUTH_URL` aligned with the public HTTPS URL.
+- Keep secrets out of Dockerfiles, logs and committed files.
+- Do not use `0.0.0.0` as an outbound API base URL; it is only valid for binding a server.
+- If using Coolify, configure the app with Node 22, pnpm 10.12.4 and a PostgreSQL `DATABASE_URL`.
+
+Legacy deployment examples are available in:
+
+- `deployment/launchd/it.whattadata.llmpatients.plist.example`
+- `deployment/nginx/llmpatient.conf.example`
+- `deployment/systemd/llmpatients.service.example`
+
+## Project Structure
+
+```txt
+src/app/                  Next.js routes, layouts and API handlers
+src/components/           Shared UI, layout and feature components
+src/hooks/                Client-side React hooks
+src/lib/                  Shared utilities, constants, TTS helpers and domain rules
+src/server/api/           tRPC routers and server API setup
+src/server/auth/          Auth configuration and session helpers
+src/server/db/            PostgreSQL schema and database client
+src/server/services/      Domain services for chat, patients and misstep analysis
+drizzle-postgres/         PostgreSQL migrations and Drizzle snapshots
+patients/                 Seed patient source data
+scripts/                  Seed, diagnostics and backend scenario scripts
+deployment/               Example process manager and reverse proxy configs
+```
+
+## Troubleshooting
+
+### `DATABASE_URL must be a valid PostgreSQL URL`
+
+The app accepts only PostgreSQL URLs:
+
+```txt
+postgresql://user:password@host:5432/database
+postgres://user:password@host:5432/database
+```
+
+SQLite URLs such as `file:./dev.db` are no longer supported.
+
+### `pnpm db:migrate` cannot connect
+
+Check that PostgreSQL is running and reachable:
+
+```bash
+docker compose ps
+docker compose logs pg_bitbrand
+```
+
+Then verify the same host, port, user, password and database are present in `DATABASE_URL`.
+
+### Build fails because env vars are missing
+
+For local builds, make sure `.env` exists and includes at least `DATABASE_URL`. Production builds should also include strong auth secrets.
+
+### App starts but login fails
+
+Run the seed script:
+
+```bash
+pnpm db:seed
+```
+
+Then use the local demo credentials listed in [Quick Start](#quick-start).
 
 ## Security
 
-To report security vulnerabilities, please do not open a public issue. Send an email to [encrypted-email-or-private-contact].
+- Never commit `.env`, production secrets, API keys, database dumps or generated audio.
+- Rotate any secret that has appeared in logs, screenshots or shared chat messages.
+- Use strong random values for `AUTH_SECRET`, `NEXTAUTH_SECRET` and `JWT_SECRET`.
+- Replace seed credentials before using the app outside local development.
 
-## License
+## Citation
 
-This project is distributed under the **MIT** license. See the `LICENSE` file for details.
-
-## Credits
-
-Developed at **University of Milano-Bicocca (UNIMIB)**.
-Department of Psychology & Department of Informatics, Systems and Communication.
-
-References and inspirations:
-- PDM-2 (Psychodynamic Diagnostic Manual)
-- Panksepp’s Affective Neuroscience
-
-## Cite this work
-
-If you use LLMPatients for your research, please cite the reference paper:
+If you use LLMPatients for research, cite the reference paper or project record used by your group:
 
 ```bibtex
 @article{llmpatient2025,
@@ -298,6 +387,6 @@ If you use LLMPatients for your research, please cite the reference paper:
   author={UNIMIB Team},
   journal={TBD},
   year={2025},
-  url={https://github.com/unimib-whattadata/LLMPatients}
+  url={https://github.com/unimib-whattadata/LLMPatients-App}
 }
 ```
