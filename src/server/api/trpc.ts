@@ -31,28 +31,20 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 
 export const createCallerFactory = t.createCallerFactory;
 
-
 export const createTRPCRouter = t.router;
 
-const timingMiddleware = t.middleware(async ({ next }) => {
-  return await next();
-});
+export const publicProcedure = t.procedure;
 
-export const publicProcedure = t.procedure.use(timingMiddleware);
-
-export const protectedProcedure = t.procedure
-  .use(timingMiddleware)
-  .use(({ ctx, next }) => {
-    if (!ctx.session?.user?.id || ctx.session.user.isActive === false) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    return next({
-      ctx: {
-        
-        session: { ...ctx.session, user: ctx.session.user },
-      },
-    });
+export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
+  if (!ctx.session?.user?.id || ctx.session.user.isActive === false) {
+    throw new TRPCError({ code: "UNAUTHORIZED" });
+  }
+  return next({
+    ctx: {
+      session: { ...ctx.session, user: ctx.session.user },
+    },
   });
+});
 
 export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
   if (ctx.session.user.role !== "admin") {

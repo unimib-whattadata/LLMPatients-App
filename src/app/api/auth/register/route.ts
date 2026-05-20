@@ -19,7 +19,6 @@ import { createLogger } from "~/lib/logger";
 
 const logger = createLogger("Registration");
 
-
 const registerSchema = z.object({
   name: z
     .string()
@@ -52,7 +51,6 @@ export async function POST(request: NextRequest) {
   reqLogger.info("Processing registration request");
 
   try {
-    
     let body: unknown;
     try {
       body = await request.json();
@@ -70,7 +68,10 @@ export async function POST(request: NextRequest) {
     let validatedData: z.infer<typeof registerSchema>;
     try {
       validatedData = registerSchema.parse(body);
-      reqLogger.debug("Input validation passed", { email: validatedData.email, role: validatedData.role });
+      reqLogger.debug("Input validation passed", {
+        email: validatedData.email,
+        role: validatedData.role,
+      });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const errorMessage = error.issues.map((err) => err.message).join(", ");
@@ -93,7 +94,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    
     reqLogger.debug("Creating user in database");
     let newUser:
       | {
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
       | undefined;
 
     try {
-      const insertedUsers = await (db as any)
+      const insertedUsers = await db
         .insert(users)
         .values({
           name: validatedData.name,
@@ -115,10 +115,10 @@ export async function POST(request: NextRequest) {
           role: "user",
         })
         .returning({
-          id: (users as any).id,
-          name: (users as any).name,
-          email: (users as any).email,
-          role: (users as any).role,
+          id: users.id,
+          name: users.name,
+          email: users.email,
+          role: users.role,
         });
 
       newUser = insertedUsers[0] as
@@ -175,9 +175,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    reqLogger.info("User created successfully", { id: newUser.id, email: newUser.email, role: newUser.role });
+    reqLogger.info("User created successfully", {
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+    });
 
-    
     reqLogger.debug("Verifying user creation");
     const verificationResult = await validateUserByEmail(
       newUser.email,
@@ -185,9 +188,10 @@ export async function POST(request: NextRequest) {
     );
 
     if (!verificationResult.isValid) {
-      reqLogger.error("Post-creation verification failed", { error: verificationResult.error });
-      
-      
+      reqLogger.error("Post-creation verification failed", {
+        error: verificationResult.error,
+      });
+
       logAuthError(
         createAuthError(
           AuthErrorType.DATABASE_QUERY_FAILED,
@@ -203,7 +207,6 @@ export async function POST(request: NextRequest) {
       reqLogger.debug("User creation verified");
     }
 
-    
     return NextResponse.json(
       {
         message: "User registered successfully",
@@ -219,7 +222,6 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     reqLogger.error("Unexpected error during registration", error);
 
-    
     const authError = createAuthError(
       AuthErrorType.UNKNOWN_ERROR,
       "Unexpected error during registration",
@@ -231,7 +233,6 @@ export async function POST(request: NextRequest) {
 
     logAuthError(authError, { operation: "registration", requestId });
 
-    
     return NextResponse.json(
       { error: "An unexpected error occurred. Please try again later." },
       { status: 500 },

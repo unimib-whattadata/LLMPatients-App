@@ -5,124 +5,40 @@ import type { AppDb } from "~/server/db";
 import { withDatabaseLockRetry } from "~/server/db/errors";
 import { chat, therapySessions, patients } from "~/server/db/tables";
 import {
+  chatMessageSchema,
+  parseStoredChatMessages,
+  type ChatMessage,
+} from "~/server/services/chat-messages";
+import {
   analyzeAndPersistStepEvaluation,
   queueStepEvaluation,
 } from "~/server/services/step-misstep-evaluations";
+import {
+  getOwnedTherapySession,
+  requireOwnedTherapySession,
+  type OwnedTherapySession,
+} from "~/server/services/therapy-session-access";
 import {
   patientResponseGenerator,
   type InitializePatientInput,
 } from "~/server/services/patient-response-generator";
 import { createLogger } from "~/lib/logger";
-
-import type { ResponseMetadata } from "~/server/services/patient-response-generator";
+import { parseStringArray } from "~/server/utils/json";
 
 const logger = createLogger("Chat");
-
-// Helper to normalize emotion string to match PatientEmotion type
-function normalizeEmotion(emotion: unknown): "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "PANIC_GRIEF" | "SADNESS" | "PLAY" | "base" {
-  if (!emotion || typeof emotion !== "string") {
-    return "base";
-  }
-
-  // Convert to uppercase to match PatientEmotion type
-  const emotionUpper = emotion.toUpperCase();
-
-  // Map valid emotions
-  const validEmotions = [
-    "SEEKING",
-    "RAGE",
-    "FEAR",
-    "CARE",
-    "LUST",
-    "PANIC_GRIEF",
-    "SADNESS",
-    "PLAY",
-    "base",
-  ] as const;
-
-  // Check if it's a valid emotion (case-insensitive)
-  const matchedEmotion = validEmotions.find(
-    (e) => e.toUpperCase() === emotionUpper
-  );
-
-  return matchedEmotion ?? "base";
-}
-
-// Helper to normalize chat messages from database
-function normalizeChatMessages(messages: unknown): ChatMessage[] {
-  if (!Array.isArray(messages)) {
-    return [];
-  }
-
-  return messages.map((msg: any) => ({
-    ...msg,
-    emotion: msg.emotion ? normalizeEmotion(msg.emotion) : undefined,
-  })) as ChatMessage[];
-}
-
-async function ensureTherapySessionAccess(
-  dbClient: AppDb,
-  therapySessionId: string,
-  userId: string,
-): Promise<{
-  id: string;
-  patientId: string;
-  externalPatientId: string | null;
-}> {
-  const therapySession = await dbClient
-    .select({
-      id: therapySessions.id,
-      patientId: therapySessions.patientId,
-      externalPatientId: therapySessions.externalPatientId,
-    })
-    .from(therapySessions)
-    .where(
-      and(
-        eq(therapySessions.id, therapySessionId),
-        eq(therapySessions.userId, userId),
-      ),
-    )
-    .limit(1);
-
-  if (therapySession.length === 0) {
-    throw new Error("Therapy session not found or access denied");
-  }
-
-  return therapySession[0]!;
-}
-
-function parseJsonStringArray(value: string | null | undefined): string[] {
-  if (!value) {
-    return [];
-  }
-
-  try {
-    const parsed = JSON.parse(value) as unknown;
-    return Array.isArray(parsed)
-      ? parsed.filter((entry): entry is string => typeof entry === "string")
-      : [];
-  } catch {
-    return [];
-  }
-}
 
 async function buildInitializePatientInput(
   dbClient: AppDb,
   therapySessionId: string,
   userId: string,
 ): Promise<{
-  therapySession: {
-    id: string;
-    patientId: string;
-    externalPatientId: string | null;
-  };
+  therapySession: OwnedTherapySession;
   initInput: InitializePatientInput;
 }> {
-  const therapySession = await ensureTherapySessionAccess(
-    dbClient,
+  const therapySession = await requireOwnedTherapySession(dbClient, {
     therapySessionId,
     userId,
-  );
+  });
 
   const patientResult = await dbClient
     .select({
@@ -161,8 +77,8 @@ async function buildInitializePatientInput(
         psychologicalProfile:
           patient.psychologicalProfile ?? patient.clinicalCase,
         background: patient.clinicalCase,
-        currentMedications: parseJsonStringArray(patient.currentMedications),
-        therapyGoals: parseJsonStringArray(patient.objectives),
+        currentMedications: parseStringArray(patient.currentMedications),
+        therapyGoals: parseStringArray(patient.objectives),
         previousSessions: patient.previousSessions ?? 0,
       },
     },
@@ -192,16 +108,6 @@ async function markSessionCompletedIfNeeded(
   logger.info("Therapy session completed", { step: 11 });
 }
 
-export interface ChatMessage {
-  id: string;
-  content: string;
-  sender: "user" | "patient";
-  timestamp: Date;
-  stepId: number;
-  emotion?: "SEEKING" | "RAGE" | "FEAR" | "CARE" | "LUST" | "PANIC_GRIEF" | "SADNESS" | "PLAY" | "base";
-  metadata?: ResponseMetadata;
-}
-
 export interface Chat {
   id: string;
   userId: string;
@@ -214,7 +120,6 @@ export interface Chat {
 }
 
 export const chatRouter = createTRPCRouter({
-
   getChatStep: protectedProcedure
     .input(
       z.object({
@@ -223,19 +128,12 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      const therapySession = await getOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
-      const therapySession = await ctx.db
-        .select()
-        .from(therapySessions)
-        .where(
-          and(
-            eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id),
-          ),
-        )
-        .limit(1);
-
-      if (therapySession.length === 0) {
+      if (!therapySession) {
         return null;
       }
 
@@ -255,85 +153,31 @@ export const chatRouter = createTRPCRouter({
       }
 
       const chatData = chatStep[0];
-      const parsedMessages = JSON.parse(chatData!.messages) as ChatMessage[];
       return {
         ...chatData,
-        messages: normalizeChatMessages(parsedMessages),
+        messages: parseStoredChatMessages(chatData!.messages),
       };
     }),
-
 
   saveChatStep: protectedProcedure
     .input(
       z.object({
         therapySessionId: z.string(),
         stepNumber: z.number(),
-        messages: z.array(
-          z.object({
-            id: z.string(),
-            content: z.string(),
-            sender: z.enum(["user", "patient"]),
-            timestamp: z.date(),
-            stepId: z.number(),
-            emotion: z.enum(["SEEKING", "RAGE", "FEAR", "CARE", "LUST", "PANIC_GRIEF", "SADNESS", "PLAY", "base"]).optional(),
-            metadata: z.object({
-              apiType: z.enum(["MOCK", "REAL"]),
-              endpoint: z.string().optional(),
-              requestData: z.object({
-                patientId: z.string().optional(),
-                patientName: z.string().optional(),
-                userMessage: z.string().optional(),
-                sessionId: z.string().optional(),
-                stepId: z.number().optional(),
-                externalPatientId: z.string().optional(),
-              }).optional(),
-              responseData: z.object({
-                message: z.string().optional(),
-                emotion: z.string().optional(),
-                topic: z.string().optional(),
-                reasoningTime: z.number().optional(),
-                status: z.string().optional(),
-                code: z.string().optional(),
-                externalPatientId: z.string().optional(),
-                patientName: z.string().nullable().optional(),
-                avatarUrl: z.string().nullable().optional(),
-                emotionSnapshot: z.object({
-                  dominant: z.string(),
-                  intensity: z.number(),
-                  vector: z.record(z.string(), z.number()),
-                  event: z.string().nullable().optional(),
-                  salience: z.number().nullable().optional(),
-                  description: z.string(),
-                }).nullable().optional(),
-                emotionTimeline: z.array(
-                  z.object({
-                    turn_index: z.number(),
-                    timestamp: z.string(),
-                    emotion: z.string(),
-                    intensity: z.number(),
-                  }),
-                ).optional(),
-              }).optional(),
-              rawResponseJson: z.string().optional(),
-              duration: z.number().optional(),
-              timestamp: z.string(),
-            }).optional(),
-          }),
-        ),
+        messages: z.array(chatMessageSchema),
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      await ensureTherapySessionAccess(
-        ctx.db,
-        input.therapySessionId,
-        ctx.session.user.id,
-      );
+      await requireOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
       const serializedMessages = JSON.stringify(input.messages);
       const savedChat = await withDatabaseLockRetry(async () => {
         // The pair (therapySessionId, stepNumber) is unique, so an upsert keeps
-        // repeated saves idempotent across both SQLite and PostgreSQL.
-        const savedChats = (await (ctx.db as any)
+        // repeated saves idempotent.
+        const savedChats = await ctx.db
           .insert(chat)
           .values({
             therapySessionId: input.therapySessionId,
@@ -350,7 +194,7 @@ export const chatRouter = createTRPCRouter({
               updatedAt: new Date(),
             },
           })
-          .returning()) as any[];
+          .returning();
 
         return savedChats[0];
       });
@@ -359,13 +203,11 @@ export const chatRouter = createTRPCRouter({
         throw new Error("Failed to save chat step");
       }
 
-      const parsedMessages = JSON.parse(savedChat.messages) as ChatMessage[];
       return {
         ...savedChat,
-        messages: normalizeChatMessages(parsedMessages),
+        messages: parseStoredChatMessages(savedChat.messages),
       };
     }),
-
 
   markStepDone: protectedProcedure
     .input(
@@ -381,16 +223,15 @@ export const chatRouter = createTRPCRouter({
         userId: ctx.session.user.id,
       });
 
-      await ensureTherapySessionAccess(
-        ctx.db,
-        input.therapySessionId,
-        ctx.session.user.id,
-      );
+      await requireOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
       const savedChat = await withDatabaseLockRetry(async () => {
         // "Done" can arrive before or after messages have been saved. This
         // upsert guarantees the row exists without wiping an existing payload.
-        const savedChats = (await (ctx.db as any)
+        const savedChats = await ctx.db
           .insert(chat)
           .values({
             therapySessionId: input.therapySessionId,
@@ -406,7 +247,7 @@ export const chatRouter = createTRPCRouter({
               updatedAt: new Date(),
             },
           })
-          .returning()) as any[];
+          .returning();
 
         await markSessionCompletedIfNeeded(
           ctx.db,
@@ -443,12 +284,9 @@ export const chatRouter = createTRPCRouter({
 
       return {
         ...savedChat,
-        messages: normalizeChatMessages(
-          JSON.parse(savedChat.messages) as ChatMessage[],
-        ),
+        messages: parseStoredChatMessages(savedChat.messages),
       };
     }),
-
 
   getSessionChats: protectedProcedure
     .input(
@@ -457,19 +295,12 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      const therapySession = await getOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
-      const therapySession = await ctx.db
-        .select()
-        .from(therapySessions)
-        .where(
-          and(
-            eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id),
-          ),
-        )
-        .limit(1);
-
-      if (therapySession.length === 0) {
+      if (!therapySession) {
         return [];
       }
 
@@ -480,14 +311,12 @@ export const chatRouter = createTRPCRouter({
         .orderBy(chat.stepNumber);
 
       return chatSteps.map((step: typeof chat.$inferSelect) => {
-        const parsedMessages = JSON.parse(step.messages) as ChatMessage[];
         return {
           ...step,
-          messages: normalizeChatMessages(parsedMessages),
+          messages: parseStoredChatMessages(step.messages),
         };
       });
     }),
-
 
   isStepCompleted: protectedProcedure
     .input(
@@ -497,19 +326,12 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .query(async ({ ctx, input }) => {
+      const therapySession = await getOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
-      const therapySession = await ctx.db
-        .select()
-        .from(therapySessions)
-        .where(
-          and(
-            eq(therapySessions.id, input.therapySessionId),
-            eq(therapySessions.userId, ctx.session.user.id),
-          ),
-        )
-        .limit(1);
-
-      if (therapySession.length === 0) {
+      if (!therapySession) {
         return false;
       }
 
@@ -526,7 +348,6 @@ export const chatRouter = createTRPCRouter({
 
       return chatStep.length > 0 ? chatStep[0]!.done : false;
     }),
-
 
   generatePatientResponse: protectedProcedure
     .input(
@@ -562,7 +383,6 @@ export const chatRouter = createTRPCRouter({
       return await patientResponseGenerator.generateResponse(input);
     }),
 
-
   generateChatResponse: protectedProcedure
     .input(
       z.object({
@@ -572,11 +392,10 @@ export const chatRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const therapySession = await ensureTherapySessionAccess(
-        ctx.db,
-        input.therapySessionId,
-        ctx.session.user.id,
-      );
+      const therapySession = await requireOwnedTherapySession(ctx.db, {
+        therapySessionId: input.therapySessionId,
+        userId: ctx.session.user.id,
+      });
 
       if (!therapySession.externalPatientId) {
         throw new Error("Patient not initialized for this therapy session");
@@ -590,7 +409,6 @@ export const chatRouter = createTRPCRouter({
         therapist_id: ctx.session.user.id,
       });
     }),
-
 
   initializePatient: protectedProcedure
     .input(
@@ -634,12 +452,9 @@ export const chatRouter = createTRPCRouter({
       return initResponse;
     }),
 
-
   toggleExternalAI: protectedProcedure
     .input(z.object({ enabled: z.boolean() }))
     .mutation(async ({ input }) => {
       return { success: true, externalAIEnabled: input.enabled };
     }),
-
-
 });

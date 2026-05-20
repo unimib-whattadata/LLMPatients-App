@@ -1,16 +1,15 @@
 function getErrorCause(error: unknown): unknown {
-  if (
-    typeof error === "object" &&
-    error !== null &&
-    "cause" in error
-  ) {
+  if (typeof error === "object" && error !== null && "cause" in error) {
     return (error as { cause?: unknown }).cause;
   }
 
   return undefined;
 }
 
-function collectDbMessages(error: unknown, messages = new Set<string>()): Set<string> {
+function collectDbMessages(
+  error: unknown,
+  messages = new Set<string>(),
+): Set<string> {
   // Drizzle wraps driver errors, so we walk the full cause chain and keep the
   // combined messages available to the higher-level mappers.
   if (error instanceof Error) {
@@ -27,7 +26,10 @@ function collectDbMessages(error: unknown, messages = new Set<string>()): Set<st
   return messages;
 }
 
-function collectDbCodes(error: unknown, codes = new Set<string>()): Set<string> {
+function collectDbCodes(
+  error: unknown,
+  codes = new Set<string>(),
+): Set<string> {
   // Database-specific codes may also live in nested causes.
   if (
     typeof error === "object" &&
@@ -46,6 +48,14 @@ function collectDbCodes(error: unknown, codes = new Set<string>()): Set<string> 
   return codes;
 }
 
+const POSTGRES_UNIQUE_VIOLATION = "23505";
+const POSTGRES_RETRYABLE_ERROR_CODES = new Set(["40001", "40P01", "55P03"]);
+const RETRYABLE_POSTGRES_MESSAGE_FRAGMENTS = [
+  "could not serialize access",
+  "deadlock detected",
+  "could not obtain lock",
+] as const;
+
 export function getDbErrorMessage(error: unknown): string {
   return Array.from(collectDbMessages(error)).join(" | ");
 }
@@ -63,8 +73,7 @@ export function isUniqueConstraintError(
   const normalizedField = fieldName?.toLowerCase();
 
   const matchesUniqueViolation =
-    code === "23505" ||
-    code === "SQLITE_CONSTRAINT_UNIQUE" ||
+    code === POSTGRES_UNIQUE_VIOLATION ||
     message.includes("unique constraint") ||
     message.includes("duplicate key") ||
     message.includes("is not unique");
@@ -85,9 +94,10 @@ export function isDatabaseLockedError(error: unknown): boolean {
   const code = getDbErrorCode(error);
 
   return (
-    code === "SQLITE_BUSY" ||
-    message.includes("database is locked") ||
-    message.includes("sqlite_busy")
+    (code ? POSTGRES_RETRYABLE_ERROR_CODES.has(code) : false) ||
+    RETRYABLE_POSTGRES_MESSAGE_FRAGMENTS.some((fragment) =>
+      message.includes(fragment),
+    )
   );
 }
 
@@ -115,8 +125,8 @@ export async function withDatabaseLockRetry<T>(
     } catch (error) {
       attempt += 1;
 
-      // SQLite can briefly lock the file during concurrent writes. We retry
-      // only that transient case and let every other error fail fast.
+      // PostgreSQL can fail transiently on serialization conflicts or locks.
+      // Retry only those cases and let every other error fail fast.
       if (!isDatabaseLockedError(error) || attempt >= maxAttempts) {
         throw error;
       }

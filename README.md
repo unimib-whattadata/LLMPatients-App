@@ -61,7 +61,7 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 
 - **Node.js**: v18 or higher.
 - **pnpm**: Recommended package manager.
-- **Database**: SQLite (default, included) or PostgreSQL (via Docker).
+- **Database**: PostgreSQL.
 - **Python**: v3.10+ (required only if using local TTS modules like Chatterbox/VibeVoice).
 - **External patient service**: Optional remote API credentials if `API=remote`.
 - **Vertex AI**: Optional Google Cloud credentials if you want hybrid LLM judging for misstep analysis.
@@ -86,7 +86,7 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
     ```
     If you prefer, you can also create `.env` manually from scratch.
 
-4.  **Prepare the database** (SQLite):
+4.  **Prepare the database** (PostgreSQL):
     ```bash
     pnpm db:push
     pnpm db:seed
@@ -94,7 +94,7 @@ The goal is to provide a "safe gym" to make mistakes and learn without risks for
 
 ## Quickstart
 
-To start the application in development mode (default SQLite):
+To start the application in development mode:
 
 ```bash
 pnpm dev
@@ -108,7 +108,7 @@ Main environment variables in `.env`:
 
 | Variable | Description | Default |
 |-----------|-------------|---------|
-| `DATABASE_URL` | DB connection string (e.g., `file:./dev.db`) | - |
+| `DATABASE_URL` | PostgreSQL connection string (e.g., `postgresql://postgres:postgres@127.0.0.1:5432/postgres`) | - |
 | `AUTH_SECRET` | Secret for NextAuth (e.g., `openssl rand -base64 32`) | - |
 | `NEXTAUTH_SECRET` | Optional explicit NextAuth secret | - |
 | `API` | Patient generation mode: `local` or `remote` | `local` |
@@ -161,7 +161,7 @@ The project is built on **Next.js 15** (App Router) and T3 stack.
 
 - **Frontend**: React, Tailwind CSS, Shadcn/UI.
 - **Backend**: Next.js Server Actions, tRPC.
-- **Database**: Drizzle ORM (SQLite/Postgres).
+- **Database**: Drizzle ORM with PostgreSQL.
 - **AI Core**:
     - `src/server/services/patient-response-generator.ts`: patient orchestration and remote/local chat generation.
     - `src/server/services/misstep-evaluator.ts`: heuristic + optional Vertex AI misstep scoring for a single completed chat step.
@@ -183,7 +183,7 @@ To run the backend integration scenario used by this project:
 pnpm test:backend
 ```
 
-This covers core persistence flows across SQLite and, when available, PostgreSQL, including chat-step completion and misstep evaluation persistence.
+This covers core PostgreSQL persistence flows, including chat-step completion and misstep evaluation persistence.
 
 **Coverage and Linting**:
 ```bash

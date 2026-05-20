@@ -8,25 +8,12 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 import { userActivities, users } from "~/server/db/tables";
-
-function parseActivityMetadata(metadata: string | null) {
-  // Metadata is stored as JSON text across both dialects. A bad row should not
-  // take down the dashboard, so malformed payloads are treated as missing.
-  if (!metadata) {
-    return null;
-  }
-
-  try {
-    return JSON.parse(metadata) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
+import { parseJsonRecord } from "~/server/utils/json";
 
 export const dashboardRouter = createTRPCRouter({
   getAllUsers: adminProcedure.query(async ({ ctx }) => {
     try {
-      return await (ctx.db as any)
+      return await ctx.db
         .select({
           id: users.id,
           name: users.name,
@@ -63,7 +50,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        const updatedUser = await (ctx.db as any)
+        const updatedUser = await ctx.db
           .update(users)
           .set({ role: input.role })
           .where(eq(users.id, input.userId))
@@ -81,7 +68,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        await (ctx.db as any).insert(userActivities).values({
+        await ctx.db.insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "role_update",
           metadata: JSON.stringify({
@@ -109,39 +96,41 @@ export const dashboardRouter = createTRPCRouter({
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-      const [totalUsersResult, activeUsersResult, adminUsersResult, recentActivities] =
-        await Promise.all([
-          (ctx.db as any)
-            .select({ count: count() })
-            .from(users),
-          (ctx.db as any)
-            .select({
-              count: sql<number>`count(distinct ${userActivities.userId})`,
-            })
-            .from(userActivities)
-            .where(
-              and(
-                eq((userActivities as any).activityType, "login"),
-                gte((userActivities as any).createdAt, thirtyDaysAgo),
-              ),
+      const [
+        totalUsersResult,
+        activeUsersResult,
+        adminUsersResult,
+        recentActivities,
+      ] = await Promise.all([
+        ctx.db.select({ count: count() }).from(users),
+        ctx.db
+          .select({
+            count: sql<number>`count(distinct ${userActivities.userId})`,
+          })
+          .from(userActivities)
+          .where(
+            and(
+              eq(userActivities.activityType, "login"),
+              gte(userActivities.createdAt, thirtyDaysAgo),
             ),
-          (ctx.db as any)
-            .select({ count: count() })
-            .from(users)
-            .where(eq(users.role, "admin")),
-          (ctx.db as any)
-            .select({
-              id: (userActivities as any).id,
-              activityType: (userActivities as any).activityType,
-              metadata: (userActivities as any).metadata,
-              createdAt: (userActivities as any).createdAt,
-              userName: users.name,
-            })
-            .from(userActivities)
-            .leftJoin(users, eq(userActivities.userId, users.id))
-            .orderBy(desc(userActivities.createdAt))
-            .limit(10),
-        ]);
+          ),
+        ctx.db
+          .select({ count: count() })
+          .from(users)
+          .where(eq(users.role, "admin")),
+        ctx.db
+          .select({
+            id: userActivities.id,
+            activityType: userActivities.activityType,
+            metadata: userActivities.metadata,
+            createdAt: userActivities.createdAt,
+            userName: users.name,
+          })
+          .from(userActivities)
+          .leftJoin(users, eq(userActivities.userId, users.id))
+          .orderBy(desc(userActivities.createdAt))
+          .limit(10),
+      ]);
 
       return {
         totalUsers: Number(totalUsersResult[0]?.count ?? 0),
@@ -149,12 +138,12 @@ export const dashboardRouter = createTRPCRouter({
         // engagement metric, not the same thing as the auth-level isActive flag.
         activeUsers: Number(activeUsersResult[0]?.count ?? 0),
         adminUsers: Number(adminUsersResult[0]?.count ?? 0),
-        recentActivities: recentActivities.map((activity: any) => ({
+        recentActivities: recentActivities.map((activity) => ({
           id: activity.id,
           type: activity.activityType,
           createdAt: activity.createdAt,
           userName: activity.userName ?? "Unknown User",
-          metadata: parseActivityMetadata(activity.metadata),
+          metadata: parseJsonRecord(activity.metadata),
         })),
       };
     } catch {
@@ -167,7 +156,7 @@ export const dashboardRouter = createTRPCRouter({
 
   getUserProfile: protectedProcedure.query(async ({ ctx }) => {
     try {
-      const userProfile = await (ctx.db as any)
+      const userProfile = await ctx.db
         .select({
           id: users.id,
           name: users.name,
@@ -212,7 +201,7 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const existingUser = await (ctx.db as any)
+        const existingUser = await ctx.db
           .select({ id: users.id })
           .from(users)
           .where(
@@ -232,7 +221,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        const updatedUser = await (ctx.db as any)
+        const updatedUser = await ctx.db
           .update(users)
           .set({
             name: input.name,
@@ -253,7 +242,7 @@ export const dashboardRouter = createTRPCRouter({
           });
         }
 
-        await (ctx.db as any).insert(userActivities).values({
+        await ctx.db.insert(userActivities).values({
           userId: ctx.session.user.id,
           activityType: "profile_update",
           metadata: JSON.stringify({
@@ -284,23 +273,23 @@ export const dashboardRouter = createTRPCRouter({
     )
     .query(async ({ ctx, input }) => {
       try {
-        const activities = await (ctx.db as any)
+        const activities = await ctx.db
           .select({
-            id: (userActivities as any).id,
-            activityType: (userActivities as any).activityType,
-            metadata: (userActivities as any).metadata,
-            createdAt: (userActivities as any).createdAt,
+            id: userActivities.id,
+            activityType: userActivities.activityType,
+            metadata: userActivities.metadata,
+            createdAt: userActivities.createdAt,
           })
           .from(userActivities)
           .where(eq(userActivities.userId, ctx.session.user.id))
           .orderBy(desc(userActivities.createdAt))
           .limit(input.limit);
 
-        return activities.map((activity: any) => ({
+        return activities.map((activity) => ({
           id: String(activity.id),
           type: activity.activityType,
           createdAt: activity.createdAt,
-          metadata: parseActivityMetadata(activity.metadata),
+          metadata: parseJsonRecord(activity.metadata),
         }));
       } catch {
         throw new TRPCError({
@@ -324,7 +313,7 @@ export const dashboardRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        const activity = await (ctx.db as any)
+        const activity = await ctx.db
           .insert(userActivities)
           .values({
             userId: ctx.session.user.id,
@@ -332,9 +321,9 @@ export const dashboardRouter = createTRPCRouter({
             metadata: input.metadata ? JSON.stringify(input.metadata) : null,
           })
           .returning({
-            id: (userActivities as any).id,
-            activityType: (userActivities as any).activityType,
-            createdAt: (userActivities as any).createdAt,
+            id: userActivities.id,
+            activityType: userActivities.activityType,
+            createdAt: userActivities.createdAt,
           });
 
         return activity[0]!;
@@ -357,11 +346,11 @@ export const dashboardRouter = createTRPCRouter({
         studentsWithSimulationsResult,
         totalSimulationsResult,
       ] = await Promise.all([
-        (ctx.db as any)
+        ctx.db
           .select({ count: count() })
           .from(users)
           .where(eq(users.role, "user")),
-        (ctx.db as any)
+        ctx.db
           .select({
             count: sql<number>`count(distinct ${userActivities.userId})`,
           })
@@ -369,14 +358,14 @@ export const dashboardRouter = createTRPCRouter({
           .innerJoin(users, eq(userActivities.userId, users.id))
           .where(
             and(
-              eq((userActivities as any).activityType, "login"),
+              eq(userActivities.activityType, "login"),
               eq(users.role, "user"),
-              gte((userActivities as any).createdAt, thirtyDaysAgo),
+              gte(userActivities.createdAt, thirtyDaysAgo),
             ),
           ),
         // We currently only know whether a student produced at least one
         // simulation event, so completionRate is intentionally a coarse proxy.
-        (ctx.db as any)
+        ctx.db
           .select({
             count: sql<number>`count(distinct ${userActivities.userId})`,
           })
@@ -384,17 +373,17 @@ export const dashboardRouter = createTRPCRouter({
           .innerJoin(users, eq(userActivities.userId, users.id))
           .where(
             and(
-              eq((userActivities as any).activityType, "simulation"),
+              eq(userActivities.activityType, "simulation"),
               eq(users.role, "user"),
             ),
           ),
-        (ctx.db as any)
+        ctx.db
           .select({ count: count() })
           .from(userActivities)
           .innerJoin(users, eq(userActivities.userId, users.id))
           .where(
             and(
-              eq((userActivities as any).activityType, "simulation"),
+              eq(userActivities.activityType, "simulation"),
               eq(users.role, "user"),
             ),
           ),

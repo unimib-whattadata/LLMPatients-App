@@ -47,6 +47,14 @@ type TokenUserPayload = {
   isActive: boolean;
 };
 
+type AuthSession = DefaultSession & {
+  user: {
+    id: string;
+    role: UserRole;
+    isActive: boolean;
+  } & DefaultSession["user"];
+};
+
 function getStringField(
   candidate: unknown,
   field: string,
@@ -68,7 +76,9 @@ function getStringField(
   return undefined;
 }
 
-function hasTokenUserPayload(candidate: unknown): candidate is TokenUserPayload {
+function hasTokenUserPayload(
+  candidate: unknown,
+): candidate is TokenUserPayload {
   return (
     typeof candidate === "object" &&
     candidate !== null &&
@@ -132,13 +142,7 @@ function applyUserToToken(
 }
 
 function applyTokenToSession(
-  session: DefaultSession & {
-    user: {
-      id: string;
-      role: UserRole;
-      isActive: boolean;
-    } & DefaultSession["user"];
-  },
+  session: AuthSession,
   token: Record<string, unknown>,
 ) {
   session.user.id = (token.id as string) ?? "";
@@ -312,7 +316,8 @@ export const authConfig = {
         const lastValidated = (token.lastValidated as number | undefined) ?? 0;
         const validationInterval = 5 * 60 * 1000;
         const shouldValidate =
-          trigger === "update" || currentTime - lastValidated > validationInterval;
+          trigger === "update" ||
+          currentTime - lastValidated > validationInterval;
 
         if (shouldValidate) {
           try {
@@ -357,7 +362,7 @@ export const authConfig = {
         return session;
       }
 
-      applyTokenToSession(session as typeof session & { user: any }, token);
+      applyTokenToSession(session as AuthSession, token);
       if (typeof token.sessionExpiresAt === "number") {
         (session as unknown as Record<string, unknown>).expires = new Date(
           token.sessionExpiresAt,

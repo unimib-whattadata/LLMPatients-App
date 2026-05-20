@@ -8,15 +8,14 @@ import { stepEvaluationsRouter } from "~/server/api/routers/step-evaluations";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 export const appRouter = createTRPCRouter({
-  dashboard: dashboardRouter, 
-  userManagement: userManagementRouter, 
-  impersonation: impersonationRouter, 
-  patients: patientsRouter, 
+  dashboard: dashboardRouter,
+  userManagement: userManagementRouter,
+  impersonation: impersonationRouter,
+  patients: patientsRouter,
   therapySessions: therapySessionsRouter,
-  chat: chatRouter, 
+  chat: chatRouter,
   stepEvaluations: stepEvaluationsRouter,
 });
-
 
 export type AppRouter = typeof appRouter;
 

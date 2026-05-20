@@ -2,33 +2,25 @@ import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
-import { chat, therapySessions } from "~/server/db/tables";
+import type { AppDb } from "~/server/db";
+import { chat } from "~/server/db/tables";
 import {
   analyzeAndPersistStepEvaluation,
   getStepEvaluationByStep,
   queueStepEvaluation,
 } from "~/server/services/step-misstep-evaluations";
+import { getOwnedTherapySession } from "~/server/services/therapy-session-access";
 
 async function getOwnedCompletedStep(
-  db: any,
+  db: AppDb,
   input: {
     therapySessionId: string;
     stepNumber: number;
     userId: string;
   },
 ) {
-  const sessionRows = await db
-    .select({ id: therapySessions.id })
-    .from(therapySessions)
-    .where(
-      and(
-        eq(therapySessions.id, input.therapySessionId),
-        eq(therapySessions.userId, input.userId),
-      ),
-    )
-    .limit(1);
-
-  if (!sessionRows[0]) {
+  const session = await getOwnedTherapySession(db, input);
+  if (!session) {
     return null;
   }
 

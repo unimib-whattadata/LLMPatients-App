@@ -1,7 +1,7 @@
 
-import { createClient } from "@libsql/client";
-import { drizzle } from "drizzle-orm/libsql";
+import { drizzle } from "drizzle-orm/postgres-js";
 import { eq } from "drizzle-orm";
+import postgres from "postgres";
 // import { users } from "../src/server/db/tables"; // Dynamic import used instead
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
@@ -337,7 +337,7 @@ class ProjectStructureChecker {
             "tsconfig.json",
             "tailwind.config.ts",
             "src/app/layout.tsx",
-            "src/server/db/schema.ts",
+            "src/server/db/schema-postgres.ts",
             "src/server/auth/config.ts",
         ];
 
@@ -423,7 +423,7 @@ class DependenciesChecker {
                 "next",
                 "react",
                 "react-dom",
-                "@libsql/client",
+                "postgres",
                 "drizzle-orm",
                 "next-auth",
             ];
@@ -520,11 +520,7 @@ class DatabaseChecker {
             Logger.info("📊 Database Information:");
             this.logDatabaseInfo(databaseUrl);
 
-            const client = createClient({
-                url: databaseUrl,
-                authToken: process.env.DATABASE_AUTH_TOKEN,
-            });
-
+            const client = postgres(databaseUrl, { max: 1 });
             const db = drizzle(client) as any;
 
             const { users } = await import("../src/server/db/tables");
@@ -541,7 +537,7 @@ class DatabaseChecker {
 
             this.checkDatabaseSchema();
 
-            client.close();
+            await client.end({ timeout: 0 }).catch(() => undefined);
             return true;
         } catch (error) {
             Logger.error("Database connection failed:");
@@ -633,10 +629,7 @@ class AuthenticationChecker {
     static async testUserAuthentication(): Promise<boolean> {
         Logger.section("👤 User Authentication Test");
         try {
-            const client = createClient({
-                url: process.env.DATABASE_URL!,
-                authToken: process.env.DATABASE_AUTH_TOKEN,
-            });
+            const client = postgres(process.env.DATABASE_URL!, { max: 1 });
             const db = drizzle(client) as any;
 
             const { users } = await import("../src/server/db/tables");
@@ -654,7 +647,7 @@ class AuthenticationChecker {
                 Logger.info("Run 'pnpm run db:seed' to create test users");
             }
 
-            client.close();
+            await client.end({ timeout: 0 }).catch(() => undefined);
             return true;
         } catch (error) {
             Logger.error("User authentication test failed:");
@@ -738,7 +731,7 @@ class PermissionsChecker {
             "package.json",
             "next.config.js",
             "src/app/layout.tsx",
-            "src/server/db/schema.ts",
+            "src/server/db/schema-postgres.ts",
         ];
 
         let allAccessible = true;

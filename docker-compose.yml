@@ -1,9 +1,8 @@
-version: "3.8"
 services:
-  # The bitbrand database in postgres
+  # PostgreSQL database
   pg_bitbrand:
-    container_name: pg # You might want to rename if you frequently switch, e.g. pg_bitbrand_debian
-    image: postgres:17-alpine # Changed from postgres:16-alpine to postgres:16
+    container_name: pg
+    image: postgres:18-alpine
     restart: unless-stopped
     environment:
       POSTGRES_DB: postgres
@@ -15,7 +14,7 @@ services:
       - ./pg__data:/var/lib/postgresql/data
       #- ./pg_init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER"]
       interval: 20s
       timeout: 10s
       retries: 5

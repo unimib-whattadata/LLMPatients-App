@@ -6,14 +6,11 @@ import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { MAX_THERAPY_SESSION_NUMBER } from "~/server/db/contracts";
 import { withDatabaseLockRetry } from "~/server/db/errors";
 import { chat, patients, therapySessions } from "~/server/db/tables";
+import { getActivePatientSessionKey } from "~/server/services/therapy-session-access";
 
 const logger = createLogger("TherapySessions");
 
 export type TherapySession = typeof therapySessions.$inferSelect;
-
-function getActivePatientSessionKey(userId: string, patientId: string) {
-  return `${userId}:${patientId}`;
-}
 
 export const therapySessionsRouter = createTRPCRouter({
   start: protectedProcedure
@@ -32,7 +29,10 @@ export const therapySessionsRouter = createTRPCRouter({
       const { patientId } = input;
       const sessionNumber = input.sessionNumber ?? 1;
       const userId = ctx.session.user.id;
-      const activePatientSessionKey = getActivePatientSessionKey(userId, patientId);
+      const activePatientSessionKey = getActivePatientSessionKey(
+        userId,
+        patientId,
+      );
 
       return withDatabaseLockRetry(async () => {
         // We validate the patient first so "create if missing" never revives
@@ -49,7 +49,7 @@ export const therapySessionsRouter = createTRPCRouter({
 
         // First write wins. Concurrent callers for the same user/patient pair
         // will no-op here and continue with the read/update fallback below.
-        const inserted = (await (ctx.db as any)
+        const inserted = await ctx.db
           .insert(therapySessions)
           .values({
             userId,
@@ -60,7 +60,7 @@ export const therapySessionsRouter = createTRPCRouter({
           .onConflictDoNothing({
             target: [therapySessions.activePatientSessionKey],
           })
-          .returning()) as any[];
+          .returning();
 
         const insertedSession = inserted[0];
         if (insertedSession) {
@@ -70,7 +70,7 @@ export const therapySessionsRouter = createTRPCRouter({
         // If a session already exists, only move it forward. This keeps the
         // endpoint idempotent and prevents an older sessionNumber from
         // overwriting a newer one during concurrent requests.
-        const updated = (await (ctx.db as any)
+        const updated = await ctx.db
           .update(therapySessions)
           .set({
             sessionNumber,
@@ -78,11 +78,14 @@ export const therapySessionsRouter = createTRPCRouter({
           })
           .where(
             and(
-              eq(therapySessions.activePatientSessionKey, activePatientSessionKey),
+              eq(
+                therapySessions.activePatientSessionKey,
+                activePatientSessionKey,
+              ),
               lt(therapySessions.sessionNumber, sessionNumber),
             ),
           )
-          .returning()) as any[];
+          .returning();
 
         const updatedSession = updated[0];
         if (updatedSession) {
@@ -92,7 +95,12 @@ export const therapySessionsRouter = createTRPCRouter({
         const existingSessionResult = await ctx.db
           .select()
           .from(therapySessions)
-          .where(eq(therapySessions.activePatientSessionKey, activePatientSessionKey))
+          .where(
+            eq(
+              therapySessions.activePatientSessionKey,
+              activePatientSessionKey,
+            ),
+          )
           .limit(1);
 
         const existingSession = existingSessionResult[0];
@@ -121,7 +129,10 @@ export const therapySessionsRouter = createTRPCRouter({
             eq(therapySessions.isCompleted, false),
           ),
         )
-        .orderBy(desc(therapySessions.updatedAt), desc(therapySessions.createdAt))
+        .orderBy(
+          desc(therapySessions.updatedAt),
+          desc(therapySessions.createdAt),
+        )
         .limit(1);
 
       if (activeSessionResult[0]) {
@@ -137,7 +148,10 @@ export const therapySessionsRouter = createTRPCRouter({
             eq(therapySessions.patientId, input.patientId),
           ),
         )
-        .orderBy(desc(therapySessions.updatedAt), desc(therapySessions.createdAt))
+        .orderBy(
+          desc(therapySessions.updatedAt),
+          desc(therapySessions.createdAt),
+        )
         .limit(1);
 
       return latestSessionResult[0] ?? null;
@@ -200,14 +214,14 @@ export const therapySessionsRouter = createTRPCRouter({
             MAX_THERAPY_SESSION_NUMBER,
           );
 
-          const updated = (await (tx as any)
+          const updated = await tx
             .update(therapySessions)
             .set({
               sessionNumber: newSessionNumber,
               updatedAt: new Date(),
             })
             .where(eq(therapySessions.id, existingSession.id))
-            .returning()) as any[];
+            .returning();
 
           return updated[0]!;
         }),
@@ -239,7 +253,10 @@ export const therapySessionsRouter = createTRPCRouter({
         .from(therapySessions)
         .leftJoin(patients, eq(therapySessions.patientId, patients.id))
         .where(eq(therapySessions.userId, userId))
-        .orderBy(desc(therapySessions.updatedAt), desc(therapySessions.createdAt));
+        .orderBy(
+          desc(therapySessions.updatedAt),
+          desc(therapySessions.createdAt),
+        );
 
       const completedSteps = await ctx.db
         .select({
@@ -253,13 +270,15 @@ export const therapySessionsRouter = createTRPCRouter({
       // Build the per-session count in one aggregate query to avoid the
       // previous N+1 "one count per session" pattern.
       const completedStepsBySessionId = new Map(
-        completedSteps.map((step: { therapySessionId: string; completedStepsCount: unknown }) => [
-          step.therapySessionId,
-          Number(step.completedStepsCount ?? 0),
-        ]),
+        completedSteps.map(
+          (step: {
+            therapySessionId: string;
+            completedStepsCount: unknown;
+          }) => [step.therapySessionId, Number(step.completedStepsCount ?? 0)],
+        ),
       );
 
-      return sessions.map((session: any) => ({
+      return sessions.map((session) => ({
         id: session.id,
         userId: session.userId,
         patientId: session.patientId,
@@ -281,7 +300,10 @@ export const therapySessionsRouter = createTRPCRouter({
         },
       }));
     } catch (error) {
-      logger.error("Failed to retrieve user therapy sessions", { userId, error });
+      logger.error("Failed to retrieve user therapy sessions", {
+        userId,
+        error,
+      });
       throw error;
     }
   }),

@@ -13,6 +13,7 @@ import {
   patients,
   therapySessions,
 } from "~/server/db/tables";
+import { parseJsonOr, parseStringArray } from "~/server/utils/json";
 
 import { evaluateStepMissteps } from "./misstep-evaluator";
 
@@ -37,28 +38,13 @@ export type ParsedStepEvaluation = StepEvaluationRow & {
   result: StepMisstepEvaluationResult | null;
 };
 
-function safeJsonParse<T>(value: string | null | undefined, fallback: T): T {
-  if (!value) {
-    return fallback;
-  }
-
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    logger.warn("Failed to parse evaluation JSON", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return fallback;
-  }
-}
-
 function parseStepEvaluation(row: StepEvaluationRow): ParsedStepEvaluation {
   return {
     ...row,
-    result: safeJsonParse<StepMisstepEvaluationResult | null>(
-      row.resultJson,
-      null,
-    ),
+    result: parseJsonOr<StepMisstepEvaluationResult | null>(row.resultJson, {
+      fallback: null,
+      context: "step-evaluation.resultJson",
+    }),
   };
 }
 
@@ -94,7 +80,7 @@ export async function queueStepEvaluation(
     forceReanalysis?: boolean;
   },
 ): Promise<{ evaluation: ParsedStepEvaluation; shouldStartAnalysis: boolean }> {
-  const insertedRows = (await (db as any)
+  const insertedRows = (await db
     .insert(chatStepEvaluations)
     .values({
       therapySessionId: input.therapySessionId,
@@ -152,7 +138,7 @@ export async function queueStepEvaluation(
     };
   }
 
-  const updatedRows = (await (db as any)
+  const updatedRows = (await db
     .update(chatStepEvaluations)
     .set({
       status: "processing",
@@ -251,14 +237,17 @@ async function loadEvaluationInput(
   return {
     therapySessionId,
     stepNumber,
-    messages: safeJsonParse(step.messages, []),
+    messages: parseJsonOr(step.messages, {
+      fallback: [],
+      context: "step-evaluation.chatMessages",
+    }),
     patient: {
       id: patient.id,
       name: patient.name,
       smallDescription: patient.smallDescription,
       details: patient.details,
       background: patient.background,
-      objectives: safeJsonParse<string[]>(patient.objectives, []),
+      objectives: parseStringArray(patient.objectives),
       diagnosis: patient.diagnosis,
       difficulty: patient.difficulty,
       gender: patient.gender,
@@ -282,7 +271,7 @@ export async function analyzeAndPersistStepEvaluation(
     );
     const result = await evaluateStepMissteps(evaluationInput);
 
-    await (db as any)
+    await db
       .update(chatStepEvaluations)
       .set({
         status: "completed",
@@ -309,7 +298,7 @@ export async function analyzeAndPersistStepEvaluation(
       error: message,
     });
 
-    await (db as any)
+    await db
       .update(chatStepEvaluations)
       .set({
         status: "failed",

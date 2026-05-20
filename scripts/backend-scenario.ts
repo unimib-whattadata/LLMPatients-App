@@ -3,7 +3,6 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 
 import bcrypt from "bcryptjs";
-import { createClient } from "@libsql/client";
 import { and, eq } from "drizzle-orm";
 import postgres from "postgres";
 
@@ -16,8 +15,6 @@ processEnv.NEXTAUTH_SECRET ??=
 processEnv.API ??= "local";
 processEnv.MISSTEP_ANALYSIS_MODE ??= "heuristic";
 
-type Dialect = "sqlite" | "postgres";
-
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 const THIRTY_DAYS_IN_MS = 30 * ONE_DAY_IN_MS;
 const SESSION_DURATION_TOLERANCE_MS = 60_000;
@@ -28,28 +25,6 @@ function getRequiredEnv(name: string): string {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
-}
-
-async function applySqliteMigrations(databaseUrl: string) {
-  const client = createClient({ url: databaseUrl });
-  const migrationDir = join(process.cwd(), "drizzle");
-  const files = readdirSync(migrationDir)
-    .filter((file) => file.endsWith(".sql"))
-    .sort();
-
-  for (const file of files) {
-    const content = readFileSync(join(migrationDir, file), "utf8");
-    const statements = content
-      .split("--> statement-breakpoint")
-      .map((statement) => statement.trim())
-      .filter(Boolean);
-
-    for (const statement of statements) {
-      await client.execute(statement);
-    }
-  }
-
-  await client.close();
 }
 
 async function applyPostgresMigrations(databaseUrl: string) {
@@ -108,14 +83,13 @@ function assertSessionDurationApprox(
 }
 
 async function main() {
-  const dialect = getRequiredEnv("TEST_DIALECT") as Dialect;
   const databaseUrl = getRequiredEnv("DATABASE_URL");
 
-  if (dialect === "sqlite") {
-    await applySqliteMigrations(databaseUrl);
-  } else {
-    await applyPostgresMigrations(databaseUrl);
+  if (!databaseUrl.startsWith("postgres://") && !databaseUrl.startsWith("postgresql://")) {
+    throw new Error("DATABASE_URL must be a PostgreSQL URL");
   }
+
+  await applyPostgresMigrations(databaseUrl);
 
   const [
     { POST },
@@ -367,7 +341,7 @@ async function main() {
 
   const activity = await registeredUserCaller.dashboard.recordActivity({
     activityType: "simulation",
-    metadata: { source: dialect },
+    metadata: { source: "postgres" },
   });
   assert.ok(activity?.id);
 
@@ -909,7 +883,7 @@ async function main() {
 
   const impersonationStart = await adminCaller.impersonation.startImpersonation({
     targetUserId: targetUser.id,
-    reason: `Testing ${dialect}`,
+    reason: "Testing postgres",
   });
   assert.equal(impersonationStart.success, true);
 
@@ -969,7 +943,7 @@ async function main() {
 
   const restartedImpersonation = await adminCaller.impersonation.startImpersonation({
     targetUserId: targetUser.id,
-    reason: `Retest ${dialect}`,
+    reason: "Retest postgres",
   });
   assert.equal(restartedImpersonation.success, true);
 
@@ -1041,7 +1015,7 @@ async function main() {
   });
   assert.equal(deletedUserRefresh, null);
 
-  console.log(`[backend-scenario:${dialect}] passed`);
+  console.log("[backend-scenario:postgres] passed");
 }
 
 void main();

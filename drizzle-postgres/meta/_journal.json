@@ -36,6 +36,13 @@
       "when": 1775134500000,
       "tag": "0004_mighty_warpath",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1779301361305,
+      "tag": "0005_swift_missteps",
+      "breakpoints": true
     }
   ]
 }

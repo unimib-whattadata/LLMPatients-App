@@ -12,20 +12,11 @@ export const env = createEnv({
     JWT_SECRET: z.string().min(32).optional(),
     DATABASE_URL: z.string().min(1).refine(
       (url) => {
-
-        return (
-          url.startsWith("file:") ||
-          url.startsWith("libsql:") ||
-          url.startsWith("wss:") ||
-          url.startsWith("ws:") ||
-          url.startsWith("https:") ||
-          url.startsWith("http:") ||
-          url.startsWith("postgres://") ||
-          url.startsWith("postgresql://")
-        );
+        return url.startsWith("postgres://") || url.startsWith("postgresql://");
       },
       {
-        message: "DATABASE_URL must be a valid SQLite (file:, libsql:, wss:, ws:, https:, http:) or PostgreSQL (postgres://, postgresql://) URL",
+        message:
+          "DATABASE_URL must be a valid PostgreSQL URL (postgres:// or postgresql://)",
       }
     ),
     NODE_ENV: z

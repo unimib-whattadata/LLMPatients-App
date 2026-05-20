@@ -1,86 +1,60 @@
 import { relations } from "drizzle-orm";
 import {
+  boolean,
   index,
-  primaryKey,
+  integer,
   pgTableCreator,
+  primaryKey,
+  text,
+  timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import {
-  USER_ROLES,
-} from "./contracts";
-// Generate UUID using Web Crypto API (Edge Runtime compatible)
+import { USER_ROLES } from "./contracts";
 const randomUUID = () => crypto.randomUUID();
-
-type AdapterAccount = {
-  type: "oauth" | "email" | "credentials";
-  provider: string;
-  providerAccountId: string;
-  refresh_token?: string;
-  access_token?: string;
-  expires_at?: number;
-  token_type?: string;
-  scope?: string;
-  id_token?: string;
-  session_state?: string;
-};
 
 export const createTable = pgTableCreator((name) => `llmpatient_${name}`);
 
 export const users = createTable(
   "user",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    name: d.text("name"),
-    email: d.text("email").notNull().unique(),
-    emailVerified: d.timestamp("emailVerified", { mode: "date" }),
-    image: d.text("image"),
-    password: d.text("password"),
-    role: d
-      .text("role", { enum: USER_ROLES })
-      .notNull()
-      .default("user"),
-    isActive: d.boolean("isActive").notNull().default(true),
-    createdAt: d
-      .timestamp("createdAt", { mode: "date" })
-      .notNull()
-      .defaultNow(),
-    updatedAt: d
-      .timestamp("updatedAt", { mode: "date" })
-      .notNull()
-      .defaultNow(),
-  }),
+    name: text("name"),
+    email: text("email").notNull().unique(),
+    emailVerified: timestamp("emailVerified", { mode: "date" }),
+    image: text("image"),
+    password: text("password"),
+    role: text("role", { enum: USER_ROLES }).notNull().default("user"),
+    isActive: boolean("isActive").notNull().default(true),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).notNull().defaultNow(),
+  },
   (t) => [
-
     index("users_email_idx").on(t.email),
     index("users_name_idx").on(t.name),
     index("users_role_idx").on(t.role),
   ],
 );
 
-
-
 export const accounts = createTable(
   "account",
-  (d: any) => ({
-    userId: d
-      .text()
+  {
+    userId: text()
       .notNull()
       .references(() => users.id),
-    type: d.text().notNull(),
-    provider: d.text().notNull(),
-    providerAccountId: d.text().notNull(),
-    refresh_token: d.text(),
-    access_token: d.text(),
-    expires_at: d.integer(),
-    token_type: d.text(),
-    scope: d.text(),
-    id_token: d.text(),
-    session_state: d.text(),
-  }),
+    type: text().notNull(),
+    provider: text().notNull(),
+    providerAccountId: text().notNull(),
+    refresh_token: text(),
+    access_token: text(),
+    expires_at: integer(),
+    token_type: text(),
+    scope: text(),
+    id_token: text(),
+    session_state: text(),
+  },
   (t) => [
     primaryKey({
       columns: [t.provider, t.providerAccountId],
@@ -95,59 +69,53 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 
 export const sessions = createTable(
   "session",
-  (d: any) => ({
-    sessionToken: d.text().notNull().primaryKey(),
-    userId: d
-      .text()
+  {
+    sessionToken: text().notNull().primaryKey(),
+    userId: text()
       .notNull()
       .references(() => users.id),
-    expires: d.timestamp({ mode: "date" }).notNull(),
-  }),
+    expires: timestamp({ mode: "date" }).notNull(),
+  },
   (t) => [index("session_userId_idx").on(t.userId)],
 );
 
-export const verificationTokens = createTable(
-  "verificationToken",
-  (d: any) => ({
-    identifier: d.text("identifier").notNull(),
-    token: d.text("token").notNull(),
-    expires: d.timestamp("expires", { mode: "date" }).notNull(),
-  }),
-);
-
+export const verificationTokens = createTable("verificationToken", {
+  identifier: text("identifier").notNull(),
+  token: text("token").notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
+});
 
 export const patients = createTable(
   "patient",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    name: d.text().notNull(),
-    age: d.integer().notNull(),
-    smallDescription: d.text().notNull(),
-    details: d.text().notNull(),
-    clinicalCase: d.text().notNull(),
-    objectives: d.text().notNull(),
-    therapeuticJourney: d.text().notNull(),
-    avatarUrl: d.text(),
-    elevenlabsVoiceId: d.text(), // New: dedicated ElevenLabs voice ID for TTS
-    vibevoiceVoiceId: d.text(), // New: VibeVoice voice ID for TTS
-    chatterboxVoiceId: d.text(), // New: Chatterbox voice ID for TTS
-    welcomeMessage: d.text(), // Optional custom welcome message
-    difficulty: d.integer().notNull(),
-    estimatedDuration: d.integer().default(30).notNull(),
-    isActive: d.boolean().default(true).notNull(),
-    externalPatientId: d.text(),
-    gender: d.text(), // Gender for API compatibility
-    diagnosis: d.text(), // Diagnosis for API compatibility
-    psychologicalProfile: d.text(), // Psychological profile for API compatibility
-    currentMedications: d.text(), // JSON array of current medications
-    previousSessions: d.integer().default(0), // Number of previous therapy sessions
-    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    updatedAt: d.timestamp({ mode: "date" }),
-  }),
+    name: text().notNull(),
+    age: integer().notNull(),
+    smallDescription: text().notNull(),
+    details: text().notNull(),
+    clinicalCase: text().notNull(),
+    objectives: text().notNull(),
+    therapeuticJourney: text().notNull(),
+    avatarUrl: text(),
+    elevenlabsVoiceId: text(),
+    vibevoiceVoiceId: text(),
+    chatterboxVoiceId: text(),
+    welcomeMessage: text(),
+    difficulty: integer().notNull(),
+    estimatedDuration: integer().default(30).notNull(),
+    isActive: boolean().default(true).notNull(),
+    externalPatientId: text(),
+    gender: text(),
+    diagnosis: text(),
+    psychologicalProfile: text(),
+    currentMedications: text(),
+    previousSessions: integer().default(0),
+    createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp({ mode: "date" }),
+  },
   (t) => [
     index("virtual_patient_difficulty_idx").on(t.difficulty),
     index("virtual_patient_active_idx").on(t.isActive),
@@ -164,27 +132,24 @@ export const patients = createTable(
 
 export const therapySessions = createTable(
   "therapy_session",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    userId: d
-      .text()
+    userId: text()
       .notNull()
       .references(() => users.id),
-    patientId: d
-      .text()
+    patientId: text()
       .notNull()
       .references(() => patients.id),
-    sessionNumber: d.integer().default(1).notNull(),
-    isCompleted: d.boolean().default(false).notNull(),
-    externalPatientId: d.text(),
-    activePatientSessionKey: d.text(),
-    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    updatedAt: d.timestamp({ mode: "date" }),
-  }),
+    sessionNumber: integer().default(1).notNull(),
+    isCompleted: boolean().default(false).notNull(),
+    externalPatientId: text(),
+    activePatientSessionKey: text(),
+    createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp({ mode: "date" }),
+  },
   (t) => [
     index("therapy_session_user_idx").on(t.userId),
     index("therapy_session_patient_idx").on(t.patientId),
@@ -201,25 +166,22 @@ export const therapySessions = createTable(
   ],
 );
 
-
 export const chat = createTable(
   "chat",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    therapySessionId: d
-      .text()
+    therapySessionId: text()
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer().notNull(),
-    messages: d.text().notNull(),
-    done: d.boolean().default(false).notNull(),
-    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    updatedAt: d.timestamp({ mode: "date" }),
-  }),
+    stepNumber: integer().notNull(),
+    messages: text().notNull(),
+    done: boolean().default(false).notNull(),
+    createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp({ mode: "date" }),
+  },
   (t) => [
     index("chat_session_idx").on(t.therapySessionId),
     index("chat_step_number_idx").on(t.stepNumber),
@@ -230,27 +192,25 @@ export const chat = createTable(
 
 export const chatStepEvaluations = createTable(
   "chat_step_evaluation",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    therapySessionId: d
-      .text()
+    therapySessionId: text()
       .notNull()
       .references(() => therapySessions.id, { onDelete: "cascade" }),
-    stepNumber: d.integer().notNull(),
-    status: d.text().notNull().default("processing"),
-    analysisMode: d.text().notNull().default("heuristic"),
-    modelName: d.text(),
-    detectorVersion: d.text().notNull(),
-    resultJson: d.text(),
-    errorMessage: d.text(),
-    analyzedAt: d.timestamp({ mode: "date" }),
-    createdAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    updatedAt: d.timestamp({ mode: "date" }),
-  }),
+    stepNumber: integer().notNull(),
+    status: text().notNull().default("processing"),
+    analysisMode: text().notNull().default("heuristic"),
+    modelName: text(),
+    detectorVersion: text().notNull(),
+    resultJson: text(),
+    errorMessage: text(),
+    analyzedAt: timestamp({ mode: "date" }),
+    createdAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    updatedAt: timestamp({ mode: "date" }),
+  },
   (t) => [
     index("chat_step_evaluation_session_idx").on(t.therapySessionId),
     index("chat_step_evaluation_status_idx").on(t.status),
@@ -264,24 +224,19 @@ export const chatStepEvaluations = createTable(
 
 export const userActivities = createTable(
   "userActivity",
-  (d: any) => ({
-    id: d
-      .text("id")
+  {
+    id: text("id")
       .primaryKey()
       .$defaultFn(() => randomUUID()),
-    userId: d
-      .text("userId")
+    userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    activityType: d.text("activityType").notNull(),
-    metadata: d.text("metadata"),
-    ipAddress: d.text("ipAddress"),
-    userAgent: d.text("userAgent"),
-    createdAt: d
-      .timestamp("createdAt", { mode: "date" })
-      .notNull()
-      .defaultNow(),
-  }),
+    activityType: text("activityType").notNull(),
+    metadata: text("metadata"),
+    ipAddress: text("ipAddress"),
+    userAgent: text("userAgent"),
+    createdAt: timestamp("createdAt", { mode: "date" }).notNull().defaultNow(),
+  },
   (t) => [
     index("user_activity_user_id_idx").on(t.userId),
     index("user_activity_type_idx").on(t.activityType),
@@ -295,38 +250,34 @@ export const userActivities = createTable(
   ],
 );
 
-
 export const impersonationSessions = createTable(
   "impersonation_session",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
 
-    adminUserId: d
-      .text()
+    adminUserId: text()
       .notNull()
       .references(() => users.id),
 
-    targetUserId: d
-      .text()
+    targetUserId: text()
       .notNull()
       .references(() => users.id),
 
-    startedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
-    endedAt: d.timestamp({ mode: "date" }),
+    startedAt: timestamp({ mode: "date" }).notNull().defaultNow(),
+    endedAt: timestamp({ mode: "date" }),
 
-    isActive: d.boolean().default(true).notNull(),
-    activeAdminSessionKey: d.text(),
+    isActive: boolean().default(true).notNull(),
+    activeAdminSessionKey: text(),
 
-    sessionToken: d.text(),
-    ipAddress: d.text(),
-    userAgent: d.text(),
+    sessionToken: text(),
+    ipAddress: text(),
+    userAgent: text(),
 
-    reason: d.text(),
-  }),
+    reason: text(),
+  },
   (t) => [
     index("impersonation_admin_user_idx").on(t.adminUserId),
     index("impersonation_target_user_idx").on(t.targetUserId),
@@ -340,39 +291,35 @@ export const impersonationSessions = createTable(
   ],
 );
 
-
 export const impersonationAuditLog = createTable(
   "impersonation_audit_log",
-  (d: any) => ({
-    id: d
-      .text()
+  {
+    id: text()
       .notNull()
       .primaryKey()
       .$defaultFn(() => randomUUID()),
 
-    impersonationSessionId: d
-      .text()
+    impersonationSessionId: text()
       .notNull()
       .references(() => impersonationSessions.id),
 
-    actionType: d.text().notNull(),
-    actionDetails: d.text(),
+    actionType: text().notNull(),
+    actionDetails: text(),
 
-    performedAt: d.timestamp({ mode: "date" }).notNull().defaultNow(),
+    performedAt: timestamp({ mode: "date" }).notNull().defaultNow(),
 
-    ipAddress: d.text(),
-    userAgent: d.text(),
+    ipAddress: text(),
+    userAgent: text(),
 
-    requestPath: d.text(),
-    requestMethod: d.text(),
-  }),
+    requestPath: text(),
+    requestMethod: text(),
+  },
   (t) => [
     index("impersonation_audit_session_idx").on(t.impersonationSessionId),
     index("impersonation_audit_action_type_idx").on(t.actionType),
     index("impersonation_audit_performed_at_idx").on(t.performedAt),
   ],
 );
-
 
 export const patientsRelations = relations(patients, ({ many }) => ({
   therapySessions: many(therapySessions),
@@ -411,8 +358,6 @@ export const chatStepEvaluationsRelations = relations(
   }),
 );
 
-export const usersRelations = relations(users, ({ many: _many }) => ({}));
-
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
 }));
@@ -420,7 +365,6 @@ export const sessionsRelations = relations(sessions, ({ one }) => ({
 export const userActivitiesRelations = relations(userActivities, ({ one }) => ({
   user: one(users, { fields: [userActivities.userId], references: [users.id] }),
 }));
-
 
 export const impersonationSessionsRelations = relations(
   impersonationSessions,

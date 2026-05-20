@@ -2,28 +2,17 @@ import { and, asc, eq, inArray, like } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { adminProcedure, createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import {
+  adminProcedure,
+  createTRPCRouter,
+  publicProcedure,
+} from "~/server/api/trpc";
 import { patients } from "~/server/db/tables";
 import { type DifficultyLevel } from "~/lib/constants/difficulty";
 import { createLogger } from "~/lib/logger";
+import { parseJsonOr, parseStringArray } from "~/server/utils/json";
 
 const logger = createLogger("Patients");
-
-function safeJsonParse<T>(value: string | null | undefined, fallback: T): T {
-  if (!value) {
-    return fallback;
-  }
-
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    logger.warn("JSON parsing failed", {
-      error: error instanceof Error ? error.message : String(error),
-      rawValue: typeof value === "string" ? value.substring(0, 100) : value,
-    });
-    return fallback;
-  }
-}
 
 export interface Patient {
   id: string;
@@ -97,6 +86,23 @@ type PatientMutationInput = {
   isActive?: boolean;
 };
 
+const patientMutationSchema = z.object({
+  name: z.string().min(1).max(255),
+  age: z.number().min(1).max(120),
+  smallDescription: z.string().min(1).max(500),
+  details: z.string().min(1),
+  background: z.string().min(1).max(2000),
+  objectives: z.array(z.string()),
+  avatarUrl: z.string().url().optional(),
+  elevenlabsVoiceId: z.string().max(255).optional().nullable(),
+  vibevoiceVoiceId: z.string().max(255).optional().nullable(),
+  chatterboxVoiceId: z.string().max(255).optional().nullable(),
+  welcomeMessage: z.string().max(1000).optional().nullable(),
+  therapeuticJourney: z.unknown().optional(),
+  difficulty: z.number().min(1).max(3),
+  estimatedDuration: z.number().min(5).max(180).default(30),
+});
+
 const patientSummarySelection = {
   id: patients.id,
   name: patients.name,
@@ -152,13 +158,16 @@ function mapPatientSummary(patient: PatientSummaryRow) {
     age: patient.age,
     smallDescription: patient.smallDescription,
     background: patient.clinicalCase,
-    objectives: safeJsonParse<string[]>(patient.objectives, []),
+    objectives: parseStringArray(patient.objectives),
     avatarUrl: patient.avatarUrl,
     elevenlabsVoiceId: patient.elevenlabsVoiceId,
     vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
     chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
     welcomeMessage: patient.welcomeMessage,
-    therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
+    therapeuticJourney: parseJsonOr(patient.therapeuticJourney, {
+      fallback: {},
+      context: "patient-summary.therapeuticJourney",
+    }),
     difficulty: patient.difficulty as DifficultyLevel,
     estimatedDuration: patient.estimatedDuration,
     isActive: patient.isActive,
@@ -176,13 +185,16 @@ function mapPatientDetail(patient: PatientDetailRow): Patient {
     smallDescription: patient.smallDescription,
     details: patient.details,
     background: patient.clinicalCase,
-    objectives: safeJsonParse<string[]>(patient.objectives, []),
+    objectives: parseStringArray(patient.objectives),
     avatarUrl: patient.avatarUrl,
     elevenlabsVoiceId: patient.elevenlabsVoiceId,
     vibevoiceVoiceId: patient.vibevoiceVoiceId ?? null,
     chatterboxVoiceId: patient.chatterboxVoiceId ?? null,
     welcomeMessage: patient.welcomeMessage,
-    therapeuticJourney: safeJsonParse(patient.therapeuticJourney, {}),
+    therapeuticJourney: parseJsonOr(patient.therapeuticJourney, {
+      fallback: {},
+      context: "patient-detail.therapeuticJourney",
+    }),
     difficulty: patient.difficulty as DifficultyLevel,
     estimatedDuration: patient.estimatedDuration,
     isActive: patient.isActive,
@@ -191,7 +203,7 @@ function mapPatientDetail(patient: PatientDetailRow): Patient {
     diagnosis: patient.diagnosis ?? null,
     psychologicalProfile: patient.psychologicalProfile ?? null,
     currentMedications: patient.currentMedications
-      ? safeJsonParse<string[]>(patient.currentMedications, [])
+      ? parseStringArray(patient.currentMedications)
       : null,
     previousSessions: patient.previousSessions ?? null,
     createdAt: patient.createdAt,
@@ -215,7 +227,9 @@ function serializePatientMutationInput(input: PatientMutationInput) {
     therapeuticJourney: JSON.stringify(input.therapeuticJourney ?? {}),
     difficulty: input.difficulty,
     estimatedDuration: input.estimatedDuration,
-    ...(typeof input.isActive === "boolean" ? { isActive: input.isActive } : {}),
+    ...(typeof input.isActive === "boolean"
+      ? { isActive: input.isActive }
+      : {}),
   };
 }
 
@@ -241,9 +255,7 @@ export const patientsRouter = createTRPCRouter({
         filters.push(like(patients.name, `%${search.trim()}%`));
       }
 
-      const baseQuery = (ctx.db as any)
-        .select(patientSummarySelection)
-        .from(patients);
+      const baseQuery = ctx.db.select(patientSummarySelection).from(patients);
       const filteredQuery =
         filters.length > 0 ? baseQuery.where(and(...filters)) : baseQuery;
 
@@ -254,7 +266,7 @@ export const patientsRouter = createTRPCRouter({
   getAdminPatientById: adminProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const result = await (ctx.db as any)
+      const result = await ctx.db
         .select(patientDetailSelection)
         .from(patients)
         .where(eq(patients.id, input.id))
@@ -309,7 +321,7 @@ export const patientsRouter = createTRPCRouter({
           offset,
         });
 
-        const patientsData = await (ctx.db as any)
+        const patientsData = await ctx.db
           .select(patientDetailSelection)
           .from(patients)
           .where(and(...whereConditions))
@@ -348,7 +360,7 @@ export const patientsRouter = createTRPCRouter({
   getPatientById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      const patientResult = await (ctx.db as any)
+      const patientResult = await ctx.db
         .select(patientDetailSelection)
         .from(patients)
         .where(and(eq(patients.id, input.id), eq(patients.isActive, true)))
@@ -361,31 +373,10 @@ export const patientsRouter = createTRPCRouter({
       return mapPatientDetail(patientResult[0]!);
     }),
 
-  createPatient: protectedProcedure
-    .input(
-      z.object({
-        name: z.string().min(1).max(255),
-        age: z.number().min(1).max(120),
-        smallDescription: z.string().min(1).max(500),
-        details: z.string().min(1),
-        background: z.string().min(1).max(2000),
-        objectives: z.array(z.string()),
-        avatarUrl: z.string().url().optional(),
-        elevenlabsVoiceId: z.string().max(255).optional(),
-        vibevoiceVoiceId: z.string().max(255).optional(),
-        chatterboxVoiceId: z.string().max(255).optional(),
-        welcomeMessage: z.string().max(1000).optional(),
-        therapeuticJourney: z.unknown().optional(),
-        difficulty: z.number().min(1).max(3),
-        estimatedDuration: z.number().min(5).max(180).default(30),
-      }),
-    )
+  createPatient: adminProcedure
+    .input(patientMutationSchema)
     .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
-      const insertedPatients = await (ctx.db as any)
+      const insertedPatients = await ctx.db
         .insert(patients)
         .values(serializePatientMutationInput(input))
         .returning();
@@ -397,22 +388,8 @@ export const patientsRouter = createTRPCRouter({
 
   updatePatient: adminProcedure
     .input(
-      z.object({
+      patientMutationSchema.extend({
         id: z.string(),
-        name: z.string().min(1).max(255),
-        age: z.number().min(1).max(120),
-        smallDescription: z.string().min(1).max(500),
-        details: z.string().min(1),
-        background: z.string().min(1).max(2000),
-        objectives: z.array(z.string()),
-        avatarUrl: z.string().url().optional(),
-        elevenlabsVoiceId: z.string().max(255).optional().nullable(),
-        vibevoiceVoiceId: z.string().max(255).optional().nullable(),
-        chatterboxVoiceId: z.string().max(255).optional().nullable(),
-        welcomeMessage: z.string().max(1000).optional().nullable(),
-        therapeuticJourney: z.unknown().optional(),
-        difficulty: z.number().min(1).max(3),
-        estimatedDuration: z.number().min(5).max(180).default(30),
         isActive: z.boolean().optional(),
       }),
     )
@@ -430,7 +407,7 @@ export const patientsRouter = createTRPCRouter({
       return { success: true };
     }),
 
-  updatePatientStatus: protectedProcedure
+  updatePatientStatus: adminProcedure
     .input(
       z.object({
         id: z.string(),
@@ -438,10 +415,6 @@ export const patientsRouter = createTRPCRouter({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      if (ctx.session.user.role !== "admin") {
-        throw new Error("Unauthorized: Admin access required");
-      }
-
       await ctx.db
         .update(patients)
         .set({

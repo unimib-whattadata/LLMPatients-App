@@ -1,1 +1,0 @@
-ALTER TABLE `llmpatient_patient` DROP COLUMN `voiceId`;

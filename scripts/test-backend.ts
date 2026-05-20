@@ -1,12 +1,9 @@
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 
 import postgres from "postgres";
 
 type DialectResult = {
-  dialect: "sqlite" | "postgres";
+  dialect: "postgres";
   status: "passed" | "failed" | "skipped";
 };
 
@@ -36,26 +33,6 @@ function runScenario(env: NodeJS.ProcessEnv): boolean {
   );
 
   return result.status === 0;
-}
-
-async function runSqliteScenario(): Promise<DialectResult> {
-  const sqliteDir = mkdtempSync(join(tmpdir(), "llmpatients-backend-sqlite-"));
-  const databaseUrl = `file:${join(sqliteDir, "backend.sqlite")}`;
-
-  try {
-    const passed = runScenario({
-      ...buildBaseEnv(),
-      TEST_DIALECT: "sqlite",
-      DATABASE_URL: databaseUrl,
-    });
-
-    return {
-      dialect: "sqlite",
-      status: passed ? "passed" : "failed",
-    };
-  } finally {
-    rmSync(sqliteDir, { recursive: true, force: true });
-  }
 }
 
 async function runPostgresScenario(): Promise<DialectResult> {
@@ -89,7 +66,6 @@ async function runPostgresScenario(): Promise<DialectResult> {
 
     const passed = runScenario({
       ...buildBaseEnv(),
-      TEST_DIALECT: "postgres",
       DATABASE_URL: databaseUrlObject.toString(),
     });
 
@@ -110,7 +86,7 @@ async function runPostgresScenario(): Promise<DialectResult> {
 }
 
 async function main() {
-  const results = [await runSqliteScenario(), await runPostgresScenario()];
+  const results = [await runPostgresScenario()];
 
   for (const result of results) {
     const label = `[backend:${result.dialect}]`;

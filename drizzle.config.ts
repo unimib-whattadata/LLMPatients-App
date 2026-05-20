@@ -1,17 +1,14 @@
 
 import { type Config } from "drizzle-kit";
 
-
-
-const isPostgres = process.env.DATABASE_URL?.startsWith("postgres://") || 
-                   process.env.DATABASE_URL?.startsWith("postgresql://");
-
 const config: Config = {
-  schema: isPostgres ? "./src/server/db/schema-postgres.ts" : "./src/server/db/schema.ts",
-  out: "./drizzle",
-  dialect: isPostgres ? "postgresql" : "sqlite",
+  schema: "./src/server/db/schema-postgres.ts",
+  out: "./drizzle-postgres",
+  dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL ?? "file:./dev.db",
+    url:
+      process.env.DATABASE_URL ??
+      "postgresql://user:password@localhost:5432/dbname",
   },
   tablesFilter: ["llmpatient_*"],
 };

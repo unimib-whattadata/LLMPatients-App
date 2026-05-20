@@ -96,14 +96,14 @@ async function fetchValidatedUser(
   timeout: number,
 ): Promise<ValidatedUser | null> {
   const userResults = (await withTimeout(
-    (db as any)
+    db
       .select({
-        id: (users as any).id,
-        email: (users as any).email,
-        name: (users as any).name,
-        role: (users as any).role,
-        image: (users as any).image,
-        isActive: (users as any).isActive,
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        role: users.role,
+        image: users.image,
+        isActive: users.isActive,
       })
       .from(users)
       .where(where)
@@ -120,15 +120,15 @@ async function fetchValidatedCredentialsUser(
   timeout: number,
 ): Promise<CredentialsValidatedUser | null> {
   const userResults = (await withTimeout(
-    (db as any)
+    db
       .select({
-        id: (users as any).id,
-        email: (users as any).email,
-        name: (users as any).name,
-        role: (users as any).role,
-        image: (users as any).image,
-        isActive: (users as any).isActive,
-        password: (users as any).password,
+        id: users.id,
+        email: users.email,
+        name: users.name,
+        role: users.role,
+        image: users.image,
+        isActive: users.isActive,
+        password: users.password,
       })
       .from(users)
       .where(eq(users.email, email))
