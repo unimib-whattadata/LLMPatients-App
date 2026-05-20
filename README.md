@@ -76,9 +76,10 @@ pnpm install
 ### 2. Start PostgreSQL
 
 The included `docker-compose.yml` starts PostgreSQL 18 on host port `5432`.
+The Compose project is named `llmpatients-app`.
 
 ```bash
-docker compose up -d pg_bitbrand
+docker compose up -d
 ```
 
 Local connection string when the Next.js app runs on your host machine:
@@ -90,7 +91,7 @@ postgresql://postgres:postgres@127.0.0.1:5432/postgres
 If the app runs in another container on the same Compose network, use the service name instead:
 
 ```txt
-postgresql://postgres:postgres@pg_bitbrand:5432/postgres
+postgresql://postgres:postgres@postgres:5432/postgres
 ```
 
 ### 3. Create `.env`
@@ -286,16 +287,17 @@ DATABASE_URL="postgresql://postgres:postgres@host.docker.internal:5432/postgres"
 When the app and database run on the same Compose network, use:
 
 ```env
-DATABASE_URL="postgresql://postgres:postgres@pg_bitbrand:5432/postgres"
+DATABASE_URL="postgresql://postgres:postgres@postgres:5432/postgres"
 ```
 
 ### Docker Compose database
 
 The current `docker-compose.yml` manages the database only:
+The Compose project is named `llmpatients-app`.
 
 ```bash
-docker compose up -d pg_bitbrand
-docker compose logs -f pg_bitbrand
+docker compose up -d
+docker compose logs -f
 docker compose down
 ```
 
@@ -351,7 +353,7 @@ Check that PostgreSQL is running and reachable:
 
 ```bash
 docker compose ps
-docker compose logs pg_bitbrand
+docker compose logs
 ```
 
 Then verify the same host, port, user, password and database are present in `DATABASE_URL`.

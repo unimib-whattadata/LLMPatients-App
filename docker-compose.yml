@@ -1,7 +1,8 @@
+name: llmpatients-app
+
 services:
   # PostgreSQL database
-  pg_bitbrand:
-    container_name: pg
+  postgres:
     image: postgres:18-alpine
     restart: unless-stopped
     environment:
