@@ -158,10 +158,29 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
     responseAvatarUrl ?? basePatientAvatarUrl,
     basePatientAvatarUrl,
   );
-  const shouldShowEmotionTrend =
+  const hasEmotionTrendData =
     Boolean(emotionSnapshot) ||
     emotionTimeline.length > 0 ||
     emotionVectorTimeline.length > 0;
+  const desktopEmotionSnapshot = useMemo<EmotionSnapshot | null>(() => {
+    if (hasEmotionTrendData) {
+      return emotionSnapshot;
+    }
+
+    const dominant = nextEmotion ?? currentEmotion;
+    const fallbackIntensity = 0.65;
+
+    return {
+      dominant,
+      intensity: fallbackIntensity,
+      vector: {
+        [dominant]: fallbackIntensity,
+      },
+      description: "",
+    };
+  }, [currentEmotion, emotionSnapshot, hasEmotionTrendData, nextEmotion]);
+  const shouldShowEmotionTrend =
+    hasEmotionTrendData;
 
   const saveChatMutation = api.chat.saveChatStep.useMutation();
   const markStepDoneMutation = api.chat.markStepDone.useMutation();
@@ -837,13 +856,11 @@ export function ChatContent({ user, impersonation }: ChatContentProps) {
 
           <div className="page-background hidden w-64 flex-shrink-0 self-start p-4 lg:flex">
             <div className="chat-scrollbar sticky top-4 max-h-[calc(100vh-7rem)] w-full overflow-y-auto pr-1 pt-4">
-              {shouldShowEmotionTrend && (
-                <EmotionTrendPanel
-                  snapshot={emotionSnapshot}
-                  timeline={emotionTimeline}
-                  vectorTimeline={emotionVectorTimeline}
-                />
-              )}
+              <EmotionTrendPanel
+                snapshot={desktopEmotionSnapshot}
+                timeline={emotionTimeline}
+                vectorTimeline={emotionVectorTimeline}
+              />
             </div>
           </div>
         </div>
