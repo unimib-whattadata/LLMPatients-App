@@ -22,6 +22,7 @@ import {
   parseEmotionTimeline,
   normalizeEmotion,
   fetchWithTimeout,
+  combineUrls,
 } from "./utils";
 
 export class RealExternalAIService implements ExternalAIService {
@@ -44,7 +45,7 @@ export class RealExternalAIService implements ExternalAIService {
     parseResponse: (data: unknown) => T,
   ): Promise<{ result: T; rawJson: string }> {
     const startTime = Date.now();
-    const apiUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
+    const apiUrl = combineUrls(API_CONFIG.BASE_URL, endpoint);
 
     PatientResponseLogger.logServiceCall(
       LOG_CONFIG.PREFIXES.REAL_AI,
@@ -169,7 +170,7 @@ export class RealExternalAIService implements ExternalAIService {
     const requestId = generateRequestId();
     const requestBody = createGenerateResponseBody(input, API_CONFIG.IS_REMOTE);
     const startTime = Date.now();
-    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`;
+    const apiUrl = combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.GENERATE_RESPONSE);
 
     const { result, rawJson } = await this.makeApiRequest<PatientResponse>(
       API_CONFIG.ENDPOINTS.GENERATE_RESPONSE,
@@ -271,7 +272,7 @@ export class RealExternalAIService implements ExternalAIService {
   async generateChatResponse(input: ChatRequest): Promise<ChatResponse> {
     const requestId = generateRequestId();
     const startTime = Date.now();
-    const apiUrl = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`;
+    const apiUrl = combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.CHAT_RESPONSE);
 
     const { result, rawJson } = await this.makeApiRequest<ChatResponse>(
       API_CONFIG.ENDPOINTS.CHAT_RESPONSE,

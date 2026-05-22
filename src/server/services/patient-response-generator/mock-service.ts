@@ -18,6 +18,7 @@ import {
   truncateMessage,
   simulateDelay,
   clampUnitValue,
+  combineUrls,
 } from "./utils";
 import {
   selectContextualResponse,
@@ -38,7 +39,7 @@ export class MockExternalAIService implements ExternalAIService {
       "generateResponse",
       requestId,
       {
-        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`,
+        url: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.GENERATE_RESPONSE),
         patientInfo: {
           id: input.patientInfo.id,
           name: input.patientInfo.name,
@@ -87,7 +88,7 @@ export class MockExternalAIService implements ExternalAIService {
       ...response,
       metadata: {
         apiType: "MOCK",
-        endpoint: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.GENERATE_RESPONSE}`,
+        endpoint: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.GENERATE_RESPONSE),
         requestData: {
           patientId: input.patientInfo.id,
           patientName: input.patientInfo.name,
@@ -117,7 +118,7 @@ export class MockExternalAIService implements ExternalAIService {
       "initializePatient",
       requestId,
       {
-        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT}`,
+        url: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.INITIALIZE_PATIENT),
         patientInfo: {
           id: input.patientInfo.id,
           name: input.patientInfo.name,
@@ -171,7 +172,7 @@ export class MockExternalAIService implements ExternalAIService {
       "generateChatResponse",
       requestId,
       {
-        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
+        url: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.CHAT_RESPONSE),
         sessionInfo: {
           sessionId: input.session_id,
           stepId: input.step_id,
@@ -296,7 +297,7 @@ export class MockExternalAIService implements ExternalAIService {
       ...mockResponseData,
       metadata: {
         apiType: "MOCK" as const,
-        endpoint: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.CHAT_RESPONSE}`,
+        endpoint: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.CHAT_RESPONSE),
         requestData: {
           externalPatientId: input.external_patient_id,
           userMessage: input.user_message,
@@ -343,7 +344,7 @@ export class MockExternalAIService implements ExternalAIService {
       "finalizeSession",
       requestId,
       {
-        url: `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.SESSION_END}`,
+        url: combineUrls(API_CONFIG.BASE_URL, API_CONFIG.ENDPOINTS.SESSION_END),
         patientInfo: {
           id: input.external_patient_id,
         },

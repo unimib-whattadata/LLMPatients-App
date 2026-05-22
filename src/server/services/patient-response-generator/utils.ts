@@ -69,6 +69,21 @@ export function generateRequestId(): string {
   return `req_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
+export function combineUrls(baseUrl: string, endpoint: string): string {
+  if (baseUrl === "local") return endpoint;
+  
+  const hasTrailingSlash = baseUrl.endsWith("/");
+  const hasLeadingSlash = endpoint.startsWith("/");
+  
+  if (hasTrailingSlash && hasLeadingSlash) {
+    return `${baseUrl}${endpoint.substring(1)}`;
+  }
+  if (!hasTrailingSlash && !hasLeadingSlash) {
+    return `${baseUrl}/${endpoint}`;
+  }
+  return `${baseUrl}${endpoint}`;
+}
+
 export function truncateMessage(
   message: string,
   maxLength: number = LOG_CONFIG.MAX_MESSAGE_LENGTH,
