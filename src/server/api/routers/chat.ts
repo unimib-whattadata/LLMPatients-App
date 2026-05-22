@@ -424,13 +424,71 @@ export const chatRouter = createTRPCRouter({
         throw new Error("Patient not initialized for this therapy session");
       }
 
-      return await patientResponseGenerator.generateChatResponse({
-        external_patient_id: therapySession.externalPatientId,
+      let externalPatientId = therapySession.externalPatientId;
+
+      const response = await patientResponseGenerator.generateChatResponse({
+        external_patient_id: externalPatientId,
         user_message: input.user_message,
         session_id: therapySession.id,
         step_id: input.step_id,
         therapist_id: ctx.session.user.id,
       });
+
+      if (response.message === "I'm sorry, I'm not sure how to respond. Could you repeat that?") {
+        logger.warn("Received fallback response from patient generator. Attempting auto-reinitialization...", {
+          therapySessionId: therapySession.id,
+          externalPatientId,
+        });
+
+        try {
+          const { initInput } = await buildInitializePatientInput(
+            ctx.db,
+            input.therapySessionId,
+            ctx.session.user.id,
+          );
+
+          const initResponse = await patientResponseGenerator.initializePatient(initInput);
+
+          if (initResponse.status === "success" && initResponse.external_patient_id) {
+            if (initResponse.external_patient_id !== externalPatientId) {
+              await ctx.db
+                .update(therapySessions)
+                .set({
+                  externalPatientId: initResponse.external_patient_id,
+                  updatedAt: new Date(),
+                })
+                .where(eq(therapySessions.id, therapySession.id));
+              externalPatientId = initResponse.external_patient_id;
+            }
+
+            logger.info("Auto-reinitialization successful, retrying generateChatResponse", {
+              therapySessionId: therapySession.id,
+              externalPatientId,
+            });
+
+            return await patientResponseGenerator.generateChatResponse({
+              external_patient_id: externalPatientId,
+              user_message: input.user_message,
+              session_id: therapySession.id,
+              step_id: input.step_id,
+              therapist_id: ctx.session.user.id,
+            });
+          } else {
+            logger.error("Auto-reinitialization failed", {
+              therapySessionId: therapySession.id,
+              status: initResponse.status,
+              message: initResponse.message,
+            });
+          }
+        } catch (initError) {
+          logger.error("Error during auto-reinitialization", {
+            therapySessionId: therapySession.id,
+            error: initError instanceof Error ? initError.message : String(initError),
+          });
+        }
+      }
+
+      return response;
     }),
 
   initializePatient: protectedProcedure
