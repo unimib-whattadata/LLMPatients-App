@@ -3,7 +3,7 @@
 **LLMPatients** is an advanced educational platform for training psychotherapy students through realistic simulations with virtual patients powered by LLMs.
 
 ![Status](https://img.shields.io/badge/status-beta-orange)
-![License](https://img.shields.io/badge/license-MIT-blue)
+![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)
 ![Build](https://img.shields.io/badge/build-passing-green)
 ![Node](https://img.shields.io/badge/node-18%2B-green)
 
@@ -269,7 +269,9 @@ To report security vulnerabilities, please do not open a public issue. Send an e
 
 ## License
 
-This project is distributed under the **MIT** license. See the `LICENSE` file for details.
+The source code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (`AGPL-3.0-or-later`). See the `LICENSE` file for the full license text.
+
+This license applies to the source code in this repository. Third-party dependencies, model-provider services, generated avatars, clinical instruments, transcripts, annotation materials and any sensitive runtime data remain governed by their respective licenses, terms of use or access conditions.
 
 ## Credits
 
@@ -285,11 +287,23 @@ References and inspirations:
 If you use LLMPatients for your research, please cite the reference paper:
 
 ```bibtex
-@article{llmpatient2025,
-  title={LLMPatient: un sistema esperto ibrido per la simulazione multi-sessione di pazienti virtuali nella formazione psicoterapeutica},
-  author={UNIMIB Team},
-  journal={TBD},
-  year={2025},
-  url={https://github.com/unimib-whattadata/LLMPatients}
+@software{llmpatients_app_2026,
+  title = {LLMPatients-App: Web Platform for Multi-Session LLM Virtual-Patient Training},
+  author = {Cremaschi, Marco and Fanti, Erika and Pisati, Elisa and La Barbera, David},
+  year = {2026},
+  url = {https://github.com/unimib-whattadata/LLMPatients-App},
+  license = {AGPL-3.0-or-later}
+}
+```
+
+Also cite the associated manuscript once its final bibliographic details are available:
+
+```bibtex
+@article{cremaschi_llmpatients_2026,
+  title = {LLMPatients: An Interpretable Multi-Session LLM Virtual-Patient Software Platform for AI-Enabled Psychotherapy Training},
+  author = {Cremaschi, Marco and Fanti, Erika and Pisati, Elisa and La Barbera, David},
+  journal = {Frontiers in Digital Health},
+  year = {2026},
+  note = {Manuscript prepared for the Digital Mental Health section as a Technology and Code article}
 }
 ```

@@ -1,7 +1,12 @@
 {
   "name": "llmpatients-app",
   "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unimib-whattadata/LLMPatients-App.git"
+  },
   "type": "module",
   "packageManager": "pnpm@10.12.4",
   "scripts": {
