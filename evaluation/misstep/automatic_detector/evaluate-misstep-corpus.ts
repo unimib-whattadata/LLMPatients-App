@@ -3,8 +3,8 @@ import path from "node:path";
 
 import YAML from "yaml";
 
-import { MISSTEP_CATEGORIES } from "../src/lib/missteps";
-import { evaluateStepMissteps } from "../src/server/services/misstep-evaluator";
+import { MISSTEP_CATEGORIES } from "../../../src/lib/missteps";
+import { evaluateStepMissteps } from "../../../src/server/services/misstep-evaluator";
 
 type TranscriptMetadata = {
   transcriptId: string;
@@ -27,7 +27,10 @@ const DEFAULT_TRANSCRIPT_DIR = path.resolve(
   process.cwd(),
   "evaluation/misstep/transcripts",
 );
-const DEFAULT_OUTPUT_DIR = path.resolve(process.cwd(), "analysis");
+const DEFAULT_OUTPUT_DIR = path.resolve(
+  process.cwd(),
+  "evaluation/misstep/automatic_detector",
+);
 const DEFAULT_PATIENT_FALLBACK_MESSAGES = [
   "I'm sorry, I'm not sure how to respond. Could you repeat that?",
   "I'm sorry, I'm not sure how to respond.",
