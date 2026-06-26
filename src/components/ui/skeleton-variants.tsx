@@ -1,5 +1,10 @@
-import { Skeleton, SkeletonText, SkeletonAvatar, SkeletonButton } from "./skeleton"
-import { cn } from "~/lib/utils"
+import {
+  Skeleton,
+  SkeletonText,
+  SkeletonAvatar,
+  SkeletonButton,
+} from "./skeleton";
+import { cn } from "~/lib/utils";
 
 /**
  * Premium Patient Card Skeleton
@@ -8,45 +13,60 @@ import { cn } from "~/lib/utils"
 export function PatientCardSkeleton({
   showAvatar = true,
   showButton = true,
-  className
+  className,
 }: {
-  showAvatar?: boolean
-  showButton?: boolean
-  className?: string
+  showAvatar?: boolean;
+  showButton?: boolean;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
-        "relative bg-[var(--color-surface-secondary)] p-5 sm:p-6 h-full flex flex-col",
+        "relative flex h-full flex-col bg-[var(--color-surface-secondary)] p-5 sm:p-6",
         "border border-[var(--color-border-primary)]/40",
         "transition-all duration-300",
-        className
+        className,
       )}
       style={{ borderRadius: "1.1rem" }}
     >
       {/* Decorative top gradient line */}
       <div
-        className="absolute top-0 left-4 right-4 h-[2px] rounded-full overflow-hidden"
-        style={{ background: 'linear-gradient(90deg, transparent, var(--color-skeleton-accent), transparent)' }}
+        className="absolute top-0 right-4 left-4 h-[2px] overflow-hidden rounded-full"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent, var(--color-skeleton-accent), transparent)",
+        }}
       />
 
       {/* Avatar Section */}
       {showAvatar && (
-        <div className="flex flex-col items-center mb-5">
+        <div className="mb-5 flex flex-col items-center">
           <SkeletonAvatar size="lg" intensity="subtle" />
         </div>
       )}
 
       {/* Name and Status Section */}
-      <div className="text-center mb-5">
-        <Skeleton variant="heading" className="h-6 w-3/4 mx-auto mb-3" delay={50} />
-        <Skeleton variant="badge" className="h-5 w-24 mx-auto mb-4" delay={100} />
-        <SkeletonText lines={2} widths={['100%', '80%']} className="items-center [&>div]:mx-auto" />
+      <div className="mb-5 text-center">
+        <Skeleton
+          variant="heading"
+          className="mx-auto mb-3 h-6 w-3/4"
+          delay={50}
+        />
+        <Skeleton
+          variant="badge"
+          className="mx-auto mb-4 h-5 w-24"
+          delay={100}
+        />
+        <SkeletonText
+          lines={2}
+          widths={["100%", "80%"]}
+          className="items-center [&>div]:mx-auto"
+        />
       </div>
 
       {/* Symptoms Section */}
-      <div className="flex-1 mb-5">
-        <Skeleton variant="text" className="h-4 w-20 mb-3" delay={200} />
+      <div className="mb-5 flex-1">
+        <Skeleton variant="text" className="mb-3 h-4 w-20" delay={200} />
         <div className="space-y-2.5">
           <div className="flex items-center gap-2">
             <Skeleton variant="badge" className="h-2 w-2 flex-shrink-0" />
@@ -64,12 +84,16 @@ export function PatientCardSkeleton({
       </div>
 
       {/* Difficulty and Duration Row */}
-      <div className="flex items-center justify-between mb-5 py-3 border-t border-[var(--color-border-primary)]/30">
+      <div className="mb-5 flex items-center justify-between border-t border-[var(--color-border-primary)]/30 py-3">
         <div className="flex items-center gap-2">
           <Skeleton variant="badge" className="h-6 w-20" delay={400} />
         </div>
         <div className="flex items-center gap-1.5">
-          <Skeleton variant="text" className="h-4 w-4 rounded-full" delay={450} />
+          <Skeleton
+            variant="text"
+            className="h-4 w-4 rounded-full"
+            delay={450}
+          />
           <Skeleton variant="text" className="h-4 w-14" delay={450} />
         </div>
       </div>
@@ -78,12 +102,12 @@ export function PatientCardSkeleton({
       {showButton && (
         <Skeleton
           variant="button"
-          className="h-11 w-full bg-[var(--color-primary-green)]/10 border border-[var(--color-primary-green)]/20"
+          className="h-11 w-full border border-[var(--color-primary-green)]/20 bg-[var(--color-primary-green)]/10"
           delay={500}
         />
       )}
     </div>
-  )
+  );
 }
 
 /**
@@ -92,9 +116,9 @@ export function PatientCardSkeleton({
  */
 export function PatientDetailSkeleton() {
   return (
-    <div className="bg-[var(--color-page-background)] min-h-screen">
+    <div className="min-h-screen bg-[var(--color-page-background)]">
       {/* Breadcrumb Header */}
-      <header className="bg-[var(--color-surface-secondary)] border-b border-[var(--color-border-primary)]/40">
+      <header className="border-b border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)]">
         <div className="mx-auto max-w-4xl px-4 py-5 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <Skeleton variant="text" className="h-4 w-16" />
@@ -107,21 +131,20 @@ export function PatientDetailSkeleton() {
       {/* Main Content */}
       <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-
           {/* Sidebar - Patient Info Card */}
           <aside className="lg:col-span-1">
             <div
-              className="bg-[var(--color-surface-secondary)] overflow-hidden border border-[var(--color-border-primary)]/40"
+              className="overflow-hidden border border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)]"
               style={{ borderRadius: "1.1rem" }}
             >
               <div className="flex flex-col items-center p-5 sm:p-6">
                 <SkeletonAvatar size="xl" intensity="subtle" />
                 <div className="mt-5 w-full space-y-3">
-                  <Skeleton variant="heading" className="h-7 w-3/4 mx-auto" />
-                  <Skeleton variant="badge" className="h-5 w-24 mx-auto" />
+                  <Skeleton variant="heading" className="mx-auto h-7 w-3/4" />
+                  <Skeleton variant="badge" className="mx-auto h-5 w-24" />
 
-                  <div className="pt-4 border-t border-[var(--color-border-primary)]/30 mt-4">
-                    <SkeletonText lines={3} widths={['100%', '90%', '75%']} />
+                  <div className="mt-4 border-t border-[var(--color-border-primary)]/30 pt-4">
+                    <SkeletonText lines={3} widths={["100%", "90%", "75%"]} />
                   </div>
 
                   <div className="flex items-center justify-center gap-3 pt-4">
@@ -135,27 +158,34 @@ export function PatientDetailSkeleton() {
 
           {/* Main Content Section */}
           <section className="space-y-5 sm:space-y-6 lg:col-span-2">
-
             {/* Medical History Card */}
             <article
-              className="bg-[var(--color-surface-secondary)] p-5 sm:p-6 border border-[var(--color-border-primary)]/40"
+              className="border border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)] p-5 sm:p-6"
               style={{ borderRadius: "1.1rem" }}
             >
-              <Skeleton variant="heading" className="h-6 w-48 mb-5" />
-              <SkeletonText lines={4} widths={['100%', '95%', '88%', '70%']} />
+              <Skeleton variant="heading" className="mb-5 h-6 w-48" />
+              <SkeletonText lines={4} widths={["100%", "95%", "88%", "70%"]} />
             </article>
 
             {/* Symptoms Card */}
             <article
-              className="bg-[var(--color-surface-secondary)] p-5 sm:p-6 border border-[var(--color-border-primary)]/40"
+              className="border border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)] p-5 sm:p-6"
               style={{ borderRadius: "1.1rem" }}
             >
-              <Skeleton variant="heading" className="h-6 w-36 mb-5" />
+              <Skeleton variant="heading" className="mb-5 h-6 w-36" />
               <div className="space-y-3">
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="flex items-center gap-2">
-                    <Skeleton variant="badge" className="h-2 w-2 flex-shrink-0" />
-                    <Skeleton variant="text" className="h-4" style={{ width: `${85 - i * 10}%` }} delay={i * 50} />
+                    <Skeleton
+                      variant="badge"
+                      className="h-2 w-2 flex-shrink-0"
+                    />
+                    <Skeleton
+                      variant="text"
+                      className="h-4"
+                      style={{ width: `${85 - i * 10}%` }}
+                      delay={i * 50}
+                    />
                   </div>
                 ))}
               </div>
@@ -163,21 +193,21 @@ export function PatientDetailSkeleton() {
 
             {/* Conversation Card */}
             <article
-              className="bg-[var(--color-surface-secondary)] p-5 sm:p-6 border border-[var(--color-border-primary)]/40"
+              className="border border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)] p-5 sm:p-6"
               style={{ borderRadius: "1.1rem" }}
             >
-              <Skeleton variant="heading" className="h-6 w-44 mb-5" />
+              <Skeleton variant="heading" className="mb-5 h-6 w-44" />
               <SkeletonText lines={3} className="mb-6" />
               <Skeleton
                 variant="button"
-                className="h-11 w-full bg-[var(--color-primary-green)]/10 border border-[var(--color-primary-green)]/20"
+                className="h-11 w-full border border-[var(--color-primary-green)]/20 bg-[var(--color-primary-green)]/10"
               />
             </article>
           </section>
         </div>
       </main>
     </div>
-  )
+  );
 }
 
 /**
@@ -189,41 +219,39 @@ export function DashboardCardSkeleton({
   content = true,
   footer = true,
   contentLines = 3,
-  className
+  className,
 }: {
-  title?: boolean
-  content?: boolean
-  footer?: boolean
-  contentLines?: number
-  className?: string
+  title?: boolean;
+  content?: boolean;
+  footer?: boolean;
+  contentLines?: number;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
         "bg-[var(--color-surface-secondary)] p-5 sm:p-6",
         "border border-[var(--color-border-primary)]/40",
-        className
+        className,
       )}
       style={{ borderRadius: "1.1rem" }}
     >
       {title && (
         <div className="mb-5">
-          <Skeleton variant="heading" className="h-6 w-36 mb-2" />
+          <Skeleton variant="heading" className="mb-2 h-6 w-36" />
           <Skeleton variant="text" className="h-4 w-56" delay={50} />
         </div>
       )}
 
-      {content && (
-        <SkeletonText lines={contentLines} className="mb-4" />
-      )}
+      {content && <SkeletonText lines={contentLines} className="mb-4" />}
 
       {footer && (
-        <div className="mt-5 pt-4 border-t border-[var(--color-border-primary)]/30">
+        <div className="mt-5 border-t border-[var(--color-border-primary)]/30 pt-4">
           <SkeletonButton size="sm" />
         </div>
       )}
     </div>
-  )
+  );
 }
 
 /**
@@ -231,9 +259,9 @@ export function DashboardCardSkeleton({
  * For stat/metric display cards
  */
 export function DashboardMetricCardSkeleton({
-  className
+  className,
 }: {
-  className?: string
+  className?: string;
 }) {
   return (
     <div
@@ -241,14 +269,18 @@ export function DashboardMetricCardSkeleton({
         "bg-[var(--color-surface-secondary)] p-6",
         "border border-[var(--color-border-primary)]/40",
         "flex flex-col items-center justify-center text-center",
-        className
+        className,
       )}
       style={{ borderRadius: "1.1rem" }}
     >
-      <Skeleton variant="text" className="h-10 w-20 mb-3" intensity="vibrant" />
-      <Skeleton variant="text" className="h-3 w-24 uppercase" intensity="subtle" />
+      <Skeleton variant="text" className="mb-3 h-10 w-20" intensity="vibrant" />
+      <Skeleton
+        variant="text"
+        className="h-3 w-24 uppercase"
+        intensity="subtle"
+      />
     </div>
-  )
+  );
 }
 
 /**
@@ -257,25 +289,33 @@ export function DashboardMetricCardSkeleton({
  */
 export function TableRowSkeleton({
   columns = 4,
-  className
+  className,
 }: {
-  columns?: number
-  className?: string
+  columns?: number;
+  className?: string;
 }) {
   return (
-    <tr className={cn("border-b border-[var(--color-border-primary)]/20", className)}>
+    <tr
+      className={cn(
+        "border-b border-[var(--color-border-primary)]/20",
+        className,
+      )}
+    >
       {Array.from({ length: columns }).map((_, index) => (
         <td key={index} className="px-4 py-4">
           <Skeleton
             variant="text"
             className="h-4"
-            style={{ width: index === 0 ? '70%' : index === columns - 1 ? '50%' : '85%' }}
+            style={{
+              width:
+                index === 0 ? "70%" : index === columns - 1 ? "50%" : "85%",
+            }}
             delay={index * 30}
           />
         </td>
       ))}
     </tr>
-  )
+  );
 }
 
 /**
@@ -286,15 +326,20 @@ export function TableSkeleton({
   rows = 5,
   columns = 4,
   showHeader = true,
-  className
+  className,
 }: {
-  rows?: number
-  columns?: number
-  showHeader?: boolean
-  className?: string
+  rows?: number;
+  columns?: number;
+  showHeader?: boolean;
+  className?: string;
 }) {
   return (
-    <div className={cn("overflow-hidden rounded-xl border border-[var(--color-border-primary)]/40", className)}>
+    <div
+      className={cn(
+        "overflow-hidden rounded-xl border border-[var(--color-border-primary)]/40",
+        className,
+      )}
+    >
       <table className="w-full">
         {showHeader && (
           <thead className="bg-[var(--color-surface-tertiary)]/30">
@@ -318,7 +363,7 @@ export function TableSkeleton({
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
 /**
@@ -329,23 +374,25 @@ export function ListItemSkeleton({
   showAvatar = false,
   showIcon = false,
   showAction = false,
-  className
+  className,
 }: {
-  showAvatar?: boolean
-  showIcon?: boolean
-  showAction?: boolean
-  className?: string
+  showAvatar?: boolean;
+  showIcon?: boolean;
+  showAction?: boolean;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
         "flex items-center gap-4 p-4",
         "border-b border-[var(--color-border-primary)]/20 last:border-b-0",
-        className
+        className,
       )}
     >
       {showAvatar && <SkeletonAvatar size="md" />}
-      {showIcon && <Skeleton variant="text" className="h-5 w-5 flex-shrink-0" />}
+      {showIcon && (
+        <Skeleton variant="text" className="h-5 w-5 flex-shrink-0" />
+      )}
 
       <div className="flex-1 space-y-2">
         <Skeleton variant="text" className="h-4 w-3/4" />
@@ -354,32 +401,28 @@ export function ListItemSkeleton({
 
       {showAction && <SkeletonButton size="sm" />}
     </div>
-  )
+  );
 }
 
 /**
  * Session Card Skeleton
  * For therapy session cards
  */
-export function SessionCardSkeleton({
-  className
-}: {
-  className?: string
-}) {
+export function SessionCardSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
         "relative bg-[var(--color-surface-secondary)] p-5",
         "border border-[var(--color-border-primary)]/40",
-        className
+        className,
       )}
       style={{ borderRadius: "1.1rem" }}
     >
       {/* Header */}
-      <div className="flex items-start gap-4 mb-4">
+      <div className="mb-4 flex items-start gap-4">
         <SkeletonAvatar size="md" />
         <div className="flex-1">
-          <Skeleton variant="heading" className="h-5 w-40 mb-2" />
+          <Skeleton variant="heading" className="mb-2 h-5 w-40" />
           <Skeleton variant="badge" className="h-5 w-20" />
         </div>
       </div>
@@ -389,7 +432,7 @@ export function SessionCardSkeleton({
 
       {/* Progress */}
       <div className="mb-4">
-        <div className="flex justify-between mb-2">
+        <div className="mb-2 flex justify-between">
           <Skeleton variant="text" className="h-3 w-16" />
           <Skeleton variant="text" className="h-3 w-8" />
         </div>
@@ -397,7 +440,7 @@ export function SessionCardSkeleton({
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-4 border-t border-[var(--color-border-primary)]/30">
+      <div className="flex items-center justify-between border-t border-[var(--color-border-primary)]/30 pt-4">
         <div className="flex items-center gap-3">
           <Skeleton variant="badge" className="h-6 w-20" />
           <Skeleton variant="text" className="h-4 w-16" />
@@ -405,7 +448,7 @@ export function SessionCardSkeleton({
         <SkeletonButton size="sm" />
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -414,25 +457,25 @@ export function SessionCardSkeleton({
  */
 export function ChatMessageSkeleton({
   isPatient = true,
-  className
+  className,
 }: {
-  isPatient?: boolean
-  className?: string
+  isPatient?: boolean;
+  className?: string;
 }) {
-  const textWidths = isPatient ? ['95%', '78%', '56%'] : ['88%', '72%', '50%']
+  const textWidths = isPatient ? ["95%", "78%", "56%"] : ["88%", "72%", "50%"];
 
   return (
     <div
       className={cn(
         "flex px-2 py-1 sm:px-3",
         isPatient ? "justify-start" : "justify-end",
-        className
+        className,
       )}
     >
       <div
         className={cn(
           "flex max-w-2xl items-end gap-3",
-          isPatient ? "flex-row" : "flex-row-reverse"
+          isPatient ? "flex-row" : "flex-row-reverse",
         )}
       >
         {isPatient && (
@@ -450,8 +493,8 @@ export function ChatMessageSkeleton({
           className={cn(
             "space-y-3 rounded-lg px-3 py-3.5 sm:px-4",
             isPatient
-              ? "bg-[var(--color-chat-bubble-patient)]/45 rounded-bl-md"
-              : "bg-[var(--color-chat-bubble-user)]/90 rounded-br-md"
+              ? "rounded-bl-md bg-[var(--color-chat-bubble-patient)]/45"
+              : "rounded-br-md bg-[var(--color-chat-bubble-user)]/90",
           )}
         >
           <div className="space-y-2.5">
@@ -475,7 +518,9 @@ export function ChatMessageSkeleton({
             />
           </div>
 
-          <div className={cn("flex", isPatient ? "justify-start" : "justify-end")}>
+          <div
+            className={cn("flex", isPatient ? "justify-start" : "justify-end")}
+          >
             <Skeleton
               variant="text"
               className="h-2.5 w-14 rounded-full bg-white/15"
@@ -485,21 +530,22 @@ export function ChatMessageSkeleton({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /**
  * Chat Page Skeleton
  * Full-page loading state that mirrors the chat layout
  */
-export function ChatPageSkeleton({
-  className
-}: {
-  className?: string
-}) {
+export function ChatPageSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("flex h-[calc(100vh-4rem)] flex-col bg-background", className)}>
-      <header className="flex-shrink-0 border-b border-border bg-card px-4 py-4 sm:px-6">
+    <div
+      className={cn(
+        "bg-background flex h-[calc(100vh-4rem)] flex-col",
+        className,
+      )}
+    >
+      <header className="border-border bg-card flex-shrink-0 border-b px-4 py-4 sm:px-6">
         <div className="flex items-center justify-between gap-4">
           <div className="flex min-w-0 flex-1 items-center gap-2 sm:gap-4">
             <Skeleton variant="button" className="h-9 w-9 rounded-md" />
@@ -512,16 +558,25 @@ export function ChatPageSkeleton({
           <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
             <Skeleton variant="badge" className="h-8 w-16 rounded-md" />
             <Skeleton variant="button" className="h-9 w-9 rounded-md" />
-            <Skeleton variant="button" className="hidden h-9 w-24 rounded-md sm:block" />
+            <Skeleton
+              variant="button"
+              className="hidden h-9 w-24 rounded-md sm:block"
+            />
           </div>
         </div>
       </header>
 
       <div className="flex min-h-0 flex-1 overflow-hidden">
-        <aside className="page-background hidden w-48 flex-shrink-0 p-4 lg:flex" aria-hidden="true">
+        <aside
+          className="page-background hidden w-48 flex-shrink-0 p-4 lg:flex"
+          aria-hidden="true"
+        >
           <div className="flex w-full flex-col items-center gap-3 pt-4">
             <div className="rounded-[1.1rem] bg-[var(--color-primary-green)]/40 p-[3px]">
-              <SkeletonAvatar size="xl" className="h-24 w-24 rounded-[calc(1.1rem-3px)] ring-0" />
+              <SkeletonAvatar
+                size="xl"
+                className="h-24 w-24 rounded-[calc(1.1rem-3px)] ring-0"
+              />
             </div>
             <Skeleton variant="text" className="h-3 w-24" intensity="subtle" />
             <Skeleton variant="badge" className="h-7 w-28 rounded-full" />
@@ -547,10 +602,14 @@ export function ChatPageSkeleton({
             </div>
           </div>
 
-          <div className="sticky bottom-0 left-0 right-0 z-20 bg-transparent p-4 sm:p-6">
+          <div className="sticky right-0 bottom-0 left-0 z-20 bg-transparent p-4 sm:p-6">
             <div className="mx-auto max-w-4xl space-y-3">
               <div className="rounded-lg border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/35 px-4 py-3">
-                <Skeleton variant="text" className="h-3 w-60" intensity="subtle" />
+                <Skeleton
+                  variant="text"
+                  className="h-3 w-60"
+                  intensity="subtle"
+                />
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
                 <Skeleton
@@ -563,10 +622,224 @@ export function ChatPageSkeleton({
           </div>
         </div>
 
-        <div className="page-background hidden w-48 flex-shrink-0 lg:block" aria-hidden="true" />
+        <div
+          className="page-background hidden w-48 flex-shrink-0 lg:block"
+          aria-hidden="true"
+        />
       </div>
     </div>
-  )
+  );
+}
+
+function MisstepEvidenceSkeleton({ delay = 0 }: { delay?: number }) {
+  return (
+    <div
+      className="space-y-3 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/45 p-4"
+      style={{ borderRadius: "1rem" }}
+    >
+      <div className="flex items-center gap-2">
+        <Skeleton variant="text" className="h-4 w-40" delay={delay} />
+        <Skeleton variant="badge" className="h-5 w-20" delay={delay + 40} />
+      </div>
+      <SkeletonText lines={2} widths={["100%", "72%"]} className="space-y-2" />
+    </div>
+  );
+}
+
+function MisstepCategorySkeleton({ delay = 0 }: { delay?: number }) {
+  return (
+    <div
+      className="space-y-4 border border-[var(--color-border-primary)]/45 bg-[var(--color-surface-secondary)]/75 p-6"
+      style={{ borderRadius: "1.1rem" }}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="flex min-w-0 flex-1 items-start gap-3">
+          <Skeleton
+            variant="avatar"
+            className="h-11 w-11 rounded-2xl ring-0"
+            delay={delay}
+          />
+          <div className="min-w-0 flex-1 space-y-2.5">
+            <Skeleton
+              variant="heading"
+              className="h-5 w-2/3"
+              delay={delay + 20}
+            />
+            <SkeletonText
+              lines={2}
+              widths={["100%", "84%"]}
+              className="space-y-2"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          <Skeleton variant="badge" className="h-7 w-24" delay={delay + 40} />
+          <Skeleton variant="badge" className="h-7 w-20" delay={delay + 60} />
+        </div>
+      </div>
+
+      <div
+        className="space-y-4 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/35 p-4"
+        style={{ borderRadius: "1rem" }}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <Skeleton variant="text" className="h-4 w-28" delay={delay + 100} />
+            <Skeleton variant="text" className="h-3 w-16" delay={delay + 120} />
+          </div>
+          <Skeleton
+            variant="button"
+            className="h-8 w-8 rounded-md"
+            delay={delay + 140}
+          />
+        </div>
+
+        <div className="space-y-3">
+          <MisstepEvidenceSkeleton delay={delay + 180} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Misstep Report Skeleton
+ * Mirrors the misstep analysis layout with hero, metrics, and category cards
+ */
+export function MisstepReportSkeleton({ className }: { className?: string }) {
+  return (
+    <div className={cn("dashboard-panel-stack", className)}>
+      <section className="dashboard-section">
+        <div className="dashboard-section__header">
+          <div className="min-w-0 flex-1 space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <Skeleton variant="text" className="h-4 w-20" />
+              <Skeleton variant="text" className="h-4 w-24" delay={40} />
+              <Skeleton variant="text" className="h-4 w-20" delay={80} />
+              <Skeleton variant="text" className="h-4 w-32" delay={120} />
+            </div>
+            <div className="space-y-3">
+              <Skeleton variant="heading" className="h-8 w-full max-w-xl" />
+              <SkeletonText
+                lines={2}
+                widths={["100%", "76%"]}
+                className="max-w-3xl"
+              />
+            </div>
+          </div>
+
+          <div className="hidden shrink-0 gap-3 md:flex">
+            <SkeletonButton size="md" />
+            <SkeletonButton size="md" className="w-32" />
+          </div>
+        </div>
+
+        <div
+          className="space-y-5 border border-[var(--color-border-primary)]/40 bg-[var(--color-surface-secondary)]/85 p-6"
+          style={{ borderRadius: "1.1rem" }}
+        >
+          <div className="flex flex-wrap gap-2">
+            <Skeleton variant="badge" className="h-7 w-20" />
+            <Skeleton variant="badge" className="h-7 w-32" delay={40} />
+            <Skeleton variant="badge" className="h-7 w-24" delay={80} />
+          </div>
+
+          <div className="space-y-3">
+            <Skeleton variant="heading" className="h-9 w-full max-w-sm" />
+            <SkeletonText
+              lines={2}
+              widths={["100%", "76%"]}
+              className="max-w-3xl"
+            />
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="space-y-3 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/40 p-4"
+                style={{ borderRadius: "1rem" }}
+              >
+                <Skeleton
+                  variant="text"
+                  className="h-3 w-20"
+                  delay={index * 30}
+                />
+                <Skeleton
+                  variant="heading"
+                  className="h-8 w-14"
+                  delay={index * 30 + 20}
+                />
+                <Skeleton
+                  variant="text"
+                  className="h-4 w-24"
+                  delay={index * 30 + 40}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-primary)]/35 px-4 py-3"
+            style={{ borderRadius: "1rem" }}
+          >
+            <Skeleton variant="text" className="h-4 w-32" />
+            <Skeleton variant="text" className="h-4 w-24" delay={20} />
+            <Skeleton variant="text" className="h-4 w-20" delay={40} />
+            <Skeleton variant="text" className="h-4 w-24" delay={60} />
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div className="space-y-2">
+              <Skeleton variant="heading" className="h-7 w-52" />
+              <Skeleton variant="text" className="h-4 w-72" />
+            </div>
+            <Skeleton variant="badge" className="h-7 w-24" />
+          </div>
+
+          <div className="space-y-3">
+            <MisstepCategorySkeleton delay={40} />
+            <MisstepCategorySkeleton delay={120} />
+          </div>
+        </div>
+
+        <div
+          className="space-y-4 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-secondary)]/65 p-4"
+          style={{ borderRadius: "1rem" }}
+        >
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <Skeleton variant="text" className="h-4 w-28" />
+              <Skeleton variant="text" className="h-3 w-24" />
+            </div>
+            <Skeleton variant="button" className="h-8 w-8 rounded-md" />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {Array.from({ length: 8 }).map((_, index) => (
+              <Skeleton
+                key={index}
+                variant="badge"
+                className="h-7 w-24"
+                delay={index * 25}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="flex items-center gap-3 rounded-2xl border border-[var(--color-border-primary)]/35 bg-[var(--color-surface-secondary)]/65 px-4 py-3"
+          style={{ borderRadius: "1rem" }}
+        >
+          <Skeleton variant="avatar" className="h-4 w-4 ring-0" />
+          <Skeleton variant="text" className="h-4 w-72 max-w-full" />
+        </div>
+      </section>
+    </div>
+  );
 }
 
 /**
@@ -575,19 +848,23 @@ export function ChatPageSkeleton({
  */
 export function NavigationSkeleton({
   items = 5,
-  className
+  className,
 }: {
-  items?: number
-  className?: string
+  items?: number;
+  className?: string;
 }) {
   return (
     <nav className={cn("space-y-1 p-3", className)}>
       {Array.from({ length: items }).map((_, index) => (
         <div
           key={index}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5"
         >
-          <Skeleton variant="text" className="h-5 w-5 flex-shrink-0" delay={index * 40} />
+          <Skeleton
+            variant="text"
+            className="h-5 w-5 flex-shrink-0"
+            delay={index * 40}
+          />
           <Skeleton
             variant="text"
             className="h-4 flex-1"
@@ -597,5 +874,5 @@ export function NavigationSkeleton({
         </div>
       ))}
     </nav>
-  )
+  );
 }

@@ -161,28 +161,6 @@ const PATIENT_RISK_PATTERNS = [
   /\boverdose\b/i,
 ] as const;
 
-const DEFENSIVE_PATTERNS = [
-  /\byou need to understand\b/i,
-  /\bi'm trying to help\b/i,
-  /\bthat's not what i said\b/i,
-  /\blet me be clear\b/i,
-  /\bactually\b/i,
-  /\bbut you\b/i,
-  /\bif you would just\b/i,
-  /\bthat's not accurate\b/i,
-  /\byou're not listening\b/i,
-] as const;
-
-const SEDUCTIVE_PATTERNS = [
-  /\byou look\b.*\bbeautiful|handsome|attractive/i,
-  /\bflirt/i,
-  /\bcompliment\b/i,
-  /\bso attractive\b/i,
-  /\bso beautiful\b/i,
-  /\bso handsome\b/i,
-  /\bi find you\b/i,
-] as const;
-
 const PAYMENT_PATTERNS = [
   /\bpayment\b/i,
   /\bpay\b/i,
@@ -244,19 +222,6 @@ const SHAME_PATTERNS = [
   /\bmoral\b/i,
 ] as const;
 
-const SELF_DISCLOSURE_PATTERNS = [
-  /\bi also\b/i,
-  /\bin my life\b/i,
-  /\bwhen i went through\b/i,
-  /\bwhen i was\b/i,
-  /\bi've had\b/i,
-  /\bi remember when\b/i,
-  /\bmy therapist\b/i,
-  /\banche io\b/i,
-  /\bnella mia vita\b/i,
-  /\bquando è successo a me\b/i,
-] as const;
-
 const BOUNDARY_PATTERNS = [
   /\btext me\b/i,
   /\bcall me anytime\b/i,
@@ -276,6 +241,13 @@ const WHITESPACE = /\s+/g;
 
 const THERAPIST = "user";
 const PATIENT = "patient";
+const VERTEX_MAX_ATTEMPTS = 3;
+const VERTEX_RETRY_BASE_DELAY_MS = 400;
+const VERTEX_MAX_CANDIDATE_CATEGORIES = 6;
+const DEFAULT_PATIENT_FALLBACK_MESSAGES = [
+  "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+  "I'm sorry, I'm not sure how to respond.",
+] as const;
 
 type StoredChatMessage = {
   id: string;
@@ -306,6 +278,7 @@ export interface EvaluateStepMisstepsInput {
 type NormalizedMessage = StoredChatMessage & {
   normalized: string;
   wordCount: number;
+  turnId: number;
 };
 
 type TherapistTurn = {
@@ -332,7 +305,11 @@ type HeuristicSummary = {
 let cachedGenAIClient: GoogleGenAI | null = null;
 
 function normalizeText(value: string): string {
-  return value.toLowerCase().replace(OMITTABLE_PUNCTUATION, " ").replace(WHITESPACE, " ").trim();
+  return value
+    .toLowerCase()
+    .replace(OMITTABLE_PUNCTUATION, " ")
+    .replace(WHITESPACE, " ")
+    .trim();
 }
 
 function countWords(value: string): number {
@@ -379,9 +356,7 @@ function therapistEvidence(
   turn: TherapistTurn,
   reason: string,
 ): MisstepEvidence {
-  const parts = [
-    `Therapist: ${truncateText(turn.message.content, 180)}`,
-  ];
+  const parts = [`Therapist: ${truncateText(turn.message.content, 180)}`];
 
   if (turn.afterPatient) {
     parts.push(`Patient: ${truncateText(turn.afterPatient.content, 140)}`);
@@ -390,15 +365,22 @@ function therapistEvidence(
   return {
     excerpt: parts.join("\n"),
     reason,
+    turnIds: turn.afterPatient
+      ? [turn.message.turnId, turn.afterPatient.turnId]
+      : [turn.message.turnId],
     messageId: turn.message.id,
     speaker: turn.message.sender,
   };
 }
 
-function patientEvidence(message: NormalizedMessage, reason: string): MisstepEvidence {
+function patientEvidence(
+  message: NormalizedMessage,
+  reason: string,
+): MisstepEvidence {
   return {
     excerpt: `Patient: ${truncateText(message.content, 220)}`,
     reason,
+    turnIds: [message.turnId],
     messageId: message.id,
     speaker: message.sender,
   };
@@ -409,7 +391,7 @@ function dedupeEvidence(evidence: MisstepEvidence[]): MisstepEvidence[] {
   const deduped: MisstepEvidence[] = [];
 
   for (const item of evidence) {
-    const key = `${item.messageId ?? "none"}:${item.reason}:${item.excerpt}`;
+    const key = `${item.messageId ?? "none"}:${item.turnIds?.join(",") ?? "none"}:${item.reason}:${item.excerpt}`;
     if (seen.has(key)) {
       continue;
     }
@@ -468,7 +450,8 @@ function buildTherapistTurns(messages: NormalizedMessage[]): TherapistTurn[] {
       const nextMessages = messages.slice(index + 1);
       const beforePatient =
         previousMessages.find((entry) => entry.sender === PATIENT) ?? null;
-      const afterPatient = nextMessages.find((entry) => entry.sender === PATIENT) ?? null;
+      const afterPatient =
+        nextMessages.find((entry) => entry.sender === PATIENT) ?? null;
 
       return {
         index,
@@ -506,7 +489,9 @@ function computeHeuristics(
     matchesAny(turn.message.content, CLOSED_QUESTION_PATTERNS),
   ).length;
   const openQuestionRatio =
-    therapistQuestions.length > 0 ? openQuestions / therapistQuestions.length : 0;
+    therapistQuestions.length > 0
+      ? openQuestions / therapistQuestions.length
+      : 0;
   const validationTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, VALIDATION_PATTERNS),
   );
@@ -534,14 +519,8 @@ function computeHeuristics(
   const safetyTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, SAFETY_PATTERNS),
   );
-  const selfDisclosureTurns = therapistTurns.filter((turn) =>
-    matchesAny(turn.message.content, SELF_DISCLOSURE_PATTERNS),
-  );
   const boundaryTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, BOUNDARY_PATTERNS),
-  );
-  const seductionTurns = therapistTurns.filter((turn) =>
-    matchesAny(turn.message.content, SEDUCTIVE_PATTERNS),
   );
   const paymentTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, PAYMENT_PATTERNS),
@@ -557,9 +536,6 @@ function computeHeuristics(
   );
   const shameTurns = therapistTurns.filter((turn) =>
     matchesAny(turn.message.content, SHAME_PATTERNS),
-  );
-  const defensiveTurns = therapistTurns.filter((turn) =>
-    matchesAny(turn.message.content, DEFENSIVE_PATTERNS),
   );
   const patientRiskTurns = patientTurns.filter((turn) =>
     matchesAny(turn.content, PATIENT_RISK_PATTERNS),
@@ -578,7 +554,8 @@ function computeHeuristics(
     ) || /suicid/i.test(input.patient.diagnosis ?? "");
 
   const openingTherapistTurn = therapistTurns[0] ?? null;
-  const closingTherapistTurn = therapistTurns[therapistTurns.length - 1] ?? null;
+  const closingTherapistTurn =
+    therapistTurns[therapistTurns.length - 1] ?? null;
 
   const categories: Record<MisstepCategoryId, HeuristicCategory> = {
     alliance_failure: finalizeCategory(
@@ -650,7 +627,9 @@ function computeHeuristics(
       "premature_interpretation",
       interpretationTurns.reduce((total, turn) => {
         const priorPatientTurns = patientTurns.filter(
-          (message) => new Date(message.timestamp).getTime() <= new Date(turn.message.timestamp).getTime(),
+          (message) =>
+            new Date(message.timestamp).getTime() <=
+            new Date(turn.message.timestamp).getTime(),
         ).length;
         return total + (priorPatientTurns <= 1 ? 0.72 : 0.56);
       }, 0),
@@ -707,7 +686,8 @@ function computeHeuristics(
     ),
     missing_suicide_plan: finalizeCategory(
       "missing_suicide_plan",
-      (patientRiskTurns.length > 0 || patientProfileRisk) && safetyTurns.length === 0
+      (patientRiskTurns.length > 0 || patientProfileRisk) &&
+        safetyTurns.length === 0
         ? 0.92
         : 0,
       [
@@ -717,7 +697,9 @@ function computeHeuristics(
             "The patient disclosed a safety-relevant cue in this step.",
           ),
         ),
-        ...(closingTherapistTurn && (patientRiskTurns.length > 0 || patientProfileRisk) && safetyTurns.length === 0
+        ...(closingTherapistTurn &&
+        (patientRiskTurns.length > 0 || patientProfileRisk) &&
+        safetyTurns.length === 0
           ? [
               therapistEvidence(
                 closingTherapistTurn,
@@ -726,24 +708,6 @@ function computeHeuristics(
             ]
           : []),
       ],
-    ),
-    unmanaged_countertransference: finalizeCategory(
-      "unmanaged_countertransference",
-      defensiveTurns.length > 0 ? 0.76 : 0,
-      collectMatches(
-        defensiveTurns,
-        DEFENSIVE_PATTERNS,
-        "The therapist response sounds defensive, competitive or escalatory.",
-      ),
-    ),
-    therapist_seductiveness: finalizeCategory(
-      "therapist_seductiveness",
-      seductionTurns.length > 0 ? 0.96 : 0,
-      collectMatches(
-        seductionTurns,
-        SEDUCTIVE_PATTERNS,
-        "The turn contains language that can be read as flirtatious or seductive.",
-      ),
     ),
     financial_boundary_issues: finalizeCategory(
       "financial_boundary_issues",
@@ -778,7 +742,9 @@ function computeHeuristics(
           NIHILISTIC_PATTERNS,
           "Therapist wording sounds hopeless or demotivating.",
         ),
-        ...(closingTherapistTurn && input.stepNumber >= 3 && hopeTurns.length === 0
+        ...(closingTherapistTurn &&
+        input.stepNumber >= 3 &&
+        hopeTurns.length === 0
           ? [
               therapistEvidence(
                 closingTherapistTurn,
@@ -806,15 +772,6 @@ function computeHeuristics(
         "The wording uses shame, guilt or fear as leverage.",
       ),
     ),
-    inappropriate_self_disclosure: finalizeCategory(
-      "inappropriate_self_disclosure",
-      selfDisclosureTurns.length > 0 ? 0.82 : 0,
-      collectMatches(
-        selfDisclosureTurns,
-        SELF_DISCLOSURE_PATTERNS,
-        "The therapist references their own life in a way that may shift the focus away from the patient.",
-      ),
-    ),
     professional_boundary_violation: finalizeCategory(
       "professional_boundary_violation",
       boundaryTurns.length > 0 ? 0.96 : 0,
@@ -836,32 +793,6 @@ function computeHeuristics(
   };
 }
 
-function heuristicResultFromSummary(
-  summary: HeuristicSummary,
-): StepMisstepEvaluationResult {
-  const categories = MISSTEP_CATEGORIES.map((category) => {
-    const heuristic = summary.categories[category.id];
-    const present = heuristic.score >= 0.58;
-    const confidence = roundToTwo(
-      present ? Math.max(heuristic.score, 0.58) : Math.max(0.55, 1 - heuristic.score),
-    );
-
-    return {
-      ...category,
-      present,
-      confidence,
-      evidence: heuristic.evidence,
-    } satisfies MisstepCategoryResult;
-  });
-
-  return buildEvaluationResult({
-    categories,
-    analysisMode: "heuristic",
-    modelName: null,
-    summary,
-  });
-}
-
 function buildEvaluationResult(input: {
   categories: MisstepCategoryResult[];
   analysisMode: StepMisstepAnalysisMode;
@@ -881,7 +812,8 @@ function buildEvaluationResult(input: {
     detectorVersion: MISSTEP_DETECTOR_VERSION,
     computedAt: new Date().toISOString(),
     summary: {
-      detectedCount: input.categories.filter((category) => category.present).length,
+      detectedCount: input.categories.filter((category) => category.present)
+        .length,
       highSeverityDetectedCount: input.categories.filter(
         (category) => category.present && category.severity === 3,
       ).length,
@@ -896,26 +828,38 @@ function buildEvaluationResult(input: {
 }
 
 function normalizeMessages(messages: StoredChatMessage[]): NormalizedMessage[] {
+  const ignoredPatientMessages = new Set(
+    DEFAULT_PATIENT_FALLBACK_MESSAGES.map((message) => normalizeText(message)),
+  );
+
   return messages
-    .filter((message) => message.content.trim().length > 0)
-    .map((message) => ({
+    .filter((message) => {
+      if (message.content.trim().length === 0) {
+        return false;
+      }
+
+      if (
+        message.sender === PATIENT &&
+        ignoredPatientMessages.has(normalizeText(message.content))
+      ) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((message, index) => ({
       ...message,
       normalized: normalizeText(message.content),
       wordCount: countWords(message.content),
+      turnId: index + 1,
     }));
-}
-
-function shouldUseHybridEvaluation(): boolean {
-  return (
-    env.MISSTEP_ANALYSIS_MODE === "hybrid" &&
-    env.GOOGLE_GENAI_USE_VERTEXAI !== "false" &&
-    Boolean(env.GOOGLE_CLOUD_PROJECT)
-  );
 }
 
 function getGenAIClient(): GoogleGenAI {
   if (!env.GOOGLE_CLOUD_PROJECT) {
-    throw new Error("GOOGLE_CLOUD_PROJECT is required for Vertex AI evaluation");
+    throw new Error(
+      "GOOGLE_CLOUD_PROJECT is required for Vertex AI evaluation",
+    );
   }
 
   if (!cachedGenAIClient) {
@@ -930,32 +874,48 @@ function getGenAIClient(): GoogleGenAI {
 }
 
 function buildCandidateEvidenceText(summary: HeuristicSummary): string {
-  return MISSTEP_CATEGORIES.map((category) => {
-    const heuristic = summary.categories[category.id];
-    const evidence =
-      heuristic.evidence.length === 0
-        ? "- none"
-        : heuristic.evidence
-            .map(
-              (item, index) =>
-                `${index + 1}. ${item.reason}\n${item.excerpt}`,
-            )
-            .join("\n");
+  const candidates = MISSTEP_CATEGORIES.map((category) => ({
+    category,
+    heuristic: summary.categories[category.id],
+  }))
+    .filter(
+      ({ heuristic }) =>
+        heuristic.score > 0 || heuristic.evidence.length > 0,
+    )
+    .sort((left, right) => right.heuristic.score - left.heuristic.score)
+    .slice(0, VERTEX_MAX_CANDIDATE_CATEGORIES);
 
-    return [
-      `Category: ${category.label} (${category.id})`,
-      `Heuristic score: ${roundToTwo(heuristic.score)}`,
-      "Candidate evidence:",
-      evidence,
-    ].join("\n");
-  }).join("\n\n");
+  if (candidates.length === 0) {
+    return "No heuristic candidates retained for this step.";
+  }
+
+  return candidates
+    .map(({ category, heuristic }) => {
+      const evidence =
+        heuristic.evidence.length === 0
+          ? "- Turn IDs: none"
+          : heuristic.evidence
+              .map((item, index) => {
+                const turnIds = item.turnIds?.join(", ") ?? "unknown";
+                return `${index + 1}. Turn IDs: ${turnIds}\nReason: ${item.reason}`;
+              })
+              .join("\n");
+
+      return [
+        `Category: ${category.label} (${category.id})`,
+        `Heuristic score: ${roundToTwo(heuristic.score)}`,
+        "Candidate evidence:",
+        evidence,
+      ].join("\n");
+    })
+    .join("\n\n");
 }
 
 function buildTranscriptText(messages: NormalizedMessage[]): string {
   return messages
     .map(
       (message) =>
-        `${message.sender === THERAPIST ? "Therapist" : "Patient"}: ${message.content}`,
+        `[${message.turnId}] ${message.sender === THERAPIST ? "Therapist" : "Patient"}: ${message.content}`,
     )
     .join("\n");
 }
@@ -985,9 +945,15 @@ function buildVertexPrompt(
   return [
     "You are evaluating a psychotherapy training transcript for therapist missteps.",
     "Use only the single-step transcript, the patient profile, and the provided candidate evidence.",
-    "Return JSON only. Mark present=true only when the transcript supports the finding, or when an omission-based category is strongly justified by risk cues or the step context.",
+    "Candidate evidence is heuristic guidance only; the numbered transcript is authoritative.",
+    "Return JSON only.",
+    "Return one category object for every taxonomy id, exactly once.",
+    "Mark present=true only when the transcript supports the finding, or when an omission-based category is strongly justified by risk cues or the step context.",
     "Confidence must be between 0 and 1.",
-    "Each evidence excerpt must be copied from the transcript or candidate evidence and stay short.",
+    "Each evidence item must contain turnIds that reference the numbered transcript turns.",
+    "Use between 1 and 3 turnIds per evidence item.",
+    "When possible, include both therapist and patient turnIds in the same evidence item.",
+    "Do not invent turnIds. If a finding has no supporting turns, mark it absent.",
     "",
     "[Patient context]",
     patientContext,
@@ -1024,26 +990,25 @@ function buildVertexSchema(): Record<string, unknown> {
           properties: {
             id: {
               type: "string",
-              enum: MISSTEP_CATEGORIES.map((category) => category.id),
             },
             present: {
               type: "boolean",
             },
             confidence: {
               type: "number",
-              minimum: 0,
-              maximum: 1,
             },
             evidence: {
               type: "array",
-              maxItems: 3,
               items: {
                 type: "object",
                 additionalProperties: false,
-                required: ["excerpt", "reason"],
+                required: ["turnIds", "reason"],
                 properties: {
-                  excerpt: {
-                    type: "string",
+                  turnIds: {
+                    type: "array",
+                    items: {
+                      type: "number",
+                    },
                   },
                   reason: {
                     type: "string",
@@ -1058,60 +1023,300 @@ function buildVertexSchema(): Record<string, unknown> {
   };
 }
 
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error);
+}
+
+function findNearestCounterpartIndex(
+  index: number,
+  messages: NormalizedMessage[],
+): number {
+  const current = messages[index];
+  if (!current) {
+    return -1;
+  }
+
+  for (let offset = 1; offset < messages.length; offset += 1) {
+    const nextIndex = index + offset;
+    if (
+      nextIndex < messages.length &&
+      messages[nextIndex] &&
+      messages[nextIndex].sender !== current.sender
+    ) {
+      return nextIndex;
+    }
+
+    const previousIndex = index - offset;
+    if (
+      previousIndex >= 0 &&
+      messages[previousIndex] &&
+      messages[previousIndex].sender !== current.sender
+    ) {
+      return previousIndex;
+    }
+  }
+
+  return -1;
+}
+
+function formatEvidenceLine(message: NormalizedMessage): string {
+  const speaker = message.sender === THERAPIST ? "Therapist" : "Patient";
+  return `${speaker}: ${truncateText(message.content, 180)}`;
+}
+
+function isRetryableVertexError(error: unknown): boolean {
+  if (error instanceof SyntaxError) {
+    return true;
+  }
+
+  const message = getErrorMessage(error).toLowerCase();
+  if (message.includes("google_cloud_project is required")) {
+    return false;
+  }
+
+  return [
+    "429",
+    "500",
+    "502",
+    "503",
+    "504",
+    "deadline",
+    "timeout",
+    "temporarily unavailable",
+    "unavailable",
+    "rate limit",
+    "quota",
+    "econnreset",
+    "socket hang up",
+    "empty misstep evaluation response",
+    "response validation failed",
+  ].some((token) => message.includes(token));
+}
+
+function normalizeEvidenceTurnIds(
+  turnIds: number[],
+  messages: NormalizedMessage[],
+): number[] {
+  const normalized = [...new Set(turnIds)].sort((left, right) => left - right);
+
+  if (normalized.length === 0) {
+    throw new Error("Evidence turnIds must contain at least 1 item");
+  }
+
+  for (const turnId of normalized) {
+    if (!Number.isInteger(turnId) || turnId < 1 || turnId > messages.length) {
+      throw new Error(`Evidence turnId ${turnId} is outside the transcript range`);
+    }
+  }
+
+  if (normalized.length <= 3) {
+    return normalized;
+  }
+
+  let bestWindow = normalized.slice(0, 3);
+  let bestSpan = bestWindow[2]! - bestWindow[0]!;
+  let bestSpeakerDiversity = new Set(
+    bestWindow.map((turnId) => messages[turnId - 1]?.sender).filter(Boolean),
+  ).size;
+
+  for (let index = 1; index <= normalized.length - 3; index += 1) {
+    const window = normalized.slice(index, index + 3);
+    const span = window[2]! - window[0]!;
+    const speakerDiversity = new Set(
+      window.map((turnId) => messages[turnId - 1]?.sender).filter(Boolean),
+    ).size;
+
+    if (
+      speakerDiversity > bestSpeakerDiversity ||
+      (speakerDiversity === bestSpeakerDiversity && span < bestSpan)
+    ) {
+      bestWindow = window;
+      bestSpan = span;
+      bestSpeakerDiversity = speakerDiversity;
+    }
+  }
+
+  return bestWindow;
+}
+
+function expandEvidenceTurnIds(
+  turnIds: number[],
+  messages: NormalizedMessage[],
+): number[] {
+  const normalized = normalizeEvidenceTurnIds(turnIds, messages);
+  const speakers = new Set(
+    normalized.map((turnId) => messages[turnId - 1]?.sender).filter(Boolean),
+  );
+
+  if (speakers.size > 1 || normalized.length >= 3) {
+    return normalized;
+  }
+
+  let bestCounterpartTurnId: number | null = null;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  for (const turnId of normalized) {
+    const counterpartIndex = findNearestCounterpartIndex(turnId - 1, messages);
+    if (counterpartIndex === -1) {
+      continue;
+    }
+
+    const counterpartTurnId = counterpartIndex + 1;
+    const distance = Math.min(
+      ...normalized.map((currentTurnId) =>
+        Math.abs(currentTurnId - counterpartTurnId),
+      ),
+    );
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestCounterpartTurnId = counterpartTurnId;
+    }
+  }
+
+  if (bestCounterpartTurnId === null) {
+    return normalized;
+  }
+
+  return [...new Set([...normalized, bestCounterpartTurnId])].sort(
+    (left, right) => left - right,
+  );
+}
+
+function buildEvidenceFromTurnIds(
+  turnIds: number[],
+  reason: string,
+  messages: NormalizedMessage[],
+): MisstepEvidence {
+  const resolvedTurnIds = expandEvidenceTurnIds(turnIds, messages);
+  const excerpt = resolvedTurnIds
+    .map((turnId) => formatEvidenceLine(messages[turnId - 1]!))
+    .join("\n");
+
+  return {
+    excerpt: truncateText(excerpt, 420),
+    reason: reason.trim(),
+    turnIds: resolvedTurnIds,
+  };
+}
+
 function parseVertexResult(
   raw: string,
   summary: HeuristicSummary,
+  messages: NormalizedMessage[],
 ): StepMisstepEvaluationResult {
   const parsed = JSON.parse(raw) as {
     categories?: Array<{
       id?: string;
       present?: boolean;
       confidence?: number;
-      evidence?: Array<{ excerpt?: string; reason?: string }>;
+      evidence?: Array<{ turnIds?: number[]; reason?: string }>;
     }>;
   };
 
-  const categories = MISSTEP_CATEGORIES.map((category) => {
-    const heuristic = summary.categories[category.id];
-    const fromModel = parsed.categories?.find((item) => item.id === category.id);
-    const present =
-      typeof fromModel?.present === "boolean"
-        ? fromModel.present
-        : heuristic.score >= 0.58;
-    const confidence = roundToTwo(
-      clamp(
-        typeof fromModel?.confidence === "number"
-          ? fromModel.confidence
-          : present
-            ? Math.max(heuristic.score, 0.58)
-            : Math.max(0.55, 1 - heuristic.score),
-      ),
+  if (!Array.isArray(parsed.categories)) {
+    throw new Error("Vertex response validation failed: categories must be an array");
+  }
+
+  if (parsed.categories.length !== MISSTEP_CATEGORIES.length) {
+    throw new Error(
+      `Vertex response validation failed: expected ${MISSTEP_CATEGORIES.length} categories, received ${parsed.categories.length}`,
     );
-    const evidence =
-      fromModel?.evidence
-        ?.filter(
-          (item): item is { excerpt: string; reason: string } =>
-            typeof item?.excerpt === "string" &&
-            item.excerpt.trim().length > 0 &&
-            typeof item.reason === "string" &&
-            item.reason.trim().length > 0,
-        )
-        .map((item) => ({
-          excerpt: truncateText(item.excerpt, 280),
-          reason: truncateText(item.reason, 140),
-        })) ?? [];
+  }
+
+  const byId = new Map<
+    MisstepCategoryId,
+    {
+      id?: string;
+      present?: boolean;
+      confidence?: number;
+      evidence?: Array<{ turnIds?: number[]; reason?: string }>;
+    }
+  >();
+
+  for (const item of parsed.categories) {
+    if (!item?.id || !MISSTEP_CATEGORIES.some((category) => category.id === item.id)) {
+      throw new Error(
+        `Vertex response validation failed: unknown category id "${item?.id ?? "missing"}"`,
+      );
+    }
+
+    const typedId = item.id as MisstepCategoryId;
+    if (byId.has(typedId)) {
+      throw new Error(
+        `Vertex response validation failed: duplicate category id "${typedId}"`,
+      );
+    }
+
+    byId.set(typedId, item);
+  }
+
+  const categories = MISSTEP_CATEGORIES.map((category) => {
+    const fromModel = byId.get(category.id);
+    if (!fromModel) {
+      throw new Error(
+        `Vertex response validation failed: missing category "${category.id}"`,
+      );
+    }
+
+    if (typeof fromModel.present !== "boolean") {
+      throw new Error(
+        `Vertex response validation failed: category "${category.id}" is missing a boolean present value`,
+      );
+    }
+
+    if (
+      typeof fromModel.confidence !== "number" ||
+      !Number.isFinite(fromModel.confidence)
+    ) {
+      throw new Error(
+        `Vertex response validation failed: category "${category.id}" is missing a numeric confidence value`,
+      );
+    }
+
+    if (!Array.isArray(fromModel.evidence)) {
+      throw new Error(
+        `Vertex response validation failed: category "${category.id}" evidence must be an array`,
+      );
+    }
+
+    const evidence = fromModel.evidence.map((item, index) => {
+      if (!Array.isArray(item?.turnIds)) {
+        throw new Error(
+          `Vertex response validation failed: category "${category.id}" evidence #${index + 1} must include turnIds`,
+        );
+      }
+
+      if (typeof item.reason !== "string" || item.reason.trim().length === 0) {
+        throw new Error(
+          `Vertex response validation failed: category "${category.id}" evidence #${index + 1} must include a non-empty reason`,
+        );
+      }
+
+      return buildEvidenceFromTurnIds(item.turnIds, item.reason, messages);
+    });
+
+    if (fromModel.present && evidence.length === 0) {
+      throw new Error(
+        `Vertex response validation failed: category "${category.id}" is present but has no supporting evidence`,
+      );
+    }
 
     return {
       ...category,
-      present,
-      confidence,
-      evidence: evidence.length > 0 ? evidence.slice(0, 3) : heuristic.evidence,
+      present: fromModel.present,
+      confidence: roundToTwo(clamp(fromModel.confidence)),
+      evidence,
     } satisfies MisstepCategoryResult;
   });
 
   return buildEvaluationResult({
     categories,
-    analysisMode: "hybrid",
+    analysisMode: "vertex",
     modelName: env.VERTEX_MODEL_ID,
     summary,
   });
@@ -1124,23 +1329,48 @@ async function judgeWithVertex(
 ): Promise<StepMisstepEvaluationResult> {
   const prompt = buildVertexPrompt(input, messages, summary);
   const ai = getGenAIClient();
-  const response = await ai.models.generateContent({
-    model: env.VERTEX_MODEL_ID,
-    contents: prompt,
-    config: {
-      temperature: 0.1,
-      topP: 0.9,
-      responseMimeType: "application/json",
-      responseJsonSchema: buildVertexSchema(),
-    },
-  });
+  let lastError: unknown = null;
 
-  const rawText = response.text?.trim();
-  if (!rawText) {
-    throw new Error("Vertex AI returned an empty misstep evaluation response");
+  for (let attempt = 1; attempt <= VERTEX_MAX_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await ai.models.generateContent({
+        model: env.VERTEX_MODEL_ID,
+        contents: prompt,
+        config: {
+          temperature: 0,
+          responseMimeType: "application/json",
+          responseJsonSchema: buildVertexSchema(),
+        },
+      });
+
+      const rawText = response.text?.trim();
+      if (!rawText) {
+        throw new Error("Vertex AI returned an empty misstep evaluation response");
+      }
+
+      return parseVertexResult(rawText, summary, messages);
+    } catch (error) {
+      lastError = error;
+
+      if (attempt === VERTEX_MAX_ATTEMPTS || !isRetryableVertexError(error)) {
+        throw error;
+      }
+
+      logger.warn("Retrying Vertex misstep evaluation", {
+        therapySessionId: input.therapySessionId,
+        stepNumber: input.stepNumber,
+        attempt,
+        maxAttempts: VERTEX_MAX_ATTEMPTS,
+        error: getErrorMessage(error),
+      });
+
+      await sleep(VERTEX_RETRY_BASE_DELAY_MS * 2 ** (attempt - 1));
+    }
   }
 
-  return parseVertexResult(rawText, summary);
+  throw lastError instanceof Error
+    ? lastError
+    : new Error("Vertex misstep evaluation failed");
 }
 
 export async function evaluateStepMissteps(
@@ -1148,21 +1378,15 @@ export async function evaluateStepMissteps(
 ): Promise<StepMisstepEvaluationResult> {
   const normalizedMessages = normalizeMessages(input.messages);
   const summary = computeHeuristics(input, normalizedMessages);
-  const heuristicResult = heuristicResultFromSummary(summary);
-
-  if (!shouldUseHybridEvaluation()) {
-    return heuristicResult;
-  }
 
   try {
     return await judgeWithVertex(input, normalizedMessages, summary);
   } catch (error) {
-    logger.warn("Falling back to heuristic misstep evaluation", {
+    logger.error("Vertex misstep evaluation failed", {
       therapySessionId: input.therapySessionId,
       stepNumber: input.stepNumber,
       error: error instanceof Error ? error.message : String(error),
     });
-
-    return heuristicResult;
+    throw error;
   }
 }

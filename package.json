@@ -1,7 +1,12 @@
 {
   "name": "llmpatients-app",
   "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unimib-whattadata/LLMPatients-App.git"
+  },
   "type": "module",
   "packageManager": "pnpm@10.12.4",
   "scripts": {
@@ -72,6 +77,7 @@
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.22.3",
+    "ws": "^8.18.3",
     "yaml": "^2.9.0",
     "zod": "^4.4.3"
   },
@@ -81,6 +87,7 @@
     "@types/node": "^25.9.1",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
+    "@types/ws": "^8.18.1",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.39.4",
     "eslint-config-next": "^15.5.18",

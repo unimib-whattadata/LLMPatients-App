@@ -3,6 +3,7 @@
 Virtual patient simulations for psychotherapy training, built with Next.js, tRPC, Drizzle ORM and PostgreSQL.
 
 ![Status](https://img.shields.io/badge/status-beta-orange)
+![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)
 ![Node](https://img.shields.io/badge/node-22-green)
 ![Package%20manager](https://img.shields.io/badge/pnpm-10.12.4-blue)
 ![Database](https://img.shields.io/badge/database-PostgreSQL%2018-blue)
@@ -17,11 +18,14 @@ Virtual patient simulations for psychotherapy training, built with Next.js, tRPC
 - [Environment Variables](#environment-variables)
 - [Database Workflow](#database-workflow)
 - [Useful Commands](#useful-commands)
+- [Architecture](#architecture)
 - [Testing](#testing)
 - [Production](#production)
 - [Project Structure](#project-structure)
 - [Troubleshooting](#troubleshooting)
 - [Security](#security)
+- [License](#license)
+- [Credits](#credits)
 - [Citation](#citation)
 
 ## Overview
@@ -35,7 +39,7 @@ The application is designed around one database backend: **PostgreSQL**. SQLite 
 - Structured virtual patients with clinical profiles, objectives, difficulty and therapeutic journey data.
 - Multi-step therapeutic simulations with chat, session state and progress tracking.
 - Step-level misstep analysis with persisted reports and retry support.
-- Optional hybrid misstep judging with Vertex AI; heuristic mode is available without cloud credentials.
+- Vertex AI misstep judging with structured evidence for completed chat steps.
 - Optional TTS providers: `none`, `elevenlabs`, `vibevoice`, `chatterbox`.
 - Admin/user flows, impersonation support and seeded demo accounts for local development.
 - PostgreSQL migrations managed by Drizzle Kit in `drizzle-postgres/`.
@@ -58,7 +62,7 @@ The application is designed around one database backend: **PostgreSQL**. SQLite 
 - Docker and Docker Compose for local containers
 - PostgreSQL connection string in `DATABASE_URL`
 - Optional Python 3.10+ only for local TTS service integrations
-- Optional Google Cloud credentials for Vertex AI hybrid misstep judging
+- Google Cloud credentials for Vertex AI misstep judging
 
 ## Quick Start
 
@@ -113,8 +117,7 @@ NEXTAUTH_URL="http://localhost:8080"
 
 API="local"
 TTS_PROVIDER="none"
-MISSTEP_ANALYSIS_MODE="heuristic"
-GOOGLE_GENAI_USE_VERTEXAI="false"
+GOOGLE_GENAI_USE_VERTEXAI="true"
 ```
 
 Generate secrets with:
@@ -151,39 +154,35 @@ Open [http://localhost:8080](http://localhost:8080).
 
 ## Environment Variables
 
-| Variable | Required | Description |
-| --- | --- | --- |
-| `DATABASE_URL` | Yes | PostgreSQL URL. Must start with `postgres://` or `postgresql://`. |
-| `AUTH_SECRET` | Production | NextAuth secret. Use a strong random value. |
-| `NEXTAUTH_SECRET` | Recommended | Explicit NextAuth secret. Use a strong random value. |
-| `NEXTAUTH_URL` | Recommended | Public base URL of the app. In local dev use `http://localhost:8080`. |
-| `JWT_SECRET` | Optional | Legacy/internal JWT secret when needed by auth flows. |
-| `API` | Optional | Patient response mode: `local` or `remote`. Defaults to `local`. |
-| `EXTERNAL_AI_API_KEY` | Protected remote only | Optional bearer token for the external patient/orchestrator API. Local LLMPatients-Agent does not require it. |
-| `API_BASE_URL` | Remote only | Base URL for the external patient/orchestrator API. |
-| `API_INITIALIZE_PATIENT_ENDPOINT` | Remote only | Remote endpoint for patient initialization. |
-| `API_CHAT_RESPONSE_ENDPOINT` | Remote only | Remote endpoint for chat responses. |
-| `API_SESSION_END_ENDPOINT` | Remote only | Remote endpoint for session finalization. |
-| `API_TIMEOUT_GENERATE_RESPONSE` | Optional | Legacy response-generation timeout in milliseconds. Defaults to `120000`. |
-| `API_TIMEOUT_INITIALIZE_PATIENT` | Optional | Initialization timeout in milliseconds. Defaults to `120000`. |
-| `API_TIMEOUT_CHAT_RESPONSE` | Optional | Chat response timeout in milliseconds. Defaults to `120000`. |
-| `API_TIMEOUT_SESSION_END` | Optional | Session-finalization timeout in milliseconds. Defaults to `120000`. |
-| `TTS_PROVIDER` | Optional | `none`, `elevenlabs`, `vibevoice`, or `chatterbox`. Defaults to `none`. |
-| `ELEVENLABS_API_KEY` | Provider only | Required when `TTS_PROVIDER=elevenlabs`. |
-| `VIBEVOICE_URL` | Provider only | VibeVoice service URL. Defaults to `http://localhost:3001`. |
-| `CHATTERBOX_URL` | Provider only | Chatterbox service URL. Defaults to `http://localhost:3002`. |
-| `MISSTEP_ANALYSIS_MODE` | Optional | `heuristic` or `hybrid`. Defaults to `hybrid`. |
-| `VERTEX_MODEL_ID` | Hybrid only | Vertex/Gemini model for structured judging. |
-| `GOOGLE_CLOUD_PROJECT` | Hybrid only | Google Cloud project for Vertex AI. |
-| `GOOGLE_CLOUD_LOCATION` | Hybrid only | Vertex AI location. Defaults to `global`. |
-| `GOOGLE_GENAI_USE_VERTEXAI` | Hybrid only | Set to `true` to use Vertex AI through `@google/genai`. |
+| Variable                          | Required              | Description                                                                                                   |
+| --------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `DATABASE_URL`                    | Yes                   | PostgreSQL URL. Must start with `postgres://` or `postgresql://`.                                             |
+| `AUTH_SECRET`                     | Production            | NextAuth secret. Use a strong random value.                                                                   |
+| `NEXTAUTH_SECRET`                 | Recommended           | Explicit NextAuth secret. Use a strong random value.                                                          |
+| `NEXTAUTH_URL`                    | Recommended           | Public base URL of the app. In local dev use `http://localhost:8080`.                                         |
+| `JWT_SECRET`                      | Optional              | Legacy/internal JWT secret when needed by auth flows.                                                         |
+| `API`                             | Optional              | Patient response mode: `local` or `remote`. Defaults to `local`.                                              |
+| `EXTERNAL_AI_API_KEY`             | Protected remote only | Optional bearer token for the external patient/orchestrator API. Local LLMPatients-Agent does not require it. |
+| `API_BASE_URL`                    | Remote only           | Base URL for the external patient/orchestrator API.                                                           |
+| `API_INITIALIZE_PATIENT_ENDPOINT` | Remote only           | Remote endpoint for patient initialization.                                                                   |
+| `API_CHAT_RESPONSE_ENDPOINT`      | Remote only           | Remote endpoint for chat responses.                                                                           |
+| `API_SESSION_END_ENDPOINT`        | Remote only           | Remote endpoint for session finalization.                                                                     |
+| `API_TIMEOUT_GENERATE_RESPONSE`   | Optional              | Legacy response-generation timeout in milliseconds. Defaults to `120000`.                                     |
+| `API_TIMEOUT_INITIALIZE_PATIENT`  | Optional              | Initialization timeout in milliseconds. Defaults to `120000`.                                                 |
+| `API_TIMEOUT_CHAT_RESPONSE`       | Optional              | Chat response timeout in milliseconds. Defaults to `120000`.                                                  |
+| `API_TIMEOUT_SESSION_END`         | Optional              | Session-finalization timeout in milliseconds. Defaults to `120000`.                                           |
+| `TTS_PROVIDER`                    | Optional              | `none`, `elevenlabs`, `vibevoice`, or `chatterbox`. Defaults to `none`.                                       |
+| `ELEVENLABS_API_KEY`              | Provider only         | Required when `TTS_PROVIDER=elevenlabs`.                                                                      |
+| `VIBEVOICE_URL`                   | Provider only         | VibeVoice service URL. Defaults to `http://localhost:3001`.                                                   |
+| `CHATTERBOX_URL`                  | Provider only         | Chatterbox service URL. Defaults to `http://localhost:3002`.                                                  |
+| `VERTEX_MODEL_ID`                 | Misstep analysis      | Vertex/Gemini model for structured judging. Defaults to `gemini-2.5-flash`.                                   |
+| `GOOGLE_CLOUD_PROJECT`            | Misstep analysis      | Google Cloud project for Vertex AI.                                                                           |
+| `GOOGLE_CLOUD_LOCATION`           | Misstep analysis      | Vertex AI location. Defaults to `global`.                                                                     |
+| `GOOGLE_GENAI_USE_VERTEXAI`       | Misstep analysis      | Set to `true` to use Vertex AI through `@google/genai`. Defaults to `true`.                                   |
 
-### Misstep Analysis Modes
+### Misstep Analysis
 
-- `heuristic`: local rule-based analysis only. Best for local development and CI.
-- `hybrid`: run heuristic analysis first, then refine with Vertex AI when Google Cloud credentials are available.
-
-If `hybrid` is configured but Vertex credentials are missing or the remote call fails, the app falls back to heuristic output.
+Completed chat steps are evaluated through Vertex AI structured-output judging. Configure Google Cloud credentials, `GOOGLE_CLOUD_PROJECT`, and `GOOGLE_CLOUD_LOCATION` before using the misstep report workflow.
 
 ## Database Workflow
 
@@ -207,21 +206,34 @@ Rules for this repository:
 
 ## Useful Commands
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm dev` | Start Next.js in development mode on port `8080`. |
-| `pnpm dev:no-turbo` | Start development server without Turbopack. |
-| `pnpm build` | Create a production build. |
-| `pnpm start` | Start the production Next.js server on port `8080` by default. |
-| `pnpm preview` | Build and start the app locally. |
-| `pnpm typecheck` | Run TypeScript checks. |
-| `pnpm lint` | Run Next/ESLint checks. |
-| `pnpm format:check` | Check Prettier formatting. |
-| `pnpm format:write` | Apply Prettier formatting. |
-| `pnpm test` | Run the platform diagnostic script. |
-| `pnpm test:backend` | Run the PostgreSQL backend scenario test. |
-| `pnpm system:diagnose` | Alias for the platform diagnostic script. |
-| `pnpm audit:performance` | Build, start and run Lighthouse against localhost. |
+| Command                  | Purpose                                                        |
+| ------------------------ | -------------------------------------------------------------- |
+| `pnpm dev`               | Start Next.js in development mode on port `8080`.              |
+| `pnpm dev:no-turbo`      | Start development server without Turbopack.                    |
+| `pnpm build`             | Create a production build.                                     |
+| `pnpm start`             | Start the production Next.js server on port `8080` by default. |
+| `pnpm preview`           | Build and start the app locally.                               |
+| `pnpm typecheck`         | Run TypeScript checks.                                         |
+| `pnpm lint`              | Run Next/ESLint checks.                                        |
+| `pnpm format:check`      | Check Prettier formatting.                                     |
+| `pnpm format:write`      | Apply Prettier formatting.                                     |
+| `pnpm test`              | Run the platform diagnostic script.                            |
+| `pnpm test:backend`      | Run the PostgreSQL backend scenario test.                      |
+| `pnpm system:diagnose`   | Alias for the platform diagnostic script.                      |
+| `pnpm audit:performance` | Build, start and run Lighthouse against localhost.             |
+
+## Architecture
+
+The project is built on **Next.js 15** (App Router) and T3 stack.
+
+- **Frontend**: React, Tailwind CSS, Shadcn/UI.
+- **Backend**: Next.js Server Actions, tRPC.
+- **Database**: Drizzle ORM with PostgreSQL.
+- **AI Core**:
+  - `src/server/services/patient-response-generator/`: patient orchestration and remote/local chat generation.
+  - `src/server/services/misstep-evaluator.ts`: Vertex AI misstep scoring for a single completed chat step.
+  - `src/server/services/step-misstep-evaluations.ts`: persistence, queueing, and retry logic for step evaluations.
+  - `scripts/`: auxiliary scripts and backend scenario tests.
 
 ## Testing
 
@@ -394,16 +406,44 @@ Then use the local demo credentials listed in [Quick Start](#quick-start).
 - Use strong random values for `AUTH_SECRET`, `NEXTAUTH_SECRET` and `JWT_SECRET`.
 - Replace seed credentials before using the app outside local development.
 
+## License
+
+The source code in this repository is licensed under the **GNU Affero General Public License v3.0 or later** (`AGPL-3.0-or-later`). See the `LICENSE` file for the full license text.
+
+This license applies to the source code in this repository. Third-party dependencies, model-provider services, generated avatars, clinical instruments, transcripts, annotation materials and any sensitive runtime data remain governed by their respective licenses, terms of use or access conditions.
+
+## Credits
+
+Developed at **University of Milano-Bicocca (UNIMIB)**.
+Department of Psychology & Department of Informatics, Systems and Communication.
+
+References and inspirations:
+
+- PDM-2 (Psychodynamic Diagnostic Manual)
+- Panksepp’s Affective Neuroscience
+
 ## Citation
 
-If you use LLMPatients for research, cite the reference paper or project record used by your group:
+If you use LLMPatients for your research, please cite the reference paper:
 
 ```bibtex
-@article{llmpatient2025,
-  title={LLMPatient: un sistema esperto ibrido per la simulazione multi-sessione di pazienti virtuali nella formazione psicoterapeutica},
-  author={UNIMIB Team},
-  journal={TBD},
-  year={2025},
-  url={https://github.com/unimib-whattadata/LLMPatients-App}
+@software{llmpatients_app_2026,
+  title = {LLMPatients-App: Web Platform for Multi-Session LLM Virtual-Patient Training},
+  author = {Cremaschi, Marco and Fanti, Erika and Pisati, Elisa and La Barbera, David},
+  year = {2026},
+  url = {https://github.com/unimib-whattadata/LLMPatients-App},
+  license = {AGPL-3.0-or-later}
+}
+```
+
+Also cite the associated manuscript once its final bibliographic details are available:
+
+```bibtex
+@article{cremaschi_llmpatients_2026,
+  title = {LLMPatients: An Interpretable Multi-Session LLM Virtual-Patient Software Platform for AI-Enabled Psychotherapy Training},
+  author = {Cremaschi, Marco and Fanti, Erika and Pisati, Elisa and La Barbera, David},
+  journal = {Frontiers in Digital Health},
+  year = {2026},
+  note = {Manuscript prepared for the Digital Mental Health section as a Technology and Code article}
 }
 ```

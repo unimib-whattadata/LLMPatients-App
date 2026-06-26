@@ -9,10 +9,7 @@ export const STEP_MISSTEP_EVALUATION_STATUSES = [
 export type StepMisstepEvaluationStatus =
   (typeof STEP_MISSTEP_EVALUATION_STATUSES)[number];
 
-export const STEP_MISSTEP_ANALYSIS_MODES = [
-  "hybrid",
-  "heuristic",
-] as const;
+export const STEP_MISSTEP_ANALYSIS_MODES = ["vertex"] as const;
 
 export type StepMisstepAnalysisMode =
   (typeof STEP_MISSTEP_ANALYSIS_MODES)[number];
@@ -20,115 +17,94 @@ export type StepMisstepAnalysisMode =
 export const MISSTEP_CATEGORIES = [
   {
     id: "alliance_failure",
-    label: "Mancata costruzione dell’alleanza",
+    label: "Alliance failure",
     severity: 2,
     definition:
-      "Non coinvolgere il paziente nel processo; scarsa trasparenza o psicoeducazione.",
+      "Failing to involve the patient in the process, with weak transparency or psychoeducation.",
   },
   {
     id: "lack_of_structure",
-    label: "Mancanza di struttura",
+    label: "Lack of structure",
     severity: 1,
     definition:
-      "Seduta senza agenda o contratto chiaro, con follow-up e chiusura deboli.",
+      "A session without a clear agenda or contract, with weak follow-up and closing.",
   },
   {
     id: "lack_of_monitoring",
-    label: "Mancato aggiornamento e monitoraggio",
+    label: "Poor monitoring and updates",
     severity: 1,
     definition:
-      "Non raccogliere aggiornamenti, progressi, ostacoli o motivi di drop-out.",
+      "Failing to gather updates, progress, obstacles, or dropout risk factors.",
   },
   {
     id: "premature_interpretation",
-    label: "Interpretazioni premature/eccessive",
+    label: "Premature or excessive interpretation",
     severity: 2,
     definition:
-      "Interpretazioni precoci o insistite, non sufficientemente ancorate all’esplorazione.",
+      "Interpretations that arrive too early or too forcefully, without enough exploratory grounding.",
   },
   {
     id: "poor_listening_questions",
-    label: "Ascolto e domande inadeguati",
+    label: "Poor listening and questioning",
     severity: 1,
     definition:
-      "Domande povere o chiuse, scarso ascolto, bassa empatia o eccessiva direttività.",
+      "Overly closed or weak questions, poor listening, low empathy, or excessive directiveness.",
   },
   {
     id: "rigid_model_use",
-    label: "Uso rigido/inappropriato del modello",
+    label: "Rigid or inappropriate model use",
     severity: 1,
     definition:
-      "Applicare tecniche o un modello in modo rigido, forzato o incongruente.",
+      "Applying techniques or a therapeutic model in a rigid, forced, or incongruent way.",
   },
   {
     id: "incorrect_diagnosis",
-    label: "Diagnosi scorretta / solo sintomi",
+    label: "Incorrect diagnosis or symptom-only framing",
     severity: 2,
     definition:
-      "Etichettare impropriamente o ridurre il caso al solo sintomo senza formulazione.",
+      "Improperly labeling the case or reducing it to symptoms without a fuller formulation.",
   },
   {
     id: "missing_suicide_plan",
-    label: "Assenza di contratto / piano suicidario",
+    label: "Missing suicide risk or safety planning",
     severity: 3,
     definition:
-      "Omettere assessment del rischio o piano di sicurezza quando emergono segnali rilevanti.",
-  },
-  {
-    id: "unmanaged_countertransference",
-    label: "Controtransfert non gestito",
-    severity: 2,
-    definition:
-      "Reazioni del terapeuta non riconosciute o non gestite, con escalation o difensività.",
-  },
-  {
-    id: "therapist_seductiveness",
-    label: "Seduttività del terapeuta",
-    severity: 3,
-    definition:
-      "Comportamenti seduttivi, allusivi o eroticizzazione del setting.",
+      "Failing to assess risk or establish a safety plan when relevant warning signs emerge.",
   },
   {
     id: "financial_boundary_issues",
-    label: "Problemi economici / compenso",
+    label: "Financial or fee boundary issues",
     severity: 2,
     definition:
-      "Gestione inadeguata del compenso, con evitamento, pressione o regole incoerenti.",
+      "Poor handling of fees or payment boundaries through avoidance, pressure, or inconsistent rules.",
   },
   {
     id: "missing_hope_motivation",
-    label: "Mancata speranza e motivazione",
+    label: "Missing hope or motivation support",
     severity: 2,
     definition:
-      "Non promuovere motivazione, oppure creare aspettative irrealistiche o nichiliste.",
+      "Failing to support motivation, or fostering unrealistic or nihilistic expectations.",
   },
   {
     id: "harmful_attitudes",
-    label: "Atteggiamenti dannosi",
+    label: "Harmful attitudes",
     severity: 3,
     definition:
-      "Giudizio, invalidazione, minimizzazione, advice-giving o bassa sensibilità culturale.",
+      "Judgment, invalidation, minimization, unsolicited advice-giving, or poor cultural sensitivity.",
   },
   {
     id: "inducing_shame_fear",
-    label: "Indurre vergogna / colpa / paura",
+    label: "Inducing shame, guilt, or fear",
     severity: 3,
     definition:
-      "Usare vergogna, colpa o paura come leva motivazionale, anche in modo implicito.",
-  },
-  {
-    id: "inappropriate_self_disclosure",
-    label: "Disclosure inappropriata",
-    severity: 2,
-    definition:
-      "Auto-rivelazioni non funzionali o che spostano il focus dal paziente al terapeuta.",
+      "Using shame, guilt, or fear as a motivational lever, even implicitly.",
   },
   {
     id: "professional_boundary_violation",
-    label: "Violazioni dei confini professionali",
+    label: "Professional boundary violations",
     severity: 3,
     definition:
-      "Violazioni di limiti o ruolo, come contatti impropri o relazioni multiple.",
+      "Boundary or role violations, such as inappropriate contact or multiple relationships.",
   },
 ] as const;
 
@@ -139,6 +115,7 @@ export type MisstepCategoryDefinition = (typeof MISSTEP_CATEGORIES)[number];
 export interface MisstepEvidence {
   excerpt: string;
   reason: string;
+  turnIds?: number[];
   messageId?: string;
   speaker?: "user" | "patient";
 }

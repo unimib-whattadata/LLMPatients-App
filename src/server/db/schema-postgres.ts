@@ -202,7 +202,7 @@ export const chatStepEvaluations = createTable(
       .references(() => therapySessions.id, { onDelete: "cascade" }),
     stepNumber: integer().notNull(),
     status: text().notNull().default("processing"),
-    analysisMode: text().notNull().default("heuristic"),
+    analysisMode: text().notNull().default("vertex"),
     modelName: text(),
     detectorVersion: text().notNull(),
     resultJson: text(),
