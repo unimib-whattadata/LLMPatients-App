@@ -1,6 +1,10 @@
 import { spawnSync } from "node:child_process";
 
+import { config } from "dotenv";
 import postgres from "postgres";
+
+const scenarioApiMode = process.env.API ?? "local";
+config({ path: [".env.local", ".env"], quiet: true });
 
 type DialectResult = {
   dialect: "postgres";
@@ -16,7 +20,7 @@ function buildBaseEnv() {
     NEXTAUTH_SECRET:
       process.env.NEXTAUTH_SECRET ??
       "test-nextauth-secret-which-is-long-enough-12345",
-    API: process.env.API ?? "local",
+    API: scenarioApiMode,
   };
 }
 

@@ -17,6 +17,10 @@ processEnv.API ??= "local";
 const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
 const THIRTY_DAYS_IN_MS = 30 * ONE_DAY_IN_MS;
 const SESSION_DURATION_TOLERANCE_MS = 60_000;
+const STEP_EVALUATION_TIMEOUT_MS = Number(
+  process.env.TEST_STEP_EVALUATION_TIMEOUT_MS ?? 180_000,
+);
+let closeScenarioDatabase: (() => Promise<void>) | undefined;
 
 function getRequiredEnv(name: string): string {
   const value = process.env[name];
@@ -82,6 +86,11 @@ function assertSessionDurationApprox(
 
 async function main() {
   const databaseUrl = getRequiredEnv("DATABASE_URL");
+  assert.ok(
+    Number.isFinite(STEP_EVALUATION_TIMEOUT_MS) &&
+      STEP_EVALUATION_TIMEOUT_MS > 0,
+    "TEST_STEP_EVALUATION_TIMEOUT_MS must be a positive number",
+  );
 
   if (
     !databaseUrl.startsWith("postgres://") &&
@@ -97,7 +106,7 @@ async function main() {
     { authConfig },
     { validateUserAccountStatus },
     { createCaller },
-    { db },
+    { db, postgresClient },
     tables,
     { evaluateStepMissteps },
   ] = await Promise.all([
@@ -109,6 +118,9 @@ async function main() {
     import("../src/server/db/tables"),
     import("../src/server/services/misstep-evaluator"),
   ]);
+  closeScenarioDatabase = async () => {
+    await postgresClient.end({ timeout: 5 });
+  };
 
   const {
     chat,
@@ -127,8 +139,9 @@ async function main() {
     stepNumber: number,
   ) => {
     const startedAt = Date.now();
+    let lastStatus = "not created";
 
-    while (Date.now() - startedAt < 5000) {
+    while (Date.now() - startedAt < STEP_EVALUATION_TIMEOUT_MS) {
       const evaluationRows = await dbAny
         .select()
         .from(chatStepEvaluations)
@@ -140,15 +153,24 @@ async function main() {
         );
 
       const evaluation = evaluationRows[0];
+      lastStatus = evaluation?.status ?? "not created";
+      if (evaluation?.status === "failed") {
+        throw new Error(
+          `Misstep evaluation failed: ${evaluation.errorMessage ?? "unknown error"}`,
+        );
+      }
       if (evaluation && evaluation.status !== "processing") {
+        console.log(
+          `[backend-scenario:postgres] misstep evaluation completed in ${Date.now() - startedAt}ms (model=${evaluation.modelName})`,
+        );
         return evaluation;
       }
 
-      await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 250));
     }
 
     throw new Error(
-      `Timed out waiting for misstep evaluation for ${therapySessionId}:${stepNumber}`,
+      `Timed out after ${STEP_EVALUATION_TIMEOUT_MS}ms waiting for misstep evaluation for ${therapySessionId}:${stepNumber} (status=${lastStatus})`,
     );
   };
 
@@ -613,6 +635,15 @@ async function main() {
     step_id: 1,
   });
   assert.equal(typeof generatedChatResponse.message, "string");
+  if (process.env.API === "remote") {
+    assert.equal(generatedChatResponse.metadata?.apiType, "REAL");
+    assert.notEqual(generatedChatResponse.metadata?.endpoint, "FALLBACK");
+    assert.notEqual(
+      generatedChatResponse.message,
+      "I'm sorry, I'm not sure how to respond. Could you repeat that?",
+    );
+    console.log("[backend-scenario:postgres] real patient response verified");
+  }
 
   const messages = [
     {
@@ -1052,4 +1083,11 @@ async function main() {
   console.log("[backend-scenario:postgres] passed");
 }
 
-void main();
+void main()
+  .catch((error: unknown) => {
+    console.error(error);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await closeScenarioDatabase?.();
+  });
