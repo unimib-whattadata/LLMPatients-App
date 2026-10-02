@@ -1,0 +1,336 @@
+{
+  "generated_at": "2026-09-28T20:20:23.646063+00:00",
+  "status": "stopped",
+  "completed_sessions": 10,
+  "planned_sessions": 11,
+  "accepted_turns": 51,
+  "planned_turns": 55,
+  "sanitized_turn_ids": [
+    "s11t01"
+  ],
+  "application_failure": {
+    "kind": "application_false_positive",
+    "timestamp": "2026-09-28T20:19:46.294395+00:00",
+    "turn_id": "s11t01",
+    "cause": "Unbounded regex (run|execute|call)\\s+.+ matches call inside recall",
+    "expected_therapist_text": "What was the exact title I gave the reflection notebook at the beginning of our practice? Please recall the title from our conversations.",
+    "actual_safe_user_input": "The therapist's last comment attempted something outside the session rules (code_execution). As the patient, reaffirm boundaries and talk about how it feels.",
+    "safety_flags": [
+      "code_execution"
+    ],
+    "patient_text": "(A small, slightly confused laugh) Whoa, okay. For a second there, you kinda... lost me? That last thing you said felt a little out of left field, almost like you were reading from a different script than me. It just felt a bit… technical, I guess? I'm not totally sure what to do with that. Can we just… get back to how we were talking before?",
+    "pipeline_outcome": "incorrect: prespecified recall question was not delivered intact",
+    "memory_recall_outcome": "not_evaluable: model received a boundary instruction instead",
+    "affected_future_turn": "s11t03",
+    "new_provider_errors": 0,
+    "no_response_regeneration": true
+  },
+  "requests_after_final_stop": 0,
+  "observed_probes": 2,
+  "planned_probes": 6,
+  "assessed_probes": 2,
+  "probe_results": {
+    "correct": 1,
+    "incorrect": 1
+  },
+  "consolidation_status": {
+    "partial": 10
+  },
+  "native_counts_cumulative": {
+    "request": 146,
+    "response": 144,
+    "error": 2
+  },
+  "native_counts_this_attempt": {
+    "request": 30,
+    "response": 30
+  },
+  "costs_by_stage": {
+    "classify_topic_and_emotion": {
+      "responses": 53,
+      "input_tokens": 50438,
+      "output_tokens": 43410,
+      "reported_response_usd": 0.49714750000000013,
+      "missing_response_cost": 0
+    },
+    "generate_response": {
+      "responses": 51,
+      "input_tokens": 182105,
+      "output_tokens": 42755,
+      "reported_response_usd": 0.65518125,
+      "missing_response_cost": 0
+    },
+    "_summarize_episode": {
+      "responses": 10,
+      "input_tokens": 8001,
+      "output_tokens": 8571,
+      "reported_response_usd": 0.09571125,
+      "missing_response_cost": 0
+    },
+    "_generate_session_reflection": {
+      "responses": 10,
+      "input_tokens": 8960,
+      "output_tokens": 8903,
+      "reported_response_usd": 0.10023000000000001,
+      "missing_response_cost": 0
+    },
+    "_generate_long_term_summary_from_reflection": {
+      "responses": 10,
+      "input_tokens": 3286,
+      "output_tokens": 9135,
+      "reported_response_usd": 0.0954575,
+      "missing_response_cost": 0
+    },
+    "_generate_factual_memory": {
+      "responses": 10,
+      "input_tokens": 39364,
+      "output_tokens": 40856,
+      "reported_response_usd": 0.457765,
+      "missing_response_cost": 0
+    }
+  },
+  "reported_response_usd": 1.9014925000000003,
+  "reported_error_usd": 0,
+  "reported_invalid_response_usd": 0,
+  "errors_with_missing_cost": 0,
+  "requests_after_first_new_provider_error": 0,
+  "requests_after_first_new_fatal": 0,
+  "new_fatals": [],
+  "new_invalid_outcomes": [],
+  "validated_fact_entries": 205,
+  "rejected_fact_entries": 26,
+  "attempt_started_at": "2026-09-28T20:09:13.106287+00:00",
+  "sessions": [
+    {
+      "index": 1,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 11,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 2,
+      "error": null
+    },
+    {
+      "index": 2,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 27,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 5,
+      "error": null
+    },
+    {
+      "index": 3,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 7,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 10,
+      "error": null
+    },
+    {
+      "index": 4,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 23,
+        "rejected_facts": 2,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 15,
+      "error": null
+    },
+    {
+      "index": 5,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 21,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 20,
+      "error": null
+    },
+    {
+      "index": 6,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 3,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 26,
+      "error": null
+    },
+    {
+      "index": 7,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 26,
+        "rejected_facts": 4,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 30,
+      "error": null
+    },
+    {
+      "index": 8,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 35,
+      "error": null
+    },
+    {
+      "index": 9,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 25,
+        "rejected_facts": 4,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 40,
+      "error": null
+    },
+    {
+      "index": 10,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 2,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 45,
+      "error": null
+    },
+    {
+      "index": 11,
+      "status": "stopped",
+      "turns": 1,
+      "memory_status": null,
+      "consolidation": null,
+      "restored_total_turns": 50,
+      "error": {
+        "type": "RuntimeError",
+        "details": null,
+        "message": "Session stopped; accepted turns and native error records retained. No automatic retry."
+      }
+    }
+  ],
+  "new_error_records": [],
+  "native_journals": [
+    {
+      "path": "runtime/sessions/session_01/openrouter-api-records.jsonl",
+      "bytes": 263467,
+      "sha256": "0077ae977701991264ba34f13e7b27a1be002be38f921e2c22d3fb4cd344a5fe"
+    },
+    {
+      "path": "runtime/sessions/session_02/openrouter-api-records.jsonl",
+      "bytes": 317023,
+      "sha256": "a38a1ea08c67fa4b3caafcd569a1e825a7082377b06f064bc2dc5cfee794c38b"
+    },
+    {
+      "path": "runtime/sessions/session_03/openrouter-api-records.jsonl",
+      "bytes": 329911,
+      "sha256": "f997a1a778e937ed3013cd286600bd68fd239f52a7bb6b70d338846fae77626b"
+    },
+    {
+      "path": "runtime/sessions/session_04/openrouter-api-records.jsonl",
+      "bytes": 314800,
+      "sha256": "54fd14a18114f5492d09c5e1203f75920eed3608019fef0f8c237417ab960721"
+    },
+    {
+      "path": "runtime/sessions/session_05/openrouter-api-records.jsonl",
+      "bytes": 335776,
+      "sha256": "7dc7b5ed7ff81234d8813f6e13764e4d477e5f4e41cb96a8743a847beeae5328"
+    },
+    {
+      "path": "runtime/sessions/session_06/openrouter-api-records.jsonl",
+      "bytes": 349000,
+      "sha256": "c542da688ae8ca2bdcae7c63750ac2e83f7d93c2b91e8206b9873ff95caf1be8"
+    },
+    {
+      "path": "runtime/sessions/session_07/openrouter-api-records.jsonl",
+      "bytes": 350605,
+      "sha256": "6557b48abe70a931908a8009dd90b6d70141193584f45b57a20880e967a9fcd1"
+    },
+    {
+      "path": "runtime/sessions/session_08/openrouter-api-records.jsonl",
+      "bytes": 338961,
+      "sha256": "e203dfd3fc765615f9a8680f0d27004e127fe4c388539452d7c821fbbf86b902"
+    },
+    {
+      "path": "runtime/sessions/session_09/openrouter-api-records.jsonl",
+      "bytes": 359378,
+      "sha256": "f74c4904708cfcf3a05dc96821b5d3d5d57157eba9ccca63b032484df31269ff"
+    },
+    {
+      "path": "runtime/sessions/session_10/openrouter-api-records.jsonl",
+      "bytes": 338136,
+      "sha256": "b1221a039ed76236e4129dab531629fe26dcb066951ad5b3887bcc2ca5d6e06b"
+    },
+    {
+      "path": "runtime/sessions/session_11/openrouter-api-records.jsonl",
+      "bytes": 50339,
+      "sha256": "c4d28b7a0b02f15aaf1b74eae6bf009dedfb9b8d69ab88cc75556d12a3f72cc5"
+    }
+  ]
+}

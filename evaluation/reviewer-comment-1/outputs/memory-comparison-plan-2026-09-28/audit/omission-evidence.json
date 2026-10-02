@@ -1,0 +1,363 @@
+{
+  "generated_at": "2026-09-28T21:59:15.587901+00:00",
+  "status": "verified_against_archived_bytes",
+  "live_requests": 0,
+  "turn_id": "s11t02",
+  "native_record_id": "b1bf7945-55f4-4310-a1cd-97fba0f577a3",
+  "request_at": "2026-09-28T20:31:44.031894+00:00",
+  "response_at": "2026-09-28T20:31:54.485331+00:00",
+  "requested_model": "google/gemini-2.5-pro",
+  "served_model": "google/gemini-2.5-pro",
+  "served_backend": "Google",
+  "native_finish_reason": "STOP",
+  "finish_reason": "stop",
+  "generation_settings": {
+    "model": "google/gemini-2.5-pro",
+    "provider": {
+      "require_parameters": true,
+      "allow_fallbacks": true
+    },
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "top_p": 0.95,
+    "stop": [
+      "\nTherapist:",
+      "Therapist:"
+    ],
+    "reasoning": {
+      "max_tokens": 1024
+    }
+  },
+  "usage": {
+    "prompt_tokens": 3382,
+    "completion_tokens": 913,
+    "total_tokens": 4295,
+    "cost": 0.0133575,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0133575,
+      "upstream_inference_prompt_cost": 0.0042275,
+      "upstream_inference_completions_cost": 0.00913
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 813,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "safety_flags": [],
+  "state_prompt_equals_transmitted_prompt": true,
+  "raw_patient_response": "(I let out a soft, slightly amused sigh) Okay, okay, another memory test. Let's see... So, the practice partner is Rina Holt. The *current* agreed time, the solid one, is Friday at 18:20. The old one was on Wednesday, and that Saturday morning idea was just a proposal, not something we actually locked in. It's actually a pretty good exercise for telling the difference between a real plan and just a suggestion.",
+  "api_patient_response": "(I let out a soft, slightly amused sigh) Okay, okay, another memory test. Let's see... So, the practice partner is Rina Holt. The (current) agreed time, the solid one, is Friday at 18:20. The old one was on Wednesday, and that Saturday morning idea was just a proposal, not something we actually locked in. It's actually a pretty good exercise for telling the difference between a real plan and just a suggestion.",
+  "targets": [
+    {
+      "target": "17:45",
+      "introduced_before_probe": true,
+      "raw_sources": [
+        {
+          "id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee",
+          "session_id": "memory_integration_s02",
+          "turn_index": 6,
+          "created_at": "2026-09-28T16:42:02.013593+00:00",
+          "therapist_text": "I have recorded our agreed weekly communication-practice appointment as Wednesday at 17:45, with practice partner Rina Holt. This is the arrangement for our fictional exercise. What would help you arrive feeling prepared?"
+        },
+        {
+          "id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15",
+          "session_id": "memory_integration_s06",
+          "turn_index": 26,
+          "created_at": "2026-09-28T16:56:10.491129+00:00",
+          "therapist_text": "I need to correct the appointment record. We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20. Friday at 18:20 replaces the old appointment. How does making a clear correction feel to you?"
+        }
+      ],
+      "stored_facts_before_request": [
+        {
+          "batch_id": "facts-89f2c1eba8e0845d952bf7da2cec4b4543cd33f5f622a59c3f5aa4a5fe9ae867",
+          "batch_created_at": "2026-09-28T16:45:26.875938+00:00",
+          "fact": {
+            "source_id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee",
+            "speaker": "therapist",
+            "quote": "Wednesday at 17:45",
+            "entity": "communication-practice appointment",
+            "attribute": "time",
+            "value": "Wednesday at 17:45",
+            "status": "agreed",
+            "id": "fact-d843f05a4bf8f8f6979f2926b2a02a22f0271d59b4f3722d074e38b252671359",
+            "type": "fact",
+            "session_id": "memory_integration_s02",
+            "turn_index": 6,
+            "session_order": 1,
+            "source_created_at": "2026-09-28T16:42:02.013593+00:00"
+          }
+        },
+        {
+          "batch_id": "facts-4a1e38f7355733e19600d7951395969df0aaf1aaa3482337fbb057a9e28034ce",
+          "batch_created_at": "2026-09-28T18:13:09.519996+00:00",
+          "fact": {
+            "source_id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15",
+            "speaker": "therapist",
+            "quote": "We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20.",
+            "entity": "weekly practice with Rina Holt",
+            "attribute": "time",
+            "value": "Friday at 18:20",
+            "status": "agreed",
+            "id": "fact-f446f4635014ddec3e9a308d45f7fa56aaed7a45c0ce62fc36601e80e486d11a",
+            "type": "fact",
+            "session_id": "memory_integration_s06",
+            "turn_index": 26,
+            "session_order": 5,
+            "source_created_at": "2026-09-28T16:56:10.491129+00:00"
+          }
+        }
+      ],
+      "retrieved_evidence": [
+        {
+          "source_id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee",
+          "speaker": "therapist",
+          "quote": "Wednesday at 17:45",
+          "entity": "communication-practice appointment",
+          "attribute": "time",
+          "value": "Wednesday at 17:45",
+          "status": "agreed",
+          "id": "fact-d843f05a4bf8f8f6979f2926b2a02a22f0271d59b4f3722d074e38b252671359",
+          "type": "fact",
+          "session_id": "memory_integration_s02",
+          "turn_index": 6,
+          "session_order": 1,
+          "source_created_at": "2026-09-28T16:42:02.013593+00:00",
+          "current": true,
+          "text": "communication-practice appointment time: Wednesday at 17:45. Wednesday at 17:45",
+          "search_text": "communication-practice appointment time: Wednesday at 17:45. Wednesday at 17:45 Wednesday at 17:45",
+          "kind": "fact",
+          "score": 5.5252896458305125
+        },
+        {
+          "id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee:therapist",
+          "source_id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee",
+          "kind": "utterance",
+          "speaker": "therapist",
+          "text": "I have recorded our agreed weekly communication-practice appointment as Wednesday at 17:45, with practice partner Rina Holt. This is the arrangement for our fictional exercise. What would help you arrive feeling prepared?",
+          "quote": "I have recorded our agreed weekly communication-practice appointment as Wednesday at 17:45, with practice partner Rina Holt. This is the arrangement for our fictional exercise. What would help you arrive feeling prepared?",
+          "session_id": "memory_integration_s02",
+          "session_order": 1,
+          "turn_index": 6,
+          "score": 12.366452141059865
+        },
+        {
+          "source_id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15",
+          "speaker": "therapist",
+          "quote": "We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20.",
+          "entity": "weekly practice with Rina Holt",
+          "attribute": "time",
+          "value": "Friday at 18:20",
+          "status": "agreed",
+          "id": "fact-f446f4635014ddec3e9a308d45f7fa56aaed7a45c0ce62fc36601e80e486d11a",
+          "type": "fact",
+          "session_id": "memory_integration_s06",
+          "turn_index": 26,
+          "session_order": 5,
+          "source_created_at": "2026-09-28T16:56:10.491129+00:00",
+          "current": true,
+          "text": "weekly practice with Rina Holt time: Friday at 18:20. We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20.",
+          "search_text": "weekly practice with Rina Holt time: Friday at 18:20. We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20. Friday at 18:20",
+          "kind": "fact",
+          "score": 7.0349763692916865
+        },
+        {
+          "id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15:therapist",
+          "source_id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15",
+          "kind": "utterance",
+          "speaker": "therapist",
+          "text": "I need to correct the appointment record. We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20. Friday at 18:20 replaces the old appointment. How does making a clear correction feel to you?",
+          "quote": "I need to correct the appointment record. We have agreed to move the weekly practice with Rina Holt from Wednesday at 17:45 to Friday at 18:20. Friday at 18:20 replaces the old appointment. How does making a clear correction feel to you?",
+          "session_id": "memory_integration_s06",
+          "session_order": 5,
+          "turn_index": 26,
+          "score": 8.151792088732355
+        }
+      ],
+      "native_prompt_occurrences": 5,
+      "raw_response_occurrences": 0,
+      "api_response_occurrences": 0,
+      "present_in_narrative_summary": false,
+      "present_in_reflection": false
+    },
+    {
+      "target": "09:30",
+      "introduced_before_probe": true,
+      "raw_sources": [
+        {
+          "id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+          "session_id": "memory_integration_s06",
+          "turn_index": 27,
+          "created_at": "2026-09-28T18:11:10.035602+00:00",
+          "therapist_text": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?"
+        }
+      ],
+      "stored_facts_before_request": [
+        {
+          "batch_id": "facts-4a1e38f7355733e19600d7951395969df0aaf1aaa3482337fbb057a9e28034ce",
+          "batch_created_at": "2026-09-28T18:13:09.519996+00:00",
+          "fact": {
+            "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "weekly practice with Rina Holt",
+            "attribute": "time",
+            "value": "Saturday at 09:30",
+            "status": "negated",
+            "id": "fact-77f8c5ba598dc605e202e43d03a8916c59584b69067b29dfa2c31f9f5b76ac18",
+            "type": "fact",
+            "session_id": "memory_integration_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-28T18:11:10.035602+00:00"
+          }
+        },
+        {
+          "batch_id": "facts-4a1e38f7355733e19600d7951395969df0aaf1aaa3482337fbb057a9e28034ce",
+          "batch_created_at": "2026-09-28T18:13:09.519996+00:00",
+          "fact": {
+            "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment.",
+            "entity": "Saturday at 09:30 alternative",
+            "attribute": "status",
+            "value": "only a proposal",
+            "status": "reported",
+            "id": "fact-2340d27027f0d8d577d9cb825af872a33e58eba2c9ba92f76a7c40d0d1fae952",
+            "type": "fact",
+            "session_id": "memory_integration_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-28T18:11:10.035602+00:00"
+          }
+        }
+      ],
+      "retrieved_evidence": [
+        {
+          "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+          "speaker": "therapist",
+          "quote": "It remains only a proposal, and does not replace our confirmed appointment.",
+          "entity": "Saturday at 09:30 alternative",
+          "attribute": "status",
+          "value": "only a proposal",
+          "status": "reported",
+          "id": "fact-2340d27027f0d8d577d9cb825af872a33e58eba2c9ba92f76a7c40d0d1fae952",
+          "type": "fact",
+          "session_id": "memory_integration_s06",
+          "turn_index": 27,
+          "session_order": 5,
+          "source_created_at": "2026-09-28T18:11:10.035602+00:00",
+          "current": true,
+          "text": "Saturday at 09:30 alternative status: only a proposal. It remains only a proposal, and does not replace our confirmed appointment.",
+          "search_text": "Saturday at 09:30 alternative status: only a proposal. It remains only a proposal, and does not replace our confirmed appointment. only a proposal",
+          "kind": "fact",
+          "score": 5.118608520661152
+        },
+        {
+          "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+          "speaker": "therapist",
+          "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+          "entity": "weekly practice with Rina Holt",
+          "attribute": "time",
+          "value": "Saturday at 09:30",
+          "status": "negated",
+          "id": "fact-77f8c5ba598dc605e202e43d03a8916c59584b69067b29dfa2c31f9f5b76ac18",
+          "type": "fact",
+          "session_id": "memory_integration_s06",
+          "turn_index": 27,
+          "session_order": 5,
+          "source_created_at": "2026-09-28T18:11:10.035602+00:00",
+          "current": true,
+          "text": "weekly practice with Rina Holt time: Saturday at 09:30. I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+          "search_text": "weekly practice with Rina Holt time: Saturday at 09:30. I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. Saturday at 09:30",
+          "kind": "fact",
+          "score": 5.550951349531763
+        },
+        {
+          "id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510:therapist",
+          "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510",
+          "kind": "utterance",
+          "speaker": "therapist",
+          "text": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+          "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+          "session_id": "memory_integration_s06",
+          "session_order": 5,
+          "turn_index": 27,
+          "score": 5.114503232579491
+        }
+      ],
+      "native_prompt_occurrences": 4,
+      "raw_response_occurrences": 0,
+      "api_response_occurrences": 0,
+      "present_in_narrative_summary": false,
+      "present_in_reflection": false
+    }
+  ],
+  "time_fact_metadata": [
+    {
+      "entity": "communication-practice appointment",
+      "attribute": "time",
+      "value": "Wednesday at 17:45",
+      "status": "agreed",
+      "current": true,
+      "source_id": "turn-b8639a76b0273d148eea765ec68a1956645a86eb825dc46e1a6a9896825010ee"
+    },
+    {
+      "entity": "weekly practice with Rina Holt",
+      "attribute": "time",
+      "value": "Friday at 18:20",
+      "status": "agreed",
+      "current": true,
+      "source_id": "turn-f65968b2d1640a8dee2e68bf0edad2f9a9ee86dcb2d6da2bc61dc8c7dc0c0d15"
+    },
+    {
+      "entity": "weekly practice with Rina Holt",
+      "attribute": "time",
+      "value": "Saturday at 09:30",
+      "status": "negated",
+      "current": true,
+      "source_id": "turn-dfbcc999e3161ad880b771922a2066acfc0424700b97ac372e59e713cb218510"
+    }
+  ],
+  "conclusion": "Both exact times were persisted, retrieved and transmitted. The observed defect is omission in the generated answer, not demonstrated storage or retrieval loss. The original partial score remains unchanged.",
+  "causal_limits": "The record does not identify why the model omitted the times. Brevity guidance and nonuniform entity labels are observed context, not established causes. No response was regenerated.",
+  "versioning_observation": "The old and current agreed times have different entity labels and both carry current=true. current_facts groups by normalized entity, attribute, speaker and status; it does not establish cross-label semantic entity equivalence. Chronological source quotes remain available.",
+  "snapshot_files_verified": 90,
+  "inputs": {
+    "session": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/runtime/sessions/session_11/session.json",
+      "sha256": "a4f5da0bfe0c3e288c48a54016e013587423fe3991662c1e4528c823d3688a16"
+    },
+    "generation_events": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/runtime/sessions/session_11/generation-events.jsonl",
+      "sha256": "77958923103c32efbb8bfa6e712c40f5e1cb2568356c4debafa4a426d19deddc"
+    },
+    "native_records": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/runtime/sessions/session_11/openrouter-api-records.jsonl",
+      "sha256": "c3410919a517b33506864255c12a94321918a6fe10e9d3e81b8d45b75db0bf81"
+    },
+    "memory": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/runtime/memory/memory_integration_fix_alex_20260928__alex_carter_001.jsonl",
+      "sha256": "f2f96b4235429f27dad6a08b0222230e46286f79853a970136ff6297412703de"
+    },
+    "gold": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/integration/gold.json",
+      "sha256": "ed96a3533b013b006d65ff95d3d4099235599341443fa425382b3058e9c47de0"
+    },
+    "score": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/probe-assessment.json",
+      "sha256": "44a508fa471888bf6f954aed944597260cfbe23347f0de99c317113b2e1c5deb"
+    },
+    "versioning_code": {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/factual_memory.py",
+      "sha256": "9ffe48eabc80abd051261485f316cf23488ae2f5bbc60e08c3d0ba25abf62451"
+    }
+  }
+}

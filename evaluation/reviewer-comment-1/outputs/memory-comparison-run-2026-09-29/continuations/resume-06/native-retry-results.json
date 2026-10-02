@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "live_requests": 0,
+  "scenario": "Frozen in-band429 + HTTP429 respect Retry-After75/130, then success; next generation respects minimum spacing",
+  "mock_http_requests": 4,
+  "recovered_mock_rate_limits": 2,
+  "logical_generations_completed": 2,
+  "mock_request_start_seconds": [
+    0.0,
+    75.0,
+    205.0,
+    210.0
+  ],
+  "stop_absent": true,
+  "gate_cleared": true,
+  "source_sha256": {
+    "native_retry_check.py": "693855b781a73318edfc9ae8a789e1099414a1d81a913b28f5687e461685bbd8",
+    "timeout_retries.py": "c6558276674f17c2517dca8526886263a59ea57adc20fd44d5c5867e90e3c8d6"
+  }
+}

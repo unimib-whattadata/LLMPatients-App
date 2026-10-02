@@ -1,0 +1,25 @@
+{
+  "completed_at": "2026-09-28T15:25:56.128265+00:00",
+  "authorized_resume_at": "2026-09-28T15:21:16.528871+00:00",
+  "controller_pid": 93288,
+  "exit_code": 0,
+  "completed_sessions": 55,
+  "completed_answers": 280,
+  "new_provider_error_events": 0,
+  "prior_completed_artifacts_preserved": 314,
+  "native_journal": {
+    "bytes": 34159322,
+    "records": 942,
+    "sha256": "fdedc544e57e6bcd484721c835c548f3b5ce58c2a5324e41af6c3e6d6a3862a1",
+    "events": {
+      "request": 471,
+      "response": 468,
+      "error": 3
+    }
+  },
+  "frozen_files_verified": {
+    "manifest.json": 34,
+    "integration/manifest.json": 33
+  },
+  "integration_started": false
+}

@@ -1,0 +1,6 @@
+{
+  "phase": "one",
+  "status": "stopped",
+  "error_type": "RuntimeError",
+  "error": "Model did not provide a complete STOP response"
+}

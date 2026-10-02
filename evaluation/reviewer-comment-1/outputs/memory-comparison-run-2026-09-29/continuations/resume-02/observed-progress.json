@@ -1,0 +1,38 @@
+{
+  "verified_at": "2026-09-29T08:46:17.012766+00:00",
+  "controller_state": {
+    "status": "running",
+    "timestamp": "2026-09-29T08:45:53.891787+00:00",
+    "controller_pid": 25712,
+    "continuation": "resume-02",
+    "execution_order": 9,
+    "worker_pid": 25717,
+    "run_id": "juanita_delgado_001__r02__structured_common_profile",
+    "session_elapsed_seconds": 60.5
+  },
+  "controller_process": "25712     1 01:25 S",
+  "frozen_execution_verified": true,
+  "original_prefix_preserved": true,
+  "progress": {
+    "status": "incomplete",
+    "updated_at": "2026-09-29T08:46:17.009084+00:00",
+    "planned_trajectories": 30,
+    "completed_trajectories": 0,
+    "planned_session_executions": 330,
+    "completed_sessions": 8,
+    "accepted_turns": 42,
+    "planned_turns": 1650,
+    "observed_probes": 0,
+    "planned_probes": 180,
+    "application_guard_failures": 0,
+    "requests": 82,
+    "responses": 81,
+    "provider_errors": 0,
+    "reported_cost_usd": 1.082944375,
+    "responses_with_reported_cost": 81,
+    "semantic_review": "pending",
+    "stop": null
+  },
+  "new_responses_since_resume": 5,
+  "new_accepted_turns_since_resume": 2
+}

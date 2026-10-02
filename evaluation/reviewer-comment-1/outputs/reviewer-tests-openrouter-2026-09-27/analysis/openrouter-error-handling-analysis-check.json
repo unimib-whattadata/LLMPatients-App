@@ -1,0 +1,76 @@
+{
+  "at": "2026-09-27T15:55:46.991134+00:00",
+  "scope": "Only three analysis/report scripts and analysis outputs; original runtime/source inputs unchanged",
+  "amendment_sha256": "2b65d9b1249b4521c27a9e7ed387a8bd1a96032e70ab246242d8844cf5e84e5b",
+  "checkpoint_files_verified": 427,
+  "checkpoint_counts": {
+    "phq_complete": 85,
+    "phq_saved_partial_items": 6,
+    "longitudinal_complete": 35,
+    "longitudinal_saved_turns": 184
+  },
+  "all_checkpoint_data_retained": true,
+  "v1_inband_error_responses_retained": [
+    {
+      "record_id": "80873730-375a-4bc0-adfa-ac66195eafe0",
+      "response_id": "gen-1790523215-aTPZlb6CDmCgXzkjNQRd",
+      "native_error_choices": [
+        {
+          "finish_reason": "error",
+          "error": {
+            "code": 504,
+            "message": "Upstream idle timeout exceeded",
+            "metadata": {
+              "error_type": "timeout"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "new_prompt_exceptions": 0,
+  "phq_validation_errors": [],
+  "phq_complete_administrations": 87,
+  "longitudinal_integrity_valid": true,
+  "longitudinal_completed_sessions": 36,
+  "longitudinal_observed_responses": 184,
+  "longitudinal_request_phase_validation": {
+    "scope": "longitudinal",
+    "pre_checkpoint_requests": 556,
+    "post_checkpoint_requests": 2,
+    "post_checkpoint_outcomes": {
+      "returned": 2
+    },
+    "post_checkpoint_error_types": {},
+    "post_checkpoint_sidecar_events": 37,
+    "juanita_finalization_patient_requests": 0,
+    "juanita_finalization_stages": {
+      "_generate_session_reflection": 1,
+      "_generate_long_term_summary_from_reflection": 1
+    },
+    "new_prompt_exceptions": 0
+  },
+  "phq_request_phase_validation": {
+    "scope": "phq",
+    "pre_checkpoint_requests": 1293,
+    "post_checkpoint_requests": 15,
+    "post_checkpoint_outcomes": {
+      "returned": 15
+    },
+    "post_checkpoint_error_types": {},
+    "post_checkpoint_sidecar_events": 37,
+    "juanita_finalization_patient_requests": 0,
+    "juanita_finalization_stages": {},
+    "new_prompt_exceptions": 0
+  },
+  "juanita_s04_status": "completed",
+  "juanita_s04_finalization_status": "finalized",
+  "juanita_s04_saved_turns": 5,
+  "script_sha256": {
+    "analyze_phq9.py": "df4d6e9429efd7f9705cb88de06ff129d3e14824be5234b6cb618521e9285c4c",
+    "analyze_longitudinal.py": "f9f032bb1f8499056ce2b867fced4fa0097d2b2bd4036458218cc3b343a7a568",
+    "build_final_report.py": "ecf7c51ce5329cdd333de38c2eb512ef96f107f44b8b84bc654154a229747101"
+  },
+  "inference_launched_by_analyzer": false,
+  "final_report_requires_full_dataset": true
+}

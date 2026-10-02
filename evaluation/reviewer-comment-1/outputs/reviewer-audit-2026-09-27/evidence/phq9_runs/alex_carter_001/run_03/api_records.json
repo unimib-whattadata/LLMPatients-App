@@ -1,0 +1,1015 @@
+[
+  {
+    "timestamp": "2026-09-27T10:04:43.564464+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0003917939,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.008150739,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.005750999
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.001447665,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.07463006
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.2370113e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 327,
+        "candidates_token_count": 1,
+        "total_token_count": 536,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 327
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:04:44.165475Z",
+      "response_id": "POq4auOMCqnO698Px5WgsA8"
+    },
+    "elapsed_seconds": 3.6106692500179633
+  },
+  {
+    "timestamp": "2026-09-27T10:05:05.762527+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling down, depressed, or hopeless\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.18088954198174179
+  },
+  {
+    "timestamp": "2026-09-27T10:05:27.452949+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling down, depressed, or hopeless\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00020101183,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.018490374,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.013909683
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.001030055,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.065202005
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 9.854048e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 327,
+        "total_token_count": 537,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 327
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:05:27.536304Z",
+      "response_id": "Z-q4avDdIN-43NoPrcOXwAs"
+    },
+    "elapsed_seconds": 2.4772319580079056
+  },
+  {
+    "timestamp": "2026-09-27T10:05:30.331796+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.000306508,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.030184364,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.014762424
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0011777562,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.057188362
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.754273e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 331,
+        "candidates_token_count": 1,
+        "total_token_count": 544,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 331
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 212
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:05:30.417410Z",
+      "response_id": "auq4aoK9GajtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 2.65196179097984
+  },
+  {
+    "timestamp": "2026-09-27T10:05:53.124657+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.6472673749958631
+  },
+  {
+    "timestamp": "2026-09-27T10:06:14.791434+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.6831151250225957
+  },
+  {
+    "timestamp": "2026-09-27T10:06:37.455730+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.7934108e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.039381266
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.1224829e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.034355402
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.1945304e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.8132047e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.03018853
+            }
+          ],
+          "avg_logprobs": -13.236632347106934
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 326,
+        "candidates_token_count": 1,
+        "total_token_count": 534,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 326
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:06:38.047039Z",
+      "response_id": "ruq4ar_vAtaGzbIPzM-5aQ"
+    },
+    "elapsed_seconds": 3.2357732089876663
+  },
+  {
+    "timestamp": "2026-09-27T10:06:40.988557+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00032996392,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.020586064,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.025606252
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00075078453,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.0794568
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.3295706e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.0074033737
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 325,
+        "candidates_token_count": 1,
+        "total_token_count": 534,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 325
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:06:41.068330Z",
+      "response_id": "seq4auqVBKPymsUPm4j1mAE"
+    },
+    "elapsed_seconds": 3.2415266250027344
+  },
+  {
+    "timestamp": "2026-09-27T10:06:44.782251+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.20760420797159895
+  },
+  {
+    "timestamp": "2026-09-27T10:07:05.992956+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.20302575000096112
+  },
+  {
+    "timestamp": "2026-09-27T10:07:28.153838+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.163615249999566
+  },
+  {
+    "timestamp": "2026-09-27T10:07:50.319478+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.8625214e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.020065486
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.8015594e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.039801173
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.4159266e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.152935e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.013502777
+            }
+          ],
+          "avg_logprobs": -17.179685592651367
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 339,
+        "candidates_token_count": 1,
+        "total_token_count": 550,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 339
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:07:50.409173Z",
+      "response_id": "9uq4atX8GKTfmsUP8pj58AU"
+    },
+    "elapsed_seconds": 2.627586374990642
+  },
+  {
+    "timestamp": "2026-09-27T10:08:13.280284+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00029823667,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.01692724,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0010718206,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.054688454
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 9.538039e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 334,
+        "total_token_count": 544,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 334
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:08:13.360182Z",
+      "response_id": "Deu4avb9FaaBzbIP-sOygA8"
+    },
+    "elapsed_seconds": 2.582278458023211
+  },
+  {
+    "timestamp": "2026-09-27T10:08:33.970081+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.155174e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.026508123
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.052274e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.045405462
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.3771585e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.9283782e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.035976738
+            }
+          ],
+          "avg_logprobs": -14.107294082641602
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 353,
+        "candidates_token_count": 1,
+        "total_token_count": 561,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 353
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:08:34.076626Z",
+      "response_id": "Iuu4atLWBMGykNAPmqrVmAI"
+    },
+    "elapsed_seconds": 2.824468375009019
+  },
+  {
+    "timestamp": "2026-09-27T10:08:54.151943+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00028992633,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.08339022,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.10385682
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0032359324,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.14188619
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.0410467e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.003543526
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 335,
+        "candidates_token_count": 1,
+        "total_token_count": 545,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 335
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:08:54.259649Z",
+      "response_id": "Nuu4asHsD7SOkNAPgYC08Qo"
+    },
+    "elapsed_seconds": 2.7969758749823086
+  },
+  {
+    "timestamp": "2026-09-27T10:09:17.010300+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.14810320801916532
+  },
+  {
+    "timestamp": "2026-09-27T10:09:38.212194+00:00",
+    "prompt": "You are Alex Carter. You are Alex Carter 30-year-old Not reported other, single.\n\nClinical background: Alex is a non-clinical user with stable functioning, no history of psychiatric disorder, and no current psychological distress. The case is intended for baseline communication practice and psychoeducational role-play without pathology-driven crisis content.\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with good self-continuity\n- Interpersonal stance: Consistent reciprocal relationships and good empathy\n- Defense style: Predominantly mature and adaptive defenses\n- Reality testing: Reality testing intact across contexts\n\nInteraction style: Collaborative stance with low interpersonal reactivity. Observed affect: Affect stable and congruent with verbal content. Speech: Normal rate, tone, and coherence. Non-verbal: Open posture and consistent eye contact. Appearance/self-care: Appropriate grooming and full orientation.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.65)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00038509024,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00618029,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00083523,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.058014408
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.3498271e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 346,
+        "total_token_count": 556,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 346
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:09:38.316652Z",
+      "response_id": "Yuu4auypE_f0msUPv-PSkQk"
+    },
+    "elapsed_seconds": 2.959106583002722
+  }
+]

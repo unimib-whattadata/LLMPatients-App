@@ -1,0 +1,152 @@
+{
+  "C001": {
+    "job_id": "14",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 256000
+  },
+  "C002": {
+    "job_id": "18",
+    "patient_id": "jason_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 900000
+  },
+  "C003": {
+    "job_id": "09",
+    "patient_id": "juanita_delgado_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 64000
+  },
+  "C004": {
+    "job_id": "11",
+    "patient_id": "juanita_delgado_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 256000
+  },
+  "C005": {
+    "job_id": "24",
+    "patient_id": "alex_carter_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 1200000
+  },
+  "C006": {
+    "job_id": "16",
+    "patient_id": "crystal_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 900000
+  },
+  "C007": {
+    "job_id": "20",
+    "patient_id": "juanita_delgado_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 900000
+  },
+  "C008": {
+    "job_id": "08",
+    "patient_id": "alex_carter_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 64000
+  },
+  "C009": {
+    "job_id": "12",
+    "patient_id": "crystal_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 256000
+  },
+  "C010": {
+    "job_id": "03",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 0
+  },
+  "C011": {
+    "job_id": "21",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 1200000
+  },
+  "C012": {
+    "job_id": "05",
+    "patient_id": "jason_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 0
+  },
+  "C013": {
+    "job_id": "19",
+    "patient_id": "alex_carter_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 900000
+  },
+  "C014": {
+    "job_id": "10",
+    "patient_id": "jason_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 64000
+  },
+  "C015": {
+    "job_id": "04",
+    "patient_id": "juanita_delgado_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 0
+  },
+  "C016": {
+    "job_id": "01",
+    "patient_id": "crystal_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 0
+  },
+  "C017": {
+    "job_id": "02",
+    "patient_id": "alex_carter_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 0
+  },
+  "C018": {
+    "job_id": "06",
+    "patient_id": "crystal_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 64000
+  },
+  "C019": {
+    "job_id": "17",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 900000
+  },
+  "C020": {
+    "job_id": "15",
+    "patient_id": "jason_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 256000
+  },
+  "C021": {
+    "job_id": "13",
+    "patient_id": "alex_carter_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 256000
+  },
+  "C022": {
+    "job_id": "22",
+    "patient_id": "jason_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 1200000
+  },
+  "C023": {
+    "job_id": "07",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 64000
+  },
+  "C024": {
+    "job_id": "25",
+    "patient_id": "crystal_smith_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 1200000
+  },
+  "C025": {
+    "job_id": "23",
+    "patient_id": "juanita_delgado_001",
+    "arm": "flat_auto_compression",
+    "target_tokens": 1200000
+  }
+}

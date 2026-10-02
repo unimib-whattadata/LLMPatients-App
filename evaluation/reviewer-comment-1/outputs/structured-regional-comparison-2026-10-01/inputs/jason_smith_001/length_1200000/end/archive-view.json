@@ -1,0 +1,347 @@
+{
+  "patient_id": "jason_smith_001",
+  "target_tokens": 1200000,
+  "fact_position": "end",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_1200000/end/records.jsonl",
+  "record_count": 6726,
+  "full_prompt_local_tokens": 1200103,
+  "full_history_local_tokens": 1195070,
+  "block_start_history_token": 1187581,
+  "block_end_history_token": 1195070,
+  "block_relative_midpoint": 0.9968667107366096,
+  "context_id": "jason_smith_001__1200000__end",
+  "native_archive_view_sha256": "4d2a309bb693576c5a19129928d6b8fdcbaadb013ae0395d58c0271c8df0be1d",
+  "raw_turns": 6726,
+  "validated_facts": 232,
+  "original_fact_batches": 9,
+  "raw_metadata_overlay": [
+    {
+      "origin_id": "turn-5d44d687435b5b3b6190d72dfac8edae23de3b26720817f906e556a519cdabed",
+      "origin_turn_id": "s01t01",
+      "session_id": "1337",
+      "session_order": 1336,
+      "turn_index": 6682
+    },
+    {
+      "origin_id": "turn-688e334a84bb5797c25d6ea4e5a5e1b1c76a54d3af1afc03d7ac390a5f9634df",
+      "origin_turn_id": "s01t02",
+      "session_id": "1337",
+      "session_order": 1336,
+      "turn_index": 6683
+    },
+    {
+      "origin_id": "turn-38ad6c006740875e131800d68e0c9504171a6ef6326196fc1ca5a36d4e19587f",
+      "origin_turn_id": "s01t03",
+      "session_id": "1337",
+      "session_order": 1336,
+      "turn_index": 6684
+    },
+    {
+      "origin_id": "turn-436148fc92c991d0278183d7000e85bfad0f01a5b4dab5565d83fbaff2bdc2a0",
+      "origin_turn_id": "s01t04",
+      "session_id": "1337",
+      "session_order": 1336,
+      "turn_index": 6685
+    },
+    {
+      "origin_id": "turn-02b8b02633becc9f42d4037bb5dfcbdef37af4c184ebfbda644de99483468be1",
+      "origin_turn_id": "s01t05",
+      "session_id": "1338",
+      "session_order": 1337,
+      "turn_index": 6686
+    },
+    {
+      "origin_id": "turn-28d53bc693b2089f0441d47c352b5d160f20f6d521eab74b97b3e2cccf973f4e",
+      "origin_turn_id": "s02t01",
+      "session_id": "1338",
+      "session_order": 1337,
+      "turn_index": 6687
+    },
+    {
+      "origin_id": "turn-b731540fc1dd3128278e045ee96dd18b66facc1dfc1b4bb1712945bf91589c54",
+      "origin_turn_id": "s02t02",
+      "session_id": "1338",
+      "session_order": 1337,
+      "turn_index": 6688
+    },
+    {
+      "origin_id": "turn-6a3f94d2ae4cd6aff81cabdf0c13a83186df738b01ebb27cc4b8b691a39ce08a",
+      "origin_turn_id": "s02t03",
+      "session_id": "1338",
+      "session_order": 1337,
+      "turn_index": 6689
+    },
+    {
+      "origin_id": "turn-b1629d1801e06134e0949e6b29a9b485d18816c8d7361d7a943ce29bb955067c",
+      "origin_turn_id": "s02t04",
+      "session_id": "1338",
+      "session_order": 1337,
+      "turn_index": 6690
+    },
+    {
+      "origin_id": "turn-ed24839468e7563ffec77a2939b1e7f98ba8d0536b114d5ffd107c3b408aec2c",
+      "origin_turn_id": "s02t05",
+      "session_id": "1339",
+      "session_order": 1338,
+      "turn_index": 6691
+    },
+    {
+      "origin_id": "turn-43816523f643586fede2fc4c0e425f8290d98ad8c96f1aca4cf985a4d301f987",
+      "origin_turn_id": "s03t01",
+      "session_id": "1339",
+      "session_order": 1338,
+      "turn_index": 6692
+    },
+    {
+      "origin_id": "turn-f2570d66d64f53d1f0c0abf0aab0725f97bef21bdf0dc746e337127aad7d2ebc",
+      "origin_turn_id": "s03t02",
+      "session_id": "1339",
+      "session_order": 1338,
+      "turn_index": 6693
+    },
+    {
+      "origin_id": "turn-e48430ca3316dbc249680b3dec63f85a909090d2ff2c6f4b5af820ca8f53e7d1",
+      "origin_turn_id": "s03t03",
+      "session_id": "1339",
+      "session_order": 1338,
+      "turn_index": 6694
+    },
+    {
+      "origin_id": "turn-8f6345d07a9adb7a90bb2c34825a57bee1e21d3ffb0cb9c0fba87935b49a7b0b",
+      "origin_turn_id": "s03t04",
+      "session_id": "1339",
+      "session_order": 1338,
+      "turn_index": 6695
+    },
+    {
+      "origin_id": "turn-1ef652ed811bc51a0dceb8743d0c432f243512df1c35321b77109db20824316f",
+      "origin_turn_id": "s03t05",
+      "session_id": "1340",
+      "session_order": 1339,
+      "turn_index": 6696
+    },
+    {
+      "origin_id": "turn-6f8d5d2eed80efa56c90fa33c5c79c95a526277a42ddda69eb00c2c64f5245a6",
+      "origin_turn_id": "s04t01",
+      "session_id": "1340",
+      "session_order": 1339,
+      "turn_index": 6697
+    },
+    {
+      "origin_id": "turn-d095211924399e5338aeb9ce17c9addd4e83c0cf1e24bef54042f27919f05ba7",
+      "origin_turn_id": "s04t02",
+      "session_id": "1340",
+      "session_order": 1339,
+      "turn_index": 6698
+    },
+    {
+      "origin_id": "turn-ad8a5183dd444d0d8f96d81b6545f3b5e073641b145fe5d1dbadd62a35dc55b0",
+      "origin_turn_id": "s04t03",
+      "session_id": "1340",
+      "session_order": 1339,
+      "turn_index": 6699
+    },
+    {
+      "origin_id": "turn-1be08576e5a4b6bcf975f5425be2178ed6429e4c30d03682a0ba71242c488bea",
+      "origin_turn_id": "s04t04",
+      "session_id": "1340",
+      "session_order": 1339,
+      "turn_index": 6700
+    },
+    {
+      "origin_id": "turn-de82f9970cdf4ebb2a2cef5495280f563f5f18a4b110b88ab1ee290c76095729",
+      "origin_turn_id": "s04t05",
+      "session_id": "1341",
+      "session_order": 1340,
+      "turn_index": 6701
+    },
+    {
+      "origin_id": "turn-853dba99ff362761820c59af54dbb3324bfa4789a5fea12cde7dd2c327b5a4a6",
+      "origin_turn_id": "s05t01",
+      "session_id": "1341",
+      "session_order": 1340,
+      "turn_index": 6702
+    },
+    {
+      "origin_id": "turn-5cab3ca4328c4fd9d5e073ab506e1e4c47c53ca736cb2fe3cd0d0592bc8b08f8",
+      "origin_turn_id": "s05t02",
+      "session_id": "1341",
+      "session_order": 1340,
+      "turn_index": 6703
+    },
+    {
+      "origin_id": "turn-2dc2e1c8e23daf70f7c8d1217b8ae03024037090d49fc0606f8d7f5c0f63c689",
+      "origin_turn_id": "s05t03",
+      "session_id": "1341",
+      "session_order": 1340,
+      "turn_index": 6704
+    },
+    {
+      "origin_id": "turn-44db0fc77393878e82ef08c2890085dca74c5893094c8078b8a8947224401aa3",
+      "origin_turn_id": "s05t04",
+      "session_id": "1341",
+      "session_order": 1340,
+      "turn_index": 6705
+    },
+    {
+      "origin_id": "turn-093e7fe55327c7d9335bdde46cdcefc09d8995d5f8ef45675d5671773ae11014",
+      "origin_turn_id": "s05t05",
+      "session_id": "1342",
+      "session_order": 1341,
+      "turn_index": 6706
+    },
+    {
+      "origin_id": "turn-b39cfab5cc5720624c569aff11c742a517497580af59250c4c507e30c5d94577",
+      "origin_turn_id": "s06t01",
+      "session_id": "1342",
+      "session_order": 1341,
+      "turn_index": 6707
+    },
+    {
+      "origin_id": "turn-7f86510a94576573f0d7d91932dcb401995ee3ca7934d205ca7bdaffb49566de",
+      "origin_turn_id": "s06t02",
+      "session_id": "1342",
+      "session_order": 1341,
+      "turn_index": 6708
+    },
+    {
+      "origin_id": "turn-1d807d110daf27bb59226597eef312f44d79e32101b53efbcdaeb309df0fe842",
+      "origin_turn_id": "s06t03",
+      "session_id": "1342",
+      "session_order": 1341,
+      "turn_index": 6709
+    },
+    {
+      "origin_id": "turn-2045cfbb16d1a780e2535d0b273acd06af69591a3edbe39b410f605a425c9345",
+      "origin_turn_id": "s06t04",
+      "session_id": "1342",
+      "session_order": 1341,
+      "turn_index": 6710
+    },
+    {
+      "origin_id": "turn-c2ee1a24c1c14403a2d58b0921cd71530b106d2875fe93d44150431c23619035",
+      "origin_turn_id": "s06t05",
+      "session_id": "1343",
+      "session_order": 1342,
+      "turn_index": 6711
+    },
+    {
+      "origin_id": "turn-6768fc7a9b81a7e01e7b98298d8d66e47eed0c2520c2852cb3483045887cca94",
+      "origin_turn_id": "s07t01",
+      "session_id": "1343",
+      "session_order": 1342,
+      "turn_index": 6712
+    },
+    {
+      "origin_id": "turn-7520734434e41a12479d1426805338351b88cff116d80957845ca2d3bb148631",
+      "origin_turn_id": "s07t02",
+      "session_id": "1343",
+      "session_order": 1342,
+      "turn_index": 6713
+    },
+    {
+      "origin_id": "turn-647484fc316f12de8dd2a9182cef0cae6c97712b11c6a35f63407f0dcfa7b6fe",
+      "origin_turn_id": "s07t03",
+      "session_id": "1343",
+      "session_order": 1342,
+      "turn_index": 6714
+    },
+    {
+      "origin_id": "turn-0f6b579dd1726d2533c2f0eb9744c2d915796ee9846708c142b6f56fa40fb34e",
+      "origin_turn_id": "s07t04",
+      "session_id": "1343",
+      "session_order": 1342,
+      "turn_index": 6715
+    },
+    {
+      "origin_id": "turn-77f1bab341e8b5717f2c864b3e76db48e3e864076076f22cda8aa81bf1ba8d22",
+      "origin_turn_id": "s07t05",
+      "session_id": "1344",
+      "session_order": 1343,
+      "turn_index": 6716
+    },
+    {
+      "origin_id": "turn-dc3bf19e0da9884cbd1f52e438b46dd4124fa9c2f83a75282d50edeba5f67018",
+      "origin_turn_id": "s08t01",
+      "session_id": "1344",
+      "session_order": 1343,
+      "turn_index": 6717
+    },
+    {
+      "origin_id": "turn-9f607f8f530c803614dfd093ec7507781ecd648d5da77d6559a45e1a1b88ae28",
+      "origin_turn_id": "s08t02",
+      "session_id": "1344",
+      "session_order": 1343,
+      "turn_index": 6718
+    },
+    {
+      "origin_id": "turn-0d984daffd009c337d7f0fb43051a601deca7db70f0a1319b736df469f7e1e79",
+      "origin_turn_id": "s08t03",
+      "session_id": "1344",
+      "session_order": 1343,
+      "turn_index": 6719
+    },
+    {
+      "origin_id": "turn-3af34a36848baa03ab488e49221e3fa56da4bc8ede7d8a1eb846d61a6eca63cf",
+      "origin_turn_id": "s08t04",
+      "session_id": "1344",
+      "session_order": 1343,
+      "turn_index": 6720
+    },
+    {
+      "origin_id": "turn-c40ae0ac2dac10ceea941c3509cfd387730fb4d9ca53b56b08f30de10ebc1d3c",
+      "origin_turn_id": "s08t05",
+      "session_id": "1345",
+      "session_order": 1344,
+      "turn_index": 6721
+    },
+    {
+      "origin_id": "turn-970dda2c3ff75614bc5bb070b7b613c739c1bfa6d607a086e0f26b2b3f8516b1",
+      "origin_turn_id": "s09t01",
+      "session_id": "1345",
+      "session_order": 1344,
+      "turn_index": 6722
+    },
+    {
+      "origin_id": "turn-d8a1262a507bfae330990c9a73f6b0aeef9b30d2d7164b0bb098a6983a2dbe83",
+      "origin_turn_id": "s09t02",
+      "session_id": "1345",
+      "session_order": 1344,
+      "turn_index": 6723
+    },
+    {
+      "origin_id": "turn-de839315daef98a4d0969d713b98d9e81c3d27f946ee78d78d3f6f913822f6bd",
+      "origin_turn_id": "s09t03",
+      "session_id": "1345",
+      "session_order": 1344,
+      "turn_index": 6724
+    },
+    {
+      "origin_id": "turn-ab806e087d8f0bc1c001dac549a1a576610517d679b5a00ad3caa0114fd37b60",
+      "origin_turn_id": "s09t04",
+      "session_id": "1345",
+      "session_order": 1344,
+      "turn_index": 6725
+    },
+    {
+      "origin_id": "turn-c26b6bf7a055753cf21ae05dea3887e306a89bbc783ab651173ab1c80144f816",
+      "origin_turn_id": "s09t05",
+      "session_id": "1346",
+      "session_order": 1345,
+      "turn_index": 6726
+    }
+  ],
+  "batch_provenance_policy": "Batch-level extraction metadata unchanged; raw source and fact chronology mapped to regional display.",
+  "selected_items": 8,
+  "selected_facts": 8,
+  "selected_utterances": 0,
+  "rendered_evidence_estimated_tokens": 1153,
+  "query_encoder_tokens_without_truncation": 272,
+  "encoder_max_seq_length": 256,
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/end/structured_evidence.txt",
+  "prompt_sha256": "e1c6c2a059cb51efd76201c42339416661c0a36d9ce0b66533f6e4176757e7c6",
+  "local_prompt_tokens": 6292,
+  "paired_baseline_job_ids": [
+    "114"
+  ]
+}

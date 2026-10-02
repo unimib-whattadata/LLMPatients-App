@@ -1,0 +1,107 @@
+{
+  "id": "openrouter-inband-error-handling-2026-09-27",
+  "created_at": "2026-09-27T15:49:18.905513+00:00",
+  "frozen_before_resumption": true,
+  "authorization": "Continue the user-authorized OpenRouter Gemini 2.5 Pro campaign, repair transport error handling and rate limits, preserve accepted simulated-patient results, and stop if service failures persist.",
+  "previous_amendment": "openrouter-provider-amendment.json",
+  "previous_amendment_sha256": "8f3bc5bf34d6a360cfedb3982a7e3775e7c070327ffe449cba22e6030fcf6733",
+  "checkpoint_manifest": "openrouter-repair-input-manifest-20260927T154029Z.json",
+  "checkpoint_manifest_sha256": "a11e7aaf5eed996ccf4064e09eff15cc5733f7cc1fe2aaf9946a65503df64286",
+  "checkpoint_archive": "runtime/openrouter-repair-checkpoint-20260927T154029Z",
+  "checkpoint_files": 427,
+  "inherited_counts": {
+    "phq_complete_administrations": 85,
+    "phq_saved_partial_items": 6,
+    "longitudinal_completed_sessions": 35,
+    "longitudinal_observed_turns": 184
+  },
+  "open_sessions": [
+    {
+      "patient_id": "alex_carter_001",
+      "condition": "full",
+      "session": 4,
+      "saved_turns": 4,
+      "resume": "Generate missing T05; the existing T05 classification is preserved as evidence."
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "condition": "full",
+      "session": 4,
+      "saved_turns": 5,
+      "resume": "Retry finalization only; do not repeat any patient turn."
+    }
+  ],
+  "uncommitted_stop_patient_responses": 0,
+  "clinical_prompts_changed": false,
+  "decoding_parameters_changed": false,
+  "scenarios_and_scoring_changed": false,
+  "original_source_snapshots_changed": false,
+  "original_six_openrouter_runtime_files_changed": false,
+  "model_id": "google/gemini-2.5-pro",
+  "change": "Install an external idempotent wrapper around OpenRouter native response normalization. Any choice.error or finish_reason=error raises a typed transport exception before visible content can be accepted. Preserve actual gateway HTTP status and upstream code separately.",
+  "error_semantics": {
+    "actual_http_status": "Preserved by the original transport (including HTTP 200 on an in-band upstream failure).",
+    "upstream_code": "Numeric code retained as a separate property and in sanitized exception text; no invented code when absent.",
+    "retry_owner": "Unchanged frozen provider and shared rate coordinator. No retry inside the transport patch.",
+    "partial_visible_content_on_native_error": "Rejected as an error; never patient output.",
+    "successful_stop_length_safety_responses": "Original normalization and source-specific acceptance remain unchanged.",
+    "raw_archive": "Original request and native error payload retained with UUID; previous misclassified response remains unchanged."
+  },
+  "observed_bug": {
+    "patient_id": "juanita_delgado_001",
+    "condition": "full",
+    "session": 4,
+    "operation": "_generate_session_reflection",
+    "response_id": "gen-1790523215-aTPZlb6CDmCgXzkjNQRd",
+    "gateway_http_status": 200,
+    "native_finish_reason": "error",
+    "upstream_code": 504,
+    "previous_normalized_finish_reason": "OTHER",
+    "disposition": "Preserve the original failed finalization and all five accepted turns. Retry finalization under the declared extension."
+  },
+  "runtime_files_sha256": {
+    "scripts/openrouter_error_runtime.py": "96534cb3be2b4e0a49cce2c442c30dde128110b98ec242cd004dbe0823a59ba6",
+    "scripts/openrouter_inband_errors.py": "eedb64c7a98880b29235fbc482a339ee3f980ed681b2c72da2ea96048709a55e",
+    "scripts/run_openrouter_session_v2.py": "a58f9f49fcc9e5e913b6f4c0c6799e4366ddd3306e5db6b6ac778fa5dafedcf0"
+  },
+  "original_runtime_files_sha256": {
+    "scripts/campaign_openrouter.py": "a21a346ec05ffa8e648edf792cf30af3cd10bc50f48bb0be8db017a1d614052e",
+    "scripts/openrouter_transport.py": "389bdf88133dafa9066b2c39489e0c391a2daab46f61010832e984e34c94205d",
+    "scripts/complete_phq9_openrouter.py": "efebb7ae65f4b0ed42453b01d6ab42beeeaf5d946cd99cb81c930346c25b2367",
+    "scripts/run_longitudinal_openrouter.py": "47bb792a6d8eb44e77050626cb6d43b99fbb56580cfa06e959b6aef0ee8ca51e",
+    "scripts/run_openrouter_session.py": "602a180c06b05aa5d4c3af19a46c59d043984c9efdb0ff1dd70f971606e06417",
+    "scripts/run_longitudinal_session_openrouter.py": "0e34c78c26f10479fe430d62a438d7fb8b8773031d547cb55cd139e61c6e33b6"
+  },
+  "policy": {
+    "requests_per_minute": 12,
+    "minimum_interval_seconds": 5,
+    "initial_cooldown_seconds": 20,
+    "maximum_backoff_seconds": 60,
+    "failure_threshold": 3,
+    "circuit_seconds": 300,
+    "maximum_wait_seconds": 120,
+    "probe_seconds": 300
+  },
+  "actual_workers": {
+    "phq": 1,
+    "longitudinal": 1
+  },
+  "execution_records_file": "runtime/openrouter-error-handling-executions.jsonl",
+  "events_file": "runtime/openrouter-rate-control/events.jsonl",
+  "event_amendment_field": "transport_error_amendment_id",
+  "native_api_records_file": "runtime/openrouter-api-records.jsonl",
+  "preflight_file": "runtime/openrouter-error-handling-preflight.json",
+  "offline_tests": {
+    "count": 25,
+    "log": "runtime/openrouter-inband-error-tests.log",
+    "log_sha256": "2bc9b6c3c5412887a4144def289203e1d803704035d6c448d587e64072f671e2",
+    "test_files_sha256": {
+      "scripts/test_openrouter_transport.py": "91b6c510c801a6fde41ecf64a1155ee6bb6ea93d5143bb7cb8672ba1e945bdf7",
+      "scripts/test_openrouter_inband_errors.py": "39b2069e9cbd788ff10b69534711a5a7d3765f460f24ada458f646cf805bcdd4"
+    },
+    "real_api_calls": 0,
+    "real_credential_reads": 0
+  },
+  "resume_policy": "Resume only unfinished work, retain all accepted outputs and failed attempts, acknowledge only the operator repair STOP after passing local preflight, retain limiter SQLite state, stop on repeated capacity failure or exhausted transient retry budget, no automatic timed restart.",
+  "reporting_requirement": "Report the repair as an operational transport amendment; preserve provider strata and all previous limitations. No new prompt-difference exception is introduced."
+}

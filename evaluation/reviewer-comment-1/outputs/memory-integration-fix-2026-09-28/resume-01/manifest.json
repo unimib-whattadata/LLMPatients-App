@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-28T16:39:16.964724+00:00",
+  "new_live_requests_at_freeze": 0,
+  "original_manifest_sha256": "87407dce61dba48700c91280afa2c7080181713ccd29ee10d18d72451ef72e8d",
+  "original_runtime_files": {
+    "memory/memory_integration_fix_alex_20260928__alex_carter_001.jsonl": "8a5400cc9783100174b0c079d46330b00f43cf22c5729a044cbdb066c72aabcd",
+    "probe-review.json": "1dfb3e2ee8e09858853db482d2045a0d25703d26f8ea244bc0f566c2c2b65572",
+    "processes.jsonl": "ffb3f48a3f3528edb84fa5b073beb88796f1e018c88cbf7b24ea4e75e741436f",
+    "request-gate.json": "360bfef523659ef3a8badfb97ef1d75ae14007efeb5a8f284fde315116fa232e",
+    "request-gate.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runs/memory_integration_fix_alex_20260928.json": "072d7d6b709f9698893d1d224278cd0530025fe973d42fbb5cd31fe11bc1deb7",
+    "sessions/session_01/generation-events.jsonl": "200a94c386f435c119aea10bace7782eaa5684345b868c5eaf9b1134f453fe67",
+    "sessions/session_01/openrouter-api-records.jsonl": "8d289be7d2b83241badcd30456c1314c69c31dd9644a28b10b5ef54fc7f496f7",
+    "sessions/session_01/session.json": "d5d317fadb208e65a084b9441fe1d171e6ddafbafe9200d4fc21701562e4021e",
+    "sessions/session_01/worker.log": "0547ee37f95f8348ea898eee4b6580ed81d73afb754d40e4a21fc03d3cf44210"
+  },
+  "files": {
+    "resume_integration.py": "45a9540aa1b7df5485e3f05ef5c5f38c6db17bebee55f23c04944154f0b72933",
+    "test_resume.py": "862e0e8555725562e19d9020d5a33c8b1daa3344526af12536ef6ccce758befb",
+    "PROTOCOL.md": "e2e09b27968ad6feb57c45b30336d5b218823558f827cbc2c89a4ca054805fc6",
+    "lineage.json": "646980ad8e006451a7b46137a3dc11bf928b85bd1485095bd9789ce983c8934f"
+  }
+}

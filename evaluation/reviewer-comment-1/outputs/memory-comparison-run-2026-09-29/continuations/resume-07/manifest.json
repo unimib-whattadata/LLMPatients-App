@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-30T11:00:57.975527+00:00",
+  "authorization": "User instruction: Ho aggiunto crediti, continuing the authorized experiment after the reported402 at execution290",
+  "original_execution_manifest_sha256": "fc150bc97ed25ffd6a3308da59fa99bcd13527b8b1f768c29ded8d78b887ccc0",
+  "previous_continuation_manifest_sha256": "cd880237f3afa21942853dd559948b75540467aae0a1d714e045c09aa6f8d1f1",
+  "next_execution_order": 290,
+  "completed_sessions_preserved": 289,
+  "accepted_turns_preserved": 1449,
+  "requests_preserved": 2788,
+  "responses_preserved": 2755,
+  "native_inference_code_changed": false,
+  "recovery_worker_added": true,
+  "transport_policy_changed": false,
+  "live_calls_at_freeze": 0,
+  "transport_policy": {
+    "version": "bounded_transient_retry_v2",
+    "policy_source_continuation": "resume-06",
+    "max_attempts": 3,
+    "timeout_retry_delays_seconds": [
+      30,
+      60
+    ],
+    "rate_limit_retry_delays_seconds": [
+      60,
+      120
+    ],
+    "maximum_retry_wait_seconds": 300,
+    "honor_retry_after": true,
+    "minimum_interval_seconds": 5,
+    "model_fallback": false
+  },
+  "recovery_deviation": "Flat native generation resumes turn50 with all49 prior turns; failed patient prompt/config must be identical; timeout/429 policy unchanged",
+  "files": {
+    "continue_run.py": "6d94f0a783362fd9309aa5a31d8a0bf63674b4fbabaabe8803edd6489a69bd41",
+    "test_continuation.py": "a1c091776e9aafd2840f2923b5d5d5436685fb3ee60051225546ec5a7af448ad",
+    "checkpoint_audit.py": "8de8eb85474902b97d1a0cb3c33f46b60d017ff1aa477aeb43d4016f55f3c458",
+    "test_checkpoint_audit.py": "4124617ae6282a0b2f0864809ca1e369e6e6c200347375f5ab68141554fe2cc0",
+    "worker.py": "5306ac9235424313d682754fbaf7c37906e2c8d1a8576d148c21cfe18daba496",
+    "test_worker.py": "1925ad8f82634878b1ae1e87c3cbc06ff387cd9278b79da01a7a53790ee73b93",
+    "native-preflight.json": "b5a580b9e16b9102035dcc533943e4652ff5f1914a91abb4815512a97f63c0e3",
+    "timeout_retries.py": "c6558276674f17c2517dca8526886263a59ea57adc20fd44d5c5867e90e3c8d6",
+    "AMENDMENT.md": "89484368d8ebd500ae847180a1d29ab34921aea3802fc0b0984da939537fd818",
+    "launchd.plist": "ecad8388e0e83006369787e74a4d4bed5947682f9a132a5fe4ecc0d8f435f655",
+    "offline-results.json": "77248c3066cce8dbd547a6425e9294cb9a8c8fd78781682f396cde5d887639db",
+    "checkpoint-audit.json": "c80325a1ee67e321905315f7b303c9912b4be42563e1ef4c82a95eb1872724d8",
+    "snapshot-manifest.json": "0d28a0febc13004e152bd8f1e4580547dd94aa1caad1b51861a5e7451e33341f"
+  },
+  "supervisor": {
+    "kind": "one_shot_user_launchd_job",
+    "label": "local.llmpatient.memory-comparison-20260929-resume07",
+    "automatic_restart": false,
+    "idle_sleep_assertion": "Only while this one-shot job is running"
+  }
+}

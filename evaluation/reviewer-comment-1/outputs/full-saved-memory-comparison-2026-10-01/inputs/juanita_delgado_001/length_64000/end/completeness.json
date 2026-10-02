@@ -1,0 +1,41 @@
+{
+  "patient_id": "juanita_delgado_001",
+  "target_tokens": 64000,
+  "fact_position": "end",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_64000/end/records.jsonl",
+  "record_count": 341,
+  "full_prompt_local_tokens": 64014,
+  "full_history_local_tokens": 59472,
+  "block_start_history_token": 51561,
+  "block_end_history_token": 59472,
+  "block_relative_midpoint": 0.9334897094430993,
+  "context_id": "juanita_delgado_001__64000__end",
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/full-saved-memory-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/end/full_saved_memory.txt.gz",
+  "prompt_sha256": "5605488b4908dff9a904f99c5b2757f440fdc5776e30f0772f25d87bbea8bfff",
+  "prompt_file_sha256": "e71790d1680c990bf9cf20e4c7b8bf7f32c1b8e2e38e4f0585c42dc72ef35f37",
+  "local_prompt_tokens": 226460,
+  "uncompressed_prompt_bytes": 726053,
+  "compressed_prompt_bytes": 69512,
+  "complete_saved_original_records": 81,
+  "record_counts": {
+    "conversation_turn": 341,
+    "episode_summary": 9,
+    "fact_batch": 9,
+    "session_reflection": 9,
+    "long_term_summary": 9
+  },
+  "all_record_fields_preserved": true,
+  "memory_record_stream_sha256": "91a186b04a5010e7e3413bc58ba1fe22885da71379d74f3c39bdf112f1d48ae4",
+  "paired_baseline_job_ids": [
+    "011",
+    "019",
+    "025",
+    "034",
+    "038",
+    "090",
+    "092"
+  ],
+  "selection_limit": null,
+  "truncation_applied": false,
+  "plugin_enabled": false
+}

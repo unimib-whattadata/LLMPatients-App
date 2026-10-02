@@ -1,0 +1,14 @@
+{
+  "amendment_id": "memory-integration-fix-2026-09-28-resume-02",
+  "created_at": "2026-09-28T18:10:30.721537+00:00",
+  "authorization": "User said Procedi after being informed of the empty classifier completion at session6 turn2",
+  "source_runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-01/runtime",
+  "runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-02/runtime",
+  "accepted_turn_count": 26,
+  "closed_sessions": 5,
+  "next_turn_id": "s06t02",
+  "failed_native_record_id": "68a2952e-7c98-4483-a50a-fbbbbde5750f",
+  "retired_stop_receipt": "previous-stop-resume-01.json",
+  "subcall_policy": "Repeat only the failed uncommitted classification at s06t02 from the saved s06t01 state; retain the empty output and cost",
+  "production_source_policy": "Unchanged original corrected source, profile, scenario, gold, transport and decoding settings"
+}

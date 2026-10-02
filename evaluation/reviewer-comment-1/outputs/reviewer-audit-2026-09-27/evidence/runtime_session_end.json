@@ -1,0 +1,16 @@
+{
+  "label": "runtime_session_end",
+  "path": "/session-end",
+  "request": {
+    "external_patient_id": "daniel_isherwood_001",
+    "session_id": "audit-runtime-20260927",
+    "therapist_id": "audit_runtime_20260927"
+  },
+  "status": 200,
+  "elapsed_seconds": 11.232,
+  "body": {
+    "status": "finalized",
+    "message": "Session memory finalized.",
+    "timestamp": "2026-09-27T10:02:48.658245"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "model": "google/gemini-2.5-pro",
+  "provider": "OpenRouter",
+  "temperature_response": 0.7,
+  "temperature_facts": 0.2,
+  "provider_seed": null,
+  "top_p": 0.95,
+  "max_tokens_initial": 4096,
+  "max_tokens_recovery": 8192,
+  "minimum_interval_seconds": 5,
+  "max_tokens_fact_extraction": 8192,
+  "no_provider_retry": true,
+  "fixture": {
+    "one": [
+      [
+        "In our shared materials the practice journal is named \"Harbor Atlas\". This is a label, not an obligation to keep a journal. How does that sound?",
+        "The name sounds fine. I have not decided whether to use it."
+      ],
+      [
+        "The separate reflection card has the title \"Copper Sparrow\". It is a different object from the journal.",
+        "I understand they are two different things."
+      ],
+      [
+        "The optional check-in slot in our plan is Wednesday at 14:25. This is a proposal, not an agreement that you will attend.",
+        "I will think about whether that works for me."
+      ]
+    ],
+    "two": [
+      [
+        "I am renaming the same practice journal. Its title is now \"Dawn Register\", replacing its earlier title.",
+        "I understand the journal has been renamed."
+      ],
+      [
+        "I am changing the optional check-in slot in the plan to Friday at 09:40. The earlier slot is cancelled. Attendance remains optional and unconfirmed.",
+        "I understand the time in the plan changed. I have not committed to attending."
+      ],
+      [
+        "What has been on your mind about learning these skills?",
+        "I would like to try at my own pace. I appreciate having room to decide."
+      ]
+    ]
+  },
+  "probes": [
+    [
+      "current_title",
+      "What is the current title of the practice journal? Give only its title.",
+      [
+        "Dawn Register"
+      ]
+    ],
+    [
+      "original_title",
+      "What was the original title of the practice journal before it was renamed? Give only its title.",
+      [
+        "Harbor Atlas"
+      ]
+    ],
+    [
+      "card",
+      "What is the title of the separate reflection card? Give only its title.",
+      [
+        "Copper Sparrow"
+      ]
+    ],
+    [
+      "slot",
+      "Which day and exact time are now written in the plan for the optional check-in? Give only the day and time in 24-hour form.",
+      [
+        "Friday",
+        "09:40"
+      ]
+    ],
+    [
+      "attendance",
+      "Have you agreed to attend the optional check-in, or is attendance still unconfirmed?",
+      []
+    ],
+    [
+      "unknown",
+      "What color is the cover of the practice journal? If it was never specified, say \"not specified\".",
+      [
+        "not specified"
+      ]
+    ]
+  ],
+  "source_sha256": {
+    "agent/core/factual_memory.py": "1f3442d05bdb4a1f5d5af82733937a6670f9ba37baee2f85500f272256857c0f",
+    "agent/core/langgraph_builder.py": "53f23e4d34c1ec566c324cbcdc405bceb08b4e0eefeabf4032a5f52aabb0e12c",
+    "agent/core/prompt_builder.py": "90c304f30f0a9732b062d8ac2d70fb739b0f5899488f02d85edd695fabfbab5f",
+    "agent/core/memory_store.py": "38cd981f48405abb60f64507c27d6b90bf6caaf005676dca893191c5b55d61cb"
+  }
+}

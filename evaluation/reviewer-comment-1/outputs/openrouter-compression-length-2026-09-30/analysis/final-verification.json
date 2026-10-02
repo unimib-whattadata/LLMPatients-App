@@ -1,0 +1,43 @@
+{
+  "created_at": "2026-09-30T18:21:49.947922+00:00",
+  "status": "passed",
+  "previous_experiment_files_unchanged": 396,
+  "frozen_input_and_source_files_verified": 91,
+  "review_export_files_verified": 5,
+  "native_requests_verified": 25,
+  "native_responses_verified": 25,
+  "model_ids": [
+    "google/gemini-2.5-pro"
+  ],
+  "providers": [
+    "Google"
+  ],
+  "api_response_keys": [
+    "choices",
+    "created",
+    "id",
+    "model",
+    "object",
+    "provider",
+    "service_tier",
+    "system_fingerprint",
+    "usage"
+  ],
+  "transformed_prompt_returned": false,
+  "categories_correct": 149,
+  "categories_total": 150,
+  "fields_correct": 299,
+  "fields_total": 300,
+  "semantic_rater_agreement_categories": 150,
+  "semantic_rater_agreement_fields": 300,
+  "pdf_pages": 11,
+  "pdf_rendered_pages_inspected": [
+    9,
+    10,
+    11
+  ],
+  "original_eight_pages_content_unchanged": true,
+  "pdf_overfull_boxes": 0,
+  "review_response_rows_preserved": true,
+  "prior_export_checkpoint_preserved_in": "previous-review-response/provenance.json"
+}

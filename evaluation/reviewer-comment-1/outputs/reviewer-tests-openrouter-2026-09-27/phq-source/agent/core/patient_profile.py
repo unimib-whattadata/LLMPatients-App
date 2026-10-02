@@ -1,0 +1,675 @@
+"""Structured patient profile models aligned with patient YAML schemas in data/patients."""
+
+try:
+    import yaml
+except ModuleNotFoundError:  # pragma: no cover - optional dependency in some local envs
+    yaml = None
+
+from pathlib import Path
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+from agent.core.emotion_model import EMOTIONS
+from typing import Dict, List, Mapping, Optional, Union
+from agent.core.safety import NOT_REPORTED_MARKERS
+
+SUPPORTED_PATIENT_EXTENSIONS = (".yaml", ".yml")
+
+# === Emotion Traits ===
+class EmotionTraits(BaseModel):
+    """Baseline affective systems and volatility taken from patient YAML."""
+
+    trait_baseline: Dict[str, float] = Field(default_factory=dict)
+    volatility_level: str = "medium"
+
+    def normalized_baseline(self) -> Dict[str, float]:
+        """Return a full trait vector with missing values filled and clamped."""
+        normalized = {}
+        for key in EMOTIONS:
+            raw_value = (
+                self.trait_baseline.get(key)
+                or self.trait_baseline.get(key.lower())
+                or self.trait_baseline.get(key.capitalize())
+                or 0.5
+            )
+            normalized[key] = _clamp_emotion_value(raw_value)
+        return normalized
+
+
+# === Detail sub-components ===
+class DemographicAndSocioculturalInformation(BaseModel):
+    name: Optional[str] = None
+    age: Optional[int] = None
+    gender: Optional[str] = None
+    maritalStatus: Optional[str] = None
+    culturalBackground: Optional[str] = None
+    religiousBeliefs: Optional[str] = None
+    spokenLanguage: Optional[str] = None
+    migrationStatus: Optional[str] = None
+
+    def to_prompt(self) -> str:
+        """Concise demographic identity string."""
+        parts = []
+        if self.name:
+            parts.append(self.name)
+        if self.age:
+            parts.append(f"{self.age}-year-old")
+        if self.culturalBackground:
+            parts.append(self.culturalBackground)
+        if self.gender:
+            gender_map = {"female": "woman", "male": "man", "non-binary": "non-binary person"}
+            parts.append(gender_map.get(self.gender.lower(), self.gender))
+
+        sentence = " ".join(parts).strip()
+        if self.maritalStatus and self.maritalStatus.lower() not in NOT_REPORTED_MARKERS:
+            sentence = (sentence + f", {self.maritalStatus.lower()}").strip()
+
+        return f"You are {sentence}." if sentence else ""
+
+
+class CurrentRelationshipWithParents(BaseModel):
+    mother: Optional[str] = None
+    father: Optional[str] = None
+
+    def summary(self) -> str:
+        parts = []
+        if self.mother:
+            parts.append(f"Mother: {self.mother}")
+        if self.father:
+            parts.append(f"Father: {self.father}")
+        return "; ".join(parts)
+
+
+class FamilyHistory(BaseModel):
+    familyDynamicsDuringDevelopment: Optional[str] = None
+    familyPsychiatricIllnesses: Optional[str] = None
+    currentRelationshipWithParents: Optional[CurrentRelationshipWithParents] = None
+    childhoodExperiences: Optional[str] = None
+    significantDevelopmentalExperiences: Optional[str] = None
+
+    def to_prompt(self) -> Optional[str]:
+        parts = []
+        if self.familyDynamicsDuringDevelopment:
+            parts.append(f"Family environment: {self.familyDynamicsDuringDevelopment}")
+        if self.currentRelationshipWithParents:
+            relation = self.currentRelationshipWithParents.summary()
+            if relation:
+                parts.append(f"Current parents relationship: {relation}")
+        if self.childhoodExperiences:
+            parts.append(f"Childhood experiences: {self.childhoodExperiences}")
+        if self.significantDevelopmentalExperiences:
+            parts.append(f"Key developmental events: {self.significantDevelopmentalExperiences}")
+        if not parts:
+            return None
+        return " ".join(parts)
+
+
+class EducationAndEmployment(BaseModel):
+    educationLevel: Optional[str] = None
+    workHistory: Optional[str] = None
+    housingStability: Optional[str] = None
+    financialSituation: Optional[str] = None
+    hobbiesAndInterests: Optional[str] = None
+
+    def to_prompt(self) -> Optional[str]:
+        pieces = []
+        if self.educationLevel:
+            pieces.append(f"Education: {self.educationLevel}")
+        if self.workHistory:
+            pieces.append(f"Work: {self.workHistory}")
+        if self.housingStability:
+            pieces.append(f"Housing: {self.housingStability}")
+        if self.financialSituation:
+            pieces.append(f"Finances: {self.financialSituation}")
+        if self.hobbiesAndInterests:
+            pieces.append(f"Hobbies: {self.hobbiesAndInterests}")
+        return " ".join(pieces) if pieces else None
+
+
+class SocialRelationshipsAndInteractions(BaseModel):
+    friendships: Optional[str] = None
+    romanticRelationships: Optional[str] = None
+    sexualRelationships: Optional[str] = None
+    familyInteractions: Optional[str] = None
+    relationshipsWithPeersAndColleagues: Optional[str] = None
+    socialMediaUseAndImpact: Optional[str] = None
+
+    def to_prompt(self) -> Optional[str]:
+        parts = []
+        if self.friendships:
+            parts.append(f"Friendships: {self.friendships}")
+        if self.romanticRelationships:
+            parts.append(f"Romantic relationships: {self.romanticRelationships}")
+        if self.sexualRelationships:
+            parts.append(f"Sexual relationships: {self.sexualRelationships}")
+        if self.familyInteractions:
+            parts.append(f"Family interactions: {self.familyInteractions}")
+        if self.relationshipsWithPeersAndColleagues:
+            parts.append(f"Peers/colleagues: {self.relationshipsWithPeersAndColleagues}")
+        if not parts:
+            return None
+        return " ".join(parts)
+
+    def stable_identity_prompt(self) -> Optional[str]:
+        """Return concise relationship facts that should remain stable across turns."""
+        if (
+            self.romanticRelationships
+            and self.romanticRelationships.lower() not in NOT_REPORTED_MARKERS
+        ):
+            return f"Primary relationship: {self.romanticRelationships}"
+        return None
+
+
+class TreatmentsAndInterventions(BaseModel):
+    previousTherapeuticExperiences: Optional[Union[str, List[str]]] = None
+    treatmentResistance: Optional[str] = None
+    medicationHistory: List[str] = Field(default_factory=list)
+    responseToMedications: Optional[str] = None
+    previousHospitalizations: Optional[Union[str, int]] = None
+    emergencyDepartmentVisits: Optional[str] = None
+    previousDropouts: Optional[str] = None
+    previousPsychiatricDiagnoses: List[str] = Field(default_factory=list)
+
+    def to_prompt(self) -> Optional[str]:
+        items = []
+        if self.previousTherapeuticExperiences:
+            prev = (
+                "; ".join(self.previousTherapeuticExperiences)
+                if isinstance(self.previousTherapeuticExperiences, list)
+                else self.previousTherapeuticExperiences
+            )
+            items.append(f"Therapy history: {prev}")
+        if self.treatmentResistance:
+            items.append(f"Engagement/resistance: {self.treatmentResistance}")
+        if self.medicationHistory:
+            items.append(f"Medications tried: {', '.join(self.medicationHistory)}")
+        if self.responseToMedications:
+            items.append(f"Medication response: {self.responseToMedications}")
+        if self.previousHospitalizations:
+            items.append(f"Hospitalizations: {self.previousHospitalizations}")
+        if self.emergencyDepartmentVisits:
+            items.append(f"ER visits: {self.emergencyDepartmentVisits}")
+        if self.previousPsychiatricDiagnoses:
+            items.append(f"Previous diagnoses: {', '.join(self.previousPsychiatricDiagnoses)}")
+        return " ".join(items) if items else None
+
+
+class MedicalAndPhysicalHistory(BaseModel):
+    preExistingMedicalConditions: Optional[str] = None
+    pharmacologicalTreatments: Optional[Union[str, List[str]]] = None
+    lifestyle: Optional[str] = None
+    generalPhysicalHealth: Optional[str] = None
+    sleepPatterns: Optional[str] = None
+    eatingHabits: Optional[str] = None
+
+    def to_prompt(self) -> Optional[str]:
+        parts = []
+        if self.preExistingMedicalConditions:
+            parts.append(f"Medical conditions: {self.preExistingMedicalConditions}")
+        if self.lifestyle:
+            parts.append(f"Lifestyle: {self.lifestyle}")
+        if self.generalPhysicalHealth:
+            parts.append(f"Health: {self.generalPhysicalHealth}")
+        if self.sleepPatterns:
+            parts.append(f"Sleep: {self.sleepPatterns}")
+        if self.eatingHabits:
+            parts.append(f"Eating: {self.eatingHabits}")
+        return " ".join(parts) if parts else None
+
+
+class BehaviorDuringTestAdministration(BaseModel):
+    recurringDynamicsTransferenceCountertransference: Optional[str] = None
+    expressedEmotionsAndCongruence: Optional[Union[str, List[str]]] = None
+    speechCharacteristics: Optional[str] = None
+    nonVerbalBehavior: Optional[str] = None
+    appearanceSelfCareOrientation: Optional[str] = None
+
+    def to_prompt(self) -> Optional[str]:
+        parts = []
+        if self.recurringDynamicsTransferenceCountertransference:
+            parts.append(self.recurringDynamicsTransferenceCountertransference)
+        if self.expressedEmotionsAndCongruence:
+            emotions = (
+                ", ".join(self.expressedEmotionsAndCongruence)
+                if isinstance(self.expressedEmotionsAndCongruence, list)
+                else self.expressedEmotionsAndCongruence
+            )
+            parts.append(f"Observed affect: {emotions}")
+        if self.speechCharacteristics:
+            parts.append(f"Speech: {self.speechCharacteristics}")
+        if self.nonVerbalBehavior:
+            parts.append(f"Non-verbal: {self.nonVerbalBehavior}")
+        if self.appearanceSelfCareOrientation:
+            parts.append(f"Appearance/self-care: {self.appearanceSelfCareOrientation}")
+        return " ".join(parts) if parts else None
+
+
+class ImpairmentDetail(BaseModel):
+    impairment: Optional[str] = None
+    impairmentLevel: Optional[str] = Field(default=None, alias="level")
+    description: Optional[str] = None
+
+    model_config = ConfigDict(validate_by_name=True, extra="ignore")
+    
+    def brief(self) -> Optional[str]:
+        if self.description and self.impairmentLevel:
+            return f"{self.description} (severity: {self.impairmentLevel})"
+        if self.description:
+            return self.description
+        if self.impairmentLevel:
+            return f"Severity: {self.impairmentLevel}"
+        return None
+
+
+class OverallPersonalityOrganization(BaseModel):
+    organization: Optional[str] = None
+    severityRange: Optional[str] = None
+    description: Optional[str] = None
+
+    def brief(self) -> Optional[str]:
+        parts = []
+        if self.organization:
+            parts.append(self.organization)
+        if self.severityRange:
+            parts.append(f"severity {self.severityRange}")
+        if self.description:
+            parts.append(self.description)
+
+        return ": ".join(parts) if parts else None
+
+
+class PersonalityAndSymptomAxis(BaseModel):
+    identity: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    objectRelations: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    defensiveLevel: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    realityTesting: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    overallPersonalityOrganization: OverallPersonalityOrganization = Field(default_factory=OverallPersonalityOrganization)
+    personalitySyndrome: Optional[str] = None
+    symptomPatterns: Dict[str, str] = Field(default_factory=dict)
+    comorbidity: Optional[str] = None
+
+    @field_validator("symptomPatterns", mode="before")
+    @classmethod
+    def _normalize_symptom_patterns(cls, value):
+        if value is None or not isinstance(value, Mapping):
+            return {}
+
+        normalized = {}
+        for key, raw in value.items():
+            key_text = str(key).strip() if key is not None else ""
+            if not key_text or raw is None:
+                continue
+            if isinstance(raw, str):
+                text = raw.strip()
+                if not text:
+                    continue
+                normalized[key_text] = text
+                continue
+            normalized[key_text] = str(raw)
+        return normalized
+
+    def to_prompt(self) -> Optional[str]:
+        chunks = []
+        if self.identity.brief():
+            chunks.append(f"Identity: {self.identity.brief()}")
+        if self.objectRelations.brief():
+            chunks.append(f"Relationships: {self.objectRelations.brief()}")
+        if self.defensiveLevel.brief():
+            chunks.append(f"Defenses: {self.defensiveLevel.brief()}")
+        if self.realityTesting.brief():
+            chunks.append(f"Reality testing: {self.realityTesting.brief()}")
+        if self.overallPersonalityOrganization.brief():
+            chunks.append(f"Personality organization: {self.overallPersonalityOrganization.brief()}")
+        return " ".join(chunks) if chunks else None
+
+
+class MentalFunctioningAxis(BaseModel):
+    affectExperienceAndRegulation: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    identityIntegration: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    selfEsteemRegulation: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    attentionAndLearning: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    defensiveFunctioning: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    impulseControl: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    moralStandardsAndIdeals: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    relationshipsAndIntimacy: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    mentalization: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    selfObservation: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    adaptationAndResilience: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+    meaningAndDirectionality: ImpairmentDetail = Field(default_factory=ImpairmentDetail)
+
+    def to_prompt(self) -> Optional[str]:
+        parts = []
+        if self.affectExperienceAndRegulation.brief():
+            parts.append(f"Affect regulation: {self.affectExperienceAndRegulation.brief()}")
+        if self.identityIntegration.brief():
+            parts.append(f"Identity integration: {self.identityIntegration.brief()}")
+        if self.selfEsteemRegulation.brief():
+            parts.append(f"Self-esteem: {self.selfEsteemRegulation.brief()}")
+        if self.mentalization.brief():
+            parts.append(f"Mentalization: {self.mentalization.brief()}")
+        if self.impulseControl.brief():
+            parts.append(f"Impulse control: {self.impulseControl.brief()}")
+        if self.meaningAndDirectionality.brief():
+            parts.append(f"Meaning/direction: {self.meaningAndDirectionality.brief()}")
+        return " ".join(parts) if parts else None
+
+
+class ClinicalFunctioning(BaseModel):
+    personalityAndSymptomAxis: PersonalityAndSymptomAxis = Field(default_factory=PersonalityAndSymptomAxis)
+    mentalFunctioningAxis: MentalFunctioningAxis = Field(default_factory=MentalFunctioningAxis)
+
+    def to_prompt(self) -> Optional[str]:
+        pieces = []
+        psa = self.personalityAndSymptomAxis.to_prompt()
+        if psa:
+            pieces.append(psa)
+        mfa = self.mentalFunctioningAxis.to_prompt()
+        if mfa:
+            pieces.append(mfa)
+        return " ".join(pieces) if pieces else None
+
+
+class PatientDetails(BaseModel):
+    demographicAndSocioculturalInformation: DemographicAndSocioculturalInformation = Field(
+        default_factory=DemographicAndSocioculturalInformation
+    )
+    familyHistory: FamilyHistory = Field(default_factory=FamilyHistory)
+    educationAndEmployment: EducationAndEmployment = Field(default_factory=EducationAndEmployment)
+    socialRelationshipsAndInteractions: SocialRelationshipsAndInteractions = Field(default_factory=SocialRelationshipsAndInteractions)
+    treatmentsAndInterventions: TreatmentsAndInterventions = Field(default_factory=TreatmentsAndInterventions)
+    medicalAndPhysicalHistory: MedicalAndPhysicalHistory = Field(default_factory=MedicalAndPhysicalHistory)
+    behaviorDuringTestAdministration: BehaviorDuringTestAdministration = Field(default_factory=BehaviorDuringTestAdministration)
+    clinicalFunctioning: ClinicalFunctioning = Field(default_factory=ClinicalFunctioning)
+    disorder: Optional[dict] = None
+
+
+# === Main Patient Profile ===
+class PatientProfile(BaseModel):
+    patient_id: str = Field(..., alias="patientId")
+    name: str
+    brief_description: Optional[str] = Field(None, alias="briefDescription")
+    avatar_url: Optional[str] = Field(None, alias="avatarUrl")
+    voiceId: Optional[str] = None
+    welcomeMessage: Optional[str] = None
+    objectives: List[str] = Field(default_factory=list)
+    difficulty: Optional[int] = None
+    estimated_duration: Optional[int] = Field(None, alias="estimatedDuration")
+    emotionTraits: EmotionTraits = Field(default_factory=EmotionTraits)
+    details: PatientDetails = Field(default_factory=PatientDetails)
+    clinicalCase: Optional[str] = None
+
+    # Runtime fields
+    current_emotional_state: str = "seeking"
+    emotion_state: Dict[str, float] = Field(default_factory=dict)
+    session_notes: Optional[str] = None
+    emotion_intensity: float = 0.6
+
+    @classmethod
+    def from_file(cls, path: str) -> "PatientProfile":
+        """Load a patient YAML file and normalize it to the runtime schema."""
+        suffix = Path(path).suffix.lower()
+        if suffix not in SUPPORTED_PATIENT_EXTENSIONS:
+            raise ValueError(
+                f"Unsupported patient profile format '{suffix}'. "
+                f"Supported: {', '.join(SUPPORTED_PATIENT_EXTENSIONS)}"
+            )
+        with open(path, "r", encoding="utf-8") as f:
+            if yaml is None:
+                raise ModuleNotFoundError(
+                    "PyYAML is required to load .yaml/.yml patient profiles. "
+                    "Install it with `pip install PyYAML`."
+                )
+            raw = yaml.safe_load(f) or {}
+
+        if not isinstance(raw, dict):
+            raise ValueError(f"Patient profile must be an object: {path}")
+
+        prepared = _prepare_payload(raw, path)
+        return cls(**prepared)
+
+    def to_text_summary(self) -> str:
+        """Compact description used for LLM greetings or summaries."""
+        demo = self.details.demographicAndSocioculturalInformation
+        name = self.name or self.patient_id.replace("_", " ").title()
+        age_gender = []
+        if demo.age:
+            age_gender.append(f"{demo.age}-year-old")
+        if demo.gender:
+            age_gender.append(demo.gender.lower())
+        background = demo.culturalBackground or ""
+        descriptor = " ".join(age_gender).strip() or "patient"
+        overview = self.brief_description or self.clinicalCase or ""
+        background_suffix = f" ({background})" if background else ""
+        return f"{name}, {descriptor}{background_suffix}. {overview}".strip()
+
+    def stable_identity_facts_prompt(self) -> Optional[str]:
+        """Return fixed biographical facts that should stay consistent in dialogue."""
+        details = self.details
+        if isinstance(details, dict):
+            try:
+                details = PatientDetails(**details)
+                self.details = details
+            except Exception:
+                return None
+        if not details:
+            return None
+
+        facts: list[str] = []
+        demo = details.demographicAndSocioculturalInformation
+        social = details.socialRelationshipsAndInteractions
+
+        if demo.spokenLanguage and demo.spokenLanguage.lower() not in NOT_REPORTED_MARKERS:
+            facts.append(f"Spoken language: {demo.spokenLanguage}")
+
+        if social:
+            relationship_fact = social.stable_identity_prompt()
+            if relationship_fact:
+                facts.append(relationship_fact)
+
+        if not facts:
+            return None
+
+        bullet_lines = "\n".join(f"- {fact}" for fact in facts)
+        return (
+            "These identity facts stay consistent throughout the conversation:\n"
+            f"{bullet_lines}"
+        )
+
+    def cognitive_style_prompt(self, max_bullets: int = 6) -> Optional[str]:
+        """Derive a compact cognitive style guide from clinical functioning fields."""
+        details = self.details
+        if isinstance(details, dict):
+            try:
+                details = PatientDetails(**details)
+                self.details = details
+            except Exception:
+                return None
+        if not details or not details.clinicalFunctioning:
+            return None
+        cf = details.clinicalFunctioning
+        psa = cf.personalityAndSymptomAxis
+        mfa = cf.mentalFunctioningAxis
+
+        def shorten(text: Optional[str], max_len: int = 160) -> Optional[str]:
+            if not text:
+                return None
+            chunk = text.split(".")[0].strip()
+            if not chunk:
+                chunk = text.strip()
+            if len(chunk) > max_len:
+                trimmed = chunk[:max_len].rsplit(" ", 1)[0].strip()
+                chunk = f"{trimmed}..." if trimmed else f"{chunk[:max_len]}..."
+            return chunk
+
+        bullets: list[str] = []
+
+        if psa and psa.identity.description:
+            bullets.append(f"Self-experience: {shorten(psa.identity.description)}")
+        if psa and psa.objectRelations.description:
+            bullets.append(f"Interpersonal stance: {shorten(psa.objectRelations.description)}")
+        if psa and psa.defensiveLevel.description:
+            bullets.append(f"Defense style: {shorten(psa.defensiveLevel.description)}")
+        if psa and psa.realityTesting.description:
+            bullets.append(f"Reality testing: {shorten(psa.realityTesting.description)}")
+        if mfa and mfa.affectExperienceAndRegulation.description:
+            bullets.append(f"Affect regulation: {shorten(mfa.affectExperienceAndRegulation.description)}")
+        if mfa and mfa.mentalization.description:
+            bullets.append(f"Mentalization: {shorten(mfa.mentalization.description)}")
+        if mfa and mfa.impulseControl.description:
+            bullets.append(f"Impulse control: {shorten(mfa.impulseControl.description)}")
+        if mfa and mfa.selfEsteemRegulation.description:
+            bullets.append(f"Self-esteem: {shorten(mfa.selfEsteemRegulation.description)}")
+
+        if not bullets:
+            return None
+        return "\n".join(f"- {item}" for item in bullets[:max_bullets])
+
+    model_config = ConfigDict(validate_by_name=True, extra="ignore")
+
+
+def resolve_patient_profile_path(patient_id: str, patients_dir: Path) -> Path:
+    """Resolve a patient profile path from YAML files only."""
+    requested = Path(patient_id)
+    if requested.suffix:
+        if requested.suffix.lower() not in SUPPORTED_PATIENT_EXTENSIONS:
+            raise FileNotFoundError(
+                f"Unsupported patient profile extension '{requested.suffix}'. "
+                f"Supported: {', '.join(SUPPORTED_PATIENT_EXTENSIONS)}"
+            )
+        direct = patients_dir / requested.name
+        if direct.exists():
+            return direct
+        raise FileNotFoundError(f"Patient YAML file not found: {direct}")
+
+    for ext in SUPPORTED_PATIENT_EXTENSIONS:
+        candidate = patients_dir / f"{patient_id}{ext}"
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(
+        f"Patient YAML file not found for '{patient_id}' in {patients_dir} "
+        f"(supported: {', '.join(SUPPORTED_PATIENT_EXTENSIONS)})"
+    )
+
+
+def _prepare_payload(raw: dict, path: str) -> dict:
+    """Normalize raw YAML into the structure expected by PatientProfile."""
+    payload = dict(raw)
+    payload = _coerce_grouped_yaml_payload(payload, path)
+
+    if "patientId" not in payload:
+        payload["patientId"] = payload.get("patient_id") or Path(path).stem
+
+    if "name" not in payload or not payload["name"]:
+        payload["name"] = payload["patientId"].replace("_", " ").title()
+
+    payload["briefDescription"] = (
+        payload.get("briefDescription")
+        or payload.get("brief_description")
+        or ""
+    )
+
+    payload["avatarUrl"] = payload.get("avatarUrl") or payload.get("avatar_url")
+    payload["estimatedDuration"] = payload.get("estimatedDuration") or payload.get("estimated_duration")
+    payload["emotionTraits"] = _build_emotion_traits(payload)
+
+    if not isinstance(payload.get("details"), dict):
+        payload["details"] = {}
+
+    demographics = payload["details"].setdefault("demographicAndSocioculturalInformation", {})
+    demographics.setdefault("name", payload["name"])
+
+    return payload
+
+
+def _build_emotion_traits(raw: dict) -> dict:
+    """Normalize any provided emotion trait metadata into the expected structure."""
+    container = (
+        raw.get("emotionTraits")
+        or raw.get("EmotionDynamics")
+        or raw.get("emotion_traits")
+        or {}
+    )
+    if not isinstance(container, Mapping):
+        container = {}
+    baseline = container.get("trait_baseline") or raw.get("trait_baseline") or {}
+    if not isinstance(baseline, Mapping):
+        baseline = {}
+    volatility = (
+        container.get("volatility_level")
+        or container.get("volatilityLevel")
+        or raw.get("volatility_level")
+        or raw.get("volatility")
+        or "medium"
+    )
+
+    normalized = {}
+    for key in EMOTIONS:
+        raw_value = (
+            baseline.get(key)
+            or baseline.get(key.lower())
+            or baseline.get(key.capitalize())
+            or 0.5
+        )
+        normalized[key] = _clamp_emotion_value(raw_value)
+    return {"trait_baseline": normalized, "volatility_level": str(volatility).lower()}
+
+
+def _coerce_grouped_yaml_payload(raw: dict, path: str) -> dict:
+    """Convert grouped YAML schema (identifiers/profile/clinical/...) into flat runtime shape."""
+    if not any(key in raw for key in ("identifiers", "profile", "voice", "chat", "therapy", "clinical")):
+        return raw
+
+    identifiers = _as_mapping(raw.get("identifiers"))
+    profile = _as_mapping(raw.get("profile"))
+    voice = _as_mapping(raw.get("voice"))
+    chat = _as_mapping(raw.get("chat"))
+    therapy = _as_mapping(raw.get("therapy"))
+    clinical = _as_mapping(raw.get("clinical"))
+
+    payload = dict(raw)
+    payload["patientId"] = _first_non_empty(
+        payload.get("patientId"),
+        identifiers.get("patientId"),
+        payload.get("patient_id"),
+        Path(path).stem,
+    )
+    payload["name"] = _first_non_empty(payload.get("name"), profile.get("name"))
+    payload["briefDescription"] = _first_non_empty(
+        payload.get("briefDescription"),
+        payload.get("brief_description"),
+        profile.get("smallDescription"),
+        profile.get("briefDescription"),
+    )
+    payload["avatarUrl"] = _first_non_empty(payload.get("avatarUrl"), profile.get("avatarUrl"))
+    payload["voiceId"] = _first_non_empty(payload.get("voiceId"), voice.get("voiceId"))
+    payload["welcomeMessage"] = _first_non_empty(payload.get("welcomeMessage"), chat.get("welcomeMessage"))
+    payload["objectives"] = payload.get("objectives") or therapy.get("objectives") or []
+    payload["difficulty"] = _first_non_empty(payload.get("difficulty"), therapy.get("difficulty"))
+    payload["estimatedDuration"] = _first_non_empty(
+        payload.get("estimatedDuration"), therapy.get("estimatedDuration")
+    )
+    payload["clinicalCase"] = _first_non_empty(payload.get("clinicalCase"), clinical.get("clinicalCase"))
+    payload["emotionTraits"] = payload.get("emotionTraits") or clinical.get("emotionTraits") or {}
+    payload["details"] = payload.get("details") or clinical.get("details") or {}
+    payload["disorderId"] = _first_non_empty(payload.get("disorderId"), identifiers.get("disorderId"))
+    return payload
+
+
+def _as_mapping(value) -> dict:
+    return dict(value) if isinstance(value, Mapping) else {}
+
+
+def _first_non_empty(*values):
+    for value in values:
+        if value is None:
+            continue
+        if isinstance(value, str) and not value.strip():
+            continue
+        return value
+    return None
+
+
+def _clamp_emotion_value(value) -> float:
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return 0.5
+    return max(0.0, min(1.0, numeric))

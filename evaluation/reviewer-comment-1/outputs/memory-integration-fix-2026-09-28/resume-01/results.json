@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-09-28T16:58:38.690963+00:00",
+  "status": "stopped",
+  "completed_sessions": 5,
+  "planned_sessions": 11,
+  "accepted_turns": 26,
+  "planned_turns": 55,
+  "observed_probes": 0,
+  "planned_probes": 6,
+  "assessed_probes": 0,
+  "probe_results": {},
+  "consolidation_status": {
+    "partial": 5
+  },
+  "native_counts_cumulative": {
+    "request": 75,
+    "response": 74,
+    "error": 1
+  },
+  "native_counts_this_attempt": {
+    "request": 69,
+    "response": 69
+  },
+  "costs_by_stage": {
+    "classify_topic_and_emotion": {
+      "responses": 28,
+      "input_tokens": 26571,
+      "output_tokens": 22889,
+      "reported_response_usd": 0.26210374999999997,
+      "missing_response_cost": 0
+    },
+    "generate_response": {
+      "responses": 26,
+      "input_tokens": 87640,
+      "output_tokens": 22338,
+      "reported_response_usd": 0.33292999999999995,
+      "missing_response_cost": 0
+    },
+    "_summarize_episode": {
+      "responses": 5,
+      "input_tokens": 3947,
+      "output_tokens": 4199,
+      "reported_response_usd": 0.04692375,
+      "missing_response_cost": 0
+    },
+    "_generate_session_reflection": {
+      "responses": 5,
+      "input_tokens": 4419,
+      "output_tokens": 4451,
+      "reported_response_usd": 0.05003375,
+      "missing_response_cost": 0
+    },
+    "_generate_long_term_summary_from_reflection": {
+      "responses": 5,
+      "input_tokens": 1516,
+      "output_tokens": 4569,
+      "reported_response_usd": 0.047584999999999995,
+      "missing_response_cost": 0
+    },
+    "_generate_factual_memory": {
+      "responses": 5,
+      "input_tokens": 13340,
+      "output_tokens": 20431,
+      "reported_response_usd": 0.22098500000000001,
+      "missing_response_cost": 0
+    }
+  },
+  "reported_response_usd": 0.9605612499999999,
+  "reported_error_usd": 0,
+  "reported_invalid_response_usd": 0.0043375,
+  "errors_with_missing_cost": 0,
+  "requests_after_first_new_provider_error": 0,
+  "requests_after_first_new_fatal": 0,
+  "new_fatals": [
+    {
+      "event": "fatal",
+      "timestamp": "2026-09-28T16:56:15.851786+00:00",
+      "kind": "incomplete_generation",
+      "stage": "classify_topic_and_emotion",
+      "finish_reasons": [
+        "STOP"
+      ],
+      "max_output_tokens": 4096,
+      "native_record_id": "68a2952e-7c98-4483-a50a-fbbbbde5750f"
+    }
+  ],
+  "new_invalid_outcomes": [
+    {
+      "native_record_id": "68a2952e-7c98-4483-a50a-fbbbbde5750f",
+      "stage": "classify_topic_and_emotion",
+      "turn_id": "s06t02",
+      "timestamp": "2026-09-28T16:56:15.851353+00:00",
+      "finish_reasons": [
+        "STOP"
+      ],
+      "accepted": false
+    }
+  ],
+  "validated_fact_entries": 100,
+  "rejected_fact_entries": 12,
+  "attempt_started_at": "2026-09-28T16:39:23.835104+00:00",
+  "sessions": [
+    {
+      "index": 1,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 11,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 2,
+      "error": null
+    },
+    {
+      "index": 2,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 27,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 5,
+      "error": null
+    },
+    {
+      "index": 3,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 7,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 10,
+      "error": null
+    },
+    {
+      "index": 4,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 23,
+        "rejected_facts": 2,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 15,
+      "error": null
+    },
+    {
+      "index": 5,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 21,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 20,
+      "error": null
+    },
+    {
+      "index": 6,
+      "status": "stopped",
+      "turns": 1,
+      "memory_status": null,
+      "consolidation": null,
+      "restored_total_turns": 25,
+      "error": {
+        "type": "IntegrationAbort",
+        "details": {
+          "kind": "incomplete_generation",
+          "stage": "classify_topic_and_emotion",
+          "finish_reasons": [
+            "STOP"
+          ],
+          "max_output_tokens": 4096,
+          "native_record_id": "68a2952e-7c98-4483-a50a-fbbbbde5750f"
+        },
+        "message": "Session stopped; accepted turns and native error records retained. No automatic retry."
+      }
+    }
+  ],
+  "new_error_records": [],
+  "native_journals": [
+    {
+      "path": "runtime/sessions/session_01/openrouter-api-records.jsonl",
+      "bytes": 263467,
+      "sha256": "0077ae977701991264ba34f13e7b27a1be002be38f921e2c22d3fb4cd344a5fe"
+    },
+    {
+      "path": "runtime/sessions/session_02/openrouter-api-records.jsonl",
+      "bytes": 317023,
+      "sha256": "a38a1ea08c67fa4b3caafcd569a1e825a7082377b06f064bc2dc5cfee794c38b"
+    },
+    {
+      "path": "runtime/sessions/session_03/openrouter-api-records.jsonl",
+      "bytes": 329911,
+      "sha256": "f997a1a778e937ed3013cd286600bd68fd239f52a7bb6b70d338846fae77626b"
+    },
+    {
+      "path": "runtime/sessions/session_04/openrouter-api-records.jsonl",
+      "bytes": 314800,
+      "sha256": "54fd14a18114f5492d09c5e1203f75920eed3608019fef0f8c237417ab960721"
+    },
+    {
+      "path": "runtime/sessions/session_05/openrouter-api-records.jsonl",
+      "bytes": 335776,
+      "sha256": "7dc7b5ed7ff81234d8813f6e13764e4d477e5f4e41cb96a8743a847beeae5328"
+    },
+    {
+      "path": "runtime/sessions/session_06/openrouter-api-records.jsonl",
+      "bytes": 63960,
+      "sha256": "e94a4da8632496076dcf76ec94686a10ce66afbebc36427f77a31b801f048f38"
+    }
+  ]
+}

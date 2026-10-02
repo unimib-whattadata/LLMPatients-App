@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-29T08:39:29.795850+00:00",
+  "authorization": "User instruction: Riprendi",
+  "original_execution_manifest_sha256": "fc150bc97ed25ffd6a3308da59fa99bcd13527b8b1f768c29ded8d78b887ccc0",
+  "next_execution_order": 9,
+  "completed_sessions_preserved": 8,
+  "accepted_turns_preserved": 40,
+  "requests_preserved": 76,
+  "responses_preserved": 76,
+  "inference_code_changed": false,
+  "live_calls_at_freeze": 0,
+  "files": {
+    "continue_run.py": "e362ee79aa61f99e047c7d82d5fde913b810016716716c46467daceb09a0bc01",
+    "test_continuation.py": "3e72eb0fb14790954cf968e9477bfc0b31ff76a4a444ec2df4f10fdafe0df2e3",
+    "prefix_audit.py": "d2e59e6175a5b496072ac00a55c8480229cd921577619b982ab3dbcef4b1907f",
+    "test_prefix_audit.py": "9159b2d61e777e1052c7dfa1c995f05bc54dc453a8136045dc40bf34b14f1a17",
+    "AMENDMENT.md": "ff81efbff9e63a152e9ea012d17f4effe19c4bb23b360278b1eddc35144cb3d3",
+    "launchd.plist": "0bfe52ef0c17f71d74523731baa09ad0b37270ecf21b9ac955923cb5b06d11b1",
+    "offline-results.json": "c4f2b2b81824408d44acd6bfbf55699d114f480f5c86a189e6ba9cfce4c26e54",
+    "prefix-audit.json": "3a9c53a5d6dca6cae5d92a6223adad6873158ed82531c0493a58603e2cab4e24",
+    "snapshot-manifest.json": "6519e1878d819d1a0d8b3d26e60ef5c7437000dd8b05677f88df99f0a8d60a13"
+  },
+  "supervisor": {
+    "kind": "one_shot_user_launchd_job",
+    "label": "local.llmpatient.memory-comparison-20260929-resume01",
+    "automatic_restart": false,
+    "idle_sleep_assertion": "Only while this one-shot job is running"
+  }
+}

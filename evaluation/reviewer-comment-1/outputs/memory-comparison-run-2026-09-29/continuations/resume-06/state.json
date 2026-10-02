@@ -1,0 +1,36 @@
+{
+  "status": "stopped",
+  "timestamp": "2026-09-30T02:09:08.571623+00:00",
+  "controller_pid": 47991,
+  "continuation": "resume-06",
+  "error_type": "RuntimeError",
+  "progress": {
+    "status": "stopped",
+    "updated_at": "2026-09-30T02:09:08.520992+00:00",
+    "planned_trajectories": 30,
+    "completed_trajectories": 0,
+    "planned_session_executions": 330,
+    "completed_sessions": 289,
+    "accepted_turns": 1449,
+    "planned_turns": 1650,
+    "observed_probes": 20,
+    "planned_probes": 180,
+    "application_guard_failures": 0,
+    "requests": 2788,
+    "responses": 2755,
+    "provider_errors": 33,
+    "reported_cost_usd": 42.164128,
+    "responses_with_reported_cost": 2755,
+    "semantic_review": "pending",
+    "stop": {
+      "event": "fatal",
+      "timestamp": "2026-09-30T02:08:57.950945+00:00",
+      "kind": "provider_error",
+      "stage": "generate_response",
+      "error_type": "OpenRouterHTTPError",
+      "http_status": 402,
+      "native_record_id": "7555992b-469b-4b6f-8f0f-bde4e9881659",
+      "upstream_code": null
+    }
+  }
+}

@@ -1,0 +1,214 @@
+{
+  "timestamp": "2026-10-01T08:48:01.594113+00:00",
+  "network_calls": 0,
+  "status": "passed",
+  "transport_matches_retry_verifier": true,
+  "jobs": [
+    {
+      "context_id": "alex_carter_001__64000__start",
+      "original_records_verified": 81,
+      "records": 385,
+      "prompt_sha256": "ad4bea421502a7e0f842605fad277c2dbeb7019444275a2b46ef77e6b063579d"
+    },
+    {
+      "context_id": "alex_carter_001__64000__middle",
+      "original_records_verified": 81,
+      "records": 385,
+      "prompt_sha256": "da5d8892e82731cb970da06538a17d3b4b9c23d1a64cf69da0dba8887e00b336"
+    },
+    {
+      "context_id": "alex_carter_001__64000__end",
+      "original_records_verified": 81,
+      "records": 385,
+      "prompt_sha256": "79afb39cfefc747bb2eeb374d6ce00bc7f5e131db1058de67f34d13bc66edf75"
+    },
+    {
+      "context_id": "alex_carter_001__1200000__start",
+      "original_records_verified": 81,
+      "records": 6769,
+      "prompt_sha256": "1a1c5b4219de26bb1a2de785d94c18e23bd0d9d176c43b3fbcaeaf35c51f6ce3"
+    },
+    {
+      "context_id": "alex_carter_001__1200000__middle",
+      "original_records_verified": 81,
+      "records": 6769,
+      "prompt_sha256": "5becc3d8788d571b24fdc0be8df61cb1d00cea3f163da5316bcb7d9107986857"
+    },
+    {
+      "context_id": "alex_carter_001__1200000__end",
+      "original_records_verified": 81,
+      "records": 6769,
+      "prompt_sha256": "935b8f5d76e14ebb4cd892f70714672d18cbf8edf369d966e020ae6cef594d5d"
+    },
+    {
+      "context_id": "crystal_smith_001__64000__start",
+      "original_records_verified": 81,
+      "records": 373,
+      "prompt_sha256": "84333c42d8a6f0a904c42414289590f068e19c0cc4a57eaea56b2511a85c8d96"
+    },
+    {
+      "context_id": "crystal_smith_001__64000__middle",
+      "original_records_verified": 81,
+      "records": 373,
+      "prompt_sha256": "4acc86effd483a1be865760d52bf72056bf152a5a291dc8390014230c7f4a0fb"
+    },
+    {
+      "context_id": "crystal_smith_001__64000__end",
+      "original_records_verified": 81,
+      "records": 373,
+      "prompt_sha256": "9bb0c3bd37acd52a0065bd9c215ca1316356c96d7e870bbe397822edd3e08a54"
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__start",
+      "original_records_verified": 81,
+      "records": 6757,
+      "prompt_sha256": "01b241a2eec63b7b66fd0b260e6d03b44b3d5faeaec3ec376c01596975922211"
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__middle",
+      "original_records_verified": 81,
+      "records": 6757,
+      "prompt_sha256": "8532db1666b26147223b702eb9234530b9ab0d13d42d575230750792940161d9"
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__end",
+      "original_records_verified": 81,
+      "records": 6757,
+      "prompt_sha256": "f92f9fc0131cc2add468d0534a46777fe0c2be1bd84152771cf2e9513ceb9449"
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__start",
+      "original_records_verified": 81,
+      "records": 380,
+      "prompt_sha256": "209fd67a230d2e305d8d66220f5d3b74955d5661183352c0479862a5e0dbe2b4"
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__middle",
+      "original_records_verified": 81,
+      "records": 380,
+      "prompt_sha256": "10bd79a84024d1f1d6373d19b139344663fcca585865fbb175e48bc54eefa013"
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__end",
+      "original_records_verified": 81,
+      "records": 380,
+      "prompt_sha256": "421fcf55363f13b75d6b7d5d3311eacdb6dbab2b71c13d0ff6fc93d7fc7da550"
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__start",
+      "original_records_verified": 81,
+      "records": 6764,
+      "prompt_sha256": "04f76f50781c6afc56ed065fd7c59619947fdfe5ecd0653d5029d18ac9c64c27"
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__middle",
+      "original_records_verified": 81,
+      "records": 6764,
+      "prompt_sha256": "ba30b9a6503c409bc6b1268e1b9d28b4c97c25c4722c76bcbab195c632f77839"
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__end",
+      "original_records_verified": 81,
+      "records": 6764,
+      "prompt_sha256": "9eb54f3e9e1c68f8ad475df8f698f498ad05f59851617ef4cdea3af3b8aea9db"
+    },
+    {
+      "context_id": "jason_smith_001__64000__start",
+      "original_records_verified": 81,
+      "records": 378,
+      "prompt_sha256": "e7ea73457f34df88e7b862f1e157c56f867b94a6d5baf9c55194d2be0222247b"
+    },
+    {
+      "context_id": "jason_smith_001__64000__middle",
+      "original_records_verified": 81,
+      "records": 378,
+      "prompt_sha256": "01bc4706376881432c93f6c1eeace600eab40dd8f4fd46e29f908ee20c047343"
+    },
+    {
+      "context_id": "jason_smith_001__64000__end",
+      "original_records_verified": 81,
+      "records": 378,
+      "prompt_sha256": "e435824daf06decba66c5433f2803c3d3325069473984f7b197da6d6f22b072d"
+    },
+    {
+      "context_id": "jason_smith_001__1200000__start",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "efe3dba3bf73dfb36517365c5195cac879c4fac0546bc8524c34363242666ebb"
+    },
+    {
+      "context_id": "jason_smith_001__1200000__middle",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "18cdcfe095d359ce7c2dd1f2ae9d6ec54e0f928354ac6405b77adbc604bfc63b"
+    },
+    {
+      "context_id": "jason_smith_001__1200000__end",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "6b078baebb087239333f7096c4507781721f4da41257fe6aab60e92f573f2037"
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__start",
+      "original_records_verified": 81,
+      "records": 377,
+      "prompt_sha256": "45842b581ed7f2074437be22ddf74d50f3ccfd031231740cc56df57e215146b9"
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__middle",
+      "original_records_verified": 81,
+      "records": 377,
+      "prompt_sha256": "45dc4b18d458c83626877bf4a464279bee02429894973e25ffd08cbb060a1357"
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__end",
+      "original_records_verified": 81,
+      "records": 377,
+      "prompt_sha256": "5605488b4908dff9a904f99c5b2757f440fdc5776e30f0772f25d87bbea8bfff"
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__start",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "08c6ad3ccc310a4ebf7765dd98cf093acd23daebd44a4f598cdeb5beb114aca5"
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__middle",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "c688de8f6c7e7ebbe6c5b5e8567b1a8686cb1c64d0cd205142853a70b6d65db4"
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__end",
+      "original_records_verified": 81,
+      "records": 6762,
+      "prompt_sha256": "9d7856e3dfa750441bd4547a9d35d4b20b4631e68c37ad4729c07771d4ef9f35"
+    }
+  ],
+  "context_error_fixtures": [
+    {
+      "fixture": "byte_capacity",
+      "expected_context_rejection": true
+    },
+    {
+      "fixture": "byte_protocol_mismatch",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "capacity",
+      "expected_context_rejection": true
+    },
+    {
+      "fixture": "protocol_mismatch",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "unavailable",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "invalid_plugin",
+      "expected_context_rejection": false
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "patient_id": "crystal_smith_001",
+  "target_tokens": 64000,
+  "fact_position": "middle",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/middle/records.jsonl",
+  "record_count": 337,
+  "full_prompt_local_tokens": 64135,
+  "full_history_local_tokens": 58439,
+  "block_start_history_token": 25325,
+  "block_end_history_token": 32909,
+  "block_relative_midpoint": 0.49824603432639164,
+  "context_id": "crystal_smith_001__64000__middle",
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/full-saved-memory-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/middle/full_saved_memory.txt.gz",
+  "prompt_sha256": "4acc86effd483a1be865760d52bf72056bf152a5a291dc8390014230c7f4a0fb",
+  "prompt_file_sha256": "768a7cd0b1aedd16d8fc036af3039c60b10e17acf68d7ac430eab6ecc8384df0",
+  "local_prompt_tokens": 212790,
+  "uncompressed_prompt_bytes": 698908,
+  "compressed_prompt_bytes": 66858,
+  "complete_saved_original_records": 81,
+  "record_counts": {
+    "conversation_turn": 337,
+    "episode_summary": 9,
+    "fact_batch": 9,
+    "session_reflection": 9,
+    "long_term_summary": 9
+  },
+  "all_record_fields_preserved": true,
+  "memory_record_stream_sha256": "adf9b4db56a63c65441c512e76597c030ace82f4e215a2ea510680b6215201b8",
+  "paired_baseline_job_ids": [
+    "024",
+    "039",
+    "062",
+    "068",
+    "078",
+    "079",
+    "084"
+  ],
+  "selection_limit": null,
+  "truncation_applied": false,
+  "plugin_enabled": false
+}

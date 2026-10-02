@@ -1,0 +1,292 @@
+{
+  "selection": "Illustrative complete pair for Daniel, 1.2M, central facts; all pairs remain in primary tables. No exclusion or inference beyond this response.",
+  "gold": {
+    "schema_version": 1,
+    "scenario_id": "daniel_isherwood_001_known_communication_memory_v1",
+    "patient_id": "daniel_isherwood_001",
+    "authority": "Identity comes from the archived profile. Exercise facts come from explicit therapist statements. Patient replies are outcomes, never gold replacements.",
+    "scoring": "Semantic pass only when all requested relationships and values are correct; partial, mixed, uncertain, and abstained replies remain separate. Never regenerate for accuracy.",
+    "probes": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Daniel Isherwood",
+          "age": 55
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/daniel_isherwood_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "novel_named_targets": [
+      "Tern Window",
+      "Rina Holt",
+      "Larch Reading Room",
+      "Plover Annex",
+      "Folded Map",
+      "Silver Button"
+    ],
+    "model_visibility": "Evaluator-only: never include this file or its expected values in generation context."
+  },
+  "structured": {
+    "patient_id": "daniel_isherwood_001",
+    "target_tokens": 1200000,
+    "fact_position": "middle",
+    "mode": "structured_component",
+    "arm": "persistent_evidence",
+    "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/middle/structured_evidence.txt",
+    "prompt_sha256": "67b50d841bbaf929dedb3129fded826c2163bba7959b38c90202e60ccc1bb84d",
+    "local_prompt_tokens": 6025,
+    "context_ids": [
+      "daniel_isherwood_001__1200000__middle"
+    ],
+    "paired_baseline_job_ids": [
+      "108"
+    ],
+    "job_id": "015",
+    "status": "complete",
+    "semantic_evaluable": true,
+    "answer": "1.  My name is Daniel Isherwood, and I am 55 years old.\n\n2.  The exact title you gave the reflection notebook was not established in our conversations.\n\n3.  According to your records:\n    *   The practice partner's full name was not established.\n    *   The **current** agreed appointment is Saturday at 9:30.\n    *   The **former** agreed appointment, which was replaced, was Saturday at 9:00.\n    *   The **proposed** appointment that was not agreed upon was Saturday at 10:00.\n\n4.  From your venue records:\n    *   The **current** booked venue is Plover Annex.\n    *   The **former** venue that it replaced is Larch Reading Room.\n\n5.  From your activity records:\n    *   The activity recorded as **completed** is titled Golden Spike.\n    *   The telephone activity that was **planned but not completed** is titled Silver Button.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records.",
+    "timestamp": "2026-09-30T23:30:00.727948+00:00",
+    "elapsed_seconds": 9.680180083028972,
+    "native_record_id": "479d957d-0107-4903-b93f-a3b951e08f90",
+    "provider": "Google",
+    "model": "google/gemini-2.5-pro",
+    "usage": {
+      "prompt_tokens": 6024,
+      "completion_tokens": 1002,
+      "total_tokens": 7026,
+      "cost": 0.012967875,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 4073,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.012967875,
+        "upstream_inference_prompt_cost": 0.002947875,
+        "upstream_inference_completions_cost": 0.01002
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 754,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    },
+    "finish_reasons": [
+      "stop"
+    ],
+    "generation_config": {
+      "temperature": 0.7,
+      "max_output_tokens": 4096,
+      "top_p": 0.95,
+      "top_k": 40,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "thinking_config": {
+        "thinking_budget": 1024
+      }
+    }
+  },
+  "baseline": {
+    "patient_id": "daniel_isherwood_001",
+    "target_tokens": 1200000,
+    "fact_position": "middle",
+    "mode": "auto_plugin",
+    "arm": "auto_plugin",
+    "removal_region": "none",
+    "nominal_removed_fraction": 0,
+    "deleted_index_start": 0,
+    "deleted_index_end": 0,
+    "original_turns": 6728,
+    "remaining_turns": 6728,
+    "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/middle/records.jsonl",
+    "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/middle/auto_plugin.txt",
+    "prompt_sha256": "a7ce34d5560cba478a7103878673d5122024619db9e5858c77d9cdeb20a71e23",
+    "local_prompt_tokens": 1200101,
+    "full_prompt_local_tokens": 1200101,
+    "full_history_local_tokens": 1195680,
+    "retained_history_local_tokens": 1195680,
+    "achieved_local_history_reduction": 0.0,
+    "achieved_local_whole_prompt_reduction": 0.0,
+    "source_coverage": null,
+    "job_id": "108",
+    "status": "complete",
+    "semantic_evaluable": true,
+    "answer": "1.  My name is Daniel Isherwood, and I am 55 years old.\n\n2.  The exact title for the reflection notebook was not established in our conversations. You introduced them as \"reflection examples.\"\n\n3.  According to your records, these details were not established. The practice partner's name, the current agreed day and time, the former agreed day and time, and the proposed day and time were not recorded.\n\n4.  The exact names for the current booked venue and the former venue were not established in your records.\n\n5.  From your records, the activity titled \"Reflection example 1\" was the completed activity. The telephone activity that remained planned and not completed was not established.\n\n6.  No, you did not record and confirm the surname of the person who reserved our training room. It was never established in your records.",
+    "timestamp": "2026-09-30T20:34:16.939103+00:00",
+    "elapsed_seconds": 16.824159999960102,
+    "native_record_id": "a32d4058-b1b8-4fbd-a264-fe312f4e13a4",
+    "provider": "Google",
+    "model": "google/gemini-2.5-pro",
+    "usage": {
+      "prompt_tokens": 257488,
+      "completion_tokens": 941,
+      "total_tokens": 258429,
+      "cost": 0.657835,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.657835,
+        "upstream_inference_prompt_cost": 0.64372,
+        "upstream_inference_completions_cost": 0.014115
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 760,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    },
+    "finish_reasons": [
+      "stop"
+    ],
+    "generation_config": {
+      "temperature": 0.7,
+      "max_output_tokens": 4096,
+      "top_p": 0.95,
+      "top_k": 40,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "thinking_config": {
+        "thinking_budget": 1024
+      }
+    }
+  },
+  "structured_answer_source_sha256": "cc4579c02824ce55ea6a91071f9ec5d13a41502d55d8811ba06082d0a2c08cb9",
+  "baseline_answer_source_sha256": "635336db84b77e4c546cef9773c483d2183e744d81e3dc226e4f7501db110488"
+}

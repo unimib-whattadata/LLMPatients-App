@@ -1,0 +1,606 @@
+{
+  "order_seed": 2026100101,
+  "api_seed": null,
+  "jobs": [
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 1200000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/start/structured_evidence.txt",
+      "prompt_sha256": "d8fdcdd4684446749138a3e758eeee0ab8b6c0bbd8c8c681678dac662bf0c01c",
+      "local_prompt_tokens": 5103,
+      "context_ids": [
+        "alex_carter_001__1200000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "112"
+      ],
+      "job_id": "001"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 1200000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/end/structured_evidence.txt",
+      "prompt_sha256": "b9dc86ff353e1a26db5b390f1effc9d07a023a026e3ce5ae286268280abc8125",
+      "local_prompt_tokens": 6033,
+      "context_ids": [
+        "daniel_isherwood_001__1200000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "115"
+      ],
+      "job_id": "002"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 1200000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/start/structured_evidence.txt",
+      "prompt_sha256": "3a21dc324fc4a003535d3d984afa6299122a0b94ceb929e6b03a9b4949c18867",
+      "local_prompt_tokens": 5992,
+      "context_ids": [
+        "daniel_isherwood_001__1200000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "109"
+      ],
+      "job_id": "003"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 64000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/start/structured_evidence.txt",
+      "prompt_sha256": "a9b24e410a2b7e9d314c34d5d7d214e717f4faddaa20f74c6fd61729957ccc1c",
+      "local_prompt_tokens": 5980,
+      "context_ids": [
+        "daniel_isherwood_001__64000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "001",
+        "010",
+        "020",
+        "021",
+        "046",
+        "066",
+        "076"
+      ],
+      "job_id": "004"
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 1200000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/middle/structured_evidence.txt",
+      "prompt_sha256": "767169b2a6cda2ec51f919041753effaa228c3818bd6b87c3a662320acf515b6",
+      "local_prompt_tokens": 5137,
+      "context_ids": [
+        "alex_carter_001__1200000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "110"
+      ],
+      "job_id": "005"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/start/structured_evidence.txt",
+      "prompt_sha256": "866242105aea4087df9d12083c4b1ce20073011999da95d519d453df7a150cef",
+      "local_prompt_tokens": 6296,
+      "context_ids": [
+        "jason_smith_001__64000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "006",
+        "022",
+        "043",
+        "057",
+        "072",
+        "074",
+        "089"
+      ],
+      "job_id": "006"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/end/structured_evidence.txt",
+      "prompt_sha256": "9f6639651b5e0f4629825c886104231f03abbf7fe75d7787371f7c1b6fb82d81",
+      "local_prompt_tokens": 6966,
+      "context_ids": [
+        "crystal_smith_001__64000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "018",
+        "040",
+        "047",
+        "049",
+        "085",
+        "097",
+        "102"
+      ],
+      "job_id": "007"
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 64000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/middle/structured_evidence.txt",
+      "prompt_sha256": "296ff12b5d47bc89fa786f5e6b307d3126b02d911c80a0277c8b0bcaf066ed4d",
+      "local_prompt_tokens": 5145,
+      "context_ids": [
+        "alex_carter_001__64000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "026",
+        "031",
+        "035",
+        "048",
+        "055",
+        "077",
+        "099"
+      ],
+      "job_id": "008"
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 1200000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/end/structured_evidence.txt",
+      "prompt_sha256": "2e3f7fe6c5c99cf5e28b1407799f43a5c77fd3a6e6474c96994e05a57827c2aa",
+      "local_prompt_tokens": 5145,
+      "context_ids": [
+        "alex_carter_001__1200000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "117"
+      ],
+      "job_id": "009"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 1200000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/middle/structured_evidence.txt",
+      "prompt_sha256": "06776299d4a788e08e25a4a10fd10c29a8a634321ac66f4c0ef75145d06f7d36",
+      "local_prompt_tokens": 6109,
+      "context_ids": [
+        "juanita_delgado_001__1200000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "106"
+      ],
+      "job_id": "010"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/start/structured_evidence.txt",
+      "prompt_sha256": "0eed34f0e2d852ed04409c1963afa46d435a0182b81857be06fa48272647f2b8",
+      "local_prompt_tokens": 6941,
+      "context_ids": [
+        "crystal_smith_001__1200000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "116"
+      ],
+      "job_id": "011"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 64000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/end/structured_evidence.txt",
+      "prompt_sha256": "9f9d736613ee25697a5e1b8ff7eab5986b3d160263696d1a6bff030dee433eb2",
+      "local_prompt_tokens": 5997,
+      "context_ids": [
+        "daniel_isherwood_001__64000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "029",
+        "037",
+        "042",
+        "050",
+        "064",
+        "065",
+        "082"
+      ],
+      "job_id": "012"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/end/structured_evidence.txt",
+      "prompt_sha256": "f5922df96b4b2a4bd5b4908c78296e0a61a73cae6df26f54b8ad96f4b504ad21",
+      "local_prompt_tokens": 6312,
+      "context_ids": [
+        "jason_smith_001__64000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "002",
+        "004",
+        "017",
+        "033",
+        "059",
+        "094",
+        "095"
+      ],
+      "job_id": "013"
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 64000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/end/structured_evidence.txt",
+      "prompt_sha256": "2f38a8c22d0fb14d3bbe43156836c5402a0882a43a2f5fd6635d2e96710c2b45",
+      "local_prompt_tokens": 5145,
+      "context_ids": [
+        "alex_carter_001__64000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "014",
+        "030",
+        "045",
+        "052",
+        "058",
+        "083",
+        "104"
+      ],
+      "job_id": "014"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 1200000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/middle/structured_evidence.txt",
+      "prompt_sha256": "67b50d841bbaf929dedb3129fded826c2163bba7959b38c90202e60ccc1bb84d",
+      "local_prompt_tokens": 6025,
+      "context_ids": [
+        "daniel_isherwood_001__1200000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "108"
+      ],
+      "job_id": "015"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/end/structured_evidence.txt",
+      "prompt_sha256": "e1c6c2a059cb51efd76201c42339416661c0a36d9ce0b66533f6e4176757e7c6",
+      "local_prompt_tokens": 6292,
+      "context_ids": [
+        "jason_smith_001__1200000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "114"
+      ],
+      "job_id": "016"
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 64000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/middle/structured_evidence.txt",
+      "prompt_sha256": "32bc3def2f0d8547129939819d16db1d0e9a46c61d4caed3ed9f311497c2d087",
+      "local_prompt_tokens": 5997,
+      "context_ids": [
+        "daniel_isherwood_001__64000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "013",
+        "054",
+        "060",
+        "073",
+        "080",
+        "091",
+        "096"
+      ],
+      "job_id": "017"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 1200000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/start/structured_evidence.txt",
+      "prompt_sha256": "672d9020ad6362a49ea8067a99a77276b041eb840e6a01999c9ad4057b7b0fff",
+      "local_prompt_tokens": 6077,
+      "context_ids": [
+        "juanita_delgado_001__1200000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "119"
+      ],
+      "job_id": "018"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/start/structured_evidence.txt",
+      "prompt_sha256": "5abea9f0fee88f6399712dd4e91799d33217887ae099ffc11e5333955223662c",
+      "local_prompt_tokens": 6948,
+      "context_ids": [
+        "crystal_smith_001__64000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "012",
+        "015",
+        "044",
+        "063",
+        "075",
+        "098",
+        "100"
+      ],
+      "job_id": "019"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/middle/structured_evidence.txt",
+      "prompt_sha256": "238fad20bfc461842c08eab5641a9c7a4b869c6070ec5defb3a4656e8d3d3154",
+      "local_prompt_tokens": 6284,
+      "context_ids": [
+        "jason_smith_001__1200000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "118"
+      ],
+      "job_id": "020"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/end/structured_evidence.txt",
+      "prompt_sha256": "8a404eb56e60a542ac97e541f04f7aa3574d40515088abc8255b49e20e0c8d76",
+      "local_prompt_tokens": 6983,
+      "context_ids": [
+        "crystal_smith_001__1200000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "120"
+      ],
+      "job_id": "021"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/start/structured_evidence.txt",
+      "prompt_sha256": "54ec3a0d0e58c55a0218886321f24c560e2fbf17b4cc483abab21ba85d3cc62c",
+      "local_prompt_tokens": 6252,
+      "context_ids": [
+        "jason_smith_001__1200000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "113"
+      ],
+      "job_id": "022"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 1200000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/middle/structured_evidence.txt",
+      "prompt_sha256": "bacfe05e8aaae72944d064375d975e0956cbe4f35cf278e84fcc87313e464ae9",
+      "local_prompt_tokens": 6975,
+      "context_ids": [
+        "crystal_smith_001__1200000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "107"
+      ],
+      "job_id": "023"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 64000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/end/structured_evidence.txt",
+      "prompt_sha256": "2d61bf0415cc803acbc5782cec94723738554b12c27cb746e08eeec72a275c98",
+      "local_prompt_tokens": 5995,
+      "context_ids": [
+        "juanita_delgado_001__64000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "011",
+        "019",
+        "025",
+        "034",
+        "038",
+        "090",
+        "092"
+      ],
+      "job_id": "024"
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "target_tokens": 64000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/start/structured_evidence.txt",
+      "prompt_sha256": "013149df04c683b44fde4d4814459bae553128c42bef72bea0e7f5e0b667cef3",
+      "local_prompt_tokens": 5127,
+      "context_ids": [
+        "alex_carter_001__64000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "009",
+        "051",
+        "067",
+        "071",
+        "086",
+        "088",
+        "093"
+      ],
+      "job_id": "025"
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/middle/structured_evidence.txt",
+      "prompt_sha256": "a6802db3703e0459357410f42fd9a3f86b3507679c0f0eba6b8deb00f3368147",
+      "local_prompt_tokens": 6312,
+      "context_ids": [
+        "jason_smith_001__64000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "007",
+        "027",
+        "028",
+        "036",
+        "056",
+        "069",
+        "070"
+      ],
+      "job_id": "026"
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 64000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/middle/structured_evidence.txt",
+      "prompt_sha256": "107c4024cdcafe0cca27fbc19dcd413315f4c9e1d7562a4784b7bffe03b675fc",
+      "local_prompt_tokens": 6966,
+      "context_ids": [
+        "crystal_smith_001__64000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "024",
+        "039",
+        "062",
+        "068",
+        "078",
+        "079",
+        "084"
+      ],
+      "job_id": "027"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 1200000,
+      "fact_position": "end",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/end/structured_evidence.txt",
+      "prompt_sha256": "a4e4e157af102a99617f4c8a79d09a0007d5de9009159fd942c0c06033563cb7",
+      "local_prompt_tokens": 6117,
+      "context_ids": [
+        "juanita_delgado_001__1200000__end"
+      ],
+      "paired_baseline_job_ids": [
+        "111"
+      ],
+      "job_id": "028"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 64000,
+      "fact_position": "start",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/start/structured_evidence.txt",
+      "prompt_sha256": "103d94338fb7adb8733a0b03c1e2e91c74a86e0851451085bea8a669fb055772",
+      "local_prompt_tokens": 5979,
+      "context_ids": [
+        "juanita_delgado_001__64000__start"
+      ],
+      "paired_baseline_job_ids": [
+        "005",
+        "016",
+        "023",
+        "032",
+        "041",
+        "081",
+        "101"
+      ],
+      "job_id": "029"
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 64000,
+      "fact_position": "middle",
+      "mode": "structured_component",
+      "arm": "persistent_evidence",
+      "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/middle/structured_evidence.txt",
+      "prompt_sha256": "1c9eecc6aa3159bd7b03c6992a0a4b6e511851602624954dcc9a22cc8bf3573e",
+      "local_prompt_tokens": 5995,
+      "context_ids": [
+        "juanita_delgado_001__64000__middle"
+      ],
+      "paired_baseline_job_ids": [
+        "003",
+        "008",
+        "053",
+        "061",
+        "087",
+        "103",
+        "105"
+      ],
+      "job_id": "030"
+    }
+  ]
+}

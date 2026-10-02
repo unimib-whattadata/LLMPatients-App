@@ -1,0 +1,18 @@
+{
+  "verified_at": "2026-09-30T20:50:19.231296+00:00",
+  "pdf_pages": 14,
+  "rendered_and_visually_inspected_pages": [
+    11,
+    12,
+    13,
+    14
+  ],
+  "plot_visually_inspected": "figures/regional-memory-recall.png",
+  "findings": [],
+  "pdf_sha256": "44a6dedf4cc6d516757c1c237128fb26bf19c76f3be66b29ced128075c9a0db9",
+  "tex_sha256": "3e6d98ceba4535b460a703449a043068844b8c0d1830b8854a2da3ef4fe90057",
+  "overfull_boxes": 0,
+  "compilation_passes": 2,
+  "renderer": "pdftoppm,110dpi",
+  "prior_deliverables_checkpoint": "previous-review-response/checkpoint.json"
+}

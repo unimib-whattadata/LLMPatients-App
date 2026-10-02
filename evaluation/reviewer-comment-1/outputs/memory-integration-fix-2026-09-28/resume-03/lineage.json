@@ -1,0 +1,14 @@
+{
+  "amendment_id": "memory-integration-fix-2026-09-28-resume-03",
+  "created_at": "2026-09-28T20:08:57.563016+00:00",
+  "authorization": "User said Procedi after being informed of the upstream429 at session9 turn1",
+  "source_runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-02/runtime",
+  "runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-03/runtime",
+  "accepted_turn_count": 40,
+  "closed_sessions": 8,
+  "next_turn_id": "s09t01",
+  "failed_native_record_id": "31abeada-0bb5-4670-bf5c-805208ebc506",
+  "retired_stop_receipt": "previous-stop-resume-02.json",
+  "subcall_policy": "Repeat the failed first classification at s09t01; restore the completed session8 snapshot into the existing empty session9; retain the error and all40 accepted replies",
+  "production_source_policy": "Unchanged original corrected source, profile, scenario, gold, transport and decoding settings"
+}

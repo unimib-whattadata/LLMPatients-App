@@ -1,0 +1,315 @@
+{
+  "created_at": "2026-09-30T23:22:36.685852+00:00",
+  "status": "passed",
+  "material_defects": [],
+  "scope": "Read-only code, provenance and cached-native-retrieval audit before generation; no new model or network calls.",
+  "checked_artifact_sha256": {
+    "PROTOCOL.md": "1b886b91f616c50c3f0048237896ca341ef1779c0fe1ae5f48e4542005501705",
+    "build.py": "a1b2c25b3e8eb4dff0fbee03ee0d77a90cfb570d600ef05e517305e971b4908b",
+    "contexts.json": "2b91de00d0105fad01f8ce00599c01381349e55f50e8542386ece9adb3d3b36f",
+    "schedule.json": "d2831b70f8bf64f377f95ec4da90d7086ffbf2b1e5e3a9225d75d963d5f15dcd",
+    "preparation.json": "657e49faec740a84d38c328ac6e19b61a4b0402c4f1b01e591173f0d7d78a597",
+    "source-hashes.json": "f0612758c54e000a26aab8820a29f4eedd2a3ffa9b27ee20728b5ea47489fef3",
+    "additional-embedding-texts.json": "5b5c4fb5b0e361ee87c9fbbb94bc92e9738a4f17b87e8b106cba9ceaf3e7c550",
+    "additional-embeddings.npy": "a1b66e16888c211631001f4bdccb676bbd4ac33786221285935fb6953bc59053"
+  },
+  "source_hashes_verified": 74,
+  "native_retrieval_source_matches_sealed_eleven_session_manifest": true,
+  "contexts_verified": 30,
+  "unique_generation_prompts": 30,
+  "baseline_links_verified": 120,
+  "chronology": "Raw source and fact session_id/session_order/turn_index match regional displayed chronology; literal content and all other original raw/fact fields unchanged; original batch metadata retained as extraction provenance.",
+  "embedding_verification": {
+    "old_cached_texts": 14330,
+    "new_cached_texts": 216,
+    "dimensions": 384,
+    "dtype": "float32",
+    "all_finite": true,
+    "new_cache_disjoint_from_old": true,
+    "all_new_vectors_used": true,
+    "local_encoder_invocations_during_audit": 0,
+    "cache_only_retrieval_calls": 30,
+    "lexical_fallbacks": 0,
+    "encoder_calibration_max_abs_delta_recorded": 9.313225746154785e-08
+  },
+  "retrieval_verification": "All 30 native retrievals reproduced exact selected records, scores, ordering and rendered prompt from cached vectors. Fixed eight-item/1800-estimated-token budgets hold.",
+  "query_encoder_truncation": "All queries have 272 encoder tokens against maximum 256, retained as prescribed.",
+  "shared_comparison_policy": "Each of 15 contexts at64k links to seven baseline jobs; each of 15 contexts at1.2M links to one baseline job. Thirty unique responses will underpin120 dependent paired comparisons.",
+  "gold_firewall": "Code copies gold for downstream review only; derive and retrieval do not consult expected values or select/repair facts with gold.",
+  "limitations": [
+    "Persistent complete-archive fact/utterance retrieval component, not a full graph replay or a test of irreversible loss before ingestion.",
+    "A selected source ID alone does not establish delivered support for all fields/statuses from that source."
+  ],
+  "per_context": [
+    {
+      "context_id": "alex_carter_001__64000__start",
+      "generation_job_id": "025",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "alex_carter_001__64000__middle",
+      "generation_job_id": "008",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "alex_carter_001__64000__end",
+      "generation_job_id": "014",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__start",
+      "generation_job_id": "001",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__middle",
+      "generation_job_id": "005",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__end",
+      "generation_job_id": "009",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__start",
+      "generation_job_id": "019",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__middle",
+      "generation_job_id": "027",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__end",
+      "generation_job_id": "007",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__start",
+      "generation_job_id": "011",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__middle",
+      "generation_job_id": "023",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__end",
+      "generation_job_id": "021",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 7,
+      "selected_utterances": 1,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__start",
+      "generation_job_id": "004",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__middle",
+      "generation_job_id": "017",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__end",
+      "generation_job_id": "012",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__start",
+      "generation_job_id": "003",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__middle",
+      "generation_job_id": "015",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__end",
+      "generation_job_id": "002",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 0,
+      "selected_utterances": 8,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__start",
+      "generation_job_id": "006",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__middle",
+      "generation_job_id": "026",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__end",
+      "generation_job_id": "013",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__start",
+      "generation_job_id": "022",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__middle",
+      "generation_job_id": "020",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__end",
+      "generation_job_id": "016",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 8,
+      "selected_utterances": 0,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__start",
+      "generation_job_id": "029",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 2,
+      "selected_utterances": 6,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__middle",
+      "generation_job_id": "030",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 2,
+      "selected_utterances": 6,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__end",
+      "generation_job_id": "024",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 2,
+      "selected_utterances": 6,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__start",
+      "generation_job_id": "018",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 1,
+      "selected_utterances": 7,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__middle",
+      "generation_job_id": "010",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 1,
+      "selected_utterances": 7,
+      "exact_selection_scores_and_prompt_match": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__end",
+      "generation_job_id": "028",
+      "candidate_vectors_supplied_without_fallback": true,
+      "selected_items": 8,
+      "selected_facts": 1,
+      "selected_utterances": 7,
+      "exact_selection_scores_and_prompt_match": true
+    }
+  ]
+}

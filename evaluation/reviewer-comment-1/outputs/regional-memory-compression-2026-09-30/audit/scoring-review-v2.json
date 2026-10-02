@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-09-30T20:22:32.165233+00:00",
+  "scope": "Independent verification of append-only analysis amendment using existing synthetic fixtures",
+  "status": "passed",
+  "original_frozen_scorer_and_review_utils_unchanged": true,
+  "actual_new_answers_read": false,
+  "network_calls": 0,
+  "scorer": "analysis/summarize_v2.py",
+  "scorer_sha256": "1017bc7604993631ce069621b10f669d164e9e519fb579a10e38fac9bd675134",
+  "fixture_script": "/private/tmp/regional-scoring-audit-20260930/verify_v2.py",
+  "checks": [
+    {
+      "fixture": "normal",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": true
+    },
+    {
+      "fixture": "partial_source",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": true
+    },
+    {
+      "fixture": "missing",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": true
+    },
+    {
+      "fixture": "all_missing",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": true
+    },
+    {
+      "fixture": "adjudication",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": true
+    },
+    {
+      "fixture": "mixed_provider",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": false
+    },
+    {
+      "fixture": "charged_error",
+      "status": "passed",
+      "cell_outputs_identical_to_original_scorer": false
+    },
+    {
+      "fixture": "unscheduled_rejection",
+      "status": "passed",
+      "result": "rejected explicitly"
+    },
+    {
+      "fixture": "runtime_committed_count_mismatch",
+      "status": "passed",
+      "result": "rejected explicitly"
+    }
+  ],
+  "resolved_findings": [
+    "mixed_provider",
+    "charged_error",
+    "unscheduled_rejection"
+  ],
+  "remaining_findings": [],
+  "fixture_only_change": "Synthetic runtime states now include planned and completed committed-outcome counts, matching runner contract.",
+  "semantic_regression_result": "All five previously successful full-fixture cell outputs are identical, including denominators, support/stale counts, pairing, and adjudication."
+}

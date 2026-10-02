@@ -1,0 +1,15 @@
+{
+  "amendment_id": "memory-integration-fix-2026-09-28-resume-01",
+  "created_at": "2026-09-28T16:39:16.964418+00:00",
+  "authorization": "User said Procedi after being informed of the new 429 and two saved replies",
+  "source_runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/integration/runtime",
+  "runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-01/runtime",
+  "accepted_turn_ids": [
+    "s01t01",
+    "s01t02"
+  ],
+  "next_turn_id": "s01t03",
+  "failed_native_record_id": "86442d42-2b90-4a83-b816-5b70186bed09",
+  "subcall_policy": "The uncommitted turn-3 classification is retained and rerun from the turn-2 snapshot; no completed patient response is regenerated",
+  "production_source_policy": "Use the unchanged original corrected source snapshot"
+}

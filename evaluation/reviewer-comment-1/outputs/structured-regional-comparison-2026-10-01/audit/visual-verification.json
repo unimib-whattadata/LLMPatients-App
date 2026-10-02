@@ -1,0 +1,21 @@
+{
+  "checked_at": "2026-09-30T23:41:46.063628+00:00",
+  "reviewer_pdf_pages": 18,
+  "pdf_pages_visually_inspected": [
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "plot_visually_inspected": "figures/paired-regional-recall.png",
+  "plot_cells": 24,
+  "overfull_box_warnings": 0,
+  "underfull_box_warnings": 16,
+  "layout_findings": [],
+  "readable_tables": true,
+  "pdf_sha256": "8035d38bdee49ea4a828655ee20b028160028eb0b65a308cfdb0226af8a6fec7",
+  "tex_sha256": "6c8997f28cf3e267445d400d5c975aa63e3b3bb306134842bdb7fe153b1c244e",
+  "plot_sha256": "d72b8dedc7245fb4c50d24f6bc3284ce259979943fc6980bb786292798f61add",
+  "source": "Parent visual review of rendered PNGs, with TeX log review. Earlier pages preserved in preceding export."
+}

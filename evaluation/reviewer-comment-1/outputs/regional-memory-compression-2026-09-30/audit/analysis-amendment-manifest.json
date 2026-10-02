@@ -1,0 +1,6 @@
+{
+  "created_at": "2026-09-30T20:21:09.894579+00:00",
+  "frozen_original_sha256": "8aff09c9c85e292c083041baa957f8d549467c5fb19fa8cb4e38df136bd10f04",
+  "scorer_v2_sha256": "1017bc7604993631ce069621b10f669d164e9e519fb579a10e38fac9bd675134",
+  "reason": "synthetic edge-case verification; no semantic endpoint changes"
+}

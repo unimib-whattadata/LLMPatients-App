@@ -1,0 +1,16 @@
+{
+  "run_id": "juanita_delgado_001__r03__structured_common_profile",
+  "pair_id": "juanita_delgado_001__r03",
+  "profile_id": "juanita_delgado_001",
+  "repetition": 3,
+  "arm": "structured_common_profile",
+  "case_path": "profiles/juanita_delgado_001/case-narrative.txt",
+  "case_sha256": "b9a2955b207de6579d647a6b4f7cf39717c2ecfab944211aa0939455623fcfbc",
+  "scenario_path": "scenarios/juanita_delgado_001.json",
+  "sessions": 11,
+  "therapist_turns": 55,
+  "native_api_id": "juanita_delgado_001",
+  "archived_patient_id": "juanita_delgado_001",
+  "profile_path": "source/data/patients/juanita_delgado_001.yaml",
+  "source_yaml_sha256": "a8d3c6217aad0b1ca3c9e26d755b859f605090cd17b9bbb227f94f0a53d488f3"
+}

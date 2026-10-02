@@ -1,0 +1,9 @@
+{
+  "matplotlib_version": "3.11.2",
+  "cells": 24,
+  "complete_structured_responses": 15,
+  "planned_unique_requests": 30,
+  "mapped_pairs": 120,
+  "source": "analysis/results.json",
+  "endpoint": "positive-history categories, 4 per profile; shared control bars repeated intentionally"
+}

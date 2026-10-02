@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "live_requests": 0,
+  "timestamp": "2026-09-29T10:16:51.281906+00:00",
+  "recovery_records": [
+    {
+      "event": "reuse_successful_classifier",
+      "timestamp": "2026-09-29T10:16:51.128587+00:00",
+      "native_record_id": "fa2f6815-285b-4204-a81c-029334456bbb",
+      "logical_id": "001f190d-1073-404b-b3a2-bd32d8267077",
+      "prompt_sha256": "c934812998f92369116b512d6f32a27e4041ea27d57565f9dd2ac86bb3afe3ed",
+      "external_call": false
+    },
+    {
+      "event": "resumed_prompt_verified",
+      "timestamp": "2026-09-29T10:16:51.279915+00:00",
+      "mode": "offline_preflight",
+      "previous_prompt_sha256": "818b54fbd2b794b9d4e102a7e9506c7d07d485f627d41ed9a391dd3a8b91ad6a",
+      "resumed_prompt_sha256": "eecfcb94cf5f7926ea5d435f7dae9e8e7a866b497c0995acd2765fa016b07ee7",
+      "identical": false,
+      "non_affect_content_identical": true,
+      "affect_rng_checkpoint_available": false,
+      "difference": "--- failed_request\n\n+++ resumed_request\n\n@@ -170,8 +170,8 @@\n\n Prior emotional tone (last turn): Fear\n-Affect intensity: 0.84 (high tension, emotions close to the surface)\n+Affect intensity: 0.85 (high tension, emotions close to the surface)\n Therapist-triggered context event: neutral\n Dominant affect systems:\n-- Panic/Grief (0.18): Separation distress, loss, or grief-heavy weight.\n - Rage (0.17): Irritable, confrontational edge with flashes of anger.\n-- Fear (0.16): Hypervigilant, anxious energy with protective scanning.\n+- Panic/Grief (0.17): Separation distress, loss, or grief-heavy weight.\n+- Fear (0.17): Hypervigilant, anxious energy with protective scanning.\n </ARM_CONTEXT>"
+    }
+  ],
+  "source_sha256": "825a2e7629ee2222924deb251319353f2e2c56514e25729a55ac50459616896e",
+  "original_runtime_unchanged": true
+}

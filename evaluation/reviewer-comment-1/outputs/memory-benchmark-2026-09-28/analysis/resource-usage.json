@@ -1,0 +1,805 @@
+{
+  "by_arm": {
+    "history_full": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 847408,
+        "mean": 21185.2,
+        "median": 21285.0,
+        "min": 20814,
+        "max": 21432,
+        "p95_nearest_rank": 21432
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 334.1011713759508,
+        "mean": 8.35252928439877,
+        "median": 8.032973396475427,
+        "min": 6.453214874956757,
+        "max": 15.324192041007336,
+        "p95_nearest_rank": 10.120645624992903
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 0.09929478989215568,
+        "mean": 0.002482369747303892,
+        "median": 0.002722833480220288,
+        "min": 0.0011220000451430678,
+        "max": 0.003133416990749538,
+        "p95_nearest_rank": 0.0030123330070637167
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 0.09921400000000236,
+        "mean": 0.002480350000000059,
+        "median": 0.002723500000000545,
+        "min": 0.0011229999999999851,
+        "max": 0.0031269999999992137,
+        "p95_nearest_rank": 0.0030079999999994556
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "raw_4000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 158275,
+        "mean": 3956.875,
+        "median": 3959.5,
+        "min": 3910,
+        "max": 3993,
+        "p95_nearest_rank": 3990
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 337.1333549563424,
+        "mean": 8.42833387390856,
+        "median": 7.9842306455248035,
+        "min": 5.857489124988206,
+        "max": 24.476888875011355,
+        "p95_nearest_rank": 9.579917041992303
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 2.871748122794088,
+        "mean": 0.0717937030698522,
+        "median": 0.03578850001213141,
+        "min": 0.021456082991790026,
+        "max": 0.2977578330319375,
+        "p95_nearest_rank": 0.2568397920113057
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 6.617193000000004,
+        "mean": 0.1654298250000001,
+        "median": 0.03803200000000029,
+        "min": 0.02274699999999985,
+        "max": 0.8314879999999998,
+        "p95_nearest_rank": 0.7899469999999997
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "raw_8000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 318295,
+        "mean": 7957.375,
+        "median": 7969.5,
+        "min": 7906,
+        "max": 7994,
+        "p95_nearest_rank": 7990
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 359.68770271202084,
+        "mean": 8.99219256780052,
+        "median": 8.259158103988739,
+        "min": 5.314875542011578,
+        "max": 27.94495008396916,
+        "p95_nearest_rank": 10.464860708045308
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 3.4243269116268493,
+        "mean": 0.08560817279067123,
+        "median": 0.03847683349158615,
+        "min": 0.02557024999987334,
+        "max": 0.37566391698783264,
+        "p95_nearest_rank": 0.26490887498948723
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 7.600036000000001,
+        "mean": 0.19000090000000003,
+        "median": 0.040384500000000045,
+        "min": 0.027317000000000036,
+        "max": 0.8615909999999998,
+        "p95_nearest_rank": 0.807067
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "structured_4000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 158791,
+        "mean": 3969.775,
+        "median": 3976.5,
+        "min": 3923,
+        "max": 3994,
+        "p95_nearest_rank": 3991
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 333.90894083306193,
+        "mean": 8.347723520826548,
+        "median": 7.8388913750241045,
+        "min": 6.267563999979757,
+        "max": 21.531206250016112,
+        "p95_nearest_rank": 10.059155499970075
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 4.811803208023775,
+        "mean": 0.12029508020059439,
+        "median": 0.051143938006134704,
+        "min": 0.037263583042658865,
+        "max": 0.5690335420076735,
+        "p95_nearest_rank": 0.4688135409960523
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 10.913846000000005,
+        "mean": 0.2728461500000001,
+        "median": 0.052858500000000586,
+        "min": 0.03826200000000046,
+        "max": 1.4573430000000003,
+        "p95_nearest_rank": 1.3398820000000002
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "structured_8000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 318551,
+        "mean": 7963.775,
+        "median": 7969.0,
+        "min": 7922,
+        "max": 7994,
+        "p95_nearest_rank": 7992
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 397.85724154190393,
+        "mean": 9.946431038547598,
+        "median": 8.626004562480375,
+        "min": 6.221807750000153,
+        "max": 28.022575500013772,
+        "p95_nearest_rank": 21.312570207985118
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 5.0064998339512385,
+        "mean": 0.12516249584878097,
+        "median": 0.06011018800199963,
+        "min": 0.03940875001717359,
+        "max": 0.5857362499809824,
+        "p95_nearest_rank": 0.44714245799696073
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 11.121286,
+        "mean": 0.27803215,
+        "median": 0.06185800000000041,
+        "min": 0.04052600000000073,
+        "max": 1.4424789999999996,
+        "p95_nearest_rank": 1.3714969999999997
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "summary_4000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 155776,
+        "mean": 3894.4,
+        "median": 3845.0,
+        "min": 3831,
+        "max": 3990,
+        "p95_nearest_rank": 3990
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 360.29944637289736,
+        "mean": 9.007486159322434,
+        "median": 8.645496937533608,
+        "min": 4.7021381669910625,
+        "max": 26.668022333004046,
+        "p95_nearest_rank": 12.059214499953669
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 0.10969153512269258,
+        "mean": 0.0027422883780673147,
+        "median": 0.0028656665235757828,
+        "min": 0.0012105409987270832,
+        "max": 0.0037730420008301735,
+        "p95_nearest_rank": 0.003537250042427331
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 0.10858899999999583,
+        "mean": 0.0027147249999998958,
+        "median": 0.0027649999999996844,
+        "min": 0.0012129999999999086,
+        "max": 0.0037760000000002236,
+        "p95_nearest_rank": 0.0035049999999996473
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    },
+    "summary_8000": {
+      "memory_estimated_tokens": {
+        "n": 40,
+        "sum": 315360,
+        "mean": 7884,
+        "median": 7880.0,
+        "min": 7846,
+        "max": 7956,
+        "p95_nearest_rank": 7956
+      },
+      "answer_elapsed_seconds": {
+        "n": 40,
+        "sum": 403.938827705686,
+        "mean": 10.098470692642149,
+        "median": 8.086959374981234,
+        "min": 5.887739999976475,
+        "max": 64.0923881669878,
+        "p95_nearest_rank": 10.719855332979932
+      },
+      "context_wall_seconds": {
+        "n": 40,
+        "sum": 0.4067305451608263,
+        "mean": 0.010168263629020657,
+        "median": 0.010967166512273252,
+        "min": 0.005424500035587698,
+        "max": 0.014536583970766515,
+        "p95_nearest_rank": 0.01272329199127853
+      },
+      "retrieval_cpu_seconds": {
+        "n": 40,
+        "sum": 0.40496999999999694,
+        "mean": 0.010124249999999923,
+        "median": 0.010918000000000205,
+        "min": 0.0054280000000002104,
+        "max": 0.014450000000000074,
+        "p95_nearest_rank": 0.012648000000000437
+      },
+      "encoder_failure_count": {
+        "n": 40,
+        "sum": 0,
+        "mean": 0,
+        "median": 0.0,
+        "min": 0,
+        "max": 0,
+        "p95_nearest_rank": 0
+      }
+    }
+  },
+  "encoder_initialization": [
+    {
+      "patient_id": "alex_carter_001",
+      "source_path": "analysis/snapshots/stop-20260928T111757Z/run/alex_carter_001/encoder-initialization.json",
+      "record_sha256": "ca6cc6c75654328e1b171fbfb184c9e750628cbdb4f3f71228cc0da6b94d6ba9",
+      "cpu_seconds": 2.461258,
+      "wall_seconds": 3.2278630830114707,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "source_path": "analysis/snapshots/stop-20260928T111757Z/run/crystal_smith_001/encoder-initialization.json",
+      "record_sha256": "ae1c2fe662336a538fd55e02bf1e156c3c05f70dd8c4e1503a39e7f89174c968",
+      "cpu_seconds": 2.3994660000000003,
+      "wall_seconds": 2.870041374990251,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "source_path": "analysis/snapshots/stop-20260928T111757Z/run/jason_smith_001/encoder-initialization.json",
+      "record_sha256": "4827709dc97594f69e2c6607230a2c9d6e8a65254e1047503db089c3474ca3e4",
+      "cpu_seconds": 2.2497439999999997,
+      "wall_seconds": 2.275906249997206,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "source_path": "analysis/snapshots/stop-20260928T120618Z/run/crystal_smith_001/encoder-initialization.json",
+      "record_sha256": "1000384648990569d20d75d947368a82030b5bcbaf01933b0f022ed869bf61d3",
+      "cpu_seconds": 2.329166,
+      "wall_seconds": 2.5535229579545557,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "source_path": "analysis/snapshots/stop-20260928T120618Z/run/daniel_isherwood_001/encoder-initialization.json",
+      "record_sha256": "d76a852288f57e8430de1cbcecbf9f0c453b5c7586956e05b7be7a5891626049",
+      "cpu_seconds": 2.3639189999999997,
+      "wall_seconds": 2.992658791015856,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "source_path": "analysis/snapshots/stop-20260928T124624Z/run/juanita_delgado_001/encoder-initialization.json",
+      "record_sha256": "ed99ff682ae7e5389900e0d30f66f330d50df6e527a17cffb653cc6263091e6e",
+      "cpu_seconds": 2.416706,
+      "wall_seconds": 3.14896870899247,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "source_path": "analysis/snapshots/stop-20260928T135131Z/run/juanita_delgado_001/encoder-initialization.json",
+      "record_sha256": "2bf6a8460279fb7926cb9e8b448570d443250aa4823f6bdacdd894911233d9b4",
+      "cpu_seconds": 2.4849580000000002,
+      "wall_seconds": 3.388145166041795,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "source_path": "run/juanita_delgado_001/encoder-initialization.json",
+      "record_sha256": "256e1bc908d6572079e3f09cc65a66c5167358dac9c5ca6c1502789e8ed25277",
+      "cpu_seconds": 2.512007,
+      "wall_seconds": 3.50763199996436,
+      "allocation": "Shared model load; charge once to each deployed retrieval configuration. Vector caches are separate per arm."
+    }
+  ],
+  "preparation": {
+    "completed_sessions": 55,
+    "clipped_summaries": 47,
+    "extraction_failure_reasons": {
+      "The source sentence does not explicitly support agreement or completion": 9,
+      "Fact quote/value is not supported by its literal source": 14,
+      "Fact source, speaker or status is invalid": 3,
+      "A question cannot be promoted to an asserted fact": 1
+    },
+    "sessions": [
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_01",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 37
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_02",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 66
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_03",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 0,
+        "current_facts": 66
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_04",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 96
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_05",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 2,
+        "current_facts": 121
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_06",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 150
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_07",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 180
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_08",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 1,
+        "current_facts": 190
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_09",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 226
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_10",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 254
+      },
+      {
+        "patient_id": "alex_carter_001",
+        "session_id": "session_11",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 1,
+        "current_facts": 268
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_01",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 31
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_02",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 62
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_03",
+        "extraction_failure": "Fact source, speaker or status is invalid",
+        "accepted_batches": 1,
+        "current_facts": 71
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_04",
+        "extraction_failure": "A question cannot be promoted to an asserted fact",
+        "accepted_batches": 0,
+        "current_facts": 71
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_05",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 91
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_06",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 111
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_07",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 2,
+        "current_facts": 131
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_08",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 154
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_09",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 154
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_10",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 173
+      },
+      {
+        "patient_id": "crystal_smith_001",
+        "session_id": "session_11",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 199
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_01",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 2,
+        "current_facts": 27
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_02",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 45
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_03",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 1,
+        "current_facts": 55
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_04",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 55
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_05",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 1,
+        "current_facts": 64
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_06",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 90
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_07",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 115
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_08",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 143
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_09",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 177
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_10",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 1,
+        "current_facts": 188
+      },
+      {
+        "patient_id": "daniel_isherwood_001",
+        "session_id": "session_11",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 188
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_01",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 1,
+        "current_facts": 16
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_02",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 16
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_03",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 16
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_04",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 1,
+        "current_facts": 29
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_05",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 54
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_06",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 79
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_07",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 109
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_08",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 109
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_09",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 0,
+        "current_facts": 109
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_10",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 125
+      },
+      {
+        "patient_id": "jason_smith_001",
+        "session_id": "session_11",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 149
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_01",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 2,
+        "current_facts": 29
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_02",
+        "extraction_failure": "Fact source, speaker or status is invalid",
+        "accepted_batches": 2,
+        "current_facts": 46
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_03",
+        "extraction_failure": "Fact source, speaker or status is invalid",
+        "accepted_batches": 1,
+        "current_facts": 51
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_04",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 0,
+        "current_facts": 51
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_05",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 76
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_06",
+        "extraction_failure": "The source sentence does not explicitly support agreement or completion",
+        "accepted_batches": 1,
+        "current_facts": 88
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_07",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 1,
+        "current_facts": 95
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_08",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 117
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_09",
+        "extraction_failure": "Fact quote/value is not supported by its literal source",
+        "accepted_batches": 0,
+        "current_facts": 117
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_10",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 143
+      },
+      {
+        "patient_id": "juanita_delgado_001",
+        "session_id": "session_11",
+        "extraction_failure": null,
+        "accepted_batches": 3,
+        "current_facts": 168
+      }
+    ]
+  },
+  "interpretation": [
+    "Descriptive observed durations; no inference of statistical significance.",
+    "Memory token estimates exclude profile, question and instructions; they are not provider token counts.",
+    "Answer elapsed is the saved logical generation duration, including admitted output-budget recovery.",
+    "Context/retrieval measurements exclude encoder initialization; cache order is fixed by the schedule.",
+    "Charge the shared encoder initialization once per patient to each separately deployed retrieval configuration.",
+    "Observed initialization totals retain extra process loads after authorized resumes; these are restart overhead.",
+    "A rejected extraction may follow accepted batches in the same session; failures are not zero-fact sessions."
+  ]
+}

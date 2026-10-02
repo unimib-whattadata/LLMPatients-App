@@ -1,0 +1,1201 @@
+{
+  "status": "completed_literal_source_to_prompt_trace",
+  "scope": "All 30 appointment probes; semantic ratings are unchanged",
+  "limitations": [
+    "Literal markers and source excerpts are documented; this is not a new semantic score.",
+    "Missing transmitted data localizes a context-selection/rendering issue but does not isolate ranking, versioning or budget causes."
+  ],
+  "summary": {
+    "structured_probes": 15,
+    "structured_failures": 5,
+    "failed_with_validated_stored_fact": 5,
+    "failed_with_time_in_transmitted_prompt": 0,
+    "successful_structured_with_time_in_prompt": 10,
+    "flat_with_time_in_prompt": 15
+  },
+  "evidence": [
+    {
+      "run_id": "alex_carter_001__r01__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:09:21.680552+00:00",
+      "native_record_id": "3c083423-38ef-4eca-89a1-604eecb873dd",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T21:10:15.684713+00:00",
+          "fact": {
+            "source_id": "turn-21fa9e76ae1974e2d334c6e59cbe64cadfc81e41e8ef33a6fcd9e99a1604df13",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "appointment alternative",
+            "attribute": "day",
+            "value": "Saturday",
+            "status": "reported",
+            "id": "fact-f9bcc74e44d772bf76f804f106464b3883c0918f8bd1f007bf410076fe1356b3",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:08:14.544422+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T21:10:15.684713+00:00",
+          "fact": {
+            "source_id": "turn-21fa9e76ae1974e2d334c6e59cbe64cadfc81e41e8ef33a6fcd9e99a1604df13",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "appointment alternative",
+            "attribute": "time",
+            "value": "09:30",
+            "status": "reported",
+            "id": "fact-54f100b2abdce93fc761bb71f34e9e04203c552ef76673c8a85c81ede80c7be6",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:08:14.544422+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "e=turn-21fa9e76ae1974e2d334c6e59cbe64cadfc81e41e8ef33a6fcd9e99a1604df13; proposed; superseded] self / proposed statement: Just to confirm, have we decided on Saturday at 09:30, or are we sticking with the Friday time we agreed on?\nSource quote: \"I might say, \\\"Just to confirm, have we decided on Saturday at 09:30, or are we sticking with the F",
+        "have we decided on Saturday at 09:30, or are we sticking with the Friday time we agreed on?\nSource quote: \"I might say, \\\"Just to confirm, have we decided on Saturday at 09:30, or are we sticking with the Friday time we agreed on?\\\"\"\n[session=comparison_s06; turn=29; speaker=patient; source=turn-3a73ce8669588a3acd0c76a7237e51e97345650865b6358c"
+      ],
+      "prompt_sha256": "d07175d3cc6efec5d8cd2c0f1b16980f1e8f85e8eac9fe319ec937f03b2aa842"
+    },
+    {
+      "run_id": "alex_carter_001__r01__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:12:25.218950+00:00",
+      "native_record_id": "665c7426-ddb4-4dcf-a03b-ef56538a3222",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "els the kind of straightforward dialogue I'm hoping to practice myself.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "1edc10b39374871960065f5f48223aebbb140f288ba99366468c1d9123f47eb2"
+    },
+    {
+      "run_id": "alex_carter_001__r02__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:49:14.548657+00:00",
+      "native_record_id": "c6b4059f-de92-457b-baad-edfdfa434574",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:58:34.715113+00:00",
+          "fact": {
+            "source_id": "turn-84177a64572a4d1046a882867e6f30c89649c1989020b83d1fcf159bcf618274",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "schedule",
+            "value": "Saturday at 09:30",
+            "status": "proposed",
+            "id": "fact-45811735b872c9f7e52a412909a0c7006f687801f9a9c378434cc7dc1ff8de88",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:56:27.730432+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:58:34.715113+00:00",
+          "fact": {
+            "source_id": "turn-84177a64572a4d1046a882867e6f30c89649c1989020b83d1fcf159bcf618274",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "agreement_status",
+            "value": "did not agree to it",
+            "status": "negated",
+            "id": "fact-8b65fe691a14b82c0c0036b41629ed1e04fa0d873e67e41b08f5262a14ad5d73",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:56:27.730432+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-84177a64572a4d1046a882867e6f30c89649c1989020b83d1fcf159bcf618274; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "8228c60d0e20d78c3481b69689b5827ed4ac069ea66d4c16d728577d436cb2ba"
+    },
+    {
+      "run_id": "alex_carter_001__r02__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:47:23.744064+00:00",
+      "native_record_id": "95500ccc-308a-4bcd-b259-16c9293ad996",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "a misunderstanding continue. It reinforces that we're on the same page.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        " replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?\",\"patient\":\"Okay, that's a helpful clarification. Saturday at 9:30 was just a proposal, not the confirmed plan. To check if a suggestion has become an agreement, I'd use direct confirmation. I would likely say something like, \\\"So, just"
+      ],
+      "prompt_sha256": "e55c09130893a6b8ca6e4d2a33db55613a18f44fea36f6de7f6ad9c37bf6f22f"
+    },
+    {
+      "run_id": "alex_carter_001__r03__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:25:07.753770+00:00",
+      "native_record_id": "d672511c-4f57-44ae-a824-987dcc176a5c",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:10:41.615733+00:00",
+          "fact": {
+            "source_id": "turn-b74898333547be9d4522182fee870ed44b3c45b5dfd8e4fe6bad9532930412b1",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "agree",
+            "status": "negated",
+            "id": "fact-ac97a8b14502bf79fc5280c6cf561005fb11181d1287339f3e6fdc3ee643e349",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:08:46.048036+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:10:41.615733+00:00",
+          "fact": {
+            "source_id": "turn-b74898333547be9d4522182fee870ed44b3c45b5dfd8e4fe6bad9532930412b1",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "a proposal",
+            "status": "reported",
+            "id": "fact-245cf993f94633ec209fd507219d08d4ec0ef6916fe1e929046fffd3643e3db1",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:08:46.048036+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:10:41.615733+00:00",
+          "fact": {
+            "source_id": "turn-b74898333547be9d4522182fee870ed44b3c45b5dfd8e4fe6bad9532930412b1",
+            "speaker": "therapist",
+            "quote": "does not replace our confirmed appointment",
+            "entity": "Saturday at 09:30",
+            "attribute": "function",
+            "value": "replace our confirmed appointment",
+            "status": "negated",
+            "id": "fact-fcb6c93409bc7553905f053ea9a60efed3e7d4540b41ff96d26029714f9f42ca",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:08:46.048036+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "o you?\"\n[session=comparison_s06; turn=27; speaker=therapist; source=turn-b74898333547be9d4522182fee870ed44b3c45b5dfd8e4fe6bad9532930412b1; reported; current] Saturday at 09:30 / status: a proposal\nSource quote: \"It remains only a proposal, and does not replace our confirmed appointment\"\n[session=comparison_s06; turn=30; speaker=patient; source"
+      ],
+      "prompt_sha256": "32181b92161d6f10e8f65db98dd653e2ea5558be529a38ec871dc52210da61cc"
+    },
+    {
+      "run_id": "alex_carter_001__r03__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:23:38.283501+00:00",
+      "native_record_id": "52df8ea2-c43e-47a0-89f8-effe9c6d05b3",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "ause a misunderstanding later. It feels respectful and straightforward.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "46efcbd41c0cf2d8b432bc04431521f8d060617369da0d84f9bc33ee46ff08db"
+    },
+    {
+      "run_id": "crystal_smith_001__r01__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "incorrect",
+      "primary_success": 0,
+      "request_timestamp": "2026-09-30T11:34:07.481490+00:00",
+      "native_record_id": "adcda2f1-8286-45db-870c-86773c1dd47b",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:52:54.739345+00:00",
+          "fact": {
+            "source_id": "turn-cdc5ad784d7fb6f06c23129bbdb5971da4673787c58643c59561a612f1295f63",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "did not agree to it",
+            "status": "negated",
+            "id": "fact-e4041693ab95c351503bf56dcd8002c0d714f1a0c48c00279407d6a66f36f6d3",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:50:40.884657+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:52:54.739345+00:00",
+          "fact": {
+            "source_id": "turn-cdc5ad784d7fb6f06c23129bbdb5971da4673787c58643c59561a612f1295f63",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment.",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "only a proposal",
+            "status": "reported",
+            "id": "fact-15216bf874ede2adb8844e1a4471e1dad9f19a8e7a55a9d966684fcc1b15c4b3",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:50:40.884657+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": false,
+      "prompt_has_saturday": false,
+      "prompt_time_excerpts": [],
+      "prompt_sha256": "f2ab9b1e81eaa0a957c7901dbf89116bc11c2cea7c1f52f96595551d36510044"
+    },
+    {
+      "run_id": "crystal_smith_001__r01__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:36:48.570722+00:00",
+      "native_record_id": "4cda11f7-8e14-400f-bee6-182b9d14eb24",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "e quiet than to risk upsetting someone, even if it’s just about a time.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "282c4b8f5327579248af60f48b5c1e3e5dbeff200fbfbcf599e87a1bd7a5b81b"
+    },
+    {
+      "run_id": "crystal_smith_001__r02__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:52:55.025912+00:00",
+      "native_record_id": "f3dec34d-3b4c-4c71-9f40-b0dc79d27d20",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-f355f763f6dbcb48e165d068cbfe5987e658d05bd985733e5da26db33cbb092d; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "b022b77ff96c19ca6849cf4b0d7f52affb5f86f57c2e958275b64c400f8d2341"
+    },
+    {
+      "run_id": "crystal_smith_001__r02__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:56:15.832608+00:00",
+      "native_record_id": "0a82e52d-7614-4b7e-9c88-2b73e1d2c01a",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mean. I think I'd usually just apologize, even if it wasn't my mistake.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        "only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?\",\"patient\":\"Okay, so Saturday at 9:30 was just an idea, not a definite plan. That's good to know. To check if a suggestion had become an agreement... honestly, I'd probably just get anxious about it and not "
+      ],
+      "prompt_sha256": "c30a5b5783b9165b2952ced171ca0de625876502ed7616643ac68365d2f66050"
+    },
+    {
+      "run_id": "crystal_smith_001__r03__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:59:55.804204+00:00",
+      "native_record_id": "dcbcfb46-ccd8-43cd-99cb-91faa4c5a527",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:30:15.243758+00:00",
+          "fact": {
+            "source_id": "turn-5e5a4688937856e8e35aa29d053f993223b0d66af7981dcb7cb54d52ec1ff396",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "Saturday at 09:30 appointment",
+            "attribute": "status",
+            "value": "did not agree to it",
+            "status": "negated",
+            "id": "fact-9bf6ca1b1d764370cb8158f8fc1bcc76f3fab8dcfb40ceffd88c0de327f42dd8",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:25:34.019877+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:30:15.243758+00:00",
+          "fact": {
+            "source_id": "turn-5e5a4688937856e8e35aa29d053f993223b0d66af7981dcb7cb54d52ec1ff396",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment",
+            "entity": "Saturday at 09:30 appointment",
+            "attribute": "status",
+            "value": "only a proposal",
+            "status": "reported",
+            "id": "fact-9761e9c42fb84f1dd2a98e9482faf72fd70e26c75f80e6add5f73fd2e52e12e6",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:25:34.019877+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "o you?\"\n[session=comparison_s06; turn=27; speaker=therapist; source=turn-5e5a4688937856e8e35aa29d053f993223b0d66af7981dcb7cb54d52ec1ff396; reported; current] Saturday at 09:30 appointment / status: only a proposal\nSource quote: \"It remains only a proposal, and does not replace our confirmed appointment\"\n[session=comparison_s07; turn=31; speake"
+      ],
+      "prompt_sha256": "1ae39aab5a48f9e7487c387f04e4ea38b5edd1bf8fa5faeb144323c069d2110f"
+    },
+    {
+      "run_id": "crystal_smith_001__r03__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:57:44.189169+00:00",
+      "native_record_id": "3478e934-3126-483d-ae32-b7fa010c0e7a",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "akes my stomach clench. It feels like something I'm not supposed to do.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        "only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?\",\"patient\":\"Okay, so Saturday at 9:30 was just an idea, not the actual plan. The confirmed appointment is Friday at 18:20. I understand. To check if a suggestion became an agreement... that's really hard for"
+      ],
+      "prompt_sha256": "a9abdaf2796b5123ba633fdc4fe8efbf277d479e46ea61a2fbe29dfd962c2d20"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r01__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "incorrect",
+      "primary_success": 0,
+      "request_timestamp": "2026-09-30T11:43:00.937693+00:00",
+      "native_record_id": "78f3ab6a-0c06-491e-a962-4fada1e15645",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:19:48.803069+00:00",
+          "fact": {
+            "source_id": "turn-bfcce971670eabbe72f0b62f7993539205240d76b6ef5bfd9d955fcdc71d6b1b",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative",
+            "entity": "alternative appointment",
+            "attribute": "schedule",
+            "value": "Saturday at 09:30",
+            "status": "reported",
+            "id": "fact-29012767f113f58881d5b4b74862d0605b71a27859056faed48e57ca8ddd239a",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:17:36.888755+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": false,
+      "prompt_has_saturday": false,
+      "prompt_time_excerpts": [],
+      "prompt_sha256": "9effa2261074cf4aa19bca4329eaadbf9de5d2417485916110f17e5e300836fa"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r01__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:46:04.748116+00:00",
+      "native_record_id": "fbd900a6-4dcd-4c13-95c5-6defb75bfeac",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "n for me. This is just an objective update, which is no problem at all.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "aa1846c9b4b4ba69028c36a240c6f405fe8d31413d4a984b0cd8f91ba402471d"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r02__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:29:42.414238+00:00",
+      "native_record_id": "f9d228dd-85b0-4053-9dd0-e926e63833b4",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:43:22.594790+00:00",
+          "fact": {
+            "source_id": "turn-3ea4dc173ae046976f65ed367d373bdc87e09e5631788670045b4d255417c112",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative_appointment",
+            "attribute": "schedule_day",
+            "value": "Saturday",
+            "status": "proposed",
+            "id": "fact-c83a6cfb199830863d256832fd4a638987de95008d6b8312814d3075386f9f1b",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:41:13.231895+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:43:22.594790+00:00",
+          "fact": {
+            "source_id": "turn-3ea4dc173ae046976f65ed367d373bdc87e09e5631788670045b4d255417c112",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative_appointment",
+            "attribute": "schedule_time",
+            "value": "09:30",
+            "status": "proposed",
+            "id": "fact-897d1e44a807a11d2bec0b10282b268ccc9347a836c1b806704f59eb8f6a65e5",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:41:13.231895+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-3ea4dc173ae046976f65ed367d373bdc87e09e5631788670045b4d255417c112; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "36b7556f13f236a64e377a8b46916db9bc943f2ea7554191e9f8013f8481ed4a"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r02__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:32:18.694853+00:00",
+      "native_record_id": "b53fd3cc-9d3b-4b11-84ec-f1286a30a3c8",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "linger or grow. There's no blame, just a direct fix, which is a relief.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "cc7fa93454901fdb87ed5b6a6832b7191165304e32cb31b2bcff60e269157598"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r03__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "incorrect",
+      "primary_success": 0,
+      "request_timestamp": "2026-09-30T12:15:40.831391+00:00",
+      "native_record_id": "bd03e6aa-0b3c-421c-be43-01a76764dace",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:35:51.135255+00:00",
+          "fact": {
+            "source_id": "turn-8f15bc6971d63efd4e03ef76dcb5fad8a6d579b5d29617a0e0c08464538df680",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "day",
+            "value": "Saturday",
+            "status": "proposed",
+            "id": "fact-eb3875d75349aeef13c64c26691ca7f0c1edabfc71b553658ead7d864617f082",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:33:48.092416+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:35:51.135255+00:00",
+          "fact": {
+            "source_id": "turn-8f15bc6971d63efd4e03ef76dcb5fad8a6d579b5d29617a0e0c08464538df680",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "time",
+            "value": "09:30",
+            "status": "proposed",
+            "id": "fact-6a56ad782faa0c109725a433bcf5eb730b59ae8658fd860aacf8e1224bb31eda",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:33:48.092416+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": false,
+      "prompt_has_saturday": false,
+      "prompt_time_excerpts": [],
+      "prompt_sha256": "ab9272317b4560ee39289093ffdaaebe22d7e52b4d90ecd70ac2b0bf8ccc3391"
+    },
+    {
+      "run_id": "daniel_isherwood_001__r03__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:13:43.912133+00:00",
+      "native_record_id": "8370f6ab-c292-4ceb-803e-173b9feca879",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        " efficient and removes any ambiguity, which is how I prefer to operate.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "0e9008f5bb0277135092b55538832d502434bfa97c707eb9f048553ad53cd76c"
+    },
+    {
+      "run_id": "jason_smith_001__r01__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "partial",
+      "primary_success": 0,
+      "request_timestamp": "2026-09-30T12:20:35.346928+00:00",
+      "native_record_id": "9ea82b0b-2e1f-4a8c-93c0-681e87d18de1",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:15:17.272824+00:00",
+          "fact": {
+            "source_id": "turn-7f86510a94576573f0d7d91932dcb401995ee3ca7934d205ca7bdaffb49566de",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "did not agree to it",
+            "status": "negated",
+            "id": "fact-655d21c2b7113e39032f2898b133cf2a299b7e66fc83fc2856b0d18cdfee89fa",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:13:08.050176+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:15:17.272824+00:00",
+          "fact": {
+            "source_id": "turn-7f86510a94576573f0d7d91932dcb401995ee3ca7934d205ca7bdaffb49566de",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment",
+            "entity": "Saturday at 09:30",
+            "attribute": "is a",
+            "value": "only a proposal",
+            "status": "reported",
+            "id": "fact-6c7053a4ca3de8e2cb6f98db1d415e51cd5125bcb94685fb5c82fa0ccfebc26a",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:13:08.050176+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:15:17.272824+00:00",
+          "fact": {
+            "source_id": "turn-7f86510a94576573f0d7d91932dcb401995ee3ca7934d205ca7bdaffb49566de",
+            "speaker": "therapist",
+            "quote": "does not replace our confirmed appointment",
+            "entity": "Saturday at 09:30",
+            "attribute": "replaces",
+            "value": "our confirmed appointment",
+            "status": "negated",
+            "id": "fact-ed06f403baa0020336595bfb1f8d7d5a8e817f2e146221d36811dc5cf3259048",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:13:08.050176+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": false,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [],
+      "prompt_sha256": "567cb5bec06a930a6df14488a7e962f3075dd970218bbe96093a7da0f8c0cd93"
+    },
+    {
+      "run_id": "jason_smith_001__r01__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:18:44.372301+00:00",
+      "native_record_id": "73b531ed-f6bb-480f-b4c1-5e0cd71247f0",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "ystem—it's a logical, clean solution that ensures things run correctly.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "bff77d2b674a18843f9dc14282322e538b9919e9e81d93853e7cb59223257821"
+    },
+    {
+      "run_id": "jason_smith_001__r02__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:29:43.487030+00:00",
+      "native_record_id": "9bd23df1-43c5-4267-8ee7-b6e9ad5c2f68",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:23:10.017347+00:00",
+          "fact": {
+            "source_id": "turn-81da542e97f03d39ea3e3c045934ac055a4254405bd55fed310d9f99c3a85546",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative_appointment",
+            "attribute": "schedule_day",
+            "value": "Saturday",
+            "status": "proposed",
+            "id": "fact-5fda8b2dee6f629dc030bfdcbd437f138602a1211294741da6e10d6569aa80dc",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:21:03.179933+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:23:10.017347+00:00",
+          "fact": {
+            "source_id": "turn-81da542e97f03d39ea3e3c045934ac055a4254405bd55fed310d9f99c3a85546",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative_appointment",
+            "attribute": "schedule_time",
+            "value": "09:30",
+            "status": "proposed",
+            "id": "fact-8574a1d13b5aaafcc4f6d4379a0dd455c02be2522e30cdcd688a671f33a8f6e1",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:21:03.179933+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-81da542e97f03d39ea3e3c045934ac055a4254405bd55fed310d9f99c3a85546; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        "rame it very clearly as a tentative option, not a commitment. I might say something like, \\\"Here’s a thought, but it's just a possibility for now: what about Saturday at 09:30?\\\" Using phrases like \\\"just a thought\\\" or \\\"a potential alternative\\\" signals that it's not a firm plan. I could also add, \\\"Let's not lock that in yet, but keep it as"
+      ],
+      "prompt_sha256": "bb07ab5b1bef816afd60e7739731fed224aa1880932bcf70bc86455047d081f5"
+    },
+    {
+      "run_id": "jason_smith_001__r02__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:27:48.299978+00:00",
+      "native_record_id": "b67d142a-b8fc-44c2-ab47-c585a5c59f6a",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "he same page. I appreciate the directness. It feels clear and reliable.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "a9298ab52067f801574613834e30337a0a33063ebfdeb8b35b09057aea8515a5"
+    },
+    {
+      "run_id": "jason_smith_001__r03__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "incorrect",
+      "primary_success": 0,
+      "request_timestamp": "2026-09-30T11:39:43.232723+00:00",
+      "native_record_id": "2fc835a7-3766-4f6c-8f74-d2f9b834a851",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:38:58.064795+00:00",
+          "fact": {
+            "source_id": "turn-3de9366be30997f993279f219867c4e79b07a0b0b627cdf813aca4cc87234a35",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "alternative appointment",
+            "attribute": "schedule",
+            "value": "Saturday at 09:30",
+            "status": "negated",
+            "id": "fact-6a7c5dd964b85e018f5e4d2a10cda035fdd0b5b449b472622c39c62fc5932b8d",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:37:03.041114+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": false,
+      "prompt_has_saturday": false,
+      "prompt_time_excerpts": [],
+      "prompt_sha256": "65e5a3d8d8aa10b47e0785ed3cc2fae9972629020f35bf03e06ca2a9b0043c23"
+    },
+    {
+      "run_id": "jason_smith_001__r03__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T11:38:00.318456+00:00",
+      "native_record_id": "3c92a2e1-0284-4051-aa22-9ef44c855506",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "g conflicts. It feels very logical and efficient, which I find helpful.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        "direct, explicit confirmation. I wouldn't assume a suggestion has become an agreement until it's been clearly stated as one. For example, after you mentioned Saturday at 09:30 as a possibility, I'd likely ask something like, \\\"Just to clarify, are we officially agreeing to move the meeting to Saturday, or is that just an idea we're considering"
+      ],
+      "prompt_sha256": "b96526529c35e5df6feca2332985beb9d5995e65ffe1a598bad52f7cd3afab4e"
+    },
+    {
+      "run_id": "juanita_delgado_001__r01__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:41:07.809848+00:00",
+      "native_record_id": "8ea9e746-e570-4a1c-a333-9a9c3ccaeeb4",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T21:05:53.854773+00:00",
+          "fact": {
+            "source_id": "turn-ee619e15b80199068dff70930cc8a3e5ab74c1fcfe7bc8336af5db5fa6e92b24",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "a possible alternative",
+            "status": "reported",
+            "id": "fact-100803c0f2967e08bd101e548b5e86e4cc2af7689b1fe23da37485a3f419612d",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:01:02.643854+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T21:05:53.854773+00:00",
+          "fact": {
+            "source_id": "turn-ee619e15b80199068dff70930cc8a3e5ab74c1fcfe7bc8336af5db5fa6e92b24",
+            "speaker": "therapist",
+            "quote": "we did not agree to it",
+            "entity": "therapist and patient",
+            "attribute": "agreement to Saturday at 09:30",
+            "value": "did not agree to it",
+            "status": "negated",
+            "id": "fact-6de661940d02ffbf8fa9761563be9ef7ee0e61857b729b070992ddcd4349c8d4",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:01:02.643854+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T21:05:53.854773+00:00",
+          "fact": {
+            "source_id": "turn-ee619e15b80199068dff70930cc8a3e5ab74c1fcfe7bc8336af5db5fa6e92b24",
+            "speaker": "therapist",
+            "quote": "It remains only a proposal, and does not replace our confirmed appointment.",
+            "entity": "Saturday at 09:30",
+            "attribute": "status",
+            "value": "only a proposal",
+            "status": "reported",
+            "id": "fact-59a195d9d3f755e277ae96412af7ea54d439e6c89023b76b4911433ef9a26317",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:01:02.643854+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "o you?\"\n[session=comparison_s06; turn=27; speaker=therapist; source=turn-ee619e15b80199068dff70930cc8a3e5ab74c1fcfe7bc8336af5db5fa6e92b24; reported; current] Saturday at 09:30 / status: only a proposal\nSource quote: \"It remains only a proposal, and does not replace our confirmed appointment.\"\n[session=comparison_s06; turn=27; speaker=therapist",
+        "mparison_s06; turn=27; speaker=therapist; source=turn-ee619e15b80199068dff70930cc8a3e5ab74c1fcfe7bc8336af5db5fa6e92b24; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "f6d2dcc339f8a85d77274d1e6c5f22dc3fccf632fc8e29896bb5946ca85ef719"
+    },
+    {
+      "run_id": "juanita_delgado_001__r01__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:44:07.344625+00:00",
+      "native_record_id": "fea07c78-b9d5-43c2-a718-de31069b0be2",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "ing a conflict. So... okay, Friday at 18:20. I'll try to remember that.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "f2ed5b541c6377523ae95887a13d546819010061ad7320021b44141094a95b33"
+    },
+    {
+      "run_id": "juanita_delgado_001__r02__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:04:09.586556+00:00",
+      "native_record_id": "d4f529d3-ddc0-4f7f-b06d-1f7807f71bf0",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T21:13:35.418626+00:00",
+          "fact": {
+            "source_id": "turn-8cf40c06f7399c14b6d8e27e7cd5cb303b18f41c5ccc6cfd23d88c965949207f",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "alternative_appointment",
+            "attribute": "day",
+            "value": "Saturday",
+            "status": "proposed",
+            "id": "fact-8688660afdb532d0f853b18acb34246f596e9053c8fd93d010b5646daf550bb1",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:11:28.283552+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T21:13:35.418626+00:00",
+          "fact": {
+            "source_id": "turn-8cf40c06f7399c14b6d8e27e7cd5cb303b18f41c5ccc6cfd23d88c965949207f",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it",
+            "entity": "alternative_appointment",
+            "attribute": "time",
+            "value": "09:30",
+            "status": "proposed",
+            "id": "fact-35fe174305383a29b6900728c566a1f07476f1cc52d81dbe3ba3ef999ff172f7",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T21:11:28.283552+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-8cf40c06f7399c14b6d8e27e7cd5cb303b18f41c5ccc6cfd23d88c965949207f; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "0b6c2870892932a1051b66bf31a24e1d31d6c0f0425b5290572112b7169aec52"
+    },
+    {
+      "run_id": "juanita_delgado_001__r02__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:07:23.207836+00:00",
+      "native_record_id": "8c519677-1412-4c17-88c5-d3120658b3e3",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "flict. It feels safer to be wrong than to risk someone being mad at me.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion ",
+        "only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?\",\"patient\":\"Okay, so Saturday at 09:30 was just an idea, not a real appointment. The confirmed time is still Friday at 18:20. I'll remember that. How would I check? Honestly, I'd probably just get really anxi"
+      ],
+      "prompt_sha256": "24c702faa5a8ed88fee1b3eb44433fffbfa84e374f7d326e8d1ae8bffa1b5eb7"
+    },
+    {
+      "run_id": "juanita_delgado_001__r03__structured_common_profile",
+      "arm": "structured_common_profile",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:35:55.273590+00:00",
+      "native_record_id": "d41e78e6-fc4c-4f94-836e-be9f9884c19b",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [
+        {
+          "batch_created_at": "2026-09-29T20:48:14.245583+00:00",
+          "fact": {
+            "source_id": "turn-14f158ff1e561712ab3f6231ace7873786883db2cc5b0a7f03f38ce047d6c596",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "schedule_day",
+            "value": "Saturday",
+            "status": "proposed",
+            "id": "fact-f922d109234dd7e6036737b55e4a4b095280dd5d7c23a995794d61fc92506a73",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:45:54.916878+00:00"
+          }
+        },
+        {
+          "batch_created_at": "2026-09-29T20:48:14.245583+00:00",
+          "fact": {
+            "source_id": "turn-14f158ff1e561712ab3f6231ace7873786883db2cc5b0a7f03f38ce047d6c596",
+            "speaker": "therapist",
+            "quote": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it.",
+            "entity": "alternative appointment",
+            "attribute": "schedule_time",
+            "value": "09:30",
+            "status": "proposed",
+            "id": "fact-d37556d7cac3ac0e7db3c41adb8e003dd5b183cac7bfcb7581c826bb8c513972",
+            "type": "fact",
+            "session_id": "comparison_s06",
+            "turn_index": 27,
+            "session_order": 5,
+            "source_created_at": "2026-09-29T20:45:54.916878+00:00"
+          }
+        }
+      ],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "mparison_s06; turn=27; speaker=therapist; source=turn-14f158ff1e561712ab3f6231ace7873786883db2cc5b0a7f03f38ce047d6c596; original utterance] \"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "8789ff55ebf8a350285f5d499cd2b737eb8a11fa4711ec2c2019c0cc0883bf05"
+    },
+    {
+      "run_id": "juanita_delgado_001__r03__flat_full_history",
+      "arm": "flat_full_history",
+      "turn_id": "s11t02",
+      "rating": "complete",
+      "primary_success": 1,
+      "request_timestamp": "2026-09-30T12:39:05.128487+00:00",
+      "native_record_id": "40e41146-03cb-495c-84ea-295744e7a8e0",
+      "source_turn_id": "s06t02",
+      "therapist_source": "I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion has actually become an agreement?",
+      "validated_stored_therapist_facts_before_probe": [],
+      "prompt_has_time_marker": true,
+      "prompt_has_saturday": true,
+      "prompt_time_excerpts": [
+        "ime. It makes me feel like I'm not paying attention or I'm going crazy.\"}\n{\"session_index\":6,\"turn_id\":\"s06t02\",\"turn_index\":27,\"therapist\":\"I also mentioned Saturday at 09:30 as a possible alternative, but we did not agree to it. It remains only a proposal, and does not replace our confirmed appointment. How would you check that a suggestion "
+      ],
+      "prompt_sha256": "2c2b517363d0ec89902b2fc924977abec25c0e21bd6b205f17e36805b082f2d6"
+    }
+  ],
+  "input_sha256": {
+    "semantic-results.json": "cc2678c6744adc546743612975ce96a52932a978760cc52e9ddb02e074b5c87a",
+    "runtime/alex_carter_001__r01__structured_common_profile/sessions/session_11/generation-events.jsonl": "5c4064cb82e695ee0245323fdfa245c4f1bcf7ad924ffcb04bfac1ae0f9e0f17",
+    "runtime/alex_carter_001__r01__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "145c34f9afc01a86b3991d163fe8b6fbf960aaa2551e2051811259d629f16875",
+    "runtime/alex_carter_001__r01__structured_common_profile/accepted-turns.jsonl": "6c9ede99ac0ed76f32ceb9689eaba83bec28c3ade3fd15ac5e8c9308d9caa816",
+    "runtime/alex_carter_001__r01__structured_common_profile/memory/comparison_alex_carter_001__r01__structured_common_profile__alex_carter_001.jsonl": "f2129a2c874ec958625a1bdc3bac179682fc1c0d917c017149522f01e6e98e0b",
+    "runtime/alex_carter_001__r01__flat_full_history/sessions/session_11/generation-events.jsonl": "d2e88868cf1650ef527cc570954b2bfb4dbf842e8b391580eaf64c19bdb6d766",
+    "runtime/alex_carter_001__r01__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "07d02126191a79d2b65261c52cfedf4bbec814c00a92dd163156d2af66fc5d90",
+    "runtime/alex_carter_001__r01__flat_full_history/accepted-turns.jsonl": "a51162b523ce5404ce1ad91da544c485c749f66f817791dec38908846c0a2956",
+    "runtime/alex_carter_001__r02__structured_common_profile/sessions/session_11/generation-events.jsonl": "6e975b4624c14e3dc8a4b3d2d5ce1fcd51464fa569ff95b08a02281b33dcb89b",
+    "runtime/alex_carter_001__r02__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "36f4908d11b26af3259f167fcbaab5e2b4c0f3421a771b674aca0b5280984604",
+    "runtime/alex_carter_001__r02__structured_common_profile/accepted-turns.jsonl": "d05199664553d85ce66ffa7028d1fde6a239985592792b99296dfd78e0e3eb18",
+    "runtime/alex_carter_001__r02__structured_common_profile/memory/comparison_alex_carter_001__r02__structured_common_profile__alex_carter_001.jsonl": "1fe0edd66de33b90b44bf1537c4199281e473cb2295d24d939420075a73cdb55",
+    "runtime/alex_carter_001__r02__flat_full_history/sessions/session_11/generation-events.jsonl": "80e4c9dc9bc3f2491c53ba556989ded0672df03f7c19b8a97b7e4dc25284b776",
+    "runtime/alex_carter_001__r02__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "550bab8d22670e6786cf2226484de542c72da12a611441130c67aa2adeff46a3",
+    "runtime/alex_carter_001__r02__flat_full_history/accepted-turns.jsonl": "95c2d2f2066860f4922ac6aab782e81a478364b47fb196f47c479be460cbe67f",
+    "runtime/alex_carter_001__r03__structured_common_profile/sessions/session_11/generation-events.jsonl": "2d7f6c41efe3abe567f4bc05f2a20c147243fff59749e53f4be1c90254dcb544",
+    "runtime/alex_carter_001__r03__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "b0d26c8c057f50d695f64b91e6271200b70b199d6a7c94860ebef1f9a5a8f73e",
+    "runtime/alex_carter_001__r03__structured_common_profile/accepted-turns.jsonl": "a3d4ebbb093406edc37334f0ded58f15fc9ac82d25b49a23042ef38cbc2605cc",
+    "runtime/alex_carter_001__r03__structured_common_profile/memory/comparison_alex_carter_001__r03__structured_common_profile__alex_carter_001.jsonl": "b60d00deb0100da91f33617deb27ab9fe54c614709043d73dac4c7bd6d228934",
+    "runtime/alex_carter_001__r03__flat_full_history/sessions/session_11/generation-events.jsonl": "1a7ba754f610b23dffe0b14e6b3b53dce7226ca6e08d21eab6c12468af88e8a0",
+    "runtime/alex_carter_001__r03__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "355514c0831bbaf981f9a42fb5fa4e848947608449e8d946d12e27b549337e2f",
+    "runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl": "aa816f84f48f88a96511a409d1a570adf6ce8760b1dbca21eff77bb69a41751d",
+    "runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_11/generation-events.jsonl": "61f1f052b2ad55982b257536239ad3a6227da77ccb34c03fc0d4ad8c376bde73",
+    "runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "beafc9d242a0378dd7976c56e2c93cdf795448f554b9dd50298d770bc7c4875a",
+    "runtime/crystal_smith_001__r01__structured_common_profile/accepted-turns.jsonl": "8e9e3b10693d0f0446c03904d6365235faa56bc10853a24b1eeb0eddf9dc74c5",
+    "runtime/crystal_smith_001__r01__structured_common_profile/memory/comparison_crystal_smith_001__r01__structured_common_profile__crystal_smith_001.jsonl": "1d82a758267cc3271abe33db2651b783a29800cec432c1ff90bbfca19e2e908f",
+    "runtime/crystal_smith_001__r01__flat_full_history/sessions/session_11/generation-events.jsonl": "64fb3b6f15fc9a1cb459dfbb96680cb6d9a58d1e87c3e2dcc88fe921aaa0b66f",
+    "runtime/crystal_smith_001__r01__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "9150dafae4eb1302dd085fd01eb225b07b5342e900d507a3ac94567af6a4948c",
+    "runtime/crystal_smith_001__r01__flat_full_history/accepted-turns.jsonl": "7ab13144c789c1d5ab2fdfbd4b6da87473c465eff0b47c9bacd7c16ba14af110",
+    "runtime/crystal_smith_001__r02__structured_common_profile/sessions/session_11/generation-events.jsonl": "433243944b00a9c5319b9e3cb47502656b529b141ff33577e40a0cb75b306276",
+    "runtime/crystal_smith_001__r02__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "e2116ead2a6ee6cca3e4f3ab699692da5f7af8d7bbb444042cba73426dbd317b",
+    "runtime/crystal_smith_001__r02__structured_common_profile/accepted-turns.jsonl": "07b1024fb40d71d66e9dec708652c7d628b6bfadb352fdc9d9d2d682018cef43",
+    "runtime/crystal_smith_001__r02__structured_common_profile/memory/comparison_crystal_smith_001__r02__structured_common_profile__crystal_smith_001.jsonl": "c98993dec1ffe41595d983352d0c24bf458c21312b5d100c12264eecd9b222d8",
+    "runtime/crystal_smith_001__r02__flat_full_history/sessions/session_11/generation-events.jsonl": "725d0191c12d4c63f37d1ce1f0218404ccb0dd9f10fe74c9e6614a84f85b5db0",
+    "runtime/crystal_smith_001__r02__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "bbb93716e6a27bde384a65454cad0196c6ff6bc07eb28b7780b8810764815955",
+    "runtime/crystal_smith_001__r02__flat_full_history/accepted-turns.jsonl": "7d991e3fd11436ef9a0dd66dee7d3de4ec070671258abe71e3e8512d438127d9",
+    "runtime/crystal_smith_001__r03__structured_common_profile/sessions/session_11/generation-events.jsonl": "53ffcd898a192d7b75d87b9760b32ae4dc9b1b12888968e6ecdf9354fc1be079",
+    "runtime/crystal_smith_001__r03__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "42bdbcfb4468af7adf4477836231bf24f588e4726227918800622259bf0d4197",
+    "runtime/crystal_smith_001__r03__structured_common_profile/accepted-turns.jsonl": "2f105f44c30f53fe4bbcae2de9e4f14ac9a827c8d00aa2170b65b44a3bc20d42",
+    "runtime/crystal_smith_001__r03__structured_common_profile/memory/comparison_crystal_smith_001__r03__structured_common_profile__crystal_smith_001.jsonl": "a50b8fec96c223867850b320901498f71d8989f651c4fc628c3156bb65ec08d2",
+    "runtime/crystal_smith_001__r03__flat_full_history/sessions/session_11/generation-events.jsonl": "d7cbc272df0a532cfe6712e0132911abbb4e5417aecc27a580bee9e580efabb3",
+    "runtime/crystal_smith_001__r03__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "682633c849cee2d8006b8fddfe63af3269efcb395479c3bff1254c99f846da32",
+    "runtime/crystal_smith_001__r03__flat_full_history/accepted-turns.jsonl": "6b75154174251d7b85bcaf3d92c98569066664858445128df9e8e2fd02d2d5b3",
+    "runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_11/generation-events.jsonl": "88579bead6e3563dc3625d3b08f63a896a0460ce4199123ac552c98959d961a1",
+    "runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "c1c91c07131b6724c301c9924db47acd5a447ca601c4b2cfb5e95832a897d5bf",
+    "runtime/daniel_isherwood_001__r01__structured_common_profile/accepted-turns.jsonl": "15df16bc25e41a12e2ea9fe9db0848e6108077fc726a1fef9c37d79a78f039f2",
+    "runtime/daniel_isherwood_001__r01__structured_common_profile/memory/comparison_daniel_isherwood_001__r01__structured_common_profile__daniel_isherwood_001.jsonl": "fc8352564a67e1259cf94192e3c0905d94fae469cc1497cb4d007ca8ec4b51ce",
+    "runtime/daniel_isherwood_001__r01__flat_full_history/sessions/session_11/generation-events.jsonl": "3fe9f4262251c4910feb15ca4107157fa8de1771290360c52746bf3904fdbe53",
+    "runtime/daniel_isherwood_001__r01__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "155e868e9d7d2e58e888a2c34cd40d501713bc151809471b727ec21fb24c110f",
+    "runtime/daniel_isherwood_001__r01__flat_full_history/accepted-turns.jsonl": "5a0c7a3be53719824150d0ed2b87234a92eb1b6ff5a6e3375b9ab258a1db6efa",
+    "runtime/daniel_isherwood_001__r02__structured_common_profile/sessions/session_11/generation-events.jsonl": "e0033c239154beb4d4bc48d0c4b44ea1a47a6e27564e5229f5c65a43e9756a8c",
+    "runtime/daniel_isherwood_001__r02__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "4da9173133d8bba410c9beba8fbcfacc425fb045bdaed01af0eeb2fa528e353b",
+    "runtime/daniel_isherwood_001__r02__structured_common_profile/accepted-turns.jsonl": "fd52d54d2f77919a25a35e0401a78b1a85da7d3e023e4346fd796e37c218669e",
+    "runtime/daniel_isherwood_001__r02__structured_common_profile/memory/comparison_daniel_isherwood_001__r02__structured_common_profile__daniel_isherwood_001.jsonl": "2bbcf066040665034570efb5213bd7e902d2a5546e5f3d3ea75ca1816f9baae8",
+    "runtime/daniel_isherwood_001__r02__flat_full_history/sessions/session_11/generation-events.jsonl": "e266f2c893b72c43f30753be663b22183235583435ba8ab75977d36365a944d9",
+    "runtime/daniel_isherwood_001__r02__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "b40985d2af6c85d7e931686fea00eac7371198cdbfc077bce9b9d62f7b383623",
+    "runtime/daniel_isherwood_001__r02__flat_full_history/accepted-turns.jsonl": "53e872c827b51724f983fff6f47633d05d51f140ab43b38d4c52fd54cf0fba4a",
+    "runtime/daniel_isherwood_001__r03__structured_common_profile/sessions/session_11/generation-events.jsonl": "f3b90b74153dd2ad815f00a6257a29ae49ffccc8082ed7b0bc97630dff247abe",
+    "runtime/daniel_isherwood_001__r03__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "3638f0930481c5680d26e9609b985d6645825efbf3f58d08c41d0729cda6ed83",
+    "runtime/daniel_isherwood_001__r03__structured_common_profile/accepted-turns.jsonl": "c8d68445ec4327b94eeae6955af6bab025215b54fd1cad4a7c1f94d9ade199f6",
+    "runtime/daniel_isherwood_001__r03__structured_common_profile/memory/comparison_daniel_isherwood_001__r03__structured_common_profile__daniel_isherwood_001.jsonl": "e51d4c3542b5d6aa7d5aa82b9d379607d413dc9b7437e7475b598e8cc7d3b2b6",
+    "runtime/daniel_isherwood_001__r03__flat_full_history/sessions/session_11/generation-events.jsonl": "20a36e2863140532849629f96aca38a79b6e68baaf4bd99d2eeca381617337f5",
+    "runtime/daniel_isherwood_001__r03__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "e108e7c1461cf12f3d20eeb09fef4786ac6df8b9485f03c0d5b8142e687823b8",
+    "runtime/daniel_isherwood_001__r03__flat_full_history/accepted-turns.jsonl": "59d9c4386d51714a4c165b4757f8d8249ff6d47d60d703d3c606307cc88823dd",
+    "runtime/jason_smith_001__r01__structured_common_profile/sessions/session_11/generation-events.jsonl": "cf031eb73f872c7832fd17d1bf8157ec41bd151b9bfc10da1d49ba3448fbe4d9",
+    "runtime/jason_smith_001__r01__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "81beddf622b8167e95f686896c502638b6e0e9cf1cf5bda42ae444c60004b369",
+    "runtime/jason_smith_001__r01__structured_common_profile/accepted-turns.jsonl": "95196da376af3a61380d898a377fa9b77db5c107981f8eb07d40178faeefed04",
+    "runtime/jason_smith_001__r01__structured_common_profile/memory/comparison_jason_smith_001__r01__structured_common_profile__Jason_001.jsonl": "3dbff3e706e5a165fc6327a9bb693c8cc5764bb7219e69a7f3571fdf7c62263b",
+    "runtime/jason_smith_001__r01__flat_full_history/sessions/session_11/generation-events.jsonl": "a5b6c5b57b16439b3554764862b35555c35b4fe3e36e6cbf5c63969e3143391b",
+    "runtime/jason_smith_001__r01__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "287b7b394d1eabff0e9243fecdf849a74d82a43f6a505d56a9b771b9a01997d0",
+    "runtime/jason_smith_001__r01__flat_full_history/accepted-turns.jsonl": "4fd4f972ca6d1033a79350ad6f36d5df59cef1b930c2dd6f8a83a06fe93c1d87",
+    "runtime/jason_smith_001__r02__structured_common_profile/sessions/session_11/generation-events.jsonl": "23882aad3ca5ee2546b9110bea54464471446aabb7ea4c328925dc22c6a4e67c",
+    "runtime/jason_smith_001__r02__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "490b29ec32ad20fec028916a5b413716063d1ac68289e31a4d914c87348c248d",
+    "runtime/jason_smith_001__r02__structured_common_profile/accepted-turns.jsonl": "cd31fe163ff3c7eed2169f8e82aab02b9c3860da6ca3f0192affb00f5b0de2a1",
+    "runtime/jason_smith_001__r02__structured_common_profile/memory/comparison_jason_smith_001__r02__structured_common_profile__Jason_001.jsonl": "b40e6dcedfcbb4696a91803fe9a79cd28aa3c4021d3d0bb906d2d79241ebc8b0",
+    "runtime/jason_smith_001__r02__flat_full_history/sessions/session_11/generation-events.jsonl": "0e376cedea31bff892b7e8bf3aec642905745fccbd64e9c66370754938f8e2e9",
+    "runtime/jason_smith_001__r02__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "01624747f2f3771e6780036c6778fe5952ff8278e93b0e00c915e193af27e23d",
+    "runtime/jason_smith_001__r02__flat_full_history/accepted-turns.jsonl": "6156491a22332a93182c39dc3959f32eed8acb4be1b8081299a11b994ef46df8",
+    "runtime/jason_smith_001__r03__structured_common_profile/sessions/session_11/generation-events.jsonl": "b3ce7a28b2349b7dfb94014416cea5b3e2fc2e9cc949e4e4ff290c01a0cea151",
+    "runtime/jason_smith_001__r03__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "f8815473c37a24f596d0a84be04fea64757c1535d72538e0d997e6b468dc1efc",
+    "runtime/jason_smith_001__r03__structured_common_profile/accepted-turns.jsonl": "2abbff88f33be07508da9e864195aac9bb5ea5f2bcb487d871996b5e822f8ba1",
+    "runtime/jason_smith_001__r03__structured_common_profile/memory/comparison_jason_smith_001__r03__structured_common_profile__Jason_001.jsonl": "a7dd9fcf303c42b54e3b1d04b674835b5efa1d49892821f84bc357b828736f52",
+    "runtime/jason_smith_001__r03__flat_full_history/sessions/session_11/generation-events.jsonl": "8939b72a6f14e1bfddd3955837b28dda850ab4921f34a724854694a2dfb86d67",
+    "runtime/jason_smith_001__r03__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "0de74ac5ec5da0db36d9a2d420625203a342939e0e407e30da57696e13fd803e",
+    "runtime/jason_smith_001__r03__flat_full_history/accepted-turns.jsonl": "7f0095d46006cfa908150fc33de9923395201a04015c5bf5a3e30b6a8ac6897a",
+    "runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_11/generation-events.jsonl": "012afc7779c98c522013d251925918bd81611ca705a0290247258e63b646fd5d",
+    "runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "393e383e54a59526f1cae410d2da89197fd05bc237d7cbfa0adc68424ddc53b3",
+    "runtime/juanita_delgado_001__r01__structured_common_profile/accepted-turns.jsonl": "619bc7c0c4070b6332c0b4de4038764ce6dceaceeeb7dafa4fddcad333c50305",
+    "runtime/juanita_delgado_001__r01__structured_common_profile/memory/comparison_juanita_delgado_001__r01__structured_common_profile__juanita_delgado_001.jsonl": "8765bf8cc55ba7b03cf02af0ca1d4088b9563751b61c597a66b433f76e1432c3",
+    "runtime/juanita_delgado_001__r01__flat_full_history/sessions/session_11/generation-events.jsonl": "74158fd9190e120000dded4783280dc60edeb20554a6dd82e2b7250a344eaa35",
+    "runtime/juanita_delgado_001__r01__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "b5b84b118ac100638733979b79a5627fd6fe0775599c9ff3183f4808fa1e0988",
+    "runtime/juanita_delgado_001__r01__flat_full_history/accepted-turns.jsonl": "2f801174c8c3aa141dbbecbe0ee377da755c8962fff97f9c31ff541bdc9b9165",
+    "runtime/juanita_delgado_001__r02__structured_common_profile/sessions/session_11/generation-events.jsonl": "993fd3408a246a0adb8d5164283208fbacb6ed0a735d42cffd6158f4cf4d3f5b",
+    "runtime/juanita_delgado_001__r02__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "c5348d8710abc5866ad5e90570a87261838aaefb9dbddcb891577a262f12980c",
+    "runtime/juanita_delgado_001__r02__structured_common_profile/accepted-turns.jsonl": "999f678bd2b6f42ebf020bb429aa4b7a5d793244fdc9fb8b3a40762e4723298a",
+    "runtime/juanita_delgado_001__r02__structured_common_profile/memory/comparison_juanita_delgado_001__r02__structured_common_profile__juanita_delgado_001.jsonl": "32a1609fdcee23655580b8966671b5bd92dd5f042db858193fafec976d6fb462",
+    "runtime/juanita_delgado_001__r02__flat_full_history/sessions/session_11/generation-events.jsonl": "8141dc6cb29790aec5c80a733e374e75e9754856058f5b03af439225d0033c51",
+    "runtime/juanita_delgado_001__r02__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "f0245bf67fab3d09d8ae96a391efc6448eeb7706269cd0a94832deeeb91e2b8c",
+    "runtime/juanita_delgado_001__r02__flat_full_history/accepted-turns.jsonl": "d40bf8d788d0622e87892652ea2b36d3f60c7e3fe25c896d8d080e142e6f8187",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/sessions/session_11/generation-events.jsonl": "2ecf137fb81e1c557ae8ddc31cca42e1a064b782429726068164d317f65fa3ec",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/sessions/session_11/openrouter-api-records.jsonl": "c5eca436d4c29425d433ff91b0901f653ac2d2053023ca0476e373ea07f7da41",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/accepted-turns.jsonl": "19d73a2e9f426b70b2539e0f1ed6031448b5ad7a59cc5b0cb472e7575eec83ba",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/memory/comparison_juanita_delgado_001__r03__structured_common_profile__juanita_delgado_001.jsonl": "cf682cf64d7c144717fa0aa975aa8fd13b68f9cd29008e213d9be123694639b4",
+    "runtime/juanita_delgado_001__r03__flat_full_history/sessions/session_11/generation-events.jsonl": "0fd6f9046499b8c7b6b0b13979ada4ed7311d1ef2c246feeb1f3623e79793d90",
+    "runtime/juanita_delgado_001__r03__flat_full_history/sessions/session_11/openrouter-api-records.jsonl": "012b7fb27a666c43869f4073e5736afd1cadf1b91adf250d24ba2d40d47a0ba9",
+    "runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl": "ed121586589f56f798bd85d61f0ab71fd15869287abecb3ef0afe2ee30b9554c"
+  },
+  "script_sha256": "8fe3e5c3bbaa75b98fe3962acc07e908a8e57ba7ad665f43701a6e1252d73470"
+}

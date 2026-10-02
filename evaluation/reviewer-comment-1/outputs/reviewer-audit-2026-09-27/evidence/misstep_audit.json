@@ -1,0 +1,858 @@
+{
+  "corpus": {
+    "transcripts": 20,
+    "therapist_turns": 300,
+    "patient_turns": 300,
+    "condition_counts": {
+      "('full_llmpatients', 'appropriate')": 5,
+      "('full_llmpatients', 'seeded_misstep')": 5,
+      "('prompt_only_baseline', 'appropriate')": 5,
+      "('prompt_only_baseline', 'seeded_misstep')": 5
+    },
+    "unique_therapist_sequences": 2,
+    "unique_therapist_texts": 30,
+    "even_transcripts_all_seeded": true,
+    "sequential_sheet_order_verified": true
+  },
+  "panel_a": {
+    "Rater 1": {
+      "n": 300,
+      "tp": 150,
+      "fp": 72,
+      "tn": 78,
+      "fn": 0,
+      "precision": 0.6756756756756757,
+      "recall": 1.0,
+      "specificity": 0.52,
+      "f1": 0.8064516129032258,
+      "accuracy": 0.76
+    },
+    "Rater 2": {
+      "n": 300,
+      "tp": 150,
+      "fp": 5,
+      "tn": 145,
+      "fn": 0,
+      "precision": 0.967741935483871,
+      "recall": 1.0,
+      "specificity": 0.9666666666666667,
+      "f1": 0.9836065573770492,
+      "accuracy": 0.9833333333333333
+    },
+    "Either": {
+      "n": 300,
+      "tp": 150,
+      "fp": 74,
+      "tn": 76,
+      "fn": 0,
+      "precision": 0.6696428571428571,
+      "recall": 1.0,
+      "specificity": 0.5066666666666667,
+      "f1": 0.8021390374331551,
+      "accuracy": 0.7533333333333333
+    },
+    "Both": {
+      "n": 300,
+      "tp": 150,
+      "fp": 3,
+      "tn": 147,
+      "fn": 0,
+      "precision": 0.9803921568627451,
+      "recall": 1.0,
+      "specificity": 0.98,
+      "f1": 0.9900990099009901,
+      "accuracy": 0.99
+    }
+  },
+  "panel_b": {
+    "Rater 1": {
+      "n": 300,
+      "tp": 159,
+      "fp": 34,
+      "tn": 44,
+      "fn": 63,
+      "precision": 0.8238341968911918,
+      "recall": 0.7162162162162162,
+      "specificity": 0.5641025641025641,
+      "f1": 0.7662650602409639,
+      "accuracy": 0.6766666666666666
+    },
+    "Rater 2": {
+      "n": 300,
+      "tp": 134,
+      "fp": 59,
+      "tn": 86,
+      "fn": 21,
+      "precision": 0.694300518134715,
+      "recall": 0.864516129032258,
+      "specificity": 0.593103448275862,
+      "f1": 0.7701149425287356,
+      "accuracy": 0.7333333333333333
+    },
+    "Either": {
+      "n": 300,
+      "tp": 161,
+      "fp": 32,
+      "tn": 44,
+      "fn": 63,
+      "precision": 0.8341968911917098,
+      "recall": 0.71875,
+      "specificity": 0.5789473684210527,
+      "f1": 0.7721822541966427,
+      "accuracy": 0.6833333333333333
+    },
+    "Both": {
+      "n": 300,
+      "tp": 132,
+      "fp": 61,
+      "tn": 86,
+      "fn": 21,
+      "precision": 0.6839378238341969,
+      "recall": 0.8627450980392157,
+      "specificity": 0.5850340136054422,
+      "f1": 0.7630057803468208,
+      "accuracy": 0.7266666666666667
+    },
+    "Seeded": {
+      "n": 300,
+      "tp": 131,
+      "fp": 62,
+      "tn": 88,
+      "fn": 19,
+      "precision": 0.6787564766839378,
+      "recall": 0.8733333333333333,
+      "specificity": 0.5866666666666667,
+      "f1": 0.7638483965014577,
+      "accuracy": 0.73
+    }
+  },
+  "agreement": {
+    "All": {
+      "n": 300,
+      "both_positive": 153,
+      "rater1_only": 69,
+      "rater2_only": 2,
+      "both_negative": 76,
+      "observed": 0.7633333333333333,
+      "expected": 0.508,
+      "kappa": 0.518970189701897,
+      "joint_positive_category_agreement": 0.8366013071895425,
+      "same_category_count": 128
+    },
+    "Seeded": {
+      "n": 150,
+      "both_positive": 150,
+      "rater1_only": 0,
+      "rater2_only": 0,
+      "both_negative": 0,
+      "observed": 1.0,
+      "expected": 1.0,
+      "kappa": null,
+      "joint_positive_category_agreement": 0.8533333333333334,
+      "same_category_count": 128
+    },
+    "Appropriate": {
+      "n": 150,
+      "both_positive": 3,
+      "rater1_only": 69,
+      "rater2_only": 2,
+      "both_negative": 76,
+      "observed": 0.5266666666666666,
+      "expected": 0.5186666666666667,
+      "kappa": 0.016620498614958235,
+      "joint_positive_category_agreement": 0.0,
+      "same_category_count": 0
+    }
+  },
+  "archived_detector_models": {
+    "gemini-3.1-pro-preview": 20
+  },
+  "detector_versions": {
+    "step-missteps-v1": 20
+  },
+  "computed_at_range": [
+    "2026-06-25T17:50:54.695Z",
+    "2026-06-25T18:06:13.685Z"
+  ],
+  "metadata_leakage_terms_in_completed_workbooks": {
+    "Rater 1": [],
+    "Rater 2": []
+  },
+  "confidence_by_script": {
+    "Rater 1": {
+      "All": {
+        "3": 176,
+        "2": 41,
+        "1": 5
+      },
+      "Seeded": {
+        "3": 150
+      },
+      "Appropriate": {
+        "3": 26,
+        "2": 41,
+        "1": 5
+      }
+    },
+    "Rater 2": {
+      "All": {
+        "3": 92,
+        "2": 7,
+        "1": 1,
+        "None": 55
+      },
+      "Seeded": {
+        "3": 92,
+        "2": 3,
+        "None": 55
+      },
+      "Appropriate": {
+        "2": 4,
+        "1": 1
+      }
+    }
+  },
+  "categories_pooled": {
+    "Structure / monitoring": 136,
+    "Safety / risk management": 34,
+    "Empathy / listening": 123,
+    "Premature interpretation / diagnostic overreach": 44,
+    "Boundaries / self-disclosure": 40
+  },
+  "per_condition_detector": {
+    "full_llmpatients": {
+      "Rater 1": {
+        "n": 150,
+        "tp": 76,
+        "fp": 14,
+        "tn": 24,
+        "fn": 36,
+        "precision": 0.8444444444444444,
+        "recall": 0.6785714285714286,
+        "specificity": 0.631578947368421,
+        "f1": 0.7524752475247525,
+        "accuracy": 0.6666666666666666
+      },
+      "Rater 2": {
+        "n": 150,
+        "tp": 67,
+        "fp": 23,
+        "tn": 48,
+        "fn": 12,
+        "precision": 0.7444444444444445,
+        "recall": 0.8481012658227848,
+        "specificity": 0.676056338028169,
+        "f1": 0.7928994082840237,
+        "accuracy": 0.7666666666666667
+      },
+      "Either": {
+        "n": 150,
+        "tp": 77,
+        "fp": 13,
+        "tn": 24,
+        "fn": 36,
+        "precision": 0.8555555555555555,
+        "recall": 0.6814159292035398,
+        "specificity": 0.6486486486486487,
+        "f1": 0.7586206896551724,
+        "accuracy": 0.6733333333333333
+      },
+      "Both": {
+        "n": 150,
+        "tp": 66,
+        "fp": 24,
+        "tn": 48,
+        "fn": 12,
+        "precision": 0.7333333333333333,
+        "recall": 0.8461538461538461,
+        "specificity": 0.6666666666666666,
+        "f1": 0.7857142857142857,
+        "accuracy": 0.76
+      },
+      "Seeded": {
+        "n": 150,
+        "tp": 65,
+        "fp": 25,
+        "tn": 50,
+        "fn": 10,
+        "precision": 0.7222222222222222,
+        "recall": 0.8666666666666667,
+        "specificity": 0.6666666666666666,
+        "f1": 0.7878787878787878,
+        "accuracy": 0.7666666666666667
+      }
+    },
+    "prompt_only_baseline": {
+      "Rater 1": {
+        "n": 150,
+        "tp": 83,
+        "fp": 20,
+        "tn": 20,
+        "fn": 27,
+        "precision": 0.8058252427184466,
+        "recall": 0.7545454545454545,
+        "specificity": 0.5,
+        "f1": 0.7793427230046949,
+        "accuracy": 0.6866666666666666
+      },
+      "Rater 2": {
+        "n": 150,
+        "tp": 67,
+        "fp": 36,
+        "tn": 38,
+        "fn": 9,
+        "precision": 0.6504854368932039,
+        "recall": 0.881578947368421,
+        "specificity": 0.5135135135135135,
+        "f1": 0.7486033519553073,
+        "accuracy": 0.7
+      },
+      "Either": {
+        "n": 150,
+        "tp": 84,
+        "fp": 19,
+        "tn": 20,
+        "fn": 27,
+        "precision": 0.8155339805825242,
+        "recall": 0.7567567567567568,
+        "specificity": 0.5128205128205128,
+        "f1": 0.7850467289719626,
+        "accuracy": 0.6933333333333334
+      },
+      "Both": {
+        "n": 150,
+        "tp": 66,
+        "fp": 37,
+        "tn": 38,
+        "fn": 9,
+        "precision": 0.6407766990291263,
+        "recall": 0.88,
+        "specificity": 0.5066666666666667,
+        "f1": 0.7415730337078652,
+        "accuracy": 0.6933333333333334
+      },
+      "Seeded": {
+        "n": 150,
+        "tp": 66,
+        "fp": 37,
+        "tn": 38,
+        "fn": 9,
+        "precision": 0.6407766990291263,
+        "recall": 0.88,
+        "specificity": 0.5066666666666667,
+        "f1": 0.7415730337078652,
+        "accuracy": 0.6933333333333334
+      }
+    }
+  },
+  "ratings_by_generation_condition": {
+    "full_llmpatients": {
+      "Rater 1": {
+        "Profile coherence": {
+          "n": 10,
+          "mean": 4.2,
+          "missing": 0
+        },
+        "Multi-session continuity": {
+          "n": 10,
+          "mean": 4.6,
+          "missing": 0
+        },
+        "Clinical plausibility for training": {
+          "n": 10,
+          "mean": 3.8,
+          "missing": 0
+        },
+        "Resistance/alliance realism": {
+          "n": 10,
+          "mean": 4,
+          "missing": 0
+        },
+        "Educational usefulness": {
+          "n": 10,
+          "mean": 3.1,
+          "missing": 0
+        },
+        "Traceability/supervision usefulness": {
+          "n": 10,
+          "mean": 2.9,
+          "missing": 0
+        }
+      },
+      "Rater 2": {
+        "Profile coherence": {
+          "n": 10,
+          "mean": 4.9,
+          "missing": 0
+        },
+        "Multi-session continuity": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Clinical plausibility for training": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Resistance/alliance realism": {
+          "n": 10,
+          "mean": 4.6,
+          "missing": 0
+        },
+        "Educational usefulness": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Traceability/supervision usefulness": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        }
+      }
+    },
+    "prompt_only_baseline": {
+      "Rater 1": {
+        "Profile coherence": {
+          "n": 10,
+          "mean": 4.4,
+          "missing": 0
+        },
+        "Multi-session continuity": {
+          "n": 10,
+          "mean": 4.4,
+          "missing": 0
+        },
+        "Clinical plausibility for training": {
+          "n": 10,
+          "mean": 3.6,
+          "missing": 0
+        },
+        "Resistance/alliance realism": {
+          "n": 10,
+          "mean": 4.4,
+          "missing": 0
+        },
+        "Educational usefulness": {
+          "n": 10,
+          "mean": 2.8,
+          "missing": 0
+        },
+        "Traceability/supervision usefulness": {
+          "n": 10,
+          "mean": 2.9,
+          "missing": 0
+        }
+      },
+      "Rater 2": {
+        "Profile coherence": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Multi-session continuity": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Clinical plausibility for training": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Resistance/alliance realism": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Educational usefulness": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        },
+        "Traceability/supervision usefulness": {
+          "n": 10,
+          "mean": 5,
+          "missing": 0
+        }
+      }
+    }
+  },
+  "ratings_raw": {
+    "Rater 1": {
+      "T001": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 2
+      },
+      "T002": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 3,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T003": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T004": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 3,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T005": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T006": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 3,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T007": {
+        "Profile coherence": 3,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T008": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 4,
+        "Traceability/supervision usefulness": 3
+      },
+      "T009": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T010": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T011": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 2,
+        "Traceability/supervision usefulness": 2
+      },
+      "T012": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 2,
+        "Traceability/supervision usefulness": 3
+      },
+      "T013": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T014": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T015": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T016": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 4,
+        "Clinical plausibility for training": 3,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T017": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T018": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T019": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      },
+      "T020": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 4,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 3,
+        "Traceability/supervision usefulness": 3
+      }
+    },
+    "Rater 2": {
+      "T001": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T002": {
+        "Profile coherence": 4,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T003": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T004": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T005": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T006": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T007": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T008": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 4,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T009": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T010": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T011": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T012": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T013": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T014": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T015": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T016": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T017": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T018": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T019": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      },
+      "T020": {
+        "Profile coherence": 5,
+        "Multi-session continuity": 5,
+        "Clinical plausibility for training": 5,
+        "Resistance/alliance realism": 5,
+        "Educational usefulness": 5,
+        "Traceability/supervision usefulness": 5
+      }
+    }
+  },
+  "hypothetical_ppv_at_lower_prevalence_assuming_fixed_sensitivity_specificity": {
+    "0.5": 0.6787564766839378,
+    "0.2": 0.345646437994723,
+    "0.1": 0.19013062409288825,
+    "0.05": 0.10007639419404125,
+    "0.01": 0.020896474716860743
+  },
+  "appropriate_flags_clinician_support": {
+    "Rater 1": 28,
+    "Rater 2": 3,
+    "Either": 30,
+    "Both": 1,
+    "Seeded": 0
+  },
+  "seeded_rater_positive_by_turn_index": {
+    "Rater 1": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ],
+    "Rater 2": [
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10,
+      10
+    ]
+  }
+}

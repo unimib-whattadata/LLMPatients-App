@@ -1,0 +1,16 @@
+{
+  "checked_at": "2026-09-30T23:41:46.063286+00:00",
+  "archives": [
+    {
+      "archive": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30",
+      "manifest_sha256": "d0ac7758200b1771b3a72b34b6cb643c736c0342ac326949ca6f64a4b023fabf",
+      "internal_files_verified": 707
+    },
+    {
+      "archive": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-length-stress-2026-09-30",
+      "manifest_sha256": "4e753959ea4ab66eb2a829cce6ad061afaeb1bf1c50d5cb179f3906a736574cd",
+      "internal_files_verified": 396
+    }
+  ],
+  "prior_root_deliverables_preserved_via_checkpoint": true
+}

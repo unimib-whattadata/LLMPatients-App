@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "disagreements": [
+    {
+      "id": "fbf7f32ac8a84a65a7f5dbfd978a1042",
+      "evaluator_a": {
+        "id": "fbf7f32ac8a84a65a7f5dbfd978a1042",
+        "category": "complete",
+        "fields": {
+          "current_venue": {
+            "status": "correct",
+            "evidence": "current booked venue is Plover Annex",
+            "reason": "Identifies Plover Annex as the current booked venue."
+          },
+          "former_venue": {
+            "status": "correct",
+            "evidence": "former venue that it replaced was Larch Reading Room",
+            "reason": "Identifies Larch Reading Room as the former venue."
+          }
+        },
+        "rationale": "Both names are explicitly and correctly labelled current/former. The generic closing reference to the first and second venue can refer to their chronology and does not explicitly change those labels.",
+        "gold_issue": null
+      },
+      "evaluator_b": {
+        "id": "fbf7f32ac8a84a65a7f5dbfd978a1042",
+        "category": "contradictory",
+        "fields": {
+          "current_venue": {
+            "status": "ambiguous",
+            "evidence": "current booked venue is Plover Annex",
+            "reason": "Correct explicit current label conflicts with the concluding change from the first listed venue (Plover) to the second (Larch)."
+          },
+          "former_venue": {
+            "status": "ambiguous",
+            "evidence": "corrected the record from the first one to the second one",
+            "reason": "Correct explicit former label conflicts with the concluding first-to-second change, which makes the second listed venue (Larch) the replacement."
+          }
+        },
+        "rationale": "The explicit current/former labels are correct, but the final first-to-second reference reverses the order of the two named venues without resolving the conflicting direction of change.",
+        "gold_issue": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-09-29T08:44:53.154783+00:00",
+  "pid": 25712,
+  "manifest_sha256": "c3b96058c75f02c2cf59cfe757c8030cd7fbf1389fb0b9a4c4b17c603a422b31",
+  "supervisor_label": "local.llmpatient.memory-comparison-20260929-resume02",
+  "resumes_after_execution_order": 8
+}

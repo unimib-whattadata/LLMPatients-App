@@ -1,0 +1,35 @@
+{
+  "patient_id": "jason_smith_001",
+  "target_tokens": 1200000,
+  "fact_position": "start",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_1200000/start/records.jsonl",
+  "record_count": 6726,
+  "full_prompt_local_tokens": 1200103,
+  "full_history_local_tokens": 1195070,
+  "block_start_history_token": 8,
+  "block_end_history_token": 7263,
+  "block_relative_midpoint": 0.003042081216999841,
+  "context_id": "jason_smith_001__1200000__start",
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/full-saved-memory-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/start/full_saved_memory.txt.gz",
+  "prompt_sha256": "efe3dba3bf73dfb36517365c5195cac879c4fac0546bc8524c34363242666ebb",
+  "prompt_file_sha256": "44d0c11a61557aa4bb45a48a1109e064e80b8463b1947990d98ef55b74c54543",
+  "local_prompt_tokens": 2312884,
+  "uncompressed_prompt_bytes": 8887588,
+  "compressed_prompt_bytes": 335941,
+  "complete_saved_original_records": 81,
+  "record_counts": {
+    "conversation_turn": 6726,
+    "episode_summary": 9,
+    "fact_batch": 9,
+    "session_reflection": 9,
+    "long_term_summary": 9
+  },
+  "all_record_fields_preserved": true,
+  "memory_record_stream_sha256": "2073ef517a5cf3045975d84e07ef5914f2f29c8adc47605baf9be92b0bb10c1c",
+  "paired_baseline_job_ids": [
+    "113"
+  ],
+  "selection_limit": null,
+  "truncation_applied": false,
+  "plugin_enabled": false
+}

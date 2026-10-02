@@ -1,0 +1,235 @@
+{
+  "goal": "ok procedi fino alla fine dei test",
+  "status": "complete_reviewed",
+  "root": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-openrouter-2026-09-27",
+  "regional_archive": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-2026-09-27",
+  "endpoint_amendment": "vertex-global-continuation-2026-09-27",
+  "reused": {
+    "phq_complete_administrations": 68,
+    "longitudinal_session_statuses": {
+      "completed": 32,
+      "running": 1
+    },
+    "longitudinal_observed_turns": 161
+  },
+  "planned_scope": {
+    "phq_administrations": 100,
+    "phq_per_profile": 20,
+    "phq_item_answers": 1000,
+    "longitudinal_sessions": 110,
+    "longitudinal_turns": 550
+  },
+  "policy": "Resume missing work only; preserve accepted outputs and failures, verify provenance, stratify by endpoint. Regional and continuation records are not independent replications.",
+  "processes": {
+    "phq": {
+      "pid": 49280,
+      "started_at": "2026-09-27T15:53:36.151034+00:00",
+      "exec_session": 40208,
+      "workers": 1,
+      "status": "completed",
+      "exit_code": 0,
+      "finished_at": "2026-09-27T16:08:59.990740+00:00"
+    },
+    "longitudinal": {
+      "pid": 49300,
+      "started_at": "2026-09-27T15:53:44.144184+00:00",
+      "exec_session": 44323,
+      "workers": 1,
+      "status": "completed",
+      "exit_code": 0,
+      "finished_at": "2026-09-27T19:26:41.954970+00:00"
+    },
+    "observer": {
+      "pid": 49329,
+      "started_at": "2026-09-27T15:53:57.274358+00:00",
+      "exec_session": 24901,
+      "status": "completed",
+      "exit_code": 0,
+      "finished_at": "2026-09-27T19:27:09.505986+00:00"
+    }
+  },
+  "report_review_required": false,
+  "operational_suspension": {
+    "at": "2026-09-27T12:35:32.015138+00:00",
+    "action": "Temporarily suspend PHQ requests and new longitudinal scheduling; existing longitudinal child processes remain active",
+    "reason": "Last three minutes show 25 global TooManyRequests outcomes and no successful response; reduce concurrent pressure while preserving process state.",
+    "actions": [
+      {
+        "pid": 35304,
+        "script": "complete_phq9.py",
+        "signal": "SIGSTOP"
+      },
+      {
+        "pid": 35057,
+        "script": "run_longitudinal.py",
+        "signal": "SIGSTOP"
+      }
+    ],
+    "scientific_inputs_changed": false,
+    "all_accepted_outputs_retained": true
+  },
+  "inference_cooldown": {
+    "at": "2026-09-27T12:37:40.368044+00:00",
+    "action": "Suspend remaining inference workers for service cooldown, preserving in-memory state; then resume one longitudinal worker at a time",
+    "reason": "No global response after 12:31:42 UTC despite reduced load; avoid extending a saturated API failure sequence.",
+    "actions": [
+      {
+        "pid": 35058,
+        "patient": "jason_smith_001",
+        "signal": "SIGSTOP"
+      },
+      {
+        "pid": 35059,
+        "patient": "juanita_delgado_001",
+        "signal": "SIGSTOP"
+      }
+    ],
+    "scientific_inputs_changed": false,
+    "all_attempts_retained": true
+  },
+  "next_operational_action": "Campaign complete and reviewed. No further inference or validation run is pending; REPORT.md records results and manuscript revision recommendations.",
+  "last_operational_action": {
+    "at": "2026-09-27T15:40:29.169797+00:00",
+    "reason": "Repair classification of OpenRouter in-band upstream failures (HTTP 200 with choice error 504), with all original transport files and accepted results preserved",
+    "processes_terminated": true,
+    "exit_codes": {
+      "phq": 75,
+      "longitudinal": 75,
+      "observer": 1
+    },
+    "counts": {
+      "phq_complete": 85,
+      "phq_saved_partial_items": 6,
+      "longitudinal_complete": 35,
+      "longitudinal_saved_turns": 184
+    },
+    "checkpoint_manifest": "openrouter-repair-input-manifest-20260927T154029Z.json",
+    "checkpoint_manifest_sha256": "a11e7aaf5eed996ccf4064e09eff15cc5733f7cc1fe2aaf9946a65503df64286",
+    "checkpoint_archive": "runtime/openrouter-repair-checkpoint-20260927T154029Z",
+    "checkpoint_files": 427,
+    "failed_finalization": "juanita_delgado_001/full/session_04",
+    "failure_http_status": 200,
+    "failure_native_finish_reason": "error",
+    "failure_upstream_code": 504,
+    "failure_native_response_id": "gen-1790523215-aTPZlb6CDmCgXzkjNQRd",
+    "all_patient_turns_retained": true,
+    "original_runtime_changes": false,
+    "automatic_restart_scheduled": false,
+    "planned_next_action": "Implement and freeze the explicit in-band error handling extension, verify offline and checkpoint provenance, then resume authorized missing work including failed finalization without repeating accepted turns; stop if service failures persist."
+  },
+  "external_blocker_file": "runtime/capacity-blocker.json",
+  "paused_at": "2026-09-27T14:58:06.080714+00:00",
+  "all_experimental_processes_terminated": true,
+  "counts_at_pause": {
+    "phq_complete": 85,
+    "phq_saved_partial_items": 6,
+    "longitudinal_complete": 35,
+    "longitudinal_saved_turns": 184
+  },
+  "checkpoint_manifest": "user-pause-input-manifest.json",
+  "checkpoint_manifest_sha256": "837e18632b7c37399e5dabd0349618442ee938b01dc66e06b8f1b10fc7050188",
+  "resumed_at": "2026-09-27T15:53:28.706415+00:00",
+  "process_resumption": "process-resumption.json",
+  "historical_processes_at_pause": {
+    "longitudinal": {
+      "pid": 35057,
+      "exec_session": 14025,
+      "started_at": "2026-09-27T12:30:32.416052+00:00",
+      "workers": 2
+    },
+    "phq": {
+      "pid": 35304,
+      "exec_session": 51449,
+      "started_at": "2026-09-27T12:32:54.252056+00:00",
+      "workers": 2
+    },
+    "observer": {
+      "pid": 35324,
+      "exec_session": 36067,
+      "started_at": "2026-09-27T12:33:30.602291+00:00"
+    }
+  },
+  "latest_checkpoint_manifest": "openrouter-repair-input-manifest-20260927T154029Z.json",
+  "latest_checkpoint_manifest_sha256": "a11e7aaf5eed996ccf4064e09eff15cc5733f7cc1fe2aaf9946a65503df64286",
+  "latest_checkpoint_archive": "runtime/openrouter-repair-checkpoint-20260927T154029Z",
+  "latest_pause_record": "runtime/openrouter-repair-pause-20260927T154029Z.json",
+  "rate_limit_implementation": "runtime/rate-limit-implementation.json",
+  "rate_limit_amendment": "rate-limit-amendment.json",
+  "rate_limit_amendment_sha256": "ec9eafc50a841cfc2897f4b4d01e893b7c0574d732ec4b43d65aa8238c1569f1",
+  "historical_processes_before_rate_limit": {
+    "phq": {
+      "pid": 38947,
+      "exec_session": 64625,
+      "started_at": "2026-09-27T13:50:45.848024+00:00",
+      "workers": 1,
+      "status": "stopped",
+      "exit_code": 143,
+      "stopped_at": "2026-09-27T14:03:35.471454+00:00"
+    }
+  },
+  "authorization_status": "runtime/resume-authorization-status.json",
+  "authorized_at": "2026-09-27T14:54:55.784404+00:00",
+  "historical_processes_after_rate_limit": {
+    "phq": {
+      "pid": 44774,
+      "exec_session": 67595,
+      "started_at": "2026-09-27T14:55:13.769321+00:00",
+      "finished_at": "2026-09-27T14:56:19.450927+00:00",
+      "workers": 1,
+      "status": "paused_capacity",
+      "exit_code": 75
+    }
+  },
+  "post_stop_validation": {
+    "phq": "PASS",
+    "longitudinal": "PASS",
+    "phq_log": "analysis/rate-limit-stop-phq-audit.log",
+    "longitudinal_log": "analysis/rate-limit-stop-longitudinal-audit.log",
+    "full_campaign_complete": false
+  },
+  "previous_campaign": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-global-2026-09-27",
+  "openrouter_amendment": "openrouter-provider-amendment.json",
+  "authorization_basis": "Explicit user request to switch to OpenRouter with the same Gemini 2.5 Pro model and use the supplied key; synthetic patient payload consent retained.",
+  "openrouter_amendment_sha256": "8f3bc5bf34d6a360cfedb3982a7e3775e7c070327ffe449cba22e6030fcf6733",
+  "historical_openrouter_processes": {
+    "phq": {
+      "pid": 47540,
+      "started_at": "2026-09-27T15:21:44.678988+00:00",
+      "exec_session": 82445,
+      "workers": 1
+    },
+    "longitudinal": {
+      "pid": 47553,
+      "started_at": "2026-09-27T15:22:10.766654+00:00",
+      "exec_session": 43097,
+      "workers": 1
+    },
+    "observer": {
+      "pid": 47564,
+      "started_at": "2026-09-27T15:22:37.692762+00:00",
+      "exec_session": 34672
+    }
+  },
+  "transport_error_amendment": "openrouter-error-handling-amendment.json",
+  "transport_error_amendment_sha256": "2b65d9b1249b4521c27a9e7ed387a8bd1a96032e70ab246242d8844cf5e84e5b",
+  "transport_error_resumption": "runtime/openrouter-error-handling-resumption.json",
+  "updated_at": "2026-09-27T19:30:38.074516+00:00",
+  "phq_completion": "runtime/phq-completion.json",
+  "completed_at": "2026-09-27T19:26:41.954970+00:00",
+  "reviewed_at": "2026-09-27T19:30:38.074516+00:00",
+  "final_counts": {
+    "phq_administrations": 100,
+    "phq_item_answers": 1000,
+    "longitudinal_sessions": 110,
+    "longitudinal_turns": 550,
+    "longitudinal_valid_responses": 540,
+    "retained_runtime_invalid_responses": 10
+  },
+  "final_report": {
+    "path": "REPORT.md",
+    "sha256": "c754dd332a091d9dfab9a3fbaa40717ac75be13ba415637e3c2158a0063fc369",
+    "review": "analysis/independent-final-report-review.md",
+    "review_status": "PASS"
+  },
+  "completion_evidence": "runtime/campaign-completion.json"
+}

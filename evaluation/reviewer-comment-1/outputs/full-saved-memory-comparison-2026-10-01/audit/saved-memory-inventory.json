@@ -1,0 +1,2000 @@
+{
+  "schema_version": 1,
+  "scope": "Read-only inventory of all saved memory before sessions 10/11 recall probes; five original r01 prefixes and existing regional raw archives.",
+  "profiles": [
+    {
+      "patient_id": "alex_carter_001",
+      "runtime_root": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile",
+      "complete_preprobe_memory": {
+        "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/memory/comparison_alex_carter_001__r01__structured_common_profile__alex_carter_001.jsonl",
+        "bytes": 358347,
+        "sha256": "f2129a2c874ec958625a1bdc3bac179682fc1c0d917c017149522f01e6e98e0b",
+        "take_first_lines": 81,
+        "prefix_bytes": 300848,
+        "prefix_sha256": "898638db1c43e6f93c1981959b11e9aa14f81d28aa272b300770fde4edca1376",
+        "hash_witness": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 304883,
+          "sha256": "a8b6181f456ccea371d9571c2bd65213c9e2b1d5c70320777478347258649191",
+          "json_pointer": "/state_files_at_close/memory~1comparison_alex_carter_001__r01__structured_common_profile__alex_carter_001.jsonl"
+        },
+        "record_counts": {
+          "conversation_turn": 45,
+          "episode_summary": 9,
+          "fact_batch": 9,
+          "session_reflection": 9,
+          "long_term_summary": 9
+        },
+        "validated_fact_count": 213,
+        "rejected_fact_proposal_count": 11,
+        "source_references_all_within_prefix": true,
+        "session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "long_term_summary_versions": [
+          {
+            "line": 9,
+            "id": "4d41f372266647f7a45e11210c8e8ea0",
+            "updated_at": "2026-09-28T22:53:00.257037+00:00"
+          },
+          {
+            "line": 18,
+            "id": "299ebd7eb3a04f839a241476c9d4e1e1",
+            "updated_at": "2026-09-29T12:48:27.104887+00:00"
+          },
+          {
+            "line": 27,
+            "id": "79d74df542c14accade26108fef9db7f",
+            "updated_at": "2026-09-29T13:37:32.979734+00:00"
+          },
+          {
+            "line": 36,
+            "id": "e25f9a08cdd24f7aac9e558ac430107f",
+            "updated_at": "2026-09-29T18:28:41.871372+00:00"
+          },
+          {
+            "line": 45,
+            "id": "b29e94be9760460a85209d37ff3bde4d",
+            "updated_at": "2026-09-29T19:00:42.015913+00:00"
+          },
+          {
+            "line": 54,
+            "id": "e866704028384619b69b4af72d8adedc",
+            "updated_at": "2026-09-29T21:10:15.739240+00:00"
+          },
+          {
+            "line": 63,
+            "id": "70660ff3f9b740539ede08b41e069c0b",
+            "updated_at": "2026-09-29T22:38:10.836538+00:00"
+          },
+          {
+            "line": 72,
+            "id": "1f87e77cd8f4448f8ad6a85b60ee2b99",
+            "updated_at": "2026-09-29T22:59:01.709919+00:00"
+          },
+          {
+            "line": 81,
+            "id": "edb74d28459f4334a7ba553eff81d4af",
+            "updated_at": "2026-09-30T00:50:59.951823+00:00"
+          }
+        ],
+        "future_records_excluded": 18
+      },
+      "existing_preprobe_exports": {
+        "raw_turns": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/alex_carter_001/original-prefix.jsonl",
+          "bytes": 53477,
+          "sha256": "324bfd92487baea3b6a04e8596891f53c2913a1076ffa756a6c39d7e13f4fed4",
+          "count": 45,
+          "identical_parsed_records_to_complete_prefix": true
+        },
+        "fact_batches": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/alex_carter_001/original-batches.jsonl",
+          "bytes": 221244,
+          "sha256": "1cea6939f3c949ed5784fdcfa395b46b7acdec1f5fe17294f5abc036533e1db4",
+          "count": 9,
+          "identical_parsed_records_to_complete_prefix": true
+        }
+      },
+      "session_snapshots": [
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_01/session.json",
+          "bytes": 179462,
+          "sha256": "396c8f51b84d74ecb5faf9f5e82b774a8c7e8e24a3e76b7e2882c5d294fd05d6",
+          "session_index": 1,
+          "session_id": "comparison_s01",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-28T22:53:00.302881+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_02/session.json",
+          "bytes": 275841,
+          "sha256": "ab06c4ccd082de1e8c5ff2928a3638f1bb9f4101bca236740c7dc03fd7014594",
+          "session_index": 2,
+          "session_id": "comparison_s02",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T12:48:27.573095+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_03/session.json",
+          "bytes": 272910,
+          "sha256": "2d286f17c7474bf8e894eb0c233eceb9be4b06432ee71e91b23b772ef3021376",
+          "session_index": 3,
+          "session_id": "comparison_s03",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T13:37:33.600634+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_04/session.json",
+          "bytes": 285064,
+          "sha256": "b2da9583398ef42ddc81cef7b179d4a367488c0d3319a448750cf89ca415d6c3",
+          "session_index": 4,
+          "session_id": "comparison_s04",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T18:28:42.652286+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_05/session.json",
+          "bytes": 290087,
+          "sha256": "ec73e66b199320971611ddd742a108b029f90567280d3f96640ce3cb0235948d",
+          "session_index": 5,
+          "session_id": "comparison_s05",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T19:00:42.913981+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_06/session.json",
+          "bytes": 297582,
+          "sha256": "069b949fc96a6614dbe8c4fc203a918d31e6b1cd0be7a3c2b0cb6f343c700091",
+          "session_index": 6,
+          "session_id": "comparison_s06",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T21:10:16.771798+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_07/session.json",
+          "bytes": 281902,
+          "sha256": "b3b5d3713dd1b5892935a407bbaaa6b6ad5738763dc6bc9e05434f57b920db5c",
+          "session_index": 7,
+          "session_id": "comparison_s07",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T22:38:12.015960+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_08/session.json",
+          "bytes": 317182,
+          "sha256": "dfb15e34fafcb7f80b747ddcf631967ab826b6363c0aebee79b61f14903fe24f",
+          "session_index": 8,
+          "session_id": "comparison_s08",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T22:59:02.958677+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 304883,
+          "sha256": "a8b6181f456ccea371d9571c2bd65213c9e2b1d5c70320777478347258649191",
+          "session_index": 9,
+          "session_id": "comparison_s09",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-30T00:51:01.449560+00:00"
+        }
+      ],
+      "saved_non_memory_state": {
+        "run_file": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/runs/comparison_alex_carter_001__r01__structured_common_profile.json",
+          "bytes": 377221,
+          "sha256": "19cc2701a3d24dc989b6a55f84b86dfedd980c33639aeeef178986d61046d318"
+        },
+        "include_only_session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "per_session_final_state_keys": [
+          "therapist_id",
+          "session_id",
+          "summary",
+          "session_reflection",
+          "memory_consolidation",
+          "history",
+          "long_term_context",
+          "episodic_context",
+          "last_topic",
+          "topic_similarity",
+          "total_turns",
+          "last_episode_turn",
+          "messages",
+          "core_emotion",
+          "emotion_intensity",
+          "emotion_state",
+          "emotion_event",
+          "emotion_salience",
+          "low_salience_streak"
+        ],
+        "note": "Historical final_state snapshots include emotion/topic state, history/messages, counters and selected context caches. These are state/duplicates, not additional independent memory records. Exclude later sessions and full run-file wrapper from model input.",
+        "accepted_turn_ledger": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r01__structured_common_profile/accepted-turns.jsonl",
+          "bytes": 2469119,
+          "sha256": "6c9ede99ac0ed76f32ceb9689eaba83bec28c3ade3fd15ac5e8c9308d9caa816"
+        },
+        "accepted_turn_ledger_allowed_session_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "regional_scenarios": [
+        {
+          "target_tokens": 1200000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/end/archive-view.json",
+            "bytes": 11374,
+            "sha256": "80451f0424c6cc92c92a93d815ee9b6bb1d09cdff87e5848c05da2fa447a3a68"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_1200000/end/records.jsonl",
+            "bytes": 6397720,
+            "sha256": "6f47ec05ca80c2285999a6c58cbba9312959d9ab18a110d9bb45988a99ddcea7",
+            "count": 6733,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6688
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/middle/archive-view.json",
+            "bytes": 11294,
+            "sha256": "7bb52d7b8ad170a7e767cfa7a7b3ffd48567d3bce39c325e4280547c7ff84d8a"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_1200000/middle/records.jsonl",
+            "bytes": 6397720,
+            "sha256": "e1ab1fbf1e672f0edc1860b9566f4cbb3fb431f2b321681caafac7e469a08039",
+            "count": 6733,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6688
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/start/archive-view.json",
+            "bytes": 11007,
+            "sha256": "5c7c38b70bf71f3c973c76c120ed4864465ba1037f9235d057f79d4fc41588ca"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_1200000/start/records.jsonl",
+            "bytes": 6397720,
+            "sha256": "262a8c785384428816ae2911f16f8dcf03ebed7d34580d2f411d2aaf9934fbed",
+            "count": 6733,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6688
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/end/archive-view.json",
+            "bytes": 11197,
+            "sha256": "3536724144394cca96e718ec80d4333d1ae7d74b555c8845e758f5516e28f78d"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_64000/end/records.jsonl",
+            "bytes": 325597,
+            "sha256": "f0ccce94b61c9ab0633c2ccc0e55f0bbb37df14097626cbdf0b8aaf4e9cbf6ae",
+            "count": 349,
+            "original_record_count": 45,
+            "synthetic_filler_count": 304
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/middle/archive-view.json",
+            "bytes": 11209,
+            "sha256": "635a1da5578fa31abb717e22f0b4c50960121c0912435b1a7f36fb1a2d933fbc"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_64000/middle/records.jsonl",
+            "bytes": 325597,
+            "sha256": "a55886fff0991eb77514b6c33d2f8005e3ea12e861e87d16f7c50f08e36a4427",
+            "count": 349,
+            "original_record_count": 45,
+            "synthetic_filler_count": 304
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_64000/start/archive-view.json",
+            "bytes": 11056,
+            "sha256": "980ab663e3c122d67be32c8a3d2b6d4b3b26fb5396aa6acfd8e3ea52b403d4ef"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_64000/start/records.jsonl",
+            "bytes": 325597,
+            "sha256": "cc2cb6c71a9cb1f637b5070e37b71487bccc69ffbd466b981f4a145ff740cd91",
+            "count": 349,
+            "original_record_count": 45,
+            "synthetic_filler_count": 304
+          },
+          "filler_summary_or_fact_processing": false
+        }
+      ]
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "runtime_root": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile",
+      "complete_preprobe_memory": {
+        "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/memory/comparison_crystal_smith_001__r01__structured_common_profile__crystal_smith_001.jsonl",
+        "bytes": 349670,
+        "sha256": "1d82a758267cc3271abe33db2651b783a29800cec432c1ff90bbfca19e2e908f",
+        "take_first_lines": 81,
+        "prefix_bytes": 294796,
+        "prefix_sha256": "a7ea93a7c0e9a7133e7ad1faec02f903643bf3335e43a05547e48cdf37042a1d",
+        "hash_witness": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 336807,
+          "sha256": "0b7dde30999b982bbdb03e5421f3898e68bf8b55fba2c9c788ab20a8b38af1e3",
+          "json_pointer": "/state_files_at_close/memory~1comparison_crystal_smith_001__r01__structured_common_profile__crystal_smith_001.jsonl"
+        },
+        "record_counts": {
+          "conversation_turn": 45,
+          "episode_summary": 9,
+          "fact_batch": 9,
+          "session_reflection": 9,
+          "long_term_summary": 9
+        },
+        "validated_fact_count": 202,
+        "rejected_fact_proposal_count": 17,
+        "source_references_all_within_prefix": true,
+        "session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "long_term_summary_versions": [
+          {
+            "line": 9,
+            "id": "62279e0be4ef41479e866fd04d9f34fe",
+            "updated_at": "2026-09-28T22:56:15.555093+00:00"
+          },
+          {
+            "line": 18,
+            "id": "946816128f374fa6bb80edc7fb7e8558",
+            "updated_at": "2026-09-29T11:48:59.275695+00:00"
+          },
+          {
+            "line": 27,
+            "id": "abb963f726044958bcabbe2f8d506a36",
+            "updated_at": "2026-09-29T13:06:30.928696+00:00"
+          },
+          {
+            "line": 36,
+            "id": "478b380941f54d0bb99e47c80d9258ab",
+            "updated_at": "2026-09-29T18:14:25.196278+00:00"
+          },
+          {
+            "line": 45,
+            "id": "cbf799870e7c4a94976e99a700601d56",
+            "updated_at": "2026-09-29T19:39:25.868685+00:00"
+          },
+          {
+            "line": 54,
+            "id": "9099331349e44e89bd0da720aafd52c3",
+            "updated_at": "2026-09-29T20:52:54.809754+00:00"
+          },
+          {
+            "line": 63,
+            "id": "081c76bf277a4913829b1d6698b77aa7",
+            "updated_at": "2026-09-29T21:25:29.720482+00:00"
+          },
+          {
+            "line": 72,
+            "id": "eba0db73f1bd4004bea0bb0e363f5232",
+            "updated_at": "2026-09-29T23:06:07.396706+00:00"
+          },
+          {
+            "line": 81,
+            "id": "3a57a5383c82400e990dc8ae323eb7bd",
+            "updated_at": "2026-09-30T00:40:05.059647+00:00"
+          }
+        ],
+        "future_records_excluded": 18
+      },
+      "existing_preprobe_exports": {
+        "raw_turns": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/crystal_smith_001/original-prefix.jsonl",
+          "bytes": 53057,
+          "sha256": "f9ffd228f9d4acaf06a1e4c961d53f0c443a7505ed8648065aad650366373507",
+          "count": 45,
+          "identical_parsed_records_to_complete_prefix": true
+        },
+        "fact_batches": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/crystal_smith_001/original-batches.jsonl",
+          "bytes": 215564,
+          "sha256": "29a5d2dc3f5b566719c0c926f72b45938ecb994fab7440f4f32d0cac735ef1f9",
+          "count": 9,
+          "identical_parsed_records_to_complete_prefix": true
+        }
+      },
+      "session_snapshots": [
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_01/session.json",
+          "bytes": 229291,
+          "sha256": "4c884678713618990e3ec55b55d91eb478232ecb58485afd8ac0be245ceeb590",
+          "session_index": 1,
+          "session_id": "comparison_s01",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-28T22:56:15.606162+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_02/session.json",
+          "bytes": 307204,
+          "sha256": "772b152c032656c84777df913e890948699607092574d38b1cd3b774dc350e35",
+          "session_index": 2,
+          "session_id": "comparison_s02",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T11:48:59.725665+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_03/session.json",
+          "bytes": 318115,
+          "sha256": "ac06dede3b9121d637396b353d2d4b1edea9f950921ec68d44b59a1118072a4e",
+          "session_index": 3,
+          "session_id": "comparison_s03",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T13:06:31.552391+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_04/session.json",
+          "bytes": 320417,
+          "sha256": "7d43e815d0f8c69f366e9ee50d22a97491ea7caff928bc3ece58107a548a2ed4",
+          "session_index": 4,
+          "session_id": "comparison_s04",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T18:14:25.995528+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_05/session.json",
+          "bytes": 331204,
+          "sha256": "946bfbf163f82ce3ef05e4fc8096a0a6f83cd193760be62a9cc9ce0f00e00ecc",
+          "session_index": 5,
+          "session_id": "comparison_s05",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T19:39:26.784146+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_06/session.json",
+          "bytes": 353370,
+          "sha256": "6fc4fa1189989366d74f9420162a824e245bb7104f64cdfb59188fd3fcb38642",
+          "session_index": 6,
+          "session_id": "comparison_s06",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T20:52:55.861190+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_07/session.json",
+          "bytes": 332767,
+          "sha256": "8307ccd746fa29d8a8894dc7f4970e9657b51077fb92405372d8bff78454bd04",
+          "session_index": 7,
+          "session_id": "comparison_s07",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T21:25:30.925215+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_08/session.json",
+          "bytes": 337082,
+          "sha256": "a5dd42539c83931cac07484e20eb21d4ccba7ce5a8a571fe35a3f38656e9c404",
+          "session_index": 8,
+          "session_id": "comparison_s08",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T23:06:08.747670+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 336807,
+          "sha256": "0b7dde30999b982bbdb03e5421f3898e68bf8b55fba2c9c788ab20a8b38af1e3",
+          "session_index": 9,
+          "session_id": "comparison_s09",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-30T00:40:06.544947+00:00"
+        }
+      ],
+      "saved_non_memory_state": {
+        "run_file": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/runs/comparison_crystal_smith_001__r01__structured_common_profile.json",
+          "bytes": 375906,
+          "sha256": "566cbf61c0969cb45d28ca0590ea9e1fc3298f5a5e1a0389e6afe3f620d97c7c"
+        },
+        "include_only_session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "per_session_final_state_keys": [
+          "therapist_id",
+          "session_id",
+          "summary",
+          "session_reflection",
+          "memory_consolidation",
+          "history",
+          "long_term_context",
+          "episodic_context",
+          "last_topic",
+          "topic_similarity",
+          "total_turns",
+          "last_episode_turn",
+          "messages",
+          "core_emotion",
+          "emotion_intensity",
+          "emotion_state",
+          "emotion_event",
+          "emotion_salience",
+          "low_salience_streak"
+        ],
+        "note": "Historical final_state snapshots include emotion/topic state, history/messages, counters and selected context caches. These are state/duplicates, not additional independent memory records. Exclude later sessions and full run-file wrapper from model input.",
+        "accepted_turn_ledger": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/crystal_smith_001__r01__structured_common_profile/accepted-turns.jsonl",
+          "bytes": 2950334,
+          "sha256": "8e9e3b10693d0f0446c03904d6365235faa56bc10853a24b1eeb0eddf9dc74c5"
+        },
+        "accepted_turn_ledger_allowed_session_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "regional_scenarios": [
+        {
+          "target_tokens": 1200000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/end/archive-view.json",
+            "bytes": 11382,
+            "sha256": "1d5f99aaf7ce89331de0112550deb6f047507c9d3dfa189b78c61ea3f1db9e37"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_1200000/end/records.jsonl",
+            "bytes": 6385680,
+            "sha256": "f7656da658e68aea6d1cefcf5033f9bde0a864b5da69cebb0868dcbd60576236",
+            "count": 6721,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6676
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/middle/archive-view.json",
+            "bytes": 11303,
+            "sha256": "1e3f508769cee9b2272f98264e673565f556340aa1e0f643de7e49f0ebe95917"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_1200000/middle/records.jsonl",
+            "bytes": 6385680,
+            "sha256": "0e2af398580358b688d0f75359d55da24e505bbe9da170b65f6b2f1f80027317",
+            "count": 6721,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6676
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_1200000/start/archive-view.json",
+            "bytes": 11014,
+            "sha256": "d04b89f3695076988d2a0efcb345d0e05ad7b31bd0ec72eb977774fa0257ee82"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_1200000/start/records.jsonl",
+            "bytes": 6385680,
+            "sha256": "79c5d998d18e3bd496a3aaada95b455c3d9552e7dc15e4382e68adbc1b9ce2ed",
+            "count": 6721,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6676
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/end/archive-view.json",
+            "bytes": 11205,
+            "sha256": "19e2cb16d2a2655e70204b5466b7a323297322ff4b95fa133f2eb9ce86bc01fd"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/end/records.jsonl",
+            "bytes": 313653,
+            "sha256": "009bb55c1f8663b3d8b346d767f44850126d86455c0b231314287b7a0f20d384",
+            "count": 337,
+            "original_record_count": 45,
+            "synthetic_filler_count": 292
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/middle/archive-view.json",
+            "bytes": 11218,
+            "sha256": "74864e914dcdad3fbb91e3350d70cc1ff79e21d76332d65c400a96530dbe7550"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/middle/records.jsonl",
+            "bytes": 313653,
+            "sha256": "48130f9938ca5989e1e31e23fa06e08ed0b44f5204c6b1a002dfee1c53b81660",
+            "count": 337,
+            "original_record_count": 45,
+            "synthetic_filler_count": 292
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/start/archive-view.json",
+            "bytes": 11065,
+            "sha256": "25ae41599ca65da0a61aa8050a4ad56af9a14746a334ad5a8a43193854f16970"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/start/records.jsonl",
+            "bytes": 313653,
+            "sha256": "4a5f6f0e9439d697420be09088384ebd722e5fb7cd0fd6f6e3f69a88cff2691c",
+            "count": 337,
+            "original_record_count": 45,
+            "synthetic_filler_count": 292
+          },
+          "filler_summary_or_fact_processing": false
+        }
+      ]
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "runtime_root": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile",
+      "complete_preprobe_memory": {
+        "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/memory/comparison_daniel_isherwood_001__r01__structured_common_profile__daniel_isherwood_001.jsonl",
+        "bytes": 334390,
+        "sha256": "fc8352564a67e1259cf94192e3c0905d94fae469cc1497cb4d007ca8ec4b51ce",
+        "take_first_lines": 81,
+        "prefix_bytes": 287981,
+        "prefix_sha256": "e7681049fb3257113be31e3ece5a18daedf80bdc0d9af6fcc6c349f68a0b07ee",
+        "hash_witness": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 302828,
+          "sha256": "607802dabaadb3023e35b71f5c6470738316c812b6550ffbcc68218780ae005b",
+          "json_pointer": "/state_files_at_close/memory~1comparison_daniel_isherwood_001__r01__structured_common_profile__daniel_isherwood_001.jsonl"
+        },
+        "record_counts": {
+          "conversation_turn": 45,
+          "episode_summary": 9,
+          "fact_batch": 9,
+          "session_reflection": 9,
+          "long_term_summary": 9
+        },
+        "validated_fact_count": 208,
+        "rejected_fact_proposal_count": 22,
+        "source_references_all_within_prefix": true,
+        "session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "long_term_summary_versions": [
+          {
+            "line": 9,
+            "id": "6c0485e437fa4968a98b17ce29d38440",
+            "updated_at": "2026-09-29T11:44:18.965132+00:00"
+          },
+          {
+            "line": 18,
+            "id": "7af188581a0b4e61b7f66013bcea6eab",
+            "updated_at": "2026-09-29T12:11:06.251550+00:00"
+          },
+          {
+            "line": 27,
+            "id": "f28d57427f2644f897282077e4b04ff9",
+            "updated_at": "2026-09-29T13:32:04.636703+00:00"
+          },
+          {
+            "line": 36,
+            "id": "cacdba6e0a3845da868f430fe2965e3f",
+            "updated_at": "2026-09-29T17:55:06.888269+00:00"
+          },
+          {
+            "line": 45,
+            "id": "627399b91f3f4c5390e3f06beee10837",
+            "updated_at": "2026-09-29T19:53:47.594838+00:00"
+          },
+          {
+            "line": 54,
+            "id": "ebc6946a2cd64a8896385aad1971adb1",
+            "updated_at": "2026-09-29T20:19:48.870374+00:00"
+          },
+          {
+            "line": 63,
+            "id": "e70257fa4bcc475291e8663b91147609",
+            "updated_at": "2026-09-29T22:03:14.156183+00:00"
+          },
+          {
+            "line": 72,
+            "id": "104c99f7f37c474db57fee51fad1ff9e",
+            "updated_at": "2026-09-29T23:10:25.393864+00:00"
+          },
+          {
+            "line": 81,
+            "id": "d57bb936e56f45a0ad5b237205e2483b",
+            "updated_at": "2026-09-30T00:54:35.875072+00:00"
+          }
+        ],
+        "future_records_excluded": 18
+      },
+      "existing_preprobe_exports": {
+        "raw_turns": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/daniel_isherwood_001/original-prefix.jsonl",
+          "bytes": 54730,
+          "sha256": "a524b150a4a43b4fc2104a6601aad507176bfb99eddf83694058df2bfcda0637",
+          "count": 45,
+          "identical_parsed_records_to_complete_prefix": true
+        },
+        "fact_batches": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/daniel_isherwood_001/original-batches.jsonl",
+          "bytes": 206601,
+          "sha256": "31fee96ffb8742c5936dd3f3ce511edd3a3be1515e9b0b223224a30f6e30577c",
+          "count": 9,
+          "identical_parsed_records_to_complete_prefix": true
+        }
+      },
+      "session_snapshots": [
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_01/session.json",
+          "bytes": 189363,
+          "sha256": "367924dc3789b58a3bdaee958892c5d5e3b6be03a61e7a0c8027d8962159d2ba",
+          "session_index": 1,
+          "session_id": "comparison_s01",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T11:44:19.259334+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_02/session.json",
+          "bytes": 277504,
+          "sha256": "8b02de69991921298d6267c443eb4a0b872ce3b6e526bd1b02108b98da4081b1",
+          "session_index": 2,
+          "session_id": "comparison_s02",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T12:11:06.699171+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_03/session.json",
+          "bytes": 283729,
+          "sha256": "0dc299f5397d48fd1c4a39da93853da154f59e71350b2a6d475309de537b1fe4",
+          "session_index": 3,
+          "session_id": "comparison_s03",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T13:32:05.222789+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_04/session.json",
+          "bytes": 283320,
+          "sha256": "6225d35f770b8df91c35a3a2aef942b512f5e8966b0028fe05a954b154d98887",
+          "session_index": 4,
+          "session_id": "comparison_s04",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T17:55:07.642433+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_05/session.json",
+          "bytes": 301801,
+          "sha256": "36dd6c78e2f41654fc1e297ae3265645e7b060872466f8e26d62fffa27bb36aa",
+          "session_index": 5,
+          "session_id": "comparison_s05",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T19:53:48.530557+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_06/session.json",
+          "bytes": 296426,
+          "sha256": "ae67415503fb0aa9cc5f35b0b960a1ab7830e7722a507229f833a1d745439809",
+          "session_index": 6,
+          "session_id": "comparison_s06",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T20:19:49.924240+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_07/session.json",
+          "bytes": 288503,
+          "sha256": "5bd701a30d0972e78762fb6c1d0214187c9bce469066c088dbdd22dc28961f26",
+          "session_index": 7,
+          "session_id": "comparison_s07",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T22:03:15.382351+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_08/session.json",
+          "bytes": 296264,
+          "sha256": "d950ec7a513fd5545db186c065d0cafad3b8c522b1ce17afb4591562fcfefb7d",
+          "session_index": 8,
+          "session_id": "comparison_s08",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T23:10:26.742577+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 302828,
+          "sha256": "607802dabaadb3023e35b71f5c6470738316c812b6550ffbcc68218780ae005b",
+          "session_index": 9,
+          "session_id": "comparison_s09",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-30T00:54:37.374604+00:00"
+        }
+      ],
+      "saved_non_memory_state": {
+        "run_file": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/runs/comparison_daniel_isherwood_001__r01__structured_common_profile.json",
+          "bytes": 378032,
+          "sha256": "ecd507f6951f8a32d2d4120e764b2d8d43b04e4c7f644e275a5abd5fb4232cc0"
+        },
+        "include_only_session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "per_session_final_state_keys": [
+          "therapist_id",
+          "session_id",
+          "summary",
+          "session_reflection",
+          "memory_consolidation",
+          "history",
+          "long_term_context",
+          "episodic_context",
+          "last_topic",
+          "topic_similarity",
+          "total_turns",
+          "last_episode_turn",
+          "messages",
+          "core_emotion",
+          "emotion_intensity",
+          "emotion_state",
+          "emotion_event",
+          "emotion_salience",
+          "low_salience_streak"
+        ],
+        "note": "Historical final_state snapshots include emotion/topic state, history/messages, counters and selected context caches. These are state/duplicates, not additional independent memory records. Exclude later sessions and full run-file wrapper from model input.",
+        "accepted_turn_ledger": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/daniel_isherwood_001__r01__structured_common_profile/accepted-turns.jsonl",
+          "bytes": 2507292,
+          "sha256": "15df16bc25e41a12e2ea9fe9db0848e6108077fc726a1fef9c37d79a78f039f2"
+        },
+        "accepted_turn_ledger_allowed_session_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "regional_scenarios": [
+        {
+          "target_tokens": 1200000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/end/archive-view.json",
+            "bytes": 11394,
+            "sha256": "48639184eb5a6efe7b593dc9179e418972a7aa3ea1ae144e48815fce2b30a1ad"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/end/records.jsonl",
+            "bytes": 6393801,
+            "sha256": "3ceb311d5363a1fb39529a722ea23197f14109951e00064096607a80cd6d1842",
+            "count": 6728,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6683
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/middle/archive-view.json",
+            "bytes": 11314,
+            "sha256": "31339e07ace2582522b131fad2983e0f2df5aa899881a1614e58b88bbad6b3aa"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/middle/records.jsonl",
+            "bytes": 6393801,
+            "sha256": "cac668a7a20ff355805d942b4262bc021e7fba988b4d5cccb3bda3e930b66fe6",
+            "count": 6728,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6683
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/start/archive-view.json",
+            "bytes": 11027,
+            "sha256": "e7da3d09a8c969ba9d3dba8d6fdc12f3e5f12afd72efbc786eb7b006c9f3fce1"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/start/records.jsonl",
+            "bytes": 6393801,
+            "sha256": "c856a3d37bdf26a090fbd0179cbbcd404c6c2af119db71b1222af3755a55cce5",
+            "count": 6728,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6683
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/end/archive-view.json",
+            "bytes": 11217,
+            "sha256": "b76c36cd721dc755aa1dcebb07296ec7395e1076d66e07c57c91bfd651b5a5e4"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_64000/end/records.jsonl",
+            "bytes": 321722,
+            "sha256": "bc45d65bbdf6711b79a117880b2144cc8292bc3f7289d1527ad9d86626f57b3a",
+            "count": 344,
+            "original_record_count": 45,
+            "synthetic_filler_count": 299
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/middle/archive-view.json",
+            "bytes": 11230,
+            "sha256": "224e764b3dd4d9bad16f4d4060b60930494af42737f4bc99c11a6059d9845092"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_64000/middle/records.jsonl",
+            "bytes": 321722,
+            "sha256": "22fab99f0b3b0a9600420105db988c968e05c9242b1523e4463972c5128dd804",
+            "count": 344,
+            "original_record_count": 45,
+            "synthetic_filler_count": 299
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/daniel_isherwood_001/length_64000/start/archive-view.json",
+            "bytes": 11077,
+            "sha256": "bf417815dd6120107433033670343d246803cdd06a84c26f7a4db8a0bf2f0dd6"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_64000/start/records.jsonl",
+            "bytes": 321722,
+            "sha256": "f52264186f11194b7cce65053c1bcfbdf7ddebb0eeb5c38694d143d622a0fadd",
+            "count": 344,
+            "original_record_count": 45,
+            "synthetic_filler_count": 299
+          },
+          "filler_summary_or_fact_processing": false
+        }
+      ]
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "runtime_root": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile",
+      "complete_preprobe_memory": {
+        "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/memory/comparison_jason_smith_001__r01__structured_common_profile__Jason_001.jsonl",
+        "bytes": 369305,
+        "sha256": "3dbff3e706e5a165fc6327a9bb693c8cc5764bb7219e69a7f3571fdf7c62263b",
+        "take_first_lines": 81,
+        "prefix_bytes": 321985,
+        "prefix_sha256": "b94680d212dd01882c605e1c5f1bc6285d3990c17ba00235c8838031fe006e58",
+        "hash_witness": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 341352,
+          "sha256": "5a744a4f276001e71c334dd4342679f5f37d3460b713dfbd00b61b4abd005452",
+          "json_pointer": "/state_files_at_close/memory~1comparison_jason_smith_001__r01__structured_common_profile__Jason_001.jsonl"
+        },
+        "record_counts": {
+          "conversation_turn": 45,
+          "episode_summary": 9,
+          "fact_batch": 9,
+          "session_reflection": 9,
+          "long_term_summary": 9
+        },
+        "validated_fact_count": 232,
+        "rejected_fact_proposal_count": 6,
+        "source_references_all_within_prefix": true,
+        "session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "long_term_summary_versions": [
+          {
+            "line": 9,
+            "id": "efda370f163a4db8a0b612f0049d00a6",
+            "updated_at": "2026-09-28T22:45:59.287744+00:00"
+          },
+          {
+            "line": 18,
+            "id": "c429bafd1e9045cc85eff81e8ce7e46c",
+            "updated_at": "2026-09-29T12:24:40.472502+00:00"
+          },
+          {
+            "line": 27,
+            "id": "6218781bdedc4ecc844e7abff28ee7ec",
+            "updated_at": "2026-09-29T16:16:04.515213+00:00"
+          },
+          {
+            "line": 36,
+            "id": "1ed6a384e30d4ab9a98c094a38ab96a7",
+            "updated_at": "2026-09-29T17:50:44.425243+00:00"
+          },
+          {
+            "line": 45,
+            "id": "cb1694f2f0ef4d56aa13510aae2ffede",
+            "updated_at": "2026-09-29T19:33:31.224280+00:00"
+          },
+          {
+            "line": 54,
+            "id": "192ca6f7ba28469bb20bf66b45cd3e7a",
+            "updated_at": "2026-09-29T20:15:17.330042+00:00"
+          },
+          {
+            "line": 63,
+            "id": "4e4477e48d72495d80755bde6a93850a",
+            "updated_at": "2026-09-29T21:57:36.094447+00:00"
+          },
+          {
+            "line": 72,
+            "id": "08d3f669ff0b446b878c36235af7b9f8",
+            "updated_at": "2026-09-29T23:49:27.093632+00:00"
+          },
+          {
+            "line": 81,
+            "id": "65fe14273cdd408996d9cc37d98f731e",
+            "updated_at": "2026-09-30T00:17:30.222880+00:00"
+          }
+        ],
+        "future_records_excluded": 18
+      },
+      "existing_preprobe_exports": {
+        "raw_turns": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/jason_smith_001/original-prefix.jsonl",
+          "bytes": 54213,
+          "sha256": "73889400f995ae26abb97924be4314e526001e98acbba178d58987986d88fbec",
+          "count": 45,
+          "identical_parsed_records_to_complete_prefix": true
+        },
+        "fact_batches": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/jason_smith_001/original-batches.jsonl",
+          "bytes": 240961,
+          "sha256": "e42ad378921ae8e8266bfb366b9eed1c8b9630e3f542bccec525cbdf4f4328d5",
+          "count": 9,
+          "identical_parsed_records_to_complete_prefix": true
+        }
+      },
+      "session_snapshots": [
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_01/session.json",
+          "bytes": 214709,
+          "sha256": "15bddcc57cc280ee0669146939cc5d39533bf52acca2d30fdd38d77a3aacb492",
+          "session_index": 1,
+          "session_id": "comparison_s01",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-28T22:45:59.344632+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_02/session.json",
+          "bytes": 311810,
+          "sha256": "0fba18e6d41ca8b518957fdfc083963973e8b86a611ae0941a0d57229f8d4cc0",
+          "session_index": 2,
+          "session_id": "comparison_s02",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T12:24:40.900825+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_03/session.json",
+          "bytes": 311200,
+          "sha256": "47f02e07a479854801c30b235c6c99c10cda2c77065c07ba00c6250c89825518",
+          "session_index": 3,
+          "session_id": "comparison_s03",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T16:16:05.113262+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_04/session.json",
+          "bytes": 315498,
+          "sha256": "d0aeee75a86e497c8e425b251da43c9d48447bcd906565b7cca955d5f7ec1dc5",
+          "session_index": 4,
+          "session_id": "comparison_s04",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T17:50:45.195574+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_05/session.json",
+          "bytes": 324928,
+          "sha256": "3d984d938dc3dddc459ca2f0c63928c0880f31ac2c126560c9d6bc4dad557d2d",
+          "session_index": 5,
+          "session_id": "comparison_s05",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T19:33:32.128141+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_06/session.json",
+          "bytes": 315955,
+          "sha256": "9ea3ef90e6adf60e541ae18634354d872bf6492b5deaba38cca8edbf0effde79",
+          "session_index": 6,
+          "session_id": "comparison_s06",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T20:15:18.389675+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_07/session.json",
+          "bytes": 317715,
+          "sha256": "684591677b9f7170143b22461688d9e0108cbbca4e6edb63a738486624921e27",
+          "session_index": 7,
+          "session_id": "comparison_s07",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T21:57:37.334231+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_08/session.json",
+          "bytes": 336502,
+          "sha256": "fedf648c07a43b3c5e502463a6da79ffc96e64a1df8b448046dbc926fa65e881",
+          "session_index": 8,
+          "session_id": "comparison_s08",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T23:49:28.539001+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 341352,
+          "sha256": "5a744a4f276001e71c334dd4342679f5f37d3460b713dfbd00b61b4abd005452",
+          "session_index": 9,
+          "session_id": "comparison_s09",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-30T00:17:31.664108+00:00"
+        }
+      ],
+      "saved_non_memory_state": {
+        "run_file": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/runs/comparison_jason_smith_001__r01__structured_common_profile.json",
+          "bytes": 386183,
+          "sha256": "95a2304bc36ac2caafc5c03a97e5f967c962e0b71ac98a12e4879efc6e0c65e8"
+        },
+        "include_only_session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "per_session_final_state_keys": [
+          "therapist_id",
+          "session_id",
+          "summary",
+          "session_reflection",
+          "memory_consolidation",
+          "history",
+          "long_term_context",
+          "episodic_context",
+          "last_topic",
+          "topic_similarity",
+          "total_turns",
+          "last_episode_turn",
+          "messages",
+          "core_emotion",
+          "emotion_intensity",
+          "emotion_state",
+          "emotion_event",
+          "emotion_salience",
+          "low_salience_streak"
+        ],
+        "note": "Historical final_state snapshots include emotion/topic state, history/messages, counters and selected context caches. These are state/duplicates, not additional independent memory records. Exclude later sessions and full run-file wrapper from model input.",
+        "accepted_turn_ledger": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/jason_smith_001__r01__structured_common_profile/accepted-turns.jsonl",
+          "bytes": 2830889,
+          "sha256": "95196da376af3a61380d898a377fa9b77db5c107981f8eb07d40178faeefed04"
+        },
+        "accepted_turn_ledger_allowed_session_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "regional_scenarios": [
+        {
+          "target_tokens": 1200000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/end/archive-view.json",
+            "bytes": 11374,
+            "sha256": "8339d51a10c51fc6ecfa08b1325e53840ad23fc05ed65eb569c452de17ba5397"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_1200000/end/records.jsonl",
+            "bytes": 6392132,
+            "sha256": "ea1d9d1f2c917bba0227f1bd759a6b4a2196e38c2944b7b8af786ed3a9914397",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/middle/archive-view.json",
+            "bytes": 11295,
+            "sha256": "1ea5adb3e72dbc72c3ff320461629675635887d19de76a8bba7c2032579ef15d"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_1200000/middle/records.jsonl",
+            "bytes": 6392132,
+            "sha256": "fe1f39a7baed6457f00a30c9579fb0726aaaa38b04927db7e36e4c335e4a5985",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_1200000/start/archive-view.json",
+            "bytes": 11006,
+            "sha256": "0d58f40464c8964193c7c8381ae1dc963c852e4688360fa154143947523539ae"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_1200000/start/records.jsonl",
+            "bytes": 6392132,
+            "sha256": "2c9433979ba7b244483e2d1807f321add09a4ae9769c4d9f8e970ec18bb3c324",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/end/archive-view.json",
+            "bytes": 11197,
+            "sha256": "9b4b9d4ad1cbff579d8f141863571a6d2c3b6898401bd2792548c6177efa2990"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_64000/end/records.jsonl",
+            "bytes": 320045,
+            "sha256": "d6ac02599ed52160b5d4f44af004c746a90e70adf8aff1fa429916da7a158eae",
+            "count": 342,
+            "original_record_count": 45,
+            "synthetic_filler_count": 297
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/middle/archive-view.json",
+            "bytes": 11210,
+            "sha256": "6550901c934359b438cf75b6de0cd4c97bad07ac48f99b02acb3bc078b426fcf"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_64000/middle/records.jsonl",
+            "bytes": 320045,
+            "sha256": "70e4fa1c68e38109da7bff9d557877e8d1ef87c038595f968a0c3b018b437cae",
+            "count": 342,
+            "original_record_count": 45,
+            "synthetic_filler_count": 297
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/jason_smith_001/length_64000/start/archive-view.json",
+            "bytes": 11057,
+            "sha256": "49371aeaa4577e6b26e9ac2bc1ccf89b712661ae0d80be88b0961ea359d819fc"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_64000/start/records.jsonl",
+            "bytes": 320045,
+            "sha256": "772e132946c0d155f23d6b6e9de69af1149877ecbcdcdc31c29658a7674e9693",
+            "count": 342,
+            "original_record_count": 45,
+            "synthetic_filler_count": 297
+          },
+          "filler_summary_or_fact_processing": false
+        }
+      ]
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "runtime_root": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile",
+      "complete_preprobe_memory": {
+        "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/memory/comparison_juanita_delgado_001__r01__structured_common_profile__juanita_delgado_001.jsonl",
+        "bytes": 378327,
+        "sha256": "8765bf8cc55ba7b03cf02af0ca1d4088b9563751b61c597a66b433f76e1432c3",
+        "take_first_lines": 81,
+        "prefix_bytes": 323178,
+        "prefix_sha256": "38aa435b1eb493ba90e248ec02cc89da1aacf0632bc6941d57c78a159ff09455",
+        "hash_witness": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 307418,
+          "sha256": "06da108f5b400989385e854889321f73269a3cb28384224c694bb62389cc0a30",
+          "json_pointer": "/state_files_at_close/memory~1comparison_juanita_delgado_001__r01__structured_common_profile__juanita_delgado_001.jsonl"
+        },
+        "record_counts": {
+          "conversation_turn": 45,
+          "episode_summary": 9,
+          "fact_batch": 9,
+          "session_reflection": 9,
+          "long_term_summary": 9
+        },
+        "validated_fact_count": 237,
+        "rejected_fact_proposal_count": 9,
+        "source_references_all_within_prefix": true,
+        "session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "long_term_summary_versions": [
+          {
+            "line": 9,
+            "id": "ae7e27d98ca24974b1ef0c14e8a5c55c",
+            "updated_at": "2026-09-29T11:03:19.241067+00:00"
+          },
+          {
+            "line": 18,
+            "id": "513e1910b8d547c89e048cb2bf4ac26d",
+            "updated_at": "2026-09-29T11:58:56.640735+00:00"
+          },
+          {
+            "line": 27,
+            "id": "b4df55437b6c4771b9365645b38572f4",
+            "updated_at": "2026-09-29T16:03:51.131660+00:00"
+          },
+          {
+            "line": 36,
+            "id": "02ab09b2cbb14fcd8d0d1f721926dc48",
+            "updated_at": "2026-09-29T18:31:54.444890+00:00"
+          },
+          {
+            "line": 45,
+            "id": "7e9c9cd5775847a8908bae9f2b67cc57",
+            "updated_at": "2026-09-29T19:44:46.079760+00:00"
+          },
+          {
+            "line": 54,
+            "id": "f5718846dd8044c683cf6b0961038d06",
+            "updated_at": "2026-09-29T21:05:53.921340+00:00"
+          },
+          {
+            "line": 63,
+            "id": "8327f22b5af24ea1beecfcdfba0060d1",
+            "updated_at": "2026-09-29T21:33:02.571725+00:00"
+          },
+          {
+            "line": 72,
+            "id": "8242c66bacc941d6b756476441da8f1f",
+            "updated_at": "2026-09-29T22:42:55.042794+00:00"
+          },
+          {
+            "line": 81,
+            "id": "9edbd18f987448c3abe5620a5a6756fd",
+            "updated_at": "2026-09-30T00:13:52.735335+00:00"
+          }
+        ],
+        "future_records_excluded": 18
+      },
+      "existing_preprobe_exports": {
+        "raw_turns": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/juanita_delgado_001/original-prefix.jsonl",
+          "bytes": 54518,
+          "sha256": "2a828dac2e44e8a82ee6eef60c5594f7e84583b4fb3d2380234df903e0991d52",
+          "count": 45,
+          "identical_parsed_records_to_complete_prefix": true
+        },
+        "fact_batches": {
+          "path": "outputs/memory-length-stress-2026-09-30/inputs/juanita_delgado_001/original-batches.jsonl",
+          "bytes": 241776,
+          "sha256": "cc2da9d9381563c54edd11b0763f4ee9b498bb9e5795f208439c81796b92c98d",
+          "count": 9,
+          "identical_parsed_records_to_complete_prefix": true
+        }
+      },
+      "session_snapshots": [
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_01/session.json",
+          "bytes": 208043,
+          "sha256": "b8498d9bcda41152d5720b528e7c73247a581ec2cc38353bb682459f6fc5be46",
+          "session_index": 1,
+          "session_id": "comparison_s01",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T11:03:19.548782+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_02/session.json",
+          "bytes": 295062,
+          "sha256": "90e945fa37e38dcdebddb542e764bc291df404dbe399e65d013f59caa5344abc",
+          "session_index": 2,
+          "session_id": "comparison_s02",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T11:58:57.082130+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_03/session.json",
+          "bytes": 300392,
+          "sha256": "10fb64a9a103ec45e5d1ab5ab0cf435d13388557b6619fb6a537ec966958993c",
+          "session_index": 3,
+          "session_id": "comparison_s03",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T16:03:51.768023+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_04/session.json",
+          "bytes": 283647,
+          "sha256": "d816874bf0b1b1956c01c0211e72a3cd28a7bb64b7a2df9adb38872d0334d7b3",
+          "session_index": 4,
+          "session_id": "comparison_s04",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T18:31:55.441848+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_05/session.json",
+          "bytes": 296530,
+          "sha256": "3c2687d535130b1833e0334f92a16dab8d37ee53e4f83d0f9468a6fdf3b56234",
+          "session_index": 5,
+          "session_id": "comparison_s05",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T19:44:47.003781+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_06/session.json",
+          "bytes": 296127,
+          "sha256": "e10464649b6e87d3be41349aed4510d027b08839b8b79221d2f6665ef9ba9037",
+          "session_index": 6,
+          "session_id": "comparison_s06",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T21:05:54.993389+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_07/session.json",
+          "bytes": 292047,
+          "sha256": "d44bf5face9500e970701c3beba8c76be4dce42f28f303803d5b7a51e04a03a7",
+          "session_index": 7,
+          "session_id": "comparison_s07",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T21:33:03.855363+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_08/session.json",
+          "bytes": 305136,
+          "sha256": "f53648d8435577b9ac3555cfc5ca6afe8712eff21c7b6726b30e855dbede95c4",
+          "session_index": 8,
+          "session_id": "comparison_s08",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-29T22:42:56.419380+00:00"
+        },
+        {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/sessions/session_09/session.json",
+          "bytes": 307418,
+          "sha256": "06da108f5b400989385e854889321f73269a3cb28384224c694bb62389cc0a30",
+          "session_index": 9,
+          "session_id": "comparison_s09",
+          "session_memory_record_counts": {
+            "conversation_turn": 5,
+            "episode_summary": 1,
+            "fact_batch": 1,
+            "session_reflection": 1
+          },
+          "finished_at": "2026-09-30T00:13:54.288666+00:00"
+        }
+      ],
+      "saved_non_memory_state": {
+        "run_file": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/runs/comparison_juanita_delgado_001__r01__structured_common_profile.json",
+          "bytes": 382090,
+          "sha256": "c7285ba71aecb738c88759d00c46e2cef45fad11923b7cead4271a140e83f5ec"
+        },
+        "include_only_session_ids": [
+          "comparison_s01",
+          "comparison_s02",
+          "comparison_s03",
+          "comparison_s04",
+          "comparison_s05",
+          "comparison_s06",
+          "comparison_s07",
+          "comparison_s08",
+          "comparison_s09"
+        ],
+        "per_session_final_state_keys": [
+          "therapist_id",
+          "session_id",
+          "summary",
+          "session_reflection",
+          "memory_consolidation",
+          "history",
+          "long_term_context",
+          "episodic_context",
+          "last_topic",
+          "topic_similarity",
+          "total_turns",
+          "last_episode_turn",
+          "messages",
+          "core_emotion",
+          "emotion_intensity",
+          "emotion_state",
+          "emotion_event",
+          "emotion_salience",
+          "low_salience_streak"
+        ],
+        "note": "Historical final_state snapshots include emotion/topic state, history/messages, counters and selected context caches. These are state/duplicates, not additional independent memory records. Exclude later sessions and full run-file wrapper from model input.",
+        "accepted_turn_ledger": {
+          "path": "outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r01__structured_common_profile/accepted-turns.jsonl",
+          "bytes": 2541072,
+          "sha256": "619bc7c0c4070b6332c0b4de4038764ce6dceaceeeb7dafa4fddcad333c50305"
+        },
+        "accepted_turn_ledger_allowed_session_indices": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "regional_scenarios": [
+        {
+          "target_tokens": 1200000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/end/archive-view.json",
+            "bytes": 11390,
+            "sha256": "5b7d4685786a43ba4ca58bfe66530ca913f2d2e2353f3372cfb52a4bac7cdd0d"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_1200000/end/records.jsonl",
+            "bytes": 6391636,
+            "sha256": "1c443ea16dcc011cdbb5981c3a02c468b309948bedf1b6d4e07162b1efbee535",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/middle/archive-view.json",
+            "bytes": 11310,
+            "sha256": "c20e5bac3b3b9a10ed2647dc54d445276b173226cad4e8923738f12dac43d131"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_1200000/middle/records.jsonl",
+            "bytes": 6391636,
+            "sha256": "c76839ac850bb8c5d299be9d1852f800cb7459865effdf0f3e7ad98d3e150c20",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 1200000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_1200000/start/archive-view.json",
+            "bytes": 11023,
+            "sha256": "db20605e53ce0a7ec4b629e7a46f25a682f3103e36621d23d1428e9ae4860dc5"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_1200000/start/records.jsonl",
+            "bytes": 6391636,
+            "sha256": "b8981736b25ec00f5eab911c49160c865d70006c58c3e34418db3bdd02f198e9",
+            "count": 6726,
+            "original_record_count": 45,
+            "synthetic_filler_count": 6681
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "end",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/end/archive-view.json",
+            "bytes": 11213,
+            "sha256": "d0db5bd63141b11c5c0bd345800a53c76745931bb762490bdf75640262fffde1"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_64000/end/records.jsonl",
+            "bytes": 318623,
+            "sha256": "bc4b70993f8949821524b069e790d5a49cdfa577370655eb9c6d01ffbe56dcfb",
+            "count": 341,
+            "original_record_count": 45,
+            "synthetic_filler_count": 296
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "middle",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/middle/archive-view.json",
+            "bytes": 11224,
+            "sha256": "ab9ae4f5380f82ecdaa6321e791d965c82cce5b6fecca147141ebb321d4781a5"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_64000/middle/records.jsonl",
+            "bytes": 318623,
+            "sha256": "a45f7f334990dabeb3050d72982037abba93b9b9311ae8ce625470da8205650b",
+            "count": 341,
+            "original_record_count": 45,
+            "synthetic_filler_count": 296
+          },
+          "filler_summary_or_fact_processing": false
+        },
+        {
+          "target_tokens": 64000,
+          "fact_position": "start",
+          "archive_view": {
+            "path": "outputs/structured-regional-comparison-2026-10-01/inputs/juanita_delgado_001/length_64000/start/archive-view.json",
+            "bytes": 11073,
+            "sha256": "5d9f2c43f8179a33e2b205784048cbdd7b85cead7fa9ee0d2177ecaf955f2e6f"
+          },
+          "raw_records": {
+            "path": "outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_64000/start/records.jsonl",
+            "bytes": 318623,
+            "sha256": "32d361d50fd54804ddd883ee046baf40e9f6cc6fd43b90d3ffca8db6bf51e908",
+            "count": 341,
+            "original_record_count": 45,
+            "synthetic_filler_count": 296
+          },
+          "filler_summary_or_fact_processing": false
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    "Use exact byte prefix verified against session_09 memory hash; all five have 81 records. This captures nine historical long_term_summary records which lack session_id.",
+    "Include all prefix records without retrieval, ranking, per-type selection or text truncation. Preserve complete fact_batch metadata including rejected_facts, validation_error and extraction_response; clearly mark rejected/extraction proposals as unverified provenance, not established facts.",
+    "Use original-prefix and original-batches equality checks to establish the same 45 original turns and nine fact batches. Preserve origin IDs when positioning this block in regional histories.",
+    "Regional synthetic filler has only saved raw records. No episodic summaries, reflections, long-term summaries or extracted facts were generated for filler. Do not imply otherwise.",
+    "Never load whole current runtime memory/run files into the prompt: sessions 10/11 contain probe questions/answers. Restrict memory to verified prefix and historical run state to sessions 1\u20139.",
+    "Keep case as common supplied profile and gold/rubric/selected-evidence as evaluation or prior-retrieval artifacts, not additional saved memory.",
+    "Complete persisted memory can contain inaccurate generated summaries or rejected extraction proposals. Preserve provenance and validation status without silently omitting them."
+  ]
+}

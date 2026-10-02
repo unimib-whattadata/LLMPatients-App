@@ -1,0 +1,42 @@
+{
+  "mode": "offline replay of already observed failure, not fresh longitudinal evidence",
+  "model_calls": 0,
+  "prompt_byte_identical": true,
+  "original_response_unmodified": true,
+  "strict_mode_error": "The source sentence does not explicitly support agreement or completion",
+  "quarantine_status": {
+    "status": "partial",
+    "source_turns": 5,
+    "processed_sources": 5,
+    "validated_facts": 12,
+    "rejected_facts": 3,
+    "invalid_batches": 0
+  },
+  "rejected_fact_ordinals": [
+    2,
+    5,
+    11
+  ],
+  "rejections": [
+    {
+      "index": 1,
+      "reason": "The source sentence does not explicitly support agreement or completion"
+    },
+    {
+      "index": 4,
+      "reason": "The source sentence does not explicitly support agreement or completion"
+    },
+    {
+      "index": 10,
+      "reason": "A question cannot be promoted to an asserted fact"
+    }
+  ],
+  "raw_sources_unchanged": true,
+  "reopened_attempt_skipped": true,
+  "validator_sha256": "9ffe48eabc80abd051261485f316cf23488ae2f5bbc60e08c3d0ba25abf62451",
+  "original_files": {
+    "integration/runtime/memory/memory_benchmark_integration_alex_20260928__alex_carter_001.jsonl": "a59fae0a9261064fc3c27f9d0cde8a88ad2c86ca5c9dc278242b17edb05965ad",
+    "integration/runtime/sessions/session_01/generation-events.jsonl": "0cc2d1f00288f42ce4e91488092962e880ed6798ad0aa06a53738492be3b1721",
+    "integration/runtime/sessions/session_01/session.json": "a6deec6cda99b6938fa8bf12c02bf9f808ba8287782f920803258e93578c083b"
+  }
+}

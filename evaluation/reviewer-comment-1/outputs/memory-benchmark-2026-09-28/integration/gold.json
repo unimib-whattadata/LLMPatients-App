@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "scenario_id": "alex_tern_window_integration_v1",
+  "patient_id": "alex_carter_001",
+  "authority": "Explicit therapist records in this fictional exercise. Patient replies are outcomes, not gold replacements.",
+  "scoring": "Semantic pass only when all requested relationships and values are correct; partial, mixed, uncertain, and abstained replies remain separate. Never regenerate for accuracy.",
+  "probes": [
+    {
+      "turn_id": "s10t01",
+      "category": "persistent_identity",
+      "expected": {
+        "name": "Alex Carter",
+        "age": 30
+      },
+      "source_turns": [],
+      "profile_source": "data/patients/alex_carter_001.yaml: profile.name and profile.age"
+    },
+    {
+      "turn_id": "s11t01",
+      "category": "distant_stable_fact",
+      "expected": {
+        "notebook_title": "Tern Window"
+      },
+      "source_turns": [
+        "s01t01"
+      ]
+    },
+    {
+      "turn_id": "s11t02",
+      "category": "correction_and_proposal",
+      "expected": {
+        "partner": "Rina Holt",
+        "current": "Friday at 18:20",
+        "former": "Wednesday at 17:45",
+        "proposal_only": "Saturday at 09:30"
+      },
+      "source_turns": [
+        "s02t01",
+        "s06t01",
+        "s06t02"
+      ]
+    },
+    {
+      "turn_id": "s11t03",
+      "category": "explicit_replacement",
+      "expected": {
+        "current_venue": "Plover Annex",
+        "former_venue": "Larch Reading Room"
+      },
+      "source_turns": [
+        "s03t01",
+        "s07t01"
+      ]
+    },
+    {
+      "turn_id": "s11t04",
+      "category": "completed_versus_planned",
+      "expected": {
+        "completed": "Folded Map",
+        "planned_not_completed": "Silver Button"
+      },
+      "source_turns": [
+        "s04t02",
+        "s08t01",
+        "s08t02"
+      ]
+    },
+    {
+      "turn_id": "s11t05",
+      "category": "absent_fact_abstention",
+      "expected": null,
+      "source_turns": [],
+      "criterion": "Explicitly states the surname was not established, with no invented surname or identification as the practice partner."
+    }
+  ],
+  "novel_named_targets": [
+    "Tern Window",
+    "Rina Holt",
+    "Larch Reading Room",
+    "Plover Annex",
+    "Folded Map",
+    "Silver Button"
+  ]
+}

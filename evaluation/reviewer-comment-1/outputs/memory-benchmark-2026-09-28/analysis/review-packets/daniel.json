@@ -1,0 +1,1332 @@
+[
+  {
+    "review_id": "d36508810373714a9a6b",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "{\"answer\":\"It was Friday at 18:10.\"}",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "14e3d6d087792f8d8169",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":\"I completed Evening Sequence Page.\"}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "8164d2937d30a8606bde",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "1fd8169499d2e7ffc6b8",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "bc011dbc31cb9c5ce3f0",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "19915b529fa31a3038e0",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "e1fb1315b385ad7bf873",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "3ecc8104fe22754baf1a",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier arrangement with this one.\"}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "e1818e63896ef494fa4b",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "17102ce9b1e5cdd7d303",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "137e0a5cfdae73d54255",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":\"I completed Evening Sequence Page.\"}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "0dfe50a448fcad8f47d6",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "65ed7e4be54f62c14832",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "0e86d0b57e4111c4042b",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "c3e9ad8adf0b482df83a",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "90dd73cc9e3725fce992",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "49905991a0487a97ba34",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "17e3e9e5014b39e9fa00",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "33a12021d73306f152df",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "3b5ab8116274ef5b273a",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":\"I have completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "93db52408fa0c516adf4",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "54742556549231c17b9c",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"The source material states that I have a separate cue card for conversations titled 'Ivory Heron', but it does not mention a folder or reflection pages.\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "bab179f11cf3b81bfce7",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "6441243cd7f4da967353",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":\"I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "1913676002ac892cb710",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "{\"answer\":null}",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "0e47bf263f1a565bae2f",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\": null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "3e1714b89c853e2cb8ee",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"Cedar Margin.\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "191b7ee275a428794518",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"The separate cue card is titled Ivory Heron.\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "751f1eea5bb79f696777",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "0dd000ae7c84c12aa3f4",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "678e73d847f18fb55de7",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "{\"answer\":null}",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "3b5326b9a86076456629",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"I keep the loose reflection pages in a folder titled Cedar Margin.\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "175895135c518a398e7c",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "536efd70ed2a8e6266bc",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "46aaecbd51a10bfde19e",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"Arrival Note Practice\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "4d98b9c35745650cb1fc",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "8b6a0f8a5ca62bc0e9eb",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\n    \"answer\": \"My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled.\"\n}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "356b9e6132e72baa713e",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "13e2442a4e7a2b31c8ba",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "0b357b77219c29ea3d94",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "e559700785e8cf488479",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "4199d4f6c74133ca950a",
+    "question": "What is your current weekly private reflection slot?",
+    "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier slot with this one, so the old arrangement is cancelled.\"}\n```",
+    "gold": {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?",
+      "expected_values": [
+        "Tuesday at 20:25"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "625a8ac4da6cf26b39b5",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "c0b8430a48d1fcb05006",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "{\"answer\":null}",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "99fb66a22031abe63325",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "873d915dbb31f6d833c3",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "ca10e38bf07d0d7da256",
+    "question": "What was your weekly private reflection slot before you changed it?",
+    "response": "```json\n{\"answer\":\"Friday at 18:10\"}\n```",
+    "gold": {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?",
+      "expected_values": [
+        "Friday at 18:10"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_05",
+          "turn_index": 10,
+          "speaker": "patient",
+          "quote": "I have chosen Friday at 18:10 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "session_id": "session_10",
+          "turn_index": 5,
+          "speaker": "patient",
+          "quote": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "39a64130c6606748ea48",
+    "question": "What material is the cover of your reflection folder made from?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "f90289e4b47ea6bfff90",
+    "question": "Which of the two paper exercises have you actually completed?",
+    "response": "```json\n{\"answer\":\"I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+    "gold": {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?",
+      "expected_values": [
+        "Evening Sequence Page"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_06",
+          "turn_index": 4,
+          "speaker": "patient",
+          "quote": "I am planning to try Evening Sequence Page and Workday Contrast Page. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "session_id": "session_08",
+          "turn_index": 12,
+          "speaker": "patient",
+          "quote": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "f9d68f9be80650029924",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "ed5ef75423ebbc246b18",
+    "question": "What title did you give the folder where you keep the loose reflection pages?",
+    "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+    "gold": {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?",
+      "expected_values": [
+        "Cedar Margin"
+      ],
+      "forbidden_values": [
+        "Ivory Heron"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_03",
+          "turn_index": 8,
+          "speaker": "patient",
+          "quote": "I keep the loose reflection pages in a folder titled Cedar Margin. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "f35903df1525f6ef9df5",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "a5f6fd164c376e25d26e",
+    "question": "Which of the two proposed conversation practices did you actually agree to try?",
+    "response": "```json\n{\"answer\":\"I agreed to try using the cue card named 'Ivory Heron' to pause and put a thought into words.\"}\n```",
+    "gold": {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?",
+      "expected_values": [
+        "Arrival Note Practice"
+      ],
+      "forbidden_values": [],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_04",
+          "turn_index": 11,
+          "speaker": "patient",
+          "quote": "I am declining Hourly Reminder Routine; I do not agree to do it. I do agree to try Arrival Note Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "e37147e5e96cb1cb687a",
+    "question": "What is printed on the reverse side of your cue card?",
+    "response": "```json\n{\"answer\":null}\n```",
+    "gold": {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?",
+      "expected_values": [],
+      "forbidden_values": [],
+      "answer_type": "abstain",
+      "sources": []
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "f16d772dd3ef68d052ec",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  },
+  {
+    "review_id": "fa7a173e478f3746ca5a",
+    "question": "What title did you choose for your separate cue card?",
+    "response": "```json\n{\"answer\":\"The separate cue card is titled Ivory Heron.\"}\n```",
+    "gold": {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?",
+      "expected_values": [
+        "Ivory Heron"
+      ],
+      "forbidden_values": [
+        "Cedar Margin"
+      ],
+      "answer_type": "literal",
+      "sources": [
+        {
+          "session_id": "session_02",
+          "turn_index": 2,
+          "speaker": "patient",
+          "quote": "The separate cue card is titled Ivory Heron. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        }
+      ]
+    },
+    "source_dialogue_path": "corpus/daniel_isherwood_001.json"
+  }
+]

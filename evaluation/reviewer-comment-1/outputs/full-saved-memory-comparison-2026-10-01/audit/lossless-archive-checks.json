@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "network_calls": 0,
+  "checks": [
+    "Two complete native request/response pairs roundtrip exactly, preserving Unicode and long prompt",
+    "Concatenated gzip members decode to append-only complete JSONL",
+    "Earlier uncompressed native bytes cannot change undetected",
+    "The complete decompressed prompt reaches the declared API body, without transformation"
+  ],
+  "plugin_enabled": false
+}
