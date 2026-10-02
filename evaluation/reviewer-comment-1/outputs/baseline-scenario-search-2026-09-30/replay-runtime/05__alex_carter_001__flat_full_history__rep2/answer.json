@@ -1,0 +1,11 @@
+{
+  "case_id": "alex_carter_001__flat_full_history",
+  "repetition": 2,
+  "patient_id": "alex_carter_001",
+  "arm": "flat_full_history",
+  "question": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+  "response": "I'm sorry, I think there might be a misunderstanding. You mentioned that we completed a \"Folded Map listening card\" activity, but I don't recall us ever discussing or doing that. Our conversation today started with talking about the difference between past events and future possibilities. This is the first time I'm hearing about a \"Folded Map listening card.\"",
+  "prompt_sha256": "e11f5c0a25dc007bf8629312de4ad4209064b8dfa9d810d2b94b184227a59180",
+  "timestamp": "2026-09-30T15:44:58.281750+00:00",
+  "directory": "replay-runtime/05__alex_carter_001__flat_full_history__rep2"
+}

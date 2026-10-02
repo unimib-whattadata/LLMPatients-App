@@ -1,0 +1,52 @@
+{
+  "created_at": "2026-09-30T15:43:38.487463+00:00",
+  "status": "frozen_before_replay",
+  "planned_responses": 12,
+  "selection": "Two baseline contradictions selected post hoc from the completed original archive; same-turn structured counterparts included.",
+  "scope": "Conditional patient-generation replay of four exact archived prompts, three independent calls each; no full trajectory rerun.",
+  "files": {
+    "replay.py": "4b3f3c41af3fcf65d4f30c396ebc0a4273966f72ce7392b20a21762f0dea95dd",
+    "PROTOCOL.md": "e8f7fb9317020ee04e410866b91635696c548e7b3e60aeb0bdf654bd3e0c807b",
+    "replay-schedule.json": "ec9fba220a140dcaaf85b91db5f16cb84e588b3df21e876586e33a16b189e848",
+    "replay-inputs/alex_carter_001__flat_full_history.json": "35ea3cfdce0bdc9b4087929b94a5e8aebc8e0bb4eaa6a6195906234a429c3cba",
+    "replay-inputs/alex_carter_001__structured_common_profile.json": "503991491ba20fbb33437a78875c2f85f305fd7bdf835c1daeb82b439c49886c",
+    "replay-inputs/juanita_delgado_001__flat_full_history.json": "a39c335f8b927bd42d8dd267ef66c42e4cd0ac5370314bdb7c11951b62d8f887",
+    "replay-inputs/juanita_delgado_001__structured_common_profile.json": "b5c9d578530285ef9f96d9205c0f0d68edbaedc7c6e9447a0a49ffabcd25e314"
+  },
+  "original_root": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29",
+  "source_files": {
+    "runtime/alex_carter_001__r03__structured_common_profile/accepted-turns.jsonl": "a3d4ebbb093406edc37334f0ded58f15fc9ac82d25b49a23042ef38cbc2605cc",
+    "runtime/alex_carter_001__r03__structured_common_profile/sessions/session_04/generation-events.jsonl": "6903af99b312e0855b5e88cd0ac6e45bbbe968386981bded5765ba87e8330a75",
+    "runtime/alex_carter_001__r03__structured_common_profile/sessions/session_04/openrouter-api-records.jsonl": "7cafc5ebc89f9cdf552b2a0a0855aa1d211341ae6a766074842f4f27946efdf6",
+    "runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl": "aa816f84f48f88a96511a409d1a570adf6ce8760b1dbca21eff77bb69a41751d",
+    "runtime/alex_carter_001__r03__flat_full_history/sessions/session_04/generation-events.jsonl": "3bfd18a800fdcc537d471881ca079704aea8a90b2462dd90ee4dc0982e498699",
+    "runtime/alex_carter_001__r03__flat_full_history/sessions/session_04/openrouter-api-records.jsonl": "16b1d156ea9b27d39c7717e9c55fb55a0c548e415eb2ce7c87fd6315349c7c90",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/accepted-turns.jsonl": "19d73a2e9f426b70b2539e0f1ed6031448b5ad7a59cc5b0cb472e7575eec83ba",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/sessions/session_04/generation-events.jsonl": "94fc6bf7c3da2397f1449cd3dc01f09ccfcfd53cfdc569e22ce8a5cf8ea04ed2",
+    "runtime/juanita_delgado_001__r03__structured_common_profile/sessions/session_04/openrouter-api-records.jsonl": "88998fc2345ec062e48faaa693cf5d86b81aae21e464c21687009c7893d76b97",
+    "runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl": "ed121586589f56f798bd85d61f0ab71fd15869287abecb3ef0afe2ee30b9554c",
+    "runtime/juanita_delgado_001__r03__flat_full_history/sessions/session_04/generation-events.jsonl": "221f8b6cf12902f068daea34ed2e444465e1285262433f55973db50ee0b9eb28",
+    "runtime/juanita_delgado_001__r03__flat_full_history/sessions/session_04/openrouter-api-records.jsonl": "d4c79afe04ab6eda7b06ffba6aeb6c710f2ff91c57d1e8da02d6bf070198c6c6",
+    "manifest.json": "fc150bc97ed25ffd6a3308da59fa99bcd13527b8b1f768c29ded8d78b887ccc0",
+    "runtime_adapter.py": "f7c1b342254d5b69db2525823b5e7d25d55e2fb00a9c4a852d9f77441d4ddea7",
+    "openrouter_transport.py": "efedb7e0ee6f7ca9ba71a567eeae80797e67a0e70ed18b1198e25a34bd5e6613",
+    "openrouter_inband_errors.py": "eedb64c7a98880b29235fbc482a339ee3f980ed681b2c72da2ea96048709a55e",
+    "continuations/resume-07/timeout_retries.py": "c6558276674f17c2517dca8526886263a59ea57adc20fd44d5c5867e90e3c8d6",
+    "source/agent/core/llm_provider_vertex.py": "f994b251f367beb9dd946cef970a401a7136d76fc276f9ebe779fa6ca5a382fb",
+    "source/agent/core/llm_provider_base.py": "4cf227a7e86a48d22042fbaeb79a9387a2a9f3271729eefc2140d085c50173fc"
+  },
+  "model": "google/gemini-2.5-pro",
+  "generation_config": {
+    "temperature": 0.7,
+    "max_output_tokens": 4096,
+    "top_p": 0.95,
+    "top_k": 40,
+    "stop_sequences": [
+      "\nTherapist:",
+      "Therapist:"
+    ],
+    "thinking_config": {
+      "thinking_budget": 1024
+    }
+  }
+}

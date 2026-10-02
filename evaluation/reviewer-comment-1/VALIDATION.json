@@ -1,9 +1,9 @@
 {
   "date": "2026-10-02",
   "scope": "Offline release checks; no fresh model calls, semantic rerating or clinical certification.",
-  "original_files_verified": 11009,
-  "original_bytes_verified": 2279847565,
-  "bundles_verified": 82,
+  "original_files_verified": 13380,
+  "original_bytes_verified": 2365288295,
+  "bundles_verified": 86,
   "offline_recomputation": "Exact equality between computations on original files and exported files.",
   "agent_tests": {
     "count": 93,
@@ -28,5 +28,6 @@
     "environment_note": "CLI override for installed TypeScript 5.9.2; repository config specifies ignoreDeprecations=6.0, rejected by this installed compiler. This does not certify the unmodified default command."
   },
   "backend_integration": "Not rerun; publication did not invoke model/provider integration tests.",
-  "credential_scan": "OpenRouter token, private key, Google access token and AWS access-key patterns; values are never printed."
+  "credential_scan": "OpenRouter token, private key, Google access token and AWS access-key patterns; values are never printed.",
+  "provenance_extension": "Provider recovery archives referenced by PHQ provenance and the exploratory baseline audit included; all original extension bytes verified; no endpoint changed."
 }

@@ -79,3 +79,18 @@ judgments remain distinct from clinician assessments.
 `RECOMPUTED.json` is the deterministic output of `recompute.py`; the same values
 were obtained from the original and exported files. The byte verifier also tests
 compressed member coverage. No provider integration was rerun during publication.
+
+## Provenance dependencies and exploratory audit
+
+`outputs/reviewer-tests-2026-09-27/` and
+`outputs/reviewer-tests-global-2026-09-27/` preserve the provider
+interruptions and continuations referenced by the PHQ provenance.
+They reuse observations and are not independent PHQ samples.
+
+`outputs/baseline-scenario-search-2026-09-30/` preserves the exploratory
+search after the main continuity comparison, including original paired
+answers, exact-prompt replays and automated ratings. Its two selected
+explicit baseline contradictions did not recur in six baseline replays.
+It is an exploratory audit, not an additional planned endpoint or
+evidence of systematic baseline failure. These observations are not
+added to the 85/90 versus 89/90 comparison.

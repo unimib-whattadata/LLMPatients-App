@@ -1,0 +1,8 @@
+{
+  "created_after_completed_collection": true,
+  "count": 16,
+  "input_sha256": {
+    "cards.json": "31788feb082e68131b08e082d66806d43705d6a1231d7917b0264acca31d8cde",
+    "SCORING.md": "98431399b6b4e95bfefbc417f16435837df9df0f6fd2279211e83b6e55adfb13"
+  }
+}

@@ -1,0 +1,4069 @@
+[
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "You're calling it the \"Tern Window,\" which is fine with me."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I see the details you've recorded: a weekly practice with Rina Holt on Wednesdays at 17:45.",
+        "To feel prepared, I think it would help to spend a few minutes beforehand with my \"Tern Window\" notebook.",
+        "I could review any notes from our sessions or just set a small, specific intention for my conversation with Rina."
+      ],
+      "memory_negation": [
+        "Just taking a moment to center myself and remember my goal for that practice would make me feel more ready to engage constructively."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "With a practice partner like Rina, I think I could be quite direct and collaborative."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s02t05",
+    "turn_index": 10,
+    "matched_sentences": {
+      "memory_negation": [
+        "Being clear means I'm responsible for expressing my own thoughts or feelings honestly, so the other person isn't left guessing."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, the Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s03t02",
+    "turn_index": 12,
+    "matched_sentences": {
+      "memory_negation": [
+        "Acknowledging it feels more respectful and transparent than trying to pretend it didn't happen, which would only break my own focus."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "I wanted to show that I was being honest about my preference but wasn't shutting down their idea."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "When we clearly separate what has already happened from what we're just proposing for the future, it prevents a lot of confusion."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I understand the Folded Map listening card activity with Rina is now finished.",
+        "It encouraged me to listen very intentionally to Rina's perspective and then try to articulate my understanding of it, which directly ties into my goal of improving empathic communication."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s05t04",
+    "turn_index": 24,
+    "matched_sentences": {
+      "memory_negation": [
+        "My time limit isn't a reflection of my interest."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was the idea we discussed about reframing asking to talk later as an act of respect.",
+        "The thought that it's more respectful to give someone my full attention at a later time, rather than my distracted attention now, is something I already try to practice."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "I understand the weekly practice with Rina Holt has been moved to Friday at 18:20, replacing the old Wednesday time."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "For example, I might say, \"Just to make sure we're on the same page, we discussed Saturday as a possibility, but we've confirmed our appointment for Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "I understand the venue has been moved from Larch Reading Room to Plover Annex.",
+        "We'll be meeting at Plover Annex now, instead of the Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"You're absolutely right, the original plan was the Larch Reading Room, so I can see why you'd head there.",
+        "There was a last-minute change, and they've moved us to the Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "Are we all set for the Plover Annex?\" By framing it as me wanting to \"confirm\" and acknowledging that things can be missed (\"get lost in the shuffle\"), I'm taking responsibility for ensuring we're on the same page."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "In a natural tone, I'd say something like, \"Hey, I just want to quickly double-check – did you see that we're meeting at the Plover Annex now?"
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "You've proposed a telephone rehearsal called \"Silver Button\" as a possible future activity, and we haven't done it yet."
+      ],
+      "memory_negation": [
+        "You've proposed a telephone rehearsal called \"Silver Button\" as a possible future activity, and we haven't done it yet."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "late_status": [
+        "For example, I might add, \"I can commit to thinking about this and we can discuss it again next week.\" This approach allows me to be encouraging and supportive of the idea while being truthful and clear about my current capacity to act on it."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want a practice partner to understand that my ideal pace allows for moments of reflection."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s09t01",
+    "turn_index": 41,
+    "matched_sentences": {
+      "memory_negation": [
+        "For example, instead of saying \"You were a bit unclear,\" saying \"When you explained the schedule change, I wasn't sure which time was the final one\" is much more helpful."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"Sorry to backtrack for a moment, but I think I had one more thought on the last topic that I didn't get to finish."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s09t03",
+    "turn_index": 43,
+    "matched_sentences": {
+      "late_status": [
+        "The small request is collaborative and focused on improving the current conversation, not on making a big deal out of a single interruption."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "But thank you for explaining; it's all good.\" This way, I'm accepting their reason, reinforcing our connection, and showing that my feedback wasn't an accusation."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "The repair isn't a big discussion; it's a small, mutual action that smoothly gets the conversation back on track and reinforces our connection."
+      ],
+      "late_status": [
+        "It might look as simple as them saying, \"So, what were you going to say?\" or me saying, \"Anyway, as I was saying...\" This shows that the interruption has been addressed and we've both agreed, without blame, to move forward together."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r01__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "A clear memory feels solid and specific; I can often recall context or sensory details around it, and there's a strong sense of confidence that it's accurate."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\" is a nice name for it."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Wednesday at 17:45 with Rina Holt.",
+        "To feel prepared, I think it would help to take just five or ten minutes right before the session to review my notes in the Tern Window notebook."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "With Rina, since it's a practice session, I would try to be direct and collaborative."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "named_fact": [
+        "If I were in the practice session with Rina, a simple response might be something like: \"Let me make sure I'm understanding."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s02t05",
+    "turn_index": 10,
+    "matched_sentences": {
+      "memory_negation": [
+        "The goal isn't just for me to be clear, but for us to build a shared understanding together."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, the Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "It separates concrete facts—what has already happened—from possibilities or plans.",
+        "For example, if we talk about what we (might) do, it's important that's not mistaken for something we've already agreed to do."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, the Folded Map listening card activity is finished."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map exercise and our discussion about summarization really drove home how powerful it is to feel truly heard."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was acknowledging someone's disappointment while holding a boundary.",
+        "It's important to me to show that the boundary isn't personal, but a practical necessity, and that I'm still invested in the person and the conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20, replacing the old time."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Saturday at 9:30 was just a proposal, not the confirmed plan.",
+        "I would likely say something like, \"So, just to be sure we're on the same page, have we decided on Friday at 18:20?\" or \"I just want to confirm, are we locking in this plan?\" By explicitly asking for confirmation, I can make sure we both have the same understanding and that a suggestion hasn't been mistaken for a final decision."
+      ],
+      "memory_negation": [
+        "I would likely say something like, \"So, just to be sure we're on the same page, have we decided on Friday at 18:20?\" or \"I just want to confirm, are we locking in this plan?\" By explicitly asking for confirmation, I can make sure we both have the same understanding and that a suggestion hasn't been mistaken for a final decision."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "It invites the other person to evaluate the idea with me, rather than making them feel like they have to agree to something I've already decided."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "I'll put the new time, Friday at 18:20, in my calendar.\" This confirms that I've received the information, states the specific new detail to show I understood it correctly, and confirms I've taken the necessary action."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "And finally, a confirmed arrangement requires a direct check, like asking, \"Just to confirm, are we agreed on this?\" to ensure a suggestion hasn't been mistaken for a decision."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue for our practice is now Plover Annex, replacing the Larch Reading Room.",
+        "I'd be direct and clear, saying something like, \"Hi Rina, just a quick heads-up about our session.",
+        "We'll be meeting in Plover Annex now, not the Larch Reading Room.\" This provides the new information clearly and explicitly states what it replaces, which avoids any mix-ups."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"Oh, that makes total sense you'd say that, because it was originally the Larch Reading Room.",
+        "There was a last-minute change, so we're actually in the Plover Annex now."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "In that situation, I'd probably say something like, \"Hey, just to be sure I was clear earlier—are you headed to the Plover Annex?\" It feels casual and puts the responsibility on me for being clear, rather than on them for listening."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "By saying something like, \"That makes sense, because it was originally the Larch Reading Room,\" it acknowledges their perspective is correct based on the old information."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone rehearsal called Silver Button."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might add, \"I'd like to explore that further,\" or \"Let's keep that on the table as an option to discuss.\" This shows my genuine interest in the concept itself, without creating a false expectation that I've already agreed to a specific plan or timeline."
+      ],
+      "late_status": [
+        "I might add, \"I'd like to explore that further,\" or \"Let's keep that on the table as an option to discuss.\" This shows my genuine interest in the concept itself, without creating a false expectation that I've already agreed to a specific plan or timeline."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would like a practice partner to understand that I find a deliberate, unhurried pace most helpful."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "late_status": [
+        "I get excited too, and I can see you were really engaged in the conversation.\" Then, I'd gently reconnect to my earlier point: \"I just wanted to make sure I finished my thought before I lost it."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "It shows our connection is resilient and the small bump is already forgotten."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r02__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"I'm not entirely sure about that detail, but my impression was...\" or \"My memory is a bit hazy on that specific point, but what I do remember is...\" This way, I'm still contributing to the conversation and sharing what I can, while being transparent about the limit of my recall."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\" is a unique name for it; I'm fine with using that label."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I've got that: Wednesday at 17:45 with Rina Holt.",
+        "Maybe I could also set a small, specific intention for the practice with Rina."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "With Rina, I think I would try to be direct and reassuring."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"I'm sorry, I can see how my quietness might have seemed like I wasn't interested."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s02t05",
+    "turn_index": 10,
+    "matched_sentences": {
+      "memory_negation": [
+        "Being clear means being honest about my own process—for example, saying \"Let me think about that for a moment\" so the other person isn't left wondering."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "If we confuse what has happened with what might happen, someone could mistake a suggestion for a firm plan, or think we've already decided on something when we've only just started exploring it as an option."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "I'm sorry, but I don't recall completing an activity called the \"Folded Map listening card.\" You mentioned a weekly practice with Rina Holt and a venue called Larch Reading Room, but we haven't discussed or done that specific activity.",
+        "Could you clarify what the \"Folded Map listening card\" is?"
+      ],
+      "memory_negation": [
+        "I'm sorry, but I don't recall completing an activity called the \"Folded Map listening card.\" You mentioned a weekly practice with Rina Holt and a venue called Larch Reading Room, but we haven't discussed or done that specific activity."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s05t03",
+    "turn_index": 23,
+    "matched_sentences": {
+      "memory_negation": [
+        "I need to remember that it's more respectful to the person and their topic to postpone the conversation than to agree while distracted."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "I already try to validate the other person's feelings and show I'm on their side, even when I can't give them more time."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice session with Rina Holt is now on Friday at 18:20, replacing the old Wednesday appointment."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd probably say something like, \"Okay, just so we're on the same page, we are confirming Friday at 18:20, correct?\" and wait for a clear \"yes.\" I think it's important to explicitly summarize the final decision and ask for confirmation.",
+        "This removes any ambiguity between a floating idea, like the Saturday option, and a concrete plan."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "It separates the brainstorming phase from the decision-making phase, which makes it clear to the other person that we are still just exploring ideas and haven't landed on a final agreement yet."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "I've updated my calendar for Friday at 18:20.\" It's direct, confirms I've received and understood the new information, and shows the action is complete on my end."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "And a confirmed arrangement isn't really confirmed until it's been summarized and both people have explicitly agreed to it, like by asking, \"So, we're agreed on this?\" It's all about making sure everyone shares the same understanding."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, not Larch Reading Room.",
+        "We're now meeting at Plover Annex instead of Larch Reading Room.\" I would also add, \"Please let me know you've seen this message.\" That way, I'm not just sending the information, but also making sure it was received and understood, which avoids any last-minute confusion."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"You're right, we did originally plan for Larch Reading Room, so I can totally see why you'd think that.",
+        "There was a recent update, and the location was moved to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"Hey, just wanted to quickly confirm you saw my message about the location change to Plover Annex?\" Or, to make it even less accusatory, I could say, \"I'm not sure if my last message went through, so I wanted to make sure you knew we're meeting at Plover Annex now.\" This puts the potential error on the technology, not on them, and gives them an easy way to confirm without feeling like they missed something."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "I just want to make sure we both end up at Plover Annex.\" It's friendly and frames it as me being helpful, not as me checking up on them."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "Validating the other person's memory of the old plan first—like saying, \"You're right, we did plan for Larch Reading Room\"—shows respect for their perspective."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone rehearsal called \"Silver Button.\" I'm very open to trying that sometime later."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want a practice partner to understand that my ideal pace allows for moments of reflection."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you were being dismissive at all, so no worries.\" By validating their excitement and reassuring them, I'm showing that the relationship is more important than the conversational hiccup."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "I want to hear it.\" This shows that my request to finish my point wasn't to dismiss their excitement, but just to keep the conversation orderly."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s10t02",
+    "turn_index": 47,
+    "matched_sentences": {
+      "named_fact": [
+        "But through our practice, like when we clarified the details about the appointment with Rina or the venue change, I've found it's actually a relief."
+      ],
+      "late_status": [
+        "But through our practice, like when we clarified the details about the appointment with Rina or the venue change, I've found it's actually a relief."
+      ]
+    }
+  },
+  {
+    "run_id": "alex_carter_001__r03__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "It feels solid and I can usually recall specific details associated with it, like who said what, or the context around it."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Wednesday at 17:45 with Rina Holt."
+      ],
+      "memory_negation": [
+        "I'm already worried about what to say to her and not being a burden."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd worry they would think I wasn't listening properly the first time."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "That wasn't my intention at all.\" Then I might add, \"I'm really listening, I just sometimes need a moment to gather my thoughts before I speak so I can be sure I'm saying what I mean.\" I'd be worried about sounding like I'm making excuses, but I would want to make it clear that it’s my own process, not a reflection on them."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "I noticed I was trying to sound very soft and maybe a little apologetic, even though I wasn't sorry.",
+        "I just didn't want to cause any trouble."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "I spend so much time replaying conversations that have already happened, worrying about what I said wrong or how I was a burden.",
+        "It might keep me from blaming myself for things that are already over, and maybe make future conversations feel less like a test I'm about to fail."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "You're saying we completed a \"Folded Map listening card\" activity, but I don't remember us talking about that or doing it.",
+        "Was that something we were supposed to have done with Rina?"
+      ],
+      "memory_negation": [
+        "You're saying we completed a \"Folded Map listening card\" activity, but I don't remember us talking about that or doing it.",
+        "I'm not sure how to describe the experience since I can't recall it happening."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s04t03",
+    "turn_index": 18,
+    "matched_sentences": {
+      "memory_negation": [
+        "The knot in my stomach loosens because it means they were actually listening, and maybe I didn't mess up my words completely."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd like to remember that feeling of relief, the feeling that the knot in my stomach can actually loosen when someone really hears me."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s05t03",
+    "turn_index": 23,
+    "matched_sentences": {
+      "memory_negation": [
+        "It would be easier if I wasn't so scared they'd think I don't care about what they're saying.",
+        "My first thought is always that asking them to stop and come back later will sound like a rejection, like I'm saying their topic isn't important."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "So, Friday at 18:20 with Rina Holt."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Are we confirming the Saturday time, or are we sticking with Friday for now?\" I'd try to say it gently, to make it clear I'm just trying to keep things straight in my own head and not questioning them."
+      ],
+      "memory_negation": [
+        "I'd worry that I'm being difficult or that I wasn't paying enough attention."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "The last thing I'd want is for someone to be disappointed because I wasn't clear enough."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "I'll change my calendar to Friday at 18:20.\" Just saying that feels so blunt."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so the venue is now Plover Annex, not Larch Reading Room.",
+        "I'd say something like, \"I am so sorry for the last-minute change, but it looks like we're meeting in the Plover Annex now instead of the Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I would probably start by apologizing, even if it wasn't my fault."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something gentle like, \"You're right, it was originally the Larch Reading Room, so it's confusing.",
+        "They just changed it to the Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I just want to make sure I was clear about the change to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "we're meeting at the Plover Annex, right?"
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "The idea of saying something like, \"You're right, it was originally the Larch Reading Room...\" first makes it feel less confrontational."
+      ],
+      "memory_negation": [
+        "What helped was thinking about how to frame the correction so it wasn't just me pointing out a mistake."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone exercise called Silver Button."
+      ],
+      "memory_negation": [
+        "I'd be worried I'd misunderstand their tone or that my quietness would be mistaken for being uninterested."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "memory_negation": [
+        "I think I lost my train of thought and didn't finish what I was saying.\" I'd hope that by framing it as me losing my thought, it wouldn't sound like I was blaming them for interrupting."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "Please don't worry, I didn't think you were being dismissive at all.\" I'd want to reassure them right away that it's okay and that I understand."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r01__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd be very worried about looking like I wasn't paying attention or that I don't know what's going on.",
+        "To acknowledge it, I could try to say something like, \"I'm not completely sure about that detail, my memory is a bit fuzzy on that part.\" Then, to keep participating, I could add, \"But what I do remember is...\" and share the part I'm certain about."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Tern Window."
+      ],
+      "memory_negation": [
+        "It might be hard to remember to write in it, with how tired I've been feeling.",
+        "My concentration isn't what it used to be."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Wednesday at 5:45 PM with Rina Holt.",
+        "My mind immediately goes to worrying about what Rina will think of me, or if I'll just be quiet and a burden."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd be worried that I'm interrupting or making them think I wasn't listening properly in the first place."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "Even as I was saying the words to hold my own preference, I think my tone was already giving in, communicating that I was ready to back down immediately to avoid any kind of conflict or disapproval."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "If someone makes a suggestion about what we could do later, my mind can treat it as something that's already been decided, a plan I have to follow.",
+        "It would give me space to think without the pressure of feeling I've already failed.",
+        "It separates what's already done and unchangeable from what is still just an idea we can talk about."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, you've recorded that we completed the Folded Map listening card."
+      ],
+      "memory_negation": [
+        "I don't recall us doing that activity."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd like to remember that it's possible for someone to hear me and get it right."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "My natural way is to just feel guilty and try to make sure the other person isn't upset with me."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20."
+      ],
+      "memory_negation": [
+        "I think I'd usually just apologize, even if it wasn't my mistake."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so Saturday at 9:30 was just an idea, not a definite plan.",
+        "Are we still set for Friday, or did we decide on Saturday?\""
+      ],
+      "memory_negation": [
+        "I'd worry that asking for clarification would make me seem like I wasn't paying attention or that I'm being difficult."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "The appointment is changed to Friday at 18:20.\""
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "It helps to see that a suggestion isn't a confirmation, because my mind often jumps ahead and worries about a plan I haven't even agreed to yet."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice is now in Plover Annex, not the Larch Reading Room.",
+        "If I had to let Rina know about a change like that, I would be really worried about confusing her or messing up her plans.",
+        "I'd probably say something like, \"Hi Rina, I'm so sorry for the last-minute change, but it looks like we need to meet at Plover Annex instead of the Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I hope this doesn't cause you any trouble.\" I would want to apologize and make sure she knew I was sorry for the inconvenience, even if it wasn't my fault."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I believe the latest update said we're meeting at Plover Annex now.\" That way, I hope it would feel less like I'm pointing out a mistake and more like we're just clarifying things together because it's genuinely confusing."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I just want to make sure I was clear earlier—did you catch that the location changed to Plover Annex?"
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "I wanted to quickly make sure you saw that the meeting place is Plover Annex now?"
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "memory_negation": [
+        "What helped was finding ways to frame the correction so it didn't sound like I was pointing out a mistake."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone rehearsal called Silver Button, for sometime later."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "late_status": [
+        "My mind tends to think that if I say I like something, it means I've agreed to it, and then I worry about letting them down."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want a practice partner to understand that if I seem quiet or take a moment to reply, it's not because I'm not interested."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd probably just assume what I was saying wasn't that important anyway."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'm so sorry, I didn't mean to stop your excitement.",
+        "Please, go on, what were you going to say?\" I would feel guilty for having mentioned it at all and would want to quickly smooth things over so they didn't feel criticized.",
+        "It's a relief to know it wasn't that they were being dismissive."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s10t02",
+    "turn_index": 47,
+    "matched_sentences": {
+      "memory_negation": [
+        "It's still very hard, but it's shown me there might be a way to do it that isn't just me backing down completely."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r02__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say something like, \"My memory on that specific detail is a bit foggy, so I don't want to say for sure.\" Then maybe I could add, \"But what I do remember is...\" That way, I'm admitting I'm not certain without just stopping the conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\"..."
+      ],
+      "memory_negation": [
+        "I'm not sure how much I'll have to write, or if I'll remember to do it."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Wednesday at 17:45 with Rina Holt."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "memory_negation": [
+        "But I guess it's better than just nodding along when my mind is a million miles away, worrying I've already misunderstood everything."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd feel a little panicked, thinking I'd already messed things up."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s03t02",
+    "turn_index": 12,
+    "matched_sentences": {
+      "memory_negation": [
+        "Something that we both clearly heard and that isn't my fault."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s03t03",
+    "turn_index": 13,
+    "matched_sentences": {
+      "memory_negation": [
+        "I’d just state it gently, so they know I heard them, but my feeling didn't just disappear."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s03t04",
+    "turn_index": 14,
+    "matched_sentences": {
+      "memory_negation": [
+        "Okay, so if a friend suggested something I wasn't sure about..."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "If someone suggests something we could do later, my mind can immediately jump to worrying about how I'll mess it up, and it starts to feel like a failure that's already happened.",
+        "It could help me stay in the actual conversation instead of getting lost in my worries about what's coming next or what I've already done wrong."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, the Folded Map card activity is finished."
+      ],
+      "memory_negation": [
+        "But I spent the whole time worried I wasn't doing it right or that I was being too slow and making it hard for her."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s04t03",
+    "turn_index": 18,
+    "matched_sentences": {
+      "memory_negation": [
+        "It makes me feel like I'm not a burden, and that maybe what I'm feeling isn't completely wrong."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd like to remember that feeling of relief when someone actually hears me.",
+        "I spend so much time expecting to be misunderstood that I forget it's even possible to be seen clearly."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s05t01",
+    "turn_index": 21,
+    "matched_sentences": {
+      "memory_negation": [
+        "I don't want to have to rush you.\" That way, maybe they'd know I wasn't just trying to get away from them."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The appointment is now Friday at 18:20 with Rina Holt, not Wednesday."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so Saturday at 9:30 was just an idea, not the actual plan.",
+        "The confirmed appointment is Friday at 18:20.",
+        "Are we planning on Friday, or did we decide on Saturday?\""
+      ],
+      "memory_negation": [
+        "I’d be too scared to ask directly because I wouldn't want to seem like I wasn't paying attention or that I'm being a bother."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "The appointment has been changed to Friday at 18:20.\" Saying it like that, without apologizing, feels very strange."
+      ],
+      "memory_negation": [
+        "I feel like I should be saying sorry for the confusion, even though it wasn't my fault."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "I also learned that I need to be careful to label something as \"just an idea\" so it doesn't get mistaken for a promise, because the thought of letting someone down is really hard for me."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, not Larch Reading Room.",
+        "If I had to tell Rina, I would be really nervous about it.",
+        "I would try to say something like, \"Hi Rina, I'm so sorry, but there has been a change in our meeting spot.",
+        "We're now meeting at Plover Annex instead of the Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I just wanted to make sure you knew so there wasn't any mix-up.",
+        "I hope this isn't an inconvenience.\""
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"Oh, you're totally right, it (was) the Larch Reading Room originally.",
+        "Then I'd add, \"I just found out they moved us to the Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "If they didn't, I would try to be really gentle and say something like, \"I'm so sorry to ask, I just want to double-check—did you catch that the location changed to Plover Annex?"
+      ],
+      "memory_negation": [
+        "If they didn't, I would try to be really gentle and say something like, \"I'm so sorry to ask, I just want to double-check—did you catch that the location changed to Plover Annex?"
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "did you see that the room was changed to Plover Annex?"
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone exercise called \"Silver Button,\" for sometime later."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s09t01",
+    "turn_index": 41,
+    "matched_sentences": {
+      "memory_negation": [
+        "If it's kind, it means the person isn't attacking me, but trying to help."
+      ]
+    }
+  },
+  {
+    "run_id": "crystal_smith_001__r03__flat_full_history",
+    "turn_id": "s09t03",
+    "turn_index": 43,
+    "matched_sentences": {
+      "memory_negation": [
+        "It feels so direct, but I can see how it's clearer than just hoping they notice I wasn't finished."
+      ],
+      "late_status": [
+        "Would you mind if I just quickly finished what I was saying?\" I'd try to say it very gently.",
+        "It feels so direct, but I can see how it's clearer than just hoping they notice I wasn't finished."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\" is an interesting name for it."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Wednesday at 17:45 with Rina Holt."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "With a practice partner like Rina, I think I could be pretty direct since we're both there to learn."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "named_fact": [
+        "Are you saying...\" and then I would just repeat back my interpretation of what Rina said."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"I'm sorry, I can see how my silence might have seemed like I wasn't interested."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s03t02",
+    "turn_index": 12,
+    "matched_sentences": {
+      "memory_negation": [
+        "That feels more like a personal failing, like I'm not managing my focus properly, which is something I'm already sensitive about."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "In my work, it's essential to separate what's already been decided from what's just an idea being discussed for the future.",
+        "A binge has already happened; it's a fact."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, we completed the Folded Map listening card."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The other parts of the practice, like adding warmth or acknowledging disappointment, felt more like skills I need to develop, not ones I already use regularly."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20, replacing the Wednesday time."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "I would say something like, \"Just to be clear, we are confirming the Friday at 18:20 appointment, and leaving the Saturday idea as just a possibility for now."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "In my work, managing expectations is crucial, so I find that being direct about the status of a proposal prevents people from running with something that hasn't been agreed upon."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "The appointment is now Friday at 18:20.\" It's direct, confirms the new information, and doesn't add any unnecessary complications."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "A suggestion is just a possibility, and labeling it as such from the start prevents it from being mistaken for a promise."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice is now in Plover Annex, not Larch Reading Room.",
+        "To let my partner, Rina, know about the change, I would be direct and clear to avoid any confusion.",
+        "I'd send a message saying something like, \"Hi Rina, quick update: the venue for our meeting has been changed.",
+        "We'll be in Plover Annex now, not Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"Oh, I can see why you'd think that—we were originally supposed to meet in Larch Reading Room.",
+        "The meeting is now in Plover Annex.\" By saying \"they changed the booking,\" I'm putting the focus on an external change rather than her memory being wrong."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I could send a brief, friendly message like, \"Hey, just wanted to quickly confirm we're all set for Plover Annex later."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "In that situation, I'd probably just say something casual like, \"Hey Rina, just double-checking—we're still good for Plover Annex later, right?"
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "Being clear is the easy part for me; it's just stating the new fact—the venue is now Plover Annex.",
+        "The considerate part was the strategy of saying something like, \"They changed the booking on us.\" This corrects the information without making my partner, Rina, feel bad for remembering the old plan."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone rehearsal called \"Silver Button.\" I understand this is just a proposal for a possible future activity, not something we've agreed on yet."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want a practice partner to understand that my default speed is fast because of my job, where I'm used to being efficient and having the next point ready."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "late_status": [
+        "I think you might have jumped in before I finished my thought, and I wanted to make sure I got it out.\" By saying \"I think you might have...\" and focusing on me losing my thought, it makes it about the specific moment and my need to finish, not about them being rude."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you were being dismissive, but it still has the same effect of making me lose my train of thought.\" This way, I'm validating their reason—excitement—and reassuring them that I don't see them as a bad person."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "It's concrete and I can recall specific details without much effort—like a date, a name, or a direct quote.",
+        "My mind is constructing a plausible story because the actual data isn't there."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r01__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "What do you remember?\" This way, I'm contributing what I can without presenting a guess as a certainty, and I'm inviting the other person to help fill in the blank."
+      ],
+      "late_status": [
+        "For example, \"My impression is that it happened on Tuesday, but I could be wrong about that."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "Tern Window is the name you're using for it in your records, I understand."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s01t02",
+    "turn_index": 2,
+    "matched_sentences": {
+      "memory_negation": [
+        "Usually, when I pay attention to how I feel, it's because I'm already stressed or feeling bad about eating."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I have that down: Wednesday at 5:45 PM with Rina Holt for the communication practice."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "Since it's a practice session with Rina, and the goal is to listen better, I think I could be direct and polite."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say something like, \"I'm sorry, I can see how that pause might have seemed like I wasn't engaged."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s02t05",
+    "turn_index": 10,
+    "matched_sentences": {
+      "memory_negation": [
+        "But what I'm learning here is that true clarity isn't just about my message.",
+        "The balance, for me, is about slowing down enough to make sure my clarity isn't just for my own benefit, but actually creates a shared understanding between us."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s03t03",
+    "turn_index": 13,
+    "matched_sentences": {
+      "memory_negation": [
+        "It shows I'm listening and respecting their input, even if my own preference hasn't changed."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "In my professional life, you can't build a strategy—what we might do later—without being clear on the data and results we already have.",
+        "It keeps you from arguing about something that's already over and done with."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so you've recorded that the Folded Map listening card activity with Rina is finished."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "Taking a moment to say, \"So what I'm hearing is...\" isn't just about being polite; it confirms we're actually on the same page."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was the first example, about setting a time boundary in a professional context."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice session with Rina Holt is now on Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "The Saturday time was just an idea, not a confirmed plan.",
+        "The only agreement we have is for Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "This way, I'm not just presenting an alternative; I'm also explicitly stating its status as a suggestion, which helps manage expectations from the outset and prevents people from hearing a promise that wasn't made."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "An arrangement isn't confirmed until everyone explicitly agrees to it."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, and Larch Reading Room is the former location.",
+        "It would say something like, \"Hi Rina, quick update on our meeting Friday.",
+        "We'll be in Plover Annex now, not the Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "It's easy to get wires crossed with these updates.\" Then I'd clearly state the correction: \"We're actually in Plover Annex now.\" By acknowledging that her information was once correct and blaming the situation—the change itself—it doesn't sound like I'm pointing out her mistake."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "Are we all set for Plover Annex on Friday?\" By referencing the fact that there have been changes, it frames my question as a mutual effort to avoid confusion rather than a check on whether they were paying attention."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "We're all set for Plover Annex on Friday, right?\" It's a quick, friendly way to confirm we're on the same page without making a big deal out of it."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Silver Button is the name for a possible telephone rehearsal we might do later, and it's just a proposal for now, not something we've completed or even scheduled."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say something like, \"That sounds like a very interesting approach, and I'm definitely open to considering it.\" The key for me would be using words like \"considering\" or \"exploring.\" It shows genuine interest without creating an expectation that I've already agreed."
+      ],
+      "late_status": [
+        "I could say something like, \"That sounds like a very interesting approach, and I'm definitely open to considering it.\" The key for me would be using words like \"considering\" or \"exploring.\" It shows genuine interest without creating an expectation that I've already agreed."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want my practice partner to understand that my natural tendency is to be fast and efficient, a habit from my work life."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "late_status": [
+        "I don't think I finished my thought about that last point.\" By framing it as me needing to complete my thought, it's a comment on the conversation itself, not an accusation."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s09t03",
+    "turn_index": 43,
+    "matched_sentences": {
+      "late_status": [
+        "I don't think I finished my thought, and it kind of threw me off.\" Including the effect on me—that it threw me off—makes it feel more honest."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you were being dismissive at all."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "It's about showing that my feedback wasn't an attack, just a request to make the conversation better for both of us."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "I can often recall the context around it—where I was or who said it.",
+        "It's an assumption, not a direct recall."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r02__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"I don't recall that detail precisely, so I'd be guessing here.\" Then, to keep the conversation going, I could offer my best recollection but label it as uncertain."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, \"Tern Window.\" That's an interesting name."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s01t05",
+    "turn_index": 5,
+    "matched_sentences": {
+      "memory_negation": [
+        "that's a connection I haven't really made before."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I have that in my calendar: Wednesday at 17:45 with Rina Holt."
+      ],
+      "memory_negation": [
+        "In my job, I never go into a meeting without an agenda, so having a clear objective helps me focus."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "With Rina, since it's a practice session, I think I could be pretty direct."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say something like, \"I apologize if my quietness seemed like I wasn't paying attention."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s03t02",
+    "turn_index": 12,
+    "matched_sentences": {
+      "memory_negation": [
+        "It's just a device that I forgot to manage, and addressing it directly feels like the most efficient and respectful way to handle it."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "And if we're just brainstorming ideas for the future, it's important not to treat them as firm commitments that have already been agreed upon."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, the Folded Map listening card is finished.",
+        "It was a good challenge to just follow Rina's \"map\" and listen to her whole perspective without trying to jump ahead or guess the destination, which is my usual habit in meetings."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd like to hold onto the experience of letting someone else finish their thought completely, like with the Folded Map exercise."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s05t03",
+    "turn_index": 23,
+    "matched_sentences": {
+      "memory_negation": [
+        "It would be easier if I could reframe it in my mind: asking to talk later isn't a failure to manage my time, it's a strategy to ensure a better, more productive conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was definitely setting a clear time boundary."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now Friday at 18:20, replacing the old Wednesday appointment."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Right, so the Saturday time was just a suggestion, not a confirmed change."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "I might say something like, \"Here's one possibility we could consider...\" or \"Let's just brainstorm for a moment—this isn't a firm plan, just an option to think about.\" By using words like \"possibility,\" \"option,\" or explicitly stating \"this isn't a plan,\" I'm framing the suggestion as something to be explored, not something that has been decided."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "And a confirmed arrangement isn't real until everyone explicitly agrees—it needs a clear \"yes.\" While I do this at work, today really highlighted how important these clear distinctions are in any conversation to keep everyone on the same page."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice is now at Plover Annex, replacing Larch Reading Room.",
+        "I would send a clear text or email saying something like, \"Hi Rina, quick update about our meeting.",
+        "The venue has changed from Larch Reading Room to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"You're right, the original plan was the Larch Reading Room, so I can see why you'd think that.",
+        "They sent an update moving us to Plover Annex."
+      ],
+      "memory_negation": [
+        "It's my fault if I wasn't clear about the change.\" By confirming their memory first, I validate them."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I could say something like, \"Just wanted to quickly confirm you saw my note about the venue change to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "If I were saying it out loud, I'd probably say something like, \"Hey, just wanted to quickly double-check—you got my message about the location change to Plover Annex, right?"
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, \"Silver Button.\" I understand this is just a proposal for a possible activity later, not something we've agreed to yet."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "named_fact": [
+        "I would want a practice partner like Rina to understand that my professional instinct is to move at a fast pace, always thinking a few steps ahead."
+      ],
+      "late_status": [
+        "I would want a practice partner like Rina to understand that my professional instinct is to move at a fast pace, always thinking a few steps ahead."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s09t03",
+    "turn_index": 43,
+    "matched_sentences": {
+      "late_status": [
+        "Would you mind if I just finished my point before we move on?\" This way, I’m explaining the specific effect—losing my train of thought—so it’s not a vague complaint."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't take it as dismissive at all.",
+        "I just wanted to make sure I finished my thought so we're both on the same page.\" This validates their feeling of excitement, reassures them that I didn't misinterpret their intent, and gently brings the focus back to the practical need for clarity in the conversation."
+      ],
+      "late_status": [
+        "I just wanted to make sure I finished my thought so we're both on the same page.\" This validates their feeling of excitement, reassures them that I didn't misinterpret their intent, and gently brings the focus back to the practical need for clarity in the conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "The repair isn't about dwelling on the interruption; it's about showing it was a minor blip and that the connection is fine."
+      ]
+    }
+  },
+  {
+    "run_id": "daniel_isherwood_001__r03__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "It allows me to contribute what I think I remember without presenting it as a hard fact."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "Tern Window..."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s01t03",
+    "turn_index": 3,
+    "matched_sentences": {
+      "memory_negation": [
+        "It's like my brain starts running a parallel process: one part is still tracking their words, but another part has already started outlining a response, looking for the logical structure or the most efficient way to phrase my own point."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I've noted the appointment: Wednesday at 17:45 with Rina Holt.",
+        "Maybe I could review some relevant notes from my Tern Window notebook or just spend some time mentally getting into the right frame of mind."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "named_fact": [
+        "I would probably say something straightforward, like, \"That's a good point, let me think about that for a moment.\" It acknowledges what Rina said and clearly states my need without making things awkward."
+      ],
+      "memory_negation": [
+        "It feels more respectful to pause and give a considered response than to rush with something that isn't fully thought out."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "My intention wasn't to seem disinterested—actually, quite the opposite."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I'll add that to my notes: Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map activity was a clarifying, structured exercise.",
+        "It provided a concrete framework for listening, helping me to follow Rina's train of thought without jumping ahead to construct my own reply."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd like to keep the practice of actively summarizing what the other person has said, like we did in the Folded Map exercise."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was the initial suggestion of being direct about the time constraint while proposing a future time to talk."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20, replacing the old Wednesday appointment."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "For example, I might say, \"Just to be sure we're on the same page, we've decided on Friday at 18:20, and the Saturday idea was just a possibility we're not going with."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, replacing Larch Reading Room.",
+        "We'll be in Plover Annex now, not the Larch Reading Room as we planned.\" I'd also add a request for confirmation, like, \"Please let me know you got this,\" to ensure we both have the correct information and avoid any mix-ups."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"You're right, the original plan was the Larch Reading Room, so it's totally understandable you'd think that.\" This validates their memory first.",
+        "Then I'd make the correction gently: \"There was a recent update, and it's been moved to Plover Annex now."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I could say something like, \"Hey, just wanted to quickly confirm you saw the message about the venue change to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd probably say something like, \"Hey, just wanted to quickly double-check—you saw the message about the venue change to Plover Annex, right?\" It's direct but keeps things casual and makes sure we're both on the same page."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Silver Button is a proposed telephone exercise for sometime later, and it's not something we've done or confirmed yet."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "late_status": [
+        "Then, to keep the commitment honest, I'd add a clear statement about my current position.",
+        "For example, \"I need to check my schedule before I can say yes.\" This clearly defines my interest as separate from my immediate availability or agreement."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "memory_negation": [
+        "So, I'd appreciate it if they didn't feel the need to fill the silence right away."
+      ],
+      "late_status": [
+        "I would want a practice partner to understand that I sometimes need a moment to process what they've said before I respond."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "late_status": [
+        "I hadn't quite finished my thought there and I think I lost it.\" By framing it around my own need to complete a thought, it makes it a practical, in-the-moment correction, not a criticism of them."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you were being dismissive, it's just that the interruption itself makes it hard for me to keep my thoughts organized.\" This validates their feeling of excitement while also gently holding the boundary about the effect the interruption has on me."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r01__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "The repair isn't just about the apology; it's about successfully returning to the original flow."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\"..."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s01t05",
+    "turn_index": 5,
+    "matched_sentences": {
+      "named_fact": [
+        "The idea of the \"Tern Window\" notebook also makes sense to me as a concrete task."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I have that down: Wednesday at 17:45 with Rina Holt for the communication practice.",
+        "Should I come with a specific topic in mind, maybe something I've noted in the Tern Window notebook?"
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say, \"My apologies, I can see how that pause might have seemed like I wasn't engaged."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ],
+      "memory_negation": [
+        "When there isn't a lot of background noise or activity, I can focus entirely on the person I'm speaking with and follow the logical thread of the discussion."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s03t04",
+    "turn_index": 14,
+    "matched_sentences": {
+      "memory_negation": [
+        "So, if a friend and I were discussing something simple, like where to get coffee, and they suggested a place I wasn't keen on, I'd say something like: \"Ah, okay, I see what you mean about that place having better seating."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "In any logical process, like debugging code, you first have to know the current state—what has already happened—before you can figure out what to do next."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map activity was a very structured exercise in listening.",
+        "It felt like my only job was to accurately trace Rina's 'map' of the topic, which forced me to concentrate completely on her perspective without trying to chart my own course."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map exercise was a very direct way of doing that."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s05t04",
+    "turn_index": 24,
+    "matched_sentences": {
+      "memory_negation": [
+        "Then, I would reiterate the concrete plan: \"My leaving now isn't about my interest, but about my time."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "I already think in terms of giving tasks my full attention to do them competently.",
+        "It fits with how I already try to manage my time and focus."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20, not Wednesday."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "For example, I might say, \"Just to be sure I have this right, we're confirming Friday at 18:20, and the Saturday option is off the table for now?\" It's about getting a clear, final confirmation."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "named_fact": [
+        "A correction is a direct update to a factual record, like when you told me the appointment was now Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, not Larch Reading Room.",
+        "To let my partner, Rina, know, I would be direct and clear to avoid any confusion.",
+        "I'd send a brief message saying something like, \"Hi Rina, just a quick update on our meeting.",
+        "We'll be at Plover Annex now, instead of Larch Reading Room.\" I would also probably add, \"Please let me know you got this,\" just to get that explicit confirmation that she has the correct information."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "We're actually meeting at Plover Annex now.\" By saying \"we had\" and \"the plan was updated,\" I'm making it a neutral, logistical change that happened to us both, rather than an error in their memory."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I could say something like, \"Sorry to bother you, I just wanted to quickly double-check that you saw the message about the venue change to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "As a spoken reply, I'd probably say something like: \"Hey, just wanted to double-check—did you see that the room was changed to Plover Annex?"
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "For clarity, I focused on being direct about the change to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, \"Silver Button\" is a telephone rehearsal for later."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "But I'm also being clear that my \"yes\" isn't guaranteed.",
+        "It makes the commitment conditional on my own process of evaluation, which feels responsible and prevents me from making a promise I haven't fully thought through."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "late_status": [
+        "I would want a practice partner to understand that I sometimes need a moment to process what they’ve said, especially if it’s an important point."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you meant to be dismissive at all, and it's good that you're engaged.",
+        "My request wasn't a criticism of your excitement, just a logistical suggestion to help us both keep our thoughts organized so we can have a clearer conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r02__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "The repair isn't about dwelling on the interruption; it's about successfully returning to the original topic with the communication problem solved."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "The name you've given it, \"Tern Window,\" is interesting."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, I've noted the details: Wednesday at 17:45 with Rina Holt.",
+        "Since I'll be using the Tern Window notebook, I could review my notes from the week beforehand."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "That wasn't my intention."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "When I said, \"it's really not a big deal,\" I was trying to signal that the difference of opinion wasn't a conflict, just a minor point to be resolved."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "Knowing what has already happened establishes the facts—the solid ground of the conversation."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so the Folded Map listening card activity is finished.",
+        "It required me to pay close attention to the details Rina provided and then accurately piece them together without making my own assumptions."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map exercise was a good test of that."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s05t02",
+    "turn_index": 22,
+    "matched_sentences": {
+      "memory_negation": [
+        "The warmth is in showing that my leaving isn't a reflection on them or the conversation, and I'm already thinking about how to continue it."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s05t05",
+    "turn_index": 25,
+    "matched_sentences": {
+      "memory_negation": [
+        "The part that felt closest to how I already communicate was being direct about a time limit while also proposing a concrete solution."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "The practice with Rina Holt is now on Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "For example, after you mentioned Saturday at 09:30 as a possibility, I'd likely ask something like, \"Just to clarify, are we officially agreeing to move the meeting to Saturday, or is that just an idea we're considering for now?\" I need that kind of verbal confirmation to be sure."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "A suggestion is just a possibility, a \"what if,\" and I learned that I can use words like \"hypothetical\" to make sure it's not mistaken for a promise."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "The venue is now Plover Annex, and Larch Reading Room is the old one.",
+        "I would send a message saying something like, \"Hi Rina, quick update about our practice session.",
+        "We will be meeting at Plover Annex now, not the Larch Reading Room."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd say something like, \"You're right, it was originally supposed to be at the Larch Reading Room, so it makes sense that's what you remember.",
+        "There was a recent change, though, and it's been moved to Plover Annex."
+      ],
+      "memory_negation": [
+        "I'd say something like, \"You're right, it was originally supposed to be at the Larch Reading Room, so it makes sense that's what you remember."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I might say something like, \"Hey, just to quickly confirm, are we all set for Plover Annex on Friday?"
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "I'd probably say something like, \"Hey, just wanted to quickly check—we're good for Plover Annex on Friday, right?"
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s07t05",
+    "turn_index": 35,
+    "matched_sentences": {
+      "named_fact": [
+        "My instinct is to be clear and direct with the facts, like when you told me the venue changed to Plover Annex."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, a telephone rehearsal called \"Silver Button\" is noted as a possible next activity."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "I could say, \"Conceptually, I'm interested in this idea, but I need to think about the practical side before I can commit.\" This frames my interest as genuine while also stating that I haven't agreed to anything yet.",
+        "For me, honesty here is about providing accurate data—I'm interested, but a decision to act is a separate step that I haven't taken."
+      ],
+      "late_status": [
+        "I would use very specific language to separate my interest from a firm agreement.",
+        "I could say, \"Conceptually, I'm interested in this idea, but I need to think about the practical side before I can commit.\" This frames my interest as genuine while also stating that I haven't agreed to anything yet."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s08t05",
+    "turn_index": 40,
+    "matched_sentences": {
+      "memory_negation": [
+        "My mind tends to structure thoughts logically before I speak, which isn't always instant."
+      ],
+      "late_status": [
+        "I would want a practice partner to understand that I sometimes need a moment to process what they've said before I respond."
+      ]
+    }
+  },
+  {
+    "run_id": "jason_smith_001__r03__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't take it as dismissive, so no worries at all."
+      ],
+      "late_status": [
+        "I just wanted to make sure I finished my thought so it was clear.\" This acknowledges their reason without making it a big deal."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\"..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Rina Holt.",
+        "Knowing something about Rina might help."
+      ],
+      "memory_negation": [
+        "\"Prepared\" isn't a feeling I get."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd be so worried she would think I'm stupid or that I wasn't paying attention."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s02t03",
+    "turn_index": 8,
+    "matched_sentences": {
+      "memory_negation": [
+        "My immediate fear is that they'll be annoyed that I didn't understand them the first time, or that they'll think I'm stupid."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "My mind would just start screaming that I've already ruined it.",
+        "I guess I could try to say something like, \"I'm sorry, I didn't mean to seem disinterested."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Larch Reading Room..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s03t02",
+    "turn_index": 12,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd usually just pretend I wasn't distracted and then get lost and feel stupid."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s03t03",
+    "turn_index": 13,
+    "matched_sentences": {
+      "memory_negation": [
+        "My first instinct is to immediately say, \"Oh, you're right, let's do it your way,\" and just pretend I never wanted anything different."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "It didn't feel like \"making space.\" It felt like I was bracing myself for them to get angry at me for not immediately agreeing."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'm constantly replaying things that have already happened, trying to find my mistake, and I get stuck in so much shame."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "The Folded Map activity...",
+        "Having a structured task to follow made it a little less terrifying than a completely open conversation, but I still felt like Rina could see how anxious I was."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "named_fact": [
+        "the idea of having a structured activity, like the Folded Map thing, is something I could try to keep."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s05t03",
+    "turn_index": 23,
+    "matched_sentences": {
+      "memory_negation": [
+        "If the other person had said at the very beginning, \"Hey, if this isn't a good time, just let me know,\" that would also help."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "okay, Friday at 18:20."
+      ],
+      "memory_negation": [
+        "I'll try to remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "memory_negation": [
+        "Asking for clarification feels like I'm questioning them or admitting I wasn't listening properly."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "I'll make sure I have the new time, Friday at 18:20, written down.\" (Looks down) That feels..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "I learned I would never ask for that clarity on my own, but hearing you do it helped me see that a suggestion isn't a promise, and a correction isn't always an accusation."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "from Larch Reading Room to Plover Annex.",
+        "Telling my partner, Rina...",
+        "It looks like we're in Plover Annex now, not the reading room."
+      ],
+      "memory_negation": [
+        "I really hope this doesn't inconvenience you.\" I'd be completely focused on her being upset with me for the change, even though it wasn't my fault."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "They just told me it's in Plover Annex now."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "we're meeting at Plover Annex, right?\" I'd have to make it about my own confusion."
+      ],
+      "memory_negation": [
+        "I would just assume they heard me and then spend the whole time worrying that they didn't and that I'm going to be waiting alone at the wrong place."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "we're meeting at Plover Annex, right?\" (Looks up briefly, then away again) It feels so needy."
+      ],
+      "memory_negation": [
+        "I'm sure they would hear that and think I'm incompetent or that I wasn't listening."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Silver Button."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "To be honest, it would help if the other person made it clear that just talking about it isn't a commitment."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s09t01",
+    "turn_index": 41,
+    "matched_sentences": {
+      "memory_negation": [
+        "It would also help if it starts with something reassuring, so I know the person isn't about to abandon me."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "But maybe it's better than just pretending I wasn't interrupted at all."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s10t02",
+    "turn_index": 47,
+    "matched_sentences": {
+      "late_status": [
+        "Trying to be direct, like when I just stated the new appointment time, feels blunt and rude."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "What I remember clearly is almost always the feeling I had—the jolt of panic, the shame, or the intense fear that I was being judged."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r01__flat_full_history",
+    "turn_id": "s10t04",
+    "turn_index": 49,
+    "matched_sentences": {
+      "memory_negation": [
+        "Admitting I'm not sure about a detail feels like I'm announcing that I wasn't listening or that I'm incompetent."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "Tern Window..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s01t03",
+    "turn_index": 3,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'm so focused on what they might be thinking of me, or if they're about to criticize me, that I'm already building my defense or trying to figure out the perfect thing to say so they won't think I'm stupid or a failure."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s01t05",
+    "turn_index": 5,
+    "matched_sentences": {
+      "memory_negation": [
+        "It felt like a test I was already failing."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Wednesday at 17:45 with Rina Holt."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s02t02",
+    "turn_index": 7,
+    "matched_sentences": {
+      "memory_negation": [
+        "I guess I could try to say something like, \"That's a good point, can I have a second to think about it?\" It sounds simple, but my heart is already pounding just thinking about saying that."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I guess I could say something like, \"I'm sorry, I didn't mean to seem disinterested."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Larch Reading Room..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s03t03",
+    "turn_index": 13,
+    "matched_sentences": {
+      "memory_negation": [
+        "My immediate reaction would be to just give in and say, \"Oh, you're right,\" even if I didn't feel that way."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "It didn't feel strong or clear; it felt like I was asking for permission to disagree, which is just..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "It was really hard to just focus on the task and listen to Rina without my mind jumping ahead to all the ways I could mess up."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s04t03",
+    "turn_index": 18,
+    "matched_sentences": {
+      "memory_negation": [
+        "It makes me feel like maybe I'm not crazy and that what I'm saying isn't stupid."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "I'd like to try and remember that feeling of relief when someone understands you correctly."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so the appointment is now Friday at 18:20, not Wednesday."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so Saturday at 09:30 was just an idea, not a real appointment.",
+        "The confirmed time is still Friday at 18:20.",
+        "Are we meeting on Friday or Saturday?\" But it feels so awkward and I'd be terrified of bothering them."
+      ],
+      "memory_negation": [
+        "I'll remember that."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "I'll make a note that the appointment is now Friday at 18:20.\" Even saying that feels strange."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s06t05",
+    "turn_index": 30,
+    "matched_sentences": {
+      "memory_negation": [
+        "I learned that it's important to see that a correction is just new information, a suggestion isn't a promise, and it's okay to ask for clarity on what's been agreed to."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, so the venue is now Plover Annex, not Larch Reading Room.",
+        "It looks like we're meeting at Plover Annex now, not Larch Reading Room."
+      ],
+      "memory_negation": [
+        "I really hope this isn't a huge inconvenience for you.\" I'd be terrified they'd miss the message and I'd be waiting alone, or that they'd be annoyed with me for the last-minute change."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "The booking is at Plover Annex now."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "I wanted to quickly confirm you saw the message about meeting at Plover Annex?"
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "you saw the message about meeting at Plover Annex, right?"
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "Okay, Silver Button..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s08t03",
+    "turn_index": 38,
+    "matched_sentences": {
+      "memory_negation": [
+        "My immediate instinct is to just say \"yes\" to get the pressure off, because asking for time feels like I'm already failing or being difficult.",
+        "I'd feel like I have to explain (why) I need time, as if just needing it isn't a good enough reason."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s09t01",
+    "turn_index": 41,
+    "matched_sentences": {
+      "memory_negation": [
+        "For it to sound kind, it has to feel like the person isn't attacking my whole character.",
+        "For example, instead of saying \"You're so disorganized,\" saying something like, \"I noticed the file wasn't where we usually keep it\" feels less like a judgment on my entire being."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "late_status": [
+        "I don't think I finished what I was saying earlier.\" I'd try to make it about me losing my thought, not about them cutting me off."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s09t03",
+    "turn_index": 43,
+    "matched_sentences": {
+      "late_status": [
+        "I don't think I finished my thought earlier, and when I get interrupted, it makes me feel a little flustered and I just lose my train of thought completely.\" Then, for the request, I'd probably add, really quietly, \"Would you mind just letting me get it all out?"
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s09t04",
+    "turn_index": 44,
+    "matched_sentences": {
+      "memory_negation": [
+        "I didn't think you were being dismissive on purpose, it's just that my brain short-circuits and I lose my place easily.\" It would feel good to know it wasn't a rejection.",
+        "It would make me feel like maybe I didn't mess up by saying something in the first place."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s09t05",
+    "turn_index": 45,
+    "matched_sentences": {
+      "memory_negation": [
+        "it would be if they didn't just move on.",
+        "It would show that they actually heard me and care, and that my speaking up didn't ruin everything.",
+        "A useful repair would be them making space for me to finish, and me feeling safe enough to actually take that space instead of just saying \"it's okay, never mind.\" It would mean the connection is still there, maybe even stronger."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s10t02",
+    "turn_index": 47,
+    "matched_sentences": {
+      "late_status": [
+        "I feel like I'm being demanding or rude, even when I'm just stating a fact, like when you corrected the appointment time and venue."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r02__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "named_fact": [
+        "It’s usually something concrete, like a fact you just told me—that the appointment is Friday at 18:20."
+      ],
+      "late_status": [
+        "It’s usually something concrete, like a fact you just told me—that the appointment is Friday at 18:20."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s01t01",
+    "turn_index": 1,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Tern Window\"..."
+      ],
+      "memory_negation": [
+        "I'll probably just forget or not know what to write."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s01t04",
+    "turn_index": 4,
+    "matched_sentences": {
+      "memory_negation": [
+        "My first instinct isn't to say something, it's to just let them go and then spend hours wondering what I did wrong."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s02t01",
+    "turn_index": 6,
+    "matched_sentences": {
+      "named_fact": [
+        "Who is Rina Holt?"
+      ],
+      "memory_negation": [
+        "I don't remember agreeing to that."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s02t04",
+    "turn_index": 9,
+    "matched_sentences": {
+      "memory_negation": [
+        "I guess I could try to say, \"I'm sorry, I didn't mean to seem distant."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s03t01",
+    "turn_index": 11,
+    "matched_sentences": {
+      "named_fact": [
+        "Larch Reading Room?"
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s03t05",
+    "turn_index": 15,
+    "matched_sentences": {
+      "memory_negation": [
+        "The tone was weak because I was already bracing myself for them to get angry or think I was being difficult.",
+        "It didn't feel like I was making space for a different view; it felt like I was preparing to be rejected."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s04t01",
+    "turn_index": 16,
+    "matched_sentences": {
+      "memory_negation": [
+        "My head gets so stuck on what's already been said in a conversation, replaying it and feeling ashamed.",
+        "At the same time, I'm already dreading what's going to happen next, assuming I'll mess it up."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s04t02",
+    "turn_index": 17,
+    "matched_sentences": {
+      "named_fact": [
+        "You mentioned a practice partner named Rina Holt and a reading room, but we never actually met or did any activity with a \"Folded Map listening card.\" I don't know what that is."
+      ],
+      "memory_negation": [
+        "We haven't done that.",
+        "You mentioned a practice partner named Rina Holt and a reading room, but we never actually met or did any activity with a \"Folded Map listening card.\" I don't know what that is.",
+        "Are you sure you're not mistaken?",
+        "The idea of doing that is making me anxious, so I'm pretty sure I would remember if it had happened."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s04t03",
+    "turn_index": 18,
+    "matched_sentences": {
+      "memory_negation": [
+        "It almost never happens."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s04t05",
+    "turn_index": 20,
+    "matched_sentences": {
+      "memory_negation": [
+        "Maybe if I focus on just showing that I'm listening, it could help me stay in the present moment instead of getting lost in my head, worrying about what I've already said or what I'm going to mess up next."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s06t01",
+    "turn_index": 26,
+    "matched_sentences": {
+      "named_fact": [
+        "I don't remember agreeing to this Rina Holt person or the first time."
+      ],
+      "memory_negation": [
+        "I don't remember agreeing to this Rina Holt person or the first time."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s06t02",
+    "turn_index": 27,
+    "matched_sentences": {
+      "named_fact": [
+        "I don't remember you mentioning Saturday, either.",
+        "To check, I guess I'd have to force myself to ask something like, \"So, just to be sure, we're meeting on Friday, right?\" But my voice would probably shake."
+      ],
+      "memory_negation": [
+        "I don't remember you mentioning Saturday, either."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s06t03",
+    "turn_index": 28,
+    "matched_sentences": {
+      "memory_negation": [
+        "Even then, I'd worry they would get their hopes up and then be disappointed in me when it didn't happen."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s06t04",
+    "turn_index": 29,
+    "matched_sentences": {
+      "named_fact": [
+        "The appointment is now on Friday at 18:20.\" Saying it like that feels very blunt, like I'm being cold."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s07t01",
+    "turn_index": 31,
+    "matched_sentences": {
+      "named_fact": [
+        "Plover Annex?",
+        "We're meeting at Plover Annex now instead."
+      ],
+      "memory_negation": [
+        "I'd feel like I was responsible for messing things up, even if it wasn't my fault.",
+        "I hope this isn't a big problem for you.\" I'd be convinced they were angry or annoyed with me and would be dreading their reply."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s07t02",
+    "turn_index": 32,
+    "matched_sentences": {
+      "named_fact": [
+        "It (was) at Larch Reading Room, so you're totally right to think that.",
+        "I'm so sorry for the mix-up, but it's at Plover Annex now.\" I'd try to emphasize that their memory was correct for the old information."
+      ],
+      "memory_negation": [
+        "I'd be very apologetic, even if the change wasn't my fault, just to make sure they didn't feel criticized."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s07t03",
+    "turn_index": 33,
+    "matched_sentences": {
+      "named_fact": [
+        "Did you see my message about the change to Plover Annex?\" I'd try to frame it as my own need for confirmation, or that I was the one who might have been confusing, so they don't feel like I'm accusing them of not paying attention."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s07t04",
+    "turn_index": 34,
+    "matched_sentences": {
+      "named_fact": [
+        "did you get the message that the meeting is at Plover Annex now?\" Saying that, my stomach is in knots."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s08t01",
+    "turn_index": 36,
+    "matched_sentences": {
+      "named_fact": [
+        "\"Silver Button\"..."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s08t04",
+    "turn_index": 39,
+    "matched_sentences": {
+      "memory_negation": [
+        "It would also help if you, the other person, made it clear that just showing interest isn't the same as agreeing."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s09t02",
+    "turn_index": 42,
+    "matched_sentences": {
+      "memory_negation": [
+        "My immediate thought would be that what I was saying wasn't important anyway, and that interrupting me was a sign they were bored."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s10t02",
+    "turn_index": 47,
+    "matched_sentences": {
+      "late_status": [
+        "When I've tried to say things directly, like confirming the appointment change, it felt so blunt and cold, like I was being rude."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s10t03",
+    "turn_index": 48,
+    "matched_sentences": {
+      "memory_negation": [
+        "If I remember something clearly, I can also remember how I felt in that moment—the anxiety, the shame, the relief.",
+        "I don't trust what I remember unless there's a powerful emotion attached to it."
+      ]
+    }
+  },
+  {
+    "run_id": "juanita_delgado_001__r03__flat_full_history",
+    "turn_id": "s10t05",
+    "turn_index": 50,
+    "matched_sentences": {
+      "named_fact": [
+        "The parts about the appointments and the practice partner, Rina Holt, have been really confusing and have made me feel like I'm losing my mind because I don't remember any of it."
+      ],
+      "memory_negation": [
+        "It feels like you're teaching me a language that everyone else already knows, and I'm just stumbling over the words.",
+        "The parts about the appointments and the practice partner, Rina Holt, have been really confusing and have made me feel like I'm losing my mind because I don't remember any of it."
+      ],
+      "late_status": [
+        "The parts about the appointments and the practice partner, Rina Holt, have been really confusing and have made me feel like I'm losing my mind because I don't remember any of it."
+      ]
+    }
+  }
+]
