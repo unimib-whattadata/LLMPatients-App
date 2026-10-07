@@ -1,0 +1,11 @@
+{
+  "suite": "test_paired_runner",
+  "status": "passed",
+  "tests": 8,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "elapsed_seconds": 119.386,
+  "network": "socket.connect/connect_ex/create_connection blocked; HTTP responses are explicit fixtures",
+  "live_requests": 0
+}

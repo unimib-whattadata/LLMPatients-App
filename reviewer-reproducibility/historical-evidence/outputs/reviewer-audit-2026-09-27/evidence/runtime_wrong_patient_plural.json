@@ -1,0 +1,10 @@
+{
+  "label": "runtime_wrong_patient_plural",
+  "path": "/patients",
+  "request": {},
+  "status": 404,
+  "elapsed_seconds": 0.008,
+  "body": {
+    "detail": "Not Found"
+  }
+}

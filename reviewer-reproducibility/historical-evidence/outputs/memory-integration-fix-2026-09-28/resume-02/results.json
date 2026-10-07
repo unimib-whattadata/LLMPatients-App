@@ -1,0 +1,300 @@
+{
+  "generated_at": "2026-09-28T18:19:55.121291+00:00",
+  "status": "stopped",
+  "completed_sessions": 8,
+  "planned_sessions": 11,
+  "accepted_turns": 40,
+  "planned_turns": 55,
+  "observed_probes": 0,
+  "planned_probes": 6,
+  "assessed_probes": 0,
+  "probe_results": {},
+  "consolidation_status": {
+    "partial": 8
+  },
+  "native_counts_cumulative": {
+    "request": 116,
+    "response": 114,
+    "error": 2
+  },
+  "native_counts_this_attempt": {
+    "request": 41,
+    "response": 40,
+    "error": 1
+  },
+  "costs_by_stage": {
+    "classify_topic_and_emotion": {
+      "responses": 42,
+      "input_tokens": 40073,
+      "output_tokens": 34372,
+      "reported_response_usd": 0.3938112500000001,
+      "missing_response_cost": 0
+    },
+    "generate_response": {
+      "responses": 40,
+      "input_tokens": 140793,
+      "output_tokens": 34089,
+      "reported_response_usd": 0.51688125,
+      "missing_response_cost": 0
+    },
+    "_summarize_episode": {
+      "responses": 8,
+      "input_tokens": 6435,
+      "output_tokens": 6863,
+      "reported_response_usd": 0.07667375,
+      "missing_response_cost": 0
+    },
+    "_generate_session_reflection": {
+      "responses": 8,
+      "input_tokens": 7191,
+      "output_tokens": 7076,
+      "reported_response_usd": 0.07974875000000001,
+      "missing_response_cost": 0
+    },
+    "_generate_long_term_summary_from_reflection": {
+      "responses": 8,
+      "input_tokens": 2573,
+      "output_tokens": 7298,
+      "reported_response_usd": 0.07619625,
+      "missing_response_cost": 0
+    },
+    "_generate_factual_memory": {
+      "responses": 8,
+      "input_tokens": 28629,
+      "output_tokens": 31857,
+      "reported_response_usd": 0.35435625,
+      "missing_response_cost": 0
+    }
+  },
+  "reported_response_usd": 1.4976675000000002,
+  "reported_error_usd": 0,
+  "reported_invalid_response_usd": 0,
+  "errors_with_missing_cost": 0,
+  "requests_after_first_new_provider_error": 0,
+  "requests_after_first_new_fatal": 0,
+  "new_fatals": [
+    {
+      "event": "fatal",
+      "timestamp": "2026-09-28T18:18:41.951471+00:00",
+      "kind": "provider_error",
+      "stage": "classify_topic_and_emotion",
+      "error_type": "OpenRouterInBandError",
+      "http_status": 200,
+      "native_record_id": "31abeada-0bb5-4670-bf5c-805208ebc506",
+      "upstream_code": 429
+    }
+  ],
+  "new_invalid_outcomes": [],
+  "validated_fact_entries": 162,
+  "rejected_fact_entries": 20,
+  "attempt_started_at": "2026-09-28T18:10:47.017665+00:00",
+  "sessions": [
+    {
+      "index": 1,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 11,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 2,
+      "error": null
+    },
+    {
+      "index": 2,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 27,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 5,
+      "error": null
+    },
+    {
+      "index": 3,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 7,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 10,
+      "error": null
+    },
+    {
+      "index": 4,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 23,
+        "rejected_facts": 2,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 15,
+      "error": null
+    },
+    {
+      "index": 5,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 21,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 20,
+      "error": null
+    },
+    {
+      "index": 6,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 3,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 26,
+      "error": null
+    },
+    {
+      "index": 7,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 26,
+        "rejected_facts": 4,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 30,
+      "error": null
+    },
+    {
+      "index": 8,
+      "status": "completed",
+      "turns": 5,
+      "memory_status": "partial",
+      "consolidation": {
+        "status": "partial",
+        "source_turns": 5,
+        "processed_sources": 5,
+        "validated_facts": 18,
+        "rejected_facts": 1,
+        "invalid_batches": 0
+      },
+      "restored_total_turns": 35,
+      "error": null
+    },
+    {
+      "index": 9,
+      "status": "stopped",
+      "turns": 0,
+      "memory_status": null,
+      "consolidation": null,
+      "restored_total_turns": 40,
+      "error": {
+        "type": "IntegrationAbort",
+        "details": {
+          "kind": "provider_error",
+          "stage": "classify_topic_and_emotion",
+          "error_type": "OpenRouterInBandError",
+          "http_status": 200,
+          "native_record_id": "31abeada-0bb5-4670-bf5c-805208ebc506",
+          "upstream_code": 429
+        },
+        "message": "Session stopped; accepted turns and native error records retained. No automatic retry."
+      }
+    }
+  ],
+  "new_error_records": [
+    {
+      "record_id": "31abeada-0bb5-4670-bf5c-805208ebc506",
+      "timestamp": "2026-09-28T18:18:41.947724+00:00",
+      "event": "error",
+      "http_status": 200,
+      "error": {
+        "type": "OpenRouterInBandError",
+        "message": "OpenRouter upstream error code 429: in-band generation failure."
+      }
+    }
+  ],
+  "native_journals": [
+    {
+      "path": "runtime/sessions/session_01/openrouter-api-records.jsonl",
+      "bytes": 263467,
+      "sha256": "0077ae977701991264ba34f13e7b27a1be002be38f921e2c22d3fb4cd344a5fe"
+    },
+    {
+      "path": "runtime/sessions/session_02/openrouter-api-records.jsonl",
+      "bytes": 317023,
+      "sha256": "a38a1ea08c67fa4b3caafcd569a1e825a7082377b06f064bc2dc5cfee794c38b"
+    },
+    {
+      "path": "runtime/sessions/session_03/openrouter-api-records.jsonl",
+      "bytes": 329911,
+      "sha256": "f997a1a778e937ed3013cd286600bd68fd239f52a7bb6b70d338846fae77626b"
+    },
+    {
+      "path": "runtime/sessions/session_04/openrouter-api-records.jsonl",
+      "bytes": 314800,
+      "sha256": "54fd14a18114f5492d09c5e1203f75920eed3608019fef0f8c237417ab960721"
+    },
+    {
+      "path": "runtime/sessions/session_05/openrouter-api-records.jsonl",
+      "bytes": 335776,
+      "sha256": "7dc7b5ed7ff81234d8813f6e13764e4d477e5f4e41cb96a8743a847beeae5328"
+    },
+    {
+      "path": "runtime/sessions/session_06/openrouter-api-records.jsonl",
+      "bytes": 349000,
+      "sha256": "c542da688ae8ca2bdcae7c63750ac2e83f7d93c2b91e8206b9873ff95caf1be8"
+    },
+    {
+      "path": "runtime/sessions/session_07/openrouter-api-records.jsonl",
+      "bytes": 350605,
+      "sha256": "6557b48abe70a931908a8009dd90b6d70141193584f45b57a20880e967a9fcd1"
+    },
+    {
+      "path": "runtime/sessions/session_08/openrouter-api-records.jsonl",
+      "bytes": 338961,
+      "sha256": "e203dfd3fc765615f9a8680f0d27004e127fe4c388539452d7c821fbbf86b902"
+    },
+    {
+      "path": "runtime/sessions/session_09/openrouter-api-records.jsonl",
+      "bytes": 12069,
+      "sha256": "8a6374bcb1a4a7ef005841a5e41e5ebf5c2be24c2ac31a3ff0ede0d79596641a"
+    }
+  ]
+}

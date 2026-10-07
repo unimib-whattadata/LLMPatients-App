@@ -1,0 +1,176 @@
+{
+  "goal": "ok procedi fino alla fine dei test",
+  "status": "paused_service_unavailable_under_user_instruction",
+  "root": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-global-2026-09-27",
+  "regional_archive": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-2026-09-27",
+  "endpoint_amendment": "vertex-global-continuation-2026-09-27",
+  "reused": {
+    "phq_complete_administrations": 68,
+    "longitudinal_session_statuses": {
+      "completed": 32,
+      "running": 1
+    },
+    "longitudinal_observed_turns": 161
+  },
+  "planned_scope": {
+    "phq_administrations": 100,
+    "phq_per_profile": 20,
+    "phq_item_answers": 1000,
+    "longitudinal_sessions": 110,
+    "longitudinal_turns": 550
+  },
+  "policy": "Resume missing work only; preserve accepted outputs and failures, verify provenance, stratify by endpoint. Regional and continuation records are not independent replications.",
+  "processes": {},
+  "report_review_required": true,
+  "operational_suspension": {
+    "at": "2026-09-27T12:35:32.015138+00:00",
+    "action": "Temporarily suspend PHQ requests and new longitudinal scheduling; existing longitudinal child processes remain active",
+    "reason": "Last three minutes show 25 global TooManyRequests outcomes and no successful response; reduce concurrent pressure while preserving process state.",
+    "actions": [
+      {
+        "pid": 35304,
+        "script": "complete_phq9.py",
+        "signal": "SIGSTOP"
+      },
+      {
+        "pid": 35057,
+        "script": "run_longitudinal.py",
+        "signal": "SIGSTOP"
+      }
+    ],
+    "scientific_inputs_changed": false,
+    "all_accepted_outputs_retained": true
+  },
+  "inference_cooldown": {
+    "at": "2026-09-27T12:37:40.368044+00:00",
+    "action": "Suspend remaining inference workers for service cooldown, preserving in-memory state; then resume one longitudinal worker at a time",
+    "reason": "No global response after 12:31:42 UTC despite reduced load; avoid extending a saturated API failure sequence.",
+    "actions": [
+      {
+        "pid": 35058,
+        "patient": "jason_smith_001",
+        "signal": "SIGSTOP"
+      },
+      {
+        "pid": 35059,
+        "patient": "juanita_delgado_001",
+        "signal": "SIGSTOP"
+      }
+    ],
+    "scientific_inputs_changed": false,
+    "all_attempts_retained": true
+  },
+  "next_operational_action": "Await user-authorized resumption. Preserve and archive STOP before acknowledgement, retain shared limiter cooldown, and reuse all saved scientific results. Do not restart when the cooldown merely expires.",
+  "last_operational_action": {
+    "at": "2026-09-27T14:58:06.080714+00:00",
+    "action": "Shared rate-limit control stopped the authorized PHQ resumption after three consecutive real Vertex 429 outcomes; longitudinal and observer were not started",
+    "authorization_basis": "User authorized synthetic payload transmission and resumption; prior instruction requires stopping tests when the service is unavailable",
+    "rate_limit_amendment_id": "vertex-shared-rate-limit-2026-09-27",
+    "terminated_pid": 44774,
+    "exec_session": 67595,
+    "verified_exit_code": 75,
+    "no_live_experimental_processes": true,
+    "model_id": "gemini-2.5-pro",
+    "region": "global",
+    "resume_outcomes": {
+      "returned": 0,
+      "TooManyRequests": 3
+    },
+    "request_start_gaps_seconds": [
+      20.854675,
+      44.719774
+    ],
+    "counts": {
+      "phq_complete": 68,
+      "phq_saved_partial_items": 12,
+      "longitudinal_complete": 32,
+      "longitudinal_saved_turns": 165
+    },
+    "new_accepted_phq_items": 0,
+    "all_accepted_results_retained": true,
+    "scientific_inputs_changed": false,
+    "new_longitudinal_inference_started": false,
+    "checkpoint_manifest": "rate-limit-stop-input-manifest-20260927T145806Z.json",
+    "checkpoint_manifest_sha256": "a0578489d430388289fcf86c1a23d3310ab808c81410df89000d192c0e892678",
+    "checkpoint_archive": "runtime/rate-limit-stop-checkpoint-20260927T145806Z",
+    "checkpoint_files": 375,
+    "changed_checkpoint_files": [
+      "phq/jason_smith_001/run_14/api_records.jsonl",
+      "phq/jason_smith_001/run_14/metadata.json"
+    ],
+    "changes_are_metadata_and_appended_errors_only": true,
+    "shared_stop_file": "runtime/rate-control/STOP.json",
+    "automatic_restart_scheduled": false,
+    "resume_policy": "Await user-authorized resumption. Preserve and archive STOP before acknowledgement, retain shared limiter cooldown, and reuse all saved scientific results. Do not restart when the cooldown merely expires."
+  },
+  "external_blocker_file": "runtime/capacity-blocker.json",
+  "paused_at": "2026-09-27T14:58:06.080714+00:00",
+  "all_experimental_processes_terminated": true,
+  "counts_at_pause": {
+    "phq_complete": 68,
+    "phq_saved_partial_items": 12,
+    "longitudinal_complete": 32,
+    "longitudinal_saved_turns": 165
+  },
+  "checkpoint_manifest": "user-pause-input-manifest.json",
+  "checkpoint_manifest_sha256": "837e18632b7c37399e5dabd0349618442ee938b01dc66e06b8f1b10fc7050188",
+  "resumed_at": "2026-09-27T14:46:27.601397+00:00",
+  "process_resumption": "process-resumption.json",
+  "historical_processes_at_pause": {
+    "longitudinal": {
+      "pid": 35057,
+      "exec_session": 14025,
+      "started_at": "2026-09-27T12:30:32.416052+00:00",
+      "workers": 2
+    },
+    "phq": {
+      "pid": 35304,
+      "exec_session": 51449,
+      "started_at": "2026-09-27T12:32:54.252056+00:00",
+      "workers": 2
+    },
+    "observer": {
+      "pid": 35324,
+      "exec_session": 36067,
+      "started_at": "2026-09-27T12:33:30.602291+00:00"
+    }
+  },
+  "latest_checkpoint_manifest": "rate-limit-stop-input-manifest-20260927T145806Z.json",
+  "latest_checkpoint_manifest_sha256": "a0578489d430388289fcf86c1a23d3310ab808c81410df89000d192c0e892678",
+  "latest_checkpoint_archive": "runtime/rate-limit-stop-checkpoint-20260927T145806Z",
+  "latest_pause_record": "runtime/rate-limit-stop-20260927T145806Z.json",
+  "rate_limit_implementation": "runtime/rate-limit-implementation.json",
+  "rate_limit_amendment": "rate-limit-amendment.json",
+  "rate_limit_amendment_sha256": "ec9eafc50a841cfc2897f4b4d01e893b7c0574d732ec4b43d65aa8238c1569f1",
+  "historical_processes_before_rate_limit": {
+    "phq": {
+      "pid": 38947,
+      "exec_session": 64625,
+      "started_at": "2026-09-27T13:50:45.848024+00:00",
+      "workers": 1,
+      "status": "stopped",
+      "exit_code": 143,
+      "stopped_at": "2026-09-27T14:03:35.471454+00:00"
+    }
+  },
+  "authorization_status": "runtime/resume-authorization-status.json",
+  "authorized_at": "2026-09-27T14:54:55.784404+00:00",
+  "historical_processes_after_rate_limit": {
+    "phq": {
+      "pid": 44774,
+      "exec_session": 67595,
+      "started_at": "2026-09-27T14:55:13.769321+00:00",
+      "finished_at": "2026-09-27T14:56:19.450927+00:00",
+      "workers": 1,
+      "status": "paused_capacity",
+      "exit_code": 75
+    }
+  },
+  "post_stop_validation": {
+    "phq": "PASS",
+    "longitudinal": "PASS",
+    "phq_log": "analysis/rate-limit-stop-phq-audit.log",
+    "longitudinal_log": "analysis/rate-limit-stop-longitudinal-audit.log",
+    "full_campaign_complete": false
+  }
+}

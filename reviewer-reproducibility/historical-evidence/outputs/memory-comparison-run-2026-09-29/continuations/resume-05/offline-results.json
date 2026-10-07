@@ -1,0 +1,21 @@
+{
+  "status": "passed",
+  "tests_run": 25,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "live_requests": 0,
+  "suites": {
+    "worker_and_controller": 19,
+    "checkpoint_audit": 6
+  },
+  "source_sha256": {
+    "worker.py": "23f6bf0b8f488dafbe4e1f6423a4366ec6d3f34ba365786f51385debd87608a3",
+    "continue_run.py": "f2086594574ae03c96a7661b59050a9e479e2453bb1f434340512941cf7be197",
+    "timeout_retries.py": "567b107d9a16a381338450fa369add73c4e845d165376116740696efde2650a8",
+    "test_worker.py": "889163001273a8ab64813b8df68e25c6aecdb3eacbbfbbb248852175f1086405",
+    "test_continuation.py": "d9d8dc9eddf6412d9c3f6a946eeb432c15d6299a1043c96133161276e0c16c87",
+    "checkpoint_audit.py": "0280fe53054b2dd0894c433dc1d8d3abe75f006dc9d03eb450df861beeca57a1",
+    "test_checkpoint_audit.py": "e6901d10e7d078ece4921b47157437f2da49fc19ef30ca4a93864c3ea429faed"
+  }
+}

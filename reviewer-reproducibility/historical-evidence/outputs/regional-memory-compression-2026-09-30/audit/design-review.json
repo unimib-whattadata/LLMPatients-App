@@ -1,0 +1,17 @@
+{
+  "reviewer": "/root/regional_compression_design",
+  "model_requested": "gpt-6-astra",
+  "model_observed": "not_exposed_by_runtime",
+  "result": "no launch blocker",
+  "checks": [
+    "identical filler and unchanged45turn block acrosspositions",
+    "chronology reindexed beforecuts; gaps retained",
+    "canonical authoritative sources valid across fiveprofiles",
+    "wholeturn regionalcuts protectCASE/questions",
+    "retry/gate/budget/recovery/stop policy"
+  ],
+  "analysis_notes": [
+    "join ratings by job_id",
+    "separate local deletion from automatic plugin reduction"
+  ]
+}

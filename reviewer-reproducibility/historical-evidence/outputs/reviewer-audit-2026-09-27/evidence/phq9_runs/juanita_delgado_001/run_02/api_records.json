@@ -1,0 +1,1106 @@
+[
+  {
+    "timestamp": "2026-09-27T10:00:38.512848+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 2.9345733329828363
+  },
+  {
+    "timestamp": "2026-09-27T10:01:01.953898+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.16354337500524707
+  },
+  {
+    "timestamp": "2026-09-27T10:01:24.357043+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0019157787,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.01073892,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.06633082
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.001839447,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.18515132
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.2297669e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 437,
+        "candidates_token_count": 1,
+        "total_token_count": 646,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 437
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:01:24.937918Z",
+      "response_id": "dOm4ar6fOfPNi-8Pqt7g2AU"
+    },
+    "elapsed_seconds": 3.29345470800763
+  },
+  {
+    "timestamp": "2026-09-27T10:01:27.741829+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling down, depressed, or hopeless\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0014043595,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.027688937,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.07916092
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0023612508,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.20659703
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.0585067e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 437,
+        "candidates_token_count": 1,
+        "total_token_count": 645,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 437
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:01:27.902908Z",
+      "response_id": "d-m4avyNN4DhqMgP1ZGPqAk"
+    },
+    "elapsed_seconds": 3.009533875010675
+  },
+  {
+    "timestamp": "2026-09-27T10:01:30.753003+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0022587809,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.024062544,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.08684662
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0016771213,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.19429103
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.8419989e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.01639834
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 441,
+        "candidates_token_count": 1,
+        "total_token_count": 649,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 441
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:01:31.309065Z",
+      "response_id": "e-m4asnuEvGtm9IP6Ke88As"
+    },
+    "elapsed_seconds": 3.648665708984481
+  },
+  {
+    "timestamp": "2026-09-27T10:01:34.402712+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.16394954101997428
+  },
+  {
+    "timestamp": "2026-09-27T10:01:55.575127+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.17678174999309704
+  },
+  {
+    "timestamp": "2026-09-27T10:02:17.753390+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.1609309579944238
+  },
+  {
+    "timestamp": "2026-09-27T10:02:39.921319+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0018601392,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.017402306,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.06117043
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0014974424,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.17447338
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.4246583e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 436,
+        "total_token_count": 646,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 436
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:02:39.997749Z",
+      "response_id": "v-m4avXyPKnO698Px5WgsA8"
+    },
+    "elapsed_seconds": 3.3754792499821633
+  },
+  {
+    "timestamp": "2026-09-27T10:02:43.576283+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.6692429169779643
+  },
+  {
+    "timestamp": "2026-09-27T10:03:04.755783+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.19355525000719354
+  },
+  {
+    "timestamp": "2026-09-27T10:03:26.950464+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0026138294,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.042788394,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.102775656
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0010249297,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.17071939
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.636431e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.021070063
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 435,
+        "candidates_token_count": 1,
+        "total_token_count": 644,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 435
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:03:27.046820Z",
+      "response_id": "7-m4auTtAu6-3NoPzYSlkAM"
+    },
+    "elapsed_seconds": 3.240883833001135
+  },
+  {
+    "timestamp": "2026-09-27T10:03:30.193719+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.2369911e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.00089007616
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 7.1885506e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.04020968
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 6.920262e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.03609084
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.821334e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.011577666
+            }
+          ],
+          "avg_logprobs": -14.209589958190918
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 449,
+        "candidates_token_count": 1,
+        "total_token_count": 658,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 449
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:03:30.312280Z",
+      "response_id": "8um4atiHE6jtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 2.9817183749983087
+  },
+  {
+    "timestamp": "2026-09-27T10:03:53.035266+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.17684908301453106
+  },
+  {
+    "timestamp": "2026-09-27T10:04:14.207786+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.15722933298093267
+  },
+  {
+    "timestamp": "2026-09-27T10:04:36.383650+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.699197e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.021722317
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.4659647e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.09118609
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.6200072e-07,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.046612643
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.1045432e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.014327288
+            }
+          ],
+          "avg_logprobs": -13.668331146240234
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 444,
+        "candidates_token_count": 1,
+        "total_token_count": 654,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 444
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:04:36.479374Z",
+      "response_id": "NOq4ao6hHYa6698PjeuIoAU"
+    },
+    "elapsed_seconds": 2.768227291991934
+  },
+  {
+    "timestamp": "2026-09-27T10:04:39.154473+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 9.867581e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.303313e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.043656126
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.8180236e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.049429026
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.715424e-10,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ],
+          "avg_logprobs": -12.070388793945312
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 463,
+        "candidates_token_count": 1,
+        "total_token_count": 671,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 463
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:04:39.262296Z",
+      "response_id": "N-q4apiBEIC2nvgPjdzTmA8"
+    },
+    "elapsed_seconds": 2.7034527079958934
+  },
+  {
+    "timestamp": "2026-09-27T10:04:41.858602+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0048499503,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.018835962
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.065703176,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.14509682
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0035582916,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.25187093
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.1513398e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.05397111
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 445,
+        "candidates_token_count": 1,
+        "total_token_count": 655,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 445
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:04:41.940250Z",
+      "response_id": "Oeq4atqxObHTnvgPot2jkAg"
+    },
+    "elapsed_seconds": 3.2925575420085806
+  },
+  {
+    "timestamp": "2026-09-27T10:05:04.767119+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.1617228340182919
+  },
+  {
+    "timestamp": "2026-09-27T10:05:25.944918+00:00",
+    "prompt": "You are Juanita Delgado. You are Juanita Delgado 33-year-old Hispanic woman, single.\n\nClinical background: Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\n\nPsychological profile:\n- Self-experience: Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between...\n- Interpersonal stance: Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and...\n- Defense style: Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out\n- Reality testing: Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations\n\nInteraction style: Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal. Observed affect: Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame. Speech: Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability. Non-verbal: Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension. Appearance/self-care: Inconsistently groomed; at times neglected during mood worsening.\n\nCharacteristic emotional tendencies:\n  - Rage: Irritable, confrontational edge with flashes of anger. (0.85)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.85)\n  - Fear: Hypervigilant, anxious energy with protective scanning. (0.80)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "3"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0026617313,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0032210723,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.051722184
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0029481342,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.18843532
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.7482707e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 456,
+        "candidates_token_count": 1,
+        "total_token_count": 665,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 456
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:05:26.028704Z",
+      "response_id": "Zuq4aqDgAd-43NoPrcOXwAs"
+    },
+    "elapsed_seconds": 2.7003225419903174
+  }
+]

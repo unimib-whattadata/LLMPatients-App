@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "timestamp": "2026-09-29T08:39:25.117564+00:00",
+  "tests": 33,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "elapsed_seconds": 1.012,
+  "live_requests": 0,
+  "source_sha256": {
+    "continue_run.py": "e362ee79aa61f99e047c7d82d5fde913b810016716716c46467daceb09a0bc01",
+    "prefix_audit.py": "d2e59e6175a5b496072ac00a55c8480229cd921577619b982ab3dbcef4b1907f",
+    "test_continuation.py": "3e72eb0fb14790954cf968e9477bfc0b31ff76a4a444ec2df4f10fdafe0df2e3",
+    "test_prefix_audit.py": "9159b2d61e777e1052c7dfa1c995f05bc54dc453a8136045dc40bf34b14f1a17"
+  },
+  "test_log_sha256": "006372523c0f737e7591562cf5ed0e13e2424ebae6b22e334c1cc07b773f1307",
+  "scope": "Offline continuation and prefix reconciliation only; mocked processes and socket-blocked tests."
+}

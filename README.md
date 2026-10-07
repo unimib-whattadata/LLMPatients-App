@@ -219,6 +219,8 @@ Rules for this repository:
 | `pnpm format:write`      | Apply Prettier formatting.                                     |
 | `pnpm test`              | Run the platform diagnostic script.                            |
 | `pnpm test:backend`      | Run the PostgreSQL backend scenario test.                      |
+| `pnpm test:backend:local` | Check isolated PostgreSQL and local chat without AI judging. |
+| `pnpm test:offline`      | Check chat/API contracts with synthetic data and mocked HTTP. |
 | `pnpm system:diagnose`   | Alias for the platform diagnostic script.                      |
 | `pnpm audit:performance` | Build, start and run Lighthouse against localhost.             |
 
@@ -241,6 +243,8 @@ Recommended local validation before pushing:
 
 ```bash
 pnpm typecheck
+pnpm lint
+pnpm test:offline
 pnpm build
 ```
 
@@ -250,6 +254,12 @@ Service and integration checks:
 pnpm test
 pnpm test:backend
 ```
+
+`pnpm test:offline` uses synthetic configuration and an in-process HTTP stub. It checks patient initialization, chat response parsing, emotion ranges, failure propagation, local simulation, and session cleanup without loading `.env`, connecting to PostgreSQL, or calling an AI provider. It does not measure model quality.
+
+`pnpm test` returns a nonzero exit status when any diagnostic fails. The diagnostic output reports whether environment values are set without printing their contents.
+
+`pnpm test:backend:local` creates and removes its own test database, applies migrations, and checks registration, roles, account status, credentials, session expiry, activity, concurrent session creation, local chat, persistence, and evaluation guards. It stops before any model evaluation. Set `TEST_POSTGRES_ADMIN_URL` to a dedicated test PostgreSQL server; a missing server returns a nonzero exit status. The complete `pnpm test:backend` additionally calls the configured AI judge.
 
 `pnpm test:backend` expects a reachable PostgreSQL admin database. By default it tries:
 
@@ -329,6 +339,8 @@ By default the app container uses PostgreSQL on the Compose network and starts o
 ```bash
 API=remote API_BASE_URL=http://host.docker.internal:8000 docker compose --profile app up -d --build
 ```
+
+Completed-step judging also requires `GOOGLE_CLOUD_PROJECT`, `GOOGLE_CLOUD_LOCATION`, and Google Cloud credentials available inside the app container. Compose forwards the project, location, model, and Vertex setting; configure credentials using your deployment's standard Google Cloud authentication mechanism.
 
 ### Deployment notes
 

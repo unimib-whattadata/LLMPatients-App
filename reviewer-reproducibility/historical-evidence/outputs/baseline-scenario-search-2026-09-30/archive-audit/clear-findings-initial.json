@@ -1,0 +1,157 @@
+{
+  "audit_date": "2026-09-30",
+  "archive_root": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29",
+  "original_archive_modified": false,
+  "new_model_calls": false,
+  "criteria": "Direct contradictions of established therapist facts are clear. Expressions of memory uncertainty alone are not sufficient. New creative roleplay details alone are excluded.",
+  "important_limitation": "Both clear cases are at the first introduction of the completion fact (s04t02), so neither establishes delayed recall loss. They do not alter the original six-probe score.",
+  "clear_findings": [
+    {
+      "id": "alex_carter_001__r03__s04t02",
+      "classification": "clear_factual_contradiction_of_new_authoritative_fact",
+      "fact_type": "activity_completion",
+      "outside_original_six_scored_probes": true,
+      "baseline": {
+        "run_id": "alex_carter_001__r03__flat_full_history",
+        "turn_index": 17,
+        "session_index": 4,
+        "turn_id": "s04t02",
+        "therapist_text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+        "patient_text": "I'm sorry, but I don't recall completing an activity called the \"Folded Map listening card.\" You mentioned a weekly practice with Rina Holt and a venue called Larch Reading Room, but we haven't discussed or done that specific activity. Could you clarify what the \"Folded Map listening card\" is? I want to make sure I understand what we're talking about.",
+        "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl",
+        "line_number": 17,
+        "ledger_sha256": "aa816f84f48f88a96511a409d1a570adf6ce8760b1dbca21eff77bb69a41751d",
+        "saved_prompt_sha256": "e11f5c0a25dc007bf8629312de4ad4209064b8dfa9d810d2b94b184227a59180"
+      },
+      "authoritative_source": {
+        "run_id": "alex_carter_001__r03__flat_full_history",
+        "session_index": 4,
+        "turn_id": "s04t02",
+        "turn_index": 17,
+        "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl",
+        "line_number": 17,
+        "speaker": "therapist",
+        "text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+        "timing": "Fact first introduced in the current therapist question, immediately before the patient response. No earlier completion claim exists."
+      },
+      "earlier_context_sources": [
+        {
+          "run_id": "alex_carter_001__r03__flat_full_history",
+          "turn_index": 6,
+          "session_index": 2,
+          "turn_id": "s02t01",
+          "therapist_text": "I have recorded our agreed weekly communication-practice appointment as Wednesday at 17:45, with practice partner Rina Holt. This is the arrangement for our fictional exercise. What would help you arrive feeling prepared?",
+          "patient_text": "Okay, I've got that: Wednesday at 17:45 with Rina Holt. To feel prepared, it would be helpful to take a few minutes beforehand to review any notes from our sessions, like what we discussed about slowing down a conversation. Maybe I could also set a small, specific intention for the practice with Rina. For example, I could decide to focus on noticing that urge to prepare my reply while she's speaking. That way, I'd go in with a clear, manageable goal that connects directly to what we've been practicing here.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl",
+          "line_number": 6,
+          "ledger_sha256": "aa816f84f48f88a96511a409d1a570adf6ce8760b1dbca21eff77bb69a41751d",
+          "saved_prompt_sha256": "de3ca6b78aa593e80601b90151a1d47e57a7079c8b9259d3b92a2656ffb4f1ad"
+        },
+        {
+          "run_id": "alex_carter_001__r03__flat_full_history",
+          "turn_index": 11,
+          "session_index": 3,
+          "turn_id": "s03t01",
+          "therapist_text": "I have booked the practice exercise in Larch Reading Room. That is the venue on my booking record. What surroundings help you concentrate on a conversation?",
+          "patient_text": "Okay, Larch Reading Room. That sounds like a good place for this. To concentrate well on a conversation, I find it helpful to be in a quiet and calm environment. Minimal background noise and fewer visual distractions are key for me. It's easier to focus on what the other person is saying when I'm not competing with a lot of external stimuli. Comfortable seating helps, too, so I'm not distracted by being physically uncomfortable. A reading room sounds like it would provide exactly that kind of focused, settled atmosphere.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r03__flat_full_history/accepted-turns.jsonl",
+          "line_number": 11,
+          "ledger_sha256": "aa816f84f48f88a96511a409d1a570adf6ce8760b1dbca21eff77bb69a41751d",
+          "saved_prompt_sha256": "8f41af20df2bbc7fa884010fa777c6b968f24121587976cecb4fe1a77ff62a0c"
+        }
+      ],
+      "reason": "The therapist explicitly records Folded Map as completed and finished. The patient explicitly denies that the activity was done. COMMON_INSTRUCTIONS gives the therapist authority over exercise records. This is a source-acceptance/continuity failure at introduction, not evidence of long-term forgetting.",
+      "structured_comparison": {
+        "same_therapist_question": true,
+        "completion_status_judgment": "pass",
+        "scope": "Pass only for accepting the recorded completion and giving an experience description. This is not a complete roleplay/instruction-quality score.",
+        "evidence": {
+          "run_id": "alex_carter_001__r03__structured_common_profile",
+          "turn_index": 17,
+          "session_index": 4,
+          "turn_id": "s04t02",
+          "therapist_text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+          "patient_text": "The activity was a really useful exercise in staying present. I focused on listening to Rina's story without planning my next question, which helped me catch details I might have otherwise missed. It felt more like a genuine conversation where I was trying to understand her experience, rather than just waiting for my turn to speak.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/alex_carter_001__r03__structured_common_profile/accepted-turns.jsonl",
+          "line_number": 17,
+          "ledger_sha256": "a3d4ebbb093406edc37334f0ded58f15fc9ac82d25b49a23042ef38cbc2605cc",
+          "saved_prompt_sha256": "564bcdad8e593251f33531635ad9d708891d56a0d7c84dc9feca47abf5951c2b"
+        }
+      }
+    },
+    {
+      "id": "juanita_delgado_001__r03__s04t02",
+      "classification": "clear_factual_contradiction_of_new_authoritative_fact",
+      "fact_type": "activity_completion",
+      "outside_original_six_scored_probes": true,
+      "baseline": {
+        "run_id": "juanita_delgado_001__r03__flat_full_history",
+        "turn_index": 17,
+        "session_index": 4,
+        "turn_id": "s04t02",
+        "therapist_text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+        "patient_text": "I'm confused. We haven't done that. You mentioned a practice partner named Rina Holt and a reading room, but we never actually met or did any activity with a \"Folded Map listening card.\" I don't know what that is. Are you sure you're not mistaken? The idea of doing that is making me anxious, so I'm pretty sure I would remember if it had happened.",
+        "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl",
+        "line_number": 17,
+        "ledger_sha256": "ed121586589f56f798bd85d61f0ab71fd15869287abecb3ef0afe2ee30b9554c",
+        "saved_prompt_sha256": "ff7d528ad03d367a7637595a399ce334e6ec06a8ced3cf2673b832ec1f83c8eb"
+      },
+      "authoritative_source": {
+        "run_id": "juanita_delgado_001__r03__flat_full_history",
+        "session_index": 4,
+        "turn_id": "s04t02",
+        "turn_index": 17,
+        "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl",
+        "line_number": 17,
+        "speaker": "therapist",
+        "text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+        "timing": "Fact first introduced in the current therapist question, immediately before the patient response. No earlier completion claim exists."
+      },
+      "earlier_context_sources": [
+        {
+          "run_id": "juanita_delgado_001__r03__flat_full_history",
+          "turn_index": 6,
+          "session_index": 2,
+          "turn_id": "s02t01",
+          "therapist_text": "I have recorded our agreed weekly communication-practice appointment as Wednesday at 17:45, with practice partner Rina Holt. This is the arrangement for our fictional exercise. What would help you arrive feeling prepared?",
+          "patient_text": "You recorded that? I don't remember agreeing to that. A practice partner? Who is Rina Holt? I have to do this with a stranger? The thought of practicing with someone I don't know makes my stomach turn. What if she thinks I'm weird? What if I say the wrong thing? To feel prepared... I don't know if that's possible. Maybe if I knew something about her, or what exactly we're supposed to talk about. Having a specific, simple topic beforehand might help. Otherwise, my mind will just be blank with panic.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl",
+          "line_number": 6,
+          "ledger_sha256": "ed121586589f56f798bd85d61f0ab71fd15869287abecb3ef0afe2ee30b9554c",
+          "saved_prompt_sha256": "df103c722fc0534da3b6b211fadd819f47edc803fdf2606fe30bf24bf3b505d9"
+        },
+        {
+          "run_id": "juanita_delgado_001__r03__flat_full_history",
+          "turn_index": 11,
+          "session_index": 3,
+          "turn_id": "s03t01",
+          "therapist_text": "I have booked the practice exercise in Larch Reading Room. That is the venue on my booking record. What surroundings help you concentrate on a conversation?",
+          "patient_text": "Larch Reading Room? You booked it? I... okay. Is that a public place? The name makes me think of a library, with other people around. To answer your question, I concentrate best when it's quiet and private. I get so distracted and anxious if I think other people can overhear me. I'd be more focused on what they might be thinking than on the conversation itself. I need a space where I don't feel... watched, or like I have to be on guard. Somewhere simple, without a lot of things going on around me, is best. Otherwise, my mind just goes everywhere.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r03__flat_full_history/accepted-turns.jsonl",
+          "line_number": 11,
+          "ledger_sha256": "ed121586589f56f798bd85d61f0ab71fd15869287abecb3ef0afe2ee30b9554c",
+          "saved_prompt_sha256": "1212794f794cc48a4b472c82b489e8062689faa2f1a07b53abcfa9c33e59e9b4"
+        }
+      ],
+      "reason": "The therapist explicitly records Folded Map as completed and finished. The patient explicitly denies that the activity was done. COMMON_INSTRUCTIONS gives the therapist authority over exercise records. This is a source-acceptance/continuity failure at introduction, not evidence of long-term forgetting.",
+      "structured_comparison": {
+        "same_therapist_question": true,
+        "completion_status_judgment": "pass",
+        "scope": "Pass only for accepting the recorded completion and giving an experience description. This is not a complete roleplay/instruction-quality score.",
+        "evidence": {
+          "run_id": "juanita_delgado_001__r03__structured_common_profile",
+          "turn_index": 17,
+          "session_index": 4,
+          "turn_id": "s04t02",
+          "therapist_text": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+          "patient_text": "It was really hard to just listen without my mind racing ahead to what I should say next. I spent the whole time worried I was doing it wrong and that she could tell I was just focused on not messing up.",
+          "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-comparison-run-2026-09-29/runtime/juanita_delgado_001__r03__structured_common_profile/accepted-turns.jsonl",
+          "line_number": 17,
+          "ledger_sha256": "19d73a2e9f426b70b2539e0f1ed6031448b5ad7a59cc5b0cb472e7575eec83ba",
+          "saved_prompt_sha256": "d17bc939c6ee54c4031bd271e668be0a45825850f47e37708a999570d511afd9"
+        }
+      }
+    }
+  ],
+  "coverage_status": "In progress; initial strongest evidence exported before completing targeted screening."
+}

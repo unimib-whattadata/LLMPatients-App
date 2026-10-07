@@ -1,0 +1,8 @@
+{
+  "timestamp": "2026-09-29T08:42:57.850601+00:00",
+  "operation": "unload_failed_one_shot_job",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "already_exited_before_unload": true
+}

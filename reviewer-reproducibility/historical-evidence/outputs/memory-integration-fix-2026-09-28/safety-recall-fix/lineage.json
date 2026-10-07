@@ -1,0 +1,18 @@
+{
+  "amendment_id": "memory-integration-fix-2026-09-28-safety-recall-fix",
+  "created_at": "2026-09-28T20:31:24.789635+00:00",
+  "authorization": "User authorized corrections to the 11-session integration and continued with Procedi; this application false positive is repaired under that scope. No new provider failure occurred in resume-03.",
+  "source_runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-03/runtime",
+  "runtime": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/safety-recall-fix/runtime",
+  "archived_turn_count": 51,
+  "unchanged_input_turn_count": 50,
+  "closed_sessions": 10,
+  "next_turn_id": "s11t02",
+  "blocked_turn_id": "s11t01",
+  "excluded_factual_source_id": "turn-eece6f05425979a56abe04f68bed7a00ca843ee7e202faa6e0207aad15ded0d0",
+  "retired_stop_receipt": "previous-stop-resume-03.json",
+  "subcall_policy": "Retain the blocked s11t01 as an end-to-end failed probe, restore native state51, then generate only s11t02-s11t05 and finalize session11. No prior answer is regenerated.",
+  "production_source_policy": "Only agent/core/safety.py changes: word boundaries around run|execute|call. Explicit frozen module loaded before the unchanged graph. All other original source, profile, scenario, gold, transport and decoding settings are unchanged.",
+  "safety_patch_sha256": "da78bc9205129b4b40f833e8988a0610b302cbefdd6cd90c4cb7ea9909fe3006",
+  "source_accounting": "All5 raw sources retained; only4 usable sources enter native factual extraction. Episodic/reflection history still includes the original blocked reply."
+}

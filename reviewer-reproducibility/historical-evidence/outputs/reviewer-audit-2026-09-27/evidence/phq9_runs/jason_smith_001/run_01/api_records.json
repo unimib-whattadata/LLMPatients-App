@@ -1,0 +1,949 @@
+[
+  {
+    "timestamp": "2026-09-27T09:57:44.144014+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 6.695508e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.006650881,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.10252537
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 7.123828e-05,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.14098239
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.361032e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.002786547
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 453,
+        "candidates_token_count": 1,
+        "total_token_count": 665,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 453
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 211
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:57:44.782894Z",
+      "response_id": "mOi4aq7kL-6-3NoPzYSlkAM"
+    },
+    "elapsed_seconds": 3.065025790972868
+  },
+  {
+    "timestamp": "2026-09-27T09:57:47.417601+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling down, depressed, or hopeless\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00018424427,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.017862033,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.023631051
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00035273726,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.08718776
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 7.3925244e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 453,
+        "candidates_token_count": 1,
+        "total_token_count": 667,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 453
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 213
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:57:47.519709Z",
+      "response_id": "m-i4ap3cH6nO698Px5WgsA8"
+    },
+    "elapsed_seconds": 2.5244552500080317
+  },
+  {
+    "timestamp": "2026-09-27T09:58:10.120734+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.15654870800790377
+  },
+  {
+    "timestamp": "2026-09-27T09:58:30.814566+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00034212935,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.09324543,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.046124533
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00024021717,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.06387953
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.9430667e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 457,
+        "candidates_token_count": 1,
+        "total_token_count": 666,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 457
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:30.889517Z",
+      "response_id": "xui4aq2lNqnO698Px5WgsA8"
+    },
+    "elapsed_seconds": 2.6540733329893555
+  },
+  {
+    "timestamp": "2026-09-27T09:58:33.469742+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00024713954,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.007921743,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.009084709
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00015792673,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.061800234
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.8859855e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 452,
+        "candidates_token_count": 1,
+        "total_token_count": 661,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 452
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:33.579258Z",
+      "response_id": "yei4arqtI4a6698PjeuIoAU"
+    },
+    "elapsed_seconds": 2.622316624998348
+  },
+  {
+    "timestamp": "2026-09-27T09:58:36.337525+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 9.7334945e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.033910166,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.10642724
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 6.250768e-05,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.14996149
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.0415609e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.035049945
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 451,
+        "candidates_token_count": 1,
+        "total_token_count": 659,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 451
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:36.414260Z",
+      "response_id": "zOi4arSkGe6-3NoPzYSlkAM"
+    },
+    "elapsed_seconds": 2.5859966250136495
+  },
+  {
+    "timestamp": "2026-09-27T09:58:58.996395+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.17862158399657346
+  },
+  {
+    "timestamp": "2026-09-27T09:59:19.675433+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.14266083302209154
+  },
+  {
+    "timestamp": "2026-09-27T09:59:41.849542+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00026740172,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.14739415,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.074182466
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0009933506,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.11276499
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.723588e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 465,
+        "candidates_token_count": 1,
+        "total_token_count": 673,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 465
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:41.926151Z",
+      "response_id": "Dem4asfDOKjtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 2.591365375003079
+  },
+  {
+    "timestamp": "2026-09-27T09:59:44.441744+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.944361e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00348616,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.077853665
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.085104e-05,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.11674842
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.4495275e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 460,
+        "total_token_count": 670,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 460
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:44.520910Z",
+      "response_id": "EOm4as7lH4C2nvgPjdzTmA8"
+    },
+    "elapsed_seconds": 2.6039122919901274
+  },
+  {
+    "timestamp": "2026-09-27T09:59:47.599680+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00047565502,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.034611303,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.04777076
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00033785863,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.07554825
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.8015005e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 479,
+        "candidates_token_count": 1,
+        "total_token_count": 687,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 479
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:47.698853Z",
+      "response_id": "E-m4auXTKrHTnvgPot2jkAg"
+    },
+    "elapsed_seconds": 2.4977559589897282
+  },
+  {
+    "timestamp": "2026-09-27T10:00:09.862962+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.15575466601876542
+  },
+  {
+    "timestamp": "2026-09-27T10:00:31.057377+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.4433895e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.02294892
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.03587051,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.1979273
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00012979038,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.20521402
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.039942e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.08297439
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 461,
+        "candidates_token_count": 1,
+        "total_token_count": 669,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 461
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:00:31.166163Z",
+      "response_id": "P-m4apOSCoa6698PjeuIoAU"
+    },
+    "elapsed_seconds": 2.219704165996518
+  },
+  {
+    "timestamp": "2026-09-27T10:00:33.280269+00:00",
+    "prompt": "You are Jason Smith. You are Jason Smith 22-year-old American man, in a relationship.\n\nClinical background: Jason is a 22-year-old university student enrolled in Computer Engineering who sought consultation because of a vague sense of nostalgia and mild uncertainty about his current life phase. He did not report depressed mood, panic symptoms, sleep disturbance, substance misuse, or impairment in academic or social functioning. He described himself as generally satisfied with his life but preoccupied...\n\nPsychological profile:\n- Self-experience: Stable and coherent identity with a realistic self-concept; current concerns relate to role transition rather than identity instability\n- Interpersonal stance: Capacity for stable friendships and an emerging intimate relationship; some difficulty creating new deep bonds in the current context\n- Defense style: Predominantly mature and neurotic-range defenses (e\n- Reality testing: Fully intact reality testing; no perceptual distortions or paranoid ideation\n\nInteraction style: Tends to present as competent and reasonable; may minimize distress and move quickly toward problem solving; seeks a collaborative, structured conversation. Observed affect: Affect appropriate and coherent; mild sadness when discussing high school nostalgia; mild anxiety/insecurity when discussing the romantic relationship. Speech: Clear, measured, articulate; can become more detailed and intellectual when discussing philosophy or personal reflections. Non-verbal: Open posture, good eye contact; mild tension or self-conscious smiles when discussing intimacy and insecurity. Appearance/self-care: Well groomed; good self-care.\n\nCharacteristic emotional tendencies:\n  - Seeking: Curious, driven to explore, motivated to act. (0.70)\n  - Play: Light, joking, mischievous tone. (0.60)\n  - Care: Warmth and desire to nurture or be nurtured. (0.55)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.4397107e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.007671356
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0015017092,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.08213435
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.3525997e-05,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.11476814
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.0311825e-06,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 472,
+        "total_token_count": 682,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 472
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:00:33.375283Z",
+      "response_id": "Qem4avPzFu6-3NoPzYSlkAM"
+    },
+    "elapsed_seconds": 2.653475041995989
+  }
+]

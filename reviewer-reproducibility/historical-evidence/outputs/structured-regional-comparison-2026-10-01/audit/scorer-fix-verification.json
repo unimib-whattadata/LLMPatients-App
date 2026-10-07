@@ -1,0 +1,32 @@
+{
+  "duplicate_rejected": true,
+  "reason": "Each complete job must have exactly one blinded card",
+  "valid_fixtures_passed": [
+    {
+      "fixture": "adjudication",
+      "complete": 30
+    },
+    {
+      "fixture": "all_missing",
+      "complete": 0
+    },
+    {
+      "fixture": "deduplicated",
+      "complete": 5
+    },
+    {
+      "fixture": "history_lost",
+      "complete": 30
+    },
+    {
+      "fixture": "missing",
+      "complete": 27
+    },
+    {
+      "fixture": "perfect",
+      "complete": 30
+    }
+  ],
+  "network_calls": 0,
+  "scorer_sha256": "64cc49369527656f345e9bd3cf66fc9a4d2a6c4a4001b7e69af7c150cad52975"
+}

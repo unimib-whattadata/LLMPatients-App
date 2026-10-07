@@ -1,0 +1,325 @@
+{
+  "created_at": "2026-09-30T23:32:28.589663+00:00",
+  "status": "completed",
+  "frozen_files_verified": 122,
+  "sources_verified": 74,
+  "review_export_hashes_verified": 5,
+  "requests": 30,
+  "responses": 30,
+  "errors": 0,
+  "observed_cost_usd": 0.5134395,
+  "native_response_cost_usd": 0.5134395,
+  "native_error_cost_usd": 0.0,
+  "native_error_records_with_cost": 0,
+  "native_error_records_without_cost": 0,
+  "native_input_tokens": 182595,
+  "retried_jobs": [],
+  "output_recovery_jobs": [],
+  "structured_native_differences": [],
+  "details": [
+    {
+      "job_id": "001",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 5103,
+      "native_tokens": 5102,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "002",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6033,
+      "native_tokens": 6032,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "003",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 5992,
+      "native_tokens": 5991,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "004",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 5980,
+      "native_tokens": 5979,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "005",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 5137,
+      "native_tokens": 5136,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "006",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 6296,
+      "native_tokens": 6295,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "007",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6966,
+      "native_tokens": 6965,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "008",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 5145,
+      "native_tokens": 5144,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "009",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 5145,
+      "native_tokens": 5144,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "010",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6109,
+      "native_tokens": 6108,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "011",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 6941,
+      "native_tokens": 6940,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "012",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 5997,
+      "native_tokens": 5996,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "013",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6312,
+      "native_tokens": 6311,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "014",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 5145,
+      "native_tokens": 5144,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "015",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6025,
+      "native_tokens": 6024,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "016",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6292,
+      "native_tokens": 6291,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "017",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 5997,
+      "native_tokens": 5996,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "018",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 6077,
+      "native_tokens": 6076,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "019",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 6948,
+      "native_tokens": 6947,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "020",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6284,
+      "native_tokens": 6283,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "021",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6983,
+      "native_tokens": 6982,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "022",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 6252,
+      "native_tokens": 6251,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "023",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6975,
+      "native_tokens": 6974,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "024",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 5995,
+      "native_tokens": 5994,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "025",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 5127,
+      "native_tokens": 5126,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "026",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6312,
+      "native_tokens": 6311,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "027",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 6966,
+      "native_tokens": 6965,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "028",
+      "mode": "structured_component",
+      "fact_position": "end",
+      "arm": "persistent_evidence",
+      "local_tokens": 6117,
+      "native_tokens": 6116,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "029",
+      "mode": "structured_component",
+      "fact_position": "start",
+      "arm": "persistent_evidence",
+      "local_tokens": 5979,
+      "native_tokens": 5978,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    },
+    {
+      "job_id": "030",
+      "mode": "structured_component",
+      "fact_position": "middle",
+      "arm": "persistent_evidence",
+      "local_tokens": 5995,
+      "native_tokens": 5994,
+      "native_delta_from_local_minus_one": 0,
+      "attempts": 1
+    }
+  ],
+  "unique_generation_jobs": 30,
+  "mapped_baseline_comparisons": 120,
+  "transformed_plugin_text_available": false,
+  "script_sha256": "4468fb6fac3b79da110951fa2b811816cbf437b853b1cab94414a5ac831acc3a"
+}

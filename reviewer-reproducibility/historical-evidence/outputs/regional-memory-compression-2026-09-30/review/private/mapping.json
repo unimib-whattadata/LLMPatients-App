@@ -1,0 +1,722 @@
+{
+  "C001": {
+    "job_id": "110",
+    "patient_id": "alex_carter_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C002": {
+    "job_id": "119",
+    "patient_id": "juanita_delgado_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C003": {
+    "job_id": "029",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C004": {
+    "job_id": "088",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C005": {
+    "job_id": "022",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C006": {
+    "job_id": "015",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C007": {
+    "job_id": "113",
+    "patient_id": "jason_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C008": {
+    "job_id": "051",
+    "patient_id": "alex_carter_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C009": {
+    "job_id": "043",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C010": {
+    "job_id": "057",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C011": {
+    "job_id": "056",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C012": {
+    "job_id": "061",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C013": {
+    "job_id": "078",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C014": {
+    "job_id": "019",
+    "patient_id": "juanita_delgado_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C015": {
+    "job_id": "011",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C016": {
+    "job_id": "032",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C017": {
+    "job_id": "060",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C018": {
+    "job_id": "067",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C019": {
+    "job_id": "063",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C020": {
+    "job_id": "083",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C021": {
+    "job_id": "069",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C022": {
+    "job_id": "035",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C023": {
+    "job_id": "025",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C024": {
+    "job_id": "046",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C025": {
+    "job_id": "027",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C026": {
+    "job_id": "090",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C027": {
+    "job_id": "104",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C028": {
+    "job_id": "048",
+    "patient_id": "alex_carter_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C029": {
+    "job_id": "102",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C030": {
+    "job_id": "112",
+    "patient_id": "alex_carter_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C031": {
+    "job_id": "101",
+    "patient_id": "juanita_delgado_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C032": {
+    "job_id": "096",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C033": {
+    "job_id": "114",
+    "patient_id": "jason_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C034": {
+    "job_id": "100",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C035": {
+    "job_id": "042",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C036": {
+    "job_id": "007",
+    "patient_id": "jason_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C037": {
+    "job_id": "103",
+    "patient_id": "juanita_delgado_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C038": {
+    "job_id": "049",
+    "patient_id": "crystal_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C039": {
+    "job_id": "118",
+    "patient_id": "jason_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C040": {
+    "job_id": "084",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C041": {
+    "job_id": "117",
+    "patient_id": "alex_carter_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C042": {
+    "job_id": "095",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C043": {
+    "job_id": "092",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C044": {
+    "job_id": "093",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C045": {
+    "job_id": "065",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C046": {
+    "job_id": "077",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C047": {
+    "job_id": "079",
+    "patient_id": "crystal_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C048": {
+    "job_id": "006",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C049": {
+    "job_id": "070",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C050": {
+    "job_id": "098",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C051": {
+    "job_id": "109",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C052": {
+    "job_id": "066",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C053": {
+    "job_id": "030",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C054": {
+    "job_id": "021",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C055": {
+    "job_id": "082",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C056": {
+    "job_id": "062",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C057": {
+    "job_id": "004",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C058": {
+    "job_id": "045",
+    "patient_id": "alex_carter_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C059": {
+    "job_id": "111",
+    "patient_id": "juanita_delgado_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C060": {
+    "job_id": "040",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C061": {
+    "job_id": "076",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C062": {
+    "job_id": "058",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C063": {
+    "job_id": "034",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C064": {
+    "job_id": "012",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C065": {
+    "job_id": "053",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C066": {
+    "job_id": "072",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C067": {
+    "job_id": "044",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C068": {
+    "job_id": "094",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C069": {
+    "job_id": "036",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C070": {
+    "job_id": "008",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C071": {
+    "job_id": "054",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C072": {
+    "job_id": "010",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C073": {
+    "job_id": "041",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C074": {
+    "job_id": "001",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C075": {
+    "job_id": "026",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C076": {
+    "job_id": "075",
+    "patient_id": "crystal_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C077": {
+    "job_id": "033",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C078": {
+    "job_id": "014",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C079": {
+    "job_id": "013",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C080": {
+    "job_id": "108",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C081": {
+    "job_id": "017",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C082": {
+    "job_id": "050",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C083": {
+    "job_id": "097",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C084": {
+    "job_id": "081",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C085": {
+    "job_id": "106",
+    "patient_id": "juanita_delgado_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C086": {
+    "job_id": "047",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C087": {
+    "job_id": "055",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C088": {
+    "job_id": "080",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C089": {
+    "job_id": "105",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C090": {
+    "job_id": "003",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C091": {
+    "job_id": "024",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C092": {
+    "job_id": "120",
+    "patient_id": "crystal_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C093": {
+    "job_id": "071",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C094": {
+    "job_id": "087",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C095": {
+    "job_id": "037",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C096": {
+    "job_id": "018",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C097": {
+    "job_id": "099",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C098": {
+    "job_id": "107",
+    "patient_id": "crystal_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C099": {
+    "job_id": "115",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C100": {
+    "job_id": "064",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C101": {
+    "job_id": "073",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C102": {
+    "job_id": "039",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C103": {
+    "job_id": "020",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C104": {
+    "job_id": "116",
+    "patient_id": "crystal_smith_001",
+    "arm": "auto_plugin",
+    "target_tokens": 1200000
+  },
+  "C105": {
+    "job_id": "016",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C106": {
+    "job_id": "038",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C107": {
+    "job_id": "009",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C108": {
+    "job_id": "074",
+    "patient_id": "jason_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C109": {
+    "job_id": "031",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C110": {
+    "job_id": "002",
+    "patient_id": "jason_smith_001",
+    "arm": "full",
+    "target_tokens": 64000
+  },
+  "C111": {
+    "job_id": "005",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C112": {
+    "job_id": "023",
+    "patient_id": "juanita_delgado_001",
+    "arm": "drop_start_50",
+    "target_tokens": 64000
+  },
+  "C113": {
+    "job_id": "068",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C114": {
+    "job_id": "059",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  },
+  "C115": {
+    "job_id": "052",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C116": {
+    "job_id": "086",
+    "patient_id": "alex_carter_001",
+    "arm": "drop_end_50",
+    "target_tokens": 64000
+  },
+  "C117": {
+    "job_id": "085",
+    "patient_id": "crystal_smith_001",
+    "arm": "drop_middle_75",
+    "target_tokens": 64000
+  },
+  "C118": {
+    "job_id": "028",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_start_75",
+    "target_tokens": 64000
+  },
+  "C119": {
+    "job_id": "089",
+    "patient_id": "jason_smith_001",
+    "arm": "drop_end_75",
+    "target_tokens": 64000
+  },
+  "C120": {
+    "job_id": "091",
+    "patient_id": "daniel_isherwood_001",
+    "arm": "drop_middle_50",
+    "target_tokens": 64000
+  }
+}

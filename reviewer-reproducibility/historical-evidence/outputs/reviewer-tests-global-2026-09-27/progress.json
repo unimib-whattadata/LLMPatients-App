@@ -1,0 +1,58 @@
+{
+  "at": "2026-09-27T14:03:53.909845+00:00",
+  "phq_complete": 68,
+  "phq_by_patient": {
+    "alex_carter_001": 14,
+    "crystal_smith_001": 14,
+    "daniel_isherwood_001": 14,
+    "jason_smith_001": 13,
+    "juanita_delgado_001": 13
+  },
+  "longitudinal_sessions": {
+    "completed": 32,
+    "running": 2
+  },
+  "longitudinal_turns": 165,
+  "active_sessions": [
+    {
+      "patient": "jason_smith_001",
+      "condition": "full",
+      "session": 4,
+      "turns": 3,
+      "status": "running"
+    },
+    {
+      "patient": "juanita_delgado_001",
+      "condition": "baseline",
+      "session": 4,
+      "turns": 2,
+      "status": "running"
+    }
+  ],
+  "recent_global_api_outcomes": {
+    "TooManyRequests": 2
+  },
+  "processes": {
+    "phq": {
+      "pid": 38947,
+      "status": "paused_by_user",
+      "alive": false,
+      "process_state": null,
+      "temporarily_suspended": false
+    },
+    "longitudinal": {
+      "pid": 35057,
+      "status": "paused_by_user",
+      "alive": false,
+      "process_state": null,
+      "temporarily_suspended": false
+    },
+    "observer": {
+      "pid": 35324,
+      "status": "paused_by_user",
+      "alive": false,
+      "process_state": null,
+      "temporarily_suspended": false
+    }
+  }
+}

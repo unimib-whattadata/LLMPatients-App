@@ -1,0 +1,28 @@
+{
+  "started_at": "2026-09-28T15:51:45.978216+00:00",
+  "stopped_at": "2026-09-28T15:52:56.052862+00:00",
+  "reason": "OpenRouter upstream 429 in HTTP200 during third patient response",
+  "stage": "generate_response",
+  "native_record_id": "86442d42-2b90-4a83-b816-5b70186bed09",
+  "completed_sessions": 0,
+  "accepted_turns": 2,
+  "native_requests": 6,
+  "native_responses": 5,
+  "native_errors": 1,
+  "requests_after_error": 0,
+  "worker_alive": false,
+  "api_seed": null,
+  "model": "google/gemini-2.5-pro",
+  "provider": "OpenRouter",
+  "frozen_files_verified": 35,
+  "prior_completed_artifacts_preserved": 335,
+  "prior_snapshot_files_preserved": 27,
+  "native_journal": {
+    "path": "integration/runtime/sessions/session_01/openrouter-api-records.jsonl",
+    "bytes": 92454,
+    "records": 12,
+    "sha256": "8d289be7d2b83241badcd30456c1314c69c31dd9644a28b10b5ef54fc7f496f7"
+  },
+  "error_reported_cost": 0,
+  "live_finalization_observed": false
+}

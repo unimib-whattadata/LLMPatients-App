@@ -1,0 +1,28 @@
+{
+  "status": "stopped",
+  "finished_at": "2026-09-28T18:18:41.954586+00:00",
+  "session_index": 9,
+  "next_turn_id": "s09t01",
+  "accepted_turns": 40,
+  "completed_sessions": 8,
+  "planned_sessions": 11,
+  "observed_probes": 0,
+  "cause": "OpenRouter upstream429 carried inside HTTP200 during the first classification of session9",
+  "error": {
+    "type": "IntegrationAbort",
+    "details": {
+      "kind": "provider_error",
+      "stage": "classify_topic_and_emotion",
+      "error_type": "OpenRouterInBandError",
+      "http_status": 200,
+      "native_record_id": "31abeada-0bb5-4670-bf5c-805208ebc506",
+      "upstream_code": 429
+    },
+    "message": "Session stopped; accepted turns and native error records retained. No automatic retry."
+  },
+  "requests_after_stop": 0,
+  "controller_exec_session": 46222,
+  "controller_exit_code": 2,
+  "live_retry_performed": false,
+  "last_checkpoint": "Session9 exists in ledger with zero turns and empty final_state; native restore_state falls back to completed session8 snapshot at40 turns"
+}

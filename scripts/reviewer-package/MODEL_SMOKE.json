@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-07",
+  "requested_model": "google/gemini-2.5-pro",
+  "request": {
+    "model": "google/gemini-2.5-pro",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Reply with the single word READY."
+      }
+    ],
+    "temperature": 0,
+    "top_p": 0.95,
+    "max_tokens": 2048,
+    "reasoning": {
+      "max_tokens": 1024
+    },
+    "provider": {
+      "require_parameters": true,
+      "allow_fallbacks": false
+    },
+    "plugins": [
+      {
+        "id": "context-compression",
+        "enabled": false
+      }
+    ]
+  },
+  "scope": "Single synthetic provider smoke; no clinical/profile/corpus content; no retries.",
+  "status": "PASS",
+  "http_status": 200,
+  "served_model": "google/gemini-2.5-pro",
+  "generation_id": "gen-1791362196-VhVP7JDTqmm0QYFiE2Xj",
+  "answer": "READY",
+  "usage": {
+    "prompt_tokens": 7,
+    "completion_tokens": 222,
+    "total_tokens": 229,
+    "cost": 0.00222875,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00222875,
+      "upstream_inference_prompt_cost": 8.75e-06,
+      "upstream_inference_completions_cost": 0.00222
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 221,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "error_code": null
+}

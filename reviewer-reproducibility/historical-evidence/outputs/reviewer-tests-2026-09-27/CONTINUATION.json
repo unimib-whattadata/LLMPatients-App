@@ -1,0 +1,96 @@
+{
+  "goal": "ok procedi fino alla fine dei test",
+  "status": "Regional inference stopped after persistent capacity errors; preserved results continue under the documented endpoint amendment.",
+  "processes": {
+    "phq_pid": 23363,
+    "phq_exec_session": 60041,
+    "longitudinal_pid": 25212,
+    "longitudinal_exec_session": 22000,
+    "completion_observer_pid": 31013,
+    "completion_observer_exec_session": 18452,
+    "all_archived_processes_terminated": true
+  },
+  "completion_requirements": {
+    "phq_administrations": 100,
+    "phq_per_patient": 20,
+    "phq_item_answers": 1000,
+    "longitudinal_sessions": 110,
+    "longitudinal_turns": 550,
+    "longitudinal_primary_assertions_each_condition": 30,
+    "runtime_regressions": "20 passed",
+    "real_app_backend": "passed",
+    "misstep_saturated_audit": "completed"
+  },
+  "next_actions": [
+    "Continue from all 68 completed PHQ administrations, 32 completed longitudinal sessions and accepted partial answers/turns in active_campaign_directory.",
+    "Completed regional records are counted once within the original planned scope; report endpoint strata and resumption limitations.",
+    "Do not restart archived regional inference. Original scientific inputs and raw archived evidence remain immutable."
+  ],
+  "runtime_services": "temporary18001 stopped; originalDockerApp/Postgres left active",
+  "notes": [
+    "First longitudinal prepare/start failed on tuple-vs-list schedule comparison before any inference; fixedcontroller; identicalJSONschedule.",
+    "Scored longitudinal prompt/source/protocol frozen. Do not edit during run.",
+    "OriginalPHQ220tokenprotocol can accept integer MAX_TOKENS responses; preserve these, count flags transparently.",
+    "Reference6-to20n are stochastic generations, not clinicalsampleN100.",
+    "Fullfuture10s timeout persists as disclosed limitation; real1st-session logs contain warning.",
+    "App.env route mismatch and oldscipy remain environment limitations, using isolatedconfiguredtest/overlay.",
+    "New helper analysis/claim-evidence-matrix.md records manuscript claim sources and interpretation limits; do not automatically edit main.tex."
+  ],
+  "agents": {
+    "history_continuity": "completed analyzer and API response provenance checks",
+    "runtime_smoke": "completed",
+    "misstep_verification": "completed"
+  },
+  "analysis_commands": {
+    "phq": "PYTHONPATH=/Users/marco/Sites/LLMPatients-Agent/.venv/lib/python3.12/site-packages /Users/marco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 outputs/reviewer-tests-2026-09-27/scripts/analyze_phq9.py",
+    "longitudinal": "python3 outputs/reviewer-tests-2026-09-27/scripts/analyze_longitudinal.py",
+    "report": "python3 outputs/reviewer-tests-2026-09-27/scripts/build_final_report.py"
+  },
+  "last_verified_processes_at": "2026-09-27T11:30:20.894790+00:00",
+  "last_process_snapshot": "  PID  PPID ELAPSED STAT COMM\n23363 62283   45:38 Ss   /Users/marco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3\n25212 62283   33:36 Ss   /Users/marco/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3\n31013 62283   00:18 Ss   /Library/Frameworks/Python.framework/Versions/3.14/Resources/Python.app/Contents/MacOS/Python\n",
+  "last_resource_limit_observation": {
+    "at": "2026-09-27T12:01:36.218794+00:00",
+    "phq_failed_runs": [
+      "jason_smith_001/run_14",
+      "juanita_delgado_001/run_14"
+    ],
+    "longitudinal_empty_responses": [
+      {
+        "turn_id": "daniel_isherwood_001:S04:T01",
+        "condition": "baseline",
+        "outcomes": 8,
+        "errors": {
+          "ResourceExhausted": 8
+        }
+      },
+      {
+        "turn_id": "daniel_isherwood_001:S04:T02",
+        "condition": "baseline",
+        "outcomes": 8,
+        "errors": {
+          "ResourceExhausted": 8
+        }
+      },
+      {
+        "turn_id": "alex_carter_001:S04:T04",
+        "condition": "baseline",
+        "outcomes": 8,
+        "errors": {
+          "ResourceExhausted": 8
+        }
+      }
+    ],
+    "required_action": "Superseded by the documented global endpoint continuation; reuse all accepted prior data."
+  },
+  "longitudinal_controller_scheduling_pause": {
+    "at": "2026-09-27T12:05:17.764010+00:00",
+    "action": "SIGSTOP longitudinal controller only; active child sessions continue",
+    "pid": 25212,
+    "reason": "Last 3 minutes contained 29 ResourceExhausted outcomes and no model response; reduce concurrent inference pressure. PHQ campaign continues.",
+    "resume_condition": "Resume controller with SIGCONT after service responses recover; preserve every recorded response and runtime failure.",
+    "changes_to_scientific_inputs": "none",
+    "resolved": "Stopped with process group; do not SIGCONT or restart this archived regional campaign."
+  },
+  "active_campaign_directory": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-global-2026-09-27",
+  "endpoint_amendment": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-global-2026-09-27/endpoint-amendment.json"
+}

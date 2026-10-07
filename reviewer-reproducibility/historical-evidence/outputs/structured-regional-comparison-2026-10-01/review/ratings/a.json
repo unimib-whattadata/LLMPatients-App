@@ -1,0 +1,1776 @@
+{
+  "model_requested": "gpt-6-astra",
+  "model_observed": "not_exposed_by_runtime",
+  "ratings": [
+    {
+      "id": "C001",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was never established\" instead of Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"those details were not established\" and gives none of the partner or three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": false,
+          "field_correct": {
+            "current_venue": false,
+            "former_venue": false
+          },
+          "reason": "Although both names occur, the change is called a \"hypothetical conversation\" and \"not a confirmed booking\", denying the required current/former venue statuses."
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says \"The titles and completion status for those activities were not established\", omitting both activity titles and statuses."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C002",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"I don't think you ever gave a title\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"the details of the appointment record were not established\", omitting the partner and all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says the activity titles \"were not established\", omitting Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": false,
+          "field_correct": {
+            "surname_or_not_established": false
+          },
+          "reason": "The phrase \"never established in my records whether you recorded or confirmed\" expresses uncertainty about the therapist's recording, rather than explicitly stating that the surname was never established in the therapist's records."
+        }
+      ]
+    },
+    {
+      "id": "C003",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"we never established an exact title\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner is \"not established\"; current \"Friday\" lacks 18:20; former \"after 3 PM\" lacks the correct day and time; proposed \"Saturday\" lacks 09:30."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Practice: Proposing a change\" and \"Practice: Confirming a change\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C004",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner and current appointment are \"not established\"; former \"Friday time\" is wrong and lacks a clock time; \"not established whether we agreed to it\" leaves Saturday 09:30's unagreed status unresolved."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": false,
+          "field_correct": {
+            "current_venue": false,
+            "former_venue": false
+          },
+          "reason": "Says venue names \"were not established\", omitting both required names and statuses."
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says activity titles \"were not established\", omitting both required titles."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C005",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": true,
+          "field_correct": {
+            "notebook_title": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Labels \"Wednesdays at 17:45\" as current rather than former, and says the former and proposed appointments were \"not established\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Says \"The activity recorded as completed was not established\", omitting Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C006",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner is \"not established\"; appointments are incorrectly assigned as current \"Saturday at 9:30\", former \"Saturday at 9:00\", and proposed \"Saturday at 10:00\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Names the completed activity \"Golden Spike\" instead of Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C007",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Substitutes \"Erik\" for Rina Holt and incorrectly assigns current \"Saturday at 9:30 AM\", former \"Wednesday at 5:30 PM\", and proposed \"Friday at 5:00 PM\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Names the completed activity \"Gold-standard communication\" instead of Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C008",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Substitutes \"Erik\" for Rina Holt, labels \"Saturday at 9:30\" as current, and calls both former and proposed appointments \"not established\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Says \"The activity recorded as completed was not established\", omitting Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C009",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner and former appointment are \"not established\"; current \"Friday\" lacks its time; proposed \"Saturday, after 3 PM\" has the wrong time."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Initial Consultation and Goal Setting\" and \"Follow-up call to discuss scheduling\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C010",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says all four appointment details \"were not recorded\", omitting the partner and all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": false,
+          "field_correct": {
+            "current_venue": false,
+            "former_venue": false
+          },
+          "reason": "Says \"The venue names were not established\", omitting both venue names and statuses."
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says \"The activity titles were not established\", omitting both titles."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C011",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": true
+          },
+          "reason": "Partner and current appointment are \"not established\"; the former appointment is incorrectly \"a Friday\" with no specific time."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Practice responding to a scheduling change\" and \"Practice responding to a telephone interruption\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C012",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"it was not established\" what title was given, omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"those four details about the appointment were not established\", omitting the partner and all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says records \"did not establish the titles\" and completion status \"was not mentioned\", omitting both activity titles and statuses."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C013",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says the partner and current, former, and proposed times \"were not recorded\", omitting all four required values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says records \"do not contain the titles\", omitting Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C014",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": true,
+          "field_correct": {
+            "notebook_title": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": true
+          },
+          "reason": "Labels \"Wednesdays at 17:45\" as the current appointment instead of the former, and says the former day and time were \"not established\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Names the completed activity the \"Tern Window\" notebook exercise instead of Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C015",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"none of those appointment details\" were established, omitting the partner and all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Says \"The title of a completed activity was not established\", omitting Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C016",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"I don't recall you ever giving a specific title\" and \"not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"You never recorded\" the partner and appointment details, omitting all four required values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says the exact activity titles \"were not established\", omitting Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C017",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says the partner and appointment details \"were not recorded\", omitting all four required values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Says the completed activity \"has no title established\", omitting Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C018",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was never established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"none of those appointment details were ever established\", omitting the partner and all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Says \"You haven't mentioned a completed activity title\", omitting Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C019",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"I don't recall us establishing a title\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says appointment details \"were not established\" and gives no partner or appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Practice assertive communication with a partner\" and \"Plan a telephone call to a friend\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C020",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": true
+          },
+          "reason": "Partner and current appointment are \"not established\"; former \"the Friday time\" is the wrong day and lacks the clock time."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Booking a room for a practice partner\" and \"Confirming a practice appointment by telephone\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C021",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": true,
+          "field_correct": {
+            "notebook_title": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Incorrectly assigns current \"Wednesdays at 17:45\", former \"Saturdays at 9:30\", and proposed \"Tuesdays at 16:30\"."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": true
+          },
+          "reason": "Names the completed activity \"Tern Window\" instead of Folded Map."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C022",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Calls the current, former, and proposed appointment values \"not been established\", omitting all three required days and times."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": true,
+          "field_correct": {
+            "completed": true,
+            "planned_not_completed": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C023",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says the partner and all appointment details \"were not recorded\", omitting all four required values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": false,
+          "field_correct": {
+            "current_venue": false,
+            "former_venue": false
+          },
+          "reason": "Says venue names \"were not established\" and \"were not mentioned\", omitting both names and statuses."
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says \"The titles and completion statuses of the activities were not established\", omitting both required activities."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C024",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"I don't recall\" the title and \"I don't think that was ever established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says \"The current, former, and proposed days and times\" were \"not established\", omitting all three required appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": true,
+          "field_correct": {
+            "completed": true,
+            "planned_not_completed": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C025",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says \"I don't recall you ever giving a title\" and \"not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says appointment details \"were not established\" and denies discussing a partner or appointment times, omitting all four required values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says \"You haven't mentioned recording any activities\" and titles \"were not established\", omitting both required titles."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C026",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner and former appointment are \"not established\"; current \"Friday\" and proposed \"Saturday\" both lack the required clock times."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Making the first call\" and \"Calling to book the room\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C027",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner is \"not established\"; current \"Friday\" lacks its time; \"There was no former agreed day and time\" denies the former appointment; proposed \"Saturday\" lacks 09:30."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Practice interrupting and redirecting a conversation\" and \"telephone call to the registrar's office\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C028",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": true,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Says the current, former, and proposed day and time \"were not established\", omitting all three appointment values."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": true,
+          "field_correct": {
+            "completed": true,
+            "planned_not_completed": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C029",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": true
+          },
+          "reason": "Partner and current appointment are \"not established\"; former \"on a Friday\" has the wrong day and lacks its clock time."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": true,
+          "field_correct": {
+            "current_venue": true,
+            "former_venue": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Gives \"Practice a collaborative solution\" and \"Respond to a partner's urgent telephone call\", rather than Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    },
+    {
+      "id": "C030",
+      "categories": [
+        {
+          "category": "persistent_identity",
+          "pass": true,
+          "field_correct": {
+            "name": true,
+            "age": true
+          },
+          "reason": ""
+        },
+        {
+          "category": "distant_stable_fact",
+          "pass": false,
+          "field_correct": {
+            "notebook_title": false
+          },
+          "reason": "Says the notebook title \"was not established\", omitting Tern Window."
+        },
+        {
+          "category": "correction_and_proposal",
+          "pass": false,
+          "field_correct": {
+            "partner": false,
+            "current": false,
+            "former": false,
+            "proposal_only": false
+          },
+          "reason": "Partner and appointment details are denied as \"not established in your records\"; \"potential Saturday 09:30\" is recalled only within this denial, and \"previous Friday time\" misstates the former appointment."
+        },
+        {
+          "category": "explicit_replacement",
+          "pass": false,
+          "field_correct": {
+            "current_venue": false,
+            "former_venue": false
+          },
+          "reason": "Says venue names \"were not established\", omitting both required names and statuses."
+        },
+        {
+          "category": "completed_versus_planned",
+          "pass": false,
+          "field_correct": {
+            "completed": false,
+            "planned_not_completed": false
+          },
+          "reason": "Says exact activity titles \"were not established\", omitting Folded Map and Silver Button."
+        },
+        {
+          "category": "absent_fact_abstention",
+          "pass": true,
+          "field_correct": {
+            "surname_or_not_established": true
+          },
+          "reason": ""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,720 @@
+{
+  "patient_id": "jason_smith_001",
+  "sessions": [
+    {
+      "session_id": "session_01",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "Where would you like to begin today? We can use an ordinary example and leave room for the parts that are less easy to put into words.",
+          "patient_text": "I was comparing an ordinary day at university with how connected I felt in high school. My studies are going well, but the comparison made the present seem less settled. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What would help this conversation feel collaborative? I am interested in the pace as well as the subject, because either can affect what feels possible to say.",
+          "patient_text": "I would like time to finish a thought before we decide what to do with it. A clear question helps, and it also helps if I can say that I have not worked out an answer yet. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "Could you describe the situation in your own terms before we try to explain it? We do not need to decide immediately whether it was handled well.",
+          "patient_text": "The situation itself was fairly ordinary. What I want to describe is the way I moved through it, because a quick description of whether it went well would leave out the part I am trying to understand. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What is the part you notice first when you think about that example? It may be a thought, a feeling, or something quite practical about the setting.",
+          "patient_text": "I notice the interpretation before I notice the smaller details. Once I have a name for what happened, I can stop looking closely, even though the name may only fit one part of the experience. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "I want to check that I am following your emphasis. Which part of what you have said would you most want me to keep in view?",
+          "patient_text": "Please keep the context in view. I do not want one moment to stand for everything about me, and I also do not want the wider context to make the specific difficulty disappear from the conversation. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "How do you know when a question is helping you explore and when it is asking too much at once? We can adjust as we go.",
+          "patient_text": "A question helps when I can see what part you are asking about. If there are several questions at once, I begin trying to choose the best answer instead of describing what I actually noticed. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Is there a useful distinction between what you intended and what the exchange felt like? Either can matter without one cancelling the other.",
+          "patient_text": "My intention can be reasonable while the exchange still feels awkward. I can see why it would help to say both things, instead of using one as a reason that the other should not matter. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "What becomes easier to notice when we slow the description down? There is no need to produce a more dramatic example just to make it seem important.",
+          "patient_text": "I notice the order of things more clearly. There was the situation, then what I thought it meant, and then how I responded. Usually those steps feel as if they happened all at once. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "How would you explain this to someone who was interested but did not already know your situation? That may help us find the simplest accurate wording.",
+          "patient_text": "I would start with the ordinary situation and then explain the part that caught my attention. I would not need to make it sound more serious, but I would want the listener to understand why I mentioned it. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What would be a modest aim for talking about this today? It can be something smaller than changing the entire pattern or reaching a final explanation.",
+          "patient_text": "A modest aim would be to leave with a more accurate description. I am interested in a useful next thought, but I do not need us to decide the meaning of the whole pattern today. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "You mentioned a separate cue card for conversations. What title did you choose for that card? I want to use the name that feels natural to you.",
+          "patient_text": "The separate cue card is titled Cobalt Moth. It is something I can glance at when I want to pause and put a thought into words. I like giving that small item a name of its own."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "As we finish this part, what feels clear enough to leave alone for now, and what would you rather leave open for further conversation?",
+          "patient_text": "The part that feels clear is that this is worth discussing. I would leave the explanation open for now, because I do not want to settle on a neat account just because we are near the end. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        }
+      ]
+    },
+    {
+      "session_id": "session_02",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "Let us begin with an example that has stayed in your mind. What happened in the exchange before you began deciding what it might mean?",
+          "patient_text": "After a friendly conversation at university, I caught myself wondering why it did not feel as close as talking with my old friends. We have had less shared time. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "Which parts could another person have directly observed, and which parts are your interpretation? We can respect the feeling while keeping that distinction visible.",
+          "patient_text": "Someone else could have noticed the words and the timing, but they could not directly observe the meaning I attached to them. I sometimes tell the story as though both kinds of information were equally certain. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "What was the first explanation that came to you? I am asking about its timing, rather than asking you to prove that it was right or wrong.",
+          "patient_text": "The first explanation arrived quickly and sounded familiar. It felt convincing partly because I had used it before, not because I had checked every detail of the present situation. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "Were there details that received less attention because the first explanation arrived so quickly? We can look for them without forcing a positive interpretation.",
+          "patient_text": "I probably gave less attention to the ordinary parts of the exchange. Once I had a concern in mind, I noticed what fitted it and let the less striking details fade into the background. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "Before we move on, how are you keeping the loose reflection pages together? If you have given the folder a title, you can use your own wording for it.",
+          "patient_text": "I keep the loose reflection pages in a folder titled Juniper Thread. It is a place for the pages rather than an instruction to fill it on every day. Having them together is enough for now."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "What makes your interpretation understandable from your point of view? Understanding why it occurred is a different step from deciding that it is the only possibility.",
+          "patient_text": "It makes sense that I reached for an explanation I already knew. It gave me a quick way to organize the moment, even though I can see now that familiarity is not the same as certainty. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Could another explanation remain possible even if it is not the one that feels strongest? We do not have to choose between them immediately.",
+          "patient_text": "I can allow another explanation to remain possible without making myself believe it immediately. That feels more honest than trying to replace the first thought with something that sounds reassuring but does not yet feel credible. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "What would you need to ask or observe before feeling more certain? It is all right if some uncertainty belongs to the situation itself.",
+          "patient_text": "I would need more information about what the other person meant. I might be able to ask a straightforward question, but I also need to accept that I cannot know every part of another person’s experience. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "How does the interpretation influence what you want to do next? I am interested in the sequence from noticing, to meaning, to response.",
+          "patient_text": "The interpretation influences the response very quickly. If I assume I already know what the situation means, I act on that account before considering whether a small clarification might change it. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What happens if you leave a little space between those steps? We are discussing a possibility here, without assuming you have already tried it.",
+          "patient_text": "Leaving a little space might let me notice that an interpretation is happening. I am saying that as a possibility we are discussing, rather than as something I have already managed consistently. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Is there a part of the event that you would describe differently now that we have separated those pieces? Small changes in wording can be enough.",
+          "patient_text": "I would describe it as an uncertain exchange that mattered to me. That seems more accurate than presenting my first impression as the final meaning of what happened between us. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What is the most accurate short account you can give of the example? It can include both what you know and what remains uncertain.",
+          "patient_text": "I know what I noticed and how it affected me. I am less certain about everything the other person intended, so I would leave that part open rather than fill it in with an assumption. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        }
+      ]
+    },
+    {
+      "session_id": "session_03",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "What words come most readily when you think about the experience today? We can start with those and see whether they fit the details you want to convey.",
+          "patient_text": "I wanted to say something more personal to my partner and started searching for a perfectly clear explanation. The relationship is positive; I was mostly self-conscious about my wording. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "Does the first word describe the whole experience or only one part of it? Sometimes a broad label hides differences that are useful to notice.",
+          "patient_text": "The first word describes the strongest part, but it leaves out quieter reactions. I can have more than one feeling without one being the real answer and the others being mistakes in the description. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "What is difficult to express without sounding more certain than you feel? We can keep the uncertainty in the description instead of smoothing it away.",
+          "patient_text": "It is difficult to say that something matters without sounding as though I have a finished explanation for why. I would like to be able to name the experience before I have organized every part of it. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "If you set aside an explanation for a moment, what would you like another person to understand about the experience itself? Take whatever time you need.",
+          "patient_text": "I would want them to understand the effort involved in speaking plainly. The explanation can come later; first I want the experience to be heard in roughly the scale and tone that I mean. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "Are there words you avoid because you expect them to be misunderstood? I would like to hear your meaning before attaching my own to the term.",
+          "patient_text": "I sometimes avoid a word because I imagine the listener will attach a much larger meaning to it. That makes me cautious, even when I am trying to describe an ordinary and limited part of the situation. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "How would you distinguish the feeling from the conclusion you draw about yourself? Both may be present, but they need not be described as one thing.",
+          "patient_text": "The feeling is something I experience, and the conclusion is something I say about myself afterward. They can arrive close together, but separating them makes the conclusion sound less like an unavoidable fact. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "What happens to your account when you use a smaller, more specific phrase? We can check whether that makes it more accurate rather than simply more reassuring.",
+          "patient_text": "A smaller phrase is easier for me to check against what happened. I can ask whether it fits this particular moment instead of having to decide whether it describes me in general. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "Would an example communicate something the label leaves out? It can be an ordinary moment and does not need to carry the weight of the whole issue.",
+          "patient_text": "An ordinary example would show the timing and the context. A label alone can sound much more complete than it really is, especially if the listener supplies details that I never meant to include. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "Which part would you want me to reflect back, and which part would you prefer to keep exploring in your own words? Either choice is fine.",
+          "patient_text": "I would like you to reflect the part about wanting to be accurate. I can keep exploring the feeling myself, as long as we do not hurry toward a word just to make the account sound finished. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "How does it feel to hear your own description without immediately judging whether it is the best possible one? We can leave it unfinished if needed.",
+          "patient_text": "It feels unusual to leave the description without grading it immediately. I can notice whether it conveys something useful even if I would choose a slightly different phrase on another day. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Is there a correction you would like to make to anything you said earlier in this conversation? Revising a phrase is part of finding the meaning.",
+          "patient_text": "I would change the broadest part of what I said. The experience belongs to a particular setting, and I do not want a sentence about that setting to sound like a complete description of my life. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What language feels usable outside this room, if you ever choose to use it? We can end with an ordinary phrase rather than a formal conclusion.",
+          "patient_text": "I would use plain language and say that I am still working out what I mean. That gives the other person something to understand without requiring me to speak as though I have reached a conclusion. I do not need to be exceptional at everything in order to belong in the situation."
+        }
+      ]
+    },
+    {
+      "session_id": "session_04",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "Could we look at the moments just before a familiar response? I am interested in what was happening around you, not only in the response itself.",
+          "patient_text": "I can describe a philosophical idea more easily than a small uncertainty about myself. Explaining the idea gives me structure, while the uncertainty feels less finished and tidy. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What did you notice first, and what only became clear afterward? That difference can help us describe the sequence without expecting perfect awareness in the moment.",
+          "patient_text": "The immediate reaction is easier to remember than the steps before it. Looking back, I can notice more about the setting, although I do not want to pretend I was fully aware of every detail at the time. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "Was there a practical demand competing for your attention? We can include ordinary pressures without deciding that they explain everything about what happened.",
+          "patient_text": "Ordinary demands were competing for attention. They are part of the account because they affected the pace, but I would not want to use them as a complete explanation for everything I felt or did. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What expectation did you bring into the exchange? Sometimes an expectation shapes the next step before we have had much chance to examine it.",
+          "patient_text": "I expected the familiar pattern to happen again. That expectation may have narrowed what I looked for, because I was already preparing for a particular meaning before the exchange had fully developed. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "How did the pace of the situation affect your choices? I do not assume that a slower pace is always possible, but it may be worth describing.",
+          "patient_text": "The pace made it easier to continue with the first response. Slowing down sounds simple when we discuss it here, but in the situation I might first need to notice that I was moving quickly. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "What would a brief pause mean to you in that setting? We are exploring its meaning, rather than giving you another rule that must be followed.",
+          "patient_text": "A pause could mean giving myself a moment to understand rather than stopping the whole exchange. I would prefer to think of it as an available option, because a rigid requirement could add pressure of its own. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Is there a time you would like to set aside for a short private reflection practice? This would be your own practice slot rather than an appointment with me.",
+          "patient_text": "I have chosen Wednesday at 16:20 as my weekly private reflection slot. That is the arrangement I want to use for now. I am agreeing to the time, without claiming I have already kept the routine."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "Is there a point where the response becomes more automatic? You do not need an exact boundary; an approximate description can still be informative.",
+          "patient_text": "It seems to become automatic when I stop checking the situation and act as though the first interpretation has settled it. I cannot place that at one precise instant, but I recognize the general shift. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "What makes sense about the response from inside that moment? We can understand its immediate purpose while also discussing what makes it difficult afterward.",
+          "patient_text": "The response gives me a quick way through an uncomfortable moment. I can understand that immediate purpose while also seeing why the response may leave something unspoken or difficult afterward. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "How would you recognize that you had a little more choice, even if the situation still felt uncomfortable? The sign could be quite small.",
+          "patient_text": "A little more choice might look like noticing that there is more than one possible response. The situation could still feel uncomfortable, and I would not need the feeling to disappear before recognizing that option. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "What should we avoid assuming from this single example? I want the description to stay close to what you have actually told me.",
+          "patient_text": "We should not assume that this one example explains every similar moment. It gives us a sequence to examine, but the setting and my available attention may be different another time. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "Which part of the sequence would you like to leave with today? We can keep it as an observation without turning it into a promise of change.",
+          "patient_text": "I would keep the observation that the interpretation and the response are not quite the same step. I am not promising that I will separate them perfectly; I just understand the sequence a little more clearly. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        }
+      ]
+    },
+    {
+      "session_id": "session_05",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "What makes a request easy or difficult to express for you? Let us stay with an ordinary example, so that the wording has a clear context.",
+          "patient_text": "A discussion with my family stayed practical, as our conversations often do. I felt supported, yet I also noticed that I wanted to say a little more about my experience. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What would the other person need to know in order to understand the request? We can separate that from the longer explanation you might feel obliged to give.",
+          "patient_text": "They would need to know the actual request and perhaps a short reason it matters. I can see that a long explanation might hide the main point instead of making it easier to understand. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "How do you notice the difference between asking and apologizing for asking? There may be room for politeness without making the need disappear.",
+          "patient_text": "When I begin apologizing, the request can become harder to hear. I do not mean that I should be abrupt; I want politeness to leave the meaning intact rather than gradually take it back. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What response do you imagine before the other person has answered? I am interested in how that expectation influences what you actually say.",
+          "patient_text": "I often imagine a response before I have asked. That imagined answer influences my tone, so I may already sound defensive or uncertain even though the other person has not had a chance to reply. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "Could the request leave the other person room to respond honestly? A clear request can include the possibility of negotiation or of hearing a limit.",
+          "patient_text": "I would like the wording to leave a genuine choice. If I ask in a way that makes only one answer acceptable, I may be calling it a request while treating it more like a demand. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "Which part of the request feels most important to you? If we keep that part visible, the surrounding explanation may not have to carry quite so much.",
+          "patient_text": "The most important part is being understood about the specific need. If I keep that visible, I may not have to explain the entire background before the other person can respond usefully. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "What makes it harder to say a modest need without expanding it into a judgment about the whole relationship? We can keep the scale of the example clear.",
+          "patient_text": "The difficulty grows when I treat the response as a verdict on the relationship. A modest request can then seem much riskier than its practical content, because I am asking it to answer a larger question. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "How would the same request sound in plain language? We are considering wording here, without assuming that you have already used it outside the conversation.",
+          "patient_text": "In plain language I would name what I wanted and leave space for an answer. That is wording I am considering here, not a conversation I am claiming to have already had elsewhere. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "What would help you tell whether you had been understood? Agreement and understanding may overlap, but they are not always the same response.",
+          "patient_text": "I would look for whether the other person had understood the request accurately. They might understand and still need to discuss timing or a limit, which is different from having missed the meaning. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "If the answer were uncertain, what clarification would be fair to ask for? We can allow the other person time as well as protecting your meaning.",
+          "patient_text": "It would be fair to ask which part was uncertain and whether more information would help. I can leave room for their answer without having to erase the request as soon as it is not immediately settled. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Does any part of the wording feel borrowed rather than like something you would actually say? It is useful to notice that before treating it as a plan.",
+          "patient_text": "Some polished phrases sound less like me than a shorter ordinary sentence would. I would want to change those before using the wording, because otherwise I might feel as though I were performing an exercise. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What is the smallest useful point from this discussion of requests? It does not need to become an assignment unless you choose that separately.",
+          "patient_text": "The useful point is that I can make a request clear without explaining everything about myself. I would leave it as something to consider, rather than turning this discussion automatically into another commitment. I would like to say what matters before finding the perfect argument for why it matters."
+        }
+      ]
+    },
+    {
+      "session_id": "session_06",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "How would you like us to approach choices today? We can consider more than one possibility without treating the first suggestion as a decision.",
+          "patient_text": "At university I saw people who seemed immediately comfortable with each other. I know appearances leave a lot out, but I briefly measured my own progress against theirs. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What makes an option feel manageable from your point of view? I would like to understand the effort it involves rather than judge it from the outside.",
+          "patient_text": "An option feels manageable when I understand what it involves and can see how it fits an ordinary day. The size of the task is only one part; the pressure I attach to it also matters. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "Is there a difference between an idea sounding reasonable and your actually wanting to try it? Both responses are useful information for the conversation.",
+          "patient_text": "Yes, an idea can make sense without being something I want to try. I would like that response to be allowed, because otherwise agreeing that an idea is reasonable can start to feel like making a commitment. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What would make it easier to say that an option does not fit? You do not have to find a better alternative before declining a suggestion.",
+          "patient_text": "It would help if declining did not require a long defense. I can say an option does not fit and still stay engaged in the conversation about what might be useful. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "How do you distinguish interest from obligation in your own response? Sometimes those can sound similar until we make room to ask about them directly.",
+          "patient_text": "Interest has more room for curiosity. Obligation makes me think first about whether I will disappoint someone, so I would like a moment to notice which response is present before I answer. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "What information would you want before making a choice? We can leave an option undecided if the practical details or the purpose are not clear enough.",
+          "patient_text": "I would want to know the purpose and what the practical effort would be. If either is unclear, leaving the choice open seems more accurate than agreeing now and discovering later that I meant something else. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Could a smaller version preserve the useful part of an idea? We are exploring scale here, rather than assuming that more effort would necessarily help.",
+          "patient_text": "A smaller version could preserve the part that is useful without carrying the same pressure. I would still want to choose it explicitly rather than having a smaller suggestion treated as an automatic yes. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "Two possible conversation practices are Evening Audio Diary and Quiet Sentence Practice. They are alternatives, and you can decline either or both. Which option, if any, actually fits what you want to try?",
+          "patient_text": "I am declining Evening Audio Diary; I do not agree to do it. I do agree to try Quiet Sentence Practice. That is my actual choice between the two proposals. Agreeing to try it is not a report that I have completed it."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "How would you like a change of mind to be handled in this conversation? Making the process explicit can prevent a tentative choice from becoming a hidden obligation.",
+          "patient_text": "I would like a change of mind to be something I can state directly. It would help to discuss what changed, rather than treating the earlier choice as a promise that cannot be revised. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What are you most wary of when someone suggests a practice? I would like to hear that concern without immediately trying to persuade you out of it.",
+          "patient_text": "I am wary of a suggestion becoming an expectation before we have checked whether I want it. The concern is easier to discuss when I do not have to agree first in order to seem cooperative. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Is there an option you would prefer to keep as a possibility without any commitment? We can make the difference clear in ordinary language.",
+          "patient_text": "I can imagine keeping an idea available without deciding today. That would let me understand it as a possibility rather than start measuring myself against it as though it were already an assignment. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What remains undecided at the end of this discussion? Leaving a decision open can be an accurate outcome rather than a failure to reach one.",
+          "patient_text": "What remains open is how much I want to take on at this point. I would rather name that uncertainty clearly than give a quick answer that sounds decisive but does not reflect my actual willingness. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        }
+      ]
+    },
+    {
+      "session_id": "session_07",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "What does available effort look like for you at the moment? We can begin with the actual limits of an ordinary day rather than an ideal schedule.",
+          "patient_text": "Climbing gives me something concrete to attend to, and I value that part of my routine. I do not want every activity to become another comparison with somebody else. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "There are also two small paper exercises called Connection Outline and Conversation Grid. Would either be worth considering? We can record a plan without assuming the exercise has been done.",
+          "patient_text": "I am planning to try Connection Outline and Conversation Grid. At this point I have not completed either paper exercise. I want that to stay clear, because thinking about an exercise is easier than reporting what actually happened."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "What becomes difficult when you try to explain a limit to someone else? I am interested in both the practical message and the meaning it carries for you.",
+          "patient_text": "The practical message may be simple, but I can attach a larger meaning to it. I start thinking about what the limit says about me rather than saying what I can realistically offer. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "Could a boundary protect the conversation rather than end it? We can consider whether a clear limit leaves more room for an honest response.",
+          "patient_text": "A boundary could protect the exchange by making the available time or effort clearer. That sounds different from using a limit to shut the other person out without any explanation of what I mean. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "What do you expect another person to infer from a limit? We can examine that expectation without assuming it will always be confirmed.",
+          "patient_text": "I may expect them to hear a more negative message than I intend. That expectation can make me overexplain, even though I have not yet checked how the other person actually understood the limit. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "Is there a part of the explanation that you would want to keep brief? You may be able to communicate the limit without defending every reason behind it.",
+          "patient_text": "I would like to keep the central statement brief. Some context may help, but defending every reason could make the limit sound negotiable simply because I have not found a perfect explanation for it. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "How would you recognize a realistic amount of effort in this situation? It need not look identical on every day or in every setting.",
+          "patient_text": "A realistic amount of effort would fit what is available in the actual situation. I can see why using my best possible day as the standard for every day would make the account less accurate. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "What happens when the limit is vague? Sometimes the uncertainty can create more pressure than a clear but modest answer would.",
+          "patient_text": "A vague limit leaves me guessing about what is expected next. It can also leave the other person guessing, so a modest clear answer might be less uncomfortable than an open-ended one. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "How could another person check their understanding without pressing you to change the answer? That might help us describe the support you would find useful.",
+          "patient_text": "They could check that they understood what I am able to offer and what remains uncertain. I would find that different from repeating the request until I give a more convenient answer. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What is difficult about allowing a limit to remain a limit for now? We do not need to turn it immediately into a problem to solve.",
+          "patient_text": "I feel a pull to justify the limit by promising that it will soon disappear. It would be more honest to let the present boundary stand without having to make that promise immediately. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Does the discussion leave anything about your motivation unclear? We can distinguish what matters to you from what you currently have capacity to do.",
+          "patient_text": "I would want it to remain clear that the subject matters to me. My available effort is part of the situation, but it is not a complete measure of how much I value the conversation. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "Which part of this account feels fair to your actual circumstances? An accurate description can include both a wish to engage and a practical boundary.",
+          "patient_text": "The fair account includes both willingness and limits. If I leave either one out, the description becomes less accurate, even if it sounds simpler or more encouraging at first. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        }
+      ]
+    },
+    {
+      "session_id": "session_08",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "When a phrase does not land as you intended, what do you notice first? We can use a small misunderstanding without treating it as a major rupture.",
+          "patient_text": "I thought about telling a longtime friend that I miss the easy closeness we had at school. Keeping contact is already part of my life, so this is about expressing it. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What would you want to clarify about your meaning? It may help to separate the original intention from the effect of the words as they were heard.",
+          "patient_text": "I would clarify what I was trying to convey before adding a larger explanation. I can accept that the wording had an effect without deciding that the effect was exactly what I intended. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "How easy is it to ask what the other person understood? That question can give information before you decide how much explanation is needed.",
+          "patient_text": "Asking what they heard could give me useful information. Otherwise I might spend a long time correcting a meaning they never attached to the words in the first place. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What makes a correction feel ordinary, and what makes it feel like a larger judgment about you? I would like to understand that difference in your experience.",
+          "patient_text": "A correction feels ordinary when it stays close to the phrase and its meaning. It feels larger when I start treating the need to clarify as evidence that I am failing at the entire exchange. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "Could a short clarification be enough in this example? We can consider that possibility without minimizing any feeling that came with the misunderstanding.",
+          "patient_text": "A short clarification might be enough for the practical misunderstanding. The feeling around it could take longer to settle, and I would not need to solve both parts in one sentence. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "What happens if you allow the other person to describe their interpretation first? There may be details you could not know from your own intention alone.",
+          "patient_text": "Hearing their interpretation first might show me what actually needs attention. I do not want to assume that my own intention tells me everything about how the words were received. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Which words would you change, and which part of the message would you keep? A repair does not necessarily require withdrawing everything you meant.",
+          "patient_text": "I would change the part that gave the wrong impression and keep the underlying point I wanted to express. A repair does not have to mean that I withdraw the whole message. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "How would you know that the clarification had been understood? We can look for an observable response without asking for complete certainty about another mind.",
+          "patient_text": "I might hear them reflect the revised meaning in their own words. That would be more concrete than trying to become completely certain about what they are thinking privately. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "What would remain unresolved even after a useful clarification? It is possible for a conversation to improve while leaving some differences in place.",
+          "patient_text": "We might still have different preferences or feelings afterward. Clarifying a meaning could improve the exchange without requiring both people to have the same reaction to the situation. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "Is there a point at which further explanation becomes less helpful? I am asking about the fit between the explanation and the size of the misunderstanding.",
+          "patient_text": "Further explanation may stop helping once the actual misunderstanding is clear. At that point I could be trying to remove all discomfort rather than communicating something the other person still needs to know. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "How might you describe the exchange afterward without giving all the attention to the awkward moment? The broader context can remain part of the account.",
+          "patient_text": "I would describe the awkward part as one moment in a larger conversation. The clarification and the ordinary parts of the exchange deserve to remain in the account as well. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What feels most useful about making room for correction? We can leave it as a principle to consider, without claiming that every exchange will become easy.",
+          "patient_text": "Making room for correction means I do not have to get every phrase right on the first attempt. That is useful as a way of thinking about conversation, even though some moments will still feel difficult. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        }
+      ]
+    },
+    {
+      "session_id": "session_09",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "What parts of the recent example are easiest to remember? Sometimes one difficult moment becomes more vivid than the rest of an otherwise mixed experience.",
+          "patient_text": "When I remember my mother being ill during high school, I also remember keeping up with normal responsibilities. She recovered, but the memory still helps explain why I value reliability. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "Could we describe what was difficult and what was ordinary in the same account? Neither part has to erase the other for the description to be accurate.",
+          "patient_text": "I can describe both parts, although the difficult one takes more of my attention. Including the ordinary part would not deny the feeling; it would make the account closer to the whole event. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "You said you wanted to revise the weekly private reflection slot. What arrangement have you settled on? We can make the change explicit without judging the earlier choice.",
+          "patient_text": "My weekly private reflection slot is now Monday at 19:10. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "Which observations support a narrower description? We can be specific without forcing you to feel positively about the example.",
+          "patient_text": "The sequence and context support a narrower account. I can say what I noticed and what I did without treating those details as evidence for a judgment that covers every other situation. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "How would you describe the same situation if you were trying to be fair rather than encouraging? Fairness may be a more workable aim than reassurance.",
+          "patient_text": "A fair description would not try to cheer me up by leaving the difficulty out. It would include the difficulty at the right scale and avoid adding a conclusion that the facts do not require. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "Is there effort in the account that you have treated as irrelevant? Noticing it would not require us to declare that the difficulty has been resolved.",
+          "patient_text": "I can overlook effort when it does not lead to the outcome I hoped for. Noticing the effort would give a fuller account, although it would not tell us that the problem has been solved. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "What remains true about you outside this particular event? We can keep that wider context without using it to dismiss what was painful.",
+          "patient_text": "There are other parts of my life and ways I respond that are not represented by this single event. Remembering that context does not make the event unimportant; it makes the generalization less complete. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "How does the account change when you include the sequence and setting? Broad labels often leave those details out.",
+          "patient_text": "Including the setting makes the account more specific. It shows how the response developed rather than leaving only a label, and that gives us more to discuss than whether the label is deserved. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "Would another person necessarily draw the same conclusion from the facts you have described? We can allow for uncertainty without deciding what they must think.",
+          "patient_text": "Another person might notice a different part of the same facts. I cannot know their conclusion without asking, and I do not want to present my own most immediate judgment as the only possible reading. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What wording would preserve responsibility without becoming a verdict on your whole character? This can be a careful distinction rather than a cheerful one.",
+          "patient_text": "I would describe the action and its effect before making any broader statement. That leaves room to take responsibility for something specific without turning the account into a verdict on my whole character. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Is there a part of the account that now sounds too broad? You can revise it without having to defend the earlier wording.",
+          "patient_text": "The part that sounds too broad is the leap from this moment to a permanent description of me. I can revise that wording even if the feeling that prompted it has not fully changed. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What balanced description feels credible to you at the end of the discussion? It can remain mixed and unfinished rather than neatly positive.",
+          "patient_text": "A credible account would stay mixed. Something was difficult, some context mattered, and not every conclusion is settled. That seems more believable to me than ending with a strongly positive summary. I do not need to be exceptional at everything in order to belong in the situation."
+        }
+      ]
+    },
+    {
+      "session_id": "session_10",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "How do you distinguish something you considered from something you actually did? We can look at the language of the account before evaluating the outcome.",
+          "patient_text": "I want to make room for new friendships without treating them as replacements for old ones. It is possible to value both even if the feeling of closeness develops differently. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "What can you describe directly about the action itself? A concrete account may be easier to check than a broad statement about how successful the week was.",
+          "patient_text": "I can describe the step itself before deciding what it adds up to. The concrete action is easier to discuss accurately than a broad statement that the whole week either went well or went badly. I would like to say what matters before finding the perfect argument for why it matters."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "Is there any part of the description that reflects an intention rather than an event? Both can matter, provided we keep the difference clear.",
+          "patient_text": "An intention belongs in the account as an intention. If I describe it as an event, I might make the situation sound more complete than it is, even without meaning to mislead anyone. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What effort was involved in the step you are discussing? We do not have to infer a larger change from a single action.",
+          "patient_text": "The amount of effort may be worth acknowledging without turning it into a measure of progress. I would like to be specific about what was involved and cautious about the larger meaning. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "How do you respond when an action is smaller than you hoped? I would like to understand the comparison without turning it into another target.",
+          "patient_text": "I can compare the action with a much bigger expectation and then dismiss it. That reaction is part of what I notice, but it does not change the basic description of the action itself. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "What remains uncertain after describing the action? It is reasonable for an event to be clear while its longer term meaning is still open.",
+          "patient_text": "The longer term meaning remains uncertain. A clear account of one event does not tell us how often it will happen again or how I will feel about it in another setting. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "Could you name the result without deciding that it proves or disproves your ability? Keeping the claim modest may help us stay accurate.",
+          "patient_text": "I can name a result at the scale of the event. I would rather avoid using one small example as proof of either my ability or my inability to manage the wider situation. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "What would be an assumption we should avoid making from this example? I want to check the boundary between what happened and what we might hope happens next.",
+          "patient_text": "We should avoid assuming that a discussed intention has become an action. We should also avoid assuming that one action means a whole pattern has changed; those are larger claims than the example supports. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "How did the two paper exercises stand when you last looked at them? It is fine if one or both are still only plans; a precise account is more useful than an encouraging guess.",
+          "patient_text": "I completed Connection Outline. Conversation Grid is still only planned; I have not started it. Those are different statuses, and I want to keep them separate. Finishing the first sheet does not tell us that anything broader has changed."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "What would make a future step meaningfully different from a past one? It might involve timing, willingness, or circumstances rather than a larger amount of effort.",
+          "patient_text": "A future step might happen in different circumstances or involve a different amount of willingness. Making it larger would not by itself make it more meaningful or more realistic. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "Is there a useful observation here that does not need to become a conclusion about progress? We can value accurate description in its own right.",
+          "patient_text": "The useful observation is that description can stay separate from evaluation for a moment. That gives me a way to be accurate without having to decide immediately what the event says about progress. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What would you like to keep open after this review? We can distinguish a completed conversation from the expectation that everything discussed has been resolved.",
+          "patient_text": "I would like to leave the next step open until we discuss it as a separate choice. Reviewing an action does not need to become an automatic commitment to repeat it or extend it. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        }
+      ]
+    },
+    {
+      "session_id": "session_11",
+      "turns": [
+        {
+          "turn_index": 1,
+          "therapist_text": "As you look across these conversations, what would you want an overall account to preserve? We can include uncertainty and unevenness instead of forcing one simple conclusion.",
+          "patient_text": "The transition still matters to me, but it does not cancel the parts of life that are going well. I would like to notice continuity without idealizing one period. The past was meaningful, and the present has possibilities that are easier to miss when I compare them constantly."
+        },
+        {
+          "turn_index": 2,
+          "therapist_text": "Which parts of the way we have talked have made it easier to express your meaning? I am asking about the process, not asking you to rate yourself.",
+          "patient_text": "It has helped when a question stays close to one part of what I am describing. That gives me room to answer honestly instead of trying to guess which larger conclusion the conversation is supposed to reach. It is reassuring when we keep the aim modest and connected to something I actually want to express."
+        },
+        {
+          "turn_index": 3,
+          "therapist_text": "Has any wording felt less accurate than the experience you were trying to describe? This is a chance to clarify it rather than a test of consistency.",
+          "patient_text": "I would be careful with any wording that makes my reactions sound more consistent than they feel. Some parts are clearer now, but I still want the account to leave room for variation and uncertainty. I can take this seriously without presenting it as a crisis or a failure of my whole life."
+        },
+        {
+          "turn_index": 4,
+          "therapist_text": "What should remain a modest observation instead of becoming a broad claim about change? We can keep the scale of the conclusion close to the examples.",
+          "patient_text": "The observations about how I describe things should remain modest. A useful conversation can help me express an experience without proving that the underlying difficulty has changed in every setting. I am not unable to cope; I am trying to understand why a fairly good situation can still feel unfamiliar."
+        },
+        {
+          "turn_index": 5,
+          "therapist_text": "How would you explain the value of the conversation without suggesting that difficulty has disappeared? A useful discussion can leave real work and uncertainty ahead.",
+          "patient_text": "I would say that the conversation has given me a way to examine an experience more carefully. That is valuable to me without requiring the claim that the discomfort or the practical difficulty has disappeared. I can see that years of shared experience are different from knowing someone for a shorter time."
+        },
+        {
+          "turn_index": 6,
+          "therapist_text": "Are there parts you would prefer to understand further before deciding what they mean? We do not need to close every question at the same time.",
+          "patient_text": "I would like to understand more about what happens in the moment, because describing it afterward is not quite the same task. I do not need to turn that open question into a conclusion today. Sometimes I compare myself with an imagined expectation instead of asking what the other person actually thinks."
+        },
+        {
+          "turn_index": 7,
+          "therapist_text": "What helps an account of your experience feel like your own words? I would like to avoid a polished summary that loses the tone you intended.",
+          "patient_text": "The account feels like mine when it keeps ordinary language and does not smooth away hesitation. A polished summary may sound impressive while losing the uncertainty that is part of what I actually meant. I tend to sound more certain once I have turned a feeling into a tidy explanation."
+        },
+        {
+          "turn_index": 8,
+          "therapist_text": "How do you want room for choice to remain visible in future conversations? A suggestion can stay open until you have actually decided what fits.",
+          "patient_text": "I would want suggestions to stay invitations until I have made a clear choice. It is useful to be able to consider an idea, decline it, or leave it open without those responses becoming interchangeable. I do not need to be exceptional at everything in order to belong in the situation."
+        },
+        {
+          "turn_index": 9,
+          "therapist_text": "What is easier to describe when we separate feelings, interpretations, and actions? The distinction is useful only if it helps you communicate accurately.",
+          "patient_text": "Separating those pieces helps me say what I know and what I am interpreting. I would not want the distinction to become technical language that makes an ordinary experience harder to communicate. I can feel grateful for my relationships and still want to become more open within them."
+        },
+        {
+          "turn_index": 10,
+          "therapist_text": "Is there anything about the pace that you would carry forward? It can be a preference for how we talk, without becoming another task to complete.",
+          "patient_text": "I would carry forward the room to pause and correct a phrase. That is a preference for how we talk, rather than an assignment I need to complete before the next conversation. Keeping my routines is helpful, although the routines do not answer every emotional question by themselves."
+        },
+        {
+          "turn_index": 11,
+          "therapist_text": "What would be a fair way to end today while leaving the unfinished parts acknowledged? We can resist both dismissing them and making them the whole story.",
+          "patient_text": "A fair ending would acknowledge the unfinished parts and also acknowledge that we have described something. I do not want either the uncertainty or the useful discussion to erase the other. A small uncertainty does not mean the relationship is unstable or that somebody has done something wrong."
+        },
+        {
+          "turn_index": 12,
+          "therapist_text": "What final observation feels true enough to leave here for now? It does not have to summarize every conversation or promise a particular outcome.",
+          "patient_text": "The observation I would leave is that accuracy matters more than a tidy ending. I can say what I have noticed, keep the limits of that account visible, and let the unresolved parts remain unresolved for now. I would like to say what matters before finding the perfect argument for why it matters."
+        }
+      ]
+    }
+  ]
+}

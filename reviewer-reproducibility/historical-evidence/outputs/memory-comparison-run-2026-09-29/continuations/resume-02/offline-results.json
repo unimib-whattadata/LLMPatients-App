@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "timestamp": "2026-09-29T08:44:42.279923+00:00",
+  "tests": 35,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "elapsed_seconds": 1.051,
+  "live_requests": 0,
+  "source_sha256": {
+    "continue_run.py": "fca74cfb31474b98965c2cc360b78b63e39ee4b87a253221362ac13c4f0a20f2",
+    "prefix_audit.py": "d2e59e6175a5b496072ac00a55c8480229cd921577619b982ab3dbcef4b1907f",
+    "test_continuation.py": "2c7fe5cffd4375199108a0103feaddee5de84de9e6ed679caca4f20a61abd514",
+    "test_prefix_audit.py": "9159b2d61e777e1052c7dfa1c995f05bc54dc453a8136045dc40bf34b14f1a17"
+  },
+  "test_log_sha256": "90416d7cd5ec2330d9d19717b1e566b65c4c4015b5fae6bebe7663e0990a7305",
+  "native_process_check": {
+    "returncode": 0,
+    "stdout": "{\"status\": \"passed\", \"check\": \"real macOS caffeinate companion accepted\", \"live_requests\": 0}\n",
+    "stderr": "",
+    "purpose": "Harmless local process ownership check; no experiment run entry point called."
+  },
+  "scope": "Offline continuation and prefix reconciliation tests; mocked experiment processes, blocked network, plus harmless real macOS process ownership check."
+}

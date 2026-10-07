@@ -1,0 +1,35 @@
+{
+  "patient_id": "alex_carter_001",
+  "target_tokens": 1200000,
+  "fact_position": "start",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_1200000/start/records.jsonl",
+  "record_count": 6733,
+  "full_prompt_local_tokens": 1200020,
+  "full_history_local_tokens": 1196175,
+  "block_start_history_token": 8,
+  "block_end_history_token": 7134,
+  "block_relative_midpoint": 0.0029853491336969927,
+  "context_id": "alex_carter_001__1200000__start",
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/full-saved-memory-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/start/full_saved_memory.txt.gz",
+  "prompt_sha256": "1a1c5b4219de26bb1a2de785d94c18e23bd0d9d176c43b3fbcaeaf35c51f6ce3",
+  "prompt_file_sha256": "8ee1ae3465f62b098fda0dd8e09df8e75f906eb47e66114103a6b21d0f326c51",
+  "local_prompt_tokens": 2326072,
+  "uncompressed_prompt_bytes": 8908819,
+  "compressed_prompt_bytes": 330851,
+  "complete_saved_original_records": 81,
+  "record_counts": {
+    "conversation_turn": 6733,
+    "episode_summary": 9,
+    "fact_batch": 9,
+    "session_reflection": 9,
+    "long_term_summary": 9
+  },
+  "all_record_fields_preserved": true,
+  "memory_record_stream_sha256": "f7881b61413bd2b0efc076226b73b47520f0f9a36a628cfa3ffc255d3408ce70",
+  "paired_baseline_job_ids": [
+    "112"
+  ],
+  "selection_limit": null,
+  "truncation_applied": false,
+  "plugin_enabled": false
+}

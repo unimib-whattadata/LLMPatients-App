@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "timestamp": "2026-09-28T20:31:24.659217+00:00",
+  "network_blocked": true,
+  "tests": 3,
+  "seconds": 11.088,
+  "production_guard_tests": 7,
+  "all_original_scenario_messages_checked": 55,
+  "log": "offline-tests.log",
+  "checks": [
+    "51 preserved turns, only4 new replies",
+    "native safety module loaded before graph",
+    "raw5, eligible4, blocked source still unusable",
+    "provider429 stops without later calls",
+    "corrupt checkpoint rejected before calls"
+  ],
+  "sha256": {
+    "resume_integration.py": "9423412128a8bc44628924448a52f531a2459a8b2c971d4c500247aa3f7cbb32",
+    "test_resume.py": "f2c0ba4af51211f9bf1f09e43fe2a2437ec933f0946e715dfff4ea56a131b6a5",
+    "source/agent/core/safety.py": "da78bc9205129b4b40f833e8988a0610b302cbefdd6cd90c4cb7ea9909fe3006",
+    "offline-tests.log": "b9795ecb4d14d44e61398e576a5b53085ea3298c1310a73382879bc60a417e37"
+  }
+}

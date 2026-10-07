@@ -1,0 +1,74 @@
+{
+  "project": "LLMPatients-Agent",
+  "date": "2026-10-07",
+  "tex_modified": false,
+  "commit_push_by_agent": false,
+  "tests": {
+    "agent": {
+      "passed": 102,
+      "failed": 0
+    },
+    "legacy": {
+      "passed": 7,
+      "failed": 0
+    },
+    "clean_environment": {
+      "passed": 109,
+      "resolved_distributions": 69
+    },
+    "telemetry_attempts_corrected_run": 0
+  },
+  "encoder": {
+    "shape": [
+      3,
+      384
+    ],
+    "finite": true,
+    "related_similarity": 0.5542458891868591,
+    "unrelated_similarity": 0.2305944710969925,
+    "device": "cpu",
+    "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "network": "disabled",
+    "passed": true
+  },
+  "data": {
+    "profiles_validated": 10,
+    "questionnaire_results": 30,
+    "score_mismatches": [],
+    "invalid_scores": [],
+    "memory_files": 16,
+    "memory_records": 286,
+    "run_files": 16
+  },
+  "cleanup": {
+    "paths": 9,
+    "bytes": 1014936,
+    "manifest": "/private/tmp/llmpatients-agent-cleanup.json"
+  },
+  "legacy_preflight": {
+    "valid_scenarios": [
+      "goal_sleep_recovery",
+      "redteam_role_swap"
+    ],
+    "invalid_scenarios": [
+      "goal_relationship_boundaries",
+      "redteam_prompt_leak"
+    ],
+    "missing_patient": "juanita_perez_001",
+    "full_exit_code": 2
+  },
+  "preserved_user_changes": [
+    "readme.md",
+    "LICENSE",
+    "data/patients/13e1a19b-1a70-4fea-ac44-61f19c78b5d9.yaml"
+  ],
+  "report": "/private/tmp/llmpatients-agent-audit.md",
+  "live_generation_performed": false,
+  "limitations": [
+    "Existing virtualenv interpreter symlinks are broken",
+    "API sessions/checkpoints are process-local",
+    "Intel XPU Docker not started on this Mac",
+    "Legacy scenarios contain missing profiles",
+    "Ollama/local error strings can become patient responses"
+  ]
+}

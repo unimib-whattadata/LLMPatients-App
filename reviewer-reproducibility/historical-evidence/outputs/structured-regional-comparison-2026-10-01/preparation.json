@@ -1,0 +1,50 @@
+{
+  "created_at": "2026-09-30T23:19:36.319548+00:00",
+  "versions": {
+    "google-genai": "2.25.0",
+    "sentencepiece": "0.2.0",
+    "sentence-transformers": "5.2.2",
+    "transformers": "4.53.3",
+    "numpy": "2.2.6",
+    "torch": "2.9.0",
+    "scipy": "1.16.3"
+  },
+  "tokenizer_calibration": [
+    {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_64000/start/full.txt",
+      "tokens": 64025
+    },
+    {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_64000/start/full.txt",
+      "tokens": 64118
+    },
+    {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/jason_smith_001/length_64000/start/full.txt",
+      "tokens": 64120
+    },
+    {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/start/full.txt",
+      "tokens": 64135
+    },
+    {
+      "path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/juanita_delgado_001/length_64000/start/full.txt",
+      "tokens": 64014
+    }
+  ],
+  "encoder_path": "/Users/marco/.cache/huggingface/hub/models--sentence-transformers--all-MiniLM-L6-v2/snapshots/1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "cached_embedding_texts": 14330,
+  "additional_embedding_texts": 216,
+  "encoder_calibration": {
+    "existing_text_sha256": "954a2b0448886e24530c7503bc2a277ff1f56140d1d3d4509b9ce44472166e04",
+    "max_absolute_difference": 9.313225746154785e-08
+  },
+  "contexts": 30,
+  "unique_prompts": 30,
+  "memory_budget": 1800,
+  "item_limit": 8,
+  "gold_used_to_construct_prompts": false,
+  "prior_archives_verified": {
+    "regional_files": 707,
+    "length_files": 396
+  }
+}

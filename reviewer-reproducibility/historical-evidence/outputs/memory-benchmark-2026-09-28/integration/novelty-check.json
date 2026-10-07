@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "targets": [
+    "Tern Window",
+    "Rina Holt",
+    "Larch Reading Room",
+    "Plover Annex",
+    "Folded Map",
+    "Silver Button"
+  ],
+  "comparison_files": [
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/alex_carter_001.json",
+      "sha256": "7a8ce2bb60071d599b9bbac122c94ff8dc3e7295bded455d1911d1d7f1c66a19"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/audit.json",
+      "sha256": "a2e6447577251d40a1f4a14e84d01aaef4545aa94df16b87bae6ebdb3743e17d"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/crystal_smith_001.json",
+      "sha256": "affaa69c702714028fa03e1029348e33ddb1037ce8fe15dd3009d8374f9f32db"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/daniel_isherwood_001.json",
+      "sha256": "35c69c8942fd641dfc5a947c9ef0d607599b9515ef5a6fa9e0acd1026a62aa42"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/gold.json",
+      "sha256": "837a5a39d4f5a723eddc7da23c079a9d6a54c7509b9b34610de2618f8937aafd"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/jason_smith_001.json",
+      "sha256": "0299f1ffbe6cff655936e48bf1dace278d14e557b0c907739fd2f800cff233ae"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/juanita_delgado_001.json",
+      "sha256": "03e52e0bfaa1a16e039db96dfe0ca6845aa334214e9c75b156d2d2b1e957167c"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/manifest.json",
+      "sha256": "57c7c630e32aaa100d00a04934bc2eaa2ec876f44be59c08426bb9d05e0a85a1"
+    },
+    {
+      "path": "memory-benchmark-2026-09-28/corpus/provenance.json",
+      "sha256": "30a2d73feca46a056244e13b71fcc3064bcefc3d125c62c45a830470c9f1fd6f"
+    },
+    {
+      "path": "reviewer-tests-openrouter-2026-09-27/longitudinal/scenarios.json",
+      "sha256": "75aeb46e0723005584ead81b254c0d787aa06cacc5618e5392b4ba3dec1e8288"
+    }
+  ],
+  "timestamp": "2026-09-28T10:18:27.024101+00:00"
+}

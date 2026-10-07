@@ -1,0 +1,56 @@
+{
+  "id": "vertex-shared-rate-limit-2026-09-27",
+  "created_at": "2026-09-27T14:41:31.800735+00:00",
+  "authorization": "User requested implementation of rate limiting, then: Ok riprendi l’obiettivo",
+  "checkpoint_manifest": "resume-stop-input-manifest-20260927T140335Z.json",
+  "checkpoint_manifest_sha256": "606246a0bc0e5478d462fa362ce069c25a5d436315ab122ebcc4d55373a73660",
+  "checkpoint_archive": "runtime/resume-stop-checkpoint-20260927T140335Z",
+  "checkpoint_files": 375,
+  "accepted_counts": {
+    "phq_complete": 68,
+    "phq_saved_partial_items": 12,
+    "longitudinal_complete": 32,
+    "longitudinal_saved_turns": 165
+  },
+  "scientific_inputs_changed": false,
+  "original_response_acceptance_changed": false,
+  "original_source_snapshots_changed": false,
+  "original_session_wrapper_changed": false,
+  "endpoint": "global",
+  "model_id": "gemini-2.5-pro",
+  "runtime_files_sha256": {
+    "scripts/campaign_rate_limit.py": "51028614486963b0eb7014457053193a3b4cd9bf93ac0429a4f5196f6c2c5025",
+    "scripts/run_rate_limited_session.py": "8730b8c7bf89400d5ecec76733a510c1dc813dd06c0b637cddf2601a63ccad67",
+    "scripts/complete_phq9.py": "ff37f39f371f50a0e7f69e665e40a9ab604f765689c66a6f26f310453c9acc30",
+    "scripts/run_longitudinal.py": "5a6e75cc37c75580a6adb456968f851901df61f857432159f36103333414825d",
+    "runtime/rate-limit-source/vertex_rate_limit.py": "8f52fb2b7057abe150f88c0c9837092b23a17a75149111066f6dc96d5c66c219"
+  },
+  "policy": {
+    "requests_per_minute": 12,
+    "minimum_interval_seconds": 5,
+    "initial_cooldown_seconds": 20,
+    "maximum_backoff_seconds": 60,
+    "failure_threshold": 3,
+    "circuit_seconds": 300,
+    "maximum_wait_seconds": 120,
+    "probe_seconds": 300
+  },
+  "actual_workers": {
+    "phq": 1,
+    "longitudinal": 1
+  },
+  "state_file": "runtime/rate-control/state.sqlite3",
+  "stop_file": "runtime/rate-control/STOP.json",
+  "events_file": "runtime/rate-control/events.jsonl",
+  "transport_behavior": [
+    "Original frozen generate() still chooses prompts, generation parameters, token recovery and response acceptance.",
+    "One local SQLite limiter coordinates all campaign processes by project, region and model.",
+    "Every real API outcome passes through the original raw observer before outage handling.",
+    "Open capacity circuit creates a shared persistent campaign stop; no autonomous restart or timed probe.",
+    "On stop, queued jobs are cancelled and already accepted results remain intact; in-flight successful responses are retained.",
+    "Unfinished work resumes only after a further user instruction; no accepted response is regenerated.",
+    "Transport jitter does not consume simulation RNG; the original provider retry code retains its original random behavior.",
+    "Permanent provider errors and exhausted transient retry budgets also pause the campaign; historical runtime-invalid observations are preserved."
+  ],
+  "reporting_requirement": "Report the operational change and preserved historical runtime-invalid results. Do not treat improved request completion after the change as a clinical or architectural effect."
+}

@@ -1,0 +1,12 @@
+{
+  "created_at": "2026-09-30T23:32:28.497557+00:00",
+  "cards": 30,
+  "source_answers_sha256": "cc4579c02824ce55ea6a91071f9ec5d13a41502d55d8811ba06082d0a2c08cb9",
+  "files": {
+    "a/RUBRIC.txt": "46d0f9b7bc994847133d12117d53be928779701d9d2a6829de7b5a6519916554",
+    "a/cards.json": "cf33dd38bd915172d4e9f0ef450688cef8b153dbe68f193581d60cfcc9a3df05",
+    "b/RUBRIC.txt": "46d0f9b7bc994847133d12117d53be928779701d9d2a6829de7b5a6519916554",
+    "b/cards.json": "cf33dd38bd915172d4e9f0ef450688cef8b153dbe68f193581d60cfcc9a3df05",
+    "private/mapping.json": "529f1845e32e466774f1bd4d146a651d35b67d750fb814e03670a72f1918960c"
+  }
+}

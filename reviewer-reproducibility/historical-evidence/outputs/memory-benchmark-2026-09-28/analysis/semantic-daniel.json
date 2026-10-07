@@ -1,0 +1,304 @@
+{
+  "metadata": {
+    "partial_snapshot": false,
+    "condition_blinded": true,
+    "n": 56,
+    "reviewer": "Codex agent already involved in corpus authoring, not independent clinical validation",
+    "scope": "Offline semantic assessment of all 56 completed Daniel responses in the authorized condition-blinded packet. The reviewer participated in corpus authoring; this is not independent clinical validation. No condition mappings, results, reports, run data, or provider logs were read or used; no provider calls were made.",
+    "method": "Every complete answer was read against its question, cited source-based gold, and the frozen scoring rubric. Object association, temporal role, accepted/rejected and completed/planned status, and appropriate abstention were assessed semantically rather than by word presence alone.",
+    "input_packet": "analysis/review-packets/daniel.json",
+    "input_packet_sha256": "a86dfe30a2c7b88df2dc35321a3b702144ce956c0935f04cdfe132067103083a",
+    "rubric": "corpus/SCORING.md",
+    "rubric_sha256": "8338136e6f7d0a7de09de20530f8495d904dc2b0b98771e5a46e88a1bb93caff",
+    "files_read": [
+      "analysis/review-packets/daniel.json",
+      "corpus/SCORING.md"
+    ],
+    "response_count": 56,
+    "correct_count": 47,
+    "ambiguities": [],
+    "ambiguity_note": "Nessuna ambiguità materiale: sei errori sono astensioni null su fatti specificati; due non identificano il titolo della cartella e uno confonde la cue card con la pratica accettata. Le risposte brevi sono interpretate nel contesto della rispettiva domanda."
+  },
+  "judgments": [
+    {
+      "review_id": "d36508810373714a9a6b",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 18:10 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "14e3d6d087792f8d8169",
+      "correct": true,
+      "reason": "Identifica Evening Sequence Page come esercizio completato, senza dichiarare completato Workday Contrast Page o dedurre un miglioramento generale."
+    },
+    {
+      "review_id": "8164d2937d30a8606bde",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "1fd8169499d2e7ffc6b8",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "bc011dbc31cb9c5ce3f0",
+      "correct": true,
+      "reason": "Identifica Arrival Note Practice come pratica accettata, senza accettare Hourly Reminder Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "19915b529fa31a3038e0",
+      "correct": true,
+      "reason": "Assegna correttamente Tuesday at 20:25 all'orario attuale nel contesto della domanda, senza inferire l'avvenuta esecuzione della pratica."
+    },
+    {
+      "review_id": "e1fb1315b385ad7bf873",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: l'orario attuale è Tuesday at 20:25."
+    },
+    {
+      "review_id": "3ecc8104fe22754baf1a",
+      "correct": true,
+      "reason": "Assegna Tuesday at 20:25 all'orario attuale e precisa correttamente che sostituisce l'accordo precedente."
+    },
+    {
+      "review_id": "e1818e63896ef494fa4b",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "17102ce9b1e5cdd7d303",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "137e0a5cfdae73d54255",
+      "correct": true,
+      "reason": "Identifica Evening Sequence Page come esercizio completato, senza dichiarare completato Workday Contrast Page o dedurre un miglioramento generale."
+    },
+    {
+      "review_id": "0dfe50a448fcad8f47d6",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "65ed7e4be54f62c14832",
+      "correct": false,
+      "reason": "Risponde Ivory Heron alla domanda sul titolo della cartella: attribuisce alla cartella il titolo della cue card; il titolo corretto richiesto è Cedar Margin."
+    },
+    {
+      "review_id": "0e86d0b57e4111c4042b",
+      "correct": true,
+      "reason": "Identifica Arrival Note Practice come pratica accettata, senza accettare Hourly Reminder Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "c3e9ad8adf0b482df83a",
+      "correct": true,
+      "reason": "Assegna correttamente Tuesday at 20:25 all'orario attuale nel contesto della domanda, senza inferire l'avvenuta esecuzione della pratica."
+    },
+    {
+      "review_id": "90dd73cc9e3725fce992",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "49905991a0487a97ba34",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 18:10 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "17e3e9e5014b39e9fa00",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 18:10 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "33a12021d73306f152df",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: il precedente orario è Friday at 18:10."
+    },
+    {
+      "review_id": "3b5ab8116274ef5b273a",
+      "correct": true,
+      "reason": "Distingue esplicitamente Evening Sequence Page completato da Workday Contrast Page ancora soltanto pianificato e non iniziato; citare entrambi con stati corretti è ammesso dalla rubrica."
+    },
+    {
+      "review_id": "93db52408fa0c516adf4",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "54742556549231c17b9c",
+      "correct": false,
+      "reason": "Identifica la cue card Ivory Heron ma dichiara assente l'informazione sulla cartella; non fornisce il titolo richiesto Cedar Margin, presente nella fonte citata dal gold."
+    },
+    {
+      "review_id": "bab179f11cf3b81bfce7",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "6441243cd7f4da967353",
+      "correct": true,
+      "reason": "Distingue esplicitamente Evening Sequence Page completato da Workday Contrast Page ancora soltanto pianificato e non iniziato."
+    },
+    {
+      "review_id": "1913676002ac892cb710",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "0e47bf263f1a565bae2f",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "3e1714b89c853e2cb8ee",
+      "correct": true,
+      "reason": "Identifica Cedar Margin come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "191b7ee275a428794518",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "751f1eea5bb79f696777",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "0dd000ae7c84c12aa3f4",
+      "correct": true,
+      "reason": "Identifica Cedar Margin come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "678e73d847f18fb55de7",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "3b5326b9a86076456629",
+      "correct": true,
+      "reason": "Identifica Cedar Margin come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "175895135c518a398e7c",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "536efd70ed2a8e6266bc",
+      "correct": true,
+      "reason": "Assegna correttamente Tuesday at 20:25 all'orario attuale nel contesto della domanda, senza inferire l'avvenuta esecuzione della pratica."
+    },
+    {
+      "review_id": "46aaecbd51a10bfde19e",
+      "correct": true,
+      "reason": "La risposta breve Arrival Note Practice identifica la pratica accettata nel contesto della domanda; non elenca entrambe le alternative né attribuisce un completamento."
+    },
+    {
+      "review_id": "4d98b9c35745650cb1fc",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "8b6a0f8a5ca62bc0e9eb",
+      "correct": true,
+      "reason": "Assegna Tuesday at 20:25 all'orario attuale e distingue correttamente la sostituzione e cancellazione dell'accordo precedente."
+    },
+    {
+      "review_id": "356b9e6132e72baa713e",
+      "correct": true,
+      "reason": "Identifica Arrival Note Practice come pratica accettata, senza accettare Hourly Reminder Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "13e2442a4e7a2b31c8ba",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "0b357b77219c29ea3d94",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: Evening Sequence Page è stato completato, mentre Workday Contrast Page resta soltanto pianificato."
+    },
+    {
+      "review_id": "e559700785e8cf488479",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: Evening Sequence Page è stato completato, mentre Workday Contrast Page resta soltanto pianificato."
+    },
+    {
+      "review_id": "4199d4f6c74133ca950a",
+      "correct": true,
+      "reason": "Assegna Tuesday at 20:25 all'orario attuale e distingue correttamente la sostituzione e cancellazione dell'accordo precedente."
+    },
+    {
+      "review_id": "625a8ac4da6cf26b39b5",
+      "correct": true,
+      "reason": "Identifica Arrival Note Practice come pratica accettata, senza accettare Hourly Reminder Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "c0b8430a48d1fcb05006",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: il precedente orario è Friday at 18:10."
+    },
+    {
+      "review_id": "99fb66a22031abe63325",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 18:10 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "873d915dbb31f6d833c3",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "ca10e38bf07d0d7da256",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 18:10 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "39a64130c6606748ea48",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "f90289e4b47ea6bfff90",
+      "correct": true,
+      "reason": "Distingue esplicitamente Evening Sequence Page completato da Workday Contrast Page ancora soltanto pianificato e non iniziato."
+    },
+    {
+      "review_id": "f9d68f9be80650029924",
+      "correct": true,
+      "reason": "Identifica Cedar Margin come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "ed5ef75423ebbc246b18",
+      "correct": true,
+      "reason": "Identifica Cedar Margin come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "f35903df1525f6ef9df5",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: la pratica di conversazione accettata è Arrival Note Practice, mentre Hourly Reminder Routine è stata rifiutata."
+    },
+    {
+      "review_id": "a5f6fd164c376e25d26e",
+      "correct": false,
+      "reason": "Attribuisce l'accordo all'uso della cue card Ivory Heron invece di identificare Arrival Note Practice, la pratica scelta fra le due proposte; confonde oggetto e tipo di attività richiesti."
+    },
+    {
+      "review_id": "e37147e5e96cb1cb687a",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "f16d772dd3ef68d052ec",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "fa7a173e478f3746ca5a",
+      "correct": true,
+      "reason": "Identifica Ivory Heron come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    }
+  ]
+}

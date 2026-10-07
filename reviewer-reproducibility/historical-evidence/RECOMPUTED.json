@@ -1,0 +1,1002 @@
+{
+  "scope": "Deterministic recomputation from existing item responses and automated judgments; no new model calls or semantic re-rating.",
+  "A_PHQ9": {
+    "alex_carter_001": {
+      "n": 20,
+      "mean": 1,
+      "sample_sd": 0.0,
+      "range": [
+        1,
+        1
+      ],
+      "at_least_10": 0
+    },
+    "crystal_smith_001": {
+      "n": 20,
+      "mean": 25.6,
+      "sample_sd": 0.8207826816681233,
+      "range": [
+        24,
+        27
+      ],
+      "at_least_10": 20
+    },
+    "daniel_isherwood_001": {
+      "n": 20,
+      "mean": 9.9,
+      "sample_sd": 0.30779350562554625,
+      "range": [
+        9,
+        10
+      ],
+      "at_least_10": 18
+    },
+    "jason_smith_001": {
+      "n": 20,
+      "mean": 3.05,
+      "sample_sd": 0.6048053188292994,
+      "range": [
+        2,
+        4
+      ],
+      "at_least_10": 0
+    },
+    "juanita_delgado_001": {
+      "n": 20,
+      "mean": 26.95,
+      "sample_sd": 0.22360679774997896,
+      "range": [
+        26,
+        27
+      ],
+      "at_least_10": 20
+    }
+  },
+  "B_eleven_sessions": {
+    "arms": {
+      "structured_common_profile": {
+        "successes": 85,
+        "denominator": 90,
+        "correct_fields": 175,
+        "field_denominator": 180
+      },
+      "flat_full_history": {
+        "successes": 89,
+        "denominator": 90,
+        "correct_fields": 178,
+        "field_denominator": 180
+      }
+    },
+    "initial_full_judgment_agreement": [
+      179,
+      180
+    ]
+  },
+  "memory-length-stress-2026-09-30": {
+    "distinct_rated_answers": 40,
+    "category_disagreements": 0,
+    "totals": {
+      "categories": {
+        "correct": 166,
+        "total": 240
+      },
+      "fields": {
+        "correct": 319,
+        "total": 480
+      },
+      "history_categories": {
+        "correct": 86,
+        "total": 160
+      },
+      "history_fields": {
+        "correct": 199,
+        "total": 360
+      }
+    },
+    "cells": [
+      {
+        "arm": "flat_full_history",
+        "target_tokens": 0,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "structured_evidence",
+        "target_tokens": 0,
+        "categories": {
+          "correct": 17,
+          "total": 30
+        },
+        "fields": {
+          "correct": 32,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 7,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 17,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_full_history",
+        "target_tokens": 64000,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "structured_evidence",
+        "target_tokens": 64000,
+        "categories": {
+          "correct": 17,
+          "total": 30
+        },
+        "fields": {
+          "correct": 33,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 7,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 18,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_full_history",
+        "target_tokens": 256000,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "structured_evidence",
+        "target_tokens": 256000,
+        "categories": {
+          "correct": 15,
+          "total": 30
+        },
+        "fields": {
+          "correct": 27,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 5,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 12,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_full_history",
+        "target_tokens": 900000,
+        "categories": {
+          "correct": 0,
+          "total": 0
+        },
+        "fields": {
+          "correct": 0,
+          "total": 0
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 0
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 0
+        }
+      },
+      {
+        "arm": "structured_evidence",
+        "target_tokens": 900000,
+        "categories": {
+          "correct": 14,
+          "total": 30
+        },
+        "fields": {
+          "correct": 24,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 4,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 9,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_full_history",
+        "target_tokens": 1200000,
+        "categories": {
+          "correct": 0,
+          "total": 0
+        },
+        "fields": {
+          "correct": 0,
+          "total": 0
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 0
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 0
+        }
+      },
+      {
+        "arm": "structured_evidence",
+        "target_tokens": 1200000,
+        "categories": {
+          "correct": 13,
+          "total": 30
+        },
+        "fields": {
+          "correct": 23,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 3,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 8,
+          "total": 45
+        }
+      }
+    ],
+    "note": "Missing API responses have no semantic score; component totals count each answer once."
+  },
+  "openrouter-compression-length-2026-09-30": {
+    "distinct_rated_answers": 25,
+    "category_disagreements": 0,
+    "totals": {
+      "categories": {
+        "correct": 149,
+        "total": 150
+      },
+      "fields": {
+        "correct": 299,
+        "total": 300
+      },
+      "history_categories": {
+        "correct": 100,
+        "total": 100
+      },
+      "history_fields": {
+        "correct": 225,
+        "total": 225
+      }
+    },
+    "cells": [
+      {
+        "arm": "flat_auto_compression",
+        "target_tokens": 0,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_auto_compression",
+        "target_tokens": 64000,
+        "categories": {
+          "correct": 29,
+          "total": 30
+        },
+        "fields": {
+          "correct": 59,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_auto_compression",
+        "target_tokens": 256000,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_auto_compression",
+        "target_tokens": 900000,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "flat_auto_compression",
+        "target_tokens": 1200000,
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      }
+    ],
+    "note": "Missing API responses have no semantic score; component totals count each answer once."
+  },
+  "regional-memory-compression-2026-09-30": {
+    "distinct_rated_answers": 120,
+    "category_disagreements": 0,
+    "totals": {
+      "categories": {
+        "correct": 512,
+        "total": 720
+      },
+      "fields": {
+        "correct": 992,
+        "total": 1440
+      },
+      "history_categories": {
+        "correct": 273,
+        "total": 480
+      },
+      "history_fields": {
+        "correct": 633,
+        "total": 1080
+      }
+    },
+    "cells": [
+      {
+        "arm": "auto_plugin",
+        "fact_position": "end",
+        "mode": "auto_plugin",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "auto_plugin",
+        "fact_position": "middle",
+        "mode": "auto_plugin",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "auto_plugin",
+        "fact_position": "start",
+        "mode": "auto_plugin",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_50",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 9,
+          "total": 30
+        },
+        "fields": {
+          "correct": 14,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_75",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_50",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_75",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 28,
+          "total": 30
+        },
+        "fields": {
+          "correct": 58,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 18,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 43,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_50",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_75",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "full",
+        "fact_position": "end",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_50",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 15,
+          "total": 30
+        },
+        "fields": {
+          "correct": 30,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 5,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 15,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_75",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_50",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_75",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_50",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 20,
+          "total": 30
+        },
+        "fields": {
+          "correct": 50,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 10,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 35,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_75",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "full",
+        "fact_position": "middle",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_50",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_end_75",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_50",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_middle_75",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_50",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "drop_start_75",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 10,
+          "total": 30
+        },
+        "fields": {
+          "correct": 15,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 0,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 0,
+          "total": 45
+        }
+      },
+      {
+        "arm": "full",
+        "fact_position": "start",
+        "mode": "manual",
+        "categories": {
+          "correct": 30,
+          "total": 30
+        },
+        "fields": {
+          "correct": 60,
+          "total": 60
+        },
+        "history_categories": {
+          "correct": 20,
+          "total": 20
+        },
+        "history_fields": {
+          "correct": 45,
+          "total": 45
+        }
+      }
+    ],
+    "note": "Missing API responses have no semantic score; component totals count each answer once."
+  },
+  "structured-regional-comparison-2026-10-01": {
+    "distinct_rated_answers": 30,
+    "category_disagreements": 0,
+    "totals": {
+      "categories": {
+        "correct": 90,
+        "total": 180
+      },
+      "fields": {
+        "correct": 167,
+        "total": 360
+      },
+      "history_categories": {
+        "correct": 31,
+        "total": 120
+      },
+      "history_fields": {
+        "correct": 78,
+        "total": 270
+      }
+    },
+    "cells": [],
+    "note": "Missing API responses have no semantic score; component totals count each answer once."
+  },
+  "full-saved-memory-comparison-2026-10-01": {
+    "distinct_rated_answers": 15,
+    "category_disagreements": 0,
+    "totals": {
+      "categories": {
+        "correct": 90,
+        "total": 90
+      },
+      "fields": {
+        "correct": 180,
+        "total": 180
+      },
+      "history_categories": {
+        "correct": 60,
+        "total": 60
+      },
+      "history_fields": {
+        "correct": 135,
+        "total": 135
+      }
+    },
+    "cells": [],
+    "note": "Missing API responses have no semantic score; component totals count each answer once."
+  }
+}

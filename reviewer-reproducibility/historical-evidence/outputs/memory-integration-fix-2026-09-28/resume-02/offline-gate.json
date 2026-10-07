@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "tests": 6,
+  "targeted_updated_test_rerun": 1,
+  "new_live_requests": 0,
+  "timestamp": "2026-09-28T18:10:30.616442+00:00",
+  "files": {
+    "resume_integration.py": "c5f540e7a7dfce0695002016ff9e873da8f66f06e7c6a22fe61b9b67b014c822",
+    "test_resume.py": "0b27755282760968f4383ee8625867a1e3be5595799c4a644ad358e2d95f5683",
+    "PROTOCOL.md": "e263b6504be8419539b4f4d7d970601f21b0481d0a5dae2e1c561a043ee6f265",
+    "offline-tests.log": "385b07ddb5a4c416978073843e0297035fe317c5c8dea1f4533d1e6db5ea9dbc",
+    "offline-process-journal-tests.log": "d5d34d2ca0b18e8198508004eb467f5d3208a3d44382b3c15bbcb9cce0d8bcb9"
+  },
+  "checks": "Preserve all26 accepted turns and five finalized sessions; four new replies; fresh session7 restores30; mismatch/STOP/provider/empty-output fail closed; independent process journal race fixed and tested."
+}

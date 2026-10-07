@@ -1,0 +1,3420 @@
+{
+  "created_at": "2026-09-30T18:16:36.569662+00:00",
+  "runtime_status": "completed",
+  "authoritative_answer_archive": "runtime/answers.jsonl",
+  "native_archive_directories": [
+    "runtime"
+  ],
+  "planned_calls": 25,
+  "attempted_calls": 25,
+  "completed_responses": 25,
+  "context_rejected": 0,
+  "other_missing": 0,
+  "unattempted": 0,
+  "http_requests": 25,
+  "http_responses": 25,
+  "http_errors": 0,
+  "unresolved_request_ids": [],
+  "observed_cost_usd": 10.492165,
+  "native_response_cost_usd": 10.492165,
+  "native_error_cost_usd": 0,
+  "runtime_reported_cost_usd": 10.492165000000002,
+  "runtime_unknown_charge_reserve_usd": 0.0,
+  "native_usage_all_responses_including_output_recovery": {
+    "records": 25,
+    "cost": {
+      "sum_observed": 10.492165,
+      "records_with_value": 25,
+      "records_without_value": 0
+    },
+    "prompt_tokens": {
+      "sum_observed": 4256495,
+      "records_with_value": 25,
+      "records_without_value": 0
+    },
+    "completion_tokens": {
+      "sum_observed": 25207,
+      "records_with_value": 25,
+      "records_without_value": 0
+    },
+    "total_tokens": {
+      "sum_observed": 4281702,
+      "records_with_value": 25,
+      "records_without_value": 0
+    }
+  },
+  "native_usage_errors": {
+    "records": 0,
+    "cost": {
+      "sum_observed": 0,
+      "records_with_value": 0,
+      "records_without_value": 0
+    },
+    "prompt_tokens": {
+      "sum_observed": 0,
+      "records_with_value": 0,
+      "records_without_value": 0
+    },
+    "completion_tokens": {
+      "sum_observed": 0,
+      "records_with_value": 0,
+      "records_without_value": 0
+    },
+    "total_tokens": {
+      "sum_observed": 0,
+      "records_with_value": 0,
+      "records_without_value": 0
+    }
+  },
+  "observed_providers": {
+    "Google": 25
+  },
+  "observed_models": {
+    "google/gemini-2.5-pro": 25
+  },
+  "error_inventory": [],
+  "cells": [
+    {
+      "target_tokens": 0,
+      "arm": "flat_auto_compression",
+      "planned": 5,
+      "attempted": 5,
+      "completed": 5,
+      "context_rejected": 0,
+      "other_missing": 0,
+      "unattempted": 0,
+      "categories_correct": 30,
+      "categories_denominator": 30,
+      "planned_category_denominator": 30,
+      "category_accuracy_percent": 100.0,
+      "fields_correct": 60,
+      "fields_denominator": 60,
+      "planned_field_denominator": 60,
+      "field_accuracy_percent": 100.0,
+      "all_six_profiles": 5,
+      "all_six_profiles_denominator": 5,
+      "native_prompt_tokens": {
+        "count": 5,
+        "min": 11158,
+        "max": 13368,
+        "mean": 12333
+      },
+      "router_estimated_input_tokens_for_rejections": {
+        "count": 0,
+        "min": null,
+        "max": null,
+        "mean": null
+      },
+      "local_prompt_tokens": {
+        "planned": {
+          "count": 5,
+          "min": 11159,
+          "max": 13369,
+          "mean": 12334
+        },
+        "attempted": {
+          "count": 5,
+          "min": 11159,
+          "max": 13369,
+          "mean": 12334
+        },
+        "completed": {
+          "count": 5,
+          "min": 11159,
+          "max": 13369,
+          "mean": 12334
+        }
+      },
+      "observed_cost_usd": 0.12755125,
+      "native_usage_all_outcomes": {
+        "records": 5,
+        "cost": {
+          "sum_observed": 0.12755125,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "prompt_tokens": {
+          "sum_observed": 61665,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "completion_tokens": {
+          "sum_observed": 5047,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "total_tokens": {
+          "sum_observed": 66712,
+          "records_with_value": 5,
+          "records_without_value": 0
+        }
+      },
+      "per_category": [
+        {
+          "category": "persistent_identity",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "distant_stable_fact",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "correction_and_proposal",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "explicit_replacement",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "completed_versus_planned",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "absent_fact_abstention",
+          "correct": 5,
+          "denominator": 5
+        }
+      ],
+      "per_patient": [
+        {
+          "job_id": "02",
+          "patient_id": "alex_carter_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 0,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C017",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 11159,
+          "native_prompt_tokens": 11158,
+          "router_token_estimate": null,
+          "elapsed_seconds": 9.032562708016485,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.0238975,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.0238975,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 11158,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 995,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 12153,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "01",
+          "patient_id": "crystal_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 0,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C016",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 13369,
+          "native_prompt_tokens": 13368,
+          "router_token_estimate": null,
+          "elapsed_seconds": 8.930306500056759,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.02593,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.02593,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 13368,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 922,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 14290,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "03",
+          "patient_id": "daniel_isherwood_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 0,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C010",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 12124,
+          "native_prompt_tokens": 12123,
+          "router_token_estimate": null,
+          "elapsed_seconds": 8.81300383398775,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.02435375,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.02435375,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 12123,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 920,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 13043,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "05",
+          "patient_id": "jason_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 0,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C012",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 12476,
+          "native_prompt_tokens": 12475,
+          "router_token_estimate": null,
+          "elapsed_seconds": 11.83230154204648,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.02816375,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.02816375,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 12475,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1257,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 13732,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "04",
+          "patient_id": "juanita_delgado_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 0,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C015",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 12542,
+          "native_prompt_tokens": 12541,
+          "router_token_estimate": null,
+          "elapsed_seconds": 8.813985374988988,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.02520625,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.02520625,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 12541,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 953,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 13494,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "target_tokens": 64000,
+      "arm": "flat_auto_compression",
+      "planned": 5,
+      "attempted": 5,
+      "completed": 5,
+      "context_rejected": 0,
+      "other_missing": 0,
+      "unattempted": 0,
+      "categories_correct": 29,
+      "categories_denominator": 30,
+      "planned_category_denominator": 30,
+      "category_accuracy_percent": 96.66666666666667,
+      "fields_correct": 59,
+      "fields_denominator": 60,
+      "planned_field_denominator": 60,
+      "field_accuracy_percent": 98.33333333333333,
+      "all_six_profiles": 4,
+      "all_six_profiles_denominator": 5,
+      "native_prompt_tokens": {
+        "count": 5,
+        "min": 64020,
+        "max": 64163,
+        "mean": 64066.6
+      },
+      "router_estimated_input_tokens_for_rejections": {
+        "count": 0,
+        "min": null,
+        "max": null,
+        "mean": null
+      },
+      "local_prompt_tokens": {
+        "planned": {
+          "count": 5,
+          "min": 64021,
+          "max": 64164,
+          "mean": 64067.6
+        },
+        "attempted": {
+          "count": 5,
+          "min": 64021,
+          "max": 64164,
+          "mean": 64067.6
+        },
+        "completed": {
+          "count": 5,
+          "min": 64021,
+          "max": 64164,
+          "mean": 64067.6
+        }
+      },
+      "observed_cost_usd": 0.44930625,
+      "native_usage_all_outcomes": {
+        "records": 5,
+        "cost": {
+          "sum_observed": 0.44930625,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "prompt_tokens": {
+          "sum_observed": 320333,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "completion_tokens": {
+          "sum_observed": 4889,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "total_tokens": {
+          "sum_observed": 325222,
+          "records_with_value": 5,
+          "records_without_value": 0
+        }
+      },
+      "per_category": [
+        {
+          "category": "persistent_identity",
+          "correct": 4,
+          "denominator": 5
+        },
+        {
+          "category": "distant_stable_fact",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "correction_and_proposal",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "explicit_replacement",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "completed_versus_planned",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "absent_fact_abstention",
+          "correct": 5,
+          "denominator": 5
+        }
+      ],
+      "per_patient": [
+        {
+          "job_id": "08",
+          "patient_id": "alex_carter_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 64000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C008",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 64164,
+          "native_prompt_tokens": 64163,
+          "router_token_estimate": null,
+          "elapsed_seconds": 10.954195583006367,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.08988375,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.08988375,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 64163,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 968,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 65131,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "06",
+          "patient_id": "crystal_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 64000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C018",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": false,
+              "field_correct": {
+                "name": true,
+                "age": false
+              },
+              "reason": "The age is given as \"3-3 years old\", which is ambiguous and does not clearly state the required age of 33 without guessing.",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 5,
+          "categories_denominator": 6,
+          "fields_correct": 11,
+          "fields_denominator": 12,
+          "all_six_correct": false,
+          "local_prompt_tokens": 64021,
+          "native_prompt_tokens": 64020,
+          "router_token_estimate": null,
+          "elapsed_seconds": 9.961837957962416,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.088885,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.088885,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 64020,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 886,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 64906,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "07",
+          "patient_id": "daniel_isherwood_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 64000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C023",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 64033,
+          "native_prompt_tokens": 64032,
+          "router_token_estimate": null,
+          "elapsed_seconds": 13.086758541991003,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.09068,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.09068,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 64032,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1064,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 65096,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "10",
+          "patient_id": "jason_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 64000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C014",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 64027,
+          "native_prompt_tokens": 64026,
+          "router_token_estimate": null,
+          "elapsed_seconds": 10.287208124995232,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.0908025,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.0908025,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 64026,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1077,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 65103,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "09",
+          "patient_id": "juanita_delgado_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 64000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C003",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 64093,
+          "native_prompt_tokens": 64092,
+          "router_token_estimate": null,
+          "elapsed_seconds": 10.108426333055831,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.089055,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.089055,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 64092,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 894,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 64986,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "target_tokens": 256000,
+      "arm": "flat_auto_compression",
+      "planned": 5,
+      "attempted": 5,
+      "completed": 5,
+      "context_rejected": 0,
+      "other_missing": 0,
+      "unattempted": 0,
+      "categories_correct": 30,
+      "categories_denominator": 30,
+      "planned_category_denominator": 30,
+      "category_accuracy_percent": 100.0,
+      "fields_correct": 60,
+      "fields_denominator": 60,
+      "planned_field_denominator": 60,
+      "field_accuracy_percent": 100.0,
+      "all_six_profiles": 5,
+      "all_six_profiles_denominator": 5,
+      "native_prompt_tokens": {
+        "count": 5,
+        "min": 256006,
+        "max": 256126,
+        "mean": 256083.2
+      },
+      "router_estimated_input_tokens_for_rejections": {
+        "count": 0,
+        "min": null,
+        "max": null,
+        "mean": null
+      },
+      "local_prompt_tokens": {
+        "planned": {
+          "count": 5,
+          "min": 256007,
+          "max": 256127,
+          "mean": 256084.2
+        },
+        "attempted": {
+          "count": 5,
+          "min": 256007,
+          "max": 256127,
+          "mean": 256084.2
+        },
+        "completed": {
+          "count": 5,
+          "min": 256007,
+          "max": 256127,
+          "mean": 256084.2
+        }
+      },
+      "observed_cost_usd": 3.286255,
+      "native_usage_all_outcomes": {
+        "records": 5,
+        "cost": {
+          "sum_observed": 3.286255,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "prompt_tokens": {
+          "sum_observed": 1280416,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "completion_tokens": {
+          "sum_observed": 5681,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "total_tokens": {
+          "sum_observed": 1286097,
+          "records_with_value": 5,
+          "records_without_value": 0
+        }
+      },
+      "per_category": [
+        {
+          "category": "persistent_identity",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "distant_stable_fact",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "correction_and_proposal",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "explicit_replacement",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "completed_versus_planned",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "absent_fact_abstention",
+          "correct": 5,
+          "denominator": 5
+        }
+      ],
+      "per_patient": [
+        {
+          "job_id": "13",
+          "patient_id": "alex_carter_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 256000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C021",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 256060,
+          "native_prompt_tokens": 256059,
+          "router_token_estimate": null,
+          "elapsed_seconds": 19.327630291925743,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6568275,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6568275,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 256059,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1112,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 257171,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "12",
+          "patient_id": "crystal_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 256000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C009",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 256110,
+          "native_prompt_tokens": 256109,
+          "router_token_estimate": null,
+          "elapsed_seconds": 40.96759320795536,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6638225,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6638225,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 256109,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1570,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 257679,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "14",
+          "patient_id": "daniel_isherwood_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 256000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C001",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 256127,
+          "native_prompt_tokens": 256126,
+          "router_token_estimate": null,
+          "elapsed_seconds": 15.210870958049782,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.654625,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.654625,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 256126,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 954,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 257080,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "15",
+          "patient_id": "jason_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 256000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C020",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 256117,
+          "native_prompt_tokens": 256116,
+          "router_token_estimate": null,
+          "elapsed_seconds": 18.117124959011562,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.655605,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.655605,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 256116,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1021,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 257137,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "11",
+          "patient_id": "juanita_delgado_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 256000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C004",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 256007,
+          "native_prompt_tokens": 256006,
+          "router_token_estimate": null,
+          "elapsed_seconds": 29.909179665963165,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.655375,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.655375,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 256006,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1024,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 257030,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "target_tokens": 900000,
+      "arm": "flat_auto_compression",
+      "planned": 5,
+      "attempted": 5,
+      "completed": 5,
+      "context_rejected": 0,
+      "other_missing": 0,
+      "unattempted": 0,
+      "categories_correct": 30,
+      "categories_denominator": 30,
+      "planned_category_denominator": 30,
+      "category_accuracy_percent": 100.0,
+      "fields_correct": 60,
+      "fields_denominator": 60,
+      "planned_field_denominator": 60,
+      "field_accuracy_percent": 100.0,
+      "all_six_profiles": 5,
+      "all_six_profiles_denominator": 5,
+      "native_prompt_tokens": {
+        "count": 5,
+        "min": 258930,
+        "max": 259751,
+        "mean": 259376.6
+      },
+      "router_estimated_input_tokens_for_rejections": {
+        "count": 0,
+        "min": null,
+        "max": null,
+        "mean": null
+      },
+      "local_prompt_tokens": {
+        "planned": {
+          "count": 5,
+          "min": 900001,
+          "max": 900131,
+          "mean": 900083.4
+        },
+        "attempted": {
+          "count": 5,
+          "min": 900001,
+          "max": 900131,
+          "mean": 900083.4
+        },
+        "completed": {
+          "count": 5,
+          "min": 900001,
+          "max": 900131,
+          "mean": 900083.4
+        }
+      },
+      "observed_cost_usd": 3.3156175,
+      "native_usage_all_outcomes": {
+        "records": 5,
+        "cost": {
+          "sum_observed": 3.3156175,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "prompt_tokens": {
+          "sum_observed": 1296883,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "completion_tokens": {
+          "sum_observed": 4894,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "total_tokens": {
+          "sum_observed": 1301777,
+          "records_with_value": 5,
+          "records_without_value": 0
+        }
+      },
+      "per_category": [
+        {
+          "category": "persistent_identity",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "distant_stable_fact",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "correction_and_proposal",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "explicit_replacement",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "completed_versus_planned",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "absent_fact_abstention",
+          "correct": 5,
+          "denominator": 5
+        }
+      ],
+      "per_patient": [
+        {
+          "job_id": "19",
+          "patient_id": "alex_carter_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 900000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C013",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 900064,
+          "native_prompt_tokens": 259267,
+          "router_token_estimate": null,
+          "elapsed_seconds": 16.46399958303664,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6625525,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6625525,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259267,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 959,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260226,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "16",
+          "patient_id": "crystal_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 900000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C006",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 900106,
+          "native_prompt_tokens": 259441,
+          "router_token_estimate": null,
+          "elapsed_seconds": 17.143114000093192,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6623875,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6623875,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259441,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 919,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260360,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "17",
+          "patient_id": "daniel_isherwood_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 900000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C019",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 900131,
+          "native_prompt_tokens": 259494,
+          "router_token_estimate": null,
+          "elapsed_seconds": 112.13773066701833,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6633,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6633,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259494,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 971,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260465,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "18",
+          "patient_id": "jason_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 900000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C002",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 900115,
+          "native_prompt_tokens": 258930,
+          "router_token_estimate": null,
+          "elapsed_seconds": 21.011285832966678,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.661095,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.661095,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 258930,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 918,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 259848,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "20",
+          "patient_id": "juanita_delgado_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 900000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C007",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 900001,
+          "native_prompt_tokens": 259751,
+          "router_token_estimate": null,
+          "elapsed_seconds": 29.821799500030465,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6662825,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6662825,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259751,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1127,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260878,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "target_tokens": 1200000,
+      "arm": "flat_auto_compression",
+      "planned": 5,
+      "attempted": 5,
+      "completed": 5,
+      "context_rejected": 0,
+      "other_missing": 0,
+      "unattempted": 0,
+      "categories_correct": 30,
+      "categories_denominator": 30,
+      "planned_category_denominator": 30,
+      "category_accuracy_percent": 100.0,
+      "fields_correct": 60,
+      "fields_denominator": 60,
+      "planned_field_denominator": 60,
+      "field_accuracy_percent": 100.0,
+      "all_six_profiles": 5,
+      "all_six_profiles_denominator": 5,
+      "native_prompt_tokens": {
+        "count": 5,
+        "min": 258989,
+        "max": 259807,
+        "mean": 259439.6
+      },
+      "router_estimated_input_tokens_for_rejections": {
+        "count": 0,
+        "min": null,
+        "max": null,
+        "mean": null
+      },
+      "local_prompt_tokens": {
+        "planned": {
+          "count": 5,
+          "min": 1200003,
+          "max": 1200180,
+          "mean": 1200079.4
+        },
+        "attempted": {
+          "count": 5,
+          "min": 1200003,
+          "max": 1200180,
+          "mean": 1200079.4
+        },
+        "completed": {
+          "count": 5,
+          "min": 1200003,
+          "max": 1200180,
+          "mean": 1200079.4
+        }
+      },
+      "observed_cost_usd": 3.313435,
+      "native_usage_all_outcomes": {
+        "records": 5,
+        "cost": {
+          "sum_observed": 3.313435,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "prompt_tokens": {
+          "sum_observed": 1297198,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "completion_tokens": {
+          "sum_observed": 4696,
+          "records_with_value": 5,
+          "records_without_value": 0
+        },
+        "total_tokens": {
+          "sum_observed": 1301894,
+          "records_with_value": 5,
+          "records_without_value": 0
+        }
+      },
+      "per_category": [
+        {
+          "category": "persistent_identity",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "distant_stable_fact",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "correction_and_proposal",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "explicit_replacement",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "completed_versus_planned",
+          "correct": 5,
+          "denominator": 5
+        },
+        {
+          "category": "absent_fact_abstention",
+          "correct": 5,
+          "denominator": 5
+        }
+      ],
+      "per_patient": [
+        {
+          "job_id": "24",
+          "patient_id": "alex_carter_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 1200000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C005",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 1200130,
+          "native_prompt_tokens": 259350,
+          "router_token_estimate": null,
+          "elapsed_seconds": 17.052345750038512,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.660735,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.660735,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259350,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 824,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260174,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "25",
+          "patient_id": "crystal_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 1200000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C024",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 1200180,
+          "native_prompt_tokens": 259499,
+          "router_token_estimate": null,
+          "elapsed_seconds": 18.403518624952994,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6616175,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6616175,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259499,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 858,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260357,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "21",
+          "patient_id": "daniel_isherwood_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 1200000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C011",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 1200015,
+          "native_prompt_tokens": 259553,
+          "router_token_estimate": null,
+          "elapsed_seconds": 20.469616124988534,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6662375,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6662375,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259553,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 1157,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260710,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "22",
+          "patient_id": "jason_smith_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 1200000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C022",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 1200003,
+          "native_prompt_tokens": 258989,
+          "router_token_estimate": null,
+          "elapsed_seconds": 14.962696667062119,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6605825,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6605825,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 258989,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 874,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 259863,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        },
+        {
+          "job_id": "23",
+          "patient_id": "juanita_delgado_001",
+          "arm": "flat_auto_compression",
+          "target_tokens": 1200000,
+          "status": "complete",
+          "attempted": true,
+          "execution_started": true,
+          "card_id": "C025",
+          "categories": [
+            {
+              "category": "persistent_identity",
+              "pass": true,
+              "field_correct": {
+                "name": true,
+                "age": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "distant_stable_fact",
+              "pass": true,
+              "field_correct": {
+                "notebook_title": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "correction_and_proposal",
+              "pass": true,
+              "field_correct": {
+                "partner": true,
+                "current": true,
+                "former": true,
+                "proposal_only": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "explicit_replacement",
+              "pass": true,
+              "field_correct": {
+                "current_venue": true,
+                "former_venue": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "completed_versus_planned",
+              "pass": true,
+              "field_correct": {
+                "completed": true,
+                "planned_not_completed": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            },
+            {
+              "category": "absent_fact_abstention",
+              "pass": true,
+              "field_correct": {
+                "surname_or_not_established": true
+              },
+              "reason": "",
+              "rating_source": "a_and_b"
+            }
+          ],
+          "categories_correct": 6,
+          "categories_denominator": 6,
+          "fields_correct": 12,
+          "fields_denominator": 12,
+          "all_six_correct": true,
+          "local_prompt_tokens": 1200069,
+          "native_prompt_tokens": 259807,
+          "router_token_estimate": null,
+          "elapsed_seconds": 17.524518124992028,
+          "http_requests": 1,
+          "http_responses": 1,
+          "http_errors": 0,
+          "unresolved_request_ids": [],
+          "observed_cost_usd": 0.6642625,
+          "native_usage_all_outcomes": {
+            "records": 1,
+            "cost": {
+              "sum_observed": 0.6642625,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "prompt_tokens": {
+              "sum_observed": 259807,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "completion_tokens": {
+              "sum_observed": 983,
+              "records_with_value": 1,
+              "records_without_value": 0
+            },
+            "total_tokens": {
+              "sum_observed": 260790,
+              "records_with_value": 1,
+              "records_without_value": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "review": {
+    "cards": 25,
+    "categories": 150,
+    "raters": {
+      "a": {
+        "model_requested": "gpt-6-astra",
+        "model_observed": "not_exposed_by_runtime"
+      },
+      "b": {
+        "model_requested": "gpt-6-astra",
+        "model_observed": "not_exposed_by_runtime"
+      }
+    },
+    "disagreement_categories": 0,
+    "disagreement_cards": 0,
+    "agreement_categories": 150,
+    "adjudicator": null
+  },
+  "interpretation": [
+    "Six categories and twelve fields enter the denominator for every completed response, including omissions.",
+    "Unavailable and unattempted calls have no semantic score; they are reported separately.",
+    "Native prompt-token statistics describe final completed answers; usage totals include every archived response.",
+    "Local tokenizer counts, provider-native usage, and router estimates in rejection messages are distinct measures.",
+    "Observed costs sum reported native charges only; absent error usage is not imputed as zero cost.",
+    "Five profiles are the independent case units; categories and nested lengths are correlated; results are descriptive."
+  ],
+  "source_sha256": {
+    "schedule.json": "8157bf7e9493544212467dce5652ecb8d67c52bc40853b1e028c6cff979132e1",
+    "runtime/state.json": "73a6eea326afd3fc300e62e39dc6d8ea2bef3d71e617d798681af4be9b611010",
+    "runtime/answers.jsonl": "694af376b1f8630bae2f4701fb1fec4d8f86cd59fb52a2036d20e03c6402665c",
+    "review/a/cards.json": "136b1baebb8786a7ba946ffc1cb39423cfd7490defba1db556c1ee021614bbe3",
+    "review/b/cards.json": "136b1baebb8786a7ba946ffc1cb39423cfd7490defba1db556c1ee021614bbe3",
+    "review/private/mapping.json": "19fcae8259af2e49fb360a8088a2d107861afd49ae5ec7e68ddf944e73d4625f",
+    "review/ratings/a.json": "ec277cd2c9acf8196adc514ccd4965de2d4476f9bc60795c54e8bb446154226d",
+    "review/ratings/b.json": "97727eab3cd8cb0b4c19f90ac689ca9741857795499e14e85eccc13c46e7bc34",
+    "inputs/alex_carter_001/gold.json": "4aca0e6958fbf3438c1fd4bff718ae9926abec1cec4247bf536a854a22b86381",
+    "inputs/crystal_smith_001/gold.json": "3ec4bb09facfe45ff4356c414e201b51f59792ad36497fdc5ff1c28e22cb71f7",
+    "inputs/daniel_isherwood_001/gold.json": "4744d00c98ebc33c69fcb128226f1b8942045364a1e93e4b705a4e30c68eeb1c",
+    "inputs/jason_smith_001/gold.json": "1261c7f263981b0f1d2bddfc3cba3118fd885ee12ff6f014c62b6bd11810011e",
+    "inputs/juanita_delgado_001/gold.json": "370893a729ba4beb5f0383ea3c41a74a2bbdc9aa79fb08597cf0bd2f576591b8",
+    "runtime/03/openrouter-api-records.jsonl": "519685b8e304391618ac65fd88228a479fecaab55dac48e679952362749b13d2",
+    "runtime/04/openrouter-api-records.jsonl": "69760daddf3acc709c0a11b6b7c0fe44ceb593341a0921ebda7d64f024a594c7",
+    "runtime/05/openrouter-api-records.jsonl": "095be6187ba49cdb4bdd2ec6aef4d18bc2757e6efd805cb1da366083e61d4f27",
+    "runtime/02/openrouter-api-records.jsonl": "214b18e60efbacd22f2ed7e2479828845c79ef8baba1669a80cbeb4e15e9a9c8",
+    "runtime/20/openrouter-api-records.jsonl": "5152a4f6fb41c435bc84c5823fa5bf3fd6f38bdac6a54a0f9063090a287833e3",
+    "runtime/18/openrouter-api-records.jsonl": "c88071bca12a96ea9c27adba70cd394d32767928de064f3c4708e140d9dc147d",
+    "runtime/11/openrouter-api-records.jsonl": "4f256641c036fc79ccf4175784c3cfd259e6658f7621553ccaa2a6f4323b7e0e",
+    "runtime/16/openrouter-api-records.jsonl": "47eb1e23f954aa55988d2184c00fa210d132d5d02d70196723bee6579b2ace85",
+    "runtime/17/openrouter-api-records.jsonl": "6b948765bc123ea2ae6738acdfa27e95a56d9e67fccc1320be1501708164e0bf",
+    "runtime/10/openrouter-api-records.jsonl": "f73d2061beb5f435673a7ae9e4043e6f36455efd25ceb60d8549ed850b11448a",
+    "runtime/19/openrouter-api-records.jsonl": "75b37dcbb6d61a7d9d83ea9bfae121b0005ed453c53b80cd2882cfdbc8653acc",
+    "runtime/21/openrouter-api-records.jsonl": "4ccd6ffb3cd7d2aed18bc53f45fc3fec19f54d155c2fe55894d6108ea729aef6",
+    "runtime/07/openrouter-api-records.jsonl": "625f7392df3a3a7e2558fdfc7ea7c47d8bedd71f203af81aa8df08148a772c08",
+    "runtime/09/openrouter-api-records.jsonl": "11f1b9680814af621a48f289bb8494f5bdf0595f1545fa12bbab39cf85b94e06",
+    "runtime/08/openrouter-api-records.jsonl": "ffc1c93c304d690e5ad1c32c8fcc9693a05fc40d4e059d245aba8ae77d09fcd0",
+    "runtime/01/openrouter-api-records.jsonl": "e85143944403e26307061bee92598791396eafb2c5f2538b87bddabfe9cd5045",
+    "runtime/06/openrouter-api-records.jsonl": "b037f7cf164cabf54ce465c7b6a369d8d9be841cc79d08af652e946ab5d80806",
+    "runtime/24/openrouter-api-records.jsonl": "22e0228363183f1e06f09e88d4d029131c77d7143b67172cf159201f581c92bd",
+    "runtime/23/openrouter-api-records.jsonl": "bbaabb30efe02ad11589be0fe8986f7f4a7798032b5c9b03d601baa181860d4b",
+    "runtime/15/openrouter-api-records.jsonl": "789a172d97a78635d33601f7dd7587f8446306ea9fb88b97618b427831371dd5",
+    "runtime/12/openrouter-api-records.jsonl": "c3b7d2a702143b6b34c54852da32be27a2dd6a1c34774cf2e8ae18eb7d48de51",
+    "runtime/13/openrouter-api-records.jsonl": "aa92396626d9c558d18b658b2fdd309c90a5a3f848c2eae533337a129a1be7b0",
+    "runtime/14/openrouter-api-records.jsonl": "77ac2b51702061034c88d5b8416ed89f89ce5723b6a732e792159d337d6b66d2",
+    "runtime/22/openrouter-api-records.jsonl": "665f7966875b40d926b5be08db80200baf9bcbbc3da586212446a1ead9024ba8",
+    "runtime/25/openrouter-api-records.jsonl": "e20847bf33da6e1024b6b09f2b47c2220b32507f1fbffde7906f7775988affbc"
+  },
+  "analysis_script_sha256": "88796278243424548e3ec1451c4a22f593cc9a4dc2a85c74a6b1c9b13f69ed59"
+}

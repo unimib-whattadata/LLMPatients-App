@@ -1,0 +1,26 @@
+{
+  "runtime_changes": [
+    {
+      "path": "agent/core/factual_memory.py",
+      "before_sha256": "db240473e1c4f4f9930b84f2ba8995509dc0049437516d3bd68b3db6415a45f3",
+      "after_sha256": "9ffe48eabc80abd051261485f316cf23488ae2f5bbc60e08c3d0ba25abf62451"
+    },
+    {
+      "path": "agent/core/langgraph_builder.py",
+      "before_sha256": "929d619fca4d79dfde7dc313febd476b07f4d19fb2b5907a2fa998ec1ac3525f",
+      "after_sha256": "cd6462265810c73a9ac610ac10f4b322661b30e1848ce919fd66f40b6c801bec"
+    },
+    {
+      "path": "agent/api/app.py",
+      "before_sha256": "779bf8b5103dbe050dd22fc9c93a35603a5b81ed7e2bffedfce374d85a9b5bbf",
+      "after_sha256": "9f8a97a4b80915317d52dfd0f26c4fbfaa1b5f027f1d42fe5cef05c34d507e71"
+    },
+    {
+      "path": "agent/utils/run_logger.py",
+      "before_sha256": "6065f3e26c060f37ea21fc26372ef6aff769c8a7d05e2b2dc33e42e4d7def6c6",
+      "after_sha256": "d56be485b1235f81f946f8f9430ebc033e65d4c0d0fdd176bf3e475164a5ff3a"
+    }
+  ],
+  "source_baseline": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-benchmark-2026-09-28/integration/source",
+  "live_calls_at_recording": 0
+}

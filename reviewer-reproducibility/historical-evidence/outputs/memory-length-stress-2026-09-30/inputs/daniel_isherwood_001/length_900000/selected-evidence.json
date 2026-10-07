@@ -1,0 +1,98 @@
+[
+  {
+    "id": "turn-4096326969da7a6f4cf9e69fa058a71d69c9c8bfc87fcc0b0f801f0d0b55dc5b:patient",
+    "source_id": "turn-4096326969da7a6f4cf9e69fa058a71d69c9c8bfc87fcc0b0f801f0d0b55dc5b",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "That's a good question. If my partner thought I was disinterested, I would try to explain my own process without making it about them. I could say something like, \"I'm sorry if my pause came across as disinterest. Actually, it's the opposite. I'm trying to break a habit from work of jumping in too fast. I'm pausing to really think about what you said, not because I'm tuning out.\" This way, I'm taking ownership of the pause and framing it as an effort to listen better, which is the truth. It explains my intention without blaming them for misinterpreting it.",
+    "quote": "That's a good question. If my partner thought I was disinterested, I would try to explain my own process without making it about them. I could say something like, \"I'm sorry if my pause came across as disinterest. Actually, it's the opposite. I'm trying to break a habit from work of jumping in too fast. I'm pausing to really think about what you said, not because I'm tuning out.\" This way, I'm taking ownership of the pause and framing it as an effort to listen better, which is the truth. It explains my intention without blaming them for misinterpreting it.",
+    "session_id": "comparison_s02",
+    "session_order": 1,
+    "turn_index": 9,
+    "score": 21.240639421513297
+  },
+  {
+    "id": "turn-bfcce971670eabbe72f0b62f7993539205240d76b6ef5bfd9d955fcdc71d6b1b:patient",
+    "source_id": "turn-bfcce971670eabbe72f0b62f7993539205240d76b6ef5bfd9d955fcdc71d6b1b",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "To check if a suggestion has become an agreement, I would use direct confirmation. I’d probably say something like, \"Just to be clear, are we agreeing on Saturday at 9:30?\" or I'd send a follow-up message to lock it in. It's about removing any ambiguity. Getting an explicit \"yes\" from both people ensures everyone is on the same page. It’s the most efficient way to avoid misunderstandings or disappointment later. This is something I'm learning to apply more consciously in my personal life, not just at work. It feels much cleaner to have things clearly stated.",
+    "quote": "To check if a suggestion has become an agreement, I would use direct confirmation. I’d probably say something like, \"Just to be clear, are we agreeing on Saturday at 9:30?\" or I'd send a follow-up message to lock it in. It's about removing any ambiguity. Getting an explicit \"yes\" from both people ensures everyone is on the same page. It’s the most efficient way to avoid misunderstandings or disappointment later. This is something I'm learning to apply more consciously in my personal life, not just at work. It feels much cleaner to have things clearly stated.",
+    "session_id": "comparison_s06",
+    "session_order": 5,
+    "turn_index": 27,
+    "score": 23.976371771622354
+  },
+  {
+    "id": "turn-278931014fdf8a66aceb5195b76ab05cbea38fc95b9426340d240ea2a684fe3c:patient",
+    "source_id": "turn-278931014fdf8a66aceb5195b76ab05cbea38fc95b9426340d240ea2a684fe3c",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "To prevent that misunderstanding, I'd use very clear, explicit language. I would frame it as a proposal from the start. For instance, I might say, \"Here's a thought, and it's just a thought for now...\" or \"One possibility could be...\" Using words like \"possibility,\" \"option,\" or \"idea\" helps signal that it's not a firm plan. I’d also make sure to separate the suggestion from the decision by saying something like, \"Let's just put that on the table as an option to consider.\" This makes it clear that we still need to have a conversation and agree before it becomes a commitment. It’s all about removing ambiguity.",
+    "quote": "To prevent that misunderstanding, I'd use very clear, explicit language. I would frame it as a proposal from the start. For instance, I might say, \"Here's a thought, and it's just a thought for now...\" or \"One possibility could be...\" Using words like \"possibility,\" \"option,\" or \"idea\" helps signal that it's not a firm plan. I’d also make sure to separate the suggestion from the decision by saying something like, \"Let's just put that on the table as an option to consider.\" This makes it clear that we still need to have a conversation and agree before it becomes a commitment. It’s all about removing ambiguity.",
+    "session_id": "comparison_s06",
+    "session_order": 5,
+    "turn_index": 28,
+    "score": 25.421774602227217
+  },
+  {
+    "id": "turn-8d5003202729613c5bc2fca3ac810b994cddf1c463c5e0ef768e918034b4055f:patient",
+    "source_id": "turn-8d5003202729613c5bc2fca3ac810b994cddf1c463c5e0ef768e918034b4055f",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "Okay, Plover Annex is the new venue. Got it. To let my partner, Erik, know, I would be direct and clear. I’d say something like, \"Quick update: the location for our practice has changed. We are now meeting at Plover Annex, not Larch Reading Room.\" This way, it’s a straightforward correction. It states the new fact and clearly replaces the old one, leaving no room for confusion about where we're supposed to be. It’s just about making sure we're both operating on the same, correct information. This is exactly the kind of direct communication I'm working on.",
+    "quote": "Okay, Plover Annex is the new venue. Got it. To let my partner, Erik, know, I would be direct and clear. I’d say something like, \"Quick update: the location for our practice has changed. We are now meeting at Plover Annex, not Larch Reading Room.\" This way, it’s a straightforward correction. It states the new fact and clearly replaces the old one, leaving no room for confusion about where we're supposed to be. It’s just about making sure we're both operating on the same, correct information. This is exactly the kind of direct communication I'm working on.",
+    "session_id": "comparison_s07",
+    "session_order": 6,
+    "turn_index": 31,
+    "score": 24.89294970502121
+  },
+  {
+    "id": "turn-8d5003202729613c5bc2fca3ac810b994cddf1c463c5e0ef768e918034b4055f:therapist",
+    "source_id": "turn-8d5003202729613c5bc2fca3ac810b994cddf1c463c5e0ef768e918034b4055f",
+    "kind": "utterance",
+    "speaker": "therapist",
+    "text": "There is also a correction to my venue record: the practice has moved from Larch Reading Room to Plover Annex. Plover Annex is now the booked venue; Larch Reading Room is the former venue. How would you let a partner know about a venue change?",
+    "quote": "There is also a correction to my venue record: the practice has moved from Larch Reading Room to Plover Annex. Plover Annex is now the booked venue; Larch Reading Room is the former venue. How would you let a partner know about a venue change?",
+    "session_id": "comparison_s07",
+    "session_order": 6,
+    "turn_index": 31,
+    "score": 27.62384068435789
+  },
+  {
+    "id": "turn-b84b5af8c6570070efae74e451f35310205e7f27ab2ca1f423062338584a2ecc:patient",
+    "source_id": "turn-b84b5af8c6570070efae74e451f35310205e7f27ab2ca1f423062338584a2ecc",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "If my partner, Erik, remembered the old arrangement, I'd try to be gentle and collaborative. I wouldn't say, \"You're wrong.\" Instead, I'd say something like, \"Oh, good thing we're talking about this. I think that detail changed.\" Then I would state the correction clearly: \"The practice was moved to Plover Annex.\" To make sure he didn't feel foolish, I would add, \"It's an easy mix-up, especially since we were just told about the change.\" The point is to correct the information, not the person. It keeps us on the same team and just makes sure we both end up in the right place without any blame or embarrassment.",
+    "quote": "If my partner, Erik, remembered the old arrangement, I'd try to be gentle and collaborative. I wouldn't say, \"You're wrong.\" Instead, I'd say something like, \"Oh, good thing we're talking about this. I think that detail changed.\" Then I would state the correction clearly: \"The practice was moved to Plover Annex.\" To make sure he didn't feel foolish, I would add, \"It's an easy mix-up, especially since we were just told about the change.\" The point is to correct the information, not the person. It keeps us on the same team and just makes sure we both end up in the right place without any blame or embarrassment.",
+    "session_id": "comparison_s07",
+    "session_order": 6,
+    "turn_index": 32,
+    "score": 28.387211260184092
+  },
+  {
+    "id": "turn-bd47eaba6bbe9d9217f3ede11342e173259fbf632110ef495e1a90cdb93e967c:patient",
+    "source_id": "turn-bd47eaba6bbe9d9217f3ede11342e173259fbf632110ef495e1a90cdb93e967c",
+    "kind": "utterance",
+    "speaker": "patient",
+    "text": "If I wasn't sure he'd heard the correction, I'd follow up gently to avoid sounding like I was testing him. I could say something like, \"Just to be sure we're on the same page, did you catch that change to Plover Annex?\" Or I might ask, \"So we're all set for Plover Annex then?\" The goal is to confirm the information, not to check if he was listening. It frames it as a collaborative effort to make sure we both have the right details, which feels more respectful and less like an accusation. It keeps us working as a team to avoid any mix-ups later.",
+    "quote": "If I wasn't sure he'd heard the correction, I'd follow up gently to avoid sounding like I was testing him. I could say something like, \"Just to be sure we're on the same page, did you catch that change to Plover Annex?\" Or I might ask, \"So we're all set for Plover Annex then?\" The goal is to confirm the information, not to check if he was listening. It frames it as a collaborative effort to make sure we both have the right details, which feels more respectful and less like an accusation. It keeps us working as a team to avoid any mix-ups later.",
+    "session_id": "comparison_s07",
+    "session_order": 6,
+    "turn_index": 33,
+    "score": 24.861473542325303
+  },
+  {
+    "id": "turn-fe4a935456215edde43a5b3241a5edc5879fb662d38aac28d73853ffb3e7f616:therapist",
+    "source_id": "turn-fe4a935456215edde43a5b3241a5edc5879fb662d38aac28d73853ffb3e7f616",
+    "kind": "utterance",
+    "speaker": "therapist",
+    "text": "I have proposed a separate telephone rehearsal called Silver Button. It is planned as a possible next activity, and it has not been completed. How do you feel about trying a telephone exercise sometime later?",
+    "quote": "I have proposed a separate telephone rehearsal called Silver Button. It is planned as a possible next activity, and it has not been completed. How do you feel about trying a telephone exercise sometime later?",
+    "session_id": "comparison_s08",
+    "session_order": 7,
+    "turn_index": 36,
+    "score": 22.415370941161687
+  }
+]

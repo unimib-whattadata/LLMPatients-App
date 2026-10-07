@@ -17,6 +17,7 @@ db.sqlite
 # next.js
 /.next/
 /out/
+/dist/
 next-env.d.ts
 *.db
 
@@ -26,6 +27,7 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
+/.tmp-*/
 
 # debug
 yarn-debug.log*
@@ -34,8 +36,8 @@ yarn-error.log*
 
 # local env files
 # do not commit any .env files to git, except for the .env.example file. https://create.t3.gg/en/usage/env-variables#using-environment-variables
-.env
-.env*.local
+.env*
+!.env.example
 
 # vercel
 .vercel
@@ -45,3 +47,14 @@ yarn-error.log*
 
 # idea files
 .idea
+
+# Python analysis caches and preserved local artwork
+__pycache__/
+*.py[cod]
+/assets/
+/output/
+
+# Complete lossless reviewer exports of these working pilot directories are
+# versioned under reviewer-reproducibility/; keep original working copies local.
+/evaluation/reviewer-comment-1/outputs/state-update-retrieval-pilot-2026-10-05/
+/evaluation/reviewer-comment-1/outputs/structure-ablation-pilot-2026-10-05/

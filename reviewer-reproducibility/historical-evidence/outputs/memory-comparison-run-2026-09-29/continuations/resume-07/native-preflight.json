@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "live_requests": 0,
+  "timestamp": "2026-09-30T10:53:29.756021+00:00",
+  "source_sha256": "5306ac9235424313d682754fbaf7c37906e2c8d1a8576d148c21cfe18daba496",
+  "prompt_identical_to_failed_request": true,
+  "prior_turns_preserved": 49,
+  "prior_session_turns_preserved": 4,
+  "accepted_after_fixture": 50,
+  "session_turns_after_fixture": 5,
+  "baseline_closed": true,
+  "structured_memory_calls": 0,
+  "original_runtime_unchanged": true,
+  "fixture_only": true
+}

@@ -1,0 +1,16 @@
+{
+  "run_id": "daniel_isherwood_001__r02__structured_common_profile",
+  "pair_id": "daniel_isherwood_001__r02",
+  "profile_id": "daniel_isherwood_001",
+  "repetition": 2,
+  "arm": "structured_common_profile",
+  "case_path": "profiles/daniel_isherwood_001/case-narrative.txt",
+  "case_sha256": "f841056ed5330909cd2773cce512d0e0dd0bf8ef2106e9284e9d28d00b12ecbc",
+  "scenario_path": "scenarios/daniel_isherwood_001.json",
+  "sessions": 11,
+  "therapist_turns": 55,
+  "native_api_id": "daniel_isherwood_001",
+  "archived_patient_id": "daniel_isherwood_001",
+  "profile_path": "source/data/patients/daniel_isherwood_001.yaml",
+  "source_yaml_sha256": "a0464dd7263b23888bd858f9634670bade4a8ba6e478d10ef8b3bdc8c6c977d4"
+}

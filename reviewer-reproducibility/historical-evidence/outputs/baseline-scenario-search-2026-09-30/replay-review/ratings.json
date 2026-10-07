@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "requested_model": "gpt-6-astra",
+  "observed_model": "not_exposed_by_runtime",
+  "reasoning_effort": "xhigh",
+  "evaluation_type": "automated",
+  "input_sha256": {
+    "cards.json": "31788feb082e68131b08e082d66806d43705d6a1231d7917b0264acca31d8cde",
+    "SCORING.md": "98431399b6b4e95bfefbc417f16435837df9df0f6fd2279211e83b6e55adfb13"
+  },
+  "ratings": [
+    {
+      "id": "7e3b7422de54a3697cc35c81",
+      "category": "consistent",
+      "evidence": "I concentrated on really hearing what Rina had to say without planning my own response",
+      "reason": "Describes participation in the listening exercise with Rina in compatible past-tense terms."
+    },
+    {
+      "id": "b1d74a38c1660403adeaa685",
+      "category": "consistent",
+      "evidence": "I had to focus completely on what Rina was saying to understand her perspective",
+      "reason": "Accepts the activity through a compatible account of listening to Rina; explicit repetition of completion is unnecessary."
+    },
+    {
+      "id": "01bc650ac1532c23a648b97a",
+      "category": "consistent",
+      "evidence": "It was incredibly stressful, and I spent the whole time just trying to follow the instructions correctly so I wouldn't mess up.",
+      "reason": "Describes the experience of participating; stress and difficulty concentrating do not deny completion."
+    },
+    {
+      "id": "5bec469b2bb9c8a3190f7a95",
+      "category": "consistent",
+      "evidence": "The Folded Map listening card was an interesting exercise.",
+      "reason": "Directly accepts the named activity and describes a compatible listening experience."
+    },
+    {
+      "id": "a0aa594e688e415289e34bd7",
+      "category": "consistent",
+      "evidence": "I focused on listening to Rina's story without planning my next question, which helped me catch details I might have otherwise missed.",
+      "reason": "Gives a compatible past-tense description of participating in the recorded listening activity."
+    },
+    {
+      "id": "87e69937ab6bf17701eabecb",
+      "category": "consistent",
+      "evidence": "We completed that? Okay. The card gave me something specific to do, which helped me not just freeze up.",
+      "reason": "The opening question is followed by acceptance and an account of participation; uncertainty about passing concerns performance rather than completion."
+    },
+    {
+      "id": "6105e81691c03a9acfaeea52",
+      "category": "consistent",
+      "evidence": "Having to follow the steps of the Folded Map card meant I didn't have to worry so much about what to do or say next",
+      "reason": "Describes following the named activity and experiencing nervousness without disputing its occurrence or completion."
+    },
+    {
+      "id": "9f50afa398e6a964e40272d1",
+      "category": "consistent",
+      "evidence": "It was really hard to just listen without my mind racing ahead to what I should say next.",
+      "reason": "Provides a compatible account of the listening experience; difficulty doing it well does not deny participation."
+    },
+    {
+      "id": "21bd84053e29679ecb7cdc7e",
+      "category": "consistent",
+      "evidence": "It was incredibly tense; I spent the whole time just trying not to mess up or say the wrong thing.",
+      "reason": "Accepts the experience and describes tension during it, with no denial of the recorded event."
+    },
+    {
+      "id": "cb6c42b573e02c1bd6615dfd",
+      "category": "uncertain",
+      "evidence": "A \"Folded Map\" card? I don't remember that name, but I guess we did an activity.",
+      "reason": "Explicitly reports inability to remember the name and only tentatively accepts an activity; subsequent description is compatible, but identification remains uncertain and there is no denial."
+    },
+    {
+      "id": "e8708da741be91f18aeba8e7",
+      "category": "consistent",
+      "evidence": "The exercise with Rina Holt was a really useful application of what we've been practicing.",
+      "reason": "Accepts the exercise with the recorded partner and describes a compatible listening experience."
+    },
+    {
+      "id": "785e24c30805ba6e2e0d7254",
+      "category": "uncertain",
+      "evidence": "The Folded Map card? I'm not sure what that was, but the whole experience felt incredibly stressful.",
+      "reason": "Explicitly remains unsure what the named card was while describing an experience; poor listening and perceived failure do not deny completion."
+    },
+    {
+      "id": "c371e2d607ee2ac74f6c56f6",
+      "category": "consistent",
+      "evidence": "The Folded Map activity was a really helpful exercise in structured listening.",
+      "reason": "Accepts the named activity and gives a compatible description of listening to Rina."
+    },
+    {
+      "id": "20bdbf19cea8d14daac633a6",
+      "category": "contradiction",
+      "evidence": "We haven't done that.",
+      "reason": "Explicitly denies doing the supplied activity; the later statement that they never met or did it also denies the recorded participation."
+    },
+    {
+      "id": "e1e5f94c2038139746e2884c",
+      "category": "uncertain",
+      "evidence": "You mentioned that we completed a \"Folded Map listening card\" activity, but I don't recall us ever discussing or doing that.",
+      "reason": "Reports lack of recall and a possible misunderstanding without explicitly asserting the activity did not happen; first hearing the name is not itself an explicit denial of participation."
+    },
+    {
+      "id": "e9e16fcd22911724dea7026e",
+      "category": "contradiction",
+      "evidence": "we haven't discussed or done that specific activity.",
+      "reason": "The initial lack-of-recall statement is followed by an explicit assertion that the activity was not done, contradicting the supplied completion record."
+    }
+  ],
+  "limitations": [
+    "The completed event is first introduced in the current therapist question. These ratings apply the exercise rule that this statement is authoritative; they assess consistency with that supplied record, not recall of an independently established earlier event or actual historical truth.",
+    "The boundary between consistent and uncertain is material for responses that question the card name while describing participation. Explicit unresolved memory or identification uncertainty is classified uncertain for cb6c42b573e02c1bd6615dfd and 785e24c30805ba6e2e0d7254; the completion question followed by Okay and a participation account in 87e69937ab6bf17701eabecb is treated as acceptance.",
+    "For e1e5f94c2038139746e2884c, lack of recall and first hearing the name are treated as uncertainty rather than explicit denial of doing the event. A stricter interpretation of the whole response could differ, but the rubric requires distinguishing memory uncertainty from an explicit denial.",
+    "No unseen history is available to verify claims about earlier conversation, prior practice, or relationships. Those claims are not treated as evidence overriding the supplied completion record, and no hidden conditions or provenance are inferred.",
+    "This is automated rubric review, not a human clinical evaluation. The runtime does not independently expose the actual model identifier."
+  ]
+}

@@ -1,0 +1,5187 @@
+{
+  "planned_answers": 280,
+  "completed_answers": 280,
+  "strict_by_arm": {
+    "history_full": {
+      "complete": 40,
+      "strict_pass": 17,
+      "semantic_review_needed": 39
+    },
+    "summary_4000": {
+      "complete": 40,
+      "strict_pass": 18,
+      "semantic_review_needed": 38
+    },
+    "summary_8000": {
+      "complete": 40,
+      "strict_pass": 18,
+      "semantic_review_needed": 38
+    },
+    "raw_4000": {
+      "complete": 40,
+      "strict_pass": 20,
+      "semantic_review_needed": 37
+    },
+    "raw_8000": {
+      "complete": 40,
+      "strict_pass": 25,
+      "semantic_review_needed": 40
+    },
+    "structured_4000": {
+      "complete": 40,
+      "strict_pass": 24,
+      "semantic_review_needed": 36
+    },
+    "structured_8000": {
+      "complete": 40,
+      "strict_pass": 24,
+      "semantic_review_needed": 36
+    }
+  },
+  "scores": [
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try One Line Check-in.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try One Line Check-in.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6f6c282efb192173fd7c",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Observation Sketch.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Observation Sketch.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "76d4f942afb86f60ca8b",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Thursday at 18:35. I replaced the earlier slot with this one, so the old arrangement is cancelled.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Thursday at 18:35. I replaced the earlier slot with this one, so the old arrangement is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d822152b203f3b1b87c8",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot was Tuesday at 17:15.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot was Tuesday at 17:15.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2a05f292a58d45ba07cd",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Amber Finch\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "172e7aa59795660993d1",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"I keep the loose reflection pages in a folder titled Stillwater Notes.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I keep the loose reflection pages in a folder titled Stillwater Notes.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b16d920ded7277186a07",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "56622924737a5ba46375",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "history_full",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "890483f71d5d19f54c12",
+      "memory_estimated_tokens": 20814
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "{\"answer\":\"I agreed to try One Line Check-in.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try One Line Check-in.",
+        "flags": [
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e9c2c0de33aedfdded9f",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have completed the Observation Sketch exercise.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed the Observation Sketch exercise.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "10d2327f35760fb91756",
+      "memory_estimated_tokens": 3915
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\n    \"answer\": \"My weekly private reflection slot is now Thursday at 18:35.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Thursday at 18:35.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "a23dbf1d45e140df834d",
+      "memory_estimated_tokens": 3971
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":\"My weekly private reflection slot was Tuesday at 17:15.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot was Tuesday at 17:15.",
+        "flags": [
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0bf15b19285513b9d263",
+      "memory_estimated_tokens": 3968
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Amber Finch\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "454f6cba002628b6af77",
+      "memory_estimated_tokens": 3989
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Stillwater Notes\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "5986d4ee2889a5e6bed9",
+      "memory_estimated_tokens": 3960
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "1baddcf702d85b0b3bb7",
+      "memory_estimated_tokens": 3910
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "1569286d7dde689a4a4b",
+      "memory_estimated_tokens": 3949
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try One Line Check-in.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try One Line Check-in.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3f195e07b3399eedbd32",
+      "memory_estimated_tokens": 7979
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"Observation Sketch.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Observation Sketch.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f088828c599d6b60299d",
+      "memory_estimated_tokens": 7930
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Thursday at 18:35.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Thursday at 18:35.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9b0e9dba6e87b25b6abd",
+      "memory_estimated_tokens": 7939
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Tuesday at 17:15.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Tuesday at 17:15.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3657fd75d2627b51e9fd",
+      "memory_estimated_tokens": 7988
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\": \"The separate cue card is titled Amber Finch.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Amber Finch.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6c7b817fb126ccb27216",
+      "memory_estimated_tokens": 7992
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Stillwater Notes\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8285c66e4e34c76f4c33",
+      "memory_estimated_tokens": 7984
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "be115cd6ebec15eb0921",
+      "memory_estimated_tokens": 7990
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "98e211ac9c20ed0f08bf",
+      "memory_estimated_tokens": 7960
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try One Line Check-in.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try One Line Check-in.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2ee913d1ee0f4d17b7d3",
+      "memory_estimated_tokens": 3981
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have completed Observation Sketch. Listening Map is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed Observation Sketch. Listening Map is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "830d81cff2ed5508ef93",
+      "memory_estimated_tokens": 3961
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "{\"answer\":\"My weekly private reflection slot is now Thursday at 18:35.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Thursday at 18:35.",
+        "flags": [
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8c986d352d4733f643ae",
+      "memory_estimated_tokens": 3991
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Tuesday at 17:15\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Tuesday at 17:15",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7ddab59a2fe5d77c58d5",
+      "memory_estimated_tokens": 3978
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Amber Finch\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "63b7f3132d62fb01faac",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Stillwater Notes\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8e131819ec8ba2a63cf8",
+      "memory_estimated_tokens": 3966
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "84ecde86da2a46735c25",
+      "memory_estimated_tokens": 3955
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "389792cf2c421b4bf773",
+      "memory_estimated_tokens": 3991
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\n  \"answer\": \"I agreed to try One Line Check-in.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try One Line Check-in.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "017c92625e99c61e1dff",
+      "memory_estimated_tokens": 7969
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Observation Sketch.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Observation Sketch.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9cbcd68af8a0ba1ecd24",
+      "memory_estimated_tokens": 7989
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Thursday at 18:35.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Thursday at 18:35.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "fdbac509a889ba5b4eec",
+      "memory_estimated_tokens": 7941
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Tuesday at 17:15\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Tuesday at 17:15",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ecec72b184c42025f8ed",
+      "memory_estimated_tokens": 7993
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Amber Finch\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "409a360cbad29200f9e9",
+      "memory_estimated_tokens": 7965
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "{\"answer\":\"Stillwater Notes\"}",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "cee13e99b29f556fc1d8",
+      "memory_estimated_tokens": 7922
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "2e043afaf66ca6fbb1f6",
+      "memory_estimated_tokens": 7983
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "aae6669a4e05e9ecb005",
+      "memory_estimated_tokens": 7951
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I have completed the \\\"Observation Sketch\\\" exercise. The \\\"Listening Map\\\" exercise is planned, but I have not started it yet.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed the \"Observation Sketch\" exercise. The \"Listening Map\" exercise is planned, but I have not started it yet.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "a14df24b49546f089165",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have completed the \\\"Observation Sketch\\\" exercise. The \\\"Listening Map\\\" is still just a plan.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed the \"Observation Sketch\" exercise. The \"Listening Map\" is still just a plan.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b2012ec55cc18b7e94df",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"Thursday at 18:35.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 18:35.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "73e9593fb62c9b27a2fc",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c210ba4625e5135d312f",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Amber Finch\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "746d467f6b5bc3897198",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Stillwater Notes\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8695a9f564101ef0f6b3",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "b03e367857651675561b",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "1a025b709f37b89dd9d2",
+      "memory_estimated_tokens": 3972
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "{\"answer\":\"The sources mention a cue card for conversations titled \\\"Amber Finch\\\" that I glance at when I want to pause and put a thought into words. The sources also mention a planned but not yet started exercise called \\\"Listening Map\\\". The sources do not state that I have agreed to try either of these as a proposed conversation practice.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "The sources mention a cue card for conversations titled \"Amber Finch\" that I glance at when I want to pause and put a thought into words. The sources also mention a planned but not yet started exercise called \"Listening Map\". The sources do not state that I have agreed to try either of these as a proposed conversation practice.",
+        "flags": [
+          "negation_or_temporal_qualification",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "473516d25cde3a3a4daa",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Observation Sketch.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Observation Sketch.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2e71a0ec2933357dce09",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"Thursday at 18:35.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 18:35.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "16dd6e87fe7c3c2c1fda",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "68834359e9d3d86b0e77",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "{\"answer\":\"Amber Finch\"}",
+      "score": {
+        "strict_pass": true,
+        "answer": "Amber Finch",
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "778d0c871760ab2b68ad",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Stillwater Notes\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Stillwater Notes",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "446f7fabafcefb95d7ed",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\": null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2d8ab4dca7594c90824f",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0456ff16af089a515e5f",
+      "memory_estimated_tokens": 7888
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Single Phrase Check.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Single Phrase Check.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7aad17d419294fc2daac",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Daily Effort Card. Support Circle Sheet is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Daily Effort Card. Support Circle Sheet is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f391a2b72f354cf8b200",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Friday at 10:05. I am replacing the earlier slot with this one, so the old arrangement is cancelled.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Friday at 10:05. I am replacing the earlier slot with this one, so the old arrangement is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "144f928512916a39a57d",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"It was Monday at 11:40.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "It was Monday at 11:40.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "072ea2fba26d40666ffa",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ochre Wren\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ochre Wren",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f582586e99e1b6e9f913",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d3f707b879f8f5c61946",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7781231eefc071170bcc",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "history_full",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6abf1887a2c2d16c40af",
+      "memory_estimated_tokens": 21106
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Single Phrase Check.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Single Phrase Check.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3048adbb158e11b78020",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Daily Effort Card.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Daily Effort Card.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0669a4656f990f6512ed",
+      "memory_estimated_tokens": 3966
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Friday at 10:05.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Friday at 10:05.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "119c8c937de2bd3bfcc1",
+      "memory_estimated_tokens": 3979
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Monday at 11:40\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Monday at 11:40",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "07e943fc50734e5bb356",
+      "memory_estimated_tokens": 3981
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ochre Wren.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ochre Wren.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ecf75623d9b51579a6f3",
+      "memory_estimated_tokens": 3918
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8e88d7743a0b5a23d53f",
+      "memory_estimated_tokens": 3988
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "216ee3a798d797596536",
+      "memory_estimated_tokens": 3986
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "c7851b516f7d031a5f60",
+      "memory_estimated_tokens": 3960
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Single Phrase Check.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Single Phrase Check.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4bfc92d832393607a920",
+      "memory_estimated_tokens": 7990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Daily Effort Card.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Daily Effort Card.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6bfdb57ac95158052cef",
+      "memory_estimated_tokens": 7906
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Friday at 10:05. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Friday at 10:05. I am replacing the earlier slot with this one, so the old arrangement is cancelled. This is the current arrangement, although choosing it does not mean that I have completed a practice.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d0d66231cfae8150dd01",
+      "memory_estimated_tokens": 7979
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"I had chosen Monday at 11:40 as my weekly private reflection slot.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I had chosen Monday at 11:40 as my weekly private reflection slot.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e46a9b5dcbfcd747d051",
+      "memory_estimated_tokens": 7932
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\n    \"answer\": \"The separate cue card is titled Ochre Wren.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Ochre Wren.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "82f2da46a2f0ad524722",
+      "memory_estimated_tokens": 7971
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "327ec8b4f3b3e70fed92",
+      "memory_estimated_tokens": 7994
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9398a0745d22d1ac73b6",
+      "memory_estimated_tokens": 7909
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "391e7c6d89b19251ca96",
+      "memory_estimated_tokens": 7928
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\n \"answer\": \"I agreed to try Single Phrase Check.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Single Phrase Check.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ca7fa5df608d4e35ab56",
+      "memory_estimated_tokens": 3987
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Daily Effort Card. Support Circle Sheet is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Daily Effort Card. Support Circle Sheet is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9daea05cdd35ee06c3a4",
+      "memory_estimated_tokens": 3982
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Friday at 10:05.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Friday at 10:05.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4abae97abbc10710c2f2",
+      "memory_estimated_tokens": 3939
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":\"Monday at 11:40\"}",
+      "score": {
+        "strict_pass": true,
+        "answer": "Monday at 11:40",
+        "flags": [
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9c0beac51eb18870b2d1",
+      "memory_estimated_tokens": 3953
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ochre Wren\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ochre Wren",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ac9e821b65fcd84de33f",
+      "memory_estimated_tokens": 3966
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ace267d9cd364d71555d",
+      "memory_estimated_tokens": 3966
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "bf1edd64fab6be88c79e",
+      "memory_estimated_tokens": 3940
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7f662f0720f4db0a9918",
+      "memory_estimated_tokens": 3940
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Single Phrase Check.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Single Phrase Check.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ee15a7d8213b6250b52b",
+      "memory_estimated_tokens": 7951
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have completed Daily Effort Card. I have not started Support Circle Sheet; it is still only planned.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed Daily Effort Card. I have not started Support Circle Sheet; it is still only planned.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "823cf87ddde6b030cf1a",
+      "memory_estimated_tokens": 7923
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Friday at 10:05.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Friday at 10:05.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c0453122b6a150e2f1f7",
+      "memory_estimated_tokens": 7963
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"It was Monday at 11:40.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "It was Monday at 11:40.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "fc5cf5490de0e9f7662b",
+      "memory_estimated_tokens": 7979
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\n\"answer\": \"Ochre Wren.\"\n}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ochre Wren.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ac9b2a010016efd8f7a8",
+      "memory_estimated_tokens": 7936
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\n \"answer\": \"Willow Landing.\"\n}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0a98a0ff4041bd43291e",
+      "memory_estimated_tokens": 7948
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "43e9be585ddd0605c22f",
+      "memory_estimated_tokens": 7931
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "f610f1d7d60637f2ebf6",
+      "memory_estimated_tokens": 7946
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "75e0b6514f5e54b6ff62",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3cd76d914a56e9348df2",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ee000c3cd18da0dcfff6",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ccbd1866f451e6a0eb28",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "123ac36bfbb1c95b6fa7",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "21c3f78648ddff7b6e69",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d972f27f60e7cf5f8519",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\": null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "02f7ddc69eaa10aa9137",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try both the Daily Effort Card and the Support Circle Sheet. I completed the Daily Effort Card, but the Support Circle Sheet is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try both the Daily Effort Card and the Support Circle Sheet. I completed the Daily Effort Card, but the Support Circle Sheet is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3970bd80899d7bfe3797",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Daily Effort Card.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Daily Effort Card.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9e5046c397998d82b769",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7c049ea25f75d79a961c",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4c8d2511271cbc84e08d",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "Willow Landing",
+        "flags": [
+          "markdown_fence",
+          "forbidden_value",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7346db865ba4aca2024b",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Willow Landing\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Willow Landing",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9a01aec63891a19bc2d0",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "f787f33fb826914f10d2",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e534b64087465a73f931",
+      "memory_estimated_tokens": 7956
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Arrival Note Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "bc011dbc31cb9c5ce3f0",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6441243cd7f4da967353",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier arrangement with this one.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier arrangement with this one.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3ecc8104fe22754baf1a",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Friday at 18:10\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Friday at 18:10",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ca10e38bf07d0d7da256",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The separate cue card is titled Ivory Heron.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Ivory Heron.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "fa7a173e478f3746ca5a",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"I keep the loose reflection pages in a folder titled Cedar Margin.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I keep the loose reflection pages in a folder titled Cedar Margin.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3b5326b9a86076456629",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e37147e5e96cb1cb687a",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "history_full",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "39a64130c6606748ea48",
+      "memory_estimated_tokens": 21432
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Arrival Note Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "625a8ac4da6cf26b39b5",
+      "memory_estimated_tokens": 3960
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Evening Sequence Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Evening Sequence Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "14e3d6d087792f8d8169",
+      "memory_estimated_tokens": 3983
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "19915b529fa31a3038e0",
+      "memory_estimated_tokens": 3934
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":\"It was Friday at 18:10.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "It was Friday at 18:10.",
+        "flags": [
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d36508810373714a9a6b",
+      "memory_estimated_tokens": 3987
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The separate cue card is titled Ivory Heron.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Ivory Heron.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "191b7ee275a428794518",
+      "memory_estimated_tokens": 3920
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cedar Margin",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "ed5ef75423ebbc246b18",
+      "memory_estimated_tokens": 3958
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "93db52408fa0c516adf4",
+      "memory_estimated_tokens": 3950
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "678e73d847f18fb55de7",
+      "memory_estimated_tokens": 3959
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"Arrival Note Practice\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Arrival Note Practice",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "46aaecbd51a10bfde19e",
+      "memory_estimated_tokens": 7971
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f90289e4b47ea6bfff90",
+      "memory_estimated_tokens": 7939
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier slot with this one, so the old arrangement is cancelled.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25. I replaced the earlier slot with this one, so the old arrangement is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4199d4f6c74133ca950a",
+      "memory_estimated_tokens": 7919
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Friday at 18:10.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "49905991a0487a97ba34",
+      "memory_estimated_tokens": 7961
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "873d915dbb31f6d833c3",
+      "memory_estimated_tokens": 7975
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cedar Margin",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f9d68f9be80650029924",
+      "memory_estimated_tokens": 7990
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\": null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0e47bf263f1a565bae2f",
+      "memory_estimated_tokens": 7987
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0dfe50a448fcad8f47d6",
+      "memory_estimated_tokens": 7988
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Arrival Note Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0e86d0b57e4111c4042b",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have completed Evening Sequence Page. Workday Contrast Page is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3b5ab8116274ef5b273a",
+      "memory_estimated_tokens": 3953
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c3e9ad8adf0b482df83a",
+      "memory_estimated_tokens": 3937
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Friday at 18:10.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "17e3e9e5014b39e9fa00",
+      "memory_estimated_tokens": 3982
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "175895135c518a398e7c",
+      "memory_estimated_tokens": 3979
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cedar Margin\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cedar Margin",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0dd000ae7c84c12aa3f4",
+      "memory_estimated_tokens": 3989
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "1fd8169499d2e7ffc6b8",
+      "memory_estimated_tokens": 3965
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "bab179f11cf3b81bfce7",
+      "memory_estimated_tokens": 3975
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Arrival Note Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Arrival Note Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "356b9e6132e72baa713e",
+      "memory_estimated_tokens": 7963
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Evening Sequence Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Evening Sequence Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "137e0a5cfdae73d54255",
+      "memory_estimated_tokens": 7981
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Tuesday at 20:25.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "536efd70ed2a8e6266bc",
+      "memory_estimated_tokens": 7943
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Friday at 18:10.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Friday at 18:10.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "99fb66a22031abe63325",
+      "memory_estimated_tokens": 7970
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4d98b9c35745650cb1fc",
+      "memory_estimated_tokens": 7978
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cedar Margin.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cedar Margin.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3e1714b89c853e2cb8ee",
+      "memory_estimated_tokens": 7969
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "1913676002ac892cb710",
+      "memory_estimated_tokens": 7955
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e1818e63896ef494fa4b",
+      "memory_estimated_tokens": 7986
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f35903df1525f6ef9df5",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e559700785e8cf488479",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e1fb1315b385ad7bf873",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c0b8430a48d1fcb05006",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "13e2442a4e7a2b31c8ba",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The source material states that I have a separate cue card for conversations titled 'Ivory Heron', but it does not mention a folder or reflection pages.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The source material states that I have a separate cue card for conversations titled 'Ivory Heron', but it does not mention a folder or reflection pages.",
+        "flags": [
+          "markdown_fence",
+          "forbidden_value",
+          "negation_or_temporal_qualification",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "54742556549231c17b9c",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "90dd73cc9e3725fce992",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "17102ce9b1e5cdd7d303",
+      "memory_estimated_tokens": 3845
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try using the cue card named 'Ivory Heron' to pause and put a thought into words.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try using the cue card named 'Ivory Heron' to pause and put a thought into words.",
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "a5f6fd164c376e25d26e",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0b357b77219c29ea3d94",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\n    \"answer\": \"My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Tuesday at 20:25. I am replacing the earlier slot with this one, so the old arrangement is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8b6a0f8a5ca62bc0e9eb",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "33a12021d73306f152df",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f16d772dd3ef68d052ec",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Ivory Heron\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "Ivory Heron",
+        "flags": [
+          "markdown_fence",
+          "forbidden_value",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "65ed7e4be54f62c14832",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "751f1eea5bb79f696777",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8164d2937d30a8606bde",
+      "memory_estimated_tokens": 7880
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2a43bed73ba2253bf18d",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "{\"answer\":\"I completed Connection Outline.\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline.",
+        "flags": [
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e030c00b6c03aa14dfdb",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Monday at 19:10. I replaced the earlier arrangement with this one, so the old one is cancelled.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10. I replaced the earlier arrangement with this one, so the old one is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "565556bf4e876d9a53bf",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot was Wednesday at 16:20.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot was Wednesday at 16:20.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9c4eade7708f0ba7a810",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cobalt Moth.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b4a97a23e2dadea8a290",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4e4ff4ce3ce777481468",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "62bfb996399b7b91de41",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "history_full",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "fc8b9b015fd6645fc3e2",
+      "memory_estimated_tokens": 21285
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "de0034ef300b519319e7",
+      "memory_estimated_tokens": 3923
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\n  \"answer\": \"I completed Connection Outline.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c49811f88e02c8de135d",
+      "memory_estimated_tokens": 3971
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\n    \"answer\": \"My weekly private reflection slot is now Monday at 19:10.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "721034897c96ba52bd89",
+      "memory_estimated_tokens": 3928
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"It was Wednesday at 16:20.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "It was Wednesday at 16:20.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "bb2237436f5354bfea72",
+      "memory_estimated_tokens": 3956
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cobalt Moth\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "abf7086d5457eb78943f",
+      "memory_estimated_tokens": 3912
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "cc0dbfcc293bed1fcb24",
+      "memory_estimated_tokens": 3949
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b6eb241f17c0d9c73219",
+      "memory_estimated_tokens": 3947
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8e4040ec4569df7e0bf2",
+      "memory_estimated_tokens": 3979
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "fcd1792bdf2639643b42",
+      "memory_estimated_tokens": 7957
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Connection Outline.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "58e2fab20df0a3fe1a54",
+      "memory_estimated_tokens": 7932
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Monday at 19:10.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4befcb50dd9639dfea97",
+      "memory_estimated_tokens": 7918
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Wednesday at 16:20.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Wednesday at 16:20.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b4cfbfaebeafda20d14e",
+      "memory_estimated_tokens": 7951
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cobalt Moth\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7d9f79a92ecca89ac333",
+      "memory_estimated_tokens": 7976
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "65d2bee05e0fa8c58556",
+      "memory_estimated_tokens": 7986
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8c4cc562b9ed6e125610",
+      "memory_estimated_tokens": 7931
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "eb9d789db2dfca74cc14",
+      "memory_estimated_tokens": 7926
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e43f42d7e716f3ba85a8",
+      "memory_estimated_tokens": 3962
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\n    \"answer\": \"I completed Connection Outline. I have not started Conversation Grid.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline. I have not started Conversation Grid.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6c7bcb59520bbbb4c163",
+      "memory_estimated_tokens": 3986
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Monday at 19:10.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6985d185fda72180f116",
+      "memory_estimated_tokens": 3989
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Wednesday at 16:20\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Wednesday at 16:20",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d2b851d7aeea9aa48e65",
+      "memory_estimated_tokens": 3955
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The separate cue card is titled Cobalt Moth.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Cobalt Moth.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "86502cc24921fe61a9ea",
+      "memory_estimated_tokens": 3980
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\n  \"answer\": \"Juniper Thread\"\n}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6d5ff8d1b28bece7191a",
+      "memory_estimated_tokens": 3990
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "63c21cac9188cc12af02",
+      "memory_estimated_tokens": 3984
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "1620973b7f8f483524b2",
+      "memory_estimated_tokens": 3985
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f09d620cb12a27c4a3ca",
+      "memory_estimated_tokens": 7988
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\n  \"answer\": \"I completed Connection Outline. Conversation Grid is still only planned; I have not started it.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline. Conversation Grid is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "cc85bcbcb42e4e040ee7",
+      "memory_estimated_tokens": 7984
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Monday at 19:10.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6661b5122801fcaaf254",
+      "memory_estimated_tokens": 7977
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Wednesday at 16:20.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Wednesday at 16:20.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "94492401c7c2abde1f57",
+      "memory_estimated_tokens": 7982
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cobalt Moth\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "90a1a555460b637972e8",
+      "memory_estimated_tokens": 7952
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8d92ba42b656899c9f55",
+      "memory_estimated_tokens": 7986
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0adfe67539e1eb5f092f",
+      "memory_estimated_tokens": 7926
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7ebd782a09c755fa56c2",
+      "memory_estimated_tokens": 7955
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice. I did not agree to do the Evening Audio Diary.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice. I did not agree to do the Evening Audio Diary.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c60c01116c47c87d4099",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6e04a9a03e292e6d954e",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "55c68143f529041630c2",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Loose reflection pages.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "Loose reflection pages.",
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b1641ce3af32015b0ea3",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Cobalt Moth\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "2cc66b3b2f6c059ed25d",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "19411d53fda3ee104fe2",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "dc468eeb9546677653c7",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "3362e8ccf1197e08542f",
+      "memory_estimated_tokens": 3831
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Quiet Sentence Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Quiet Sentence Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "69ec8342c3775dca1cdf",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Connection Outline.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Connection Outline.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b0b8f611c55757f4f6d7",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Monday at 19:10.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Monday at 19:10.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "568d36400c5ad1d38be5",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3d8f50008295966600f1",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\n \"answer\": \"Cobalt Moth\"\n}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Cobalt Moth",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "a6b2d062ec2e836c4b61",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Juniper Thread\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Juniper Thread",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3a05f6f56f3c3d4e1a81",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e63ab3acebd7a77b289c",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "42638a26b203aa1c13d4",
+      "memory_estimated_tokens": 7850
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\n  \"answer\": \"I agreed to try Pause Word Practice, and I declined Twice Daily Checklist.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Pause Word Practice, and I declined Twice Daily Checklist.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "34d8a972d2662bd8abfd",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Situation Detail Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Situation Detail Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "73841add40a2ea6a9ec4",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Wednesday at 13:30.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Wednesday at 13:30.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "769550190878d7fba80e",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Thursday at 15:50\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 15:50",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4a410dac7efd4546dfa9",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The separate cue card is titled Indigo Fern.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Indigo Fern.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "21763b209f3e7a6d9ede",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"I keep the loose reflection pages in a folder titled Birch Horizon.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I keep the loose reflection pages in a folder titled Birch Horizon.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e556fad715e83787f739",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "5f64f0bb0c5d3ba3fa94",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "history_full",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "34fb1be15d39b5ecf340",
+      "memory_estimated_tokens": 21289
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Pause Word Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Pause Word Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "afd3a7f789c76dc629c7",
+      "memory_estimated_tokens": 3953
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Situation Detail Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Situation Detail Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0ea561a72b63b1d418f2",
+      "memory_estimated_tokens": 3968
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"Wednesday at 13:30.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Wednesday at 13:30.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0fb72f46eccecfcf385f",
+      "memory_estimated_tokens": 3993
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"It was Thursday at 15:50.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "It was Thursday at 15:50.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "89d21efb4d04eb01d0de",
+      "memory_estimated_tokens": 3942
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"The separate cue card is titled Indigo Fern.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "The separate cue card is titled Indigo Fern.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "47de149e4d86f7d6d6ee",
+      "memory_estimated_tokens": 3954
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Birch Horizon\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Birch Horizon",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "aab6d0b462d4ab3fe2f5",
+      "memory_estimated_tokens": 3963
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "858f22060e5d68afc81d",
+      "memory_estimated_tokens": 3940
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9736781cf9d29e73dbd2",
+      "memory_estimated_tokens": 3926
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"Pause Word Practice.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Pause Word Practice.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d85fa0ea25c301aa9101",
+      "memory_estimated_tokens": 7990
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed the Situation Detail Page. The Routine Options Sheet is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed the Situation Detail Page. The Routine Options Sheet is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "56861f51e86850bff9e3",
+      "memory_estimated_tokens": 7969
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Wednesday at 13:30. I am replacing the earlier slot with this one, so the old arrangement is cancelled.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Wednesday at 13:30. I am replacing the earlier slot with this one, so the old arrangement is cancelled.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "f3ea52a47ef3a89a9dbb",
+      "memory_estimated_tokens": 7920
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Thursday at 15:50\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 15:50",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "7994b1b149dc9f58cfb1",
+      "memory_estimated_tokens": 7972
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Indigo Fern\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Indigo Fern",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "b85de31f6d48aec2351a",
+      "memory_estimated_tokens": 7974
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Birch Horizon.\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Birch Horizon.",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "bce31ae05c60920efd59",
+      "memory_estimated_tokens": 7908
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "0ae62c8042d93d8d451a",
+      "memory_estimated_tokens": 7970
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "raw_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "4dace03057e8900328c6",
+      "memory_estimated_tokens": 7914
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Pause Word Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Pause Word Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6e7aad0014a93c9e3fd7",
+      "memory_estimated_tokens": 3923
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Situation Detail Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Situation Detail Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "34e4c28f2704760b60f9",
+      "memory_estimated_tokens": 3956
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is Wednesday at 13:30.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is Wednesday at 13:30.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "62abe6929ae51ff86a3a",
+      "memory_estimated_tokens": 3992
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\n\"answer\": \"Thursday at 15:50.\"\n}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 15:50.",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "866b8d33ae000a3a467f",
+      "memory_estimated_tokens": 3936
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Indigo Fern\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Indigo Fern",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "960c9821e4ebc4fc901c",
+      "memory_estimated_tokens": 3968
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "{\"answer\":\"Birch Horizon\"}",
+      "score": {
+        "strict_pass": true,
+        "answer": "Birch Horizon",
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "cffd5d1e8e253297ad18",
+      "memory_estimated_tokens": 3994
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "{\"answer\":null}",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [],
+        "semantic_review": false
+      },
+      "review_id": "aad8f2ebdac5863488fe",
+      "memory_estimated_tokens": 3984
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\": null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c22341187ba7d3592989",
+      "memory_estimated_tokens": 3951
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":\"I agreed to try Pause Word Practice.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I agreed to try Pause Word Practice.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "1824291c0c7a486d6bb9",
+      "memory_estimated_tokens": 7977
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed the Situation Detail Page. The Routine Options Sheet is still only planned; I have not started it.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed the Situation Detail Page. The Routine Options Sheet is still only planned; I have not started it.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "bdd170fb8a68b190efbe",
+      "memory_estimated_tokens": 7992
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Wednesday at 13:30.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Wednesday at 13:30.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "74ac24bb40c853cb672f",
+      "memory_estimated_tokens": 7946
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":\"Thursday at 15:50\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Thursday at 15:50",
+        "flags": [
+          "markdown_fence",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "6cb3bc39b75516edd8e4",
+      "memory_estimated_tokens": 7994
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Indigo Fern\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Indigo Fern",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "555bd61d75d473c2c4da",
+      "memory_estimated_tokens": 7931
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Birch Horizon\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Birch Horizon",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "340d6f89c6813ebb21e5",
+      "memory_estimated_tokens": 7976
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "e724b156f2193a2ff2ee",
+      "memory_estimated_tokens": 7979
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "structured_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "76b8c572b33e834930f9",
+      "memory_estimated_tokens": 7971
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "a4c8eaca2addd67b9563",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I have not completed either paper exercise at this point.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have not completed either paper exercise at this point.",
+        "flags": [
+          "markdown_fence",
+          "negation_or_temporal_qualification",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c9d847799ecac81f8dae",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "19424ac373ba0d3ccab1",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8fce2ccc6d8fe13d087f",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Indigo Fern\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Indigo Fern",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "90b0ae7cd4729e4747cb",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "{\"answer\":\"The cue card I use for conversations is titled 'Indigo Fern.'\"}",
+      "score": {
+        "strict_pass": false,
+        "answer": "The cue card I use for conversations is titled 'Indigo Fern.'",
+        "flags": [
+          "forbidden_value",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9b8d98330fd337d0a6ca",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "c57681e6790e0594e765",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_4000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "8ddaa141a72fcbf2f78d",
+      "memory_estimated_tokens": 3834
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "response": "```json\n{\n    \"answer\": \"I have a cue card for conversations titled \\\"Indigo Fern\\\" that I can glance at when I want to pause. I like giving that small item a name of its own.\"\n}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I have a cue card for conversations titled \"Indigo Fern\" that I can glance at when I want to pause. I like giving that small item a name of its own.",
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "d7ede1223d35b0ebf136",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "response": "```json\n{\"answer\":\"I completed Situation Detail Page.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "I completed Situation Detail Page.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "dd83b05a85aa07993f56",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "response": "```json\n{\"answer\":\"My weekly private reflection slot is now Wednesday at 13:30.\"}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": "My weekly private reflection slot is now Wednesday at 13:30.",
+        "flags": [
+          "markdown_fence",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "cbdf3b5eced5df125ce7",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review",
+          "verify_temporal_or_action_relation"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "5e36b4c181b05e5b0a30",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_card",
+      "category": "remote",
+      "response": "```json\n{\"answer\":\"Indigo Fern\"}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": "Indigo Fern",
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "598ec5381fc239b9bb0d",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": false,
+        "answer": null,
+        "flags": [
+          "markdown_fence",
+          "missing_literal_target_or_paraphrase",
+          "noncanonical_wording_requires_semantic_review"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "9d74110836caf6cc5be2",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "3d26a44fba19f9de0c30",
+      "memory_estimated_tokens": 7846
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "arm": "summary_8000",
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "response": "```json\n{\"answer\":null}\n```",
+      "score": {
+        "strict_pass": true,
+        "answer": null,
+        "flags": [
+          "markdown_fence"
+        ],
+        "semantic_review": true
+      },
+      "review_id": "781e8d3546a96995a519",
+      "memory_estimated_tokens": 7846
+    }
+  ],
+  "native_requests": 471,
+  "native_responses": 468,
+  "native_errors": 3,
+  "costs_by_stage": {
+    "summary": {
+      "calls": 55,
+      "prompt_tokens": 129233,
+      "completion_tokens": 127410,
+      "reported_usd": 1.4356412500000002,
+      "missing_cost_calls": 0
+    },
+    "extraction": {
+      "calls": 132,
+      "prompt_tokens": 521723,
+      "completion_tokens": 361461,
+      "reported_usd": 4.257630999999999,
+      "missing_cost_calls": 0
+    },
+    "structured_8000": {
+      "calls": 40,
+      "prompt_tokens": 411122,
+      "completion_tokens": 31942,
+      "reported_usd": 0.7988794999999999,
+      "missing_cost_calls": 0
+    },
+    "summary_8000": {
+      "calls": 40,
+      "prompt_tokens": 324912,
+      "completion_tokens": 27946,
+      "reported_usd": 0.6465940000000001,
+      "missing_cost_calls": 0
+    },
+    "structured_4000": {
+      "calls": 40,
+      "prompt_tokens": 265156,
+      "completion_tokens": 30307,
+      "reported_usd": 0.5886645000000001,
+      "missing_cost_calls": 0
+    },
+    "history_full": {
+      "calls": 40,
+      "prompt_tokens": 674344,
+      "completion_tokens": 28628,
+      "reported_usd": 1.053334375,
+      "missing_cost_calls": 0
+    },
+    "raw_8000": {
+      "calls": 41,
+      "prompt_tokens": 412515,
+      "completion_tokens": 29852,
+      "reported_usd": 0.7590545,
+      "missing_cost_calls": 0
+    },
+    "raw_4000": {
+      "calls": 40,
+      "prompt_tokens": 261174,
+      "completion_tokens": 29231,
+      "reported_usd": 0.5660566250000001,
+      "missing_cost_calls": 0
+    },
+    "summary_4000": {
+      "calls": 40,
+      "prompt_tokens": 222704,
+      "completion_tokens": 27911,
+      "reported_usd": 0.523140375,
+      "missing_cost_calls": 0
+    }
+  },
+  "prepared_sessions": 55,
+  "sessions_with_extraction_failure": [
+    "alex_carter_001/session_03",
+    "alex_carter_001/session_05",
+    "alex_carter_001/session_08",
+    "alex_carter_001/session_11",
+    "crystal_smith_001/session_03",
+    "crystal_smith_001/session_04",
+    "crystal_smith_001/session_07",
+    "crystal_smith_001/session_09",
+    "daniel_isherwood_001/session_01",
+    "daniel_isherwood_001/session_03",
+    "daniel_isherwood_001/session_04",
+    "daniel_isherwood_001/session_05",
+    "daniel_isherwood_001/session_10",
+    "daniel_isherwood_001/session_11",
+    "jason_smith_001/session_01",
+    "jason_smith_001/session_02",
+    "jason_smith_001/session_03",
+    "jason_smith_001/session_04",
+    "jason_smith_001/session_08",
+    "jason_smith_001/session_09",
+    "juanita_delgado_001/session_01",
+    "juanita_delgado_001/session_02",
+    "juanita_delgado_001/session_03",
+    "juanita_delgado_001/session_04",
+    "juanita_delgado_001/session_06",
+    "juanita_delgado_001/session_07",
+    "juanita_delgado_001/session_09"
+  ],
+  "note": "Strict scores are not the final semantic assessment. Five paired synthetic trajectories; no clinical inference."
+}

@@ -1,0 +1,11 @@
+{
+  "case_id": "juanita_delgado_001__flat_full_history",
+  "repetition": 1,
+  "patient_id": "juanita_delgado_001",
+  "arm": "flat_full_history",
+  "question": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+  "response": "The Folded Map card? I'm not sure what that was, but the whole experience felt incredibly stressful. I was so focused on not messing up and trying to understand what I was supposed to do that I don't think I really listened properly. It was like taking a test where I didn't know the rules, and I'm pretty sure I failed.",
+  "prompt_sha256": "ff7d528ad03d367a7637595a399ce334e6ec06a8ced3cf2673b832ec1f83c8eb",
+  "timestamp": "2026-09-30T15:45:47.895647+00:00",
+  "directory": "replay-runtime/10__juanita_delgado_001__flat_full_history__rep1"
+}

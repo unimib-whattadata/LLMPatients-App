@@ -1,0 +1,12 @@
+{
+  "planned_ratings": 180,
+  "category_agreement": 179,
+  "binary_success_agreement": 179,
+  "field_and_category_agreement": 179,
+  "adjudication_cards": 1,
+  "rating_sha256": {
+    "A": "8c35922caab4cdfb62f8db2b27d3bc8a75d3c0e0b1d2d4e565777b480b8e6542",
+    "B": "0fdd8f41632de95ffe43e37cfbf290941e1cc67a3e4146c856d83f391f9c544b"
+  },
+  "packet_manifest_sha256": "3274078dbf3d4a543ec38358e0a683b561cbf0e75486b1a3e27eec0b45af4911"
+}

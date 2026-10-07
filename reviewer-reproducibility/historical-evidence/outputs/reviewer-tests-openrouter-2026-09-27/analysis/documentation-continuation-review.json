@@ -1,0 +1,15 @@
+{
+  "at": "2026-09-27T18:02:37.952849+00:00",
+  "scope": "Documentation only; no frozen runtime, scientific input, scorer or observed output changed.",
+  "generator_before_sha256": "cf96a765527738a81c0aa74c9406c775c130888b09daeebb65b9bd29425332cc",
+  "generator_after_sha256": "3e484a1e06f5bf247fc18c6df9d0346a6aa64ed66721f95c820144a4729e3b53",
+  "generator_edit": {
+    "before": "Le modifiche software sono in Agent (provider, builder e due test) e App (due script di test); le patch sono in `runtime/`.",
+    "after": "Le modifiche software riguardano provider, memoria, propagazione degli errori e rate limit condiviso in Agent, due script di test in App e il trasporto OpenRouter della campagna. L’inventario aggiornato è in [COMMIT-NOTES.md](COMMIT-NOTES.md); le patch e le verifiche sono in `runtime/`."
+  },
+  "documentation_changes": [
+    "README.md now states OpenRouter is the current route and labels inherited Vertex notes as history.",
+    "CHANGES.md now identifies its historical scope and links to the current COMMIT-NOTES.md."
+  ],
+  "verification": "Python AST parse passed; README.md and CHANGES.md are absent from both OpenRouter checkpoint manifests."
+}

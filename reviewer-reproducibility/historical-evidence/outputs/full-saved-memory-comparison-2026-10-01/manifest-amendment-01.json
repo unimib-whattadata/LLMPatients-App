@@ -1,0 +1,23 @@
+{
+  "frozen_at": "2026-10-01T08:49:36.642228+00:00",
+  "reason": "Recognize native input-byte capacity error; do not repeat001",
+  "inherited_without_retry": [
+    "001"
+  ],
+  "remaining_unique_jobs": 29,
+  "files": {
+    "runner_v2.py": "3cec0c9920da2e4f9e942ca137e946e98f2263d63796c62bcd85d671c82f90db",
+    "analysis/summarize_v2.py": "ddb160ca0318c4ebadb826873b26d5d5460d4c081cbe55c711c70e1ded4a85fb",
+    "analysis/verify_runtime_v2.py": "fb5a1d957e917cdb70cfcb504a3d2a5d7230815423ede9e68cf1c2a248516fca",
+    "AMENDMENT-01.md": "3719713b4a6095869691017279874f91ba1af7518dc9792f3e2da3c4b45a5956",
+    "preflight-v2.json": "109d49d6bb53a0b1aa31e44fb90a6e57a2b5ed94f6259d666303b1adc9a5327b",
+    "audit/capacity-amendment-review.json": "4893a57e4ed978f0c690f48499b99311ac6622b88d1b195d21e57791a5e6e8f0",
+    "runtime/001/events.jsonl": "d2b83516f039c48f61c84167d0bfbfc10eb3160cbe806923a9c667099272fb88",
+    "runtime/001/openrouter-api-records.jsonl.gz": "e66398114ffadc5b9f4161a2fb3fb354652df0a3343aad7708aee7e999717f18",
+    "runtime/001/timeout-retries.jsonl": "7128ea3f5c39f989fb3d3a2bb21b42e3a71cc854140a805b92f9eb18696b096f",
+    "runtime/STOP": "6405ab0b058484a70e8ef5da697e6fb9397f735f1b7d4ba9f9d4c874d5e0f161",
+    "runtime/request-gate.json": "15cd0faf61c4a20fcd3aafe00119e367d5587b3abc254698372751642a03f3dd",
+    "runtime/request-gate.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtime/state.json": "c04efb7c1401d61812c7e84ae5ea135c73050d847e1baa71306b1058d72fe23c"
+  }
+}

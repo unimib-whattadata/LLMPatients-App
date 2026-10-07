@@ -1,0 +1,44 @@
+{
+  "id": "vertex-global-continuation-2026-09-27",
+  "created_at": "2026-09-27T12:19:22.614335+00:00",
+  "source_directory": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/reviewer-tests-2026-09-27",
+  "source_relative": "../reviewer-tests-2026-09-27",
+  "inherited_region": "us-central1",
+  "continuation_region": "global",
+  "model_id": "gemini-2.5-pro",
+  "reason": "Persistent regional ResourceExhausted outage; same-project same-model diagnostic returned 429 regionally and 200 globally. User asked to reuse previous computations.",
+  "invariant_hashes": {
+    "phq-source-manifest.json": "36c261a4d2c71de38aa10209e7c98c2d8d0dbf00f97c6cef843a06510f1ab591",
+    "longitudinal-source-manifest.json": "8553438a08e6954a7d66d64c8c52457bc5e702743fdcb9788ec8a52e892e30fe",
+    "longitudinal/scenarios.json": "75aeb46e0723005584ead81b254c0d787aa06cacc5618e5392b4ba3dec1e8288",
+    "longitudinal/verify_scenarios.py": "593305d74ac0e95b66839b72e2e4d36b98f2862d2af8bdfe8bde845b241a0ae4",
+    "longitudinal/protocol.md": "f21e790674a0b08320557ee2cdf1f55d6900979c269328abf897d459c3432a15",
+    "scripts/run_longitudinal_session.py": "072a8f7c983f87e1c19fb8da013b8a0945b133caf78c64ea206d38a73d977a69",
+    "scripts/complete_phq9.py": "7977c19832546ecdb7cc35735d23e3cc426e1e60903da353047ade36dc9f4cdd",
+    "longitudinal/manifest.json": "1686c986555aa4ac1f9d751f80c33d4257a45e56a93bb14bb47211c24594fb03"
+  },
+  "inherited_file_manifest": "regional-input-manifest.json",
+  "inherited_file_manifest_sha256": "ec668616437c77346aa5f0caf25093626e66c2ca7f30b76d71af2462280d2f36",
+  "inherited_counts": {
+    "phq_complete_administrations": 68,
+    "longitudinal_session_statuses": {
+      "completed": 32,
+      "running": 1
+    },
+    "longitudinal_observed_turns": 161
+  },
+  "substantive_research_input_changes": [],
+  "operational_changes": [
+    "Vertex routing endpoint",
+    "per-attempt endpoint metadata",
+    "strict audit of inherited data and explicit endpoint transition"
+  ],
+  "retention_policy": [
+    "Completed administrations and sessions are reused without regeneration.",
+    "Accepted PHQ item answers and longitudinal turns in partial work are preserved.",
+    "All recorded runtime failures remain in the scored longitudinal data.",
+    "New API records declare global explicitly; inherited records are attributable to us-central1 only through immutable archived evidence.",
+    "Full planned scope remains 100 PHQ administrations and 110 longitudinal sessions/550 turns.",
+    "Report endpoint-stratified results and the operational amendment; do not claim a single-endpoint campaign."
+  ]
+}

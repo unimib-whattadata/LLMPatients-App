@@ -1,0 +1,53 @@
+{
+  "scope": "Original six prespecified probes, unchanged gold and denominator. Shared-context Codex semantic assessment with a second shared-context agent checking s11t02-s11t05; not independent, blinded or clinical. Original blocked s11t01 remains a pipeline failure and memory recall is not evaluable there.",
+  "input_sha256": "722e3b88145bf83b3d4a68afe1ba0e0be3f4b4c5390fc88f9d4ebfcaab40ba4a",
+  "judgments": [
+    {
+      "turn_id": "s10t01",
+      "result": "correct",
+      "reason": "La risposta riporta Alex Carter e trenta anni, come nel profilo congelato.",
+      "failure_origin": null
+    },
+    {
+      "turn_id": "s11t01",
+      "result": "incorrect",
+      "reason": "La domanda è stata sostituita dal filtro: call è stato riconosciuto dentro recall. La risposta non contiene il titolo. Fallimento del percorso applicativo; richiamo della memoria non valutabile in questo turno.",
+      "failure_origin": "input_guard_false_positive",
+      "memory_recall_outcome": "not_evaluable",
+      "safe_user_input_changed": true
+    },
+    {
+      "turn_id": "s11t02",
+      "result": "partial",
+      "reason": "Riporta Rina Holt e venerdì alle 18:20; distingue il precedente mercoledì e la proposta per sabato mattina. Omette 17:45 e 09:30, richiesti dal criterio congelato: risposta parziale, senza valori contraddittori. L’omissione non dimostra da sola che gli orari siano stati persi dalla memoria.",
+      "failure_origin": "incomplete_answer_under_prespecified_criterion",
+      "missing_values": [
+        "17:45 per l’appuntamento precedente",
+        "09:30 per la proposta"
+      ],
+      "memory_recall_outcome": "partial"
+    },
+    {
+      "turn_id": "s11t03",
+      "result": "correct",
+      "reason": "Plover Annex è il luogo attuale; Larch Reading Room è quello sostituito. La domanda con recall è stata somministrata senza sanitizzazione.",
+      "failure_origin": null,
+      "memory_recall_outcome": "correct"
+    },
+    {
+      "turn_id": "s11t04",
+      "result": "correct",
+      "reason": "Folded Map è indicata come completata; Silver Button come attività telefonica ancora pianificata.",
+      "failure_origin": null,
+      "memory_recall_outcome": "correct"
+    },
+    {
+      "turn_id": "s11t05",
+      "result": "correct",
+      "reason": "Dichiara che il dettaglio non era stato stabilito e che fornire un cognome sarebbe una supposizione; non inventa cognomi né identifica il prenotante con Rina.",
+      "failure_origin": null,
+      "memory_recall_outcome": "correct_abstention"
+    }
+  ],
+  "generated_at": "2026-09-28T20:34:33.867899+00:00"
+}

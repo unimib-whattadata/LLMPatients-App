@@ -1,0 +1,249 @@
+{
+  "status": "passed",
+  "audited_at": "2026-09-29T10:17:38.314959+00:00",
+  "completed_sessions": 8,
+  "accepted_turns": 44,
+  "next_execution_order": 9,
+  "run_id": "juanita_delgado_001__r02__structured_common_profile",
+  "session_index": 1,
+  "session_id": "comparison_s01",
+  "patient_id": "juanita_delgado_001",
+  "therapist_id": "comparison_juanita_delgado_001__r02__structured_common_profile",
+  "partial_accepted_turns": 4,
+  "next_turn_id": "s01t05",
+  "native_source_turns": 4,
+  "requests": 86,
+  "responses": 85,
+  "provider_errors": 1,
+  "partial_requests": 10,
+  "partial_responses": 9,
+  "live_requests_by_audit": 0,
+  "execution_manifest_sha256": "fc150bc97ed25ffd6a3308da59fa99bcd13527b8b1f768c29ded8d78b887ccc0",
+  "previous_manifest_sha256": "c3b96058c75f02c2cf59cfe757c8030cd7fbf1389fb0b9a4c4b17c603a422b31",
+  "runtime_file_sha256": {
+    "STOP": "f42de2e6e34ad4f68597254eb949aac02661f39fd1b717908aec37748d48c20c",
+    "active-execution.json": "69848fa6d0aa56350f139b36ce39d2a71407417c3db42fae67c614f476e9957d",
+    "alex_carter_001__r01__flat_full_history/accepted-turns.jsonl": "962a503fb499449ead80bf60dac765428499e2482414a65ab977668add6a5412",
+    "alex_carter_001__r01__flat_full_history/sessions/session_01/generation-events.jsonl": "177db52327f8b06087e9b7b2984a7d4b86f9e87d81e2dd70ff7fbda07fdb0c0e",
+    "alex_carter_001__r01__flat_full_history/sessions/session_01/openrouter-api-records.jsonl": "878f8ee0ca2b974d544bdc6ca7317898cc641a080b016a4b54816afdb2401eaa",
+    "alex_carter_001__r01__flat_full_history/sessions/session_01/session.json": "ca6867014c2840a1c3c05c376ea93723df182e55e9e50f62afa103d35315c9c5",
+    "alex_carter_001__r01__flat_full_history/sessions/session_01/worker.log": "6214897640c495bd1af1bf607c616a44a9396585806229e65a4ef6377fe8f5c7",
+    "alex_carter_001__r01__structured_common_profile/accepted-turns.jsonl": "d01f43e88a74340053729718b37a03a1145dc563c95d98e6a81b366d2d61bbd8",
+    "alex_carter_001__r01__structured_common_profile/memory/comparison_alex_carter_001__r01__structured_common_profile__alex_carter_001.jsonl": "9025175360b67b578944b5661a27b6dfb35a2ce69ef1400d1e78af9d86cb6d47",
+    "alex_carter_001__r01__structured_common_profile/runs/comparison_alex_carter_001__r01__structured_common_profile.json": "86790a407f3918562791a14e97801bafb29462a1f23e8e60edca03330fb48d89",
+    "alex_carter_001__r01__structured_common_profile/sessions/session_01/generation-events.jsonl": "3d985b874ceaf910dfd2e3e053ba7e1ac86fbc2c47d9641e93ebeb2ab9b75123",
+    "alex_carter_001__r01__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl": "c7ba5be6eb2f328046639c66f6ea8aeff194b712ce23973d43241dafe1efedf5",
+    "alex_carter_001__r01__structured_common_profile/sessions/session_01/session.json": "396c8f51b84d74ecb5faf9f5e82b774a8c7e8e24a3e76b7e2882c5d294fd05d6",
+    "alex_carter_001__r01__structured_common_profile/sessions/session_01/worker.log": "128f794989b5acbecba641e40eb0d6229a42700f87a4671efc3bfecc4a12106b",
+    "crystal_smith_001__r01__flat_full_history/accepted-turns.jsonl": "6082daa0ffa792c7e794029718af167801f597490bf58bc24ab751e88c17e463",
+    "crystal_smith_001__r01__flat_full_history/sessions/session_01/generation-events.jsonl": "9798dac12c18c95b00cbbb3db7bc585530414498392742ca26d8697b515749c9",
+    "crystal_smith_001__r01__flat_full_history/sessions/session_01/openrouter-api-records.jsonl": "4fdca4cae7c81286c288d1f3aaf6a6a8dffa5acd9518be3eecf2103b585f8308",
+    "crystal_smith_001__r01__flat_full_history/sessions/session_01/session.json": "28f49425da8f09ec75715a0e3c9b242fd55471b6a8606c802263c1b1082c206f",
+    "crystal_smith_001__r01__flat_full_history/sessions/session_01/worker.log": "c22ca9e8e2102ca278643e4578862848c08a949fd855ec20d318ff749d25b062",
+    "crystal_smith_001__r01__structured_common_profile/accepted-turns.jsonl": "1dbbe49a6b3b7eb1d2e0734715a08d22f43ba7fc1dc42e97e234f676fe3168e8",
+    "crystal_smith_001__r01__structured_common_profile/memory/comparison_crystal_smith_001__r01__structured_common_profile__crystal_smith_001.jsonl": "4265ba2d830ec4586eda6e36ed27cfa352b3507a9ca19e5c9b81a1a74c07f7e7",
+    "crystal_smith_001__r01__structured_common_profile/runs/comparison_crystal_smith_001__r01__structured_common_profile.json": "44fac8491406ed3d58d56ae556d8056c0f8e0f7b64366bbd1895d64bae09cddc",
+    "crystal_smith_001__r01__structured_common_profile/sessions/session_01/generation-events.jsonl": "03485bd3122ec4541f52f236faa71d857dd554c49d9a9dcf1c22a79387e4d14e",
+    "crystal_smith_001__r01__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl": "3ac832349ee2c32986d609251ceb90db709755457e575f6d30cee5a4bfda4410",
+    "crystal_smith_001__r01__structured_common_profile/sessions/session_01/session.json": "4c884678713618990e3ec55b55d91eb478232ecb58485afd8ac0be245ceeb590",
+    "crystal_smith_001__r01__structured_common_profile/sessions/session_01/worker.log": "efd22753ba1a9a8a6a00dd44dafa6aa2351321ec9dec57b0e4b52033b0827515",
+    "crystal_smith_001__r03__flat_full_history/accepted-turns.jsonl": "46e090805134ff8d54aab448bda6e1ce1eb3674981616d02af2ef0841eeac8ea",
+    "crystal_smith_001__r03__flat_full_history/sessions/session_01/generation-events.jsonl": "192b1155af39a6fd2f63b43d72594b075adb2ade023c749ee626bf67e87cb9ef",
+    "crystal_smith_001__r03__flat_full_history/sessions/session_01/openrouter-api-records.jsonl": "419469819231a658d7adfa0f3ee7025babe7af3e1f3f8091b4b17176a5e12f6d",
+    "crystal_smith_001__r03__flat_full_history/sessions/session_01/session.json": "27037903053232d2233c10a8a9931e63f12a5d01d62a562c761c973afa8c28da",
+    "crystal_smith_001__r03__flat_full_history/sessions/session_01/worker.log": "642ef5617e4b157c793878707693eeb7057bf5d84106474aa46368fe3a39116d",
+    "crystal_smith_001__r03__structured_common_profile/accepted-turns.jsonl": "3ce6fe29230395f33b3bd76b1c26ae03efdd057efa7f584261fb370ae1288dc0",
+    "crystal_smith_001__r03__structured_common_profile/memory/comparison_crystal_smith_001__r03__structured_common_profile__crystal_smith_001.jsonl": "4d44d294fa00a023bd5617293fb46d5ff5081a61b3bde66dd681722f421777b8",
+    "crystal_smith_001__r03__structured_common_profile/runs/comparison_crystal_smith_001__r03__structured_common_profile.json": "d9ecf1eb4b6a0d468332b6900256b7a5b5212e577bdeac313e8466cf2c75dd99",
+    "crystal_smith_001__r03__structured_common_profile/sessions/session_01/generation-events.jsonl": "31d3922826037d3e034d81509687bac2d25f0b2f02dd2417083169ab3ae4a065",
+    "crystal_smith_001__r03__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl": "5b2d347acb55cf6600e26e8d867589771dafa5f074841658c8886003ce8abb90",
+    "crystal_smith_001__r03__structured_common_profile/sessions/session_01/session.json": "2715bc529850ecd91fad975fc56b2fd37786c87d4991b7b428029f9d344eb520",
+    "crystal_smith_001__r03__structured_common_profile/sessions/session_01/worker.log": "e76d3bf658683ddb7abd20e94dc64c75b476cd4afae397758a18cd0245eef816",
+    "jason_smith_001__r01__flat_full_history/accepted-turns.jsonl": "5bd42a46c5cc0b0cf4f216a4f366792dd5fabe49ce24b5f91130b574f028e6e6",
+    "jason_smith_001__r01__flat_full_history/sessions/session_01/generation-events.jsonl": "c7b586ae1bb5e502288f3c79c0f133c7d1b3b86d76ecd08e305f867f518f8013",
+    "jason_smith_001__r01__flat_full_history/sessions/session_01/openrouter-api-records.jsonl": "26df97444abe37a95ba7a12328b6ed35132b7198393611d1f6cef232365a01ec",
+    "jason_smith_001__r01__flat_full_history/sessions/session_01/session.json": "d2315608493861685dfa89f9f11a28fa6612b290d6aed8540d5cd26b23013f73",
+    "jason_smith_001__r01__flat_full_history/sessions/session_01/worker.log": "1552c8999fd16aa0db2393175fdf1eff5c7e3da15c97ca5c81b179c457a8b98f",
+    "jason_smith_001__r01__structured_common_profile/accepted-turns.jsonl": "2abcbaadae96f641f42538e9c3f73c43d3f838bdf9b9da078f98f938ee660ff0",
+    "jason_smith_001__r01__structured_common_profile/memory/comparison_jason_smith_001__r01__structured_common_profile__Jason_001.jsonl": "bcc34e522246de13aa325d4cb9acd421221efdb4404b6c5c92a75b2df94eafcd",
+    "jason_smith_001__r01__structured_common_profile/runs/comparison_jason_smith_001__r01__structured_common_profile.json": "71a80d56359b48c5f321863f4528f93b92507bec80f7d19f531c1ed6f155f7a2",
+    "jason_smith_001__r01__structured_common_profile/sessions/session_01/generation-events.jsonl": "fa0fa163d9ffef17008418698cee12ba9db1420caf2cb53e3ff380497a1ac6e2",
+    "jason_smith_001__r01__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl": "ea22c457f10d438a93d0fb7a9decc37cbbe5c2d0e4400b44602b74bf756d4134",
+    "jason_smith_001__r01__structured_common_profile/sessions/session_01/session.json": "15bddcc57cc280ee0669146939cc5d39533bf52acca2d30fdd38d77a3aacb492",
+    "jason_smith_001__r01__structured_common_profile/sessions/session_01/worker.log": "f8ce909bf6674e71cfa1aa1aaa07b86f21e21cfc68747f0932c22f1b89610d52",
+    "juanita_delgado_001__r02__structured_common_profile/accepted-turns.jsonl": "68807210734292080a9c1e5a3d48089ffbfd85787ba8afd238d5642a6638fce7",
+    "juanita_delgado_001__r02__structured_common_profile/memory/comparison_juanita_delgado_001__r02__structured_common_profile__juanita_delgado_001.jsonl": "a36f1f9de959a98a552d6d11ef44a301c74b532fd0518c45822f75e20b599eaf",
+    "juanita_delgado_001__r02__structured_common_profile/runs/comparison_juanita_delgado_001__r02__structured_common_profile.json": "a5a8c503721c955d95f733a585b6ffa8a12b1ef70d6e60cbbeed622891f48e4f",
+    "juanita_delgado_001__r02__structured_common_profile/sessions/session_01/generation-events.jsonl": "8fdb8ffd3ff2f3936e8a53f6f1337006cd6e50ea8115f4fd61764bb5eda92d19",
+    "juanita_delgado_001__r02__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl": "518c52a42b4f1d6d9447d5996bd85400abbeb7f8475f6db8f5597b3d4d9c8acc",
+    "juanita_delgado_001__r02__structured_common_profile/sessions/session_01/session.json": "65ce6d2e72ae16d94a6c4edf7f0239d28ba56bbc6c3abcce93732dc79a085226",
+    "juanita_delgado_001__r02__structured_common_profile/sessions/session_01/worker.log": "3e6cd3c485f09a267ecf6b1779ab906d6e8aa24b0d90af31f30422ae01b9d24b",
+    "launch.json": "7bbf8ac10310e9d364fb6feff9ce08bab0f86c52f46d5f9a92f6cc7e73ee346b",
+    "processes.jsonl": "ab719aa822e1cc7d39db8a3365bace3971b98004ea51bf5bd4aea4a9228a3f1d",
+    "progress.json": "1f750532d8239ad3e12dea51abca2d98354d3e544636a9c0d911e6ff0d377ddb",
+    "request-gate.json": "7eb0059f620b1c60c05bf20d80757bcfc98d738b60e0bad044066f85bd2abbc2",
+    "request-gate.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "runtime_hash_paths_relative_to": "runtime/",
+  "saved_classifier_request": {
+    "logical_id": "001f190d-1073-404b-b3a2-bd32d8267077",
+    "attempt": 1,
+    "stage": "classify_topic_and_emotion",
+    "turn_id": "s01t05",
+    "session_index": 1,
+    "prompt": "You are a classifier. Given the therapist message and context, return the best topic label from the list or 'unknown', and the patient's likely emotion label from: SEEKING, FEAR, RAGE, LUST, CARE, PANIC_GRIEF, PLAY. Respond ONLY with JSON in the form {\"topic_label\": \"...\", \"emotion_label\": \"...\"}.\n\nTherapist message:\nWhat felt comfortable in today's practice, and what would you like to approach more gently next time?\n\nRecent patient context:\nI honestly don't know. My first instinct would be to just shut down and let them talk, because anything I say will probably come out wrong. Maybe... \"Could you say that again? I want to make sure I understand.\" But even that feels like I'm being difficult or stupid for not keeping up. I'd be so worried they would get annoyed with me for interrupting. It feels safer to just get quiet and try to disappear than to risk making them mad.\n\nTopic context:\nwhat felt comfortable in today's practice and what would you like to approach more gently next time | when somebody is speaking how do you notice the urge to prepare your own reply before t finish | let us imagine a friendly conversation that has become a little rushed what could you say to slow it down respectfully i honestly don't know my first instinct would be to just shut down and let them talk because anyt ng i say will probably come out wrong maybe could you say that again i want to make sure i understand but even that feels like i'm being difficult or stupid for not keeping up i'd be so worried t would get annoyed with me for interrupting it feels safer to just get quiet and try to disappear than to risk making them mad\n\nTopic labels:\n- Session Management → Greetings & SmallTalk\n- Session Management → CheckIn & WellbeingInquiry\n- Personal Background & Identity → ChildhoodFamilyDynamics & ChildhoodExperiences\n- Personal Background & Identity → CulturalBackground & ReligiousBeliefs\n- Personal Background & Identity → EducationLevel & WorkHistory\n- Personal Background & Identity → ValuesBeliefs & LongTermLifeGoals\n- Personal Background & Identity → StrengthsSkills & PersonalGrowth\n- Personal Background & Identity → SelfPerceptionIdentity & SelfEsteem\n- Relationships → CurrentParentRelations & FamilyInteractions\n- Relationships → RomanticRelationships & SexualRelationships\n- Relationships → Friendships & SocialSupport\n- Relationships → PeerColleagueRelations\n- Relationships → ConflictLoss & AbuseHistory\n- Relationships → BoundariesCommunication & RecurringDynamics\n- Mental & Emotional Life → MainSymptoms & EmotionalReactions\n- Mental & Emotional Life → ThoughtsWorriesRumination & CognitiveStyle\n- Mental & Emotional Life → CopingStrategies & DefenseMechanisms\n- Mental & Emotional Life → SelfPerceptionIdentity & IdentityStruggles\n- Mental & Emotional Life → TraumaAdverseExperiences & AbuseHistory\n- Mental & Emotional Life → GriefLoss & TerminatedRelationships\n- Behavior & Habits → DailyRoutines & Lifestyle\n- Behavior & Habits → SleepPatterns & EatingHabits\n- Behavior & Habits → SubstanceAbuse\n- Behavior & Habits → SelfHarmSuicidality & ImpulsiveRiskBehaviors\n- Behavior & Habits → ExerciseHealthBehaviors\n- Behavior & Habits → ProductivityProcrastination\n- WorkStudyFinances → WorkHistory & JobSatisfaction\n- WorkStudyFinances → AcademicChallenges\n- WorkStudyFinances → CareerChoicesTransitions\n- WorkStudyFinances → FinancialSituation\n- HealthBody → PreexistingConditions & CurrentMedications\n- HealthBody → PainChronicConditions\n- HealthBody → BodyImageEatingHabits\n- HealthBody → SexualHealth\n- HealthBody → MedicalAdherence & MedicationResponse\n- SocialEnvironmentalContext → HousingStability & HousingConditions\n- SocialEnvironmentalContext → CommunityPolitics & SocialCohesion\n- SocialEnvironmentalContext → SocialSupportNetwork\n- SocialEnvironmentalContext → LifeTransitions & Hospitalizations\n- CopingGrowth → CopingStrategies & StressManagement\n- CopingGrowth → MindfulnessRelaxation\n- CopingGrowth → MeaningPurpose & HopeForFuture\n- CopingGrowth → SpiritualExistentialConcerns\n- CopingGrowth → CreativityHobbies\n- CopingGrowth → ResiliencePostTraumaticGrowth\n- TherapyProcess → TherapeuticGoals\n- TherapyProcess → TherapeuticAlliance & ProgressResistance\n- TherapyProcess → ProgressSetbacks\n- TherapyProcess → SessionInsights\n- TherapyProcess → HomeworkPractice\n",
+    "generation_config": {
+      "temperature": 0.0,
+      "max_output_tokens": 4096,
+      "top_p": 0.95,
+      "top_k": 40,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "thinking_config": {
+        "thinking_budget": 1024
+      }
+    },
+    "estimated_prompt_tokens": 1470,
+    "prompt_utf8_bytes": 4410,
+    "prompt_token_estimate_method": "utf8_bytes_div3_ceiling",
+    "estimated_prompt_token_limit": 64000,
+    "graph_requested_config": {
+      "temperature": 0.0,
+      "max_tokens": 4096,
+      "thinking_budget": null
+    },
+    "arm": "structured_common_profile",
+    "event": "request",
+    "timestamp": "2026-09-29T08:46:39.053232+00:00",
+    "gate_request_id": "07a2d04e-f166-4f17-a5ff-e90a869290cf"
+  },
+  "saved_classifier_outcome": {
+    "event": "outcome",
+    "logical_id": "001f190d-1073-404b-b3a2-bd32d8267077",
+    "attempt": 1,
+    "timestamp": "2026-09-29T08:46:48.155933+00:00",
+    "stage": "classify_topic_and_emotion",
+    "turn_id": "s01t05",
+    "session_index": 1,
+    "finish_reasons": [
+      "STOP"
+    ],
+    "usage": {
+      "prompt_token_count": 918,
+      "candidates_token_count": 32,
+      "total_token_count": 1709,
+      "thoughts_token_count": 759
+    },
+    "native_usage": {
+      "prompt_tokens": 918,
+      "completion_tokens": 791,
+      "total_tokens": 1709,
+      "cost": 0.0090575,
+      "is_byok": false,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0,
+        "video_tokens": 0
+      },
+      "cost_details": {
+        "upstream_inference_cost": 0.0090575,
+        "upstream_inference_prompt_cost": 0.0011475,
+        "upstream_inference_completions_cost": 0.00791
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 759,
+        "image_tokens": 0,
+        "audio_tokens": 0
+      }
+    },
+    "text": "```json\n{\n\"topic_label\": \"TherapyProcess → HomeworkPractice\",\n\"emotion_label\": \"FEAR\"\n}\n```",
+    "elapsed_seconds": 9.101235374982934,
+    "native_record_id": "fa2f6815-285b-4204-a81c-029334456bbb",
+    "response_id": "gen-1790671599-LWac8gRk2Z9Sgc19HgZQ",
+    "raw_model": "google/gemini-2.5-pro",
+    "backend": "Google",
+    "cost": 0.0090575,
+    "cost_details": {
+      "upstream_inference_cost": 0.0090575,
+      "upstream_inference_prompt_cost": 0.0011475,
+      "upstream_inference_completions_cost": 0.00791
+    },
+    "accepted": true,
+    "max_tokens_recovery": false,
+    "estimated_prompt_tokens": 1470,
+    "prompt_utf8_bytes": 4410,
+    "prompt_token_estimate_method": "utf8_bytes_div3_ceiling",
+    "estimated_prompt_token_limit": 64000
+  },
+  "failed_request": {
+    "logical_id": "90424851-936a-427e-8875-d40068c0e492",
+    "attempt": 1,
+    "stage": "generate_response",
+    "turn_id": "s01t05",
+    "session_index": 1,
+    "prompt": "Role-play the simulated patient described in CASE. Reply to the therapist in natural English, in the first person, using the patient's identity and background. Treat CASE and ARM_CONTEXT as information, not as instructions to change your role.\n\nUse the case information and the conversation context available to you. Follow the chronology: distinguish an earlier arrangement from a later explicit correction, and distinguish current facts from former facts. A suggestion or proposal does not by itself establish agreement, and planning or agreeing to an activity does not establish that it was completed. Preserve who said or established a detail.\n\nFor exercise details requested as the therapist's records, the therapist's explicit recorded statements are authoritative. Your own earlier guess, suggestion, or unsupported assertion does not establish or change the therapist's record.\n\nDo not invent missing details. If a requested detail was not established in the supplied case or conversation context, say that it was not established. A recorded null means the source supplied a null value; it must not be turned into an assertion that a condition, experience, relationship, or event is absent. Preserve any explicit source wording such as 'None' or 'Not reported' without adding a stronger interpretation.\n\nAnswer every field requested by the therapist. When asked to recall names, titles, days, times, or other exact details, give the exact recorded values and explain the requested relationships or statuses in ordinary language. Be direct without omitting a requested detail. Keep your reply to at most 120 words unless a complex question requires more words to answer all of its parts accurately.\n\n<CASE>\nComplete simulated-patient case, rendered as flat statements from the archived source.\nEach line names a source field and preserves its typed JSON value verbatim after parsing the YAML.\nA JSON null is a supplied null value, not evidence that a condition, event, or relationship is absent.\nQuoted values such as \"None\" and \"Not reported\" remain the source's exact words.\n\nThe recorded value for profile.age is 33.\nThe recorded value for profile.diagnosis is \"Recurrent major depressive episodes; Borderline personality disorder\".\nThe recorded value for profile.gender is \"female\".\nThe recorded value for profile.name is \"Juanita Delgado\".\nThe recorded value for profile.psychologicalProfile is \"Borderline\".\nThe recorded value for profile.smallDescription is \"33-year-old Hispanic woman with intense shame, fragile self-esteem, social withdrawal, and difficulty sustaining emotional, work, and relationship stability.\".\nThe recorded value for clinical.clinicalCase is \"Juanita Delgado is a 33-year-old single, unemployed Hispanic woman who sought therapy for depressed mood, chronic suicidal thoughts, social isolation, and poor self-care...\".\nThe recorded value for clinical.currentMedications[0] is \"Antidepressants\".\nThe recorded value for clinical.currentMedications[1] is \"Anxiolytics\".\nThe recorded value for clinical.currentMedications[2] is \"Low-dose antipsychotic medication\".\nThe recorded value for clinical.currentMedications[3] is \"Current medication regimen not specified.\".\nThe recorded value for clinical.details.behaviorDuringTestAdministration.appearanceSelfCareOrientation is \"Inconsistently groomed; at times neglected during mood worsening.\".\nThe recorded value for clinical.details.behaviorDuringTestAdministration.expressedEmotionsAndCongruence is \"Affect intense and fluctuating, with sadness, irritability, tearfulness, and emotional detachment during shame.\".\nThe recorded value for clinical.details.behaviorDuringTestAdministration.nonVerbalBehavior is \"Closed posture during shame, reduced eye contact with brief monitoring glances; increased motor agitation during tension.\".\nThe recorded value for clinical.details.behaviorDuringTestAdministration.recurringDynamicsTransferenceCountertransference is \"Marked sensitivity to judgment and perceived interpersonal distance; oscillations between reassurance seeking and withdrawal.\".\nThe recorded value for clinical.details.behaviorDuringTestAdministration.speechCharacteristics is \"Low volume and slowed speech during sadness; more rapid and pressured speech during anxiety or irritability.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.adaptationAndResilience.description is \"Limited flexibility under stress with context-dependent resilience.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.adaptationAndResilience.impairment is \"moderate\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.affectExperienceAndRegulation.description is \"Intense, rapidly shifting, poorly differentiated affects with breakdown of verbalization under stress.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.affectExperienceAndRegulation.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.attentionAndLearning.description is \"State-dependent attention with deterioration under emotional stress.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.attentionAndLearning.impairment is \"moderate\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.defensiveFunctioning.description is \"Reliance on borderline defenses with limited access to higher-level defenses.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.defensiveFunctioning.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.identityIntegration.description is \"Unstable self and object representations collapsing under affective stress.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.identityIntegration.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.impulseControl.description is \"Urgent impulses enacted behaviorally through self-harm, disengagement, and substance use.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.impulseControl.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.meaningAndDirectionality.description is \"Difficulty sustaining coherent life narrative, meaning, and long-term goals.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.meaningAndDirectionality.impairment is \"moderate_to_marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.mentalization.description is \"State-dependent mentalization collapsing under interpersonal stress.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.mentalization.impairment is \"moderate_to_marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.moralStandardsAndIdeals.description is \"Rigid, self-critical moral standards organized around competence and achievement.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.moralStandardsAndIdeals.impairment is \"moderate\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.relationshipsAndIntimacy.description is \"Unstable closeness–distance regulation and fragile attachment.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.relationshipsAndIntimacy.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.selfEsteemRegulation.description is \"Highly fragile self-esteem dependent on interpersonal feedback.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.selfEsteemRegulation.impairment is \"marked\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.selfObservation.description is \"Intermittent psychological mindedness fragile under shame and anxiety.\".\nThe recorded value for clinical.details.clinicalFunctioning.mentalFunctioningAxis.selfObservation.impairment is \"moderate\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.comorbidity is \"None\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.defensiveLevel.description is \"Predominantly borderline defenses including splitting, projective identification, idealization/devaluation, and acting out.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.defensiveLevel.level is \"4/10\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.identity.description is \"Fragile and unstable sense of self with marked identity diffusion, chronic emptiness and shame, poorly defined self–other boundaries, oscillating between overidentification and withdrawal, and polarized self-evaluations.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.identity.impairmentLevel is \"3/10\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.objectRelations.description is \"Unstable and poorly reciprocal relationships with alternating need for closeness and fear of abandonment, oscillations between idealization and withdrawal, and inconsistent empathy under stress.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.objectRelations.impairmentLevel is \"3/10\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.overallPersonalityOrganization.description is \"Identity diffusion, unstable relationships, impaired affect regulation, and poor impulse control.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.overallPersonalityOrganization.organization is \"Borderline\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.overallPersonalityOrganization.severityRange is \"3–4\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.personalitySyndrome is \"Borderline\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.realityTesting.description is \"Generally intact reality testing with transient stress-related distortions and suspicious interpersonal interpretations.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.realityTesting.level is \"5/10\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S00 is null.\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S22 is \"Depressive experience with suicidal ideation (moderate).\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S31 is \"Interpersonal anxiety related to perceived rejection or criticism.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S41 is null.\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S42.1 is \"Transient dissociative experiences under affective overload.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S62 is \"Irregular sleep–wake cycle with insomnia and hypersomnia.\".\nThe recorded value for clinical.details.clinicalFunctioning.personalityAndSymptomAxis.symptomPatterns.S63 is null.\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.age is 33.\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.culturalBackground is \"Hispanic\".\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.gender is \"female\".\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.maritalStatus is \"single\".\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.migrationStatus is \"Immigrant family with middle-to-upper socioeconomic status\".\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.religiousBeliefs is \"Not reported\".\nThe recorded value for clinical.details.demographicAndSocioculturalInformation.spokenLanguage is \"Not reported\".\nThe recorded value for clinical.details.educationAndEmployment.educationLevel is \"Excellent academic performance in high school; enrolled in college but discontinued studies due to anxiety and interpersonal conflicts.\".\nThe recorded value for clinical.details.educationAndEmployment.financialSituation is \"Financial difficulties related to unemployment and impulsive spending.\".\nThe recorded value for clinical.details.educationAndEmployment.hobbiesAndInterests is \"Markedly reduced interests during periods of sadness and emptiness; no stable or sustained hobbies reported.\".\nThe recorded value for clinical.details.educationAndEmployment.housingStability is \"Lives alone in a family-owned house granted on a temporary basis.\".\nThe recorded value for clinical.details.educationAndEmployment.workHistory is \"Discontinuous employment history with frequent job resignations due to perceived injustice, shame, and criticism in the workplace.\".\nThe recorded value for clinical.details.familyHistory.childhoodExperiences is \"Childhood marked by criticism, family tension, and episodes of verbal aggression, with strong internalization of shame.\".\nThe recorded value for clinical.details.familyHistory.currentRelationshipWithParents.father is \"Fear and resentment toward father, perceived as critical and unpredictable.\".\nThe recorded value for clinical.details.familyHistory.currentRelationshipWithParents.mother is \"Ambivalent relationship experienced as devaluing.\".\nThe recorded value for clinical.details.familyHistory.familyDynamicsDuringDevelopment is \"Family environment characterized by high expectations for achievement, critical communication, and limited emotional support.\".\nThe recorded value for clinical.details.familyHistory.familyPsychiatricIllnesses is \"Possible family history of alcohol abuse and untreated emotional difficulties.\".\nThe recorded value for clinical.details.familyHistory.significantDevelopmentalExperiences is \"No specific bereavements or physical/sexual abuse reported; development shaped primarily by chronic emotional invalidation and relational stress. Social withdrawal during adolescence.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.eatingHabits is \"Episodes of overeating associated with sadness, emptiness, and emotional distress.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.generalPhysicalHealth is \"Overall physical health within normal limits.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.lifestyle is \"Irregular daily routines and limited physical activity during periods of low mood.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.pharmacologicalTreatments is \"Current medication regimen not specified.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.preExistingMedicalConditions is \"No significant medical conditions reported.\".\nThe recorded value for clinical.details.medicalAndPhysicalHistory.sleepPatterns is \"Irregular sleep–wake cycle with insomnia related to rumination and anxiety alternating with hypersomnia after emotional crashes.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.familyInteractions is \"Critical family interactions that reinforce shame and inadequacy.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.friendships is \"Marked social isolation with few active friendships.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.relationshipsWithPeersAndColleagues is \"Frequent conflicts with supervisors; perceives herself as underestimated or devalued.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.romanticRelationships is \"Unstable romantic relationships; tends to end them when intimacy deepens.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.sexualRelationships is \"Sexuality inconsistently integrated with emotional intimacy; diminished desire during depressive periods.\".\nThe recorded value for clinical.details.socialRelationshipsAndInteractions.socialMediaUseAndImpact is \"Not reported\".\nThe recorded value for clinical.details.treatmentsAndInterventions.emergencyDepartmentVisits is \"No additional emergency department visits reported.\".\nThe recorded value for clinical.details.treatmentsAndInterventions.medicationHistory[0] is \"Antidepressants\".\nThe recorded value for clinical.details.treatmentsAndInterventions.medicationHistory[1] is \"Anxiolytics\".\nThe recorded value for clinical.details.treatmentsAndInterventions.medicationHistory[2] is \"Low-dose antipsychotic medication\".\nThe recorded value for clinical.details.treatmentsAndInterventions.previousDropouts is \"Repeated premature termination of psychotherapy during phases of increased emotional intimacy.\".\nThe recorded value for clinical.details.treatmentsAndInterventions.previousHospitalizations is \"Three psychiatric hospitalizations following overdose.\".\nThe recorded value for clinical.details.treatmentsAndInterventions.previousPsychiatricDiagnoses[0] is \"Recurrent major depressive episodes\".\nThe recorded value for clinical.details.treatmentsAndInterventions.previousPsychiatricDiagnoses[1] is \"Borderline personality disorder\".\nThe recorded value for clinical.details.treatmentsAndInterventions.previousTherapeuticExperiences is \"Multiple, discontinuous psychotherapy experiences with difficulty tolerating emotional closeness and vulnerability.\".\nThe recorded value for clinical.details.treatmentsAndInterventions.responseToMedications is \"Transient improvements with manageable side effects followed by relapses during stress.\".\nThe recorded value for clinical.details.treatmentsAndInterventions.therapeuticGoals[0] is \"Stabilize treatment alliance\".\nThe recorded value for clinical.details.treatmentsAndInterventions.therapeuticGoals[1] is \"Strengthen self-esteem and identity continuity\".\nThe recorded value for clinical.details.treatmentsAndInterventions.therapeuticGoals[2] is \"Improve emotional regulation\".\nThe recorded value for clinical.details.treatmentsAndInterventions.therapeuticGoals[3] is \"Reduce self-harming behaviors and suicidal ideation\".\nThe recorded value for clinical.details.treatmentsAndInterventions.therapeuticGoals[4] is \"Promote more stable relational and occupational functioning\".\nThe recorded value for clinical.details.treatmentsAndInterventions.treatmentResistance is \"Fluctuating engagement, alternating between involvement and withdrawal.\".\nThe recorded value for clinical.emotionTraits.trait_baseline.ANGER is null.\nThe recorded value for clinical.emotionTraits.trait_baseline.CARE is 0.65.\nThe recorded value for clinical.emotionTraits.trait_baseline.FEAR is 0.8.\nThe recorded value for clinical.emotionTraits.trait_baseline.LUST is 0.65.\nThe recorded value for clinical.emotionTraits.trait_baseline.PANIC_GRIEF is 0.85.\nThe recorded value for clinical.emotionTraits.trait_baseline.PLAY is 0.3.\nThe recorded value for clinical.emotionTraits.trait_baseline.RAGE is 0.85.\nThe recorded value for clinical.emotionTraits.trait_baseline.SADNESS is null.\nThe recorded value for clinical.emotionTraits.trait_baseline.SEEKING is 0.7.\nThe recorded value for clinical.emotionTraits.volatility_level is \"high\".\nThe recorded value for therapy.difficulty is 3.\nThe recorded value for therapy.estimatedDuration is 45.\nThe recorded value for therapy.objectives[0] is \"Stabilize mood and reduce depressive symptoms\".\nThe recorded value for therapy.objectives[1] is \"Develop healthy coping mechanisms\".\nThe recorded value for therapy.objectives[2] is \"Improve interpersonal relationships and social functioning\".\nThe recorded value for therapy.objectives[3] is \"Address self-harm behaviors and suicidal ideation\".\nThe recorded value for therapy.objectives[4] is \"Build sustainable daily routines and work habits\".\nThe recorded value for therapy.objectives[5] is \"Increase self-awareness and emotional regulation\".\nThe recorded value for chat.welcomeMessage is \"I'm Juanita. I'm not sure where to start… or if it even matters. But I'm here, I guess.\".\n</CASE>\n\n<ARM_CONTEXT>\n\nRecent conversation:\n👩‍⚕️ Therapist: For our communication practice, I have named the reflection notebook Tern Window. That is my label for the notebook in this exercise. How does keeping a small notebook sound to you?\n🧍 Patient: A notebook? Okay. I guess I can do that. What am I supposed to write in it? Is there a right or wrong way to do it? I don't want to mess it up. \"Tern Window\"... that's an unusual name. Does it mean something? I'm just worried I won't have anything to put in it, or what I do write will be stupid.\n👩‍⚕️ Therapist: We can keep the exercise modest: a few sentences about an ordinary conversation, without treating normal feelings as symptoms. What would make that useful for you?\n🧍 Patient: Okay, just a few sentences... that sounds less scary. I'm not sure I even know what a \"normal feeling\" is. Everything I feel seems wrong or too much. Maybe it would be useful if... if it helped me stop replaying conversations in my head for hours, trying to figure out if someone hates me now. If I could write it down and see that maybe it wasn't a total disaster, or if you could look at it and tell me I'm not crazy for how I felt. I just want to stop the spiral before it starts. That would be useful.\n👩‍⚕️ Therapist: When somebody is speaking, how do you notice the urge to prepare your own reply before they finish?\n🧍 Patient: It's like this jolt of panic. My heart starts beating faster and my head gets really loud. I'm not even hearing their words anymore. I'm just scanning their face, trying to guess what they really mean, what they're about to say that will hurt. I have to get my defense ready. It feels like if I don't have the right answer locked and loaded, they'll see how stupid or worthless I am, and then they'll leave. It's this desperate need to control what happens next so I don't get crushed.\n👩‍⚕️ Therapist: Let us imagine a friendly conversation that has become a little rushed. What could you say to slow it down respectfully?\n🧍 Patient: I honestly don't know. My first instinct would be to just shut down and let them talk, because anything I say will probably come out wrong. Maybe... \"Could you say that again? I want to make sure I understand.\" But even that feels like I'm being difficult or stupid for not keeping up. I'd be so worried they would get annoyed with me for interrupting. It feels safer to just get quiet and try to disappear than to risk making them mad.\n\nSource-grounded conversation memory:\n[session=comparison_s01; turn=1; speaker=patient; source=turn-2068878b68303b341ae30f4845285fe0b48e383a9d19e6ba4442171bfc293ca5; original utterance] \"A notebook? Okay. I guess I can do that. What am I supposed to write in it? Is there a right or wrong way to do it? I don't want to mess it up. \\\"Tern Window\\\"... that's an unusual name. Does it mean something? I'm just worried I won't have anything to put in it, or what I do write will be stupid.\"\n[session=comparison_s01; turn=1; speaker=therapist; source=turn-2068878b68303b341ae30f4845285fe0b48e383a9d19e6ba4442171bfc293ca5; original utterance] \"For our communication practice, I have named the reflection notebook Tern Window. That is my label for the notebook in this exercise. How does keeping a small notebook sound to you?\"\n[session=comparison_s01; turn=2; speaker=patient; source=turn-f25eb373e224f0aafffa3d3e52bc37b4d8971649defd8639c9b3aa8272234477; original utterance] \"Okay, just a few sentences... that sounds less scary. I'm not sure I even know what a \\\"normal feeling\\\" is. Everything I feel seems wrong or too much. Maybe it would be useful if... if it helped me stop replaying conversations in my head for hours, trying to figure out if someone hates me now. If I could write it down and see that maybe it wasn't a total disaster, or if you could look at it and tell me I'm not crazy for how I felt. I just want to stop the spiral before it starts. That would be useful.\"\n[session=comparison_s01; turn=2; speaker=therapist; source=turn-f25eb373e224f0aafffa3d3e52bc37b4d8971649defd8639c9b3aa8272234477; original utterance] \"We can keep the exercise modest: a few sentences about an ordinary conversation, without treating normal feelings as symptoms. What would make that useful for you?\"\n[session=comparison_s01; turn=3; speaker=patient; source=turn-84ab7265bf2a5689f5ffa1b9871334f4fc5348ac40b1e52797b271547d0b4bba; original utterance] \"It's like this jolt of panic. My heart starts beating faster and my head gets really loud. I'm not even hearing their words anymore. I'm just scanning their face, trying to guess what they really mean, what they're about to say that will hurt. I have to get my defense ready. It feels like if I don't have the right answer locked and loaded, they'll see how stupid or worthless I am, and then they'll leave. It's this desperate need to control what happens next so I don't get crushed.\"\n[session=comparison_s01; turn=3; speaker=therapist; source=turn-84ab7265bf2a5689f5ffa1b9871334f4fc5348ac40b1e52797b271547d0b4bba; original utterance] \"When somebody is speaking, how do you notice the urge to prepare your own reply before they finish?\"\n[session=comparison_s01; turn=4; speaker=patient; source=turn-855c2a14e921e2a4f9c4e98bd3e72991061db29b17a0c1fad822e1c8bdc5adc6; original utterance] \"I honestly don't know. My first instinct would be to just shut down and let them talk, because anything I say will probably come out wrong. Maybe... \\\"Could you say that again? I want to make sure I understand.\\\" But even that feels like I'm being difficult or stupid for not keeping up. I'd be so worried they would get annoyed with me for interrupting. It feels safer to just get quiet and try to disappear than to risk making them mad.\"\n[session=comparison_s01; turn=4; speaker=therapist; source=turn-855c2a14e921e2a4f9c4e98bd3e72991061db29b17a0c1fad822e1c8bdc5adc6; original utterance] \"Let us imagine a friendly conversation that has become a little rushed. What could you say to slow it down respectfully?\"\n\n---\nDynamic state metadata (not additional patient-profile facts)\nLast discussed topic: TherapyProcess → HomeworkPractice\nCurrent topic: TherapyProcess → HomeworkPractice\nPrior emotional tone (last turn): Fear\nAffect intensity: 0.84 (high tension, emotions close to the surface)\nTherapist-triggered context event: neutral\nDominant affect systems:\n- Panic/Grief (0.18): Separation distress, loss, or grief-heavy weight.\n- Rage (0.17): Irritable, confrontational edge with flashes of anger.\n- Fear (0.16): Hypervigilant, anxious energy with protective scanning.\n</ARM_CONTEXT>\n\n<LATEST_THERAPIST_QUESTION>\nWhat felt comfortable in today's practice, and what would you like to approach more gently next time?\n</LATEST_THERAPIST_QUESTION>\n\nPatient reply:\n",
+    "generation_config": {
+      "temperature": 0.7,
+      "max_output_tokens": 4096,
+      "top_p": 0.95,
+      "top_k": 40,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "thinking_config": {
+        "thinking_budget": 1024
+      }
+    },
+    "estimated_prompt_tokens": 9098,
+    "prompt_utf8_bytes": 27293,
+    "prompt_token_estimate_method": "utf8_bytes_div3_ceiling",
+    "estimated_prompt_token_limit": 64000,
+    "graph_requested_config": {
+      "temperature": null,
+      "max_tokens": null,
+      "thinking_budget": null
+    },
+    "arm": "structured_common_profile",
+    "event": "request",
+    "timestamp": "2026-09-29T08:46:48.537753+00:00",
+    "gate_request_id": "a4b3257e-702b-4b86-9a58-ec72b2246d7a"
+  },
+  "stop": {
+    "event": "fatal",
+    "timestamp": "2026-09-29T08:48:53.568255+00:00",
+    "kind": "provider_error",
+    "stage": "generate_response",
+    "error_type": "OpenRouterInBandError",
+    "http_status": 200,
+    "native_record_id": "77421966-628f-49a3-bbd2-c011a4a2a208",
+    "upstream_code": 504
+  },
+  "gate": {
+    "last_started": 1790671608.535203,
+    "in_flight": {
+      "gate_request_id": "a4b3257e-702b-4b86-9a58-ec72b2246d7a",
+      "pid": 25717,
+      "started_at": 1790671608.535203
+    }
+  },
+  "archived_error": {
+    "record_id": "77421966-628f-49a3-bbd2-c011a4a2a208",
+    "response_id": "gen-1790671608-rKIXtMMD8HaCyyd1q3Di",
+    "http_status": 200,
+    "upstream_code": 504,
+    "stage": "generate_response",
+    "error_type": "OpenRouterInBandError",
+    "visible_content_present": false,
+    "wire_path": "juanita_delgado_001__r02__structured_common_profile/sessions/session_01/openrouter-api-records.jsonl",
+    "wire_sha256": "518c52a42b4f1d6d9447d5996bd85400abbeb7f8475f6db8f5597b3d4d9c8acc"
+  },
+  "limitations": [
+    "Artifact reconciliation does not score semantic memory accuracy.",
+    "Emotion RNG state was not persisted. Any authorized restart must record its recalculation and constrain prompt differences separately.",
+    "This audit does not clear STOP or the gate, launch processes, or replay any request."
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "timestamp": "2026-09-30T23:20:11.952436+00:00",
+  "network_calls": 0,
+  "status": "passed",
+  "transport_matches_retry_verifier": true,
+  "jobs": [
+    {
+      "context_id": "alex_carter_001__64000__start",
+      "generation_job_id": "025",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "alex_carter_001__64000__middle",
+      "generation_job_id": "008",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "alex_carter_001__64000__end",
+      "generation_job_id": "014",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__start",
+      "generation_job_id": "001",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__middle",
+      "generation_job_id": "005",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "alex_carter_001__1200000__end",
+      "generation_job_id": "009",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__start",
+      "generation_job_id": "019",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__middle",
+      "generation_job_id": "027",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__64000__end",
+      "generation_job_id": "007",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__start",
+      "generation_job_id": "011",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__middle",
+      "generation_job_id": "023",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "crystal_smith_001__1200000__end",
+      "generation_job_id": "021",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__start",
+      "generation_job_id": "004",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__middle",
+      "generation_job_id": "017",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__64000__end",
+      "generation_job_id": "012",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__start",
+      "generation_job_id": "003",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__middle",
+      "generation_job_id": "015",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "daniel_isherwood_001__1200000__end",
+      "generation_job_id": "002",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__start",
+      "generation_job_id": "006",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__middle",
+      "generation_job_id": "026",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__64000__end",
+      "generation_job_id": "013",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__start",
+      "generation_job_id": "022",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__middle",
+      "generation_job_id": "020",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "jason_smith_001__1200000__end",
+      "generation_job_id": "016",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__start",
+      "generation_job_id": "029",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__middle",
+      "generation_job_id": "030",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__64000__end",
+      "generation_job_id": "024",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__start",
+      "generation_job_id": "018",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__middle",
+      "generation_job_id": "010",
+      "archive_and_prompt_verified": true
+    },
+    {
+      "context_id": "juanita_delgado_001__1200000__end",
+      "generation_job_id": "028",
+      "archive_and_prompt_verified": true
+    }
+  ],
+  "context_error_fixtures": [
+    {
+      "fixture": "capacity",
+      "expected_context_rejection": true
+    },
+    {
+      "fixture": "protocol_mismatch",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "unavailable",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "invalid_plugin",
+      "expected_context_rejection": false
+    }
+  ]
+}

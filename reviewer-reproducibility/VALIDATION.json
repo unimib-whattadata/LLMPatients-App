@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-07",
+  "scope": "Software contracts, saved-result reproduction and tiny synthetic provider smoke; not clinical or statistical certification",
+  "app": "APP_VALIDATION.json",
+  "agent": "AGENT_VALIDATION.json",
+  "toolkit_independent_review": "TOOLKIT_REVIEW.json",
+  "model": "MODEL_SMOKE.json",
+  "historical_integrity": {
+    "status": "PASS",
+    "original_files": 13380,
+    "bundles": 86
+  },
+  "historical_recomputation": "Exact match to historical RECOMPUTED.json",
+  "tex_initial_snapshot": {
+    "manuscript": 22,
+    "app": 4,
+    "modified_by_this_task": 0
+  },
+  "new_pilots": {
+    "structure": "30/30 answers; byte-identical grading recomputation",
+    "state": "259/270 accepted jobs,149/160 recall answers; retained 147-answer grading snapshot reaggregates identically; partial collection"
+  },
+  "standalone_release_reproduction": {
+    "status": "PASS",
+    "report": "OFFLINE_REPRODUCTION.json",
+    "scientific_members": 3343,
+    "scope": "Exact historical endpoints, structure grading, saved state retrieval/147-answer grading and clinician Panel B. Final metadata additions do not change scientific bundles."
+  },
+  "request_replay_mocked_checks": "REQUEST_REPLAY_REVIEW.json"
+}

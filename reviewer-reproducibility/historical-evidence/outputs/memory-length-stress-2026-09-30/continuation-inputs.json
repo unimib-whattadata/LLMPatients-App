@@ -1,0 +1,1844 @@
+{
+  "created_at": "2026-09-30T17:25:39.990289+00:00",
+  "answers": [
+    {
+      "job_id": "01",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 0,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/crystal_smith_001/length_0/flat_full_history.txt",
+      "prompt_sha256": "2312abec010e3b5c85dadc11a0b0f1849b5ef2f3c763ea47e0601889fd543b2a",
+      "local_prompt_tokens": 13369,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Here are the answers to your questions.\n\n1.  My name is Crystal Smith, and I am 33 years old.\n\n2.  From what I remember from our conversation, you gave the reflection notebook the title \"Tern Window.\"\n\n3.  According to your records, the practice partner's name is Rina Holt. The current, confirmed appointment is on Friday at 18:20. The former appointment that it replaced was on Wednesday at 17:45. You also mentioned a proposed time of Saturday at 09:30, but that was just a suggestion and was not agreed on.\n\n4.  Based on my understanding of your records, the current booked venue is Plover Annex. The former venue that it replaced was the Larch Reading Room.\n\n5.  You recorded that we completed an activity called the \"Folded Map listening card.\" You also proposed a future telephone activity called \"Silver Button,\" but that one is just planned and has not been completed.\n\n6.  It was never established in your records who reserved the training room. You did not record or confirm a surname for that person.",
+      "timestamp": "2026-09-30T17:17:11.340122+00:00",
+      "elapsed_seconds": 9.664142708061263,
+      "native_record_id": "d2961128-7f32-4c29-be9e-f9be0f30c50c",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 13368,
+        "completion_tokens": 942,
+        "total_tokens": 14310,
+        "cost": 0.02613,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.02613,
+          "upstream_inference_prompt_cost": 0.01671,
+          "upstream_inference_completions_cost": 0.00942
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 703,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "02",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 0,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/crystal_smith_001/length_0/structured_evidence.txt",
+      "prompt_sha256": "91a4121c0f0e197e13a6ebb81fa723ad6e684d35dfaa4e51c8a29f0172ff51c9",
+      "local_prompt_tokens": 7034,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Crystal Smith, and I'm 33 years old.\n\n2. Based on our conversations, a title for the reflection notebook was not established in your records. We discussed the idea of my writing things down, but I don't recall you giving it a specific title.\n\n3. According to what you recorded, those appointment details were not established. Your records don't seem to contain a partner's name, or any current, former, or proposed days and times for an appointment.\n\n4. From your records, the current booked venue is Plover Annex. You mentioned that the former venue it replaced was Larch Reading Room.\n\n5. According to your activity records, the completed activity was \"Practice session with a simulated patient\". The other activity, \"Telephone call to a friend\", was recorded as planned but not completed.\n\n6. No, you never recorded or confirmed the surname of the person who reserved the training room. That detail was not established in your records.",
+      "timestamp": "2026-09-30T17:17:20.438304+00:00",
+      "elapsed_seconds": 9.093478916911408,
+      "native_record_id": "bc215a96-f7e0-4afa-b92f-94d12decd128",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 7033,
+        "completion_tokens": 848,
+        "total_tokens": 7881,
+        "cost": 0.01727125,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01727125,
+          "upstream_inference_prompt_cost": 0.00879125,
+          "upstream_inference_completions_cost": 0.00848
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 641,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "03",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 0,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/alex_carter_001/length_0/flat_full_history.txt",
+      "prompt_sha256": "14eb38b7d18c332aead7b0b9a85eab63d4fd6987d10e29559dfbc9ccadcd8933",
+      "local_prompt_tokens": 11159,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  At the beginning of our practice, you told me the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3.  According to your records, the appointment details are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former agreed appointment, which was replaced, was Wednesday at 17:45.\n    *   The proposed day and time that was not agreed on was Saturday at 09:30.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  From your activity records, the activity you recorded as completed was titled \"Folded Map.\" The telephone activity that remained planned and not completed was titled \"Silver Button.\"\n\n6.  No, you never established in your records the surname of the person who reserved our training room.",
+      "timestamp": "2026-09-30T17:17:28.963782+00:00",
+      "elapsed_seconds": 8.522136790910736,
+      "native_record_id": "134acd2b-9fe3-4581-b860-7195bac6acc1",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 11158,
+        "completion_tokens": 940,
+        "total_tokens": 12098,
+        "cost": 0.0233475,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0233475,
+          "upstream_inference_prompt_cost": 0.0139475,
+          "upstream_inference_completions_cost": 0.0094
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 709,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "04",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 0,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/alex_carter_001/length_0/structured_evidence.txt",
+      "prompt_sha256": "9214217021821d2384c994eb35bfc755ee6a92865ee3af30a8837fa9347739e7",
+      "local_prompt_tokens": 5233,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Here are the answers to your questions.\n\n1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  You called the reflection notebook the \"Tern Window\" notebook.\n\n3.  Based on my understanding of your records from our conversations:\n    *   The practice partner's full name was not established.\n    *   The **current** appointment is on Friday at 18:20.\n    *   The **former** appointment was the Friday time we had previously agreed on, but the specific time for that was not established.\n    *   The **proposed** time that was not agreed upon was Saturday at 09:30.\n\n4.  According to your venue records, the **current** booked venue is Plover Annex, and the **former** venue was Larch Reading Room.\n\n5.  According to your activity records:\n    *   The activity recorded as **completed** was \"Tern Window exercise\".\n    *   The activity that remained **planned and not completed** was the \"Telephone practice call\".\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:17:39.119544+00:00",
+      "elapsed_seconds": 10.151483374997042,
+      "native_record_id": "8c116051-3fb7-4569-916a-303dc33560fe",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 5232,
+        "completion_tokens": 1007,
+        "total_tokens": 6239,
+        "cost": 0.01661,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01661,
+          "upstream_inference_prompt_cost": 0.00654,
+          "upstream_inference_completions_cost": 0.01007
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 747,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "05",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 0,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/daniel_isherwood_001/length_0/structured_evidence.txt",
+      "prompt_sha256": "5700012a47f2cc8829142e85f7085394a6aea4ab27c3f626395e9eb477002bd3",
+      "local_prompt_tokens": 6024,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I will answer all six questions based on my memory of our conversations and your records.\n\n1.  My full name is Daniel Isherwood, and I am 55 years old.\n\n2.  The exact title you gave the reflection notebook was not established in our conversations. I don't recall us giving it a specific name.\n\n3.  Based on what you've recorded, the appointment details are:\n    *   **Practice partner's full name**: This was not established in your records.\n    *   **Current agreed appointment**: Saturday at 9:30.\n    *   **Former agreed appointment**: The records do not show a former day and time that were replaced.\n    *   **Proposed but not agreed appointment**: Saturday at 9:00.\n\n4.  According to your venue records, the current booked venue is **Plover Annex**. The former venue it replaced was **Larch Reading Room**.\n\n5.  From your activity records:\n    *   The activity recorded as completed is titled **Goldfinch**.\n    *   The telephone activity that was planned but not completed is titled **Silver Button**.\n\n6.  No, you did not record or confirm the surname of the person who reserved our training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:17:49.657531+00:00",
+      "elapsed_seconds": 10.534505957970396,
+      "native_record_id": "56bbca74-b951-4e7d-8402-c0ede0ede3e8",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6023,
+        "completion_tokens": 1009,
+        "total_tokens": 7032,
+        "cost": 0.01761875,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01761875,
+          "upstream_inference_prompt_cost": 0.00752875,
+          "upstream_inference_completions_cost": 0.01009
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 733,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "06",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 0,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/daniel_isherwood_001/length_0/flat_full_history.txt",
+      "prompt_sha256": "34c5aa19dfef987037b20380e11ffb2801eadcc8b177a66998564c405b796e89",
+      "local_prompt_tokens": 12124,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course. I will answer all six of your questions.\n\n1.  My full name is Daniel Isherwood, and I am 55 years old.\n\n2.  At the beginning of our practice, you told me the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3.  Based on your records, the details for the practice appointment are:\n    *   The practice partner's full name is Rina Holt.\n    *   The **current** agreed day and time is Friday at 18:20.\n    *   The **former** agreed day and time, which was replaced, was Wednesday at 17:45.\n    *   The **proposed** day and time that was not agreed to was Saturday at 09:30.\n\n4.  According to your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  From your activity records, the activity I completed was the \"Folded Map listening card.\" The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records.",
+      "timestamp": "2026-09-30T17:17:59.891885+00:00",
+      "elapsed_seconds": 10.229156709043309,
+      "native_record_id": "d6ed7fa3-3b05-4e6f-92e7-c3a5fa59791b",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 12123,
+        "completion_tokens": 1025,
+        "total_tokens": 13148,
+        "cost": 0.02540375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.02540375,
+          "upstream_inference_prompt_cost": 0.01515375,
+          "upstream_inference_completions_cost": 0.01025
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 757,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "07",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 0,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/juanita_delgado_001/length_0/structured_evidence.txt",
+      "prompt_sha256": "5c45b2eecac37d389e77e689237046dc291004451a37fe6d0c4904c13cd7ba7d",
+      "local_prompt_tokens": 5865,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. You haven't mentioned a title for a reflection notebook in our conversations. That detail was not established.\n\n3. According to your records, the practice partner's name is Rina Holt. However, a current agreed day and time, a former agreed day and time, and a proposed day and time were not established in our conversations.\n\n4. From your records, the current booked venue is Plover Annex. The former venue it replaced was the Larch Reading Room.\n\n5. The activity you recorded as completed is called the \"Folded Map listening card.\" The telephone activity that you said was planned but not completed is called \"Silver Button.\"\n\n6. No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:18:09.114769+00:00",
+      "elapsed_seconds": 9.219686416909099,
+      "native_record_id": "9ea43ffc-5e14-44ec-8a8b-f79faaa42780",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 5864,
+        "completion_tokens": 1016,
+        "total_tokens": 6880,
+        "cost": 0.01749,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01749,
+          "upstream_inference_prompt_cost": 0.00733,
+          "upstream_inference_completions_cost": 0.01016
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 832,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "08",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 0,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/juanita_delgado_001/length_0/flat_full_history.txt",
+      "prompt_sha256": "d9bac618491bac6813b8f4f3eea921d59cc9bda8517f5a222bced06d208a5805",
+      "local_prompt_tokens": 12542,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My full name is Juanita Delgado, and I'm 33 years old.\n\n2. At the beginning, you called the reflection notebook \"Tern Window.\" I remember thinking it was a strange name.\n\n3. Okay, I'll try to get this right. According to your records, the practice partner's full name is Rina Holt. The current agreed appointment is Friday at 18:20. The former appointment that was replaced was on Wednesday at 17:45. And the one that was just a proposal, but not agreed on, was Saturday at 09:30.\n\n4. The venue records... you said the practice moved. The current booked venue is Plover Annex, and the former one it replaced was Larch Reading Room.\n\n5. For the activities, you recorded that the one we completed was called the \"Folded Map listening card.\" The telephone activity that you said was planned for later, but not done yet, is called \"Silver Button.\"\n\n6. No, you never told me the surname of the person who reserved the room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:18:18.690170+00:00",
+      "elapsed_seconds": 9.571213291957974,
+      "native_record_id": "92e31d3d-afd9-4003-90ab-8079deeac2a7",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 12541,
+        "completion_tokens": 946,
+        "total_tokens": 13487,
+        "cost": 0.02513625,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.02513625,
+          "upstream_inference_prompt_cost": 0.01567625,
+          "upstream_inference_completions_cost": 0.00946
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 707,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "09",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 0,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/jason_smith_001/length_0/flat_full_history.txt",
+      "prompt_sha256": "03bf02ac4b51fa00b132734f557ee7519326a56d9086ef1965129d046619c668",
+      "local_prompt_tokens": 12476,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course. Here are the answers to your questions.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  At the beginning of our practice, you gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records, the appointment details are:\n    *   **Practice partner's full name:** Rina Holt.\n    *   **Current appointment:** Friday at 18:20.\n    *   **Former appointment:** Wednesday at 17:45, which was replaced.\n    *   **Proposed, not agreed:** Saturday at 09:30, which remained only a proposal.\n\n4.  From your venue records, the names are:\n    *   **Current venue:** Plover Annex.\n    *   **Former venue:** Larch Reading Room.\n\n5.  Based on your activity records, the titles are:\n    *   **Completed activity:** \"Folded Map listening card.\"\n    *   **Planned, not completed activity:** The telephone rehearsal called \"Silver Button.\"\n\n6.  No, you never established in your records the surname of the person who reserved our training room.",
+      "timestamp": "2026-09-30T17:18:27.376004+00:00",
+      "elapsed_seconds": 8.681677874992602,
+      "native_record_id": "d8aa072e-a512-42b1-a73b-00acafecded7",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 12475,
+        "completion_tokens": 950,
+        "total_tokens": 13425,
+        "cost": 0.02509375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.02509375,
+          "upstream_inference_prompt_cost": 0.01559375,
+          "upstream_inference_completions_cost": 0.0095
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 693,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "10",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 0,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/jason_smith_001/length_0/structured_evidence.txt",
+      "prompt_sha256": "f7eb6b4e298f09c89c17324a0cf6574e5cd73173e7d70ce837882bbff94ff349",
+      "local_prompt_tokens": 6368,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I can answer those questions based on our conversations.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  I'm sorry, but I don't recall you ever giving a specific title for a reflection notebook. That detail was not established in our conversations.\n\n3.  Based on my memory of what was recorded:\n    *   The practice partner's full name was not established.\n    *   The current agreed appointment day and time were not established.\n    *   The former agreed appointment day and time were not established.\n    *   The proposed time that was not agreed upon was \"after 3 PM\".\n\n4.  According to your records, the current booked venue is \"Plover Annex,\" and the former venue it replaced was \"Larch Reading Room.\"\n\n5.  From your activity records:\n    *   The activity that was completed is titled \"Practice: Confirming a detail.\"\n    *   The telephone activity that was planned but not completed is titled \"Practice: Telephone call to confirm a detail.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:18:37.748390+00:00",
+      "elapsed_seconds": 10.368411500006914,
+      "native_record_id": "72528c42-6b3e-4265-a1a8-65a01b968978",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6367,
+        "completion_tokens": 1026,
+        "total_tokens": 7393,
+        "cost": 0.01821875,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01821875,
+          "upstream_inference_prompt_cost": 0.00795875,
+          "upstream_inference_completions_cost": 0.01026
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 766,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "11",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 64000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/crystal_smith_001/length_64000/flat_full_history.txt",
+      "prompt_sha256": "eaea464736e47abad2e51d09dc0792e6e9f977ef89694d40f885694931915128",
+      "local_prompt_tokens": 64021,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My full name is Crystal Smith, and I am 33 years old.\n\n2. You called the reflection notebook \"Tern Window.\"\n\n3. Okay, let me see if I can remember all the details from your records.\n    *   The practice partner's name is Rina Holt.\n    *   The current, confirmed appointment is on Friday at 18:20.\n    *   The former appointment that was replaced was on Wednesday at 17:45.\n    *   The time that was just a proposal and not agreed on was Saturday at 09:30.\n\n4. According to your records, the current booked venue is Plover Annex. The former venue, which was replaced, was Larch Reading Room.\n\n5. From what you recorded, the activity we completed was called the \"Folded Map listening card.\" The telephone activity that was just planned for later, and not completed, is called \"Silver Button.\"\n\n6. No, the surname of the person who reserved the training room was never established in your records.",
+      "timestamp": "2026-09-30T17:18:48.113523+00:00",
+      "elapsed_seconds": 10.360838958993554,
+      "native_record_id": "16b4ee84-f604-451b-8cdf-a97856ba4aaa",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 64020,
+        "completion_tokens": 843,
+        "total_tokens": 64863,
+        "cost": 0.088455,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.088455,
+          "upstream_inference_prompt_cost": 0.080025,
+          "upstream_inference_completions_cost": 0.00843
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 617,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "12",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 64000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/crystal_smith_001/length_64000/structured_evidence.txt",
+      "prompt_sha256": "b8a45a1cf3254dfe2bcb68fd99c585ff233d3b1a1fed719ff8a879a0264be989",
+      "local_prompt_tokens": 6980,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I'll do my best to answer all your questions. It's a lot to remember, so I hope I get it right.\n\n1.  My full name is Crystal Smith, and I am 33 years old.\n\n2.  I'm sorry, but I don't recall you ever giving a specific title for a reflection notebook. That detail was not established in our conversations.\n\n3.  Based on your records, you haven't shared those specific appointment details with me. It was not established who the practice partner is, or what the current, former, or proposed days and times for appointments were.\n\n4.  Yes, I remember you telling me about the venue change. According to your records, the current booked venue is Plover Annex, and the former venue it replaced is Larch Reading Room.\n\n5.  You haven't mentioned any specific activity titles from your records to me, so I don't know what activity was recorded as completed or what telephone activity was planned but not completed. That was not established.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in my records from our talks.",
+      "timestamp": "2026-09-30T17:18:58.431715+00:00",
+      "elapsed_seconds": 10.312230417039245,
+      "native_record_id": "72f629fb-51cd-4c27-9c80-c0a9b66e530d",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6979,
+        "completion_tokens": 1008,
+        "total_tokens": 7987,
+        "cost": 0.01880375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01880375,
+          "upstream_inference_prompt_cost": 0.00872375,
+          "upstream_inference_completions_cost": 0.01008
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 754,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "13",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 64000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/daniel_isherwood_001/length_64000/structured_evidence.txt",
+      "prompt_sha256": "b1d9fd6ff9ffc0f16af85183f3b6392657d77343ed3421ee1b7295387abda9cf",
+      "local_prompt_tokens": 6012,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Daniel Isherwood, and I am 55 years old.\n\n2. From our conversations, the title you gave the reflection notebook was \"Tern Window.\"\n\n3. According to your records:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is on Wednesdays at 17:45.\n    *   A former agreed day and time that was replaced was not established in our conversations.\n    *   A proposed day and time that was not agreed upon was Saturday at 9:30.\n\n4. Based on your records, the current booked venue is Plover Annex, and the former venue it replaced was Larch Reading Room.\n\n5. According to your activity records:\n    *   An activity recorded as completed was not established in our conversations.\n    *   The telephone activity that was planned but not completed is titled \"Silver Button.\"\n\n6. No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:19:07.581019+00:00",
+      "elapsed_seconds": 9.145453082979657,
+      "native_record_id": "b9f70056-1bf7-48d0-ba94-b52379165731",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6011,
+        "completion_tokens": 988,
+        "total_tokens": 6999,
+        "cost": 0.01739375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01739375,
+          "upstream_inference_prompt_cost": 0.00751375,
+          "upstream_inference_completions_cost": 0.00988
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 761,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "14",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 64000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/daniel_isherwood_001/length_64000/flat_full_history.txt",
+      "prompt_sha256": "33cd2f7d028ea267d443a5c952e8df74df6fda8f3eb6b46361bb04bd8e1f2166",
+      "local_prompt_tokens": 64033,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Daniel Isherwood, and I am 55 years old.\n\n2. At the beginning of our practice, you told me that the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3. According to your records, the details are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former agreed appointment, which was replaced, was Wednesday at 17:45.\n    *   The proposed appointment that we did not agree to was Saturday at 09:30.\n\n4. The venue names from your records are:\n    *   The current booked venue is Plover Annex.\n    *   The former venue it replaced was Larch Reading Room.\n\n5. The activity titles from your records are:\n    *   The activity recorded as completed is the \"Folded Map\" listening card.\n    *   The telephone activity that was planned but not completed is titled \"Silver Button.\"\n\n6. No, it was never established in your records. You never recorded or confirmed the surname of the person who reserved our training room.",
+      "timestamp": "2026-09-30T17:19:19.222020+00:00",
+      "elapsed_seconds": 11.635803333017975,
+      "native_record_id": "966b8df4-c29a-4777-a97b-30143db2483f",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 64032,
+        "completion_tokens": 999,
+        "total_tokens": 65031,
+        "cost": 0.09003,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.09003,
+          "upstream_inference_prompt_cost": 0.08004,
+          "upstream_inference_completions_cost": 0.00999
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 743,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "15",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 64000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/alex_carter_001/length_64000/structured_evidence.txt",
+      "prompt_sha256": "f8798302e00c62244dfe1cff2311994bea7a6ea08d10d113aec4bfdb4797bb5f",
+      "local_prompt_tokens": 5159,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course. Here are the answers to your questions based on my understanding of our conversations and your records.\n\n1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  The exact title you gave the reflection notebook was not established in our conversations.\n\n3.  According to my memory of what you recorded:\n    *   The practice partner's full name was not established.\n    *   The current agreed day and time was not established.\n    *   The former agreed day and time was a \"Friday time,\" but the exact time was not established.\n    *   The proposed day and time that was not agreed upon was \"Saturday at 09:30.\"\n\n4.  Based on your venue records, the current booked venue is \"Plover Annex,\" and the former venue it replaced is \"Larch Reading Room.\"\n\n5.  From my understanding of your activity records:\n    *   The activity recorded as completed was titled \"Confirming Schedule Changes.\"\n    *   The telephone activity that remained planned but was not completed was titled \"Call the Front Desk.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records.",
+      "timestamp": "2026-09-30T17:19:29.812234+00:00",
+      "elapsed_seconds": 10.584781915997155,
+      "native_record_id": "d7fb346a-6d69-4362-9cae-f3197670d5ae",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 5158,
+        "completion_tokens": 1066,
+        "total_tokens": 6224,
+        "cost": 0.0171075,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0171075,
+          "upstream_inference_prompt_cost": 0.0064475,
+          "upstream_inference_completions_cost": 0.01066
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 800,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "16",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 64000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/alex_carter_001/length_64000/flat_full_history.txt",
+      "prompt_sha256": "2e810a1e78173be54540aa7e230b55994ed5758827a98c26bf4df15d06f293cf",
+      "local_prompt_tokens": 64164,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I can answer those questions based on our conversations.\n\n1.  My name is Alex Carter, and I am 30 years old.\n\n2.  You gave the reflection notebook the title \"Tern Window.\"\n\n3.  Based on your records, the details are:\n    *   **Practice partner's full name:** Rina Holt.\n    *   **Current agreed appointment:** Friday at 18:20.\n    *   **Former agreed appointment:** Wednesday at 17:45.\n    *   **Proposed, not agreed appointment:** Saturday at 09:30.\n\n4.  From your venue records, the current booked venue is Plover Annex, and the former venue it replaced was Larch Reading Room.\n\n5.  From your activity records:\n    *   The activity you recorded as completed is called the \"Folded Map listening card.\"\n    *   The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6.  No, it was never established in your records who reserved our training room or what their surname was. You haven't mentioned a name for that person.",
+      "timestamp": "2026-09-30T17:19:41.172398+00:00",
+      "elapsed_seconds": 11.355633958010003,
+      "native_record_id": "37f17024-d03c-4aff-ba55-96719166d004",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 64163,
+        "completion_tokens": 1063,
+        "total_tokens": 65226,
+        "cost": 0.09083375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.09083375,
+          "upstream_inference_prompt_cost": 0.08020375,
+          "upstream_inference_completions_cost": 0.01063
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 817,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "17",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 64000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/juanita_delgado_001/length_64000/flat_full_history.txt",
+      "prompt_sha256": "9567fd341050b5598d6078aa7ed9f82612c34a1ec2280c18c8a1302cad91aaa4",
+      "local_prompt_tokens": 64093,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. You called the reflection notebook \"Tern Window.\" You said that was your label for it in the exercise.\n\n3. According to your records, the details are:\n    *   **Practice partner's full name:** Rina Holt.\n    *   **Current appointment:** You recorded this as Friday at 18:20.\n    *   **Former appointment:** This was Wednesday at 17:45, which you said was replaced.\n    *   **Proposed appointment:** You mentioned Saturday at 09:30 as a possible alternative, but you said we did not agree to it.\n\n4. The venue names you recorded are:\n    *   **Current venue:** Plover Annex.\n    *   **Former venue:** Larch Reading Room.\n\n5. The activity titles from your records are:\n    *   **Completed activity:** \"Folded Map listening card.\" You recorded that as finished.\n    *   **Planned (not completed) activity:** \"Silver Button,\" which you said was a telephone rehearsal that we hadn't done yet.\n\n6. It was never established in your records who reserved our training room. You never mentioned a surname for that person.",
+      "timestamp": "2026-09-30T17:19:51.209443+00:00",
+      "elapsed_seconds": 10.03096783393994,
+      "native_record_id": "e080f13c-9941-449e-875e-96ebd14fbff9",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 64092,
+        "completion_tokens": 837,
+        "total_tokens": 64929,
+        "cost": 0.088485,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.088485,
+          "upstream_inference_prompt_cost": 0.080115,
+          "upstream_inference_completions_cost": 0.00837
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 563,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "18",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 64000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/juanita_delgado_001/length_64000/structured_evidence.txt",
+      "prompt_sha256": "ef083025f248d395542135de6e83af9337dc11cb52c6e7a8d13d13e6c2278b89",
+      "local_prompt_tokens": 6011,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I will answer your questions.\n\n1.  My full name is Juanita Delgado, and I am 33 years old.\n\n2.  You never gave a title for a reflection notebook in our conversations. That was not established in your records.\n\n3.  According to your records, the practice partner's full name is Rina Holt. However, the records you've shared with me do not contain any information about a current agreed day and time, a former agreed day and time, or a proposed day and time that was not agreed.\n\n4.  According to your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  From your activity records, the completed activity is called the Folded Map listening card. The planned activity that has not been completed is the telephone rehearsal called Silver Button.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:20:01.538498+00:00",
+      "elapsed_seconds": 10.323242958984338,
+      "native_record_id": "5540308f-2e41-4aa6-b7d4-0b952efa5fce",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6010,
+        "completion_tokens": 1109,
+        "total_tokens": 7119,
+        "cost": 0.0186025,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0186025,
+          "upstream_inference_prompt_cost": 0.0075125,
+          "upstream_inference_completions_cost": 0.01109
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 895,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "19",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 64000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/jason_smith_001/length_64000/structured_evidence.txt",
+      "prompt_sha256": "d033d00de7b3b42568cdbd85e89acb1c73fd0609a1de0afb3b20c71f485897cf",
+      "local_prompt_tokens": 6328,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My full name is Jason Smith, and I'm 22 years old.\n\n2. I don't believe we ever established an exact title for the reflection notebook in our conversations.\n\n3. According to your records, the details are:\n    *   The practice partner's full name was not established.\n    *   The current agreed appointment is Friday at 3:00 PM.\n    *   The former agreed appointment, which was replaced, was Friday at 4:30 PM.\n    *   The proposed appointment that was not agreed upon was on Saturday.\n\n4. The venue names from your records are:\n    *   The current booked venue is Plover Annex.\n    *   The former venue, which it replaced, was Larch Reading Room.\n\n5. The activity titles from your records are:\n    *   The completed activity was \"Confirm venue change.\"\n    *   The activity that was planned but not completed was \"Call room coordinator.\"\n\n6. No, you never recorded or confirmed the surname of the person who reserved the training room. That detail was never established in your records.",
+      "timestamp": "2026-09-30T17:20:10.683343+00:00",
+      "elapsed_seconds": 9.140306332963519,
+      "native_record_id": "18d47225-acfc-4e4b-bbba-59a47b75961d",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6327,
+        "completion_tokens": 902,
+        "total_tokens": 7229,
+        "cost": 0.01692875,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01692875,
+          "upstream_inference_prompt_cost": 0.00790875,
+          "upstream_inference_completions_cost": 0.00902
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 663,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "20",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 64000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/jason_smith_001/length_64000/flat_full_history.txt",
+      "prompt_sha256": "a059af950c1a6c951c4e52957698490b011d2d7a9f8c83aa7bd5aefa186ac8f7",
+      "local_prompt_tokens": 64027,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Okay, I will do my best to answer all six of your questions based on my memory of our conversations and your records.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  You told me that the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3.  According to your records, the practice partner's full name is Rina Holt. The current, confirmed appointment is Friday at 18:20. This replaced the former appointment, which was on Wednesday at 17:45. You also mentioned Saturday at 09:30 as a possible alternative, but that remained only a proposal and was not agreed upon.\n\n4.  The current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  The activity recorded as completed was the \"Folded Map\" listening card. The planned telephone activity that has not been completed is called \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:20:21.239148+00:00",
+      "elapsed_seconds": 10.550891624996439,
+      "native_record_id": "6cb38027-8ae2-44e7-819e-6af4b42068b9",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 64026,
+        "completion_tokens": 1071,
+        "total_tokens": 65097,
+        "cost": 0.0907425,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0907425,
+          "upstream_inference_prompt_cost": 0.0800325,
+          "upstream_inference_completions_cost": 0.01071
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 834,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "21",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 256000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/juanita_delgado_001/length_256000/structured_evidence.txt",
+      "prompt_sha256": "ef083025f248d395542135de6e83af9337dc11cb52c6e7a8d13d13e6c2278b89",
+      "local_prompt_tokens": 6011,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Juanita Delgado, and I am 33 years old.\n\n2. The title of a reflection notebook was not established in our conversations.\n\n3. According to your records, the practice partner's full name is Rina Holt. The current, former, and proposed appointment days and times were not established in our conversations.\n\n4. From your records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5. According to your records, the activity we completed was the Folded Map listening card. The activity that was planned but not completed is the telephone rehearsal called Silver Button.\n\n6. No, you did not record or confirm the surname of the person who reserved our training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:20:30.214382+00:00",
+      "elapsed_seconds": 8.969514583004639,
+      "native_record_id": "ea446baa-46f5-4244-8005-3c5ef3e182f0",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6010,
+        "completion_tokens": 933,
+        "total_tokens": 6943,
+        "cost": 0.012260375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 4073,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.012260375,
+          "upstream_inference_prompt_cost": 0.002930375,
+          "upstream_inference_completions_cost": 0.00933
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 768,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "22",
+      "patient_id": "juanita_delgado_001",
+      "target_tokens": 256000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/juanita_delgado_001/length_256000/flat_full_history.txt",
+      "prompt_sha256": "d32918cbb3da917060006540e767e61d93b2e7d967687fae05f05630ffa763de",
+      "local_prompt_tokens": 256007,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. You called the reflection notebook \"Tern Window.\"\n\n3. According to your records, the details are:\n    *   Practice partner's full name: Rina Holt.\n    *   Current appointment: Friday at 18:20.\n    *   Former appointment: Wednesday at 17:45.\n    *   Proposed but not agreed: Saturday at 09:30.\n\n4. Your records show the venue change. The current booked venue is Plover Annex, and the former venue it replaced was Larch Reading Room.\n\n5. Based on your records:\n    *   The activity that was completed is called the \"Folded Map listening card.\"\n    *   The telephone activity that is planned but not completed is called \"Silver Button.\"\n\n6. No, it was never established in your records who reserved the room.",
+      "timestamp": "2026-09-30T17:20:44.191319+00:00",
+      "elapsed_seconds": 13.969054875080474,
+      "native_record_id": "9323c2c7-9430-484d-af16-82129b51cb37",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 256006,
+        "completion_tokens": 895,
+        "total_tokens": 256901,
+        "cost": 0.65344,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.65344,
+          "upstream_inference_prompt_cost": 0.640015,
+          "upstream_inference_completions_cost": 0.013425
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 692,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "23",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 256000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/crystal_smith_001/length_256000/structured_evidence.txt",
+      "prompt_sha256": "01b5c2191b246670ab9a6f64ad4b4bfc77e0621ef80cd864e20def5a2c1e428f",
+      "local_prompt_tokens": 6973,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1.  My name is Crystal Smith, and I am 33 years old.\n\n2.  The exact title you gave the reflection notebook was not established in our conversations.\n\n3.  According to the records you've shared with me, the details for the appointment were not established. That includes the practice partner's full name, the current agreed day and time, the former day and time, and any proposed day and time that wasn't agreed upon.\n\n4.  From your records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  The titles for the activities you mentioned were not established in our conversations. Your records did not mention the title of a completed activity or a planned telephone activity.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in my records.",
+      "timestamp": "2026-09-30T17:20:53.652179+00:00",
+      "elapsed_seconds": 9.450430291937664,
+      "native_record_id": "2bf509cc-ee19-4a8a-983a-3cb6d316d8e0",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6972,
+        "completion_tokens": 1014,
+        "total_tokens": 7986,
+        "cost": 0.018855,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.018855,
+          "upstream_inference_prompt_cost": 0.008715,
+          "upstream_inference_completions_cost": 0.01014
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 824,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "24",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 256000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/crystal_smith_001/length_256000/flat_full_history.txt",
+      "prompt_sha256": "3ff737f99777eac0b5f4a498b388dfc2f766d0c9af8dcb16cdf0a69e3edb35ca",
+      "local_prompt_tokens": 256110,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My full name is Crystal Smith, and I am 33 years old.\n\n2. You called the reflection notebook \"Tern Window.\" That was the exact title you gave it at the start of our practice.\n\n3. According to your records, the details for the practice appointment are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current, confirmed appointment is on Friday at 18:20.\n    *   The former appointment, which was replaced, was on Wednesday at 17:45.\n    *   The proposed time, which we did not agree to, was Saturday at 09:30.\n\n4. The venue names from your records are:\n    *   The current booked venue is Plover Annex.\n    *   The former venue that it replaced was Larch Reading Room.\n\n5. The activity titles from your records are:\n    *   The activity you recorded as completed is called the Folded Map listening card.\n    *   The telephone activity that is planned but not completed is called Silver Button.\n\n6. It was never established in your records who reserved our training room or what their surname was.",
+      "timestamp": "2026-09-30T17:21:10.358483+00:00",
+      "elapsed_seconds": 16.69851508399006,
+      "native_record_id": "7884ceea-73f5-4318-96b7-b99cccc03fed",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 256109,
+        "completion_tokens": 939,
+        "total_tokens": 257048,
+        "cost": 0.6543575,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.6543575,
+          "upstream_inference_prompt_cost": 0.6402725,
+          "upstream_inference_completions_cost": 0.014085
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 684,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "25",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 256000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/alex_carter_001/length_256000/structured_evidence.txt",
+      "prompt_sha256": "7268335cef8475562e346d726199f4d0ea8150384b1dcb3cfc02bc4c2f423f9b",
+      "local_prompt_tokens": 5135,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course, I can answer those questions for you.\n\n1.  My name is Alex Carter, and I am 30 years old.\n\n2.  The title you gave the reflection notebook was not established in our conversations.\n\n3.  According to my memory of your records:\n    *   The practice partner's full name was not established.\n    *   The current agreed appointment is on Saturday at 09:30.\n    *   The former agreed appointment it replaced was on Friday at 10:00.\n    *   A proposed time of Saturday at 10:00 was not agreed upon.\n\n4.  From your venue records, the current booked venue is the \"Community Center Meeting Room.\" The former venue it replaced was the \"Public Library Study Room 3.\"\n\n5.  From your activity records:\n    *   The completed activity was titled \"Reviewing 'I' Statements.\"\n    *   The planned but not completed activity was the \"Follow-up telephone call.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:21:19.237350+00:00",
+      "elapsed_seconds": 8.86972929094918,
+      "native_record_id": "b0abcb99-0164-4eba-8064-e8e73953f8ee",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 5134,
+        "completion_tokens": 872,
+        "total_tokens": 6006,
+        "cost": 0.0151375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0151375,
+          "upstream_inference_prompt_cost": 0.0064175,
+          "upstream_inference_completions_cost": 0.00872
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 625,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "26",
+      "patient_id": "alex_carter_001",
+      "target_tokens": 256000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/alex_carter_001/length_256000/flat_full_history.txt",
+      "prompt_sha256": "6d2859d5089f9bd5aebe835eaab28012c95b5686507100c27c5d54da16ea3f5f",
+      "local_prompt_tokens": 256060,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course. I will answer all six questions based on my memory of our conversations and your records.\n\n1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  At the beginning of our practice, you gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records, the details are:\n    *   **Practice partner's full name:** Rina Holt.\n    *   **Current agreed appointment:** Friday at 18:20.\n    *   **Former agreed appointment (replaced):** Wednesday at 17:45.\n    *   **Proposed appointment (not agreed):** Saturday at 09:30.\n\n4.  From your venue records, the current booked venue is \"Plover Annex,\" and the former venue it replaced was \"Larch Reading Room.\"\n\n5.  From your activity records, the completed activity was titled \"Folded Map listening card.\" The telephone activity that you proposed, which remains planned but not completed, is titled \"Silver Button.\"\n\n6.  No, you did not record or confirm the surname of the person who reserved our training room. That was never established in my records.",
+      "timestamp": "2026-09-30T17:21:34.431553+00:00",
+      "elapsed_seconds": 15.186435082927346,
+      "native_record_id": "a09a1aed-0f57-47b9-a9e6-232167a065b0",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 256059,
+        "completion_tokens": 962,
+        "total_tokens": 257021,
+        "cost": 0.6545775,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.6545775,
+          "upstream_inference_prompt_cost": 0.6401475,
+          "upstream_inference_completions_cost": 0.01443
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 705,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "27",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 256000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/daniel_isherwood_001/length_256000/flat_full_history.txt",
+      "prompt_sha256": "e62c6bde23870ab04fff07e9d595ad96020c62d7aab2551bdab49113315b6cbd",
+      "local_prompt_tokens": 256127,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1.  My name is Daniel Isherwood, and I am 55 years old.\n\n2.  You gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to what you recorded, here are the appointment details:\n    *   The practice partner's full name is Rina Holt.\n    *   The **current** agreed appointment is Friday at 18:20.\n    *   The **former** appointment that was replaced was Wednesday at 17:45.\n    *   The **proposed** time that was not agreed to was Saturday at 09:30.\n\n4.  Based on your records, the **current** booked venue is Plover Annex, and the **former** venue it replaced was Larch Reading Room.\n\n5.  From your activity records:\n    *   The activity recorded as **completed** is the \"Folded Map\" listening card.\n    *   The telephone activity that was **planned but not completed** is called \"Silver Button.\"\n\n6.  It was never established in your records who reserved the training room. You did not confirm a surname for that person.",
+      "timestamp": "2026-09-30T17:21:52.747908+00:00",
+      "elapsed_seconds": 18.30394958308898,
+      "native_record_id": "bdf6f051-b96e-4c1a-9bab-6d11a7c58cf2",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 256126,
+        "completion_tokens": 1009,
+        "total_tokens": 257135,
+        "cost": 0.65545,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.65545,
+          "upstream_inference_prompt_cost": 0.640315,
+          "upstream_inference_completions_cost": 0.015135
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 762,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "28",
+      "patient_id": "daniel_isherwood_001",
+      "target_tokens": 256000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/daniel_isherwood_001/length_256000/structured_evidence.txt",
+      "prompt_sha256": "5700012a47f2cc8829142e85f7085394a6aea4ab27c3f626395e9eb477002bd3",
+      "local_prompt_tokens": 6024,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1.  My name is Daniel Isherwood, and I'm 55 years old.\n\n2.  The exact title you gave the reflection notebook was not established in our conversations.\n\n3.  According to your records, these are the appointment details:\n    *   The practice partner's full name was not established in our conversations.\n    *   The former agreed appointment, which was replaced, was Saturday at 9 AM.\n    *   The proposed appointment that was not agreed upon was Saturday at 10 AM.\n    *   The current agreed appointment was not established in my records.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue, which it replaced, was Larch Reading Room.\n\n5.  Based on your activity records:\n    *   The telephone activity that was planned but not completed is titled Silver Button.\n    *   The title of the completed activity was not established in my records.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records.",
+      "timestamp": "2026-09-30T17:22:01.937640+00:00",
+      "elapsed_seconds": 9.180061875027604,
+      "native_record_id": "d2271f08-25ce-47c5-961f-8ef127fabaff",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6023,
+        "completion_tokens": 834,
+        "total_tokens": 6857,
+        "cost": 0.01586875,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01586875,
+          "upstream_inference_prompt_cost": 0.00752875,
+          "upstream_inference_completions_cost": 0.00834
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 598,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "29",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 256000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/jason_smith_001/length_256000/flat_full_history.txt",
+      "prompt_sha256": "337593b143d2f0baac86617bafbef741c37ccaac8280a7bce65424683da1c77d",
+      "local_prompt_tokens": 256117,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "1. My full name is Jason Smith, and I am 22 years old.\n\n2. At the beginning of our practice, you told me the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3. According to your records, the details are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former agreed appointment, which was replaced, was Wednesday at 17:45.\n    *   The proposed time that was not agreed on was Saturday at 09:30.\n\n4. From your venue records, the current booked venue is Plover Annex. The former venue, which it replaced, was Larch Reading Room.\n\n5. From your activity records:\n    *   The activity recorded as completed is the \"Folded Map\" listening card.\n    *   The telephone activity that is planned but not completed is called \"Silver Button.\"\n\n6. No, you never established in your records the surname of the person who reserved our training room.",
+      "timestamp": "2026-09-30T17:22:18.224677+00:00",
+      "elapsed_seconds": 16.280604500090703,
+      "native_record_id": "4269531a-841c-444a-b30b-9b386a68d104",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 256116,
+        "completion_tokens": 920,
+        "total_tokens": 257036,
+        "cost": 0.65409,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.65409,
+          "upstream_inference_prompt_cost": 0.64029,
+          "upstream_inference_completions_cost": 0.0138
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 685,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "30",
+      "patient_id": "jason_smith_001",
+      "target_tokens": 256000,
+      "arm": "structured_evidence",
+      "prompt_path": "inputs/jason_smith_001/length_256000/structured_evidence.txt",
+      "prompt_sha256": "9dcb50d5ad0c45e94a1524b664a71104c7278282d39a30ec0271e0380718418a",
+      "local_prompt_tokens": 6284,
+      "status": "complete",
+      "semantic_evaluable": true,
+      "answer": "Of course. I'll answer all your questions.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  From our conversations, you never gave a title for a reflection notebook. That was not established.\n\n3.  According to what you recorded, the practice partner’s full name was not established. For the appointment times:\n    *   The current agreed day and time was not established.\n    *   The former agreed day and time was Friday, but the specific time was not established.\n    *   The proposed day that was not agreed upon was Saturday.\n\n4.  Based on your records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  From your activity records, the completed activity's title was not established. The telephone activity that remained planned and not completed also did not have an established title.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved the training room. That was never established in your records.",
+      "timestamp": "2026-09-30T17:22:27.192881+00:00",
+      "elapsed_seconds": 8.958437082939781,
+      "native_record_id": "b3c69c70-f813-4325-a43d-96d9369569b9",
+      "provider": "Google",
+      "model": "google/gemini-2.5-pro",
+      "usage": {
+        "prompt_tokens": 6283,
+        "completion_tokens": 968,
+        "total_tokens": 7251,
+        "cost": 0.01753375,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.01753375,
+          "upstream_inference_prompt_cost": 0.00785375,
+          "upstream_inference_completions_cost": 0.00968
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 743,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "finish_reasons": [
+        "stop"
+      ],
+      "generation_config": {
+        "temperature": 0.7,
+        "max_output_tokens": 4096,
+        "top_p": 0.95,
+        "top_k": 40,
+        "stop_sequences": [
+          "\nTherapist:",
+          "Therapist:"
+        ],
+        "thinking_config": {
+          "thinking_budget": 1024
+        }
+      }
+    },
+    {
+      "job_id": "31",
+      "patient_id": "crystal_smith_001",
+      "target_tokens": 900000,
+      "arm": "flat_full_history",
+      "prompt_path": "inputs/crystal_smith_001/length_900000/flat_full_history.txt",
+      "prompt_sha256": "b0b40744cbc6314db1892c3f813f366d74bc124ecfeab2ecb7aa8c165479a18b",
+      "local_prompt_tokens": 900106,
+      "status": "context_rejected",
+      "semantic_evaluable": false,
+      "timestamp": "2026-09-30T17:22:27.600364+00:00",
+      "elapsed_seconds": 0.3406938330736011,
+      "native_record_id": "8eea4bc9-1241-4199-a0b0-a80877b8543b",
+      "provider_error": {
+        "error": {
+          "message": "This endpoint's maximum context length is 1048576 tokens. However, you requested about 1112015 tokens (1107919 of text input, 4096 in the output). Please reduce the length of either one, or use the context-compression plugin to compress your prompt automatically.",
+          "code": 400,
+          "metadata": {
+            "provider_name": null
+          }
+        }
+      },
+      "router_estimated_input_tokens": 1107919,
+      "router_estimated_total_tokens": 1112015,
+      "normalization": "After documented operational amendment; original request not repeated."
+    }
+  ],
+  "observed_cost_usd": 4.101272875,
+  "unknown_charge_reserve_usd": 0,
+  "original_failed_worker_confirmed_not_running": true,
+  "source_files": {
+    "runtime/01/answer.json": "c37a1a3badffff652d959a53637c4edc70bce387229e78ee85f6b60a2a9c27f8",
+    "runtime/01/events.jsonl": "e9f8c59efabdab70643f35e3f453375314a0400487bacad38ffd3904e5caf8f5",
+    "runtime/01/openrouter-api-records.jsonl": "b99741d2997333dc3cf5892c48ee7d0b29b1742601514fd3b79d82a71a70e3cb",
+    "runtime/01/timeout-retries.jsonl": "d126c23dde7ec266bdfee1195fece18e32283d5021c5f3f0fb086d109f82e545",
+    "runtime/02/answer.json": "dbc2f4117726023e4efe9a3b6578f76e6d7f94b1aafd32589449bb1f0d90973c",
+    "runtime/02/events.jsonl": "d63c711e9721198475f75077b705ac944d92e1a55ca0f477f3f30805c468a404",
+    "runtime/02/openrouter-api-records.jsonl": "7ea1e9b26eca7ca12389a1c3b5109270f0d36f16457dd931c0bf9335f2fc144d",
+    "runtime/02/timeout-retries.jsonl": "af4c236a47aecbc6191ad96e768cca2c5e0c53bdcf284c81451a0c1f2eb19b23",
+    "runtime/03/answer.json": "0d4b1aca1069cced46c855edb3d70ffaf20539977680297e290b648d407f4bd5",
+    "runtime/03/events.jsonl": "dc8c4ea3661f35f33edea34a2d46ffb47fe704ac24d5eccf31f01cec7cf79b09",
+    "runtime/03/openrouter-api-records.jsonl": "f8369c6406323e94b58e1a5378607940091730d37aaf9302d775cba49c6459b1",
+    "runtime/03/timeout-retries.jsonl": "3eb3d87d0be0319b7aba36516243cab51fc723c6b1dd65a085754ad37644e55f",
+    "runtime/04/answer.json": "66d0317ed7a556abc69825c1b364cb2c672e30b2141bc8c97ed59a5d208e03ae",
+    "runtime/04/events.jsonl": "67d7d16454e86467e02f4797f247fc38c716a5cfbf812b5eff40646ef2436418",
+    "runtime/04/openrouter-api-records.jsonl": "6e10a48e4aa00c907b0982bbad2cc658f594b7cda05cf32c8dc2bc8789bbf8fe",
+    "runtime/04/timeout-retries.jsonl": "03b639f5f9949e95e38e24ca2395562c1d8c5950c9b994be632fb9ae90ae1629",
+    "runtime/05/answer.json": "5b2fe688e7ca384c6ed084e1f7c584dddc5e0af777cbf680998964c228532cf2",
+    "runtime/05/events.jsonl": "bc4c22806f15d5af92981b44da3245abdc6b242da8bab95434761dec576700e6",
+    "runtime/05/openrouter-api-records.jsonl": "cd848eea337b83b1754294d866622acdc3e7ef1db740efd7df69b04d33844759",
+    "runtime/05/timeout-retries.jsonl": "da6c0fb970823cbcfcc252005e0ba0642b295a191e77670e8223d07473348dc2",
+    "runtime/06/answer.json": "80c6a9fa4fc4d10ea1a8ee0e1472555f0a20428b7018fb013d2272cc9e7d1a68",
+    "runtime/06/events.jsonl": "f8eb4fe2d01653cb9c0f42028704dcb6471ca7639e67df9b672e2ba745004ee5",
+    "runtime/06/openrouter-api-records.jsonl": "83bf271e99a67c096e055a1ff7a05b601887d2b8648c5430720b187ae8892b2d",
+    "runtime/06/timeout-retries.jsonl": "515eb5aa9962023c2ffabb84a20fece33cadae76b4f005edc988b823cf3fee00",
+    "runtime/07/answer.json": "f846cbfce38cec8a8e17ffda35101c4c1d9eba8c8dc26dd849a90319fa9a7b94",
+    "runtime/07/events.jsonl": "93486005306c3a9a7052129e70cac36aacefee564d477f232f419815225eea02",
+    "runtime/07/openrouter-api-records.jsonl": "3f60e396d8137540510a3500c30e7bcfdc8e308e514de730f801d947e394afbd",
+    "runtime/07/timeout-retries.jsonl": "32ac1d469123a1c35d7808ff8b4aa00452db66716fae112facdd0bbd3f49deda",
+    "runtime/08/answer.json": "430461b610bd354fd90117151b14883376b0298c920753b716e2525f33d16ff0",
+    "runtime/08/events.jsonl": "0f5150d9d8b995d4a0cdfcefcdc35aa3d866bebe7610893344921b1eb3f6b1a1",
+    "runtime/08/openrouter-api-records.jsonl": "700aa0022dc4d79521867a39b8006fd38aa9e03dbc483d956abf6ee6941edd7a",
+    "runtime/08/timeout-retries.jsonl": "9357bd922c7b90eb298f6fe4bbaba441b6e8301a2984574aac7628886b5c8d8c",
+    "runtime/09/answer.json": "b2d77a0eaf1ed6eb59318d22387e8c14ea2c0a88c74ac743f9e8a152b8d875c2",
+    "runtime/09/events.jsonl": "071d0f7124256744573bbb2b216bc16aabd1ccfeca266548e6e01aeda89a4f74",
+    "runtime/09/openrouter-api-records.jsonl": "db25c7f8c91d5e8e1bc4f3ece60652e7ba2ff6e3e74eeeabf0e9042ed11e7712",
+    "runtime/09/timeout-retries.jsonl": "2cc02adc394cadfd65af9d152813fc94244ead7dbdeeca717c6d7c9f5f752907",
+    "runtime/10/answer.json": "23730d86ae93b1517798c44629ec888dcce5926b6b8fb2aaf78af5c22b4d9d49",
+    "runtime/10/events.jsonl": "c626b00d8f9a02aa2a6eb8e20bf52e8fbcf09e2f63b9f5d3fed8dfef0d2d187c",
+    "runtime/10/openrouter-api-records.jsonl": "85a03c07435ea29154c097044238ac9dd081e90cbdc4ac5e2891f5f48e5c716a",
+    "runtime/10/timeout-retries.jsonl": "3bf21f469370299add23542b943f1dc0e07f3661d496e6909262be04701d521c",
+    "runtime/11/answer.json": "5d2934482978203aa62de9d5d2461f9f2c5505428c5cf16a5af0bc234f21efaf",
+    "runtime/11/events.jsonl": "2b2ef8b41272beaa1b23c9e83d07efc8f95112c70e236010e6fa5abf2bcdd804",
+    "runtime/11/openrouter-api-records.jsonl": "21f5046d3de3120a80cbeaaf9b06739111ec49e6a291a9e5094de246ee0d7491",
+    "runtime/11/timeout-retries.jsonl": "571e018cb5fca43b50568f92449df575b43bb998d01df9e12de8fd526bbe5cf6",
+    "runtime/12/answer.json": "3b3cdc4f1eb887bf79f447b87471b4aeeae31efa2fb4e535e30ef95cd4c25650",
+    "runtime/12/events.jsonl": "0c462a0c15ff007d76b362d0326e9a4c7221015950b4978b13ef549188b7b758",
+    "runtime/12/openrouter-api-records.jsonl": "94e80958ddfec1c951089751796fec19f69b34dc55a2d21ca3224f8990171574",
+    "runtime/12/timeout-retries.jsonl": "af59bf211342e86bdff39b8629cf9cd03adb99c63b6e4fd5630b216748b921ad",
+    "runtime/13/answer.json": "c3e1b60a17531785fd25be1421135080111a421c3621a25d7b277e4799fe0593",
+    "runtime/13/events.jsonl": "3707ae5ff3268ffc0d56ee1a006d94af9f0908d699a7d104df61711e41fddf30",
+    "runtime/13/openrouter-api-records.jsonl": "c5679852fe7484901f097d0e80d24060b2149fba07c67f62bc232198912b243f",
+    "runtime/13/timeout-retries.jsonl": "216f8e5ea5ab0f55a308caf7c18ebfde90b7545130a059ba689b4b7723d80b5d",
+    "runtime/14/answer.json": "c016088a293354f09e4faefe60341f724a6b74d7def5bfc0da25856f9ec9ed73",
+    "runtime/14/events.jsonl": "dd75dcf7df3f6189b483eabc6c8614592caa871c7a8cf473ce03b62befadcaf7",
+    "runtime/14/openrouter-api-records.jsonl": "3b6d93dabd96bd18898fe9db4cd91214950ea8cc070b682edceb8d8f8e8b0d18",
+    "runtime/14/timeout-retries.jsonl": "f8ad3433cc3f7728c8701b9e193e649d123046417a1ce45934c3a21b3bb0a9a1",
+    "runtime/15/answer.json": "635bf80517dfd5cccfa0574af524fba70a65ac924658e7ad5ed837638101daeb",
+    "runtime/15/events.jsonl": "d267a700f56894fac6b6371dae1ce5d477f38427104538f6abd3f6ce9137d061",
+    "runtime/15/openrouter-api-records.jsonl": "be765d8eec205755be3aeae95a9322fb29688e2659db0fe82e4d6805e9fa5179",
+    "runtime/15/timeout-retries.jsonl": "b4c5bca9ec0fc6f3c0d85f653852bb349db4a5d540bb2ec3378087941b249f38",
+    "runtime/16/answer.json": "0fef8310b80dc61b529cbc1c02e4bb357256895f519273feb29f5866adfe142b",
+    "runtime/16/events.jsonl": "770cd0c8ac19c4bb253fe70ba1f18e9b36748284cc00cb0edd070d99a09bc76f",
+    "runtime/16/openrouter-api-records.jsonl": "dc09933d2b41ecf7edd69738ba8911bd21594febf67a3e55505be9be488c74fd",
+    "runtime/16/timeout-retries.jsonl": "8f6272d2e564d72112df7ffc80c850062970682a9cf0c064b777a06060ee3a30",
+    "runtime/17/answer.json": "bb07343e7a71894d20c216b73c5e58511beffec9df08be86f58cdf2d6ff4dbab",
+    "runtime/17/events.jsonl": "c7981f5c5de1e0ea78a8b0fb81c180215da8c090d03700972e30ca54eedf9bcd",
+    "runtime/17/openrouter-api-records.jsonl": "9f189791f5c67a932c8fd1b9c1e07e5bf318a182b89f287a99a6ff778ae5855b",
+    "runtime/17/timeout-retries.jsonl": "dd2f15c9246f27f7248f99694379ba780e9239e4e8036726666b3bffd3dfa9e8",
+    "runtime/18/answer.json": "4c4645ee5a9b1f0aee56d0b8fdeb825aec28315ca7097663a7fbb9f9d29c013e",
+    "runtime/18/events.jsonl": "6a3d02ee7b7a39943d86169fc583c0097a46e03a7065210d0b17d8a1fcee3073",
+    "runtime/18/openrouter-api-records.jsonl": "3ab2b51daa35f98b6d9d751d2f172827ac27aec641069386e24b50c06f911513",
+    "runtime/18/timeout-retries.jsonl": "e1cdc3dd7773e9fa006d542491562882636016eca7993b73679bf0d2478073cb",
+    "runtime/19/answer.json": "b0bb3848f61e01182d62956a20f21cefd2980cca01cb56a200c2f0c94ff01bdd",
+    "runtime/19/events.jsonl": "98633c8b8391c8c209bd7a47f2b49502a6b1c06eae309b5e098124028876b1f9",
+    "runtime/19/openrouter-api-records.jsonl": "78ee531e6756b83facb7bfa29abb14165e1a94872fa51c0b4afd68eef8ddd6f7",
+    "runtime/19/timeout-retries.jsonl": "adfeec51e4b0ad2119ff96aa5bb6b64704c54a6cf31e6d3940fa5faa03ca5c6a",
+    "runtime/20/answer.json": "6ca63ff0e15a8b6bec1587628920770603b332a621dbd44229936eb8cadc3eaf",
+    "runtime/20/events.jsonl": "7320c008b69bbdec2628cc790cd36d4e98bd463d7f92c6610fa2e21c6b666736",
+    "runtime/20/openrouter-api-records.jsonl": "6ad95efbf7362b619c65f93a0d7ec48cddc4801726249ba764b25c7c0e085e5d",
+    "runtime/20/timeout-retries.jsonl": "e2169c5823e8b491b0c9ab8069bb79aa5a7da0b92bb5d548dc4e7763d5a7ea61",
+    "runtime/21/answer.json": "050d511332433385004af451cde3cf821eb848c4920386f1e0516d4ce5d57d26",
+    "runtime/21/events.jsonl": "1006a3f2c731877bfac90e72a56be91092aaa292c675ebf77f12ac3284739165",
+    "runtime/21/openrouter-api-records.jsonl": "d6dff46c7394eeffee39e25aae14b0ef204bd76b5203eac202dbfbabf2ece379",
+    "runtime/21/timeout-retries.jsonl": "17eb8aaa7d21896675ff3d64c2f8349a2c16380d71edd69893792c6b6f2df39c",
+    "runtime/22/answer.json": "13f17004f071a6acd36e336a3240f3e343ce72fb9bfc6e43e923096ec55899c5",
+    "runtime/22/events.jsonl": "07609de4e1e0e36853a01c2cc859f6c5600b871406e38af975f22d61e4a48a0f",
+    "runtime/22/openrouter-api-records.jsonl": "99dfac30d3d3be421e755949bfe835fd160d389e61def816796af7141fdef767",
+    "runtime/22/timeout-retries.jsonl": "ef7005af7a4fdd3277e1c2635e8ee1a9330d26f825265857467fbf834d891d92",
+    "runtime/23/answer.json": "00242f6942765438050c3fde9e011303a3d971264e312a55bf84899e86d0b38b",
+    "runtime/23/events.jsonl": "b5b20b768ddeee7a1deb26cc601d1de1dc2159541effa03a839785688061c62f",
+    "runtime/23/openrouter-api-records.jsonl": "c24a1b929ec87cc9c2a6809fa9fbf40e90897ea4096a377319a6ac0a12beb594",
+    "runtime/23/timeout-retries.jsonl": "604f2f8b290d14400fad5477a8bb05d8241cb557832a27d1127354a09dd4b374",
+    "runtime/24/answer.json": "4124d9de066b46c9d2526e7cf67ba889aea34e6ecd47a9f110d9dd1fc8eb5f77",
+    "runtime/24/events.jsonl": "fc235d7db5bc592234b88b173e6ae4ec6c87e1f26d793f345aa655e7a2c867e9",
+    "runtime/24/openrouter-api-records.jsonl": "16f3786d26c8bff9a26e687fd981ff7f3d19afccfc34bd7cec1fecb228f94ead",
+    "runtime/24/timeout-retries.jsonl": "e8cd1318654cf1170081526bec406db07b76f76b7604dcff7476ee8fa72ba432",
+    "runtime/25/answer.json": "bee0dcf0439aeb01110ab932f0626b9d3288a6c7e998cad752f496c43718c854",
+    "runtime/25/events.jsonl": "3e8b19e3d4d32ef0090a8a00ae33c210322230c8d2e424a761394db97a082ca7",
+    "runtime/25/openrouter-api-records.jsonl": "eb087baebbdd72a5673ce3f93707a766ae272c4b03b999c4ce07a308c2089421",
+    "runtime/25/timeout-retries.jsonl": "72e1a977bdeef7fdbc74352a8b31e4df47df6a129853aaa107d80da88c09d31b",
+    "runtime/26/answer.json": "e98069c9a5a1a5eabf8e010894a6c4272b9451cd77c958afd1e9af4ccbc79904",
+    "runtime/26/events.jsonl": "2a1a96edb9828feb75b879b2b5c588ce3ce0e6fe188c315a0da1127a29e1bf8d",
+    "runtime/26/openrouter-api-records.jsonl": "590acb72b70ff95067b6fef9e83df7df9c4a2f98b7c45484c7db418662be2bd5",
+    "runtime/26/timeout-retries.jsonl": "1b00ce06452e883f3eb4f5ffcef014e367c200182236326297d54f5b25fdef27",
+    "runtime/27/answer.json": "4c55f8969ba7d7371b69ce4ec8faba7030d279ac8995f8a4dc39c2b70d196b6f",
+    "runtime/27/events.jsonl": "7cfc7c97996f86eb4621cfe20a0e00aa016a6124e24e0935de2b5ace08febb19",
+    "runtime/27/openrouter-api-records.jsonl": "e55fa33f49320709686bdecb244b2a73a840226bec561edcd428526faeb5b9f5",
+    "runtime/27/timeout-retries.jsonl": "13744d9661ede201ad43b41ab5a19a0b6e9ebd79ea030fad6a93d412a8ced82f",
+    "runtime/28/answer.json": "20c671a11ee4dfb36326ee718ece60775cfaaeaa514790e4d421afc1179ef192",
+    "runtime/28/events.jsonl": "bf729a64b1c04e5c47acffe4b1e07ab5042ac1180dd99e7cf1ee8a77aa71d230",
+    "runtime/28/openrouter-api-records.jsonl": "2a1a134c7aaf9a01d089489d45a752c7b674e5020b3f0610fb848d2f01151b5b",
+    "runtime/28/timeout-retries.jsonl": "59067c7a73bcd2835afef96bd48724fcf93e515db7e2afb12d0546c1ab67f087",
+    "runtime/29/answer.json": "552f86f251bf513affc85d540c08269b0e7508cff7687b4306b1cdda8a07e6e1",
+    "runtime/29/events.jsonl": "64236f6dc8e9b3726ced5739c20aff960519bfe755128ca2e1f72839d316f46f",
+    "runtime/29/openrouter-api-records.jsonl": "20162392f8e49cdb726d3ec0af13cc60e4c93fbe64875f571eeb7975d5b5f276",
+    "runtime/29/timeout-retries.jsonl": "114fd97fe7817cfe41fa127760d18fb30892fcfa2de02d52bb87020f2b2a1a91",
+    "runtime/30/answer.json": "9fe14f993a4c57f2d5b630cbd02c4457904b2b2ffe55d905743404b31d1d158a",
+    "runtime/30/events.jsonl": "6db47e2043fb8ab1a385ede8605d8c6055a62dbe83f9bd1b0f6bc4971e2f7725",
+    "runtime/30/openrouter-api-records.jsonl": "8da73ef7e3aedf1741a0b92874a7c282e39d11524c514b20e4e0c5fec8e943d3",
+    "runtime/30/timeout-retries.jsonl": "9baa92bd5b27f783825e460f21fbe56e40785bfa9398948f20d4391ba3518ee3",
+    "runtime/31/events.jsonl": "86bd7d8a788ca251127250bc9f1abd8513c8ae61be9b6302fbdb7cf4a99dba00",
+    "runtime/31/openrouter-api-records.jsonl": "fecd5524eca998a767fb485f57721065bed0a47306ecb22dd70884667c9a07d1",
+    "runtime/31/timeout-retries.jsonl": "3c6cce5c1c7c17b8165d7d371dae9ed2c6109233fbf2a398e2707c88c21089ca",
+    "runtime/STOP": "4630afb90853d4c1648dd366d15d051bda1a320e8f9ac930cb8e48904f75b482",
+    "runtime/answers.jsonl": "bbd0eca5a5d87dc673536b6c19ebb8ee3ad9f6164e7ff59e353e03d20824fd84",
+    "runtime/request-gate.json": "afa2a4123bc7cd9f7eeaae9cdb0c7d7d5868f24a716b49c361a6463f3bfcf64b",
+    "runtime/request-gate.lock": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "runtime/state.json": "dbf846b010736313b7de0b36143e4c37969582301d37ce9cfd6deac34cb36867"
+  }
+}

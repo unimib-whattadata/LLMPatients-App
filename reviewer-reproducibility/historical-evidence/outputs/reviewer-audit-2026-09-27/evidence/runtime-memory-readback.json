@@ -1,0 +1,13 @@
+{
+  "saved_sessions": 1,
+  "restored_total_turns": 1,
+  "restored_history_turns": 1,
+  "restored_messages": 2,
+  "restored_summary_chars": 96,
+  "restored_reflection_chars": 57,
+  "memory_record_types": [
+    "session_reflection",
+    "long_term_summary"
+  ],
+  "all_memory_records_nonempty": true
+}

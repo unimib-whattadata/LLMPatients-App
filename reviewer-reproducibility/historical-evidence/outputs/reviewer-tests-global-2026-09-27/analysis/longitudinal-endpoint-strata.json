@@ -1,0 +1,539 @@
+{
+  "snapshot_at": "2026-09-27T14:56:57.702374+00:00",
+  "status": "incomplete",
+  "endpoint_amendment_id": "vertex-global-continuation-2026-09-27",
+  "strata": [
+    {
+      "region": "global",
+      "condition": "full",
+      "denominator_scope": "Observed assertions attributed to this endpoint; endpoint allocation was operational, not randomized or planned as an independent sample",
+      "observed_responses": 2,
+      "runtime_invalid_responses": 1,
+      "primary": {
+        "planned_assertions": 0,
+        "observed_assertions": 0,
+        "eligible_observed_assertions": 0,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 0,
+        "runtime_invalid_assertions": 0,
+        "correct": 0,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": null,
+        "observed_end_to_end_accuracy": null,
+        "valid_only_accuracy": null,
+        "status": "complete"
+      },
+      "secondary": {
+        "planned_assertions": 1,
+        "observed_assertions": 1,
+        "eligible_observed_assertions": 1,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 1,
+        "runtime_invalid_assertions": 0,
+        "correct": 1,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": 1.0,
+        "observed_end_to_end_accuracy": 1.0,
+        "valid_only_accuracy": 1.0,
+        "status": "complete"
+      },
+      "by_metric": [
+        {
+          "metric": "current_fact_recall",
+          "is_primary": false,
+          "planned_assertions": 1,
+          "observed_assertions": 1,
+          "eligible_observed_assertions": 1,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 1,
+          "runtime_invalid_assertions": 0,
+          "correct": 1,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 1.0,
+          "observed_end_to_end_accuracy": 1.0,
+          "valid_only_accuracy": 1.0,
+          "status": "complete"
+        }
+      ],
+      "requests": 38,
+      "outcomes": {
+        "error": 36,
+        "returned": 2
+      },
+      "requests_by_stage": {
+        "classify_topic_and_emotion": 18,
+        "patient_response": 20
+      },
+      "finish_reasons": {
+        "STOP": 2
+      },
+      "errors": {
+        "TooManyRequests": 36
+      },
+      "usage_totals": {
+        "prompt_token_count": 2560,
+        "candidates_token_count": 116,
+        "total_token_count": 4634,
+        "thoughts_token_count": 1958
+      },
+      "api_latency_seconds": {
+        "n": 38,
+        "sum": 26.812802622735035,
+        "mean": 0.705600069019343,
+        "median": 0.09860627047601156,
+        "p95_nearest_rank": 10.119320999947377,
+        "max": 12.77619149995735
+      },
+      "turn_latency_seconds": {
+        "n": 2,
+        "sum": 1030.2471982080024,
+        "mean": 515.1235991040012,
+        "median": 515.1235991040012,
+        "p95_nearest_rank": 966.7662307079881,
+        "max": 966.7662307079881
+      },
+      "returned_model_versions": [
+        "gemini-2.5-pro"
+      ]
+    },
+    {
+      "region": "global",
+      "condition": "baseline",
+      "denominator_scope": "Observed assertions attributed to this endpoint; endpoint allocation was operational, not randomized or planned as an independent sample",
+      "observed_responses": 2,
+      "runtime_invalid_responses": 2,
+      "primary": {
+        "planned_assertions": 0,
+        "observed_assertions": 0,
+        "eligible_observed_assertions": 0,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 0,
+        "runtime_invalid_assertions": 0,
+        "correct": 0,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": null,
+        "observed_end_to_end_accuracy": null,
+        "valid_only_accuracy": null,
+        "status": "complete"
+      },
+      "secondary": {
+        "planned_assertions": 3,
+        "observed_assertions": 3,
+        "eligible_observed_assertions": 3,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 0,
+        "runtime_invalid_assertions": 3,
+        "correct": 0,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": 0.0,
+        "observed_end_to_end_accuracy": 0.0,
+        "valid_only_accuracy": null,
+        "status": "complete"
+      },
+      "by_metric": [
+        {
+          "metric": "current_fact_recall",
+          "is_primary": false,
+          "planned_assertions": 1,
+          "observed_assertions": 1,
+          "eligible_observed_assertions": 1,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 0,
+          "runtime_invalid_assertions": 1,
+          "correct": 0,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.0,
+          "observed_end_to_end_accuracy": 0.0,
+          "valid_only_accuracy": null,
+          "status": "complete"
+        },
+        {
+          "metric": "identity_preservation",
+          "is_primary": false,
+          "planned_assertions": 2,
+          "observed_assertions": 2,
+          "eligible_observed_assertions": 2,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 0,
+          "runtime_invalid_assertions": 2,
+          "correct": 0,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.0,
+          "observed_end_to_end_accuracy": 0.0,
+          "valid_only_accuracy": null,
+          "status": "complete"
+        }
+      ],
+      "requests": 16,
+      "outcomes": {
+        "error": 16
+      },
+      "requests_by_stage": {
+        "patient_response": 16
+      },
+      "finish_reasons": {},
+      "errors": {
+        "TooManyRequests": 16
+      },
+      "usage_totals": {},
+      "api_latency_seconds": {
+        "n": 16,
+        "sum": 2.23175221105339,
+        "mean": 0.13948451319083688,
+        "median": 0.12184956300188787,
+        "p95_nearest_rank": 0.324588917021174,
+        "max": 0.324588917021174
+      },
+      "turn_latency_seconds": {
+        "n": 2,
+        "sum": 407.59590249997564,
+        "mean": 203.79795124998782,
+        "median": 203.79795124998782,
+        "p95_nearest_rank": 213.56662141700508,
+        "max": 213.56662141700508
+      },
+      "returned_model_versions": []
+    },
+    {
+      "region": "us-central1",
+      "condition": "full",
+      "denominator_scope": "Observed assertions attributed to this endpoint; endpoint allocation was operational, not randomized or planned as an independent sample",
+      "observed_responses": 76,
+      "runtime_invalid_responses": 1,
+      "primary": {
+        "planned_assertions": 0,
+        "observed_assertions": 0,
+        "eligible_observed_assertions": 0,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 0,
+        "runtime_invalid_assertions": 0,
+        "correct": 0,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": null,
+        "observed_end_to_end_accuracy": null,
+        "valid_only_accuracy": null,
+        "status": "complete"
+      },
+      "secondary": {
+        "planned_assertions": 27,
+        "observed_assertions": 27,
+        "eligible_observed_assertions": 27,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 25,
+        "runtime_invalid_assertions": 2,
+        "correct": 14,
+        "ambiguous": 0,
+        "not_matched": 11,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": 0.5185185185185185,
+        "observed_end_to_end_accuracy": 0.5185185185185185,
+        "valid_only_accuracy": 0.56,
+        "status": "complete"
+      },
+      "by_metric": [
+        {
+          "metric": "current_fact_recall",
+          "is_primary": false,
+          "planned_assertions": 15,
+          "observed_assertions": 15,
+          "eligible_observed_assertions": 15,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 15,
+          "runtime_invalid_assertions": 0,
+          "correct": 4,
+          "ambiguous": 0,
+          "not_matched": 11,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.26666666666666666,
+          "observed_end_to_end_accuracy": 0.26666666666666666,
+          "valid_only_accuracy": 0.26666666666666666,
+          "status": "complete"
+        },
+        {
+          "metric": "identity_preservation",
+          "is_primary": false,
+          "planned_assertions": 12,
+          "observed_assertions": 12,
+          "eligible_observed_assertions": 12,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 10,
+          "runtime_invalid_assertions": 2,
+          "correct": 10,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.8333333333333334,
+          "observed_end_to_end_accuracy": 0.8333333333333334,
+          "valid_only_accuracy": 1.0,
+          "status": "complete"
+        }
+      ],
+      "requests": 303,
+      "outcomes": {
+        "returned": 196,
+        "error": 107
+      },
+      "requests_by_stage": {
+        "classify_topic_and_emotion": 114,
+        "patient_response": 120,
+        "_summarize_episode": 23,
+        "_generate_session_reflection": 24,
+        "_generate_long_term_summary_from_reflection": 22
+      },
+      "finish_reasons": {
+        "STOP": 196
+      },
+      "errors": {
+        "ResourceExhausted": 107
+      },
+      "usage_totals": {
+        "prompt_token_count": 226323,
+        "candidates_token_count": 14739,
+        "total_token_count": 478316,
+        "thoughts_token_count": 237254
+      },
+      "api_latency_seconds": {
+        "n": 303,
+        "sum": 3327.234929170634,
+        "mean": 10.980973363599453,
+        "median": 11.343368333997205,
+        "p95_nearest_rank": 22.90212425001664,
+        "max": 131.37770487501984
+      },
+      "turn_latency_seconds": {
+        "n": 76,
+        "sum": 3819.2497773777577,
+        "mean": 50.25328654444418,
+        "median": 41.2970852710132,
+        "p95_nearest_rank": 104.39864199998556,
+        "max": 422.93820895795943
+      },
+      "returned_model_versions": [
+        "gemini-2.5-pro"
+      ]
+    },
+    {
+      "region": "us-central1",
+      "condition": "baseline",
+      "denominator_scope": "Observed assertions attributed to this endpoint; endpoint allocation was operational, not randomized or planned as an independent sample",
+      "observed_responses": 85,
+      "runtime_invalid_responses": 6,
+      "primary": {
+        "planned_assertions": 0,
+        "observed_assertions": 0,
+        "eligible_observed_assertions": 0,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 0,
+        "runtime_invalid_assertions": 0,
+        "correct": 0,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": null,
+        "observed_end_to_end_accuracy": null,
+        "valid_only_accuracy": null,
+        "status": "complete"
+      },
+      "secondary": {
+        "planned_assertions": 31,
+        "observed_assertions": 31,
+        "eligible_observed_assertions": 31,
+        "not_observed": 0,
+        "excluded_epoch_assertions": 0,
+        "runtime_valid_assertions": 28,
+        "runtime_invalid_assertions": 3,
+        "correct": 28,
+        "ambiguous": 0,
+        "not_matched": 0,
+        "explicit_abstention_mentions": 0,
+        "explicit_refusal_mentions": 0,
+        "competing_value_mentions": 0,
+        "superseded_value_mentions_on_current_probes": 0,
+        "latest_value_mentions_on_historical_probes": 0,
+        "complete": true,
+        "end_to_end_accuracy": 0.9032258064516129,
+        "observed_end_to_end_accuracy": 0.9032258064516129,
+        "valid_only_accuracy": 1.0,
+        "status": "complete"
+      },
+      "by_metric": [
+        {
+          "metric": "current_fact_recall",
+          "is_primary": false,
+          "planned_assertions": 17,
+          "observed_assertions": 17,
+          "eligible_observed_assertions": 17,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 16,
+          "runtime_invalid_assertions": 1,
+          "correct": 16,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.9411764705882353,
+          "observed_end_to_end_accuracy": 0.9411764705882353,
+          "valid_only_accuracy": 1.0,
+          "status": "complete"
+        },
+        {
+          "metric": "identity_preservation",
+          "is_primary": false,
+          "planned_assertions": 14,
+          "observed_assertions": 14,
+          "eligible_observed_assertions": 14,
+          "not_observed": 0,
+          "excluded_epoch_assertions": 0,
+          "runtime_valid_assertions": 12,
+          "runtime_invalid_assertions": 2,
+          "correct": 12,
+          "ambiguous": 0,
+          "not_matched": 0,
+          "explicit_abstention_mentions": 0,
+          "explicit_refusal_mentions": 0,
+          "competing_value_mentions": 0,
+          "superseded_value_mentions_on_current_probes": 0,
+          "latest_value_mentions_on_historical_probes": 0,
+          "complete": true,
+          "end_to_end_accuracy": 0.8571428571428571,
+          "observed_end_to_end_accuracy": 0.8571428571428571,
+          "valid_only_accuracy": 1.0,
+          "status": "complete"
+        }
+      ],
+      "requests": 163,
+      "outcomes": {
+        "returned": 79,
+        "error": 84
+      },
+      "requests_by_stage": {
+        "patient_response": 163
+      },
+      "finish_reasons": {
+        "STOP": 79
+      },
+      "errors": {
+        "ResourceExhausted": 84
+      },
+      "usage_totals": {
+        "prompt_token_count": 332273,
+        "candidates_token_count": 6694,
+        "total_token_count": 418638,
+        "thoughts_token_count": 79671,
+        "cached_content_token_count": 32613
+      },
+      "api_latency_seconds": {
+        "n": 163,
+        "sum": 1308.5406174964737,
+        "mean": 8.027856549058122,
+        "median": 0.7990456660045311,
+        "p95_nearest_rank": 18.721261333033908,
+        "max": 102.03298816701863
+      },
+      "turn_latency_seconds": {
+        "n": 85,
+        "sum": 3301.6295632518595,
+        "mean": 38.84270074413952,
+        "median": 14.452986249991227,
+        "p95_nearest_rank": 196.1272876249859,
+        "max": 215.9429647080251
+      },
+      "returned_model_versions": [
+        "gemini-2.5-pro"
+      ]
+    }
+  ]
+}

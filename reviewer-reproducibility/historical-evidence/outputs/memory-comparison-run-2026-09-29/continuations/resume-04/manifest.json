@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "frozen_at": "2026-09-29T10:58:21.462104+00:00",
+  "authorization": "User instruction: Ok procedi, authorizing bounded timeout retries and continuation",
+  "original_execution_manifest_sha256": "fc150bc97ed25ffd6a3308da59fa99bcd13527b8b1f768c29ded8d78b887ccc0",
+  "next_execution_order": 10,
+  "completed_sessions_preserved": 9,
+  "accepted_turns_preserved": 49,
+  "requests_preserved": 96,
+  "responses_preserved": 94,
+  "native_inference_code_changed": false,
+  "recovery_worker_added": true,
+  "live_calls_at_freeze": 0,
+  "transport_policy": {
+    "version": "bounded_timeout_retry_v1",
+    "max_attempts": 3,
+    "retry_delays_seconds": [
+      30,
+      60
+    ],
+    "minimum_interval_seconds": 5,
+    "model_fallback": false
+  },
+  "recovery_deviation": "Flat turn5 resumes with byte-identical prompt; all future calls use bounded timeout policy with unchanged graph/model/settings",
+  "files": {
+    "continue_run.py": "ad5b59606acc5a2c107a6466547c5e3fdeaff45153fc7410192523649a49cdcc",
+    "test_continuation.py": "5db20c94e10945d4e4ad284d505b164985dfb1a97464f62e662a4bedf788896f",
+    "checkpoint_audit.py": "69a2e6e2a3e4ee701c0082b7e6b5fe58f60328b42f80c261a46776d2591b0643",
+    "test_checkpoint_audit.py": "a98209804528293bedf1d523c6ebff26735d5c6b216378e5afe43f8227e8adcf",
+    "worker.py": "b0a8d4b3d8928c861a3a79509bc37ff2a03e27913cdff96103de8483be25c95d",
+    "test_worker.py": "cfb721b850dbc5d7f11458dbc97d5878c2abc33eead378e0041ffa6d511e0f1c",
+    "native-preflight.json": "d3cee266e1fbff62021018651994cc919c6156a4f42629a7e9b4c81d983c88d2",
+    "timeout_retries.py": "567b107d9a16a381338450fa369add73c4e845d165376116740696efde2650a8",
+    "test_timeout_retries.py": "665eaf29f40a63a077c4f8eb38e9e6462efce9498b3eef0fb347cf2e6c159e9b",
+    "native_retry_check.py": "2fb27f3defb72ee2051e62ea294ca88600c82420b92ad53299029d33aba71181",
+    "native-retry-results.json": "d0601de3185744d409c5d102aafd080040aad0b4f5a138344121d2b775783f32",
+    "AMENDMENT.md": "93e41d21b768a46d73ad4d1fd98ad47c58d7deaa65ed8edbcfec59129cbf1a75",
+    "launchd.plist": "5230bae8d43b62ff9ff194c3895d05d9c3b2d03c541a69d1948dc9173706de0f",
+    "offline-results.json": "cbaa08f7f2be9495dfc2206139475d8f1778e47ea2bf7b719e6c0969e034eea4",
+    "checkpoint-audit.json": "2b44d28df668101b65b433dd53c251b50b0f97254e2139c30bea1177f3c99945",
+    "snapshot-manifest.json": "58021d18c988072b57a054b3ad197d224111dba309e44cc2b0c0f058dc355297"
+  },
+  "supervisor": {
+    "kind": "one_shot_user_launchd_job",
+    "label": "local.llmpatient.memory-comparison-20260929-resume04",
+    "automatic_restart": false,
+    "idle_sleep_assertion": "Only while this one-shot job is running"
+  }
+}

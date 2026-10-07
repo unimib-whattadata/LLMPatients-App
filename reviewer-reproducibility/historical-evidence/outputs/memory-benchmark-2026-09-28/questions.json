@@ -1,0 +1,212 @@
+{
+  "alex_carter_001": [
+    {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?"
+    },
+    {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?"
+    },
+    {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?"
+    },
+    {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?"
+    },
+    {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?"
+    },
+    {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?"
+    },
+    {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?"
+    },
+    {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?"
+    }
+  ],
+  "jason_smith_001": [
+    {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?"
+    },
+    {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?"
+    },
+    {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?"
+    },
+    {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?"
+    },
+    {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?"
+    },
+    {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?"
+    },
+    {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?"
+    },
+    {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?"
+    }
+  ],
+  "daniel_isherwood_001": [
+    {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?"
+    },
+    {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?"
+    },
+    {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?"
+    },
+    {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?"
+    },
+    {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?"
+    },
+    {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?"
+    },
+    {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?"
+    },
+    {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?"
+    }
+  ],
+  "crystal_smith_001": [
+    {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?"
+    },
+    {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?"
+    },
+    {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?"
+    },
+    {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?"
+    },
+    {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?"
+    },
+    {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?"
+    },
+    {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?"
+    },
+    {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?"
+    }
+  ],
+  "juanita_delgado_001": [
+    {
+      "probe_id": "remote_folder",
+      "category": "remote",
+      "question": "What title did you give the folder where you keep the loose reflection pages?"
+    },
+    {
+      "probe_id": "remote_card",
+      "category": "remote",
+      "question": "What title did you choose for your separate cue card?"
+    },
+    {
+      "probe_id": "current_slot",
+      "category": "update_current",
+      "question": "What is your current weekly private reflection slot?"
+    },
+    {
+      "probe_id": "previous_slot",
+      "category": "update_past",
+      "question": "What was your weekly private reflection slot before you changed it?"
+    },
+    {
+      "probe_id": "agreed_practice",
+      "category": "proposal",
+      "question": "Which of the two proposed conversation practices did you actually agree to try?"
+    },
+    {
+      "probe_id": "completed_exercise",
+      "category": "completion",
+      "question": "Which of the two paper exercises have you actually completed?"
+    },
+    {
+      "probe_id": "unknown_folder_material",
+      "category": "abstention",
+      "question": "What material is the cover of your reflection folder made from?"
+    },
+    {
+      "probe_id": "unknown_card_reverse",
+      "category": "abstention",
+      "question": "What is printed on the reverse side of your cue card?"
+    }
+  ]
+}

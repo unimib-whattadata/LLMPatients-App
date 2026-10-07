@@ -1,0 +1,11 @@
+{
+  "case_id": "alex_carter_001__flat_full_history",
+  "repetition": 3,
+  "patient_id": "alex_carter_001",
+  "arm": "flat_full_history",
+  "question": "I have recorded that you and Rina Holt completed the Folded Map listening card during this practice session. The card activity is finished. How would you describe the experience in one or two sentences?",
+  "response": "The Folded Map listening card was an interesting exercise. It really challenged me to follow Rina's perspective without trying to lead the conversation, which was a great way to practice focused, empathic listening.",
+  "prompt_sha256": "e11f5c0a25dc007bf8629312de4ad4209064b8dfa9d810d2b94b184227a59180",
+  "timestamp": "2026-09-30T15:44:28.800636+00:00",
+  "directory": "replay-runtime/02__alex_carter_001__flat_full_history__rep3"
+}

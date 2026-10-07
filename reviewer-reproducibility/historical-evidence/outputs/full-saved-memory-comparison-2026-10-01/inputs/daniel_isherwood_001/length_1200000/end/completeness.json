@@ -1,0 +1,35 @@
+{
+  "patient_id": "daniel_isherwood_001",
+  "target_tokens": 1200000,
+  "fact_position": "end",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/daniel_isherwood_001/length_1200000/end/records.jsonl",
+  "record_count": 6728,
+  "full_prompt_local_tokens": 1200101,
+  "full_history_local_tokens": 1195680,
+  "block_start_history_token": 1187931,
+  "block_end_history_token": 1195680,
+  "block_relative_midpoint": 0.9967595845042152,
+  "context_id": "daniel_isherwood_001__1200000__end",
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/full-saved-memory-comparison-2026-10-01/inputs/daniel_isherwood_001/length_1200000/end/full_saved_memory.txt.gz",
+  "prompt_sha256": "9eb54f3e9e1c68f8ad475df8f698f498ad05f59851617ef4cdea3af3b8aea9db",
+  "prompt_file_sha256": "ab83a5842dbebfb8127fb9b8ed8868b2032d7560f236b13f460d4019ca3a6c66",
+  "local_prompt_tokens": 2322694,
+  "uncompressed_prompt_bytes": 8958946,
+  "compressed_prompt_bytes": 334169,
+  "complete_saved_original_records": 81,
+  "record_counts": {
+    "conversation_turn": 6728,
+    "episode_summary": 9,
+    "fact_batch": 9,
+    "session_reflection": 9,
+    "long_term_summary": 9
+  },
+  "all_record_fields_preserved": true,
+  "memory_record_stream_sha256": "002722e7ac5953e7b551ec900e588b58cf629696873b066ffd3caff05f20e822",
+  "paired_baseline_job_ids": [
+    "115"
+  ],
+  "selection_limit": null,
+  "truncation_applied": false,
+  "plugin_enabled": false
+}

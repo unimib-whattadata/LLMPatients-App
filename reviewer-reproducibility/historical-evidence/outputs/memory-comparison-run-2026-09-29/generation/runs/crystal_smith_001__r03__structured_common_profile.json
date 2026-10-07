@@ -1,0 +1,16 @@
+{
+  "run_id": "crystal_smith_001__r03__structured_common_profile",
+  "pair_id": "crystal_smith_001__r03",
+  "profile_id": "crystal_smith_001",
+  "repetition": 3,
+  "arm": "structured_common_profile",
+  "case_path": "profiles/crystal_smith_001/case-narrative.txt",
+  "case_sha256": "9dc8afb6aa16278fe024abf05d3f6a4476232d15c97641aeeb4ae8d011c80ad6",
+  "scenario_path": "scenarios/crystal_smith_001.json",
+  "sessions": 11,
+  "therapist_turns": 55,
+  "native_api_id": "crystal_smith_001",
+  "archived_patient_id": "crystal_smith_001",
+  "profile_path": "source/data/patients/crystal_smith_001.yaml",
+  "source_yaml_sha256": "19dca50e3639b3f2478b34327b00b5859f554f7c852c15b50670a8bca36c88c4"
+}

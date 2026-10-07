@@ -1,0 +1,84 @@
+{
+  "status": "PASS",
+  "network_calls": 0,
+  "cases": [
+    {
+      "case": "valid-integrity",
+      "status": "PASS"
+    },
+    {
+      "case": "valid-extraction",
+      "status": "PASS"
+    },
+    {
+      "case": "reject-existing-extract",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-tampered-loose-bundle",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-member-content-mismatch",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-archive-traversal",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-symlink-member",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-duplicate-member",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "reject-loose-traversal",
+      "status": "PASS",
+      "rejected": "ValueError"
+    },
+    {
+      "case": "smoke-valid",
+      "status": "PASS",
+      "model_status": "PASS"
+    },
+    {
+      "case": "smoke-wrong-model",
+      "status": "PASS",
+      "model_status": "UNEXPECTED_RESPONSE"
+    },
+    {
+      "case": "smoke-empty-choices",
+      "status": "PASS",
+      "model_status": "UNEXPECTED_RESPONSE"
+    },
+    {
+      "case": "smoke-choice-error",
+      "status": "PASS",
+      "model_status": "UNEXPECTED_RESPONSE"
+    },
+    {
+      "case": "smoke-redaction",
+      "status": "PASS",
+      "model_status": "UNEXPECTED_RESPONSE"
+    },
+    {
+      "case": "smoke-malformed-payload",
+      "status": "PASS",
+      "model_status": "UNEXPECTED_RESPONSE"
+    },
+    {
+      "case": "smoke-refuse-overwrite-before-network",
+      "status": "PASS"
+    }
+  ],
+  "scratch": "/private/tmp/llmpatients-toolkit-review-hwr3hr6_"
+}

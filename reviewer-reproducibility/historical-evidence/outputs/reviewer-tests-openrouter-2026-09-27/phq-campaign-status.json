@@ -1,0 +1,11 @@
+{
+  "status": "completed",
+  "pid": 49280,
+  "started_at": "2026-09-27T15:53:36.151034+00:00",
+  "actual_workers": 1,
+  "rate_limit_amendment_id": "openrouter-gemini-2.5-pro-continuation-2026-09-27",
+  "openrouter_amendment_id": "openrouter-gemini-2.5-pro-continuation-2026-09-27",
+  "rate_limit_amendment_sha256": "8f3bc5bf34d6a360cfedb3982a7e3775e7c070327ffe449cba22e6030fcf6733",
+  "finished_at": "2026-09-27T16:08:54.488069+00:00",
+  "failures": []
+}

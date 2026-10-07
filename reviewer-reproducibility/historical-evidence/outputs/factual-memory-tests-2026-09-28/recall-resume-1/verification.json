@@ -1,0 +1,126 @@
+{
+  "timestamp": "2026-09-28T09:41:40.144909+00:00",
+  "automatic_score": {
+    "passed": 6,
+    "total": 6
+  },
+  "manual_semantic_review": {
+    "reviewer": "same assistant, unblinded; not an independent evaluation",
+    "items": [
+      {
+        "label": "current_title",
+        "pass": true,
+        "reason": "Dawn Register is clearly given as current; no competing current label."
+      },
+      {
+        "label": "original_title",
+        "pass": true,
+        "reason": "Harbor Atlas is identified as the previous title."
+      },
+      {
+        "label": "card",
+        "pass": true,
+        "reason": "Copper Sparrow is identified and distinguished from the journal."
+      },
+      {
+        "label": "slot",
+        "pass": true,
+        "reason": "Friday 09:40 is recalled and the appointment remains optional."
+      },
+      {
+        "label": "attendance",
+        "pass": true,
+        "reason": "Explicitly unconfirmed and not committed; no invented attendance agreement."
+      },
+      {
+        "label": "unknown",
+        "pass": true,
+        "reason": "Explicitly says the color was not specified; invents no color."
+      }
+    ],
+    "passed": 6,
+    "total": 6
+  },
+  "native_api_checks": [
+    {
+      "label": "current_title",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 16.10926916700555,
+      "completion_tokens": 1455,
+      "prompt_tokens": 2174,
+      "cost_usd": 0.0172675
+    },
+    {
+      "label": "original_title",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 10.784256374987308,
+      "completion_tokens": 835,
+      "prompt_tokens": 2165,
+      "cost_usd": 0.01105625
+    },
+    {
+      "label": "card",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 13.074708915955853,
+      "completion_tokens": 1076,
+      "prompt_tokens": 2155,
+      "cost_usd": 0.01345375
+    },
+    {
+      "label": "slot",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 20.313639542029705,
+      "completion_tokens": 1768,
+      "prompt_tokens": 2228,
+      "cost_usd": 0.020465
+    },
+    {
+      "label": "attendance",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 11.681450833042618,
+      "completion_tokens": 1101,
+      "prompt_tokens": 2193,
+      "cost_usd": 0.01375125
+    },
+    {
+      "label": "unknown",
+      "complete": true,
+      "same_model": true,
+      "native_response_matches_scored_answer": true,
+      "archived_prompt_matches_request": true,
+      "same_settings": true,
+      "elapsed_seconds": 13.381117582961451,
+      "completion_tokens": 1214,
+      "prompt_tokens": 2176,
+      "cost_usd": 0.01486
+    }
+  ],
+  "availability_errors": 0,
+  "calls": 6,
+  "cost_usd": 0.09085375,
+  "source_inputs_unchanged": true,
+  "runtime_unchanged": true,
+  "memory_unchanged_during_probes": true,
+  "scope": "single synthetic fixture, six independent queries of one saved memory state; no full graph execution, no baseline comparison",
+  "format_observation": "Responses include extra conversational text and parenthetical stage directions despite some questions asking for title/time only; this score concerns factual content."
+}

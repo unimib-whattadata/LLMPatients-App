@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-09-30T18:04:59.320038+00:00",
+  "network_calls": 0,
+  "status": "passed",
+  "transport_matches_retry_verifier": true,
+  "jobs": [
+    {
+      "job_id": "01",
+      "source_job_id": "01",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "02",
+      "source_job_id": "03",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "03",
+      "source_job_id": "06",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "04",
+      "source_job_id": "08",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "05",
+      "source_job_id": "09",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "06",
+      "source_job_id": "11",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "07",
+      "source_job_id": "14",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "08",
+      "source_job_id": "16",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "09",
+      "source_job_id": "17",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "10",
+      "source_job_id": "20",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "11",
+      "source_job_id": "22",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "12",
+      "source_job_id": "24",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "13",
+      "source_job_id": "26",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "14",
+      "source_job_id": "27",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "15",
+      "source_job_id": "29",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "16",
+      "source_job_id": "31",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "17",
+      "source_job_id": "33",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "18",
+      "source_job_id": "35",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "19",
+      "source_job_id": "37",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "20",
+      "source_job_id": "40",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "21",
+      "source_job_id": "41",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "22",
+      "source_job_id": "43",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "23",
+      "source_job_id": "45",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "24",
+      "source_job_id": "48",
+      "only_request_change": "plugins context-compression"
+    },
+    {
+      "job_id": "25",
+      "source_job_id": "49",
+      "only_request_change": "plugins context-compression"
+    }
+  ],
+  "context_error_fixtures": [
+    {
+      "fixture": "capacity",
+      "expected_context_rejection": true
+    },
+    {
+      "fixture": "protocol_mismatch",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "unavailable",
+      "expected_context_rejection": false
+    },
+    {
+      "fixture": "invalid_plugin",
+      "expected_context_rejection": false
+    }
+  ]
+}

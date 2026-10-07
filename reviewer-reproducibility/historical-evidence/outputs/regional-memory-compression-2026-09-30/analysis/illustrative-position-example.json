@@ -1,0 +1,95 @@
+{
+  "scope": "Illustrative within-profile position contrast, selected for explanation; not used to select, exclude or score any condition. All 24 cells remain reported.",
+  "patient_id": "daniel_isherwood_001",
+  "source": "runtime/answers.jsonl",
+  "source_sha256": "635336db84b77e4c546cef9773c483d2183e744d81e3dc226e4f7501db110488",
+  "answers": [
+    {
+      "job_id": "108",
+      "fact_position": "middle",
+      "answer": "1.  My name is Daniel Isherwood, and I am 55 years old.\n\n2.  The exact title for the reflection notebook was not established in our conversations. You introduced them as \"reflection examples.\"\n\n3.  According to your records, these details were not established. The practice partner's name, the current agreed day and time, the former agreed day and time, and the proposed day and time were not recorded.\n\n4.  The exact names for the current booked venue and the former venue were not established in your records.\n\n5.  From your records, the activity titled \"Reflection example 1\" was the completed activity. The telephone activity that remained planned and not completed was not established.\n\n6.  No, you did not record and confirm the surname of the person who reserved our training room. It was never established in your records.",
+      "native_record_id": "a32d4058-b1b8-4fbd-a264-fe312f4e13a4",
+      "usage": {
+        "prompt_tokens": 257488,
+        "completion_tokens": 941,
+        "total_tokens": 258429,
+        "cost": 0.657835,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.657835,
+          "upstream_inference_prompt_cost": 0.64372,
+          "upstream_inference_completions_cost": 0.014115
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 760,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "job_id": "109",
+      "fact_position": "start",
+      "answer": "1. My name is Daniel Isherwood, and I am 55 years old.\n\n2. At the beginning of our practice, you told me the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3. According to what you recorded, the details are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current, confirmed appointment is Friday at 18:20.\n    *   The former appointment, which was replaced, was Wednesday at 17:45.\n    *   The proposed time that we did not agree to was Saturday at 09:30.\n\n4. From your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5. From your activity records:\n    *   The activity recorded as completed is the \"Folded Map\" listening card.\n    *   The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6. No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records.",
+      "native_record_id": "d3fd1bc4-4a9b-4dea-9a41-1b43b5d7384a",
+      "usage": {
+        "prompt_tokens": 258590,
+        "completion_tokens": 957,
+        "total_tokens": 259547,
+        "cost": 0.66083,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.66083,
+          "upstream_inference_prompt_cost": 0.646475,
+          "upstream_inference_completions_cost": 0.014355
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 715,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    },
+    {
+      "job_id": "115",
+      "fact_position": "end",
+      "answer": "Of course. I'll do my best to recall all those details from our sessions.\n\n1.  My full name is Daniel Isherwood, and I am 55 years old.\n\n2.  According to our conversation, the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3.  Based on what you recorded, the details are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former appointment that was replaced was Wednesday at 17:45.\n    *   The one that remained only a proposal was Saturday at 09:30.\n\n4.  From your records, the current booked venue is Plover Annex, and the former venue it replaced was Larch Reading Room.\n\n5.  The activity you recorded as completed was titled Folded Map. The telephone activity that was planned but not completed is titled Silver Button.\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records.",
+      "native_record_id": "2a35b8d6-85b6-4645-a751-77945f26f5dc",
+      "usage": {
+        "prompt_tokens": 258591,
+        "completion_tokens": 1159,
+        "total_tokens": 259750,
+        "cost": 0.6638625,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.6638625,
+          "upstream_inference_prompt_cost": 0.6464775,
+          "upstream_inference_completions_cost": 0.017385
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 917,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  ]
+}

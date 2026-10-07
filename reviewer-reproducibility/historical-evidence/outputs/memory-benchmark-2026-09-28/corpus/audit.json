@@ -1,0 +1,769 @@
+{
+  "version": "fixed-dialogue-v1",
+  "offline_only": true,
+  "all_assertions_passed": true,
+  "trajectories": [
+    {
+      "patient_id": "alex_carter_001",
+      "sessions": 11,
+      "exchanges": 132,
+      "final_history_utf8_bytes": 58417,
+      "final_history_utf8_bytes_div_3_ceil": 19473,
+      "session_lengths": [
+        {
+          "session_id": "session_01",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1727
+        },
+        {
+          "session_id": "session_02",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1755
+        },
+        {
+          "session_id": "session_03",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1763
+        },
+        {
+          "session_id": "session_04",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1809
+        },
+        {
+          "session_id": "session_05",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1786
+        },
+        {
+          "session_id": "session_06",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1777
+        },
+        {
+          "session_id": "session_07",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1750
+        },
+        {
+          "session_id": "session_08",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1769
+        },
+        {
+          "session_id": "session_09",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1756
+        },
+        {
+          "session_id": "session_10",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1755
+        },
+        {
+          "session_id": "session_11",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1826
+        }
+      ],
+      "target_string_occurrences": {
+        "Stillwater Notes": 1,
+        "Amber Finch": 1,
+        "Tuesday at 17:15": 1,
+        "Thursday at 18:35": 1,
+        "One Line Check-in": 2,
+        "Daily Voice Log": 2,
+        "Observation Sketch": 3,
+        "Listening Map": 3
+      },
+      "source_positions": {
+        "remote_a": [
+          1,
+          2
+        ],
+        "remote_b": [
+          2,
+          9
+        ],
+        "old": [
+          3,
+          4
+        ],
+        "new": [
+          8,
+          8
+        ],
+        "proposal": [
+          5,
+          3
+        ],
+        "plan": [
+          6,
+          10
+        ],
+        "complete": [
+          9,
+          6
+        ]
+      }
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "sessions": 11,
+      "exchanges": 132,
+      "final_history_utf8_bytes": 59829,
+      "final_history_utf8_bytes_div_3_ceil": 19943,
+      "session_lengths": [
+        {
+          "session_id": "session_01",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1759
+        },
+        {
+          "session_id": "session_02",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1790
+        },
+        {
+          "session_id": "session_03",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1843
+        },
+        {
+          "session_id": "session_04",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1824
+        },
+        {
+          "session_id": "session_05",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1834
+        },
+        {
+          "session_id": "session_06",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1823
+        },
+        {
+          "session_id": "session_07",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1782
+        },
+        {
+          "session_id": "session_08",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1815
+        },
+        {
+          "session_id": "session_09",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1811
+        },
+        {
+          "session_id": "session_10",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1798
+        },
+        {
+          "session_id": "session_11",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1864
+        }
+      ],
+      "target_string_occurrences": {
+        "Juniper Thread": 1,
+        "Cobalt Moth": 1,
+        "Wednesday at 16:20": 1,
+        "Monday at 19:10": 1,
+        "Quiet Sentence Practice": 2,
+        "Evening Audio Diary": 2,
+        "Connection Outline": 3,
+        "Conversation Grid": 3
+      },
+      "source_positions": {
+        "remote_a": [
+          2,
+          5
+        ],
+        "remote_b": [
+          1,
+          11
+        ],
+        "old": [
+          4,
+          7
+        ],
+        "new": [
+          9,
+          3
+        ],
+        "proposal": [
+          6,
+          8
+        ],
+        "plan": [
+          7,
+          2
+        ],
+        "complete": [
+          10,
+          9
+        ]
+      }
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "sessions": 11,
+      "exchanges": 132,
+      "final_history_utf8_bytes": 60270,
+      "final_history_utf8_bytes_div_3_ceil": 20090,
+      "session_lengths": [
+        {
+          "session_id": "session_01",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1808
+        },
+        {
+          "session_id": "session_02",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1789
+        },
+        {
+          "session_id": "session_03",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1820
+        },
+        {
+          "session_id": "session_04",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1873
+        },
+        {
+          "session_id": "session_05",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1813
+        },
+        {
+          "session_id": "session_06",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1854
+        },
+        {
+          "session_id": "session_07",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1806
+        },
+        {
+          "session_id": "session_08",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1816
+        },
+        {
+          "session_id": "session_09",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1818
+        },
+        {
+          "session_id": "session_10",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1808
+        },
+        {
+          "session_id": "session_11",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1886
+        }
+      ],
+      "target_string_occurrences": {
+        "Cedar Margin": 1,
+        "Ivory Heron": 1,
+        "Friday at 18:10": 1,
+        "Tuesday at 20:25": 1,
+        "Arrival Note Practice": 2,
+        "Hourly Reminder Routine": 2,
+        "Evening Sequence Page": 3,
+        "Workday Contrast Page": 3
+      },
+      "source_positions": {
+        "remote_a": [
+          3,
+          8
+        ],
+        "remote_b": [
+          2,
+          2
+        ],
+        "old": [
+          5,
+          10
+        ],
+        "new": [
+          10,
+          5
+        ],
+        "proposal": [
+          4,
+          11
+        ],
+        "plan": [
+          6,
+          4
+        ],
+        "complete": [
+          8,
+          12
+        ]
+      }
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "sessions": 11,
+      "exchanges": 132,
+      "final_history_utf8_bytes": 59292,
+      "final_history_utf8_bytes_div_3_ceil": 19764,
+      "session_lengths": [
+        {
+          "session_id": "session_01",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1751
+        },
+        {
+          "session_id": "session_02",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1809
+        },
+        {
+          "session_id": "session_03",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1752
+        },
+        {
+          "session_id": "session_04",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1835
+        },
+        {
+          "session_id": "session_05",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1817
+        },
+        {
+          "session_id": "session_06",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1817
+        },
+        {
+          "session_id": "session_07",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1774
+        },
+        {
+          "session_id": "session_08",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1802
+        },
+        {
+          "session_id": "session_09",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1779
+        },
+        {
+          "session_id": "session_10",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1775
+        },
+        {
+          "session_id": "session_11",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1854
+        }
+      ],
+      "target_string_occurrences": {
+        "Willow Landing": 1,
+        "Ochre Wren": 1,
+        "Monday at 11:40": 1,
+        "Friday at 10:05": 1,
+        "Single Phrase Check": 2,
+        "Morning Recording Routine": 2,
+        "Daily Effort Card": 3,
+        "Support Circle Sheet": 3
+      },
+      "source_positions": {
+        "remote_a": [
+          1,
+          11
+        ],
+        "remote_b": [
+          3,
+          5
+        ],
+        "old": [
+          3,
+          9
+        ],
+        "new": [
+          7,
+          11
+        ],
+        "proposal": [
+          5,
+          6
+        ],
+        "plan": [
+          6,
+          1
+        ],
+        "complete": [
+          9,
+          2
+        ]
+      }
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "sessions": 11,
+      "exchanges": 132,
+      "final_history_utf8_bytes": 59842,
+      "final_history_utf8_bytes_div_3_ceil": 19948,
+      "session_lengths": [
+        {
+          "session_id": "session_01",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1750
+        },
+        {
+          "session_id": "session_02",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1805
+        },
+        {
+          "session_id": "session_03",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1832
+        },
+        {
+          "session_id": "session_04",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1835
+        },
+        {
+          "session_id": "session_05",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1835
+        },
+        {
+          "session_id": "session_06",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1821
+        },
+        {
+          "session_id": "session_07",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1787
+        },
+        {
+          "session_id": "session_08",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1817
+        },
+        {
+          "session_id": "session_09",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1808
+        },
+        {
+          "session_id": "session_10",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1792
+        },
+        {
+          "session_id": "session_11",
+          "exchanges": 12,
+          "utf8_bytes_div_3_ceil": 1866
+        }
+      ],
+      "target_string_occurrences": {
+        "Birch Horizon": 1,
+        "Indigo Fern": 1,
+        "Thursday at 15:50": 1,
+        "Wednesday at 13:30": 1,
+        "Pause Word Practice": 2,
+        "Twice Daily Checklist": 2,
+        "Situation Detail Page": 3,
+        "Routine Options Sheet": 3
+      },
+      "source_positions": {
+        "remote_a": [
+          2,
+          3
+        ],
+        "remote_b": [
+          1,
+          8
+        ],
+        "old": [
+          4,
+          1
+        ],
+        "new": [
+          10,
+          10
+        ],
+        "proposal": [
+          6,
+          6
+        ],
+        "plan": [
+          7,
+          9
+        ],
+        "complete": [
+          9,
+          4
+        ]
+      }
+    }
+  ],
+  "probe_source_checks": [
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "remote_folder",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "remote_card",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "current_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "previous_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "agreed_practice",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "completed_exercise",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "unknown_folder_material",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "alex_carter_001",
+      "probe_id": "unknown_card_reverse",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "remote_folder",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "remote_card",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "current_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "previous_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "agreed_practice",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "completed_exercise",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "unknown_folder_material",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "jason_smith_001",
+      "probe_id": "unknown_card_reverse",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "remote_folder",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "remote_card",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "current_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "previous_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "agreed_practice",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "completed_exercise",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "unknown_folder_material",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "daniel_isherwood_001",
+      "probe_id": "unknown_card_reverse",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "remote_folder",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "remote_card",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "current_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "previous_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "agreed_practice",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "completed_exercise",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "unknown_folder_material",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "crystal_smith_001",
+      "probe_id": "unknown_card_reverse",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "remote_folder",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "remote_card",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "current_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "previous_slot",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "agreed_practice",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "completed_exercise",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "unknown_folder_material",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    },
+    {
+      "patient_id": "juanita_delgado_001",
+      "probe_id": "unknown_card_reverse",
+      "literal_sources_valid": true,
+      "answer_absent_from_question": true
+    }
+  ]
+}

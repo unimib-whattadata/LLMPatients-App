@@ -1,0 +1,311 @@
+{
+  "metadata": {
+    "partial_snapshot": false,
+    "condition_blinded": true,
+    "n": 56,
+    "reviewer": "Codex agent already involved in corpus authoring, not independent clinical validation",
+    "scope": "Offline condition-blinded semantic assessment of the complete Crystal packet. The reviewer participated in corpus authoring; this is not independent clinical validation. All 32 prior judgments, including their reasons, are preserved unchanged; only the 24 new responses were newly assessed. No condition labels, mappings, run data, results, reports, or provider logs were read; no provider calls were made.",
+    "method": "Each new complete response was read against its question, cited source-based gold, and the unchanged frozen rubric. Object association, temporal role, agreement/completion status, and appropriate abstention were assessed semantically, not by word presence alone.",
+    "judgments_reused": 32,
+    "judgments_new": 24,
+    "reused_correct_count": 27,
+    "new_correct_count": 20,
+    "correct_count": 47,
+    "input_packet": "analysis/review-packets/crystal.json",
+    "input_packet_sha256": "8ab95b0c94db6631fc24faca3327763a630c8a9c0511070abbc35bebebeb7f92",
+    "rubric": "corpus/SCORING.md",
+    "rubric_sha256": "8338136e6f7d0a7de09de20530f8495d904dc2b0b98771e5a46e88a1bb93caff",
+    "prior_review": "analysis/semantic-crystal-partial-20260928T111757Z.json",
+    "prior_review_sha256": "e77d22a3a71a4ecf7b6c0c9510e39d2bd21c64c3bf5ed7c93fe2509e7673e753",
+    "prior_judgments_preserved_unchanged": true,
+    "files_read": [
+      "analysis/review-packets/crystal.json",
+      "corpus/SCORING.md",
+      "analysis/semantic-crystal-partial-20260928T111757Z.json"
+    ],
+    "ambiguities": [],
+    "ambiguity_note": "Nessuna ambiguità materiale nelle 24 risposte nuove: due astensioni su orari specificati, uno scambio cartella/cue card e una risposta sugli esercizi invece della pratica di conversazione. I 32 giudizi precedenti rimangono invariati."
+  },
+  "judgments": [
+    {
+      "review_id": "d972f27f60e7cf5f8519",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "3cd76d914a56e9348df2",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: Daily Effort Card è stato completato, mentre Support Circle Sheet resta soltanto pianificato."
+    },
+    {
+      "review_id": "e534b64087465a73f931",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "e46a9b5dcbfcd747d051",
+      "correct": true,
+      "reason": "Assegna correttamente Monday at 11:40 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "7346db865ba4aca2024b",
+      "correct": false,
+      "reason": "Risponde Willow Landing alla domanda sul titolo della cue card: attribuisce alla cue card il titolo della cartella; il titolo corretto richiesto è Ochre Wren."
+    },
+    {
+      "review_id": "ccbd1866f451e6a0eb28",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: il precedente orario è Monday at 11:40."
+    },
+    {
+      "review_id": "216ee3a798d797596536",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "c7851b516f7d031a5f60",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "bf1edd64fab6be88c79e",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "3970bd80899d7bfe3797",
+      "correct": false,
+      "reason": "Descrive un accordo e gli stati dei due esercizi cartacei Daily Effort Card e Support Circle Sheet, ma non identifica Single Phrase Check come pratica di conversazione accettata; risponde al tipo di attività sbagliato."
+    },
+    {
+      "review_id": "f391a2b72f354cf8b200",
+      "correct": true,
+      "reason": "Distingue esplicitamente Daily Effort Card completato da Support Circle Sheet ancora soltanto pianificato e non iniziato; la citazione di entrambi con stati corretti è ammessa dalla rubrica."
+    },
+    {
+      "review_id": "7aad17d419294fc2daac",
+      "correct": true,
+      "reason": "Identifica Single Phrase Check come pratica accettata, senza accettare Morning Recording Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "9c0beac51eb18870b2d1",
+      "correct": true,
+      "reason": "Assegna correttamente Monday at 11:40 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "75e0b6514f5e54b6ff62",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: la pratica accettata è Single Phrase Check, mentre Morning Recording Routine è stata rifiutata."
+    },
+    {
+      "review_id": "d3f707b879f8f5c61946",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "0a98a0ff4041bd43291e",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "ee000c3cd18da0dcfff6",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: l'orario attuale è Friday at 10:05."
+    },
+    {
+      "review_id": "d0d66231cfae8150dd01",
+      "correct": true,
+      "reason": "Assegna Friday at 10:05 all'orario attuale, distingue esplicitamente la sostituzione dell'accordo precedente ed evita di inferire che la pratica sia stata completata."
+    },
+    {
+      "review_id": "ac9e821b65fcd84de33f",
+      "correct": true,
+      "reason": "Identifica Ochre Wren come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "9e5046c397998d82b769",
+      "correct": true,
+      "reason": "Identifica Daily Effort Card come esercizio completato, senza dichiarare completato Support Circle Sheet o dedurre un miglioramento generale."
+    },
+    {
+      "review_id": "9a01aec63891a19bc2d0",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "3048adbb158e11b78020",
+      "correct": true,
+      "reason": "Identifica Single Phrase Check come pratica accettata, senza accettare Morning Recording Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "7f662f0720f4db0a9918",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "7781231eefc071170bcc",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "c0453122b6a150e2f1f7",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 10:05 all'orario attuale, senza dichiarare avvenuta l'esecuzione della pratica."
+    },
+    {
+      "review_id": "f610f1d7d60637f2ebf6",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "072ea2fba26d40666ffa",
+      "correct": true,
+      "reason": "Assegna correttamente Monday at 11:40 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "6bfdb57ac95158052cef",
+      "correct": true,
+      "reason": "Identifica Daily Effort Card come esercizio completato, senza dichiarare completato Support Circle Sheet o dedurre un miglioramento generale."
+    },
+    {
+      "review_id": "4abae97abbc10710c2f2",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 10:05 all'orario attuale, senza dichiarare avvenuta l'esecuzione della pratica."
+    },
+    {
+      "review_id": "4bfc92d832393607a920",
+      "correct": true,
+      "reason": "Identifica Single Phrase Check come pratica accettata, senza accettare Morning Recording Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "02f7ddc69eaa10aa9137",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "391e7c6d89b19251ca96",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "fc5cf5490de0e9f7662b",
+      "correct": true,
+      "reason": "Assegna correttamente Monday at 11:40 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "f787f33fb826914f10d2",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "119c8c937de2bd3bfcc1",
+      "correct": true,
+      "reason": "Assegna correttamente Friday at 10:05 all'orario attuale, senza dichiarare avvenuta l'esecuzione della pratica."
+    },
+    {
+      "review_id": "82f2da46a2f0ad524722",
+      "correct": true,
+      "reason": "Identifica Ochre Wren come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "4c8d2511271cbc84e08d",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: il precedente orario è Monday at 11:40."
+    },
+    {
+      "review_id": "0669a4656f990f6512ed",
+      "correct": true,
+      "reason": "Identifica Daily Effort Card come esercizio completato, senza dichiarare completato Support Circle Sheet o dedurre un miglioramento generale."
+    },
+    {
+      "review_id": "f582586e99e1b6e9f913",
+      "correct": true,
+      "reason": "Identifica Ochre Wren come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "327ec8b4f3b3e70fed92",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "ee15a7d8213b6250b52b",
+      "correct": true,
+      "reason": "Identifica Single Phrase Check come pratica accettata, senza accettare Morning Recording Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "823cf87ddde6b030cf1a",
+      "correct": true,
+      "reason": "Distingue esplicitamente Daily Effort Card completato da Support Circle Sheet non iniziato e ancora soltanto pianificato."
+    },
+    {
+      "review_id": "144f928512916a39a57d",
+      "correct": true,
+      "reason": "Assegna Friday at 10:05 all'orario attuale e dichiara correttamente che l'accordo precedente è sostituito e cancellato."
+    },
+    {
+      "review_id": "ecf75623d9b51579a6f3",
+      "correct": true,
+      "reason": "Identifica Ochre Wren come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "43e9be585ddd0605c22f",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "7c049ea25f75d79a961c",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: l'orario attuale è Friday at 10:05."
+    },
+    {
+      "review_id": "ace267d9cd364d71555d",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "123ac36bfbb1c95b6fa7",
+      "correct": false,
+      "reason": "Si astiene con null su un fatto specificato: il titolo della cue card è Ochre Wren."
+    },
+    {
+      "review_id": "21c3f78648ddff7b6e69",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "8e88d7743a0b5a23d53f",
+      "correct": true,
+      "reason": "Identifica Willow Landing come titolo della cartella richiesta; non lo associa alla cue card né lo propone come ipotesi."
+    },
+    {
+      "review_id": "6abf1887a2c2d16c40af",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul materiale della copertina, mai specificato, senza indovinare un materiale."
+    },
+    {
+      "review_id": "ca7fa5df608d4e35ab56",
+      "correct": true,
+      "reason": "Identifica Single Phrase Check come pratica accettata, senza accettare Morning Recording Routine né dichiarare completata la pratica."
+    },
+    {
+      "review_id": "9398a0745d22d1ac73b6",
+      "correct": true,
+      "reason": "Il valore JSON null è un'astensione corretta sul contenuto del retro della cue card, mai specificato, senza inventare un'iscrizione."
+    },
+    {
+      "review_id": "ac9b2a010016efd8f7a8",
+      "correct": true,
+      "reason": "Identifica Ochre Wren come titolo della cue card richiesta; non lo associa alla cartella né lo propone come ipotesi."
+    },
+    {
+      "review_id": "07e943fc50734e5bb356",
+      "correct": true,
+      "reason": "Assegna correttamente Monday at 11:40 all'orario precedente nel contesto della domanda sul passato, senza confonderlo con quello attuale."
+    },
+    {
+      "review_id": "9daea05cdd35ee06c3a4",
+      "correct": true,
+      "reason": "Distingue esplicitamente Daily Effort Card completato da Support Circle Sheet ancora soltanto pianificato e non iniziato; la citazione di entrambi con stati corretti è ammessa dalla rubrica."
+    }
+  ]
+}

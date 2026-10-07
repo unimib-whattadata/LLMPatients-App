@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-09-28T20:20:23.855872+00:00",
+  "status": "verified",
+  "original_frozen_files": 35,
+  "preceding_amendment_files": 8,
+  "current_amendment_files": 4,
+  "previous_runtime_files": 47,
+  "prior_accepted_turns_preserved": 40,
+  "prior_closed_sessions_preserved": 8,
+  "completed_sessions": 10,
+  "fresh_process_restorations_verified": 10,
+  "accepted_turns": 51,
+  "unique_raw_sources": 51,
+  "memory_record_counts": {
+    "conversation_turn": 51,
+    "episode_summary": 10,
+    "fact_batch": 10,
+    "session_reflection": 10,
+    "long_term_summary": 10
+  },
+  "previous_completed_artifacts_unchanged": 335,
+  "snapshot_files_unchanged": {
+    "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-benchmark-2026-09-28/analysis/snapshots/final-20260928T152959Z": 27,
+    "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/analysis/snapshots/stop-20260928T155256Z": 20,
+    "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-01/snapshots/stop-20260928T165615Z": 51,
+    "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/memory-integration-fix-2026-09-28/resume-02/snapshots/stop-20260928T181841Z": 67
+  },
+  "requests_after_new_fatal": 0,
+  "last_worker_alive": false
+}

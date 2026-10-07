@@ -1,0 +1,24 @@
+{
+  "created_at": "2026-09-28T08:58:36.094510+00:00",
+  "source_repository": "/Users/marco/Sites/LLMPatients-Agent",
+  "source_sha256": {
+    "agent/core/factual_memory.py": "db240473e1c4f4f9930b84f2ba8995509dc0049437516d3bd68b3db6415a45f3",
+    "agent/core/langgraph_builder.py": "929d619fca4d79dfde7dc313febd476b07f4d19fb2b5907a2fa998ec1ac3525f",
+    "agent/core/prompt_builder.py": "90c304f30f0a9732b062d8ac2d70fb739b0f5899488f02d85edd695fabfbab5f",
+    "agent/core/llm_provider_vertex.py": "f994b251f367beb9dd946cef970a401a7136d76fc276f9ebe779fa6ca5a382fb",
+    "agent/core/llm_provider_base.py": "4cf227a7e86a48d22042fbaeb79a9387a2a9f3271729eefc2140d085c50173fc",
+    "agent/core/vertex_rate_limit.py": "8f52fb2b7057abe150f88c0c9837092b23a17a75149111066f6dc96d5c66c219",
+    "agent/core/memory_store.py": "38cd981f48405abb60f64507c27d6b90bf6caaf005676dca893191c5b55d61cb",
+    "agent/test_factual_memory.py": "1b70a48796a8b2c3828860b4a28bfbc349e923ebc21d4ae01f2065ce15d9ce67",
+    "agent/test_session_memory.py": "06499d1206732cfda8d3f8df2aee85331b83d56e6ee52be57976006aa900ebfb",
+    "agent/test_vertex_generation.py": "5d53e12430e18f48f4aadacc2415776b8aa46625780918c404719bff42ec360f",
+    "agent/test_vertex_rate_limit.py": "728589bfa2c0a54dc4a9283744513774dafb998abb56be481357581a7ab53970",
+    "scripts/check_memory_retrieval.py": "c2b75267b23fca55604f730252c68fdb2dbb5432ee8f59fee47ea9e2bb8ca56b",
+    "docs/factual-memory.md": "c97ef5d51d950171a3e891dab2b37dba1cfb0703256a2a8bdf6b2e2d2630452b"
+  },
+  "backend_tests": "71 PASS",
+  "transport_tests": "26 PASS, 1 SKIP",
+  "live_status": "stopped upstream 504; no scored final responses",
+  "live_version": "live-v3/manifest.json",
+  "post_live_changes": "question validation, explicit rename key alignment, simultaneous source versions; verified offline"
+}

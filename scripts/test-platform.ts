@@ -5,7 +5,7 @@ import postgres from "postgres";
 // import { users } from "../src/server/db/tables"; // Dynamic import used instead
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { config } from "dotenv";
+import { config, parse } from "dotenv";
 import { readFileSync, existsSync, statSync, writeFileSync, unlinkSync, mkdirSync } from "fs";
 import { exec, execSync } from "child_process";
 import { promisify } from "util";
@@ -300,21 +300,8 @@ class EnvironmentHelper {
             if (!envContent) return;
 
             Logger.section(`📝 Environment variables in ${primaryEnvFile}`);
-            const lines = envContent
-                .split("\n")
-                .filter((line) => line.trim() && !line.startsWith("#"));
-
-            lines.forEach((line) => {
-                const [key, ...valueParts] = line.split("=");
-                const value = valueParts.join("=");
-                if (key && value) {
-                    const isSensitive =
-                        key.toLowerCase().includes("secret") ||
-                        key.toLowerCase().includes("password") ||
-                        key.toLowerCase().includes("token");
-                    const displayValue = isSensitive ? `***${value.slice(-4)}` : value;
-                    Logger.info(`${key}=${displayValue}`);
-                }
+            Object.entries(parse(envContent)).forEach(([key, value]) => {
+                Logger.info(`${key}=${value ? "SET" : "EMPTY"}`);
             });
         } catch (error) {
             Logger.warning(`Could not read ${primaryEnvFile} contents`);
@@ -335,7 +322,7 @@ class ProjectStructureChecker {
             "package.json",
             "next.config.js",
             "tsconfig.json",
-            "tailwind.config.ts",
+            "postcss.config.js",
             "src/app/layout.tsx",
             "src/server/db/schema-postgres.ts",
             "src/server/auth/config.ts",
@@ -507,6 +494,7 @@ class CodeQualityChecker {
 class DatabaseChecker {
     static async check(): Promise<boolean> {
         Logger.section("🗄️  Database Connectivity Check");
+        let client: ReturnType<typeof postgres> | undefined;
 
         try {
             const databaseUrl = process.env.DATABASE_URL;
@@ -520,7 +508,7 @@ class DatabaseChecker {
             Logger.info("📊 Database Information:");
             this.logDatabaseInfo(databaseUrl);
 
-            const client = postgres(databaseUrl, { max: 1 });
+            client = postgres(databaseUrl, { max: 1, connect_timeout: 3 });
             const db = drizzle(client) as any;
 
             const { users } = await import("../src/server/db/tables");
@@ -537,7 +525,6 @@ class DatabaseChecker {
 
             this.checkDatabaseSchema();
 
-            await client.end({ timeout: 0 }).catch(() => undefined);
             return true;
         } catch (error) {
             Logger.error("Database connection failed:");
@@ -546,6 +533,8 @@ class DatabaseChecker {
             );
             Logger.info("Please check your DATABASE_URL and network connectivity.");
             return false;
+        } finally {
+            await client?.end({ timeout: 0 }).catch(() => undefined);
         }
     }
 
@@ -562,7 +551,7 @@ class DatabaseChecker {
                 );
             }
         } catch (urlError) {
-            Logger.info(`URL: ${databaseUrl.substring(0, 50)}...`);
+            Logger.info("Database URL could not be parsed");
         }
     }
 
@@ -628,8 +617,9 @@ class AuthenticationChecker {
 
     static async testUserAuthentication(): Promise<boolean> {
         Logger.section("👤 User Authentication Test");
+        let client: ReturnType<typeof postgres> | undefined;
         try {
-            const client = postgres(process.env.DATABASE_URL!, { max: 1 });
+            client = postgres(process.env.DATABASE_URL!, { max: 1, connect_timeout: 3 });
             const db = drizzle(client) as any;
 
             const { users } = await import("../src/server/db/tables");
@@ -647,7 +637,6 @@ class AuthenticationChecker {
                 Logger.info("Run 'pnpm run db:seed' to create test users");
             }
 
-            await client.end({ timeout: 0 }).catch(() => undefined);
             return true;
         } catch (error) {
             Logger.error("User authentication test failed:");
@@ -655,6 +644,8 @@ class AuthenticationChecker {
                 `Error: ${error instanceof Error ? error.message : String(error)}`,
             );
             return false;
+        } finally {
+            await client?.end({ timeout: 0 }).catch(() => undefined);
         }
     }
 }
@@ -887,7 +878,7 @@ class SystemDiagnostics {
             await this.runAllChecks();
             this.generateSummary();
             this.showRecommendations();
-            process.exit(0);
+            process.exit(Object.values(this.results).every(Boolean) ? 0 : 1);
         } catch (error) {
             Logger.error(`System diagnostics failed: ${String(error)}`);
             process.exit(1);
@@ -957,7 +948,7 @@ class SystemDiagnostics {
                 if (varName.includes("SECRET")) {
                     Logger.success(`${varName}: SET (${value.length} characters)`);
                 } else {
-                    Logger.success(`${varName}: ${value}`);
+                    Logger.success(`${varName}: SET`);
                 }
             }
         }

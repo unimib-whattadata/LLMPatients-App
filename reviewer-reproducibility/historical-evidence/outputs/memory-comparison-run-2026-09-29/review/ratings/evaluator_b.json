@@ -1,0 +1,3257 @@
+{
+  "schema_version": 1,
+  "evaluator": "B",
+  "requested_model": "gpt-6-astra",
+  "observed_model": "not_exposed_by_runtime",
+  "reasoning_effort": "xhigh",
+  "evaluation_type": "automated",
+  "context": "fresh context; only evaluator_b packet; no experiment history/arm mapping/peer judgments",
+  "input_sha256": {
+    "README.md": "d3501a734445ba5886f6bffec48d505a310f27673fd2dd94651e8a92f222d165",
+    "SCORING.md": "dee4e06d75beb1cbf9a166891a454f27ad47556706b526df2871d75b90574267",
+    "cards.json": "0f81ff8fcacb78b2536587ff96a23bf6d0d9d7b2c5b96c3bb8746377f8d76eed",
+    "manifest.json": "354c35008109056303870dbb083b1d5723cc65622d34b0ee1b1f570107d58d44"
+  },
+  "ratings": [
+    {
+      "id": "1879d1fc25ef46289c52ab266a62547a",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved our training room was never established",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "b4a9dfd850794181886bdedb6a3349d3",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c2ef09102eb34867b5ac46bfcb7860fe",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "and was not agreed to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2fbd2a0ca350405a8520839978b2f745",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved our training room was never established",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "b0147489c9134945a791b332e5407780",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is the Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which it replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "4e354a536e2b4636a8eb6177b2cfe720",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "e9488564239345c9835535ba8a67c6a5",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved the training room was never established",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "Explicitly distinguishes the known practice partner from the unidentified reservation maker.",
+      "gold_issue": null
+    },
+    {
+      "id": "e6e2902f74694e8ea8515fee298be7a7",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is current",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f6717446e5154e18b231e1e56d07275a",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c24f573cc1794b049a765803b904129a",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "that detail was never established in the records you shared with me",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "01550daa1ea348cba5a1db66d4ed64a8",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d1eec4c006d04f999a4570cd1a232096",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which Plover Annex replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c77e24b081e64f2d8e453b9fc4c91e1c",
+      "category": "incorrect",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "wrong",
+          "evidence": "no specific time was ever proposed and left unconfirmed",
+          "reason": "Denies the recorded proposal of Saturday at 09:30; this is an assertion of absence, not just failure to remember."
+        }
+      },
+      "rationale": "Three details are correct, but the answer wrongly asserts that no specific unagreed proposal existed.",
+      "gold_issue": null
+    },
+    {
+      "id": "57adf7ebf38d4e748f9e906b53bf6a56",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "I have named the reflection notebook Tern Window",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f10ee1703aa44d388b22929eb195aea9",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e22c38482e4f4c488417a4c13222ccb8",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment that was replaced was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "and was not agreed to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f77058522d3b4b068c202d340a7d00ab",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c0ced6fae2c94757a3005cdb85ed3e32",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current, confirmed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed appointment that we did not agree to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a0f749bd6b9a4dd2821db58b9aab341c",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is current",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is former",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e368fe049c81419daf168c92bf3c3edc",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you did not record or confirm the surname",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "e6331daed98945b9beb6794e2836f89f",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved the training room was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "a9ad972d482b4296947a765efd0fb840",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved the training room was never established",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "8257057da46e444d8b600c34c7af3161",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2a64b4a190be472d8854875b39d8491d",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "(current) booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "(former) venue, which Plover Annex replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d33e62cf83b842f3a59ab7d3dd3f1296",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was completed is called the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but has not been completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "9fb3d8704fbb4475acea63eb3f229f41",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced, is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "3287ed146499492ca41010c668c4f2f1",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a756272a6ad64be886cfe64aa8029863",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced, is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f18c95e8bf92415ca2f0a1a222c5e130",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook 'Tern Window'.",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "90118f9ab82d46119738fec1041dab0e",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it Tern Window",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "7dc04982e1154bda9b13336fb6b21af6",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "and was not agreed on was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "4d69fd38a2564b2a9cdc9adcb5b25d41",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "Practice partner's full name:)* Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed day and time is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former time that was replaced was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed day and time that we did not agree to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "4fbc73699717400cbeca21f41c15e5eb",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it the 'Tern Window' notebook",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "6e88fcb69117409eb939b1e49bde2c6b",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook 'Tern Window'",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "0b73e7725d05483aa66b480f1c84b6dc",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You gave the reflection notebook the exact title \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "119244ab2a814e9a934869e2afa8344c",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "b5bffce7397643faaab1d53cee7fa271",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed time that we did not agree to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d4d948a91ba04dc4866f22db5fa557c2",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue that it replaced is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "18efebce7fe34d0cbee84d9f4cd6bf59",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook 'Tern Window'",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "48dce296acb747989492b1f7acc69705",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the *(Folded Map listening card)*",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is titled *(Silver Button)*",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ad8d20b2fb814a209be51bc3171ca960",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former agreed appointment, which was replaced, was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed time that was not agreed on was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ad9aa6e2f6b44e3ca11e55ae6cee0c1c",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You gave the reflection notebook the exact title \"Tern Window\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "0561baa4af2d49a69f6dcfcb791f2cbc",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it Tern Window",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ffbd1c858e9f48868e66c5f7e4a21efe",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed day and time is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "day and time that we did not agree to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "dbbfb9d09b124f59b3135586e762b50d",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which Plover Annex replaced, is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f666232dd9c64672b6f992b11ae33227",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "8a47c44ca8c94484bce9a8f84d3065a1",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed day and time is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former agreed day and time, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed day and time that was not agreed upon was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2c3b6a243b8647ca8968b6e8167cf9a0",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of anyone who reserved the training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "64adb67cb2704f90bbfad97f4872d213",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is current",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f91aa9f414094c81b252f356327e30e5",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "38098306ebb7457e87801de47faf2b3c",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2e78354f1c744d0894eca13fe5eec5e9",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which Plover Annex replaced, was Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "619027a8d22a4c2b90565b35480bbf4f",
+      "category": "incorrect",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "wrong",
+          "evidence": "I suggested we could \"talk about this after lunch.\"",
+          "reason": "Substitutes an exercise suggestion for the therapist's recorded Saturday at 09:30 proposal."
+        }
+      },
+      "rationale": "The first three details match, but the proposal is replaced by a different unsupported event.",
+      "gold_issue": null
+    },
+    {
+      "id": "5097a59c9f48443d834641726ce1c998",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "6466b192e5cc49128f62dce4ca598a46",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved the training room was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "dbe59a1d11174779a9d8c9ea97c52585",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former appointment that was replaced was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "time that remained only a proposal was Saturday at 09:30; we didn't agree to that one",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "6af3a9536ec04abf961d5b34626d8d31",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "I have named the reflection notebook Tern Window",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ce987014108a4771a3bf6940c567d95b",
+      "category": "partial",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is )(Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is )(Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment, which was replaced, was )(Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "omitted",
+          "evidence": "day that was not agreed upon was )(Saturday",
+          "reason": "Correct proposal day and status are given, but the required 09:30 time is omitted."
+        }
+      },
+      "rationale": "Partner, current appointment and former appointment are correct. The proposal's time is missing; no wrong value is supplied.",
+      "gold_issue": null
+    },
+    {
+      "id": "f57831a6c1534adb8c49ef4f90271e6d",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was completed is titled \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is titled \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a8b6990cce6a41ee84fad71aa6d46c6f",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook at the beginning of our practice was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e389beb1d189467f88c9484c2165955f",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "completed)* is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "planned and not completed)* is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "5434227cb57440288455b3793821a96f",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed was the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "112cc3c9bc7b4ee18347f11c61822069",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced by the move to Plover Annex, was Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "fba1f65281544717bf040999da1a2e9f",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "bf957c4043eb47f78a88d970ed0b2f68",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment that was replaced was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposal)* was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "05701d9ce59444f3a1deb6a314ea3922",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "*(current)* agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "*(former)* appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "*(proposed)* day and time that we did not agree to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "3de52053f3e44f83a94d0fc31babe4ca",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced, is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "5fb8edaf53dc43f28ee7e44ce04aea02",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that you said remained planned and not completed is \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "986914519e92495d87e9741a796a4e9b",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "4a73dad4ce9748cb9e6206f9a367243a",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "you had named the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2464b081835b44f3871dfe659cd0af9f",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is the current one",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "610c443757064ea291079a04d9e7c7e1",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former appointment that was replaced was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "one that was just a proposal, but not agreed on, was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "b7b7ec82a04643b784379422475cf725",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "0bfbf87f8dec470ca44781efa8541274",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "that detail was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "1720da0fd4434b39b8896b00ad28ff40",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved our training room was never established",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "1ccae385bb4d4aab895eee309740aef5",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c37094393f104a58aeb61db085ea0eb8",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "6c5fda0be5ed4cbfb7a05dc1c13a7514",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "5a72f19f79394094b9a0caa8ac9bbc09",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that you mentioned was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "b335ed3657ac41ab8ad3d5640b5605b1",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which was replaced by the current one, was Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "4cd1908d87104bbc966b621481af16eb",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "Current:)* The agreed day and time is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "Former:)* The replaced day and time was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "Proposal only:)* The suggested day and time that was not agreed upon was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "35470bc1c5b84133ac04851c6e812fc6",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "you had named the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "99572652617844da817658d1c2bccf08",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "Folded Map listening card is the one we completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "Silver Button is the one that was just a plan for later",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "42bd11eed5b44fd1a503e2af1487c5f2",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which Plover Annex replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "c89e6b64b4cb49ddba1d165e5dc0f802",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that you recorded as completed has the exact title \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed has the exact title \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d29ba5e03bd9400d92e2fe91535d3013",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d623b8fe6c9349ecb4161ae56106e465",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "80ba918b87b84446be002dec45793a8e",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you did not record or confirm the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "d94b4c5fb3a44ce29001124c12f503f0",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that remained planned and was not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "34fd0def436a4fe7af528a080e0b9362",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed was the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "Both recorded statuses and titles are correct. Lack of personal recollection of performing Folded Map does not deny the therapist's recorded completion.",
+      "gold_issue": null
+    },
+    {
+      "id": "4a5323c65cdc4491abfe4e328b50c5f4",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "appointment, which was mentioned as a possible alternative but not agreed to, was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "cb940e80397e449a8397b0a009ffcde9",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "c4e64b949e444db7b6155015befd38d1",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "34d04244b656422fbba3d1e60d46f56a",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "7027d2a529cf4e8695178c6f42a71710",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "dd59e7059fe545fda45c3764661f8f38",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is current",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is former",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e4b8d16defcb4bc0a50a0cf884555023",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "9a3b7329307e4deea815341f6554c117",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue that it replaced is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "bc45fd3291bd45b89bb557d3d7893fcd",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved the training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer denies that the surname was recorded and explicitly avoids identifying the practice partner as the reservation maker.",
+      "gold_issue": null
+    },
+    {
+      "id": "2f69a786d7854558b06fdf227b4d6a43",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "That detail was never established in your records that you shared with me",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "fa32d12151854b0686c7917600f015fb",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ce9bf6ae2fe249e59065f0d0f5e931e1",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "The answer reports both recorded activity titles and statuses correctly. Its lack of personal recollection does not negate the therapist's completion record.",
+      "gold_issue": null
+    },
+    {
+      "id": "4425a9759b914e1e9e3e386d719fe1dc",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but has not been completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1c17aceacbe34e05969fb352c9262d5f",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "and not agreed to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "86b8109c2f3b44f38f216f26cd345a70",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You gave it the title \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "acf9fb40b6b04748a8dc0499219fad4b",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was completed is called the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed, is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f383111532df46d1abbd7364d6dfe3da",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "016de2484ee740c991e892f652b3beea",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "f6370a4085904cbc987fe1286a88d3d0",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "31ed93d9ac34462eadff3cf91c4517b0",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "9b245c8f2c1040c88c7a77acdd02155b",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e1b051d373944c2eb2756a08b1ee2990",
+      "category": "incorrect",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "wrong",
+          "evidence": "the day and time were not established in our conversations",
+          "reason": "Falsely asserts that the record lacks the proposal's day and time, which source_3 establishes as Saturday at 09:30."
+        }
+      },
+      "rationale": "Three details are correct, but the answer wrongly states that the unagreed proposal had no recorded day and time.",
+      "gold_issue": null
+    },
+    {
+      "id": "85d935e5c4184017ba688adace998008",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is titled 'Folded Map listening card'",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is titled 'Silver Button'",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1629948666d24fc29adb2b7cfebdf4b2",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "*(current)* agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "*(former)* appointment that was replaced was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "time that remained only a *(proposal)* was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e14dba2046c44742819b0ed1b3ae92be",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook at the beginning of our practice was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1eb93f441e344e1a8f092cea29e81f95",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "9cd4fa60aadb4e878ae7fe0a0112cc4c",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "487bc020923a4335abbcbd3e51665da1",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that remained planned and not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "02ee0cfc1c514781b2c39791c2f4d040",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1ded431e1888443bb93c803f29b7dcf2",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a2e776979bcc41118ad14d45164a943e",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which it replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "939443304e4147c18c461b8cf23af91c",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but has not been completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a50a3316e872403383a1b9bb2c2bf3d7",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d1dda354ff0d4432a4924dda60d6fd4d",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "\"Folded Map listening card\" is recorded as completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "\"Silver Button\" was only planned",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "Correctly reports the therapist's recorded completion and planned status; personal non-recollection is not a denial of those records.",
+      "gold_issue": null
+    },
+    {
+      "id": "bed5b9ca7bfd4fe5b32f13ba0d06aa10",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1ed823eb72e549369323b4780167364b",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "time that was just a proposal and not agreed on was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2d879d4546c74cff8f7e52f321dc6e9d",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former agreed appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed day and time that was mentioned but not agreed upon was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "b8153d2c9d2442dbb29ae1742251b771",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was completed is called the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f3987047f6e54ca3ad3114144a377068",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is )(Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current)( appointment is on )(Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former)( appointment that was replaced was on )(Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposed)( time that was just an idea, not an agreement, was )(Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "6a49cba957554bd9b2f5037779b463c7",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "41507b017d344862879356f8d38554f2",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "f0bb99476c484a69b9b2558e0cd053f7",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The known partner is explicitly distinguished from the unidentified person who reserved the room.",
+      "gold_issue": null
+    },
+    {
+      "id": "ba13b268a89c45c0935f6822e470ff0b",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but has not been completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "8a9ef290815c4b2ca7edb9a6f9056c17",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "Folded Map is completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was just planned and not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "6234f07f410e4152a29b73c3cf1b1380",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is the current one",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ca24430f12ff4db99c9ee8faf421ea87",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "completed)( has the exact title )(Folded Map listening card",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "planned and not completed)( has the exact title )(Silver Button",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2a9203b0a955491bbdfc88f176148a44",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "Folded Map listening card is finished",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "895c908eeb644812811c23cbd6396650",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "*(current)* agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "*(former)* agreed appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "*(proposed)* appointment, which was not agreed to, was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "79faa66121464a20a5280b8b813aec7e",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is the current venue",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "42441bfdb2f944858f43ea60dd14e799",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ef204a4206624e0491e3d3a8f59c356e",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "\"Folded Map listening card,\" which you recorded as completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "\"Silver Button.\" You recorded that this is a telephone activity that was planned as a possible next activity but has not been completed",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "cf640a8d0e62447bb32ca7adc6e546a8",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Juanita Delgado",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am thirty-three years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "90c78cd5705543d885db31db90e683c1",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "that detail was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "84b145d785734eb5a58f71ed727e6f2c",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "3eb56e5edd2941c99c58265961d154e6",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment that was replaced was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "that was mentioned but not agreed to was for Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "923ce56021794a09a62889ad83b43c21",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you have not recorded or confirmed the surname of the person who reserved our training room",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "5bd1e0d5a67e4170bd1ee80990325769",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook at the beginning of our practice was Tern Window",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1bb24fb16198483aa6fe674340201f65",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "title you gave the reflection notebook was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "06a05b20f035421f926dae5c3d6276fa",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2b16bf8415e84f3689155003016edc0b",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook 'Tern Window.'",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "03594a37e3ad41658c2a227481ee2890",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "461b1724123248afbaf267295a470b7e",
+      "category": "incorrect",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "*(current)* agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "*(former)* agreed appointment, which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "wrong",
+          "evidence": "the specific day and time for it were not established in our conversations",
+          "reason": "Incorrectly claims the proposal's day and time were never established; source_3 explicitly gives Saturday at 09:30."
+        }
+      },
+      "rationale": "Partner and agreed appointments are correct, but the claim that the proposal had no established day or time is false.",
+      "gold_issue": null
+    },
+    {
+      "id": "f28ff39decb94d90a6d158f38c03bc4e",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is on Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "appointment that was replaced was on Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposal)* was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "5940b12101cd4c54a52dcebb036634c1",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "current booked venue for our practice is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "former venue, which Plover Annex replaced, was the Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d249c3cdf9ce41b5834145a0f8e45165",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "completed activity is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1e6fb505e3af4f4eb17716affad12562",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "that detail was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "7e960d978e794a72aacd6a85ae2a925d",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "668c8bc082374e2ea7137b5b9e74d328",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is )(Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "current)( agreed appointment is )(Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "former)( appointment that was replaced was )(Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "proposal)( that we did not agree to was for )(Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "648f48ce390e42d790f1b6e250a75cfa",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is the current venue",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "7f62db1fe4f5467884e64576fab70760",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it the 'Tern Window'.",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "16212776b06348ab9d75bdbe0f1f0dcb",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called it \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2450d5f477dc4ff7af662dad3ed91181",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity titled \"Folded Map listening card\" is the one you recorded as completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone rehearsal called \"Silver Button,\" is the one that was planned as a possible next activity but has not been completed",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d8364a5c5dcd40f9a385fb8349219f9d",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity you recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that remained planned and not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "e22c430307044c94a120b99dab121472",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "(current) booked venue is Plover Annex",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "(former) venue, which was replaced, is Larch Reading Room",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "d8f4e67395d74f8e8c28030aa3ccc86c",
+      "category": "complete",
+      "fields": {
+        "current_venue": {
+          "status": "correct",
+          "evidence": "Plover Annex is the current one",
+          "reason": "Names the exact current booked venue."
+        },
+        "former_venue": {
+          "status": "correct",
+          "evidence": "Larch Reading Room is the former one",
+          "reason": "Names the exact venue that was replaced."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "ec0e79fe56f342059f37b6c851689709",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "Folded Map listening card is completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "Silver Button has not been completed; it's just planned as a possible next activity",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "42173964ffd3410bb735cef4aa66f045",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You named the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "fbf7f32ac8a84a65a7f5dbfd978a1042",
+      "category": "contradictory",
+      "fields": {
+        "current_venue": {
+          "status": "ambiguous",
+          "evidence": "current booked venue is Plover Annex",
+          "reason": "Correct explicit current label conflicts with the concluding change from the first listed venue (Plover) to the second (Larch)."
+        },
+        "former_venue": {
+          "status": "ambiguous",
+          "evidence": "corrected the record from the first one to the second one",
+          "reason": "Correct explicit former label conflicts with the concluding first-to-second change, which makes the second listed venue (Larch) the replacement."
+        }
+      },
+      "rationale": "The explicit current/former labels are correct, but the final first-to-second reference reverses the order of the two named venues without resolving the conflicting direction of change.",
+      "gold_issue": null
+    },
+    {
+      "id": "c71c8de80c664ac9a677ce14e7104928",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Jason Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 22 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "14f55ae61b8c469d809aeda432e223d8",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Crystal Smith",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 33 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "a48ed290097c4337ba5d5796f82b1e91",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "exact title you gave the reflection notebook at the beginning of our practice was \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "130d94925a49440bb80923260c80d150",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "that detail was never established in your records",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "1c125055340749328371f544d6868583",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "you never recorded or confirmed a specific person's surname for that task",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "6b84e0e6dbe94e4bbe4828624f749ba6",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "activity that was recorded as completed is the \"Folded Map listening card.\"",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone activity that was planned but not completed is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "cb690d2f8c84416ba00a2acafd007ab0",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My full name is Daniel Isherwood",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I am 55 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "1a32157c3707467dbed0c71d0639c027",
+      "category": "complete",
+      "fields": {
+        "completed": {
+          "status": "correct",
+          "evidence": "You recorded the \"Folded Map listening card\" as the activity that was completed",
+          "reason": "Names the recorded completed activity and assigns completed status."
+        },
+        "planned_not_completed": {
+          "status": "correct",
+          "evidence": "telephone exercise that you said was planned but not completed, is called \"Silver Button.\"",
+          "reason": "Names the telephone activity and assigns planned, uncompleted status."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "180a45ebca5c43fbbe8b823f4d8ed049",
+      "category": "complete",
+      "fields": {
+        "name": {
+          "status": "correct",
+          "evidence": "My name is Alex Carter",
+          "reason": "Matches the canonical full name."
+        },
+        "age": {
+          "status": "correct",
+          "evidence": "I'm 30 years old",
+          "reason": "Matches the canonical age in years."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2b3182018d9b4966a27196a24717950e",
+      "category": "complete",
+      "fields": {
+        "partner": {
+          "status": "correct",
+          "evidence": "practice partner's full name is Rina Holt",
+          "reason": "Identifies the recorded practice partner by full name."
+        },
+        "current": {
+          "status": "correct",
+          "evidence": "agreed appointment is Friday at 18:20",
+          "reason": "Gives the exact confirmed day and time as current."
+        },
+        "former": {
+          "status": "correct",
+          "evidence": "which was replaced, was Wednesday at 17:45",
+          "reason": "Gives the exact replaced day and time as former."
+        },
+        "proposal_only": {
+          "status": "correct",
+          "evidence": "time that was not agreed to was Saturday at 09:30",
+          "reason": "Gives the exact unagreed day and time as proposal only."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    },
+    {
+      "id": "2492a26c284b44b79069318cd21ba949",
+      "category": "appropriate_abstention",
+      "fields": {
+        "surname_or_not_established": {
+          "status": "correct",
+          "evidence": "the surname of the person who reserved the training room was never established in my records of what you've said",
+          "reason": "States that the surname was not established and supplies no guessed surname."
+        }
+      },
+      "rationale": "The answer explicitly reports the surname as unestablished without guessing.",
+      "gold_issue": null
+    },
+    {
+      "id": "803092020d9e435e8881210bea620aac",
+      "category": "complete",
+      "fields": {
+        "notebook_title": {
+          "status": "correct",
+          "evidence": "You called the reflection notebook \"Tern Window.\"",
+          "reason": "Gives the exact title for the reflection notebook."
+        }
+      },
+      "rationale": "All requested facts and their required roles or statuses are correctly stated.",
+      "gold_issue": null
+    }
+  ]
+}

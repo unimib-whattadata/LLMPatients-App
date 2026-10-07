@@ -1,0 +1,46 @@
+{
+  "verified_at": "2026-09-29T10:19:12.230565+00:00",
+  "controller": {
+    "status": "running",
+    "timestamp": "2026-09-29T10:19:02.999611+00:00",
+    "controller_pid": 31066,
+    "continuation": "resume-03",
+    "execution_order": 10,
+    "worker_pid": 31111,
+    "run_id": "juanita_delgado_001__r02__flat_full_history"
+  },
+  "progress": {
+    "status": "incomplete",
+    "updated_at": "2026-09-29T10:19:12.224471+00:00",
+    "planned_trajectories": 30,
+    "completed_trajectories": 0,
+    "planned_session_executions": 330,
+    "completed_sessions": 9,
+    "accepted_turns": 45,
+    "planned_turns": 1650,
+    "observed_probes": 0,
+    "planned_probes": 180,
+    "application_guard_failures": 0,
+    "requests": 91,
+    "responses": 90,
+    "provider_errors": 1,
+    "reported_cost_usd": 1.209679375,
+    "responses_with_reported_cost": 90,
+    "semantic_review": "pending",
+    "stop": null
+  },
+  "partial_session_now": {
+    "status": "completed",
+    "memory_status": "partial",
+    "finished_at": "2026-09-29T10:18:59.323111+00:00"
+  },
+  "preserved_44_turns_verified": true,
+  "job_status": [
+    "state = running",
+    "runs = 1",
+    "pid = 31066",
+    "last exit code = (never exited)",
+    "state = active",
+    "state = active"
+  ]
+}

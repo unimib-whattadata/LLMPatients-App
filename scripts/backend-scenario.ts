@@ -86,6 +86,13 @@ function assertSessionDurationApprox(
 
 async function main() {
   const databaseUrl = getRequiredEnv("DATABASE_URL");
+  if (process.env.TEST_BACKEND_SCOPE === "application") {
+    assert.equal(
+      process.env.API,
+      "local",
+      "Application-only checks require API=local",
+    );
+  }
   assert.ok(
     Number.isFinite(STEP_EVALUATION_TIMEOUT_MS) &&
       STEP_EVALUATION_TIMEOUT_MS > 0,
@@ -693,6 +700,13 @@ async function main() {
       }),
     /must be completed/i,
   );
+
+  if (process.env.TEST_BACKEND_SCOPE === "application") {
+    console.log(
+      "[backend-scenario:postgres] application scope passed: migrations, registration, account roles/status, credentials, session expiry, activity, concurrent session creation, local chat, chat persistence and evaluation guards; model evaluation not run",
+    );
+    return;
+  }
 
   await Promise.all([
     userCaller.chat.markStepDone({

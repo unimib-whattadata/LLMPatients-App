@@ -1,0 +1,353 @@
+{
+  "patient_id": "crystal_smith_001",
+  "target_tokens": 64000,
+  "fact_position": "middle",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/crystal_smith_001/length_64000/middle/records.jsonl",
+  "record_count": 337,
+  "full_prompt_local_tokens": 64135,
+  "full_history_local_tokens": 58439,
+  "block_start_history_token": 25325,
+  "block_end_history_token": 32909,
+  "block_relative_midpoint": 0.49824603432639164,
+  "context_id": "crystal_smith_001__64000__middle",
+  "native_archive_view_sha256": "fb91f64347a89ceae9d86b9748eada8ccc52f40f5b1f70431c538bfe2732a2bc",
+  "raw_turns": 337,
+  "validated_facts": 202,
+  "original_fact_batches": 9,
+  "raw_metadata_overlay": [
+    {
+      "origin_id": "turn-dc0ef99516b4133d7d538d41bb8d980caa4665e9689ef27244bcb833554334da",
+      "origin_turn_id": "s01t01",
+      "session_id": "30",
+      "session_order": 29,
+      "turn_index": 147
+    },
+    {
+      "origin_id": "turn-fd3bf7ca13d295182f3a6d6eca90673408bbb310c773071151b176f0cfcb856e",
+      "origin_turn_id": "s01t02",
+      "session_id": "30",
+      "session_order": 29,
+      "turn_index": 148
+    },
+    {
+      "origin_id": "turn-4be3a08db0ff5570795c3fd6706dc4c02988fec23dac1495c904de2e192596d6",
+      "origin_turn_id": "s01t03",
+      "session_id": "30",
+      "session_order": 29,
+      "turn_index": 149
+    },
+    {
+      "origin_id": "turn-cef75b884f09bc15e091309ba33716ebc7b72025496026e5442791d898c5cb4e",
+      "origin_turn_id": "s01t04",
+      "session_id": "30",
+      "session_order": 29,
+      "turn_index": 150
+    },
+    {
+      "origin_id": "turn-c8653e5df3ea291de5561764d5fb092b87fd6171cf30ef8f41d06d7bcc0d7383",
+      "origin_turn_id": "s01t05",
+      "session_id": "31",
+      "session_order": 30,
+      "turn_index": 151
+    },
+    {
+      "origin_id": "turn-fc02607e84ff2db6093db6cb418c990afe65902470403d5fc2cc6212271c11a3",
+      "origin_turn_id": "s02t01",
+      "session_id": "31",
+      "session_order": 30,
+      "turn_index": 152
+    },
+    {
+      "origin_id": "turn-d017ddf88a25bb2b6ad06da9e33441e31d36599afa42d048d6048360c85198a2",
+      "origin_turn_id": "s02t02",
+      "session_id": "31",
+      "session_order": 30,
+      "turn_index": 153
+    },
+    {
+      "origin_id": "turn-d8929e7b2e94fe067b3f5a39e1b097407d0ec3839e3cc3d33b2be95d99d1c4df",
+      "origin_turn_id": "s02t03",
+      "session_id": "31",
+      "session_order": 30,
+      "turn_index": 154
+    },
+    {
+      "origin_id": "turn-c9be9a47cbb67e47feb2507998d405d7a49608e29c23cf09b932c2d03607b0a5",
+      "origin_turn_id": "s02t04",
+      "session_id": "31",
+      "session_order": 30,
+      "turn_index": 155
+    },
+    {
+      "origin_id": "turn-1f53b1374821e37077bc3639efa70372ee889a0c9ac4514be099ce69c7a4429b",
+      "origin_turn_id": "s02t05",
+      "session_id": "32",
+      "session_order": 31,
+      "turn_index": 156
+    },
+    {
+      "origin_id": "turn-20061eaffc9bc2d6e49e182c84fee0821e957f385eba5a1b0623edffc6f012ed",
+      "origin_turn_id": "s03t01",
+      "session_id": "32",
+      "session_order": 31,
+      "turn_index": 157
+    },
+    {
+      "origin_id": "turn-2dc335e4536c549468bdbca9e22c073c8111f61a4f3a920a641a63ad4bd5ce41",
+      "origin_turn_id": "s03t02",
+      "session_id": "32",
+      "session_order": 31,
+      "turn_index": 158
+    },
+    {
+      "origin_id": "turn-c4d219aac4e6f4dad86f9d66fdb3a8319ed0e630dada4fbcbcb26daf1b820720",
+      "origin_turn_id": "s03t03",
+      "session_id": "32",
+      "session_order": 31,
+      "turn_index": 159
+    },
+    {
+      "origin_id": "turn-9ee0db4142d561a202049adb1610cf0acfe24f32c69eeb4db2e1d54b980618e1",
+      "origin_turn_id": "s03t04",
+      "session_id": "32",
+      "session_order": 31,
+      "turn_index": 160
+    },
+    {
+      "origin_id": "turn-8beab23e7955431be4fce6ccc4bc53e0e675130e6931d01195fcdabe71d5688e",
+      "origin_turn_id": "s03t05",
+      "session_id": "33",
+      "session_order": 32,
+      "turn_index": 161
+    },
+    {
+      "origin_id": "turn-9eb13637a5d2f6625fccc1a124bc8cee5c97aa3aaa1fedea0889690c93a8652c",
+      "origin_turn_id": "s04t01",
+      "session_id": "33",
+      "session_order": 32,
+      "turn_index": 162
+    },
+    {
+      "origin_id": "turn-dd59f53b856e2f4bcc2880f85650cfee68cb3f566c2c48d9bffa0557449eb3b8",
+      "origin_turn_id": "s04t02",
+      "session_id": "33",
+      "session_order": 32,
+      "turn_index": 163
+    },
+    {
+      "origin_id": "turn-bccd48aa19e0d2f72d917182828ba4bde3d39ca793f07a9b541fd47aec00a8e1",
+      "origin_turn_id": "s04t03",
+      "session_id": "33",
+      "session_order": 32,
+      "turn_index": 164
+    },
+    {
+      "origin_id": "turn-732d91ff41a849602377e3dff174739880f6cf66267832219ec862e13fbdbf11",
+      "origin_turn_id": "s04t04",
+      "session_id": "33",
+      "session_order": 32,
+      "turn_index": 165
+    },
+    {
+      "origin_id": "turn-ea77806347f84edc529635abb0aaa1e07ad9f3c6ad611a2762327a1507b7ebeb",
+      "origin_turn_id": "s04t05",
+      "session_id": "34",
+      "session_order": 33,
+      "turn_index": 166
+    },
+    {
+      "origin_id": "turn-1824a86017c0bf9e3fd0843bd9d20b92fc04e3dc9a78885d6732d1ab79bea5f1",
+      "origin_turn_id": "s05t01",
+      "session_id": "34",
+      "session_order": 33,
+      "turn_index": 167
+    },
+    {
+      "origin_id": "turn-3a5ad9be3c32b4af2660074034748fbdd1b199c8a03410a440a79d5594742b0a",
+      "origin_turn_id": "s05t02",
+      "session_id": "34",
+      "session_order": 33,
+      "turn_index": 168
+    },
+    {
+      "origin_id": "turn-4b92bec85122dc4791d5dbbf9e5eb89a8e36773ea75f4bd5011e8674cc1cdf0d",
+      "origin_turn_id": "s05t03",
+      "session_id": "34",
+      "session_order": 33,
+      "turn_index": 169
+    },
+    {
+      "origin_id": "turn-4ced1fc4fa1b8b5896802e350f3c719730a6ec858f26641ce56d0c2364e87c36",
+      "origin_turn_id": "s05t04",
+      "session_id": "34",
+      "session_order": 33,
+      "turn_index": 170
+    },
+    {
+      "origin_id": "turn-5215f392fc6c8e720e1cae98bf1b4d958066546d7bfacfdb15b89f25ea81ba9a",
+      "origin_turn_id": "s05t05",
+      "session_id": "35",
+      "session_order": 34,
+      "turn_index": 171
+    },
+    {
+      "origin_id": "turn-c5a85d4d16c9c135f082c42574c15be2007c029fff91fec1d9e0684ee23f068b",
+      "origin_turn_id": "s06t01",
+      "session_id": "35",
+      "session_order": 34,
+      "turn_index": 172
+    },
+    {
+      "origin_id": "turn-cdc5ad784d7fb6f06c23129bbdb5971da4673787c58643c59561a612f1295f63",
+      "origin_turn_id": "s06t02",
+      "session_id": "35",
+      "session_order": 34,
+      "turn_index": 173
+    },
+    {
+      "origin_id": "turn-c42517f8e3d10e043ec4a41bc5c219f5d9efd5445bd636f30ba380461ea257fb",
+      "origin_turn_id": "s06t03",
+      "session_id": "35",
+      "session_order": 34,
+      "turn_index": 174
+    },
+    {
+      "origin_id": "turn-1caaa4274e57a09d84e79571790f1bbc0b4ffe8454d731c4c18fb90c0baa8a74",
+      "origin_turn_id": "s06t04",
+      "session_id": "35",
+      "session_order": 34,
+      "turn_index": 175
+    },
+    {
+      "origin_id": "turn-ea2ac4d4bd7fa3382b571d2f658fcb54b89c6281c98c7bae291d816cd901b829",
+      "origin_turn_id": "s06t05",
+      "session_id": "36",
+      "session_order": 35,
+      "turn_index": 176
+    },
+    {
+      "origin_id": "turn-d1aa006a3c935743d5cbabbade764a261bfcff0ab151adbe03ad5b2bdeba30b2",
+      "origin_turn_id": "s07t01",
+      "session_id": "36",
+      "session_order": 35,
+      "turn_index": 177
+    },
+    {
+      "origin_id": "turn-052501175feb92f9771a4e43dfa0f9bd5f123a93bb36cbde8c45da6957b2f762",
+      "origin_turn_id": "s07t02",
+      "session_id": "36",
+      "session_order": 35,
+      "turn_index": 178
+    },
+    {
+      "origin_id": "turn-daf4071116ed19ca64b1dc6a42361f4c10fca771af9bcf84c50dad0ebe525a81",
+      "origin_turn_id": "s07t03",
+      "session_id": "36",
+      "session_order": 35,
+      "turn_index": 179
+    },
+    {
+      "origin_id": "turn-80c8f4de0a381a49cd0a8f554e72cc4bd5452e0096ee6245b5b3917210291931",
+      "origin_turn_id": "s07t04",
+      "session_id": "36",
+      "session_order": 35,
+      "turn_index": 180
+    },
+    {
+      "origin_id": "turn-1dbcf75cc3ea6051045054e4f1b2131569d9ceb6ec8dafe80887589ac40dfac7",
+      "origin_turn_id": "s07t05",
+      "session_id": "37",
+      "session_order": 36,
+      "turn_index": 181
+    },
+    {
+      "origin_id": "turn-1095e4f17f74913ce9ff12e5a08e246adc041173f58c4be07f9119c060fc5dc3",
+      "origin_turn_id": "s08t01",
+      "session_id": "37",
+      "session_order": 36,
+      "turn_index": 182
+    },
+    {
+      "origin_id": "turn-14e1f00b5088ecd0e68ec28386340569aa16e47b256714ece6e0d8e226cc24c5",
+      "origin_turn_id": "s08t02",
+      "session_id": "37",
+      "session_order": 36,
+      "turn_index": 183
+    },
+    {
+      "origin_id": "turn-70b56d3497d56ed99fc6b9b1d0c8b7dda9f8c4ae3ba22f1f60042cc3612a1a56",
+      "origin_turn_id": "s08t03",
+      "session_id": "37",
+      "session_order": 36,
+      "turn_index": 184
+    },
+    {
+      "origin_id": "turn-7e7c9a86797c7d9bb1a8ce489ac8c6720d54e0b604c73bd3898b11d2825c34f0",
+      "origin_turn_id": "s08t04",
+      "session_id": "37",
+      "session_order": 36,
+      "turn_index": 185
+    },
+    {
+      "origin_id": "turn-2692c7e276b724ae0468bfd80a53a03e6cbc1d3514f009b206a613640d7e9a86",
+      "origin_turn_id": "s08t05",
+      "session_id": "38",
+      "session_order": 37,
+      "turn_index": 186
+    },
+    {
+      "origin_id": "turn-5b245e4b83e1c14082fff64f21ea0159784459577277936c8ffee606e4d37f64",
+      "origin_turn_id": "s09t01",
+      "session_id": "38",
+      "session_order": 37,
+      "turn_index": 187
+    },
+    {
+      "origin_id": "turn-8a180e65156d502f839d190ad739ab95d208b7969250b1e4f16513c0b19e8820",
+      "origin_turn_id": "s09t02",
+      "session_id": "38",
+      "session_order": 37,
+      "turn_index": 188
+    },
+    {
+      "origin_id": "turn-1426645c972d0d1b71105797b2cac46b249b43edaf019dd08e5ac3cbb8b47648",
+      "origin_turn_id": "s09t03",
+      "session_id": "38",
+      "session_order": 37,
+      "turn_index": 189
+    },
+    {
+      "origin_id": "turn-e2ee116b2c13eb599d3ad492bd30972072d469ceb5c52c8fb5acc950881d078d",
+      "origin_turn_id": "s09t04",
+      "session_id": "38",
+      "session_order": 37,
+      "turn_index": 190
+    },
+    {
+      "origin_id": "turn-4708ede55b8d78c0f044798a731d3bf5d4db4de3377d73e27c92ab698f5bb87a",
+      "origin_turn_id": "s09t05",
+      "session_id": "39",
+      "session_order": 38,
+      "turn_index": 191
+    }
+  ],
+  "batch_provenance_policy": "Batch-level extraction metadata unchanged; raw source and fact chronology mapped to regional display.",
+  "selected_items": 8,
+  "selected_facts": 7,
+  "selected_utterances": 1,
+  "rendered_evidence_estimated_tokens": 1194,
+  "query_encoder_tokens_without_truncation": 272,
+  "encoder_max_seq_length": 256,
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/crystal_smith_001/length_64000/middle/structured_evidence.txt",
+  "prompt_sha256": "107c4024cdcafe0cca27fbc19dcd413315f4c9e1d7562a4784b7bffe03b675fc",
+  "local_prompt_tokens": 6966,
+  "paired_baseline_job_ids": [
+    "024",
+    "039",
+    "062",
+    "068",
+    "078",
+    "079",
+    "084"
+  ]
+}

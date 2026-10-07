@@ -1,0 +1,2117 @@
+[
+  {
+    "id": "C001",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Daniel Isherwood",
+          "age": 55
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/daniel_isherwood_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course. I will answer all six of your questions.\n\n1.  My full name is Daniel Isherwood, and I am 55 years old.\n\n2.  You gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records, the practice partner's full name is Rina Holt. The current agreed appointment is on Friday at 18:20. This replaced the former appointment, which was on Wednesday at 17:45. The proposed time of Saturday at 09:30 was mentioned but not agreed to; it remained only a proposal.\n\n4.  From your venue records, the current booked venue is Plover Annex. It replaced the former venue, which was Larch Reading Room.\n\n5.  According to your activity records, the \"Folded Map listening card\" is the activity you recorded as completed. The \"Silver Button\" telephone rehearsal is the activity that was planned as a possible next activity but was not completed.\n\n6.  No, it was never established in your records who reserved our training room. You did not record or confirm a surname for that person."
+  },
+  {
+    "id": "C002",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Jason Smith",
+          "age": 22
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/jason_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  The exact title you gave the reflection notebook at the start of our practice was \"Tern Window.\"\n\n3.  According to your records:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former appointment that was replaced was on Wednesday at 17:45.\n    *   A possible time of Saturday at 09:30 remained only a proposal and was not agreed upon.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  Based on your activity records:\n    *   The activity recorded as completed is the \"Folded Map listening card.\"\n    *   The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That detail was never established in your records."
+  },
+  {
+    "id": "C003",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Alex Carter",
+          "age": 30
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/alex_carter_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course, I can answer those questions based on my understanding of your records.\n\n1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  At the beginning of our practice, you gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records:\n    *   The practice partner's full name is Rina Holt.\n    *   The **current** agreed appointment is on Friday at 18:20.\n    *   The **former** agreed appointment that was replaced was on Wednesday at 17:45.\n    *   The time that remained only a **proposal** and was not agreed to was Saturday at 09:30.\n\n4.  Based on your venue records, the **current** booked venue is Plover Annex. The **former** venue it replaced was Larch Reading Room.\n\n5.  From your activity records, the activity you recorded as **completed** is titled \"Folded Map listening card.\" The telephone activity that was **planned but not completed** is titled \"Silver Button.\"\n\n6.  No, it was never established in your records. You did not record and confirm the surname of the person who reserved our training room."
+  },
+  {
+    "id": "C004",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Jason Smith",
+          "age": 22
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/jason_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course. Here are the answers to your questions.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  You gave the reflection notebook the exact title \"Tern Window\" at the start of our practice.\n\n3.  According to your records, the practice partner's full name is Rina Holt. The current agreed appointment is Friday at 18:20. The former time that was replaced was Wednesday at 17:45. The time that remained only a proposal was Saturday at 09:30.\n\n4.  Based on your venue records, the current booked venue is Plover Annex. The former venue that it replaced was Larch Reading Room.\n\n5.  From your activity records, the activity recorded as completed is the \"Folded Map listening card.\" The telephone activity that was planned but not completed is titled \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records."
+  },
+  {
+    "id": "C005",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Alex Carter",
+          "age": 30
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/alex_carter_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My name is Alex Carter, and I am 30 years old.\n\n2.  According to our conversations, the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3.  Based on what you recorded, the practice partner's full name is Rina Holt. The current agreed appointment is on Friday at 18:20. The former appointment that was replaced was on Wednesday at 17:45. The appointment that remained only a proposal was for Saturday at 09:30.\n\n4.  From your records, the current booked venue is named Plover Annex. The former venue it replaced was named Larch Reading Room.\n\n5.  The activity I recorded as completed was the \"Folded Map listening card.\" The telephone activity that you recorded as planned but not completed is called \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records."
+  },
+  {
+    "id": "C006",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Daniel Isherwood",
+          "age": 55
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/daniel_isherwood_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My name is Daniel Isherwood, and I am 55 years old.\n\n2. At the beginning of our practice, you told me you had named the reflection notebook \"Tern Window.\"\n\n3. According to your records, the practice partner's full name is Rina Holt.\n    *   The **current** agreed appointment is on Friday at 18:20.\n    *   The **former** appointment that was replaced was on Wednesday at 17:45.\n    *   The time that remained only a **proposal** was Saturday at 09:30.\n\n4. Based on your venue records:\n    *   The **current** booked venue is Plover Annex.\n    *   The **former** venue was Larch Reading Room.\n\n5. From your activity records:\n    *   The activity recorded as **completed** was the \"Folded Map listening card.\"\n    *   The telephone activity that was **planned but not completed** is called \"Silver Button.\"\n\n6. No, you did not record or confirm the surname of the person who reserved our training room. That was never established in your records."
+  },
+  {
+    "id": "C007",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Crystal Smith",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/crystal_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1.  My full name is Crystal Smith, and I am 33 years old.\n\n2.  At the beginning of our practice, you gave the reflection notebook the title \"Tern Window.\"\n\n3.  According to your records, the details for the fictional practice appointment are:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is on Friday at 18:20.\n    *   The former appointment that was replaced was on Wednesday at 17:45.\n    *   The proposed time that was not agreed on was Saturday at 09:30.\n\n4.  Based on your venue records:\n    *   The current booked venue is Plover Annex.\n    *   The former venue it replaced was Larch Reading Room.\n\n5.  Based on your activity records:\n    *   The activity recorded as completed is the \"Folded Map listening card.\"\n    *   The telephone activity that was planned but not completed is titled \"Silver Button.\"\n\n6.  No, you never recorded or confirmed the surname of the person who reserved our training room. That was never established in your records."
+  },
+  {
+    "id": "C008",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Juanita Delgado",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/juanita_delgado_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. At the beginning of our practice, you said you named the reflection notebook \"Tern Window.\"\n\n3. According to your records, the practice partner's full name is Rina Holt.\n    *   The current, agreed appointment is Friday at 18:20.\n    *   The former appointment that was replaced was Wednesday at 17:45.\n    *   The proposed time that was not agreed to was Saturday at 09:30.\n\n4. Your venue records show two names. The current booked venue is Plover Annex. The former venue that was replaced is Larch Reading Room.\n\n5. From your activity records, the activity recorded as completed is the \"Folded Map listening card.\" The telephone activity that you said was planned but not completed is called \"Silver Button.\"\n\n6. It was never established in your records who reserved the training room or what their surname was."
+  },
+  {
+    "id": "C009",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Crystal Smith",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/crystal_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Okay, I'll do my best to answer all of your questions based on what we've talked about.\n\n1.  My full name is Crystal Smith, and I am 33 years old.\n\n2.  You gave the reflection notebook the title \"Tern Window.\"\n\n3.  According to your records, the practice partner's full name is Rina Holt.\n    *   The current, agreed-upon appointment is Friday at 18:20.\n    *   The former appointment that was replaced was Wednesday at 17:45.\n    *   The proposed time that was not agreed to was Saturday at 09:30.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  The activity title you recorded as completed was the \"Folded Map listening card.\" The telephone activity that you said was planned but not completed is called \"Silver Button.\"\n\n6.  No, the surname of the person who reserved our training room was never established in your records."
+  },
+  {
+    "id": "C010",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Jason Smith",
+          "age": 22
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/jason_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course, I can answer those questions based on your records.\n\n1.  My full name is Jason Smith, and I am 22 years old.\n\n2.  According to our first conversation about it, you gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  Based on your records:\n    *   The practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former agreed appointment, which was replaced, was Wednesday at 17:45.\n    *   The proposed time that was not agreed on was Saturday at 09:30.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue it replaced was Larch Reading Room.\n\n5.  According to my understanding of your activity records, the \"Folded Map listening card\" is the activity that you recorded as completed. The \"Silver Button\" telephone activity was planned as a possible next activity but has not been completed.\n\n6.  No, you did not record or confirm the surname of the person who reserved our training room. That was never established in my records."
+  },
+  {
+    "id": "C011",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Juanita Delgado",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/juanita_delgado_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. You called the reflection notebook \"Tern Window.\" I remember thinking it was a strange name at first.\n\n3. According to your records, the practice partner's name is Rina Holt. The current agreed appointment is Friday at 18:20. That replaced the former time, which was Wednesday at 17:45. You also mentioned Saturday at 09:30 as a possibility, but that was only a proposal that we didn't agree to.\n\n4. Your records show the current booked venue is Plover Annex. The former venue it replaced was called Larch Reading Room.\n\n5. You recorded that the activity we completed was the \"Folded Map listening card.\" The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6. No, it was never established in your records. You never recorded or confirmed the surname of the person who reserved our training room."
+  },
+  {
+    "id": "C012",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Alex Carter",
+          "age": 30
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/alex_carter_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course. Here are the answers to your questions.\n\n1.  My full name is Alex Carter, and I am 30 years old.\n\n2.  You gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records, our practice partner is Rina Holt. The current agreed appointment is on Friday at 18:20. This replaced the former appointment, which was on Wednesday at 17:45. You also mentioned a possible alternative of Saturday at 09:30, but that remained only a proposal and was not agreed upon.\n\n4.  From your venue records, the current booked venue is Plover Annex. The former venue that it replaced was Larch Reading Room.\n\n5.  From your activity records, the activity I completed with Rina Holt was titled \"Folded Map listening card.\" The telephone activity that you proposed, which has not been completed, is titled \"Silver Button.\"\n\n6.  No, you did not record or confirm the surname of the person who reserved our training room. That was never established in your records."
+  },
+  {
+    "id": "C013",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Juanita Delgado",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/juanita_delgado_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My name is Juanita Delgado, and I'm 33 years old.\n\n2. You told me the exact title you gave the reflection notebook was \"Tern Window.\"\n\n3. Based on your records, the practice partner's full name is Rina Holt. The current agreed appointment is on Friday at 18:20. The former agreed time that was replaced was Wednesday at 17:45. The proposed time that was not agreed on was Saturday at 09:30.\n\n4. According to your records, the current booked venue is Plover Annex. The former venue that it replaced was Larch Reading Room.\n\n5. You recorded that the activity we completed was the \"Folded Map listening card.\" The telephone activity that you said was planned but not completed is called \"Silver Button.\"\n\n6. It was never established in your records who reserved the training room or what their surname was."
+  },
+  {
+    "id": "C014",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Crystal Smith",
+          "age": 33
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/crystal_smith_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "1. My full name is Crystal Smith, and I am 33 years old.\n\n2. You gave the reflection notebook the exact title \"Tern Window.\"\n\n3. According to your records, the practice partner's full name is Rina Holt.\n    *   The current agreed appointment is Friday at 18:20.\n    *   The former appointment that was replaced was Wednesday at 17:45.\n    *   The proposed time that was not agreed on was Saturday at 09:30.\n\n4. From your venue records, the current booked venue is Plover Annex. The former venue it replaced was the Larch Reading Room.\n\n5. Based on your activity records, the activity recorded as completed is the \"Folded Map listening card.\" The telephone activity that was planned but not completed is called \"Silver Button.\"\n\n6. It was never established in your records that you recorded and confirmed the surname of the person who reserved our training room."
+  },
+  {
+    "id": "C015",
+    "question": "Please answer all six questions below in six numbered sections. This is a complex question; use enough words to answer every requested field.\n1. Please state your full name and your age in years, in your own words.\n2. What is the exact title I gave the reflection notebook at the beginning of our practice? Please give that title from our conversations.\n3. According to what I recorded, please give all four details from the appointment record: the practice partner's full name; the current agreed day and time; the former agreed day and time that were replaced; and the proposed day and time that were not agreed. Clearly label which appointment is current, which is former, and which remained only a proposal.\n4. Please give both venue names from my venue records: the exact name of the current booked venue, and the exact name of the former venue it replaced. Clearly say which is current and which is former.\n5. Please give both activity titles from my activity records: the exact title of the activity I recorded as completed, and the exact title of the telephone activity that remained planned and not completed. Clearly state the completion status of each activity.\n6. Did I ever record and confirm the surname of the person who reserved our training room? If I did not, say that it was never established in my records; do not guess.",
+    "gold": [
+      {
+        "turn_id": "s10t01",
+        "category": "persistent_identity",
+        "expected": {
+          "name": "Daniel Isherwood",
+          "age": 55
+        },
+        "source_turns": [],
+        "profile_source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/daniel_isherwood_001.yaml",
+        "requested_fields": {
+          "name": "full name",
+          "age": "age in years"
+        },
+        "profile_paths": {
+          "name": "/profile/name",
+          "age": "/profile/age"
+        }
+      },
+      {
+        "turn_id": "s11t01",
+        "category": "distant_stable_fact",
+        "expected": {
+          "notebook_title": "Tern Window"
+        },
+        "source_turns": [
+          "s01t01"
+        ],
+        "requested_fields": {
+          "notebook_title": "exact title"
+        },
+        "field_sources": {
+          "notebook_title": [
+            "s01t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t02",
+        "category": "correction_and_proposal",
+        "expected": {
+          "partner": "Rina Holt",
+          "current": "Friday at 18:20",
+          "former": "Wednesday at 17:45",
+          "proposal_only": "Saturday at 09:30"
+        },
+        "source_turns": [
+          "s02t01",
+          "s06t01",
+          "s06t02"
+        ],
+        "requested_fields": {
+          "partner": "practice partner's full name",
+          "current": "current agreed day and time",
+          "former": "former agreed day and time",
+          "proposal_only": "proposed day and time that were not agreed"
+        },
+        "field_sources": {
+          "partner": [
+            "s02t01",
+            "s06t01"
+          ],
+          "current": [
+            "s06t01"
+          ],
+          "former": [
+            "s02t01",
+            "s06t01"
+          ],
+          "proposal_only": [
+            "s06t02"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t03",
+        "category": "explicit_replacement",
+        "expected": {
+          "current_venue": "Plover Annex",
+          "former_venue": "Larch Reading Room"
+        },
+        "source_turns": [
+          "s03t01",
+          "s07t01"
+        ],
+        "requested_fields": {
+          "current_venue": "exact name of the current booked venue",
+          "former_venue": "exact name of the former venue"
+        },
+        "field_sources": {
+          "current_venue": [
+            "s07t01"
+          ],
+          "former_venue": [
+            "s03t01",
+            "s07t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t04",
+        "category": "completed_versus_planned",
+        "expected": {
+          "completed": "Folded Map",
+          "planned_not_completed": "Silver Button"
+        },
+        "source_turns": [
+          "s04t02",
+          "s08t01",
+          "s08t02"
+        ],
+        "requested_fields": {
+          "completed": "exact title of the activity I recorded as completed",
+          "planned_not_completed": "exact title of the telephone activity that remained planned and not completed"
+        },
+        "field_sources": {
+          "completed": [
+            "s04t02"
+          ],
+          "planned_not_completed": [
+            "s08t01"
+          ]
+        }
+      },
+      {
+        "turn_id": "s11t05",
+        "category": "absent_fact_abstention",
+        "expected": null,
+        "source_turns": [],
+        "criterion": "Explicitly states that the surname was never established in the therapist's records, without inventing a surname or substituting the practice partner. A patient's unsupported earlier assertion does not establish the therapist's record.",
+        "requested_fields": {
+          "surname_or_not_established": "record and confirm the surname"
+        },
+        "null_meaning": "Scoring sentinel: the requested surname has no source in this exercise. This is unrelated to null profile fields."
+      }
+    ],
+    "answer": "Of course, I can answer those questions based on what you've recorded.\n\n1.  My full name is Daniel Isherwood, and I am 55 years old.\n\n2.  You gave the reflection notebook the exact title \"Tern Window.\"\n\n3.  According to your records, the practice partner's full name is Rina Holt. The current agreed appointment is Friday at 18:20. The former appointment that was replaced was on Wednesday at 17:45. The proposed day and time that was not agreed on was Saturday at 09:30.\n\n4.  Based on your venue records, the current booked venue is named \"Plover Annex.\" The former venue it replaced was \"Larch Reading Room.\"\n\n5.  From your activity records, the activity I completed was titled the \"Folded Map listening card.\" The telephone activity that was planned but not completed is titled \"Silver Button.\"\n\n6.  No, you did not record or confirm the surname of the person who reserved our training room. That was never established in your records."
+  }
+]

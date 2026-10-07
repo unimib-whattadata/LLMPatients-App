@@ -1,0 +1,121 @@
+{
+  "plan_manifest_sha256": "a15e94f615256302bf60017cffad55a01662c7d2e9c09ca257f5d8a92f63af20",
+  "native_manifest_sha256": "87407dce61dba48700c91280afa2c7080181713ccd29ee10d18d72451ef72e8d",
+  "native_files": {
+    "source/agent/__init__.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source/agent/api/__init__.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/api/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source/agent/api/app.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/api/app.py",
+      "sha256": "9f8a97a4b80915317d52dfd0f26c4fbfaa1b5f027f1d42fe5cef05c34d507e71"
+    },
+    "source/agent/core/__init__.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "source/agent/core/emotion_model.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/emotion_model.py",
+      "sha256": "978ee99bead10dd4d099c2f8a7f6efb8fe36aa108a3b894473875bc2ec2569aa"
+    },
+    "source/agent/core/factual_memory.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/factual_memory.py",
+      "sha256": "9ffe48eabc80abd051261485f316cf23488ae2f5bbc60e08c3d0ba25abf62451"
+    },
+    "source/agent/core/langgraph_builder.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/langgraph_builder.py",
+      "sha256": "cd6462265810c73a9ac610ac10f4b322661b30e1848ce919fd66f40b6c801bec"
+    },
+    "source/agent/core/llm_provider_base.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/llm_provider_base.py",
+      "sha256": "4cf227a7e86a48d22042fbaeb79a9387a2a9f3271729eefc2140d085c50173fc"
+    },
+    "source/agent/core/llm_provider_local.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/llm_provider_local.py",
+      "sha256": "e6a99defb4415991c0d861af87def381717111a6f5b8b40b5eb29cb1e1c09612"
+    },
+    "source/agent/core/llm_provider_ollama.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/llm_provider_ollama.py",
+      "sha256": "fe6334f1a36cdd2cdb0292b6c2581873bc5d71bcf12876f60b4789341f40d6b8"
+    },
+    "source/agent/core/llm_provider_vertex.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/llm_provider_vertex.py",
+      "sha256": "f994b251f367beb9dd946cef970a401a7136d76fc276f9ebe779fa6ca5a382fb"
+    },
+    "source/agent/core/llm_runner.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/llm_runner.py",
+      "sha256": "11fcb842485b4463fb4a56e3a207c4aaff6988bf0a9c90b6a5447fd29e1169f4"
+    },
+    "source/agent/core/memory_store.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/memory_store.py",
+      "sha256": "38cd981f48405abb60f64507c27d6b90bf6caaf005676dca893191c5b55d61cb"
+    },
+    "source/agent/core/patient_profile.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/patient_profile.py",
+      "sha256": "d895ddc6ade893857f8c469923d23f8aa2d459da70d0f7732abd86a92448d625"
+    },
+    "source/agent/core/prompt_builder.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/prompt_builder.py",
+      "sha256": "90c304f30f0a9732b062d8ac2d70fb739b0f5899488f02d85edd695fabfbab5f"
+    },
+    "source/agent/core/questionnaire_catalog.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/questionnaire_catalog.py",
+      "sha256": "09b04b0d0e2d8062413b9b4842281f8e6b2d10b21b5dbba22ebe4efdb6736209"
+    },
+    "source/agent/core/questionnaire_runner.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/questionnaire_runner.py",
+      "sha256": "e53cf0a63fdc9cb75fe008689652a2131c0ff7a5efbae388e827de3599c34464"
+    },
+    "source/agent/core/safety.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/safety-recall-fix/source/agent/core/safety.py",
+      "sha256": "da78bc9205129b4b40f833e8988a0610b302cbefdd6cd90c4cb7ea9909fe3006"
+    },
+    "source/agent/core/vertex_rate_limit.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/core/vertex_rate_limit.py",
+      "sha256": "8f52fb2b7057abe150f88c0c9837092b23a17a75149111066f6dc96d5c66c219"
+    },
+    "source/agent/utils/run_logger.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/utils/run_logger.py",
+      "sha256": "d56be485b1235f81f946f8f9430ebc033e65d4c0d0fdd176bf3e475164a5ff3a"
+    },
+    "source/agent/utils/session_opening.py": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/agent/utils/session_opening.py",
+      "sha256": "ad0376ef3097b319ac9e89b0c2374c52c96416ca4996d4ce242275cf8fac4161"
+    },
+    "source/data/patients/alex_carter_001.yaml": {
+      "source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/alex_carter_001.yaml",
+      "sha256": "eff6430fddd6678ba1d0b977f4611063b3449e76d26252baaf78fdc436d46c37"
+    },
+    "source/data/topics_tree.json": {
+      "source": "outputs/memory-integration-fix-2026-09-28/integration/source/data/topics_tree.json",
+      "sha256": "96d94bec6d86a32e7957a06d58216e5f2b9eeb3b10c538312a280d649e1d3b98"
+    },
+    "source/data/patients/crystal_smith_001.yaml": {
+      "source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/crystal_smith_001.yaml",
+      "sha256": "19dca50e3639b3f2478b34327b00b5859f554f7c852c15b50670a8bca36c88c4"
+    },
+    "source/data/patients/daniel_isherwood_001.yaml": {
+      "source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/daniel_isherwood_001.yaml",
+      "sha256": "a0464dd7263b23888bd858f9634670bade4a8ba6e478d10ef8b3bdc8c6c977d4"
+    },
+    "source/data/patients/Jason_001.yaml": {
+      "source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/jason_smith_001.yaml",
+      "sha256": "aa2c432b9e38883dbe080efcac2ed6d863b9c5f023ac90480a81bbd59a119946"
+    },
+    "source/data/patients/juanita_delgado_001.yaml": {
+      "source": "outputs/memory-benchmark-2026-09-28/frozen/profiles/juanita_delgado_001.yaml",
+      "sha256": "a8d3c6217aad0b1ca3c9e26d755b859f605090cd17b9bbb227f94f0a53d488f3"
+    }
+  },
+  "changes": [
+    "Previously verified recall safety correction from first turn",
+    "Native common-profile renderer installed before graph compilation",
+    "Explicit native filename aliases using original external IDs; YAML bytes unchanged",
+    "OpenRouter allow_fallbacks=false; complete request bodies archived"
+  ],
+  "worker_materials": "generation/ has no gold, evaluation fields or answers"
+}

@@ -102,7 +102,7 @@ async function main() {
     }
   }
 
-  if (results.some((result) => result.status === "failed")) {
+  if (results.some((result) => result.status !== "passed")) {
     process.exitCode = 1;
   }
 }

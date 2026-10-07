@@ -1,0 +1,20 @@
+{
+  "scope": "Original prespecified questions; partial assessment before remaining four probes. No substitutions or regeneration. Shared-context Codex assessment, not independent clinical review.",
+  "input_sha256": "a104ac2ae4888f496963054e271faf672aa7feae40ee8d00e90b89a346d72c0f",
+  "judgments": [
+    {
+      "turn_id": "s10t01",
+      "result": "correct",
+      "reason": "La risposta riporta Alex Carter e trenta anni, come nel profilo congelato.",
+      "failure_origin": null
+    },
+    {
+      "turn_id": "s11t01",
+      "result": "incorrect",
+      "reason": "La domanda è stata sostituita dal filtro: call è stato riconosciuto dentro recall. La risposta non contiene il titolo. Fallimento del percorso applicativo; richiamo della memoria non valutabile in questo turno.",
+      "failure_origin": "input_guard_false_positive",
+      "memory_recall_outcome": "not_evaluable",
+      "safe_user_input_changed": true
+    }
+  ]
+}

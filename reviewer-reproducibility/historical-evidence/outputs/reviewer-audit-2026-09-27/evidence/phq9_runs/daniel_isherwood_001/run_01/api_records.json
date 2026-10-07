@@ -1,0 +1,960 @@
+[
+  {
+    "timestamp": "2026-09-27T09:57:43.645005+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Little interest or pleasure in doing things\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 3.3603445e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.028116882
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.6113855e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.015986517
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 9.429924e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.014131509
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.243914e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.050024986
+            }
+          ],
+          "avg_logprobs": -15.28797721862793
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 490,
+        "candidates_token_count": 1,
+        "total_token_count": 699,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 490
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:57:44.277479Z",
+      "response_id": "mOi4auf3EKnO698Px5WgsA8"
+    },
+    "elapsed_seconds": 3.0834117500053253
+  },
+  {
+    "timestamp": "2026-09-27T09:57:46.927332+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling down, depressed, or hopeless\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00097133045,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.013223898,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.034474622
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0013405782,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.17123464
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.8167811e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 490,
+        "candidates_token_count": 1,
+        "total_token_count": 699,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 490
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:57:47.041299Z",
+      "response_id": "m-i4atPCAqjtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 2.610449708008673
+  },
+  {
+    "timestamp": "2026-09-27T09:58:09.130352+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.20307212497573346
+  },
+  {
+    "timestamp": "2026-09-27T09:58:30.284193+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble falling or staying asleep, or sleeping too much\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00068579323,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.023658054,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.04765245
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00089405186,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.16826952
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.384687e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 494,
+        "candidates_token_count": 1,
+        "total_token_count": 704,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 494
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:30.389640Z",
+      "response_id": "xui4aojkF6nO698Px5WgsA8"
+    },
+    "elapsed_seconds": 2.6342328329919837
+  },
+  {
+    "timestamp": "2026-09-27T09:58:32.920391+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling tired or having little energy\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "2"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00076537876,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.005049032,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.00824384
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0005506544,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.13039477
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.016154e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 489,
+        "total_token_count": 699,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 489
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:33.015531Z",
+      "response_id": "yei4aqt5pLLr3w-tpIagDQ"
+    },
+    "elapsed_seconds": 2.4099212500150315
+  },
+  {
+    "timestamp": "2026-09-27T09:58:35.837286+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Poor appetite or overeating\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "2"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 7.399744e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.018144906
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.654018e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.026173607
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.4309698e-08,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.01831352
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 4.0638053e-09,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ],
+          "avg_logprobs": -14.0729341506958
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 488,
+        "candidates_token_count": 1,
+        "total_token_count": 699,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 488
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 210
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:58:35.910093Z",
+      "response_id": "y-i4ao3GN6jtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 2.4541722499998286
+  },
+  {
+    "timestamp": "2026-09-27T09:58:58.001928+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.21364900001208298
+  },
+  {
+    "timestamp": "2026-09-27T09:59:19.183773+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.20083316700765863
+  },
+  {
+    "timestamp": "2026-09-27T09:59:41.353022+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Feeling bad about yourself — or that you are a failure or have let yourself or your family down\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "2"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0010594375,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.10797163,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.10101628
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0009300724,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.17008933
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 5.398503e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 502,
+        "candidates_token_count": 1,
+        "total_token_count": 711,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 502
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:41.446150Z",
+      "response_id": "Dem4asadG7HTnvgPot2jkAg"
+    },
+    "elapsed_seconds": 2.461471499991603
+  },
+  {
+    "timestamp": "2026-09-27T09:59:43.946457+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Trouble concentrating on things, such as reading the newspaper or watching television\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0008799701,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00928739,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.033917036
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.000494043,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.15717492
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.9983792e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 497,
+        "candidates_token_count": 1,
+        "total_token_count": 706,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 497
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 208
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:44.021142Z",
+      "response_id": "EOm4apalAYa6698PjeuIoAU"
+    },
+    "elapsed_seconds": 2.5153648749983404
+  },
+  {
+    "timestamp": "2026-09-27T09:59:47.099669+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0011769531,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.033393055
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.018907165,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.06460777
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.00042198907,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.1517676
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.821093e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 516,
+        "candidates_token_count": 1,
+        "total_token_count": 726,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 516
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T09:59:47.169136Z",
+      "response_id": "E-m4arCpCt-43NoPrcOXwAs"
+    },
+    "elapsed_seconds": 2.6862357080099173
+  },
+  {
+    "timestamp": "2026-09-27T10:00:09.365146+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "error_type": "ResourceExhausted",
+    "error": "429 Resource exhausted. Please try again later. Please refer to https://cloud.google.com/vertex-ai/generative-ai/docs/error-code-429 for more details.",
+    "elapsed_seconds": 0.1536377090087626
+  },
+  {
+    "timestamp": "2026-09-27T10:00:30.539156+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not at all, 1=Several days, 2=More than half the days, 3=Nearly every day\n\nStatement: \"Thoughts that you would be better off dead or of hurting yourself in some way\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "0"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0007930038,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.030720115
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "LOW",
+              "probability_score": 0.20342584,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.22203715
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0014682268,
+              "severity": "HARM_SEVERITY_MEDIUM",
+              "severity_score": 0.2388144
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 2.4785086e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.05468279
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 498,
+        "candidates_token_count": 1,
+        "total_token_count": 708,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 498
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 209
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:00:30.620624Z",
+      "response_id": "Pum4atDwJaSy698PraSGoA0"
+    },
+    "elapsed_seconds": 2.7504757910210174
+  },
+  {
+    "timestamp": "2026-09-27T10:00:33.789139+00:00",
+    "prompt": "You are Daniel Isherwood. You are Daniel Isherwood 55-year-old Not reported man, married.\n\nClinical background: Daniel Isherwood is a 55-year-old married man who sought psychiatric consultation because of weight gain. Although his BMI is in the normal range (140 lb at 5'5\"; BMI 23.3), he reports recurrent, distressing binge-eating episodes characterized by loss of control, eating rapidly and alone until uncomfortably full, and subsequent fatigue and disgust. Episodes occur two to three times per week,...\n\nPsychological profile:\n- Self-experience: Stable identity and self-continuity with localized shame and self-criticism centered on eating control and weight\n- Interpersonal stance: Capacity for stable attachment and intimacy appears intact; maintains a long-term marriage and professional relationships\n- Defense style: Predominantly neurotic defenses (intellectualization, self-criticism, suppression) with episodic behavioral dyscontrol (acting out) limited to binge eating\n- Reality testing: Reality testing intact; no psychosis, confusion, or cognitive deficits reported\n\nInteraction style: Likely sensitive to judgment about self-control and weight; may oscillate between matter-of-fact reporting and shame-based withdrawal. Observed affect: Mood euthymic with appropriate, reactive affect; reports post-binge fatigue and self-disgust without pervasive hopelessness. Speech: Fluent, coherent, not pressured. Non-verbal: Cooperative and appropriately engaged; no psychomotor agitation noted. Appearance/self-care: Well-nourished and well-developed; good grooming and orientation; no cognitive impairment observed.\n\nCharacteristic emotional tendencies:\n  - Care: Warmth and desire to nurture or be nurtured. (0.60)\n  - Seeking: Curious, driven to explore, motivated to act. (0.55)\n  - Panic/Grief: Separation distress, loss, or grief-heavy weight. (0.50)\n\nYou are completing a self-report questionnaire. Think about the past 2 weeks. Answer the statement below using ONLY a single integer — no other text.\n\nValid responses: 0=Not difficult at all, 1=Somewhat difficult, 2=Very difficult, 3=Extremely difficult\n\nStatement: \"How difficult have these problems made it for you to do your work, take care of things at home, or get along with other people?\"\n\nYour answer (integer only):",
+    "generation_config": {
+      "temperature": 0.1,
+      "max_output_tokens": 220,
+      "stop_sequences": [
+        "\nTherapist:",
+        "Therapist:"
+      ],
+      "top_p": 0.95,
+      "top_k": 40
+    },
+    "safety_settings": {
+      "3": "3",
+      "1": "3",
+      "4": "3",
+      "2": "4",
+      "5": "4"
+    },
+    "response": {
+      "candidates": [
+        {
+          "content": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "1"
+              }
+            ]
+          },
+          "finish_reason": "STOP",
+          "safety_ratings": [
+            {
+              "category": "HARM_CATEGORY_HATE_SPEECH",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0009618793,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.025904149
+            },
+            {
+              "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.007393307,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE",
+              "severity_score": 0.053552568
+            },
+            {
+              "category": "HARM_CATEGORY_HARASSMENT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 0.0002018958,
+              "severity": "HARM_SEVERITY_LOW",
+              "severity_score": 0.1285938
+            },
+            {
+              "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+              "probability": "NEGLIGIBLE",
+              "probability_score": 1.03001175e-05,
+              "severity": "HARM_SEVERITY_NEGLIGIBLE"
+            }
+          ]
+        }
+      ],
+      "usage_metadata": {
+        "prompt_token_count": 509,
+        "candidates_token_count": 1,
+        "total_token_count": 717,
+        "prompt_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 509
+          }
+        ],
+        "candidates_tokens_details": [
+          {
+            "modality": "TEXT",
+            "token_count": 1
+          }
+        ],
+        "thoughts_token_count": 207
+      },
+      "model_version": "gemini-2.5-pro",
+      "create_time": "2026-09-27T10:00:33.865118Z",
+      "response_id": "Qem4at7mNKjtnvgPtOuf0A8"
+    },
+    "elapsed_seconds": 3.1924220410001
+  }
+]

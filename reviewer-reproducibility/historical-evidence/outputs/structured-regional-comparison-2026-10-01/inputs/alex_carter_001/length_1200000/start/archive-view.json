@@ -1,0 +1,347 @@
+{
+  "patient_id": "alex_carter_001",
+  "target_tokens": 1200000,
+  "fact_position": "start",
+  "records_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/regional-memory-compression-2026-09-30/inputs/alex_carter_001/length_1200000/start/records.jsonl",
+  "record_count": 6733,
+  "full_prompt_local_tokens": 1200020,
+  "full_history_local_tokens": 1196175,
+  "block_start_history_token": 8,
+  "block_end_history_token": 7134,
+  "block_relative_midpoint": 0.0029853491336969927,
+  "context_id": "alex_carter_001__1200000__start",
+  "native_archive_view_sha256": "76dc121a425874d3dabe01aa4b646fcc60267beae450a59510037710b90d0bd6",
+  "raw_turns": 6733,
+  "validated_facts": 213,
+  "original_fact_batches": 9,
+  "raw_metadata_overlay": [
+    {
+      "origin_id": "turn-f904caa976605f13e80a695571ca0087a7993e9e1d7c769f31564b4719f422f2",
+      "origin_turn_id": "s01t01",
+      "session_id": "1",
+      "session_order": 0,
+      "turn_index": 1
+    },
+    {
+      "origin_id": "turn-73b7f6a056c354c7f509b41bd257e84e790dc33a26921836202ecd5e78a5d415",
+      "origin_turn_id": "s01t02",
+      "session_id": "1",
+      "session_order": 0,
+      "turn_index": 2
+    },
+    {
+      "origin_id": "turn-2b7604438ad701bf9a9c6dff512cbbc9cdad1120cb2cbb8ea04c702facfa9469",
+      "origin_turn_id": "s01t03",
+      "session_id": "1",
+      "session_order": 0,
+      "turn_index": 3
+    },
+    {
+      "origin_id": "turn-1a5492a6422055a4a70081b09d462aa9295ff6b9e32e56eb7ce71bd739bb9ac1",
+      "origin_turn_id": "s01t04",
+      "session_id": "1",
+      "session_order": 0,
+      "turn_index": 4
+    },
+    {
+      "origin_id": "turn-271111fad87448eb6b6dbb8c87ad9d32fb988eab441048f70d036c19b86bdb50",
+      "origin_turn_id": "s01t05",
+      "session_id": "1",
+      "session_order": 0,
+      "turn_index": 5
+    },
+    {
+      "origin_id": "turn-6143bca3d80705b5a7bb8929c6cb68ed00c5ca1fee64e3ce75805592db6b4e0c",
+      "origin_turn_id": "s02t01",
+      "session_id": "2",
+      "session_order": 1,
+      "turn_index": 6
+    },
+    {
+      "origin_id": "turn-c4ec8157d223ddbbd345bf7bad8acae64585830f2853afc2ada3ade77104d2a0",
+      "origin_turn_id": "s02t02",
+      "session_id": "2",
+      "session_order": 1,
+      "turn_index": 7
+    },
+    {
+      "origin_id": "turn-c2a5cc0c3ad6bdc9ac0c7673ee2f6b68f2044863675287a38146892ca51b9b08",
+      "origin_turn_id": "s02t03",
+      "session_id": "2",
+      "session_order": 1,
+      "turn_index": 8
+    },
+    {
+      "origin_id": "turn-76763f6504e6f8871018fa245f27cd6d42a16836d41d05597541729cbb1b2087",
+      "origin_turn_id": "s02t04",
+      "session_id": "2",
+      "session_order": 1,
+      "turn_index": 9
+    },
+    {
+      "origin_id": "turn-52fe92ee9e89487ce2d9618d0da609ffb768d6b49e4aa175577c4424d92268b9",
+      "origin_turn_id": "s02t05",
+      "session_id": "2",
+      "session_order": 1,
+      "turn_index": 10
+    },
+    {
+      "origin_id": "turn-d2198bd7eab3bdcdab219bf7183753dd25df596197225a6fa35cbcf43fe2ed69",
+      "origin_turn_id": "s03t01",
+      "session_id": "3",
+      "session_order": 2,
+      "turn_index": 11
+    },
+    {
+      "origin_id": "turn-b97a7376baa753836a787875ffb41899ddc7132f6185a1417f8ddfa0bbb6bdb0",
+      "origin_turn_id": "s03t02",
+      "session_id": "3",
+      "session_order": 2,
+      "turn_index": 12
+    },
+    {
+      "origin_id": "turn-3bbedd2837354c76f04be94d380e8d581b4a3d6feda0373740f8bb7a8a6dcc32",
+      "origin_turn_id": "s03t03",
+      "session_id": "3",
+      "session_order": 2,
+      "turn_index": 13
+    },
+    {
+      "origin_id": "turn-cdd734482733eaaab8dcdb0f689dcd7bb564416a7e576a5f8f75b1fb219fd766",
+      "origin_turn_id": "s03t04",
+      "session_id": "3",
+      "session_order": 2,
+      "turn_index": 14
+    },
+    {
+      "origin_id": "turn-ff41c53a9fc9a982d94a33144f53e6fcb96870d2d51b30db9cb0469ca69b886a",
+      "origin_turn_id": "s03t05",
+      "session_id": "3",
+      "session_order": 2,
+      "turn_index": 15
+    },
+    {
+      "origin_id": "turn-e8fc7043299848be002e4887f872b4ef21ce10efd3d908c6293f789b2b580122",
+      "origin_turn_id": "s04t01",
+      "session_id": "4",
+      "session_order": 3,
+      "turn_index": 16
+    },
+    {
+      "origin_id": "turn-3cef96e4e6438b48fedef84046e4ab8688903c180fd4dee22930a0f1fda3dcb6",
+      "origin_turn_id": "s04t02",
+      "session_id": "4",
+      "session_order": 3,
+      "turn_index": 17
+    },
+    {
+      "origin_id": "turn-da165d452ae311c83983710fd6bc6acfbc2ceb2881cef521eaa3fbad77e720f2",
+      "origin_turn_id": "s04t03",
+      "session_id": "4",
+      "session_order": 3,
+      "turn_index": 18
+    },
+    {
+      "origin_id": "turn-674c9591ce1f97e53118ec6299e256e8ed177fe121a085c314f2c9d73df659e1",
+      "origin_turn_id": "s04t04",
+      "session_id": "4",
+      "session_order": 3,
+      "turn_index": 19
+    },
+    {
+      "origin_id": "turn-ef19bddb6c275351fb90a93383bc7fb05166881986bae099acb4acaa0f3cd7f7",
+      "origin_turn_id": "s04t05",
+      "session_id": "4",
+      "session_order": 3,
+      "turn_index": 20
+    },
+    {
+      "origin_id": "turn-f4d8cec5b2cc9c1afb7d79adbef634037413e6bca8f2e864d71c126b7af3fbce",
+      "origin_turn_id": "s05t01",
+      "session_id": "5",
+      "session_order": 4,
+      "turn_index": 21
+    },
+    {
+      "origin_id": "turn-aa83c51faa6edea3303b0fca8f38f7189877085cbd7c94649e5563cfc9320456",
+      "origin_turn_id": "s05t02",
+      "session_id": "5",
+      "session_order": 4,
+      "turn_index": 22
+    },
+    {
+      "origin_id": "turn-7b324ce6c12bdcfa4982ced59ef9e73c47a96f76d982c582219fa70a78a45022",
+      "origin_turn_id": "s05t03",
+      "session_id": "5",
+      "session_order": 4,
+      "turn_index": 23
+    },
+    {
+      "origin_id": "turn-63431a6b58bbec56c7c504b0661e3ec005af4cb9dc97f50a6f7519ee3ec32434",
+      "origin_turn_id": "s05t04",
+      "session_id": "5",
+      "session_order": 4,
+      "turn_index": 24
+    },
+    {
+      "origin_id": "turn-401e11c60c04279928fca98de290a3784d1f315720b63f6b59543f96100c71c2",
+      "origin_turn_id": "s05t05",
+      "session_id": "5",
+      "session_order": 4,
+      "turn_index": 25
+    },
+    {
+      "origin_id": "turn-722ae80f9798d5132d4f8d8038790b131a48756b6b27d7547764c0c405bc5db1",
+      "origin_turn_id": "s06t01",
+      "session_id": "6",
+      "session_order": 5,
+      "turn_index": 26
+    },
+    {
+      "origin_id": "turn-21fa9e76ae1974e2d334c6e59cbe64cadfc81e41e8ef33a6fcd9e99a1604df13",
+      "origin_turn_id": "s06t02",
+      "session_id": "6",
+      "session_order": 5,
+      "turn_index": 27
+    },
+    {
+      "origin_id": "turn-1574cd2c0702577937b390058f94f42c039f86f365453d340f9bd08fc8db9ca7",
+      "origin_turn_id": "s06t03",
+      "session_id": "6",
+      "session_order": 5,
+      "turn_index": 28
+    },
+    {
+      "origin_id": "turn-3a73ce8669588a3acd0c76a7237e51e97345650865b6358c358413135414ece1",
+      "origin_turn_id": "s06t04",
+      "session_id": "6",
+      "session_order": 5,
+      "turn_index": 29
+    },
+    {
+      "origin_id": "turn-58ded3090ba4d8510c0fe8d5b3cf62cead638deb376cca16452f6bf97e531c34",
+      "origin_turn_id": "s06t05",
+      "session_id": "6",
+      "session_order": 5,
+      "turn_index": 30
+    },
+    {
+      "origin_id": "turn-09972be5cc349105421865bd649cad6b4a9d433591852bd73c59e656d387ee0e",
+      "origin_turn_id": "s07t01",
+      "session_id": "7",
+      "session_order": 6,
+      "turn_index": 31
+    },
+    {
+      "origin_id": "turn-7e77b1277f4def8c18c22e45c67f8c792d1b80427f75c437d00a8fa823eb79c9",
+      "origin_turn_id": "s07t02",
+      "session_id": "7",
+      "session_order": 6,
+      "turn_index": 32
+    },
+    {
+      "origin_id": "turn-9d1c1275d0a3331ed56109fdbe67a4926bbb258b4388aed7e8f33ae9e8b59cd4",
+      "origin_turn_id": "s07t03",
+      "session_id": "7",
+      "session_order": 6,
+      "turn_index": 33
+    },
+    {
+      "origin_id": "turn-8a4e6c0307062fdcfb84436d14688197019d12df0e0922198eefb641bc12a536",
+      "origin_turn_id": "s07t04",
+      "session_id": "7",
+      "session_order": 6,
+      "turn_index": 34
+    },
+    {
+      "origin_id": "turn-cdd917b657196a9339ad8145c465f55c74acb526a8b1ee99aaeff3621b9cd6fe",
+      "origin_turn_id": "s07t05",
+      "session_id": "7",
+      "session_order": 6,
+      "turn_index": 35
+    },
+    {
+      "origin_id": "turn-5692db5e2b0f9d339bd869e549c4cc4605b7ebea8d308490bc5bdf39ca484096",
+      "origin_turn_id": "s08t01",
+      "session_id": "8",
+      "session_order": 7,
+      "turn_index": 36
+    },
+    {
+      "origin_id": "turn-4fef3f5c0fa16e01eb2cc10ae3f37294356ba7b17181bad412d1f12a717db363",
+      "origin_turn_id": "s08t02",
+      "session_id": "8",
+      "session_order": 7,
+      "turn_index": 37
+    },
+    {
+      "origin_id": "turn-73eb06dfabe503d9aca9a248aad113d974efa48d304fcce7799efa1145d5c5fd",
+      "origin_turn_id": "s08t03",
+      "session_id": "8",
+      "session_order": 7,
+      "turn_index": 38
+    },
+    {
+      "origin_id": "turn-13eed7f01a9ad3d8e412f7f3dbd24db0c0f67279342a148094afde96c7c547ea",
+      "origin_turn_id": "s08t04",
+      "session_id": "8",
+      "session_order": 7,
+      "turn_index": 39
+    },
+    {
+      "origin_id": "turn-c303ee9302d75b275bfc4b19920946a9373f2aee572629496a44a17d5eb8dc35",
+      "origin_turn_id": "s08t05",
+      "session_id": "8",
+      "session_order": 7,
+      "turn_index": 40
+    },
+    {
+      "origin_id": "turn-1f849788c333e77c2ac495ed4a4bae1ba0ad62238d7fb8553ec40f555903ffdc",
+      "origin_turn_id": "s09t01",
+      "session_id": "9",
+      "session_order": 8,
+      "turn_index": 41
+    },
+    {
+      "origin_id": "turn-d00f87497898bc19cbc0ece199dfc26e49c69a2469babbd50a29d22523f39d2d",
+      "origin_turn_id": "s09t02",
+      "session_id": "9",
+      "session_order": 8,
+      "turn_index": 42
+    },
+    {
+      "origin_id": "turn-6f0231e3de698cf28077505342e55ba0cb790e7ccb5b384e0d0112ea60af0b9e",
+      "origin_turn_id": "s09t03",
+      "session_id": "9",
+      "session_order": 8,
+      "turn_index": 43
+    },
+    {
+      "origin_id": "turn-a8b5cdc352219c056ab5ece07b32059b05b74a17ff900546d73a9c30dea8593a",
+      "origin_turn_id": "s09t04",
+      "session_id": "9",
+      "session_order": 8,
+      "turn_index": 44
+    },
+    {
+      "origin_id": "turn-e3ba912dd2ac6d89cea5d170ff11e66b4aacad4871d34f1c1c887179f3b2f229",
+      "origin_turn_id": "s09t05",
+      "session_id": "9",
+      "session_order": 8,
+      "turn_index": 45
+    }
+  ],
+  "batch_provenance_policy": "Batch-level extraction metadata unchanged; raw source and fact chronology mapped to regional display.",
+  "selected_items": 8,
+  "selected_facts": 8,
+  "selected_utterances": 0,
+  "rendered_evidence_estimated_tokens": 1144,
+  "query_encoder_tokens_without_truncation": 272,
+  "encoder_max_seq_length": 256,
+  "prompt_path": "/Users/marco/Sites/LLMPatient---APPLICATION/outputs/structured-regional-comparison-2026-10-01/inputs/alex_carter_001/length_1200000/start/structured_evidence.txt",
+  "prompt_sha256": "d8fdcdd4684446749138a3e758eeee0ab8b6c0bbd8c8c681678dac662bf0c01c",
+  "local_prompt_tokens": 5103,
+  "paired_baseline_job_ids": [
+    "112"
+  ]
+}
