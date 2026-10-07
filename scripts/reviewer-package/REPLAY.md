@@ -214,8 +214,10 @@ absent `agent.eval` module. The current runtime restores that engine; its
 to the still unavailable patient `juanita_perez_001` before inference. Frozen
 historical artifacts remain distinct from this software repair.
 
-All 16 legacy Agent session logs and 16 memory ledgers are retained. Some manual
-logs refer to an excluded untracked UUID profile or to absent `normal_user_001`
-and Juanita profile variants. These exploratory sessions cannot be completely
-regenerated from the released profiles; their precise source gaps are recorded
-in `CATALOG.json`. No successful run or missing input has been invented.
+The release retains 15 legacy Agent session logs and all 16 inventoried memory
+ledgers. One unpublished manual API log and its untracked UUID profile are
+excluded because their simulated-data provenance could not be established.
+Other manual logs refer to absent `normal_user_001` and Juanita profile variants.
+These exploratory sessions cannot be completely regenerated from the released
+profiles; their precise source gaps are recorded in `CATALOG.json`. No successful
+run or missing input has been invented.

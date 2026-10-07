@@ -1,5 +1,8 @@
 # LLMPatients — complete reviewer material, 7 October 2026
 
+Read [EXPERIMENTS.md](EXPERIMENTS.md) for the study questions, experimental
+conditions, results, limitations and relationships between the evidence families.
+
 This standalone directory combines the available experiments from the manuscript,
 Next.js application and Python Agent repositories. It includes the previously
 released evidence, both October 5 pilots, earlier psychometric and therapeutic
