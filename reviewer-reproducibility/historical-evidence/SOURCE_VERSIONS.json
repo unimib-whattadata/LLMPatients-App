@@ -1,7 +1,0 @@
-{
-  "date": "2026-10-02",
-  "live_agent_commit": "ef8972d7bde2e185b453730fbe71329e00b8eb73",
-  "app_base_commit": "99736f1f89e6c59073345f1a9ea437f5d5a5a7bb",
-  "manuscript_base_commit": "259cf5b203e0063a4a7ac0195522c084ebbb405b",
-  "note": "Live code versions are distinct from the unchanged experimental source snapshots. No inference rerun."
-}

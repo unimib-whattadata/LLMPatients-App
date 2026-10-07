@@ -1,7 +1,0 @@
-{
-  "stopped_at": "2026-09-27T10:10:55.848832+00:00",
-  "pid": 18238,
-  "status": "stopped_after_bounded_verification",
-  "requested_runs_per_patient_in_harness": 20,
-  "reason": "Three complete independent fresh administrations per patient establish obtainable published totals and demonstrate the Daniel cutoff crossing. Remaining repetitions are optional to this audit; frequent provider HTTP429 errors make the larger stability campaign impractical in this verification. No 20-run completion is claimed. Incomplete run04 files are retained and excluded from complete-run statistics."
-}

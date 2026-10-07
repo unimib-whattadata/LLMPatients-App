@@ -1,6 +1,0 @@
-{
-  "returncode": 0,
-  "stdout": "{\"status\": \"passed\", \"check\": \"real macOS caffeinate companion accepted\", \"live_requests\": 0}\n",
-  "stderr": "",
-  "purpose": "Harmless local process ownership check; no experiment run entry point called."
-}

@@ -54,7 +54,7 @@ __pycache__/
 /assets/
 /output/
 
-# Complete lossless reviewer exports of these working pilot directories are
-# versioned under reviewer-reproducibility/; keep original working copies local.
+# Preserve unpublished exploratory pilot working data locally. The canonical
+# manuscript reproducibility package contains the reported experiment groups.
 /evaluation/reviewer-comment-1/outputs/state-update-retrieval-pilot-2026-10-05/
 /evaluation/reviewer-comment-1/outputs/structure-ablation-pilot-2026-10-05/

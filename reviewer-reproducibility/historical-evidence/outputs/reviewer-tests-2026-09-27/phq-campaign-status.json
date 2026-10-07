@@ -1,7 +1,0 @@
-{
-  "status": "interrupted_capacity",
-  "pid": 23363,
-  "started_at": "2026-09-27T10:44:44.242085+00:00",
-  "interrupted_at": "2026-09-27T12:15:28.788459+00:00",
-  "reason": "Regional API capacity outage; separate global campaign will retain the full planned scope."
-}

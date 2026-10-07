@@ -1,8 +1,0 @@
-{
-  "original_sha256": "283a5f2e9814f1093497bc24fecaa1183b16d56863dc4a7f066a78a3f2560c42",
-  "corrected_sha256": "64cc49369527656f345e9bd3cf66fc9a4d2a6c4a4001b7e69af7c150cad52975",
-  "generation_changed": false,
-  "endpoints_changed": false,
-  "correction": "Require bijection between blind cards and complete unique generation jobs; existing set coverage alone admitted duplicate cards.",
-  "evidence": "audit/scoring-contract-review.json"
-}

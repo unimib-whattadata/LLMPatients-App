@@ -1,5 +1,0 @@
-{
-  "scenario_turns": 55,
-  "flagged": [],
-  "code_execution_regex": "\\b(run|execute|call)\\b\\s+.+"
-}

@@ -1,1 +1,0 @@
-{"event": "fatal", "timestamp": "2026-09-29T13:47:39.150536+00:00", "kind": "incomplete_generation", "stage": "_generate_factual_memory", "finish_reasons": ["STOP"], "max_output_tokens": 8192, "native_record_id": "9fa7bcca-324d-4064-b084-c6c7ea18c41e"}

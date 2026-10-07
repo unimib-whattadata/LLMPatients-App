@@ -1,1 +1,0 @@
-{"event": "fatal", "timestamp": "2026-09-29T08:48:53.568255+00:00", "kind": "provider_error", "stage": "generate_response", "error_type": "OpenRouterInBandError", "http_status": 200, "native_record_id": "77421966-628f-49a3-bbd2-c011a4a2a208", "upstream_code": 504}

@@ -1,1 +1,0 @@
-{"event": "fatal", "timestamp": "2026-09-30T02:08:57.950945+00:00", "kind": "provider_error", "stage": "generate_response", "error_type": "OpenRouterHTTPError", "http_status": 402, "native_record_id": "7555992b-469b-4b6f-8f0f-bde4e9881659", "upstream_code": null}

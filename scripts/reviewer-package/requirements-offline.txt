@@ -1,3 +1,0 @@
-# Only Panel B workbook reading needs a third-party package.
-# All integrity/PHQ/continuity/component/pilot checks use Python standard library.
-openpyxl==3.1.5

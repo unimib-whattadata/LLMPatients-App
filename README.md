@@ -2,6 +2,13 @@
 
 Virtual patient simulations for psychotherapy training, built with Next.js, tRPC, Drizzle ORM and PostgreSQL.
 
+The canonical reviewer material is in the manuscript repository's
+[reproducibility folder](https://github.com/cremarco/LLMPatient---APPLICATION/tree/main/reproducibility).
+It contains the standalone app and model copies, the eight reported experiment
+groups, and instructions for starting the local demo and checking saved results.
+Historical experimental evidence remains in `evaluation/reviewer-comment-1/`;
+the former duplicate reviewer export and its packaging scripts have been retired.
+
 ![Status](https://img.shields.io/badge/status-beta-orange)
 ![License](https://img.shields.io/badge/license-AGPL--3.0--or--later-blue)
 ![Node](https://img.shields.io/badge/node-22-green)

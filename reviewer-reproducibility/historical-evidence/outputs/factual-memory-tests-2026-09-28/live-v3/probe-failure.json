@@ -1,6 +1,0 @@
-{
-  "phase": "probe",
-  "status": "stopped",
-  "error_type": "OpenRouterInBandError",
-  "error": "OpenRouter upstream error code 504: in-band generation failure."
-}
