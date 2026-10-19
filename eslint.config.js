@@ -1,11 +1,15 @@
+import { createRequire } from "node:module";
+import { dirname } from "node:path";
 import { FlatCompat } from "@eslint/eslintrc";
 import tseslint from "typescript-eslint";
 
 // @ts-expect-error - no type definitions available for eslint-plugin-drizzle
 import drizzle from "eslint-plugin-drizzle";
 
+const require = createRequire(import.meta.url);
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
+  resolvePluginsRelativeTo: dirname(require.resolve("eslint-config-next/package.json")),
 });
 
 export default tseslint.config(
